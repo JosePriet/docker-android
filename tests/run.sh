@@ -26,7 +26,8 @@ fly_titan() {
   t=$1
   tap_text "^(Use|USE)" use_$t || return
   sleep 6; need fly_$t; shot fly_$t
-  ( sleep 1.6; timeout 30 adb exec-out screencap -p > $OUT/thrust_$t.png ) & a shell input swipe 220 870 220 700 3200; wait
+  ( sleep 2.2; timeout 30 adb exec-out screencap -p > $OUT/thrust_$t.png ) & sp=$!
+  a shell input swipe 220 860 220 640 4000; wait $sp
   for k in 1 2; do for i in 1 2 3 4 5 6 7 8; do tap 1961 935; sleep 0.15; done; shot guns_${t}_$k; done
   ok=0
   for w in $(seq 1 14); do dump doom_$t; if grep -q 'text="DOOMSDAY LANCE"\|text="FURNACE NOVA"' $OUT/last.xml; then ok=1; break; fi; sleep 2; done
