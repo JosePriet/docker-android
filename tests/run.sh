@@ -11,6 +11,15 @@ shot() { n=$((n+1)); f=$(printf "%s/%02d_%s.png" $OUT $n "$1"); timeout 30 adb e
 dump() { rm -f $OUT/last.xml; timeout 12 adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1 && timeout 10 adb pull /sdcard/ui.xml "$OUT/ui_$1.xml" >/dev/null 2>&1 && cp "$OUT/ui_$1.xml" $OUT/last.xml; }
 tap_text() { dump "$2"; [ -f $OUT/last.xml ] || { log "no ui tree for $2"; return 1; }; xy=$(python3 tests/tap.py $OUT/last.xml "$1"); if [ -n "$xy" ]; then log "tap '$1' at $xy"; a shell input tap $xy; return 0; fi; log "no match for '$1'"; return 1; }
 tap() { log "tap $1 $2"; a shell input tap $1 $2; }
+# walk the ships pager forward (one page per swipe) until the dump shows $1
+find_page() {
+  for i in $(seq 1 ${2:-0}); do a shell input swipe 1800 450 400 450 300; sleep 0.6; done
+  for i in $(seq 1 26); do
+    dump fp; if grep -q "$1" $OUT/last.xml 2>/dev/null; then return 0; fi
+    for k in 1 2; do a shell input swipe 1800 450 400 450 350; sleep 0.8; done
+  done
+  return 1
+}
 # equip the titan on the open ships page, then: thrust, guns, doomsday (button waits out the cooldown)
 fly_titan() {
   t=$1
@@ -101,9 +110,7 @@ elif [ $GAME = sc ]; then
   a shell input keyevent KEYCODE_BACK; sleep 3
   log "direct: ShipsActivity again"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_after_gift; shot ships_after_gift
   # walk the pager to the X-0 page (titans are at the end)
-  for i in $(seq 1 60); do a shell input swipe 1900 450 300 450 120; done; sleep 2
-  found=0
-  for i in $(seq 1 12); do dump xpage; if grep -q "DEV Prototype" $OUT/last.xml 2>/dev/null; then found=1; break; fi; a shell input swipe 300 450 1900 450 150; sleep 2; done
+  found=0; find_page "DEV Prototype" 36 && found=1
   log "X-0 page found=$found"; need x0_page; shot x0_page; cp $OUT/last.xml $OUT/ui_x0_page.xml 2>/dev/null
   if [ $found = 1 ]; then
     xy=$(python3 tests/tap.py $OUT/last.xml "id/textShipDesc")
@@ -112,9 +119,7 @@ elif [ $GAME = sc ]; then
     for T in "Crimson Throne" "Leviathan"; do
       tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
       log "titan $T"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_$tag
-      for i in $(seq 1 60); do a shell input swipe 1900 450 300 450 120; done; sleep 2
-      f2=0
-      for i in $(seq 1 12); do dump tpage; if grep -q "$T" $OUT/last.xml 2>/dev/null && grep -q "USE THIS SHIP\|Use this ship" $OUT/last.xml; then f2=1; break; fi; a shell input swipe 300 450 1900 450 150; sleep 2; done
+      f2=0; find_page "$T" 36 && f2=1
       log "$T page found=$f2"; shot page_$tag
       [ $f2 = 1 ] && fly_titan $tag
     done
