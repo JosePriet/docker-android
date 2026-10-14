@@ -17,6 +17,7 @@ jobs:
       matrix:
         include:
           - { game: ga, gpu: swiftshader_indirect, build: "7425822", tag: ga-emu-30 }
+          - { game: gaorig, gpu: swiftshader_indirect, build: "7425822", tag: gaorig-emu-30 }
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM
