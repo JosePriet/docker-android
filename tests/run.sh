@@ -104,7 +104,6 @@ elif [ $GAME = sc ]; then
     tap_text "rarity|sort" rarity && { sleep 3; shot rarity; }
     a shell input keyevent KEYCODE_BACK; sleep 3; need back_ships
   fi
-  tap_text "setting" settings && { sleep 4; shot settings; dump settings_open; a shell input keyevent KEYCODE_BACK; sleep 3; }
   a shell input keyevent KEYCODE_BACK; sleep 4; need back; shot back
   # open the v16 screens directly (root shell on the AOSP image)
   log "direct: ShipsActivity"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_direct; shot ships_direct; dump ships_direct
