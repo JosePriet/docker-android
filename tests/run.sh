@@ -13,10 +13,11 @@ tap_text() { dump "$2"; [ -f $OUT/last.xml ] || { log "no ui tree for $2"; retur
 tap() { log "tap $1 $2"; a shell input tap $1 $2; }
 # walk the ships pager forward (one page per swipe) until the dump shows $1
 find_page() {
-  for i in $(seq 1 ${2:-0}); do a shell input swipe 1800 450 400 450 300; sleep 0.6; done
-  for i in $(seq 1 26); do
+  dump fp; nxt=$(python3 tests/tap.py $OUT/last.xml "id/imgNext"); [ -n "$nxt" ] || nxt="2064 194"
+  for i in $(seq 1 ${2:-0}); do a shell input tap $nxt; sleep 0.5; done
+  for i in $(seq 1 20); do
     dump fp; if grep -q "$1" $OUT/last.xml 2>/dev/null; then return 0; fi
-    for k in 1 2; do a shell input swipe 1800 450 400 450 350; sleep 0.8; done
+    a shell input tap $nxt; sleep 1
   done
   return 1
 }
@@ -110,7 +111,7 @@ elif [ $GAME = sc ]; then
   a shell input keyevent KEYCODE_BACK; sleep 3
   log "direct: ShipsActivity again"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_after_gift; shot ships_after_gift
   # walk the pager to the X-0 page (titans are at the end)
-  found=0; find_page "DEV Prototype" 36 && found=1
+  found=0; find_page "DEV Prototype" 40 && found=1
   log "X-0 page found=$found"; need x0_page; shot x0_page; cp $OUT/last.xml $OUT/ui_x0_page.xml 2>/dev/null
   if [ $found = 1 ]; then
     xy=$(python3 tests/tap.py $OUT/last.xml "id/textShipDesc")
@@ -119,7 +120,7 @@ elif [ $GAME = sc ]; then
     for T in "Crimson Throne" "Leviathan"; do
       tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
       log "titan $T"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_$tag
-      f2=0; find_page "$T" 36 && f2=1
+      f2=0; find_page "$T" 40 && f2=1
       log "$T page found=$f2"; shot page_$tag
       [ $f2 = 1 ] && fly_titan $tag
     done
