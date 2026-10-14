@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { game: gaarm, gpu: swiftshader_indirect, build: "7425822", api: 30, arch: x86, target: google_apis, tag: gaarm-api30-gapis }
+          - { game: ga, gpu: swiftshader_indirect, build: "7425822", api: 24, arch: x86, tag: ga-probe-api24 }
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM
