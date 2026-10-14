@@ -41,22 +41,16 @@ frames
 log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
 
 if [ $GAME = ga ] || [ $GAME = gaorig ] || [ $GAME = gaarm ]; then
-  sleep 8; shot ga_warn
-  tap 968 2074; sleep 4; shot after_continue
+  sleep 10; shot ga_warn
   tap_text "^(Continue|OK|Allow|ALLOW)$" warn1 || tap 1607 695; sleep 3
-  a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 4
-  for i in 4 5; do tap_text "^(Continue|OK|Allow|ALLOW)$" warn$i && sleep 4 || break; done
-  for i in 1 2 3 4 5 6 7 8 9 10; do sleep 20; need "ga wait $i"; shot ga_$i; done
-  dump ga_ui
-  for i in 1 2 3; do tap 1140 540; sleep 6; need "ga tap $i"; shot ga_tap$i; done
-  sleep 20; need ga_end; shot ga_end
+  for i in 1 2 3 4 5 6; do sleep 15; need "ga wait $i"; shot ga_$i; done
+  tap_text "^GOT IT$" gotit || tap 1430 550; sleep 3; shot base_clean
+  tap 1293 903; sleep 6; shot squadbay; a shell input keyevent KEYCODE_BACK; sleep 4; shot after_back1
+  tap 2177 969; sleep 6; shot store; a shell input keyevent KEYCODE_BACK; sleep 4; shot after_back2
+  tap 120 980; sleep 6; shot probe_bl
+  tap 1140 980; sleep 6; shot probe_bc
   P=$(timeout 5 adb shell pidof $PKG); log "pid $P"
-  timeout 60 adb shell debuggerd -b $P > $OUT/stack.txt 2>&1
-  timeout 20 adb shell ls -la /data/data/$PKG/files /sdcard/Android/data/$PKG/files > $OUT/files.txt 2>&1
-  timeout 20 adb shell dumpsys window windows | grep -iE "mCurrentFocus|globalassault" > $OUT/windows.txt 2>&1
-  grep -E "\( *$P\)" $OUT/logcat_live.txt | head -3000 > $OUT/app_log.txt
-  grep -E "GATRACE|GALocal|Exception|Unity" $OUT/logcat_live.txt | head -3000 > $OUT/trace.txt
-  timeout 20 adb shell dumpsys activity processes | grep -A3 globalassault | head -20 > $OUT/proc.txt
+  grep -E "GALocal|Exception|Unity  " $OUT/logcat_live.txt | head -3000 > $OUT/trace.txt
 elif [ $GAME = sc ]; then
   sleep 15; need launch; shot launch
   a shell input keyevent KEYCODE_BACK; sleep 3; need tutorial; shot exit_prompt
