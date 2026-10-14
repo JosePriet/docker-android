@@ -131,6 +131,14 @@ elif [ $GAME = sc ]; then
       a shell input motionevent UP 1930 700; sleep 0.4
     done
     a shell "rm -f /data/local/tmp/corsair_weapon"
+    # v19 faction flagships: spawn two next to the player (test switch), look, then provoke one with sustained fire
+    for C in spartan reaver; do
+      a shell "echo $C > /data/local/tmp/corsair_capital && chmod 644 /data/local/tmp/corsair_capital"; sleep 4; shot cap_$C
+    done
+    a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 700
+    sleep 6; shot cap_fight1; sleep 6; shot cap_fight2
+    a shell input motionevent UP 1930 700
+    a shell "rm -f /data/local/tmp/corsair_capital"
     # minimize and come back: the DOOMSDAY button must stay hidden during the loading splash
     a shell input keyevent KEYCODE_HOME; sleep 4
     a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 1.2; shot resume_splash_1; sleep 2; shot resume_splash_2; dump resume; sleep 6; shot resume_after
