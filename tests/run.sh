@@ -7,7 +7,7 @@ a() { timeout 25 adb "$@"; }
 alive() { [ "$(timeout 5 adb get-state 2>/dev/null)" = device ]; }
 need() { alive || { log "EMULATOR GONE at step: $1"; finish; exit 0; }; }
 n=0
-shot() { n=$((n+1)); f=$(printf "%s/%02d_%s.png" $OUT $n "$1"); timeout 15 adb exec-out screencap -p > "$f"; [ -s "$f" ] || rm -f "$f"; log "shot $1 $([ -f "$f" ] && echo ok || echo FAILED)"; }
+shot() { n=$((n+1)); f=$(printf "%s/%02d_%s.png" $OUT $n "$1"); timeout 30 adb exec-out screencap -p > "$f"; [ -s "$f" ] || rm -f "$f"; log "shot $1 $([ -f "$f" ] && echo ok || echo FAILED)"; }
 dump() { rm -f $OUT/last.xml; timeout 12 adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1 && timeout 10 adb pull /sdcard/ui.xml "$OUT/ui_$1.xml" >/dev/null 2>&1 && cp "$OUT/ui_$1.xml" $OUT/last.xml; }
 tap_text() { dump "$2"; [ -f $OUT/last.xml ] || { log "no ui tree for $2"; return 1; }; xy=$(python3 tests/tap.py $OUT/last.xml "$1"); if [ -n "$xy" ]; then log "tap '$1' at $xy"; a shell input tap $xy; return 0; fi; log "no match for '$1'"; return 1; }
 tap() { log "tap $1 $2"; a shell input tap $1 $2; }
@@ -30,10 +30,10 @@ case $GAME in
   sc) PKG=fr.testudo.spacecorsair; APK=tests/apks/space-corsair.apk ;;
   nova) PKG=com.corsairnova.game; APK=tests/apks/corsair-nova.apk ;;
 esac
-{ a shell getprop ro.build.version.release; a shell wm size; a shell getprop ro.hardware.egl; a shell getprop ro.opengles.version; } > $OUT/device.txt 2>&1
+{ a shell dumpsys package com.android.webview | grep -m1 versionName; a shell dumpsys package com.google.android.webview | grep -m1 versionName; a shell getprop ro.build.version.release; a shell wm size; a shell getprop ro.hardware.egl; a shell getprop ro.opengles.version; } > $OUT/device.txt 2>&1
 log install; timeout 240 adb install -r -g $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
-frames
+[ $GAME = sc ] && frames
 log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
 
 if [ $GAME = sc ]; then
@@ -49,12 +49,12 @@ if [ $GAME = sc ]; then
   a shell input keyevent KEYCODE_BACK; sleep 4; need back2; shot back2
 else
   sleep 30; need launch; shot title
-  tap_text "^start$|new game|^continue$|^play$" start || tap 1140 700; sleep 4; need start; shot after_start
-  tap_text "launch|undock|depart" launch || tap 1140 900; sleep 20; need launch2; shot space1
-  for i in 1 2; do tap_text "next|accept|ok|yes" dlg$i && sleep 2; done
+  tap_text "^start$" start || tap 590 559; sleep 6; need start; shot after_start
+  for i in 1 2 3; do tap_text "^(new game|new pilot|continue|play|launch|undock|depart|begin|ok|next|accept|skip)$" step$i && sleep 6; need step$i; shot step$i; done
+  sleep 10; need space; shot space1
   for i in 1 2 3 4 5 6; do swipe 330 800 420 700 1500; sleep 1; done; need steering; shot steering
   for i in 1 2 3; do tap 2000 850; sleep 1; done; shot fire
-  sleep 10; need idle; shot later
+  sleep 8; need idle; dump final; shot later
 fi
 finish
 exit 0
