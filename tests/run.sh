@@ -39,6 +39,7 @@ frames
 log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
 
 if [ $GAME = ga ]; then
+  sleep 8; shot ga_warn; tap 1607 695; sleep 2
   for i in 1 2 3 4 5 6; do sleep 12; need "ga wait $i"; shot ga_$i; done
   dump ga_ui
   for i in 1 2 3; do tap 1140 540; sleep 6; need "ga tap $i"; shot ga_tap$i; done
