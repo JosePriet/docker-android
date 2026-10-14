@@ -16,8 +16,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { game: ga, gpu: swiftshader_indirect, build: "7425822", tag: ga-emu-30 }
-          - { game: gaorig, gpu: swiftshader_indirect, build: "7425822", tag: gaorig-emu-30 }
+          - { game: gaorig, gpu: swiftshader_indirect, build: "7425822", api: 22, arch: x86, tag: gaorig-api22 }
+          - { game: gaorig, gpu: swiftshader_indirect, build: "7425822", api: 24, arch: x86, tag: gaorig-api24 }
+          - { game: gaorig, gpu: swiftshader_indirect, build: "7425822", api: 28, arch: x86, tag: gaorig-api28 }
+          - { game: gaorig, gpu: guest, build: "7425822", api: 28, arch: x86, tag: gaorig-api28-guest }
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM
@@ -28,8 +30,8 @@ jobs:
       - name: Run ${{ matrix.tag }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
-          arch: x86_64
+          api-level: ${{ matrix.api || 30 }}
+          arch: ${{ matrix.arch || 'x86_64' }}
           target: default
           profile: pixel_4
           cores: 4
