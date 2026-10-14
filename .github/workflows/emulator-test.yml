@@ -18,7 +18,6 @@ jobs:
         include:
           - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-emu-30 }
           - { game: nova, gpu: swiftshader_indirect, build: "7425822", tag: nova-emu-30 }
-          - { game: nova, gpu: swiftshader_indirect, build: "", tag: nova-emu-latest }
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM

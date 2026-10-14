@@ -34,14 +34,16 @@ esac
 timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r -g $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
-[ $GAME = sc ] && frames
+frames
 log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
 
 if [ $GAME = sc ]; then
   sleep 15; need launch; shot launch
-  a shell input keyevent KEYCODE_BACK; sleep 3; need tutorial; shot tutorial_closed
-  for i in 1 2 3 4; do swipe 225 850 330 740 2000; sleep 1; done; need steering; shot steering
-  for i in 1 2 3 4 5 6; do tap 1965 936; sleep 0.5; done; need fire; shot fire
+  a shell input keyevent KEYCODE_BACK; sleep 3; need tutorial; shot exit_prompt
+  tap 1056 620; sleep 3; shot tutorial_closed
+  for i in 1 2 3 4; do swipe 223 850 330 740 2500; done; need steering; shot steering
+  for i in 1 2 3 4 5 6; do tap 1961 935; sleep 0.3; done; need fire; shot fire
+  for i in 1 2 3; do swipe 223 850 120 950 2500; done; shot steering2
   tap 60 57; sleep 5; need menu; dump menu; shot menu
   if tap_text "^ships?$" ships; then sleep 5; need ships; shot ships
     tap_text "ship tree" tree && { sleep 4; shot tree; dump tree_open; a shell input keyevent KEYCODE_BACK; sleep 2; }
@@ -61,12 +63,13 @@ if [ $GAME = sc ]; then
   a shell input keyevent KEYCODE_BACK; sleep 3; need final; shot final
 else
   sleep 30; need launch; shot title
-  tap_text "^start$" start || tap 1074 560; sleep 6; need start; shot after_start
-  for i in 1 2 3; do tap_text "^(launch|continue|ok|next|accept|skip)$" step$i && sleep 6; need step$i; shot step$i; done
-  sleep 10; need space; shot space1
-  for i in 1 2 3 4 5 6; do swipe 330 800 420 700 1500; sleep 1; done; need steering; shot steering
-  for i in 1 2 3; do tap 2000 850; sleep 1; done; shot fire
-  sleep 8; need idle; dump final; shot later
+  tap 1140 643; sleep 4; need start; shot new_pilot
+  tap 1258 661; sleep 20; need launch2; shot space_tutorial
+  for i in 1 2 3 4 5 6 7 8; do tap 2029 691; sleep 2; done; need tutorial; shot after_tutorial
+  for i in 1 2 3 4; do swipe 524 692 640 580 2500; done; need steering; shot steering
+  for i in 1 2 3 4 5 6; do tap 2128 929; sleep 0.3; done; shot fire
+  for i in 1 2 3; do swipe 524 692 420 800 2500; done; need steering2; shot steering2
+  sleep 6; need idle; shot later
 fi
 finish
 exit 0
