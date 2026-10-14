@@ -50,6 +50,7 @@ if [ $GAME = ga ] || [ $GAME = gaorig ]; then
   timeout 20 adb shell ls -la /data/data/$PKG/files /sdcard/Android/data/$PKG/files > $OUT/files.txt 2>&1
   timeout 20 adb shell dumpsys window windows | grep -iE "mCurrentFocus|globalassault" > $OUT/windows.txt 2>&1
   grep -E "\( *$P\)" $OUT/logcat_live.txt | head -3000 > $OUT/app_log.txt
+  grep -E "GATRACE|GALocal|Exception|Unity" $OUT/logcat_live.txt | head -3000 > $OUT/trace.txt
   timeout 20 adb shell dumpsys activity processes | grep -A3 globalassault | head -20 > $OUT/proc.txt
 elif [ $GAME = sc ]; then
   sleep 15; need launch; shot launch

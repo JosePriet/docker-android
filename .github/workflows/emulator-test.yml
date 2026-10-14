@@ -16,8 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { game: gaorig, gpu: swiftshader_indirect, build: "7425822", api: 28, arch: x86, tag: gaorig-api28 }
-          - { game: ga, gpu: swiftshader_indirect, build: "7425822", api: 24, arch: x86, tag: ga-api24 }
+          - { game: ga, gpu: swiftshader_indirect, build: "7425822", api: 24, arch: x86, tag: ga-trace-api24 }
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM
