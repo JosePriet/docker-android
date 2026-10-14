@@ -42,7 +42,8 @@ log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 
 
 if [ $GAME = ga ] || [ $GAME = gaorig ] || [ $GAME = gaarm ]; then
   sleep 8; shot ga_warn
-  for i in 1 2 3; do tap_text "^(Continue|OK|Allow|ALLOW)$" warn$i && sleep 4 || break; done
+  tap 968 2074; sleep 4; shot after_continue
+  tap_text "^(Continue|OK|Allow|ALLOW)$" warn1 || tap 1607 695; sleep 3
   a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 4
   for i in 4 5; do tap_text "^(Continue|OK|Allow|ALLOW)$" warn$i && sleep 4 || break; done
   for i in 1 2 3 4 5 6 7 8 9 10; do sleep 20; need "ga wait $i"; shot ga_$i; done
