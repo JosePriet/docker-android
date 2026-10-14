@@ -78,6 +78,11 @@ elif [ $GAME = sc ]; then
   tap_text "ship tree" tree2 && { sleep 4; need tree2; shot tree_direct; dump tree_direct; a shell input keyevent KEYCODE_BACK; sleep 2; }
   tap_text "inbox" inbox2 && { sleep 3; shot inbox_direct; a shell input keyevent KEYCODE_BACK; sleep 2; }
   a shell input keyevent KEYCODE_BACK; sleep 3
+  log "direct: StationActivity"; a shell am start -n $PKG/.activity.StationActivity_ >/dev/null; sleep 6; need station_direct; shot station_direct; dump station_direct
+  tap_text "^Gift code$" gift && { sleep 2; a shell input text CORSAIRDEV; sleep 1; tap_text "^(Redeem|REDEEM)$" redeem; sleep 3; shot gift_redeemed; }
+  a shell input keyevent KEYCODE_BACK; sleep 3
+  log "direct: ShipsActivity again"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; shot ships_after_gift
+  a shell input keyevent KEYCODE_BACK; sleep 3
   log "direct: SettingsActivity"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 5; need settings_direct; shot settings_direct; dump settings_direct
   a shell input swipe 1074 900 1074 200 600; sleep 2; shot settings_scrolled; dump settings_scrolled
   a shell input keyevent KEYCODE_BACK; sleep 3; need final; shot final
