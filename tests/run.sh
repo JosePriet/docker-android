@@ -11,6 +11,24 @@ shot() { n=$((n+1)); f=$(printf "%s/%02d_%s.png" $OUT $n "$1"); timeout 30 adb e
 dump() { rm -f $OUT/last.xml; timeout 12 adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1 && timeout 10 adb pull /sdcard/ui.xml "$OUT/ui_$1.xml" >/dev/null 2>&1 && cp "$OUT/ui_$1.xml" $OUT/last.xml; }
 tap_text() { dump "$2"; [ -f $OUT/last.xml ] || { log "no ui tree for $2"; return 1; }; xy=$(python3 tests/tap.py $OUT/last.xml "$1"); if [ -n "$xy" ]; then log "tap '$1' at $xy"; a shell input tap $xy; return 0; fi; log "no match for '$1'"; return 1; }
 tap() { log "tap $1 $2"; a shell input tap $1 $2; }
+# equip the titan on the open ships page, then: thrust, guns, doomsday (button waits out the cooldown)
+fly_titan() {
+  t=$1
+  tap_text "^(Use|USE)" use_$t || return
+  sleep 6; need fly_$t; shot fly_$t
+  ( sleep 1.6; timeout 30 adb exec-out screencap -p > $OUT/thrust_$t.png ) & a shell input swipe 220 870 220 700 3200; wait
+  for k in 1 2; do for i in 1 2 3 4 5 6 7 8; do tap 1961 935; sleep 0.15; done; shot guns_${t}_$k; done
+  ok=0
+  for w in $(seq 1 14); do dump doom_$t; if grep -q 'text="DOOMSDAY LANCE"\|text="FURNACE NOVA"' $OUT/last.xml; then ok=1; break; fi; sleep 2; done
+  log "doomsday ready=$ok for $t"
+  if [ $ok = 1 ]; then
+    tap_text "^(DOOMSDAY LANCE|FURNACE NOVA)$" doombtn_$t
+    sleep 1.0; shot charge_$t
+    sleep 1.7; shot doom1_$t
+    sleep 1.2; shot doom2_$t
+    sleep 2.5; shot doom_after_$t
+  fi
+}
 swipe() { a shell input swipe $1 $2 $3 $4 ${5:-1500}; }
 frames() { ( i=0; while [ ! -f $OUT/.stop ]; do timeout 10 adb exec-out screencap -p > $OUT/frames/f$(printf %04d $i).png 2>/dev/null || true; i=$((i+1)); sleep 1; done ) & FR=$!; }
 finish() {
@@ -36,6 +54,10 @@ esac
 { a shell dumpsys package com.android.webview | grep -m1 versionName; a shell dumpsys package com.google.android.webview | grep -m1 versionName; a shell getprop ro.build.version.release; a shell wm size; a shell getprop ro.hardware.egl; a shell getprop ro.opengles.version; } > $OUT/device.txt 2>&1
 timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
+if [ "$GAME" = sc ]; then
+  # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
+  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_lowhull && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
+fi
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
 log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
@@ -86,9 +108,16 @@ elif [ $GAME = sc ]; then
   if [ $found = 1 ]; then
     xy=$(python3 tests/tap.py $OUT/last.xml "id/textShipDesc")
     [ -n "$xy" ] && { set -- $xy; a shell input swipe $1 $(($2+120)) $1 $(($2-200)) 800; sleep 2; shot x0_desc_scrolled; }
-    tap_text "^(Use|USE|Utiliser)" use_x0 && { sleep 6; need flying_x0; shot flying_x0
-      for k in 1 2 3; do for i in 1 2 3 4 5 6 7 8; do tap 1961 935; sleep 0.2; done; shot x0_fire_$k; done
-      swipe 223 850 120 950 2500; sleep 4; shot x0_after; }
+    fly_titan x0
+    for T in "Crimson Throne" "Leviathan"; do
+      tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
+      log "titan $T"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_$tag
+      for i in $(seq 1 60); do a shell input swipe 1900 450 300 450 120; done; sleep 2
+      f2=0
+      for i in $(seq 1 12); do dump tpage; if grep -q "$T" $OUT/last.xml 2>/dev/null && grep -q "USE THIS SHIP\|Use this ship" $OUT/last.xml; then f2=1; break; fi; a shell input swipe 300 450 1900 450 150; sleep 2; done
+      log "$T page found=$f2"; shot page_$tag
+      [ $f2 = 1 ] && fly_titan $tag
+    done
   fi
   log "direct: SettingsActivity"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 5; need settings_direct; shot settings_direct; dump settings_direct
   a shell input swipe 1074 900 1074 200 600; sleep 2; shot settings_scrolled; dump settings_scrolled
