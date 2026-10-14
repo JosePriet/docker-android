@@ -41,7 +41,10 @@ frames
 log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
 
 if [ $GAME = ga ] || [ $GAME = gaorig ] || [ $GAME = gaarm ]; then
-  sleep 8; shot ga_warn; tap_text "^OK$" warn_ok || true; sleep 2
+  sleep 8; shot ga_warn
+  for i in 1 2 3; do tap_text "^(Continue|OK|Allow|ALLOW)$" warn$i && sleep 4 || break; done
+  a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 4
+  for i in 4 5; do tap_text "^(Continue|OK|Allow|ALLOW)$" warn$i && sleep 4 || break; done
   for i in 1 2 3 4 5 6 7 8 9 10; do sleep 20; need "ga wait $i"; shot ga_$i; done
   dump ga_ui
   for i in 1 2 3; do tap 1140 540; sleep 6; need "ga tap $i"; shot ga_tap$i; done
