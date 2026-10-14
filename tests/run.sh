@@ -43,10 +43,7 @@ fly_titan() {
   log "doomsday ready=$ok for $t"
   if [ $ok = 1 ]; then
     tap_text "DOOMSDAY LANCE|FURNACE NOVA" doombtn_$t
-    sleep 1.0; shot charge_$t
-    sleep 1.7; shot doom1_$t
-    sleep 1.2; shot doom2_$t
-    sleep 2.5; shot doom_after_$t
+    shot charge_$t; shot doom1_$t; shot doom2_$t; shot doom3_$t; shot doom4_$t
   fi
 }
 swipe() { a shell input swipe $1 $2 $3 $4 ${5:-1500}; }
