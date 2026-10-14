@@ -74,6 +74,7 @@ elif [ $GAME = sc ]; then
   a shell input keyevent KEYCODE_BACK; sleep 3
   # the game's own gift box (BuyInapp) accepts the DEV code too
   log "direct: BuyInapp gift"; a shell am start -n $PKG/.activity.BuyInapp_ >/dev/null; sleep 5; need buyinapp; shot buyinapp
+  for i in 1 2 3 4 5; do a shell input swipe 1000 900 1000 200 300; sleep 1; done; shot buyinapp_bottom
   tap_text "id/txtGift" giftbox && { sleep 2; a shell input text CORSAIRDEV; sleep 1; a shell input keyevent KEYCODE_BACK; sleep 1; tap_text "id/btnGift" giftbtn; sleep 3; shot gift_box_redeemed; }
   a shell input keyevent KEYCODE_BACK; sleep 3
   log "direct: ShipsActivity again"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_after_gift; shot ships_after_gift
