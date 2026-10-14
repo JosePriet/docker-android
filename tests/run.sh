@@ -39,7 +39,7 @@ fly_titan() {
   sleep 1.5; shot guns_${t}_1; sleep 1.5; shot guns_${t}_2
   a shell input motionevent UP 1932 680; sleep 0.5
   ok=0
-  for w in $(seq 1 14); do dump doom_$t; if grep -q 'text="DOOMSDAY LANCE"\|text="FURNACE NOVA"' $OUT/last.xml; then ok=1; break; fi; sleep 2; done
+  for w in $(seq 1 14); do dump doom_$t; if grep -q 'text="DOOMSDAY LANCE"\|text="FURNACE NOVA"' $OUT/last.xml; then ok=1; break; fi; grep -q 'DOOMSDAY\|FURNACE\|CHARGING' $OUT/last.xml || break; sleep 2; done
   log "doomsday ready=$ok for $t"
   if [ $ok = 1 ]; then
     tap_text "DOOMSDAY LANCE|FURNACE NOVA" doombtn_$t
@@ -123,7 +123,10 @@ elif [ $GAME = sc ]; then
     xy=$(python3 tests/tap.py $OUT/last.xml "id/textShipDesc")
     [ -n "$xy" ] && { set -- $xy; a shell input swipe $1 $(($2+120)) $1 $(($2-200)) 800; sleep 2; shot x0_desc_scrolled; }
     fly_titan x0
-    for T in "Crimson Throne" "Leviathan"; do
+    # minimize and come back: the DOOMSDAY button must stay hidden during the loading splash
+    a shell input keyevent KEYCODE_HOME; sleep 4
+    a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 1.2; shot resume_splash_1; sleep 2; shot resume_splash_2; dump resume; sleep 6; shot resume_after
+    for T in "Crimson Throne" "Leviathan" "Regent" "Imperator"; do
       tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
       log "titan $T"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_$tag
       f2=0; find_page "$T" 40 && f2=1
