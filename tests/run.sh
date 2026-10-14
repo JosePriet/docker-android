@@ -13,7 +13,11 @@ tap_text() { dump "$2"; [ -f $OUT/last.xml ] || { log "no ui tree for $2"; retur
 tap() { log "tap $1 $2"; a shell input tap $1 $2; }
 # walk the ships pager forward (one page per swipe) until the dump shows $1
 find_page() {
-  dump fp; nxt=$(python3 tests/tap.py $OUT/last.xml "id/imgNext"); [ -n "$nxt" ] || nxt="2064 194"
+  dump fp; if grep -q "$1" $OUT/last.xml 2>/dev/null; then return 0; fi
+  # the pager opens on the current ship: look a few pages back first
+  prv=$(python3 tests/tap.py $OUT/last.xml "id/imgPrevious")
+  if [ -n "$prv" ]; then for i in 1 2 3; do a shell input tap $prv; sleep 1; dump fp; if grep -q "$1" $OUT/last.xml; then return 0; fi; done; fi
+  nxt=$(python3 tests/tap.py $OUT/last.xml "id/imgNext"); [ -n "$nxt" ] || nxt="2064 194"
   for i in $(seq 1 ${2:-0}); do a shell input tap $nxt; sleep 0.5; done
   for i in $(seq 1 20); do
     dump fp; if grep -q "$1" $OUT/last.xml 2>/dev/null; then return 0; fi
@@ -26,14 +30,19 @@ fly_titan() {
   t=$1
   tap_text "^(Use|USE)" use_$t || return
   sleep 6; need fly_$t; shot fly_$t
-  ( sleep 2.2; timeout 30 adb exec-out screencap -p > $OUT/thrust_$t.png ) & sp=$!
-  a shell input swipe 220 860 220 640 4000; wait $sp
-  for k in 1 2; do for i in 1 2 3 4 5 6 7 8; do tap 1961 935; sleep 0.15; done; shot guns_${t}_$k; done
+  # hold the left stick forward (thrust), screenshot while held
+  a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 220 760; sleep 0.2; a shell input motionevent MOVE 222 650
+  sleep 2.5; shot thrust_$t; sleep 1.5; shot thrust2_$t
+  a shell input motionevent UP 222 650; sleep 0.5
+  # hold the right stick (turret aim + fire)
+  a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 760; sleep 0.2; a shell input motionevent MOVE 1932 680
+  sleep 1.5; shot guns_${t}_1; sleep 1.5; shot guns_${t}_2
+  a shell input motionevent UP 1932 680; sleep 0.5
   ok=0
   for w in $(seq 1 14); do dump doom_$t; if grep -q 'text="DOOMSDAY LANCE"\|text="FURNACE NOVA"' $OUT/last.xml; then ok=1; break; fi; sleep 2; done
   log "doomsday ready=$ok for $t"
   if [ $ok = 1 ]; then
-    tap_text "^(DOOMSDAY LANCE|FURNACE NOVA)$" doombtn_$t
+    tap_text "DOOMSDAY LANCE|FURNACE NOVA" doombtn_$t
     sleep 1.0; shot charge_$t
     sleep 1.7; shot doom1_$t
     sleep 1.2; shot doom2_$t
