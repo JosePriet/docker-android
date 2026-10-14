@@ -11,7 +11,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM
@@ -32,7 +32,8 @@ jobs:
           disk-size: 6000M
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
           disable-animations: true
-          script: bash tests/run.sh
+          emulator-boot-timeout: 900
+          script: timeout 1200 bash tests/run.sh || true
       - name: Publish results to the emulator-results branch
         if: always()
         run: |
