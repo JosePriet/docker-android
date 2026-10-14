@@ -30,6 +30,7 @@ case $GAME in
   sc) PKG=fr.testudo.spacecorsair; APK=tests/apks/space-corsair.apk ;;
   nova) PKG=com.corsairnova.game; APK=tests/apks/corsair-nova.apk ;;
   ga) PKG=com.kongregate.mobile.globalassault.google; APK=tests/apks/global-assault.apk ;;
+  gaarm) PKG=com.kongregate.mobile.globalassault.google; APK=tests/apks/global-assault-arm.apk ;;
   gaorig) PKG=com.kongregate.mobile.globalassault.google; APK=tests/apks/global-assault-orig.apk ;;
 esac
 { a shell dumpsys package com.android.webview | grep -m1 versionName; a shell dumpsys package com.google.android.webview | grep -m1 versionName; a shell getprop ro.build.version.release; a shell wm size; a shell getprop ro.hardware.egl; a shell getprop ro.opengles.version; } > $OUT/device.txt 2>&1
@@ -39,7 +40,7 @@ a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
 log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
 
-if [ $GAME = ga ] || [ $GAME = gaorig ]; then
+if [ $GAME = ga ] || [ $GAME = gaorig ] || [ $GAME = gaarm ]; then
   sleep 8; shot ga_warn; tap_text "^OK$" warn_ok || true; sleep 2
   for i in 1 2 3 4 5 6 7 8 9 10; do sleep 20; need "ga wait $i"; shot ga_$i; done
   dump ga_ui
