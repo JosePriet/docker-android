@@ -5,7 +5,8 @@ pat = re.compile(sys.argv[2], re.I)
 for m in re.finditer(r'<node [^>]*>', xml):
     n = m.group(0)
     t = re.search(r' text="([^"]*)"', n); d = re.search(r'content-desc="([^"]*)"', n)
-    label = (t.group(1) if t else '') + ' ' + (d.group(1) if d else '')
+    r = re.search(r'resource-id="([^"]*)"', n)
+    label = (t.group(1) if t else '') + ' ' + (d.group(1) if d else '') + ' ' + (r.group(1) if r else '')
     if not label.strip() or not pat.search(label): continue
     b = re.search(r'bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', n)
     if not b: continue

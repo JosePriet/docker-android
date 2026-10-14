@@ -75,8 +75,23 @@ elif [ $GAME = sc ]; then
   log "direct: StationActivity"; a shell am start -n $PKG/.activity.StationActivity_ >/dev/null; sleep 6; need station_direct; shot station_direct; dump station_direct
   tap_text "^Gift code$" gift && { sleep 2; a shell input text CORSAIRDEV; sleep 1; tap_text "^(Redeem|REDEEM)$" redeem; sleep 3; shot gift_redeemed; }
   a shell input keyevent KEYCODE_BACK; sleep 3
-  log "direct: ShipsActivity again"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; shot ships_after_gift
+  # the game's own gift box (BuyInapp) accepts the DEV code too
+  log "direct: BuyInapp gift"; a shell am start -n $PKG/.activity.BuyInapp_ >/dev/null; sleep 5; need buyinapp; shot buyinapp
+  tap_text "id/txtGift" giftbox && { sleep 2; a shell input text CORSAIRDEV; sleep 1; a shell input keyevent KEYCODE_BACK; sleep 1; tap_text "id/btnGift" giftbtn; sleep 3; shot gift_box_redeemed; }
   a shell input keyevent KEYCODE_BACK; sleep 3
+  log "direct: ShipsActivity again"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_after_gift; shot ships_after_gift
+  # walk the pager to the X-0 page (titans are at the end)
+  for i in $(seq 1 60); do a shell input swipe 1900 450 300 450 120; done; sleep 2
+  found=0
+  for i in $(seq 1 12); do dump xpage; if grep -q "DEV Prototype" $OUT/last.xml 2>/dev/null; then found=1; break; fi; a shell input swipe 300 450 1900 450 150; sleep 2; done
+  log "X-0 page found=$found"; need x0_page; shot x0_page; cp $OUT/last.xml $OUT/ui_x0_page.xml 2>/dev/null
+  if [ $found = 1 ]; then
+    xy=$(python3 tests/tap.py $OUT/last.xml "id/textShipDesc")
+    [ -n "$xy" ] && { set -- $xy; a shell input swipe $1 $(($2+120)) $1 $(($2-200)) 800; sleep 2; shot x0_desc_scrolled; }
+    tap_text "^(Use|USE|Utiliser)" use_x0 && { sleep 6; need flying_x0; shot flying_x0
+      for k in 1 2 3; do for i in 1 2 3 4 5 6 7 8; do tap 1961 935; sleep 0.2; done; shot x0_fire_$k; done
+      swipe 223 850 120 950 2500; sleep 4; shot x0_after; }
+  fi
   log "direct: SettingsActivity"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 5; need settings_direct; shot settings_direct; dump settings_direct
   a shell input swipe 1074 900 1074 200 600; sleep 2; shot settings_scrolled; dump settings_scrolled
   a shell input keyevent KEYCODE_BACK; sleep 3; need final; shot final
