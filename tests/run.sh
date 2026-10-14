@@ -29,6 +29,7 @@ finish() {
 case $GAME in
   sc) PKG=fr.testudo.spacecorsair; APK=tests/apks/space-corsair.apk ;;
   nova) PKG=com.corsairnova.game; APK=tests/apks/corsair-nova.apk ;;
+  ga) PKG=com.kongregate.mobile.globalassault.google; APK=tests/apks/global-assault.apk ;;
 esac
 { a shell dumpsys package com.android.webview | grep -m1 versionName; a shell dumpsys package com.google.android.webview | grep -m1 versionName; a shell getprop ro.build.version.release; a shell wm size; a shell getprop ro.hardware.egl; a shell getprop ro.opengles.version; } > $OUT/device.txt 2>&1
 timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
@@ -37,7 +38,13 @@ a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
 log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
 
-if [ $GAME = sc ]; then
+if [ $GAME = ga ]; then
+  for i in 1 2 3 4 5 6; do sleep 12; need "ga wait $i"; shot ga_$i; done
+  dump ga_ui
+  for i in 1 2 3; do tap 1140 540; sleep 6; need "ga tap $i"; shot ga_tap$i; done
+  sleep 20; need ga_end; shot ga_end
+  grep -E "GALocal|Unity  " $OUT/logcat_live.txt | head -400 > $OUT/unity_log.txt
+elif [ $GAME = sc ]; then
   sleep 15; need launch; shot launch
   a shell input keyevent KEYCODE_BACK; sleep 3; need tutorial; shot exit_prompt
   tap 1056 620; sleep 3; shot tutorial_closed
