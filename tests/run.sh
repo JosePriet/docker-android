@@ -123,6 +123,14 @@ elif [ $GAME = sc ]; then
     xy=$(python3 tests/tap.py $OUT/last.xml "id/textShipDesc")
     [ -n "$xy" ] && { set -- $xy; a shell input swipe $1 $(($2+120)) $1 $(($2-200)) 800; sleep 2; shot x0_desc_scrolled; }
     fly_titan x0
+    # v18 weapon families on the X-0's six turrets: equip each through the test switch, hold fire, screenshot
+    for W in modRailgunL15 modAutocannonL15 modArtilleryL15 modBlasterL15 modDisintegratorL15 modArcProjectorL15; do
+      a shell "echo $W > /data/local/tmp/corsair_weapon && chmod 644 /data/local/tmp/corsair_weapon"; sleep 2.5
+      a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 700
+      sleep 1.6; shot wpn_$W; sleep 1.2; shot wpn2_$W
+      a shell input motionevent UP 1930 700; sleep 0.4
+    done
+    a shell "rm -f /data/local/tmp/corsair_weapon"
     # minimize and come back: the DOOMSDAY button must stay hidden during the loading splash
     a shell input keyevent KEYCODE_HOME; sleep 4
     a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 1.2; shot resume_splash_1; sleep 2; shot resume_splash_2; dump resume; sleep 6; shot resume_after
