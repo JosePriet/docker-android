@@ -34,18 +34,21 @@ case $GAME in
 esac
 { a shell dumpsys package com.android.webview | grep -m1 versionName; a shell dumpsys package com.google.android.webview | grep -m1 versionName; a shell getprop ro.build.version.release; a shell wm size; a shell getprop ro.hardware.egl; a shell getprop ro.opengles.version; } > $OUT/device.txt 2>&1
 timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
-log install; timeout 240 adb install -r -g $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
+log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
 log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
 
 if [ $GAME = ga ] || [ $GAME = gaorig ]; then
   sleep 8; shot ga_warn; tap_text "^OK$" warn_ok || true; sleep 2
-  for i in 1 2 3 4 5 6; do sleep 12; need "ga wait $i"; shot ga_$i; done
+  for i in 1 2 3 4 5 6 7 8 9 10; do sleep 20; need "ga wait $i"; shot ga_$i; done
   dump ga_ui
   for i in 1 2 3; do tap 1140 540; sleep 6; need "ga tap $i"; shot ga_tap$i; done
   sleep 20; need ga_end; shot ga_end
   P=$(timeout 5 adb shell pidof $PKG); log "pid $P"
+  timeout 60 adb shell debuggerd -b $P > $OUT/stack.txt 2>&1
+  timeout 20 adb shell ls -la /data/data/$PKG/files /sdcard/Android/data/$PKG/files > $OUT/files.txt 2>&1
+  timeout 20 adb shell dumpsys window windows | grep -iE "mCurrentFocus|globalassault" > $OUT/windows.txt 2>&1
   grep -E "\( *$P\)" $OUT/logcat_live.txt | head -3000 > $OUT/app_log.txt
   timeout 20 adb shell dumpsys activity processes | grep -A3 globalassault | head -20 > $OUT/proc.txt
 elif [ $GAME = sc ]; then
