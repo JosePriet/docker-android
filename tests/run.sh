@@ -31,6 +31,7 @@ case $GAME in
   nova) PKG=com.corsairnova.game; APK=tests/apks/corsair-nova.apk ;;
 esac
 { a shell dumpsys package com.android.webview | grep -m1 versionName; a shell dumpsys package com.google.android.webview | grep -m1 versionName; a shell getprop ro.build.version.release; a shell wm size; a shell getprop ro.hardware.egl; a shell getprop ro.opengles.version; } > $OUT/device.txt 2>&1
+timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r -g $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 [ $GAME = sc ] && frames
@@ -38,19 +39,30 @@ log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 
 
 if [ $GAME = sc ]; then
   sleep 15; need launch; shot launch
-  # tutorial dialogs advance on tap
-  for i in 1 2 3 4 5 6 7 8; do tap 1140 540; sleep 3; need "tutorial tap $i"; done
-  shot after_tutorial_taps
-  # fixed joystick bottom-left, fire on the right
-  for i in 1 2 3 4; do swipe 330 800 420 700 2000; sleep 1; done; need steering; shot steering
-  for i in 1 2 3; do tap 1950 850; sleep 1; tap 2080 650; sleep 1; done; need fire; shot fire
+  a shell input keyevent KEYCODE_BACK; sleep 3; need tutorial; shot tutorial_closed
+  for i in 1 2 3 4; do swipe 225 850 330 740 2000; sleep 1; done; need steering; shot steering
+  for i in 1 2 3 4 5 6; do tap 1965 936; sleep 0.5; done; need fire; shot fire
+  tap 60 57; sleep 5; need menu; dump menu; shot menu
+  if tap_text "^ships?$" ships; then sleep 5; need ships; shot ships
+    tap_text "ship tree" tree && { sleep 4; shot tree; dump tree_open; a shell input keyevent KEYCODE_BACK; sleep 2; }
+    tap_text "inbox" inbox && { sleep 3; shot inbox; dump inbox_open; a shell input keyevent KEYCODE_BACK; sleep 2; }
+    tap_text "rarity|sort" rarity && { sleep 3; shot rarity; }
+    a shell input keyevent KEYCODE_BACK; sleep 3; need back_ships
+  fi
+  tap_text "setting" settings && { sleep 4; shot settings; dump settings_open; a shell input keyevent KEYCODE_BACK; sleep 3; }
   a shell input keyevent KEYCODE_BACK; sleep 4; need back; shot back
-  dump menu; shot menu
-  a shell input keyevent KEYCODE_BACK; sleep 4; need back2; shot back2
+  # open the v16 screens directly (root shell on the AOSP image)
+  log "direct: ShipsActivity"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_direct; shot ships_direct; dump ships_direct
+  tap_text "ship tree" tree2 && { sleep 4; need tree2; shot tree_direct; dump tree_direct; a shell input keyevent KEYCODE_BACK; sleep 2; }
+  tap_text "inbox" inbox2 && { sleep 3; shot inbox_direct; a shell input keyevent KEYCODE_BACK; sleep 2; }
+  a shell input keyevent KEYCODE_BACK; sleep 3
+  log "direct: SettingsActivity"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 5; need settings_direct; shot settings_direct; dump settings_direct
+  a shell input swipe 1074 900 1074 200 600; sleep 2; shot settings_scrolled; dump settings_scrolled
+  a shell input keyevent KEYCODE_BACK; sleep 3; need final; shot final
 else
   sleep 30; need launch; shot title
-  tap_text "^start$" start || tap 590 559; sleep 6; need start; shot after_start
-  for i in 1 2 3; do tap_text "^(new game|new pilot|continue|play|launch|undock|depart|begin|ok|next|accept|skip)$" step$i && sleep 6; need step$i; shot step$i; done
+  tap_text "^start$" start || tap 1074 560; sleep 6; need start; shot after_start
+  for i in 1 2 3; do tap_text "^(launch|continue|ok|next|accept|skip)$" step$i && sleep 6; need step$i; shot step$i; done
   sleep 10; need space; shot space1
   for i in 1 2 3 4 5 6; do swipe 330 800 420 700 1500; sleep 1; done; need steering; shot steering
   for i in 1 2 3; do tap 2000 850; sleep 1; done; shot fire
