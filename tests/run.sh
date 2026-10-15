@@ -153,6 +153,10 @@ elif [ $GAME = sc ]; then
   log "direct: SettingsActivity"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 5; need settings_direct; shot settings_direct; dump settings_direct
   a shell input swipe 1074 900 1074 200 600; sleep 2; shot settings_scrolled; dump settings_scrolled
   a shell input keyevent KEYCODE_BACK; sleep 3; need final; shot final
+  # equipment screen after leaving the X-0: the DEV kit must be back in the hold, not equipped
+  log "direct: MyShipActivity"; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot myship; dump myship
+  grep -o 'text="[^"]*"' $OUT/ui_myship.xml 2>/dev/null | head -40 > $OUT/myship_texts.txt
+  a shell input keyevent KEYCODE_BACK; sleep 3
   log "direct: StationActivity"; a shell am start -n $PKG/.activity.StationActivity_ >/dev/null; sleep 6; need station_direct; shot station_direct; dump station_direct
   tap_text "^Gift code$" gift && { sleep 2; a shell input text CORSAIRDEV; sleep 1; tap_text "^(Redeem|REDEEM)$" redeem; sleep 3; shot gift_redeemed; }
   a shell input keyevent KEYCODE_BACK; sleep 3
