@@ -119,48 +119,46 @@ elif [ $GAME = sc ]; then
   tap_text "id/txtGift" giftbox && { sleep 2; a shell input text CORSAIRDEV; sleep 1; a shell input keyevent KEYCODE_BACK; sleep 1; tap_text "id/btnGift" giftbtn; sleep 3; shot gift_box_redeemed; }
   a shell input keyevent KEYCODE_BACK; sleep 3
   log "direct: ShipsActivity again"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_after_gift; shot ships_after_gift
-  # walk the pager to the X-0 page (titans are at the end)
-  found=0; find_page "DEV Prototype" 40 && found=1
-  log "X-0 page found=$found"; need x0_page; shot x0_page; cp $OUT/last.xml $OUT/ui_x0_page.xml 2>/dev/null
-  if [ $found = 1 ]; then
-    xy=$(python3 tests/tap.py $OUT/last.xml "id/textShipDesc")
-    [ -n "$xy" ] && { set -- $xy; a shell input swipe $1 $(($2+120)) $1 $(($2-200)) 800; sleep 2; shot x0_desc_scrolled; }
-    fly_titan x0
-    # v19/v21 faction flagships (new turrets): spawn two next to the player
-    for C in spartan reaver; do
-      a shell "echo $C > /data/local/tmp/corsair_capital && chmod 644 /data/local/tmp/corsair_capital"; sleep 4; shot cap_$C
-    done
-    a shell "rm -f /data/local/tmp/corsair_capital"
-    # v21 HAIL button + commander comms + faction mission list (test switch: Spartan chain offered here)
-    a shell "touch /data/local/tmp/corsair_hail && chmod 644 /data/local/tmp/corsair_hail"; sleep 2.5; shot hail_button; dump hail
-    tap_text "^HAIL " hailbtn && { sleep 1; shot hail_comms; sleep 5; shot mission_list; dump mission_list; }
-    grep -o 'text="[^"]*"' $OUT/ui_mission_list.xml 2>/dev/null | head -60 > $OUT/mission_list_texts.txt
-    a shell input keyevent KEYCODE_BACK; sleep 4; shot after_mission_list
-    a shell "rm -f /data/local/tmp/corsair_hail"
-    # v21 mission objectives run in this sector (test switches): find, escort, scan, defend zone, kill flagship
-    a shell "touch /data/local/tmp/corsair_mzone && chmod 644 /data/local/tmp/corsair_mzone"
-    for M in FACTION_SPARTAN_1 FACTION_HELION_1 FACTION_HELION_2 FACTION_SPARTAN_3 FACTION_REAVER_3; do
-      a shell "echo $M > /data/local/tmp/corsair_mission && chmod 644 /data/local/tmp/corsair_mission"; sleep 2; shot m_brief_$M
-      sleep 4; shot m_setup_$M; dump m_$M
-      a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 700
-      sleep 5; shot m_fight_$M
-      a shell input motionevent UP 1930 700; sleep 1
-      log "instruction $M: $(grep -o 'text="[^"]*"' $OUT/ui_m_$M.xml 2>/dev/null | head -8 | tr '\n' ' ')"
-    done
-    a shell "rm -f /data/local/tmp/corsair_mzone /data/local/tmp/corsair_mission"
-    # minimize and come back: the DOOMSDAY button must stay hidden during the loading splash
-    a shell input keyevent KEYCODE_HOME; sleep 4
-    a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 1.2; shot resume_splash_1; sleep 2; shot resume_splash_2; dump resume; sleep 6; shot resume_after
-    for E in "hullLeviathan:Leviathan" "hullThrone:Crimson Throne"; do
-      T=${E#*:}; tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
-      a shell "echo ${E%%:*} > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
-      log "titan $T"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; need ships_$tag
-      dump fp; f2=0; grep -q "text=\"$T\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1
-      log "$T page found=$f2"; shot page_$tag
-      if [ $f2 = 1 ]; then fly_titan $tag; else a shell input keyevent KEYCODE_BACK; sleep 3; fi
-    done
-    a shell "rm -f /data/local/tmp/corsair_page"
+  # v22 standings dialog from the toolbar
+  tap_text "^Standings$" standings && { sleep 2; shot standings; dump standings_open; a shell input keyevent KEYCODE_BACK; sleep 2; }
+  # X-0 via the pager test switch
+  a shell "echo hullDev > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
+  a shell input keyevent KEYCODE_BACK; sleep 2; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
+  dump fp; f2=0; grep -q "text=\"DEV Prototype X-0\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "X-0 page found=$f2"; shot x0_page
+  tap_text "^(Use|USE)" use_x0; sleep 8; need fly_x0; shot fly_x0
+  # reputation: Spartan Honored, no current mission, HAIL -> commander greeting + mission list (story + 2 contracts)
+  a shell "echo NONE > /data/local/tmp/corsair_mission; echo spartan:85 > /data/local/tmp/corsair_rep; touch /data/local/tmp/corsair_hail; chmod 644 /data/local/tmp/corsair_*"
+  sleep 3; shot rep_hail_button; dump hail
+  tap_text "^HAIL " hailbtn && { sleep 1.5; shot rep_comms; sleep 5; shot rep_mission_list; dump mission_list; }
+  grep -o 'text="[^"]*"' $OUT/ui_mission_list.xml 2>/dev/null | head -80 > $OUT/mission_list_texts.txt
+  a shell input keyevent KEYCODE_BACK; sleep 4
+  a shell "rm -f /data/local/tmp/corsair_hail"
+  # secret weapon (Helion arc) + family weapon: fire, then the hold shows the new icons
+  for W in repSecretHelion modRailgunL15; do
+    a shell "echo $W > /data/local/tmp/corsair_weapon && chmod 644 /data/local/tmp/corsair_weapon"; sleep 2.5
+    a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 700
+    sleep 1.5; shot wpn_$W; a shell input motionevent UP 1930 700; sleep 0.5
+  done
+  a shell "rm -f /data/local/tmp/corsair_weapon"
+  log "direct: InventoryActivity"; a shell am start -n $PKG/.activity.InventoryActivity_ >/dev/null; sleep 6; shot inventory_icons; dump inventory
+  a shell input keyevent KEYCODE_BACK; sleep 4; need back_inventory
+  # v22 flagship art: spawn each faction flagship next to the player (no firing)
+  for C in spartan reaver kretari varn ironclad helion warden; do
+    a shell "echo $C > /data/local/tmp/corsair_capital && chmod 644 /data/local/tmp/corsair_capital"; sleep 4.5; shot cap_$C
+  done
+  a shell "rm -f /data/local/tmp/corsair_capital"
+  # Nebula Moth v2
+  a shell "echo hullMoth > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
+  a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
+  dump fp; f2=0; grep -q "text=\"Nebula Moth\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "Moth page found=$f2"; shot page_moth
+  if [ $f2 = 1 ]; then
+    tap_text "^(Use|USE)" use_moth; sleep 8; need fly_moth; shot fly_moth
+    a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2.5; shot thrust_moth
+    a shell input motionevent UP 222 650; sleep 0.5
+    a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1932 680; sleep 1.5; shot guns_moth
+    a shell input motionevent UP 1932 680
   fi
+  a shell "rm -f /data/local/tmp/corsair_page /data/local/tmp/corsair_rep /data/local/tmp/corsair_mission"
 else
   sleep 30; need launch; shot title
   tap 1140 643; sleep 4; need start; shot new_pilot
