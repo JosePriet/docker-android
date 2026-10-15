@@ -120,7 +120,7 @@ elif [ $GAME = sc ]; then
   a shell input keyevent KEYCODE_BACK; sleep 3
   log "direct: ShipsActivity again"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_after_gift; shot ships_after_gift
   # v22 standings dialog from the toolbar
-  tap_text "^Standings$" standings && { sleep 2; shot standings; dump standings_open; a shell input keyevent KEYCODE_BACK; sleep 2; }
+  tap_text "Standings" standings && { sleep 2; shot standings; dump standings_open; a shell input keyevent KEYCODE_BACK; sleep 2; }
   # X-0 via the pager test switch
   a shell "echo hullDev > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
   a shell input keyevent KEYCODE_BACK; sleep 2; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
@@ -140,7 +140,8 @@ elif [ $GAME = sc ]; then
     sleep 1.5; shot wpn_$W; a shell input motionevent UP 1930 700; sleep 0.5
   done
   a shell "rm -f /data/local/tmp/corsair_weapon"
-  log "direct: InventoryActivity"; a shell am start -n $PKG/.activity.InventoryActivity_ >/dev/null; sleep 6; shot inventory_icons; dump inventory
+  log "direct: MyShipActivity inventory"; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6
+  tap_text "^Inventory" invtab && sleep 3; shot inventory_icons; dump inventory
   a shell input keyevent KEYCODE_BACK; sleep 4; need back_inventory
   # v22 flagship art: spawn each faction flagship next to the player (no firing)
   for C in spartan reaver kretari varn ironclad helion warden; do
