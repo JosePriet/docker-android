@@ -126,26 +126,32 @@ elif [ $GAME = sc ]; then
     xy=$(python3 tests/tap.py $OUT/last.xml "id/textShipDesc")
     [ -n "$xy" ] && { set -- $xy; a shell input swipe $1 $(($2+120)) $1 $(($2-200)) 800; sleep 2; shot x0_desc_scrolled; }
     fly_titan x0
-    # v18 weapon families on the X-0's six turrets: equip each through the test switch, hold fire, screenshot
-    for W in modRailgunL15 modAutocannonL15 modArtilleryL15 modBlasterL15 modDisintegratorL15 modArcProjectorL15; do
-      a shell "echo $W > /data/local/tmp/corsair_weapon && chmod 644 /data/local/tmp/corsair_weapon"; sleep 2.5
-      a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 700
-      sleep 1.6; shot wpn_$W; shot wpn2_$W; shot wpn3_$W
-      a shell input motionevent UP 1930 700; sleep 0.4
-    done
-    a shell "rm -f /data/local/tmp/corsair_weapon"
-    # v19 faction flagships: spawn two next to the player (test switch), look, then provoke one with sustained fire
+    # v19/v21 faction flagships (new turrets): spawn two next to the player
     for C in spartan reaver; do
       a shell "echo $C > /data/local/tmp/corsair_capital && chmod 644 /data/local/tmp/corsair_capital"; sleep 4; shot cap_$C
     done
-    a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 700
-    sleep 6; shot cap_fight1; sleep 6; shot cap_fight2
-    a shell input motionevent UP 1930 700
     a shell "rm -f /data/local/tmp/corsair_capital"
+    # v21 HAIL button + commander comms + faction mission list (test switch: Spartan chain offered here)
+    a shell "touch /data/local/tmp/corsair_hail && chmod 644 /data/local/tmp/corsair_hail"; sleep 2.5; shot hail_button; dump hail
+    tap_text "^HAIL " hailbtn && { sleep 1; shot hail_comms; sleep 5; shot mission_list; dump mission_list; }
+    grep -o 'text="[^"]*"' $OUT/ui_mission_list.xml 2>/dev/null | head -60 > $OUT/mission_list_texts.txt
+    a shell input keyevent KEYCODE_BACK; sleep 4; shot after_mission_list
+    a shell "rm -f /data/local/tmp/corsair_hail"
+    # v21 mission objectives run in this sector (test switches): find, escort, scan, defend zone, kill flagship
+    a shell "touch /data/local/tmp/corsair_mzone && chmod 644 /data/local/tmp/corsair_mzone"
+    for M in FACTION_SPARTAN_1 FACTION_HELION_1 FACTION_HELION_2 FACTION_SPARTAN_3 FACTION_REAVER_3; do
+      a shell "echo $M > /data/local/tmp/corsair_mission && chmod 644 /data/local/tmp/corsair_mission"; sleep 2; shot m_brief_$M
+      sleep 4; shot m_setup_$M; dump m_$M
+      a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 700
+      sleep 5; shot m_fight_$M
+      a shell input motionevent UP 1930 700; sleep 1
+      log "instruction $M: $(grep -o 'text="[^"]*"' $OUT/ui_m_$M.xml 2>/dev/null | head -8 | tr '\n' ' ')"
+    done
+    a shell "rm -f /data/local/tmp/corsair_mzone /data/local/tmp/corsair_mission"
     # minimize and come back: the DOOMSDAY button must stay hidden during the loading splash
     a shell input keyevent KEYCODE_HOME; sleep 4
     a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 1.2; shot resume_splash_1; sleep 2; shot resume_splash_2; dump resume; sleep 6; shot resume_after
-    for E in "hullLeviathan:Leviathan" "alienBlatte:Regent" "hullImperator:Imperator"; do
+    for E in "hullLeviathan:Leviathan" "hullThrone:Crimson Throne"; do
       T=${E#*:}; tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
       a shell "echo ${E%%:*} > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
       log "titan $T"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; need ships_$tag
@@ -155,20 +161,6 @@ elif [ $GAME = sc ]; then
     done
     a shell "rm -f /data/local/tmp/corsair_page"
   fi
-  log "direct: SettingsActivity"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 5; need settings_direct; shot settings_direct; dump settings_direct
-  a shell input swipe 1074 900 1074 200 600; sleep 2; shot settings_scrolled; dump settings_scrolled
-  a shell input keyevent KEYCODE_BACK; sleep 3; need final; shot final
-  # equipment screen after leaving the X-0: the DEV kit must be back in the hold, not equipped
-  log "direct: MyShipActivity"; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot myship; dump myship
-  grep -o 'text="[^"]*"' $OUT/ui_myship.xml 2>/dev/null | head -40 > $OUT/myship_texts.txt
-  a shell input keyevent KEYCODE_BACK; sleep 3
-  # Android killing the app in the background while the ships screen is open, then restoring it (v20 fix)
-  # same sequence that crashed in v20 run 37: ships screen open, the process dies (stock station screen refuses to open
-  # undocked), Android restarts it and restores the ships screen from saved state
-  log "restore: ShipsActivity after process death"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6
-  a shell am start -n $PKG/.activity.StationActivity_ >/dev/null; sleep 12; need restore; shot restored; dump restored
-  log "restored ship page: $(grep -o 'text="[^"]*" resource-id="[^"]*shipName"' $OUT/ui_restored.xml 2>/dev/null | head -1)"
-  log "top after restore: $(timeout 10 adb shell dumpsys activity activities | grep -m1 -E 'topResumedActivity|mResumedActivity')"
 else
   sleep 30; need launch; shot title
   tap 1140 643; sleep 4; need start; shot new_pilot
