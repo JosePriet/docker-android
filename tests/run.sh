@@ -42,11 +42,11 @@ fly_titan() {
   for w in $(seq 1 14); do dump doom_$t; if grep -q 'text="DOOMSDAY LANCE"\|text="FURNACE NOVA"' $OUT/last.xml; then ok=1; break; fi; grep -q 'DOOMSDAY\|FURNACE\|CHARGING' $OUT/last.xml || break; sleep 2; done
   log "doomsday ready=$ok for $t"
   if [ $ok = 1 ]; then
+    # test switch freezes the beam half-way through its fire phase so the slow screencap catches it
+    a shell "touch /data/local/tmp/corsair_doomhold && chmod 644 /data/local/tmp/corsair_doomhold"; sleep 1.2
     tap_text "DOOMSDAY LANCE|FURNACE NOVA" doombtn_$t
-    # on-device burst (no transfer per frame) so the short charge/fire window is caught
-    timeout 40 adb shell 'for i in 1 2 3 4 5 6 7 8; do screencap -p /sdcard/dd$i.png; done'
-    for i in 1 2 3 4 5 6 7 8; do timeout 15 adb pull /sdcard/dd$i.png $(printf "%s/%02d_doom_%s_%d.png" $OUT $n $t $i) >/dev/null 2>&1; done
-    n=$((n+1)); log "doom burst pulled for $t"; shot doom_after_$t
+    sleep 4; shot doom1_$t; shot doom2_$t; dump doomfire_$t
+    a shell "rm -f /data/local/tmp/corsair_doomhold"; sleep 4; shot doom_after_$t
   fi
 }
 swipe() { a shell input swipe $1 $2 $3 $4 ${5:-1500}; }
@@ -130,7 +130,7 @@ elif [ $GAME = sc ]; then
     for W in modRailgunL15 modAutocannonL15 modArtilleryL15 modBlasterL15 modDisintegratorL15 modArcProjectorL15; do
       a shell "echo $W > /data/local/tmp/corsair_weapon && chmod 644 /data/local/tmp/corsair_weapon"; sleep 2.5
       a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 700
-      sleep 1.6; shot wpn_$W; sleep 1.2; shot wpn2_$W
+      sleep 1.6; shot wpn_$W; shot wpn2_$W; shot wpn3_$W
       a shell input motionevent UP 1930 700; sleep 0.4
     done
     a shell "rm -f /data/local/tmp/corsair_weapon"
@@ -145,13 +145,15 @@ elif [ $GAME = sc ]; then
     # minimize and come back: the DOOMSDAY button must stay hidden during the loading splash
     a shell input keyevent KEYCODE_HOME; sleep 4
     a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 1.2; shot resume_splash_1; sleep 2; shot resume_splash_2; dump resume; sleep 6; shot resume_after
-    for T in "Leviathan" "Regent" "Imperator"; do
-      tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
-      log "titan $T"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_$tag
-      f2=0; find_page "$T" 40 && f2=1
+    for E in "hullLeviathan:Leviathan" "alienBlatte:Regent" "hullImperator:Imperator"; do
+      T=${E#*:}; tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
+      a shell "echo ${E%%:*} > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
+      log "titan $T"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; need ships_$tag
+      dump fp; f2=0; python3 tests/tap.py $OUT/last.xml "^$T\$" | grep -q . && grep -q "text=\"$T\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1
       log "$T page found=$f2"; shot page_$tag
-      [ $f2 = 1 ] && fly_titan $tag
+      if [ $f2 = 1 ]; then fly_titan $tag; else a shell input keyevent KEYCODE_BACK; sleep 3; fi
     done
+    a shell "rm -f /data/local/tmp/corsair_page"
   fi
   log "direct: SettingsActivity"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 5; need settings_direct; shot settings_direct; dump settings_direct
   a shell input swipe 1074 900 1074 200 600; sleep 2; shot settings_scrolled; dump settings_scrolled
@@ -160,9 +162,12 @@ elif [ $GAME = sc ]; then
   log "direct: MyShipActivity"; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot myship; dump myship
   grep -o 'text="[^"]*"' $OUT/ui_myship.xml 2>/dev/null | head -40 > $OUT/myship_texts.txt
   a shell input keyevent KEYCODE_BACK; sleep 3
-  log "direct: StationActivity"; a shell am start -n $PKG/.activity.StationActivity_ >/dev/null; sleep 6; need station_direct; shot station_direct; dump station_direct
-  tap_text "^Gift code$" gift && { sleep 2; a shell input text CORSAIRDEV; sleep 1; tap_text "^(Redeem|REDEEM)$" redeem; sleep 3; shot gift_redeemed; }
-  a shell input keyevent KEYCODE_BACK; sleep 3
+  # Android killing the app in the background while the ships screen is open, then restoring it (v20 fix)
+  log "restore: ShipsActivity after process death"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6
+  a shell input keyevent KEYCODE_HOME; sleep 3; a shell am kill $PKG; sleep 2
+  log "pid after kill: $(timeout 5 adb shell pidof $PKG)"
+  a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 10; need restore; shot restored; dump restored
+  log "top after restore: $(timeout 10 adb shell dumpsys activity activities | grep -m1 -E 'topResumedActivity|mResumedActivity')"
 else
   sleep 30; need launch; shot title
   tap 1140 643; sleep 4; need start; shot new_pilot
