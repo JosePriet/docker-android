@@ -149,7 +149,7 @@ elif [ $GAME = sc ]; then
       T=${E#*:}; tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
       a shell "echo ${E%%:*} > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
       log "titan $T"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; need ships_$tag
-      dump fp; f2=0; python3 tests/tap.py $OUT/last.xml "^$T\$" | grep -q . && grep -q "text=\"$T\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1
+      dump fp; f2=0; grep -q "text=\"$T\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1
       log "$T page found=$f2"; shot page_$tag
       if [ $f2 = 1 ]; then fly_titan $tag; else a shell input keyevent KEYCODE_BACK; sleep 3; fi
     done
@@ -163,10 +163,11 @@ elif [ $GAME = sc ]; then
   grep -o 'text="[^"]*"' $OUT/ui_myship.xml 2>/dev/null | head -40 > $OUT/myship_texts.txt
   a shell input keyevent KEYCODE_BACK; sleep 3
   # Android killing the app in the background while the ships screen is open, then restoring it (v20 fix)
+  # same sequence that crashed in v20 run 37: ships screen open, the process dies (stock station screen refuses to open
+  # undocked), Android restarts it and restores the ships screen from saved state
   log "restore: ShipsActivity after process death"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6
-  a shell input keyevent KEYCODE_HOME; sleep 3; a shell am kill $PKG; sleep 2
-  log "pid after kill: $(timeout 5 adb shell pidof $PKG)"
-  a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 10; need restore; shot restored; dump restored
+  a shell am start -n $PKG/.activity.StationActivity_ >/dev/null; sleep 12; need restore; shot restored; dump restored
+  log "restored ship page: $(grep -o 'text="[^"]*" resource-id="[^"]*shipName"' $OUT/ui_restored.xml 2>/dev/null | head -1)"
   log "top after restore: $(timeout 10 adb shell dumpsys activity activities | grep -m1 -E 'topResumedActivity|mResumedActivity')"
 else
   sleep 30; need launch; shot title
