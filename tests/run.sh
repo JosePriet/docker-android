@@ -176,6 +176,18 @@ elif [ $GAME = sc ]; then
       back 3
     fi
   done
+  # v25 Spanish: restart the game with the language forced to Spanish
+  a shell "rm -f /data/local/tmp/corsair_page /data/local/tmp/corsair_weapon; echo es > /data/local/tmp/corsair_lang && chmod 644 /data/local/tmp/corsair_lang"
+  a shell am force-stop $PKG; sleep 2; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 16; need es_launch; shot es_launch; dump es_launch
+  a shell input keyevent KEYCODE_BACK; sleep 3; shot es_exit_prompt; noexit
+  a shell "touch /data/local/tmp/corsair_shieldbreak && chmod 644 /data/local/tmp/corsair_shieldbreak"; sleep 0.8; shot es_float; a shell "rm -f /data/local/tmp/corsair_shieldbreak"
+  a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 5; shot es_settings; dump es_settings
+  for i in 1 2 3; do a shell input swipe 1000 900 1000 250 400; sleep 1; done; shot es_settings_mod; back 2
+  a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; shot es_tree; dump es_tree; back 2
+  a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot es_fitting; dump es_fitting; back 2
+  a shell am start -n $PKG/.activity.MissionActivity_ >/dev/null; sleep 5; shot es_missions; back 2
+  sleep 3; shot es_flight
+  a shell "rm -f /data/local/tmp/corsair_lang"
   a shell "rm -f /data/local/tmp/corsair_page /data/local/tmp/corsair_rep /data/local/tmp/corsair_mission /data/local/tmp/corsair_weapon /data/local/tmp/corsair_shieldbreak"
 else
   sleep 30; need launch; shot title
