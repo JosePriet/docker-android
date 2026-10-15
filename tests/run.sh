@@ -11,6 +11,9 @@ shot() { n=$((n+1)); f=$(printf "%s/%02d_%s.png" $OUT $n "$1"); timeout 30 adb e
 dump() { rm -f $OUT/last.xml; timeout 12 adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1 && timeout 10 adb pull /sdcard/ui.xml "$OUT/ui_$1.xml" >/dev/null 2>&1 && cp "$OUT/ui_$1.xml" $OUT/last.xml; }
 tap_text() { dump "$2"; [ -f $OUT/last.xml ] || { log "no ui tree for $2"; return 1; }; xy=$(python3 tests/tap.py $OUT/last.xml "$1"); if [ -n "$xy" ]; then log "tap '$1' at $xy"; a shell input tap $xy; return 0; fi; log "no match for '$1'"; return 1; }
 tap() { log "tap $1 $2"; a shell input tap $1 $2; }
+# BACK that never leaves the game at the exit prompt: cancels "exit the game ?" if it appeared
+noexit() { dump noexit; if grep -q "exit the game" $OUT/last.xml 2>/dev/null; then xy=$(python3 tests/tap.py $OUT/last.xml "^Cancel"); [ -n "$xy" ] && { log "cancel exit prompt"; a shell input tap $xy; sleep 2; }; fi; }
+back() { a shell input keyevent KEYCODE_BACK; sleep ${1:-2}; noexit; }
 # walk the ships pager forward (one page per swipe) until the dump shows $1
 find_page() {
   dump fp; if grep -q "$1" $OUT/last.xml 2>/dev/null; then return 0; fi
@@ -110,44 +113,42 @@ elif [ $GAME = sc ]; then
   a shell input keyevent KEYCODE_BACK; sleep 4; need back; shot back
   # open the v16 screens directly (root shell on the AOSP image)
   log "direct: ShipsActivity"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_direct; shot ships_direct; dump ships_direct
-  tap_text "ship tree" tree2 && { sleep 4; need tree2; shot tree_direct; dump tree_direct; a shell input keyevent KEYCODE_BACK; sleep 2; }
-  tap_text "inbox" inbox2 && { sleep 3; shot inbox_direct; a shell input keyevent KEYCODE_BACK; sleep 2; }
-  a shell input keyevent KEYCODE_BACK; sleep 3
+  back 3
   # the game's own gift box (BuyInapp) accepts the DEV code too
   log "direct: BuyInapp gift"; a shell am start -n $PKG/.activity.BuyInapp_ >/dev/null; sleep 5; need buyinapp; shot buyinapp
   for i in 1 2 3 4 5; do a shell input swipe 1000 900 1000 200 300; sleep 1; done; shot buyinapp_bottom
   tap_text "id/txtGift" giftbox && { sleep 2; a shell input text CORSAIRDEV; sleep 1; a shell input keyevent KEYCODE_BACK; sleep 1; tap_text "id/btnGift" giftbtn; sleep 3; shot gift_box_redeemed; }
-  a shell input keyevent KEYCODE_BACK; sleep 3
+  back 3
   # v24 faction ship tree: opens on the current ship's faction; then each faction via the test switch
   a shell "echo spartan:85 > /data/local/tmp/corsair_rep; chmod 644 /data/local/tmp/corsair_*"
   log "direct: ShipsActivity tree"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; need tree; shot tree_default; dump tree_default
   for F in spartan reaver warden ironclad helion varn kretari independent; do
     a shell "echo $F > /data/local/tmp/corsair_tree && chmod 644 /data/local/tmp/corsair_tree"
-    a shell input keyevent KEYCODE_BACK; sleep 2; a shell input keyevent KEYCODE_BACK; sleep 2
+    back 2
     a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need tree_$F; shot tree_$F
     if [ $F = varn ]; then
       dump tree_varn
-      tap_text "^Sovereign$" card_sov && { sleep 2; shot infocard_sovereign; dump infocard
-        tap_text "^OPEN$" open_sov && { sleep 3; shot page_from_tree; dump page_from_tree
-          a shell input keyevent KEYCODE_BACK; sleep 3; shot back_to_tree; dump back_to_tree; }; }
+      tap_text "^Sovereign " card_sov && { sleep 2; shot infocard_sovereign; dump infocard
+        tap_text "^OPEN " open_sov && { sleep 3; shot page_from_tree; dump page_from_tree
+          a shell input keyevent KEYCODE_BACK; sleep 3; shot back_to_tree; dump back_to_tree; noexit; }; }
     fi
-    if [ $F = spartan ]; then tap_text "^Standings$" standings && { sleep 2; shot standings; a shell input keyevent KEYCODE_BACK; sleep 2; }; fi
+    if [ $F = spartan ]; then tap_text "^Standings " standings && { sleep 2; shot standings; a shell input keyevent KEYCODE_BACK; sleep 2; noexit; }; fi
   done
   a shell "rm -f /data/local/tmp/corsair_tree"
-  a shell input keyevent KEYCODE_BACK; sleep 2; a shell input keyevent KEYCODE_BACK; sleep 2
+  back 2
   # v24 fitting screen
   log "direct: MyShipActivity"; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; need fitting; shot fitting; dump fitting
   a shell "echo fit_weapon > /data/local/tmp/corsair_fit && chmod 644 /data/local/tmp/corsair_fit"
-  a shell input keyevent KEYCODE_BACK; sleep 3; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot fit_picker; dump fit_picker
-  a shell input keyevent KEYCODE_BACK; sleep 2
-  a shell "echo classic > /data/local/tmp/corsair_fit"; a shell input keyevent KEYCODE_BACK; sleep 3
+  back 3; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot fit_picker; dump fit_picker
+  tap_text "^CLOSE " fit_close; sleep 2
+  a shell "echo classic > /data/local/tmp/corsair_fit"; back 3
   a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot fit_classic
-  a shell "rm -f /data/local/tmp/corsair_fit"; a shell input keyevent KEYCODE_BACK; sleep 3
+  a shell "rm -f /data/local/tmp/corsair_fit"; back 3
   # X-0 via the pager test switch (tree hidden by the switch)
   a shell "echo hullDev > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
   a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
   dump fp; f2=0; grep -q "text=\"DEV Prototype X-0\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "X-0 page found=$f2"; shot x0_page
-  tap_text "^(Use|USE)" use_x0; sleep 8; need fly_x0; shot fly_x0
+  noexit; tap_text "^(Use|USE)" use_x0; sleep 8; need fly_x0; shot fly_x0
   a shell "echo NONE > /data/local/tmp/corsair_mission; chmod 644 /data/local/tmp/corsair_*"; sleep 2
   # full-resolution flagship art
   for C in spartan reaver kretari varn ironclad helion warden; do
@@ -161,7 +162,7 @@ elif [ $GAME = sc ]; then
     a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
     dump fp; f2=0; grep -q "text=\"$T\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "$T page found=$f2"; shot page_$tag
     if [ $f2 = 1 ]; then
-      tap_text "^(Use|USE)" use_$tag; sleep 8; need fly_$tag; shot fly_$tag
+      noexit; tap_text "^(Use|USE)" use_$tag; sleep 8; noexit; need fly_$tag; shot fly_$tag
       a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1932 680; sleep 1.5; shot guns_$tag
       a shell input motionevent UP 1932 680
       if [ $tag = sovereign ]; then
@@ -172,7 +173,7 @@ elif [ $GAME = sc ]; then
       fi
       sleep 9
     else
-      a shell input keyevent KEYCODE_BACK; sleep 3
+      back 3
     fi
   done
   a shell "rm -f /data/local/tmp/corsair_page /data/local/tmp/corsair_rep /data/local/tmp/corsair_mission /data/local/tmp/corsair_weapon /data/local/tmp/corsair_shieldbreak"
