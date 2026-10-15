@@ -126,40 +126,29 @@ elif [ $GAME = sc ]; then
   a shell input keyevent KEYCODE_BACK; sleep 2; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
   dump fp; f2=0; grep -q "text=\"DEV Prototype X-0\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "X-0 page found=$f2"; shot x0_page
   tap_text "^(Use|USE)" use_x0; sleep 8; need fly_x0; shot fly_x0
-  # reputation: Spartan Honored, no current mission, HAIL -> commander greeting + mission list (story + 2 contracts)
-  a shell "echo NONE > /data/local/tmp/corsair_mission; echo spartan:85 > /data/local/tmp/corsair_rep; touch /data/local/tmp/corsair_hail; chmod 644 /data/local/tmp/corsair_*"
-  sleep 3; shot rep_hail_button; dump hail
-  tap_text "^HAIL " hailbtn && { sleep 1.5; shot rep_comms; sleep 5; shot rep_mission_list; dump mission_list; }
-  grep -o 'text="[^"]*"' $OUT/ui_mission_list.xml 2>/dev/null | head -80 > $OUT/mission_list_texts.txt
-  a shell input keyevent KEYCODE_BACK; sleep 4
-  a shell "rm -f /data/local/tmp/corsair_hail"
-  # secret weapon (Helion arc) + family weapon: fire, then the hold shows the new icons
-  for W in repSecretHelion modRailgunL15; do
-    a shell "echo $W > /data/local/tmp/corsair_weapon && chmod 644 /data/local/tmp/corsair_weapon"; sleep 2.5
-    a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 700
-    sleep 1.5; shot wpn_$W; a shell input motionevent UP 1930 700; sleep 0.5
-  done
-  a shell "rm -f /data/local/tmp/corsair_weapon"
-  log "direct: MyShipActivity inventory"; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6
-  tap_text "^Inventory" invtab && sleep 3; shot inventory_icons; dump inventory
-  a shell input keyevent KEYCODE_BACK; sleep 2; dump after_inv; grep -q 'text="Inventory"' $OUT/last.xml && { a shell input keyevent KEYCODE_BACK; sleep 3; }; need back_inventory
-  # v22 flagship art: spawn each faction flagship next to the player (no firing)
+  a shell "echo NONE > /data/local/tmp/corsair_mission; echo spartan:85 > /data/local/tmp/corsair_rep; chmod 644 /data/local/tmp/corsair_*"; sleep 2
+  # v22 flagship art (not captured before): spawn each faction flagship next to the player, no firing
   for C in spartan reaver kretari varn ironclad helion warden; do
     a shell "echo $C > /data/local/tmp/corsair_capital && chmod 644 /data/local/tmp/corsair_capital"; sleep 4.5; shot cap_$C
   done
   a shell "rm -f /data/local/tmp/corsair_capital"
-  # Nebula Moth v2
-  a shell "echo hullMoth > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
-  a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
-  dump fp; f2=0; grep -q "text=\"Nebula Moth\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "Moth page found=$f2"; shot page_moth
-  if [ $f2 = 1 ]; then
-    tap_text "^(Use|USE)" use_moth; sleep 8; need fly_moth; shot fly_moth
-    a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2.5; shot thrust_moth
-    a shell input motionevent UP 222 650; sleep 0.5
-    a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1932 680; sleep 1.5; shot guns_moth
-    a shell input motionevent UP 1932 680
-  fi
-  a shell "rm -f /data/local/tmp/corsair_page /data/local/tmp/corsair_rep /data/local/tmp/corsair_mission"
+  # v23 hulls with weapon-family turrets (ships unlocked by the test gift); 31 s between ship changes (USE cooldown)
+  for E in "hullRaptor:Raptor:modRailgunL15" "hullSovereign:Sovereign:modArtilleryL15" "hullWraith:Wraith:modAutocannonL15" "hullSecretSpartan:SRS Resolute:modArcProjectorL15" "hullMoth:Nebula Moth:modBlasterL15"; do
+    ID=${E%%:*}; R=${E#*:}; T=${R%%:*}; W=${R#*:}; tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
+    a shell "echo $ID > /data/local/tmp/corsair_page; echo $W > /data/local/tmp/corsair_weapon; chmod 644 /data/local/tmp/corsair_*"
+    a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
+    dump fp; f2=0; grep -q "text=\"$T\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "$T page found=$f2"; shot page_$tag
+    if [ $f2 = 1 ]; then
+      tap_text "^(Use|USE)" use_$tag; sleep 8; need fly_$tag; shot fly_$tag
+      a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2.5; shot thrust_$tag
+      a shell input motionevent UP 222 650; sleep 0.5
+      a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1932 680; sleep 1.5; shot guns_$tag
+      a shell input motionevent UP 1932 680; sleep 9
+    else
+      a shell input keyevent KEYCODE_BACK; sleep 3
+    fi
+  done
+  a shell "rm -f /data/local/tmp/corsair_page /data/local/tmp/corsair_rep /data/local/tmp/corsair_mission /data/local/tmp/corsair_weapon"
 else
   sleep 30; need launch; shot title
   tap 1140 643; sleep 4; need start; shot new_pilot
