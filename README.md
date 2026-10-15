@@ -3,6 +3,16 @@
 Signed APK builds of the Space Corsair mod, newest first. Files live in [`apk/`](apk/).
 Verify a download with `sha256sum <file>.apk` against the table.
 
+## Original game (unmodified base)
+
+The untouched Space Corsair release every mod build was made from, for side-by-side comparison. It is signed by the original developer (testudo), while the mod builds are signed with the mod key, so Android will not update one into the other: uninstall one before installing the other.
+
+| Version | Package | Size | SHA-256 | Signed by | Download |
+|---|---|---|---|---|---|
+| 1.5.1 (code 29) | `fr.testudo.spacecorsair` | 12.2 MB | `073840eff613380e5179f07477d3d9262ef7c63a4d4745f185ba5809dc9a57bd` | testudo (CN=jocelyn demoy), cert SHA-256 `65:91:20:67:…:BF:40:03:2B` | [space-corsair-original-1.5.1.apk](https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-original-1.5.1.apk) |
+
+## Mod builds
+
 <!-- releases:start -->
 | Version | Date | Size | SHA-256 | Notes | Download |
 |---|---|---|---|---|---|
