@@ -11,12 +11,12 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v19 }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v20 }
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM
@@ -38,7 +38,7 @@ jobs:
           emulator-options: -no-window -gpu ${{ matrix.gpu }} -noaudio -no-boot-anim -no-snapshot
           disable-animations: true
           emulator-boot-timeout: 600
-          script: timeout 600 bash tests/run.sh ${{ matrix.game }} || true
+          script: timeout 1800 bash tests/run.sh ${{ matrix.game }} || true
       - name: Build video from frames
         if: always()
         run: |

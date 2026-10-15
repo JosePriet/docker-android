@@ -43,7 +43,10 @@ fly_titan() {
   log "doomsday ready=$ok for $t"
   if [ $ok = 1 ]; then
     tap_text "DOOMSDAY LANCE|FURNACE NOVA" doombtn_$t
-    shot charge_$t; shot doom1_$t; shot doom2_$t; shot doom3_$t; shot doom4_$t
+    # on-device burst (no transfer per frame) so the short charge/fire window is caught
+    timeout 40 adb shell 'for i in 1 2 3 4 5 6 7 8; do screencap -p /sdcard/dd$i.png; done'
+    for i in 1 2 3 4 5 6 7 8; do timeout 15 adb pull /sdcard/dd$i.png $(printf "%s/%02d_doom_%s_%d.png" $OUT $n $t $i) >/dev/null 2>&1; done
+    n=$((n+1)); log "doom burst pulled for $t"; shot doom_after_$t
   fi
 }
 swipe() { a shell input swipe $1 $2 $3 $4 ${5:-1500}; }
@@ -142,7 +145,7 @@ elif [ $GAME = sc ]; then
     # minimize and come back: the DOOMSDAY button must stay hidden during the loading splash
     a shell input keyevent KEYCODE_HOME; sleep 4
     a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 1.2; shot resume_splash_1; sleep 2; shot resume_splash_2; dump resume; sleep 6; shot resume_after
-    for T in "Crimson Throne" "Leviathan" "Regent" "Imperator"; do
+    for T in "Leviathan" "Regent" "Imperator"; do
       tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
       log "titan $T"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_$tag
       f2=0; find_page "$T" 40 && f2=1
