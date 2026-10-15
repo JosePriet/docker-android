@@ -142,7 +142,7 @@ elif [ $GAME = sc ]; then
   a shell "rm -f /data/local/tmp/corsair_weapon"
   log "direct: MyShipActivity inventory"; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6
   tap_text "^Inventory" invtab && sleep 3; shot inventory_icons; dump inventory
-  a shell input keyevent KEYCODE_BACK; sleep 4; need back_inventory
+  a shell input keyevent KEYCODE_BACK; sleep 2; dump after_inv; grep -q 'text="Inventory"' $OUT/last.xml && { a shell input keyevent KEYCODE_BACK; sleep 3; }; need back_inventory
   # v22 flagship art: spawn each faction flagship next to the player (no firing)
   for C in spartan reaver kretari varn ironclad helion warden; do
     a shell "echo $C > /data/local/tmp/corsair_capital && chmod 644 /data/local/tmp/corsair_capital"; sleep 4.5; shot cap_$C
