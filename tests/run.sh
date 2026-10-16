@@ -81,7 +81,7 @@ log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/i
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ]; then
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
-  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_lowhull && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
+  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog && echo 20 > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
@@ -99,119 +99,64 @@ if [ $GAME = ga ] || [ $GAME = gaorig ] || [ $GAME = gaarm ]; then
   P=$(timeout 5 adb shell pidof $PKG); log "pid $P"
   grep -E "GALocal|Exception|Unity  " $OUT/logcat_live.txt | head -3000 > $OUT/trace.txt
 elif [ $GAME = sc ]; then
+  # v30 run: character dialogs off (corsair_nodialog), pilot level 20, gift unlocks every hull
   sleep 15; need launch; shot launch
-  a shell input keyevent KEYCODE_BACK; sleep 3; need tutorial; shot exit_prompt
-  tap 1056 620; sleep 3; shot tutorial_closed
-  for i in 1 2 3 4; do swipe 223 850 330 740 2500; done; need steering; shot steering
-  for i in 1 2 3 4 5 6; do tap 1961 935; sleep 0.3; done; need fire; shot fire
-  for i in 1 2 3; do swipe 223 850 120 950 2500; done; shot steering2
-  tap 60 57; sleep 5; need menu; dump menu; shot menu
-  if tap_text "^ships?$" ships; then sleep 5; need ships; shot ships
-    tap_text "ship tree" tree && { sleep 4; shot tree; dump tree_open; a shell input keyevent KEYCODE_BACK; sleep 2; }
-    tap_text "inbox" inbox && { sleep 3; shot inbox; dump inbox_open; a shell input keyevent KEYCODE_BACK; sleep 2; }
-    tap_text "rarity|sort" rarity && { sleep 3; shot rarity; }
-    a shell input keyevent KEYCODE_BACK; sleep 3; need back_ships
-  fi
-  a shell input keyevent KEYCODE_BACK; sleep 4; need back; shot back
-  # open the v16 screens directly (root shell on the AOSP image)
-  log "direct: ShipsActivity"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need ships_direct; shot ships_direct; dump ships_direct
-  back 3
-  # the game's own gift box (BuyInapp) accepts the DEV code too
-  log "direct: BuyInapp gift"; a shell am start -n $PKG/.activity.BuyInapp_ >/dev/null; sleep 5; need buyinapp; shot buyinapp
-  for i in 1 2 3 4 5; do a shell input swipe 1000 900 1000 200 300; sleep 1; done; shot buyinapp_bottom
+  a shell input keyevent KEYCODE_BACK; sleep 3; noexit; shot after_back
+  for i in 1 2 3; do swipe 223 850 330 740 2000; done; need steering; shot steering
+  log "direct: BuyInapp gift"; a shell am start -n $PKG/.activity.BuyInapp_ >/dev/null; sleep 5; need buyinapp
+  for i in 1 2 3 4 5; do a shell input swipe 1000 900 1000 200 300; sleep 1; done
   tap_text "id/txtGift" giftbox && { sleep 2; a shell input text CORSAIRDEV; sleep 1; a shell input keyevent KEYCODE_BACK; sleep 1; tap_text "id/btnGift" giftbtn; sleep 3; shot gift_box_redeemed; }
   back 3
-  # v24 faction ship tree: opens on the current ship's faction; then each faction via the test switch
-  a shell "echo spartan:85 > /data/local/tmp/corsair_rep; chmod 644 /data/local/tmp/corsair_*"
-  log "direct: ShipsActivity tree"; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; need tree; shot tree_default; dump tree_default
-  for F in spartan reaver warden ironclad helion varn kretari independent; do
-    a shell "echo $F > /data/local/tmp/corsair_tree && chmod 644 /data/local/tmp/corsair_tree"
-    back 2
-    a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; need tree_$F; shot tree_$F
-    if [ $F = varn ]; then
-      dump tree_varn
-      tap_text "^Sovereign " card_sov && { sleep 2; shot infocard_sovereign; dump infocard
-        tap_text "^OPEN " open_sov && { sleep 3; shot page_from_tree; dump page_from_tree
-          a shell input keyevent KEYCODE_BACK; sleep 3; shot back_to_tree; dump back_to_tree; noexit; }; }
-    fi
-    if [ $F = spartan ]; then tap_text "^Standings " standings && { sleep 2; shot standings; a shell input keyevent KEYCODE_BACK; sleep 2; noexit; }; fi
-  done
-  a shell "rm -f /data/local/tmp/corsair_tree"
-  back 2
-  # v24 fitting screen
-  a shell "echo 20 > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_level"; sleep 2
-  log "direct: MyShipActivity"; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; need fitting; shot fitting; dump fitting
-  a shell "echo fit_weapon > /data/local/tmp/corsair_fit && chmod 644 /data/local/tmp/corsair_fit"
-  back 3; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot fit_picker; dump fit_picker
-  tap_text "^CLOSE " fit_close; sleep 2
-  a shell "echo fit_shield > /data/local/tmp/corsair_fit"; back 3
-  a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot fit_shield_picker; dump fit_shield_picker
-  tap_text "^FIT " fit_shield_btn && sleep 3
-  tap_text "^SHIELD " shield_tile && { sleep 2; tap_text "^DETAILS " shield_details && { sleep 4; shot shield_details; for i in 1 2; do a shell input swipe 1300 900 1300 300 400; sleep 1; done; shot shield_details_alterations; back 2; }; }
-  a shell "echo classic > /data/local/tmp/corsair_fit"; back 3
-  a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot fit_classic
-  a shell "rm -f /data/local/tmp/corsair_fit"; back 3
-  # X-0 via the pager test switch (tree hidden by the switch)
-  a shell "echo hullDev > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
-  a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
-  dump fp; f2=0; grep -q "text=\"DEV Prototype X-0\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "X-0 page found=$f2"; shot x0_page
-  noexit; tap_text "^(Use|USE)" use_x0; sleep 8; need fly_x0; shot fly_x0
-  a shell "echo NONE > /data/local/tmp/corsair_mission; chmod 644 /data/local/tmp/corsair_*"; sleep 2
-  # full-resolution flagship art
-  for C in spartan reaver kretari varn ironclad helion warden; do
-    a shell "echo $C > /data/local/tmp/corsair_capital && chmod 644 /data/local/tmp/corsair_capital"; sleep 4.5; shot cap_$C
-  done
-  a shell "rm -f /data/local/tmp/corsair_capital"
-  # hulls (full-res art) + v24 shields: hull sheen, smaller bubble, collapse -> 1.3 s reboot (x2 below 50% hull) -> offline
-  for E in "hullSovereign:Sovereign:modArtilleryL15" "megatronShip:Megatron:modRailgunL15" "hullMoth:Nebula Moth:modBlasterL15"; do
-    ID=${E%%:*}; R=${E#*:}; T=${R%%:*}; W=${R#*:}; tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
-    a shell "echo $ID > /data/local/tmp/corsair_page; echo $W > /data/local/tmp/corsair_weapon; chmod 644 /data/local/tmp/corsair_*"
+  fly() { # $1 hull id, $2 name, $3 tag
+    a shell "echo $1 > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
     a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
-    dump fp; f2=0; grep -q "text=\"$T\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "$T page found=$f2"; shot page_$tag
-    if [ $f2 = 1 ]; then
-      noexit; use_ready $tag; sleep 8; noexit; need fly_$tag; shot fly_$tag
-      a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1932 680; sleep 1.5; shot guns_$tag
-      a shell input motionevent UP 1932 680
-      if [ $tag = megatron ]; then
-        sleep 2; shot shield_fit_megatron
-        tap 1960 180; sleep 4; shot map_radar
-        tap 1050 520; sleep 2; tap 1050 520; sleep 2; shot map_radar2
-        tap 164 943; sleep 5; shot map_1
-        a shell input swipe 1100 300 1100 950 800; sleep 2; shot map_2
-        a shell input swipe 1500 500 400 500 800; sleep 2; shot map_3
-        a shell input swipe 1100 300 1100 900 800; sleep 2; shot map_4
-        a shell input swipe 400 500 1700 500 800; sleep 2; shot map_5
-        tap 1960 180; sleep 3; noexit
-      fi
-      if [ $tag = sovereign ]; then
-        for k in 1 2 3; do
-          a shell "touch /data/local/tmp/corsair_shieldbreak && chmod 644 /data/local/tmp/corsair_shieldbreak"; sleep 0.8; shot shield_break${k}_a
-          a shell "rm -f /data/local/tmp/corsair_shieldbreak"; sleep 2.2; shot shield_break${k}_b
-        done
-      fi
-      sleep 9
-    else
-      back 3
-    fi
-  done
-  # v25 Spanish: restart the game with the language forced to Spanish
-  a shell "rm -f /data/local/tmp/corsair_page /data/local/tmp/corsair_weapon; echo es > /data/local/tmp/corsair_lang && chmod 644 /data/local/tmp/corsair_lang"
-  a shell am force-stop $PKG; sleep 2; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 16; need es_launch; shot es_launch; dump es_launch
-  a shell input keyevent KEYCODE_BACK; sleep 3; shot es_exit_prompt; noexit
-  a shell "touch /data/local/tmp/corsair_shieldbreak && chmod 644 /data/local/tmp/corsair_shieldbreak"; sleep 0.8; shot es_float; a shell "rm -f /data/local/tmp/corsair_shieldbreak"
-  a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 5; shot es_settings; dump es_settings
-  for i in 1 2 3; do a shell input swipe 1000 900 1000 250 400; sleep 1; done; shot es_settings_mod; back 2
-  a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 6; shot es_tree; dump es_tree
-  tap_text "^Reputaci" es_rep && { sleep 2; shot es_standings; a shell input keyevent KEYCODE_BACK; sleep 2; }
-  back 2
-  a shell "echo hullSovereign > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
-  a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; shot es_page; for i in 1 2; do a shell input swipe 1400 900 1400 500 400; sleep 1; done; shot es_page_lore; back 2
-  a shell "rm -f /data/local/tmp/corsair_page"
-  a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot es_fitting; dump es_fitting; back 2
-  a shell am start -n $PKG/.activity.MissionActivity_ >/dev/null; sleep 5; shot es_missions; back 2
-  sleep 3; shot es_flight
-  a shell "rm -f /data/local/tmp/corsair_lang"
-  a shell "rm -f /data/local/tmp/corsair_page /data/local/tmp/corsair_rep /data/local/tmp/corsair_mission /data/local/tmp/corsair_weapon /data/local/tmp/corsair_shieldbreak /data/local/tmp/corsair_level"
+    dump fp; f2=0; grep -q "text=\"$2\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "$2 page found=$f2"
+    if [ $f2 = 1 ]; then noexit; use_ready $3; sleep 8; noexit; need fly_$3; return 0; fi
+    back 3; return 1
+  }
+  T=/data/local/tmp
+  if fly hullWarlord Warlord warlord; then
+    sleep 4; shot warlord_living
+    a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2; shot warlord_thrust; a shell input motionevent UP 222 650
+    for P in 100 60 30 15 0; do a shell "echo $P > $T/corsair_shieldpct; chmod 644 $T/corsair_*"; sleep 1.6; shot shield_$P; done
+    sleep 0.4; shot shield_0_fizzle
+    a shell "rm -f $T/corsair_shieldpct"; sleep 1
+    a shell "touch $T/corsair_shieldbreak; chmod 644 $T/corsair_*"; sleep 0.9; shot reboot_a; sleep 0.5; shot reboot_b; a shell "rm -f $T/corsair_shieldbreak"; sleep 2; shot reboot_c
+    # enemies: hostile markers, warm rims, red engines; living alien enemy
+    a shell "echo albatros,elite > $T/corsair_spawn; chmod 644 $T/corsair_*"; sleep 4; shot enemy_albatros
+    a shell "echo blatte > $T/corsair_spawn"; sleep 4; shot enemy_blatte
+    a shell "echo frelon > $T/corsair_spawn"; sleep 3; shot enemy_frelon
+    a shell "echo rat > $T/corsair_spawn"; sleep 3; shot enemy_rats
+    # kill them: wrecks (pieces cut from the sprite), spore deaths, loot pickups
+    a shell "touch $T/corsair_kill; chmod 644 $T/corsair_*"; sleep 1.3; shot kill_1; sleep 1.2; shot kill_2; sleep 2; shot wrecks
+    a shell "rm -f $T/corsair_kill"; sleep 3; shot wrecks_drift
+    a shell "touch $T/corsair_wreckhit; chmod 644 $T/corsair_*"; sleep 1.2; shot wreckhit_1; sleep 2; shot loot_beams
+    a shell "rm -f $T/corsair_wreckhit"
+    # derelict site (The Split Guardian)
+    a shell "echo 5 > $T/corsair_derelict; chmod 644 $T/corsair_*"; sleep 7; shot derelict_1; sleep 3; shot derelict_2
+  fi
+  if fly hullHarbinger Harbinger harbinger; then
+    sleep 5; shot harbinger_living_1; sleep 0.7; shot harbinger_living_2
+    a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2; shot harbinger_thrust; a shell input motionevent UP 222 650
+  fi
+  if fly hullLeviathan Leviathan leviathan; then
+    sleep 5; shot leviathan_player_titan
+    for C in spartan reaver ironclad helion warden; do
+      a shell "echo $C > $T/corsair_capital && chmod 644 $T/corsair_capital"; sleep 5; shot cap_${C}_neutral
+      a shell "touch $T/corsair_capfight; chmod 644 $T/corsair_*"; sleep 3; shot cap_${C}_fight_1; sleep 3; shot cap_${C}_fight_2; sleep 4; shot cap_${C}_fight_3
+      a shell "rm -f $T/corsair_capfight"
+    done
+    a shell "rm -f $T/corsair_capital"
+    # galaxy map territories (no tutorial dialog now)
+    tap 1960 180; sleep 4; shot map_radar
+    tap 164 943; sleep 6; shot map_1
+    a shell input swipe 1100 300 1100 950 800; sleep 2; shot map_2
+    a shell input swipe 1500 500 400 500 800; sleep 2; shot map_3
+    back 3; tap 1960 180; sleep 3; noexit
+    # player death: break-up before the respawn screen
+    a shell "touch $T/corsair_die; chmod 644 $T/corsair_*"; sleep 0.7; shot death_1; sleep 1.0; shot death_2; sleep 1.3; shot death_3; sleep 3; shot death_after
+  fi
+  a shell "rm -f $T/corsair_page $T/corsair_spawn $T/corsair_derelict $T/corsair_die $T/corsair_level $T/corsair_capital"
 else
   sleep 30; need launch; shot title
   tap 1140 643; sleep 4; need start; shot new_pilot
