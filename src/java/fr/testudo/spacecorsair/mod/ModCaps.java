@@ -337,9 +337,9 @@ public final class ModCaps {
                 fr.testudo.spacecorsair.display.Texture ht = hd.myTexture;
                 if (ht != null && ht.name > 0) {
                     ModFx.flatNext = true;
-                    ModFx.sprTex(ht, c.x, c.y, hd.dimensions.x * 1.07f, hd.dimensions.y * 1.07f, ps.spin, 0.35f, 0.85f, 1.0f, 0.35f, true, 0, 0, 1, 1);
+                    ModFx.sprTex(ht, c.x, c.y, hd.dimensions.x * 1.10f, hd.dimensions.y * 1.10f, ps.spin, 0.35f, 0.85f, 1.0f, 0.5f, true, 0, 0, 1, 1);
                     ModFx.flatNext = true;
-                    ModFx.sprTex(ht, c.x, c.y, hd.dimensions.x * 1.035f, hd.dimensions.y * 1.035f, ps.spin, 0.45f, 0.9f, 1.0f, 0.6f, true, 0, 0, 1, 1);
+                    ModFx.sprTex(ht, c.x, c.y, hd.dimensions.x * 1.05f, hd.dimensions.y * 1.05f, ps.spin, 0.45f, 0.9f, 1.0f, 0.8f, true, 0, 0, 1, 1);
                 }
             } finally {
                 ModFx.relative = false;

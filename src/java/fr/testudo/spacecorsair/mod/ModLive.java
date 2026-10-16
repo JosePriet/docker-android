@@ -205,10 +205,15 @@ public final class ModLive {
      */
     static void living(Element e, Drawable d, boolean enemy, float thrust, boolean rel) {
         String art = ModArt.artOf(d.myTexture);
-        // the Arwing / alien rat animates through 11 stock frames and only frame 0 has a remaster: no overlay (it would blink)
-        if (art == null || art.equals("orig_alien_rat0")) return;
         float w = sizeOf(d);
         if (w <= 0) return;
+        // stock sprites without glow masks (most original enemies) still smoke, burn, spark and puff
+        if (art == null) {
+            if (!e.isPlayer) damage(e, null, w, thrust);
+            return;
+        }
+        // the Arwing / alien rat animates through 11 stock frames and only frame 0 has a remaster: no overlay (it would blink)
+        if (art.equals("orig_alien_rat0")) return;
         try {
             ModFx.relative = rel;
             layers(e, art, w, enemy, thrust, rel);
@@ -323,7 +328,7 @@ public final class ModLive {
         float side = sizeOf(d);
         float x = b.position.x, y = b.position.y + side * 0.5f + 46.0f;
         if (plateText[kind] == null || plateLevel[kind] != b.level) {
-            plateText[kind] = ModBoss.displayName(kind) + "  Lv " + b.level;
+            plateText[kind] = ModBoss.displayName(kind) + (ModLang.spanish() ? "  Niv " : "  Lv ") + b.level;
             plateLevel[kind] = b.level;
             plateHalf[kind] = GameRenderer.glTextMedium == null ? plateText[kind].length() * 7 : GameRenderer.glTextMedium.getLength(plateText[kind]) / 2.0f;
         }

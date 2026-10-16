@@ -197,6 +197,26 @@ public class ModBoss extends MissionListener {
     private int overdriveMs;        // guardian enrage
     private int cloudMs;            // empress enrage spore cloud
     private long baseReload;
+    private fr.testudo.spacecorsair.business.ennemis.EnnemisCanon[] canons;
+    private int[] canonReload;
+
+    /** Overdrive: turret reload x k (1 = the boss profile's own reload). */
+    private void canonRate(float k) {
+        if (canons == null) return;
+        for (int i = 0; i < canons.length; i++) canons[i].timeBewteenShootInMilli = Math.max(80, (int) (canonReload[i] * k));
+    }
+
+    /** Boss profile, every frame: slower and less agile through the game's own snare/agility (its AI rewrites the thrust). */
+    private void heavy() {
+        if (boss.alterationSnareValue >= 0.75f) {
+            boss.alterationSnareValue = 0.75f;
+            if (boss.alterationSnareDuree < 500) boss.alterationSnareDuree = 1000;
+        }
+        if (boss.alterationAgilityValue >= 0.7f) {
+            boss.alterationAgilityValue = 0.7f;
+            if (boss.alterationAgilityDuree < 500) boss.alterationAgilityDuree = 1000;
+        }
+    }
     private final Vector2 well = new Vector2(), cloud = new Vector2();
     private final java.util.ArrayList<Ennemis> brood = new java.util.ArrayList<Ennemis>();
 
@@ -274,6 +294,20 @@ public class ModBoss extends MissionListener {
         b.milleSecBetweenShots = (long) (b.milleSecBetweenShots * 1.6f);
         b.pouseeForce *= 0.75f;
         b.maxTurnFactor *= 0.7f;
+        // the Guardian's three turrets and the alien beams copied damage/reload when the ship was built: scale them too
+        canons = b instanceof fr.testudo.spacecorsair.business.ennemis.Albatros ? new fr.testudo.spacecorsair.business.ennemis.EnnemisCanon[]{
+            ((fr.testudo.spacecorsair.business.ennemis.Albatros) b).canonCenter, ((fr.testudo.spacecorsair.business.ennemis.Albatros) b).canonProue,
+            ((fr.testudo.spacecorsair.business.ennemis.Albatros) b).canonPoupe} : null;
+        if (canons != null) {
+            canonReload = new int[canons.length];
+            for (int i = 0; i < canons.length; i++) {
+                canons[i].shootDamage = Math.round(canons[i].shootDamage * 2.2f);
+                canons[i].timeBewteenShootInMilli = (int) (canons[i].timeBewteenShootInMilli * 1.6f);
+                canonReload[i] = canons[i].timeBewteenShootInMilli;
+            }
+        }
+        LaserBeam beam = beamOf(b);
+        if (beam != null) beam.damage *= 2.2f;
         illusions.clear();
         if (b.lifeBar != null) b.lifeBar.setValue(100.0f);
         b.setPosition(spawn);
@@ -350,6 +384,7 @@ public class ModBoss extends MissionListener {
     private void bossPhysic(long j) {
         PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
         if (boss == null || boss.removed || ps == null || ps.removed) return;
+        heavy();
         float dist = boss.position.distance(ps.position);
         float hp = boss.life / boss.maxLife;
         if (!introDone && dist < 2500.0f) {
@@ -455,10 +490,11 @@ public class ModBoss extends MissionListener {
                 callout();
                 overdriveMs = 10000;
                 boss.milleSecBetweenShots = Math.max(60, (long) (baseReload * 0.35f));
+                canonRate(0.35f);
             }
             if (overdriveMs > 0) {
                 overdriveMs = (int) (overdriveMs - j);
-                if (overdriveMs <= 0) boss.milleSecBetweenShots = baseReload;
+                if (overdriveMs <= 0) { boss.milleSecBetweenShots = baseReload; canonRate(1.0f); }
             }
         } else {
             // brood waves; the Empress heals while her brood lives

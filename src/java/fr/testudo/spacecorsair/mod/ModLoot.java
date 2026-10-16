@@ -125,6 +125,36 @@ public class ModLoot {
         }
     }
 
+    /**
+     * v30 faction loot tables: the sector owner's signature weapons (FACTIONS order). Part of every v30 drop comes from the
+     * owner's table; unclaimed space draws from everything.
+     */
+    private static final int[][] FACTION_FAMILIES = {
+        {ModWeapons.RAIL, ModWeapons.BLAST},      // spartan (+ Megatron gear)
+        {ModWeapons.AUTO, ModWeapons.ARTY},       // reaver
+        {},                                        // kretari: alien gear
+        {ModWeapons.DISINT, ModWeapons.RAIL},     // varn
+        {ModWeapons.ARTY, ModWeapons.AUTO},       // ironclad
+        {ModWeapons.BLAST, ModWeapons.DISINT},    // helion
+        {ModWeapons.ARC, ModWeapons.RAIL},        // warden
+    };
+
+    /** An item from the sector owner's table, or null in unclaimed space. */
+    static SpaceObjectType factionItem() {
+        try {
+            int f = ModMap.owner(ObjectRegistry.INSTANCE.game.currentLevel.id);
+            if (f < 0 || f >= FACTION_FAMILIES.length) return null;
+            int tier = tierForPilot();
+            String k = ModCapitals.FACTIONS[f].key;
+            if ("kretari".equals(k)) return family(ALIEN, tier);
+            if ("spartan".equals(k) && Math.random() < 0.3) return family(SPARTAN, tier);
+            int[] fam = FACTION_FAMILIES[f];
+            return SpaceObjectType.valueOf(ModWeapons.typeName(fam[(int) (Math.random() * fam.length)], tier));
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
     private static final float[] CLASS_Q = {0, 3, 7, 12};
     private static final float[] CLASS_CHANCE = {0.04f, 0.08f, 0.22f, 0.6f};
 
@@ -174,7 +204,9 @@ public class ModLoot {
             float p = e.elite ? 1.0f : Math.min(0.9f, CLASS_CHANCE[cls] + e.level * 0.002f * (cls + 1));
             if (Math.random() < p) {
                 LootRarety r = roll(e.level, cls, e.elite, 0);
-                SpaceObjectType t = pick(r, Math.max(e.level, 1));
+                SpaceObjectType t = null;
+                if (r.getRaretySort() >= LootRarety.RARE.getRaretySort() && Math.random() < 0.3) t = factionItem();   // the owner's table
+                if (t == null) t = pick(r, Math.max(e.level, 1));
                 if (t == null) t = pick(r, 999);
                 if (t == null && e.elite) t = family(ALIEN, tierForPilot());
                 drop(e, t);
@@ -200,7 +232,9 @@ public class ModLoot {
             float p = w.srcBoss ? 1.0f : w.derelict ? 0.6f : w.srcElite ? 0.7f : 0.35f;
             if (Math.random() >= p) return;
             int bonus = (w.derelict ? 1 : 0) + (w.srcBoss ? 2 : 0);
-            drop(w, pick(roll(lvl, Math.max(2, w.srcClass), w.srcElite, bonus), lvl));
+            LootRarety wr = roll(lvl, Math.max(2, w.srcClass), w.srcElite, bonus);
+            SpaceObjectType wt = wr.getRaretySort() >= LootRarety.RARE.getRaretySort() && Math.random() < (w.derelict ? 0.5 : 0.3) ? factionItem() : null;
+            drop(w, wt != null ? wt : pick(wr, lvl));
             if (Math.random() < 0.12) drop(w, SpaceObjectType.valueOf(ModWeapons.typeName((int) (Math.random() * ModWeapons.COUNT), tierForPilot())));
         } catch (Throwable t) {
             // ignore
