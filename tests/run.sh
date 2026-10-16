@@ -175,7 +175,8 @@ elif [ $GAME = sc ]; then
       if [ $tag = megatron ]; then
         sleep 2; shot shield_fit_megatron
         tap 1960 180; sleep 4; shot map_radar
-        tap 160 940; sleep 4; shot map_1
+        tap 1050 520; sleep 2; tap 1050 520; sleep 2; shot map_radar2
+        tap 164 943; sleep 5; shot map_1
         a shell input swipe 1100 300 1100 950 800; sleep 2; shot map_2
         a shell input swipe 1500 500 400 500 800; sleep 2; shot map_3
         a shell input swipe 1100 300 1100 900 800; sleep 2; shot map_4
