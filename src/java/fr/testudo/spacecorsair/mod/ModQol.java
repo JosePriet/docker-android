@@ -185,6 +185,20 @@ public class ModQol {
                 : "Mod v29: the galaxy map shows faction territory (capitals with emblem and name, controlled sectors in faction colours; unclaimed space "
                     + "stays neutral). Fixed item bonus texts showing missingString, and the shield bubble now covers the whole hull.");
         }
+        if (p.getInt("modVersion", 0) < 31) {
+            p.edit().putInt("modVersion", 31).commit();
+            post(ModLang.spanish()
+                ? "Mod v30: escudos por segmentos que se apagan al perder carga (sin grietas), pulso de recarga y onda en el punto de impacto; "
+                    + "la recarga es mas rapida cuanto mas bajo esta el escudo (estilo EVE). Los enemigos recargan a la mitad y no se recuperan desde cero. "
+                    + "Las naves grandes se parten en restos fisicos que puedes destruir para obtener botin; tu nave se despedaza antes de reaparecer. "
+                    + "Nuevas tablas de botin (casco, nivel, elites, jefes, sector), 12 sitios de restos con historia, jefes con placa de calavera, "
+                    + "habilidades unicas y furia, buques insignia con habilidades propias, y naves vivas: luces, motores y criaturas animadas."
+                : "Mod v30: segmented shields that power down as they drain (no cracks), a recharge pulse and impact ripples; "
+                    + "recharge is fastest when the shield is low (EVE style). Enemies recharge at half rate and never from zero. "
+                    + "Big hulls break into physical wrecks you can shoot for loot; your own ship breaks apart before the respawn. "
+                    + "New loot tables (hull, level, elites, bosses, sector), 12 lore derelict sites, boss skull plates with unique skills and "
+                    + "a one-time enrage, flagship skills, and living ships: lights, engines and animated alien hulls.");
+        }
     }
 
     public static boolean fixedStick() { load(); return optStick; }

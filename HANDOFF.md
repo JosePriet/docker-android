@@ -62,5 +62,5 @@ This branch (`sc-mod-workspace` on JosePriet/docker-android) holds the **complet
 - **Shields:** the bubble is fitted to each hull's extent; the bubble art's ring sits at radius 0.773.
 - **Item texts:** the early-init `missingString` bug is fixed (in `ModBoss.text`).
 
-## Next update (v30), approved by the owner: checklist
-See `CHECKLIST_v30.md`.
+## v30 (in progress)
+Code complete and building (`bash build.sh` -> v30). See `CHECKLIST_v30.md` for status and what is left (emulator run, release).

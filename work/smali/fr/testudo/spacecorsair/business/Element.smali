@@ -1534,7 +1534,9 @@
     .line 713
     iget-object v4, p1, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->sender:Lfr/testudo/spacecorsair/business/Element;
 
-    invoke-static {p0, v0, p1}, Lfr/testudo/spacecorsair/mod/ModQol;->onHit(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+    invoke-static {p0, v0, p1}, Lfr/testudo/spacecorsair/mod/ModLive;->hit(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)F
+
+    move-result v0
 
     invoke-virtual {p0, v0, v4, p1}, Lfr/testudo/spacecorsair/business/Element;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
 
@@ -2608,6 +2610,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModWreck;->onDestroyed(Lfr/testudo/spacecorsair/business/Element;Z)V
+
     .line 768
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 

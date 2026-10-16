@@ -238,6 +238,102 @@ public final class ModDev {
         }
     }
 
+    /**
+     * v30 smali hook at the start of GameThread.showDialog: true skips the character dialog. Emulator tests only
+     * (/data/local/tmp/corsair_nodialog never exists on a phone). Dialogs with a dismiss action still show: the tutorial
+     * may wait on them.
+     */
+    public static boolean noDialog(String dismissAction) {
+        return dismissAction == null && testFlag("corsair_nodialog");
+    }
+
+    // ------------------------------------------------------------------ v30 emulator test switches (never present on a phone)
+    private static String t30Spawn, t30Shield, t30Derelict;
+    private static boolean t30Kill, t30Wreck, t30Die, t30Cap;
+
+    /** Once a second from ModCaps.tick. Rising edges / changed values only. */
+    static void testV30(fr.testudo.spacecorsair.business.player.PlayerShip ps) {
+        try {
+            // corsair_spawn=albatros|blatte|frelon|ufo|rat|defensor[,elite]: one group 1000 units ahead of the ship
+            String v = testValue("corsair_spawn");
+            if (v != null && !v.equals(t30Spawn)) {
+                t30Spawn = v;
+                String[] a = v.split(",");
+                int lvl = Math.max(1, fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.game.playerInfo.level);
+                for (int i = 0; i < (a[0].equals("rat") ? 3 : 1); i++) {
+                    fr.testudo.spacecorsair.business.ennemis.Ennemis e;
+                    String k = a[0];
+                    if (k.equals("albatros")) e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newAlbatros(lvl);
+                    else if (k.equals("blatte")) e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newAlienBlatte(lvl);
+                    else if (k.equals("frelon")) e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newFrelon(lvl);
+                    else if (k.equals("ufo")) e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newUfo(lvl);
+                    else if (k.equals("defensor")) e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newDefensor(lvl);
+                    else e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newAlienRat(lvl);
+                    if (a.length > 1 && a[1].equals("elite")) e.setElite();
+                    e.position.set(0, -1000 - i * 250).applyRotatation(Math.toRadians(ps.spin)).add(ps.position).add(i * 260, 0);
+                    e.updateSapCoords();
+                    e.setIaDisabled();
+                    e.addToCurrentLevel();
+                }
+            }
+            // corsair_kill: every enemy within 3000 dies, credited to the player (wrecks, loot)
+            boolean k = testFlag("corsair_kill");
+            if (k && !t30Kill) {
+                java.util.List<fr.testudo.spacecorsair.business.Element> els = fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.game.currentLevel.elements;
+                for (int i = 0; i < els.size(); i++) {
+                    fr.testudo.spacecorsair.business.Element e = els.get(i);
+                    if (e instanceof fr.testudo.spacecorsair.business.ennemis.Ennemis && !e.removed && e.position.distance(ps.position) < 3000) {
+                        e.invincible = false;
+                        e.applyDamage(e.life + 1, ps, null);
+                    }
+                }
+            }
+            t30Kill = k;
+            // corsair_wreckhit: wreck pieces within 3000 are shot apart by the player
+            boolean w = testFlag("corsair_wreckhit");
+            if (w && !t30Wreck) {
+                for (Object o : new java.util.ArrayList<ModWreck>(ModWreck.live)) {
+                    ModWreck m = (ModWreck) o;
+                    if (!m.removed && m.position.distance(ps.position) < 3000) m.applyDamage(m.life + 1, ps, null);
+                }
+            }
+            t30Wreck = w;
+            // corsair_shieldpct=N: the shield drops to N percent (segments, sputter)
+            String sp = testValue("corsair_shieldpct");
+            if (sp != null && !sp.equals(t30Shield) && ps.shield != null) {
+                t30Shield = sp;
+                ps.shield.currentValue = ps.shield.capacity * Integer.parseInt(sp.trim()) / 100.0f;
+                ps.shield.valueInPourc = ps.shield.currentValue * 100.0f / ps.shield.capacity;
+            }
+            // corsair_derelict=N: site N placed around the player now
+            String dv = testValue("corsair_derelict");
+            if (dv != null && !dv.equals(t30Derelict)) {
+                t30Derelict = dv;
+                ModDerelict.testPlace(ps, Integer.parseInt(dv.trim()));
+            }
+            // corsair_capfight: flagships here turn on the player at 29% hull (skills + enrage)
+            boolean c = testFlag("corsair_capfight");
+            if (c && !t30Cap) {
+                for (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip g : ModCapitals.caps.keySet()) {
+                    g.life = g.maxLife * 0.29f;
+                    g.attackPlayerIfItNotTheCaseAlready();
+                }
+            }
+            t30Cap = c;
+            // corsair_die: the player's hull is destroyed (break-up before the respawn screen)
+            boolean d = testFlag("corsair_die");
+            if (d && !t30Die && !ps.removed) {
+                ps.invincible = false;
+                ps.shield.currentValue = 0;
+                fr.testudo.spacecorsair.business.Element src = Mod.findEnemy(ps.position, 100000.0f);
+                ps.applyDamage(ps.life + ps.maxLife, src != null ? src : ps, null);
+            }
+            t30Die = d;
+        } catch (Throwable t) {
+            android.util.Log.w("ModDev", "v30 test " + t);
+        }
+    }
+
     // ------------------------------------------------------------------ X-0 unique ability: Phase Pulse
 
     private static int pulseTimer = 6000;

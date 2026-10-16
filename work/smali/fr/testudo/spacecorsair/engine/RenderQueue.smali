@@ -4,7 +4,7 @@
 
 
 # static fields
-.field private static final MAX_OBJECT_PER_FRAME:I = 0x3e8
+.field private static final MAX_OBJECT_PER_FRAME:I = 0x9c4
 
 
 # instance fields
@@ -43,7 +43,7 @@
     .line 21
     const/4 v0, 0x2
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     filled-new-array {v0, v1}, [I
 
@@ -91,7 +91,7 @@
 
     .line 36
     :goto_8
-    const/16 v2, 0x3e8
+    const/16 v2, 0x9c4
 
     if-ge v0, v2, :cond_25
 
@@ -138,7 +138,7 @@
     .line 110
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     if-ge v0, v1, :cond_24
 
@@ -189,7 +189,7 @@
     .line 103
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     if-ge v0, v1, :cond_21
 
@@ -238,7 +238,7 @@
     .line 51
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     if-ge v0, v1, :cond_1e
 
@@ -285,7 +285,7 @@
     .line 97
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     if-ge v0, v1, :cond_17
 
@@ -318,7 +318,7 @@
     .line 91
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     if-ge v0, v1, :cond_1e
 
@@ -388,7 +388,7 @@
     .line 79
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     if-ge v0, v1, :cond_21
 
@@ -437,7 +437,7 @@
     .line 67
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     if-ge v0, v1, :cond_1d
 
@@ -482,7 +482,7 @@
     .line 61
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     if-ge v0, v1, :cond_1e
 
@@ -527,7 +527,7 @@
     .line 73
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     if-ge v0, v1, :cond_26
 
@@ -580,7 +580,7 @@
     .line 85
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 
-    const/16 v1, 0x3e8
+    const/16 v1, 0x9c4
 
     if-ge v0, v1, :cond_21
 

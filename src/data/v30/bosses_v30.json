@@ -1,0 +1,340 @@
+{
+  "bosses": {
+    "guardian": {
+      "name": "Guardian Prime",
+      "signature_skills": [
+        {
+          "name": "Telegraphed Broadside",
+          "description": "Turrets glow for 1.5 seconds before a heavy volley.",
+          "es": {
+            "name": "Andanada anunciada",
+            "description": "Las torretas brillan durante 1.5 segundos antes de una descarga pesada."
+          }
+        }
+      ],
+      "enrage": {
+        "name": "Overdrive",
+        "callout": [
+          "Guardian Prime enters overdrive.",
+          "Its guns reload faster for 10 seconds."
+        ],
+        "es": {
+          "name": "Sobremarcha",
+          "callout": [
+            "Guardian Prime entra en sobremarcha.",
+            "Sus cañones recargan más rápido durante 10 segundos."
+          ]
+        }
+      }
+    },
+    "matriarch": {
+      "name": "Banshee Matriarch",
+      "signature_skills": [
+        {
+          "name": "Phase Blink",
+          "description": "Blinks a short distance to evade fire.",
+          "es": {
+            "name": "Salto de fase",
+            "description": "Se teletransporta una distancia corta para esquivar el fuego."
+          }
+        },
+        {
+          "name": "Gravity Well",
+          "description": "Pulls your ship off course.",
+          "es": {
+            "name": "Pozo gravitatorio",
+            "description": "Arrastra tu nave fuera de rumbo."
+          }
+        }
+      ],
+      "enrage": {
+        "name": "Threefold Mirage",
+        "callout": [
+          "The Matriarch splits into three forms.",
+          "Only one target is real."
+        ],
+        "es": {
+          "name": "Espejismo triple",
+          "callout": [
+            "La Matriarca se divide en tres formas.",
+            "Solo un objetivo es real."
+          ]
+        }
+      }
+    },
+    "empress": {
+      "name": "Hive Empress",
+      "signature_skills": [
+        {
+          "name": "Brood Wave",
+          "description": "Calls another wave of brood drones.",
+          "es": {
+            "name": "Oleada de crías",
+            "description": "Convoca otra oleada de drones de la colmena."
+          }
+        },
+        {
+          "name": "Brood Sustenance",
+          "description": "Regenerates while brood drones remain alive.",
+          "es": {
+            "name": "Sustento de la colmena",
+            "description": "Se regenera mientras sigan vivos los drones de la colmena."
+          }
+        }
+      ],
+      "enrage": {
+        "name": "Spore Cloud",
+        "callout": [
+          "The Empress releases a spore cloud.",
+          "Your shields drain slowly inside it."
+        ],
+        "es": {
+          "name": "Nube de esporas",
+          "callout": [
+            "La Emperatriz libera una nube de esporas.",
+            "Tus escudos se agotan lentamente dentro de ella."
+          ]
+        }
+      }
+    }
+  },
+  "titans": {
+    "spartan": {
+      "name": "SRS Aegis",
+      "signature_skills": [
+        {
+          "name": "Frontal Shield Wall",
+          "description": "Blocks shots arriving from ahead.",
+          "es": {
+            "name": "Muro de escudos frontal",
+            "description": "Bloquea los disparos que llegan de frente."
+          }
+        }
+      ],
+      "enrage": {
+        "name": "Guardian Dome",
+        "callout": [
+          "Aegis projects a shield dome.",
+          "Allied ships shelter beneath it."
+        ],
+        "es": {
+          "name": "Cúpula guardiana",
+          "callout": [
+            "Aegis proyecta una cúpula de escudo.",
+            "Las naves aliadas quedan protegidas bajo ella."
+          ]
+        }
+      }
+    },
+    "reaver": {
+      "name": "Bloodforge",
+      "signature_skills": [
+        {
+          "name": "Harpoons",
+          "description": "Drags its target into close range.",
+          "es": {
+            "name": "Arpones",
+            "description": "Arrastra a su objetivo a corta distancia."
+          }
+        },
+        {
+          "name": "Furnace Ram",
+          "description": "Charges forward in a furnace-powered ram.",
+          "es": {
+            "name": "Embestida de horno",
+            "description": "Carga hacia delante en una embestida impulsada por el horno."
+          }
+        }
+      ],
+      "enrage": {
+        "name": "Furnace Overload",
+        "callout": [
+          "Bloodforge overloads its furnace.",
+          "A burning trail follows its next ram charge."
+        ],
+        "es": {
+          "name": "Sobrecarga del horno",
+          "callout": [
+            "Bloodforge sobrecarga su horno.",
+            "Una estela ardiente sigue su próxima embestida."
+          ]
+        }
+      }
+    },
+    "kretari": {
+      "name": "Brood-Mother",
+      "signature_skills": [
+        {
+          "name": "Hive Pulse",
+          "description": "Scrambles radar and HUD for a few seconds.",
+          "es": {
+            "name": "Pulso de colmena",
+            "description": "Altera el radar y la interfaz durante unos segundos."
+          }
+        }
+      ],
+      "enrage": {
+        "name": "Mirror Swarm",
+        "callout": [
+          "The Brood-Mother calls a mirror swarm.",
+          "Decoy brood copy your movement."
+        ],
+        "es": {
+          "name": "Enjambre espejo",
+          "callout": [
+            "Brood-Mother convoca un enjambre espejo.",
+            "Las crías señuelo copian tus movimientos."
+          ]
+        }
+      }
+    },
+    "varn": {
+      "name": "Syndicate Crown",
+      "signature_skills": [
+        {
+          "name": "Contract Mines",
+          "description": "Lays mines across the approach.",
+          "es": {
+            "name": "Minas de contrato",
+            "description": "Coloca minas en la ruta de aproximación."
+          }
+        },
+        {
+          "name": "Short Cloak",
+          "description": "Briefly conceals the Crown.",
+          "es": {
+            "name": "Camuflaje breve",
+            "description": "Oculta brevemente a Syndicate Crown."
+          }
+        }
+      ],
+      "enrage": {
+        "name": "Liquidation",
+        "callout": [
+          "A ring of contract mines closes in.",
+          "The Crown accelerates in a sudden burst."
+        ],
+        "es": {
+          "name": "Liquidación",
+          "callout": [
+            "Se cierra un anillo de minas de contrato.",
+            "Syndicate Crown acelera de golpe."
+          ]
+        }
+      }
+    },
+    "ironclad": {
+      "name": "IMS Bastion",
+      "signature_skills": [
+        {
+          "name": "Directional Armour",
+          "description": "Armour plates must be shot off to expose the hull.",
+          "es": {
+            "name": "Blindaje direccional",
+            "description": "Hay que desprender las placas a tiros para exponer el casco."
+          }
+        },
+        {
+          "name": "Telegraphed Artillery",
+          "description": "Marks its artillery strike before firing.",
+          "es": {
+            "name": "Artillería anunciada",
+            "description": "Marca el impacto de artillería antes de disparar."
+          }
+        }
+      ],
+      "enrage": {
+        "name": "Last Stand",
+        "callout": [
+          "Bastion holds its last position.",
+          "Its armour plates regrow once."
+        ],
+        "es": {
+          "name": "Última resistencia",
+          "callout": [
+            "Bastion mantiene su última posición.",
+            "Sus placas de blindaje vuelven a crecer una vez."
+          ]
+        }
+      }
+    },
+    "helion": {
+      "name": "Sunspire",
+      "signature_skills": [
+        {
+          "name": "Solar Lance",
+          "description": "Sweeps the field with a solar lance.",
+          "es": {
+            "name": "Lanza solar",
+            "description": "Barre el campo con una lanza solar."
+          }
+        },
+        {
+          "name": "Boost Dash",
+          "description": "Dashes across the field at speed.",
+          "es": {
+            "name": "Impulso veloz",
+            "description": "Cruza el campo a gran velocidad."
+          }
+        }
+      ],
+      "enrage": {
+        "name": "Supernova",
+        "callout": [
+          "Sunspire ignites a sweeping ring of fire.",
+          "The ring sweeps across the battlefield."
+        ],
+        "es": {
+          "name": "Supernova",
+          "callout": [
+            "Sunspire enciende un anillo de fuego.",
+            "El anillo barre el campo de batalla."
+          ]
+        }
+      }
+    },
+    "warden": {
+      "name": "FAV Warden",
+      "signature_skills": [
+        {
+          "name": "Tractor Beam",
+          "description": "Pulls its target out of position.",
+          "es": {
+            "name": "Rayo tractor",
+            "description": "Saca a su objetivo de posición."
+          }
+        },
+        {
+          "name": "Boost Disruptor",
+          "description": "Interrupts the target’s boost.",
+          "es": {
+            "name": "Disruptor de impulso",
+            "description": "Interrumpe el impulso del objetivo."
+          }
+        },
+        {
+          "name": "Rail Snipe",
+          "description": "Lines up a long-range rail shot.",
+          "es": {
+            "name": "Disparo de riel",
+            "description": "Apunta un disparo de riel a larga distancia."
+          }
+        }
+      ],
+      "enrage": {
+        "name": "Lockdown",
+        "callout": [
+          "Warden initiates lockdown.",
+          "Boost and missiles are disabled for 6 seconds."
+        ],
+        "es": {
+          "name": "Bloqueo total",
+          "callout": [
+            "Warden inicia el bloqueo.",
+            "El impulso y los misiles se desactivan durante 6 segundos."
+          ]
+        }
+      }
+    }
+  }
+}

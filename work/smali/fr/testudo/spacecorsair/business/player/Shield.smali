@@ -594,6 +594,10 @@
 
     .line 132
     :cond_86
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModShield;->rate(Lfr/testudo/spacecorsair/business/player/Shield;F)F
+
+    move-result v0
+
     iget v1, p0, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
 
     long-to-float v2, p1

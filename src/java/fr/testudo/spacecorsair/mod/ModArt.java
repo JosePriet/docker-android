@@ -630,6 +630,37 @@ public class ModArt {
         return d != null && (d == ModFx.EMPTY || (d instanceof Art && ((Art) d).turret));
     }
 
+    // ------------------------------------------------------------------ v30 on-demand art (living ships, wrecks, bosses)
+    private static final java.util.Map<Texture, String> ORIGTEX = java.util.Collections.synchronizedMap(new java.util.WeakHashMap<Texture, String>());
+
+    /** The mod art name a texture shows (hull art, flagship, or orig_* remaster of a game sprite); null for anything else. */
+    static String artOf(Texture t) {
+        if (t == null) return null;
+        if (t instanceof Lazy) return ((Lazy) t).asset;
+        return ORIGTEX.get(t);
+    }
+
+    /** Lazy texture for any modart asset, registered on first request; null when the asset does not exist. */
+    static Texture lazyTex(String name) {
+        if (name == null) return null;
+        Texture t = textures.get(name);
+        if (t != null) return t;
+        return lazy(name, FB_NONE);
+    }
+
+    /**
+     * The texture only once it is on the GPU; otherwise null and a background decode is requested (frameEnd uploads one
+     * decoded texture per frame). Callers skip the effect until then, so nothing ever stalls a frame.
+     */
+    static Texture ready(String name) {
+        Texture t = lazyTex(name);
+        if (!(t instanceof Lazy)) return t;
+        Lazy z = (Lazy) t;
+        if (z.resident) return z;
+        if (z.failedGen != gen) prefetch(z);
+        return null;
+    }
+
     public static Texture texture(String name) {
         return name == null ? null : textures.get(name);
     }
@@ -743,6 +774,7 @@ public class ModArt {
             }
             if (bmp != null && bmp != r) bmp.recycle();
             measure(t, r);
+            ORIGTEX.put(t, a);
             return r;
         } catch (Throwable e) {
             return bmp;

@@ -51,9 +51,37 @@ public class ModBoss extends MissionListener {
     };
     private static final String DONE = ModLang.tr("Target destroyed. The reward has been transferred to your hold.");
 
+    /** v30 mission briefings: intro + the boss's skills and enrage from bosses_v30.json (EN / ES). */
+    private static final String[][] INTRO = {
+        {"Long-range scanners picked up an enormous Banshee UFO hunting convoys in the <b>Hermes</b> sector. Pilots call her the Matriarch.",
+         "Los escáneres de largo alcance detectaron un enorme OVNI Banshee cazando convoyes en el sector <b>Hermes</b>. Los pilotos la llaman la Matriarca."},
+        {"A Guardian-class cruiser has stopped answering SPARTAN command codes and is shelling traffic in the <b>Solar Field</b>. Between volleys it still raises its invulnerable SPARTAN shield and calls Defensor escorts.",
+         "Un crucero clase Guardian dejó de responder a los códigos de mando SPARTAN y bombardea el tráfico en <b>Solar Field</b>. Entre andanadas aún levanta su escudo SPARTAN invulnerable y llama escoltas Defensor."},
+        {"The alien hive has crowned an Empress. Her command ship sits deep in <b>The Hive</b>, spawning broods without end. Her venom aura burns anything that gets close.",
+         "La colmena alienígena coronó a una Emperatriz. Su nave de mando está en lo profundo de <b>The Hive</b>, generando crías sin fin. Su aura de veneno quema todo lo que se acerca."}};
+    private static final String[][] REWARD = {
+        {"Banshee Beam Lev. 5 and Arwing Plasma Bolt Lev. 5", "Rayo Banshee Niv. 5 y Proyectil de plasma Arwing Niv. 5"},
+        {"Megatron Heavy Battery Lev. 10 and Megatron Salvo Missile Lev. 10", "Batería pesada Megatron Niv. 10 y Misil salva Megatron Niv. 10"},
+        {"Regent Venom Beam Lev. 15 and Regent Hive Bay Lev. 15", "Rayo de veneno Regent Niv. 15 y Bahía colmena Regent Niv. 15"}};
+
+    static String[] data(int kind) {
+        return ModLang.spanish() ? ModV30Data.BOSS_ES[kind] : ModV30Data.BOSS_EN[kind];
+    }
+
+    private static String briefing(int k) {
+        boolean es = ModLang.spanish();
+        String[] d = data(k);
+        StringBuilder b = new StringBuilder(INTRO[k][es ? 1 : 0]);
+        b.append(es ? "<br><br><b>Habilidades</b>:" : "<br><br><b>Skills</b>:");
+        for (int i = 4; i + 1 < d.length; i += 2) b.append("<br>- <b>").append(d[i]).append("</b>: ").append(d[i + 1]);
+        b.append(es ? "<br>- <b>Furia (una vez)</b>: " : "<br>- <b>Enrage (once)</b>: ").append(d[1]).append(". ").append(d[2]).append(' ').append(d[3]);
+        b.append(es ? "<br><br><b>Recompensa</b>: " : "<br><br><b>Reward</b>: ").append(REWARD[k][es ? 1 : 0]).append('.');
+        return b.toString();
+    }
+
     public static String text(int id) {
         int k = id - TEXT_BASE;
-        if (k >= 0 && k < 3) return DESC[k];
+        if (k >= 0 && k < 3) return briefing(k);
         if (k >= 10 && k < 13) return "<b>" + NAMES[k - 10] + ModLang.tr("</b> destroyed.<br><br>") + DONE;
         String f = ModFaction.text(id);
         if (f != null) return f;
@@ -118,6 +146,7 @@ public class ModBoss extends MissionListener {
         if (ObjectRegistry.INSTANCE.currentMission == null) return;
         MissionListener l = ObjectRegistry.INSTANCE.currentMission.missionEngine;
         if (!(l instanceof ModBoss)) return;
+        try { ((ModBoss) l).drawSkills(); } catch (Throwable t) { /* visuals only */ }
         Ennemis b = ((ModBoss) l).boss;
         if (b == null || b.removed || ps.removed) return;
         if (fr.testudo.spacecorsair.engine.GameThread.isElementVisible(b)) return;
@@ -161,7 +190,15 @@ public class ModBoss extends MissionListener {
     private boolean shield33;
     private int timerA;
     private int timerB;
+    private int timerC;
     private int invulnTimer;
+    // v30 skills
+    private int skillMs;            // telegraph (guardian broadside) / gravity well (matriarch) time left
+    private int overdriveMs;        // guardian enrage
+    private int cloudMs;            // empress enrage spore cloud
+    private long baseReload;
+    private final Vector2 well = new Vector2(), cloud = new Vector2();
+    private final java.util.ArrayList<Ennemis> brood = new java.util.ArrayList<Ennemis>();
 
     private ModBoss(int kind, int level, LevelId zone, LevelId hub, String station) {
         this.kind = kind;
@@ -175,6 +212,40 @@ public class ModBoss extends MissionListener {
         if (ObjectRegistry.INSTANCE.currentMission == null) return false;
         MissionListener l = ObjectRegistry.INSTANCE.currentMission.missionEngine;
         return (l instanceof ModBoss) && ((ModBoss) l).boss == e && e != null;
+    }
+
+    static final String[] ID = {"matriarch", "guardian", "empress"};
+    /** Matriarch illusions: shown exactly like her (plate, sigil). */
+    static final java.util.ArrayList<Ennemis> illusions = new java.util.ArrayList<Ennemis>();
+
+    private static ModBoss engine() {
+        if (ObjectRegistry.INSTANCE.currentMission == null) return null;
+        MissionListener l = ObjectRegistry.INSTANCE.currentMission.missionEngine;
+        return l instanceof ModBoss ? (ModBoss) l : null;
+    }
+
+    /** Boss kind for the boss (or one of its illusions), else -1. */
+    static int kindOf(Element e) {
+        if (e == null) return -1;
+        ModBoss m = engine();
+        if (m == null) return -1;
+        if (m.boss == e) return m.kind;
+        for (int i = 0; i < illusions.size(); i++) if (illusions.get(i) == e) return m.kind;
+        return -1;
+    }
+
+    static boolean enragedOf(Element e) {
+        ModBoss m = engine();
+        return m != null && m.enraged && kindOf(e) >= 0;
+    }
+
+    static String displayName(int kind) {
+        return data(kind)[0];
+    }
+
+    /** ModLive.hit: illusions take hits but never die from them before the real one (they pop on a hit instead). */
+    static float damageIn(Element target, float dmg, Projectile p) {
+        return dmg;
     }
 
     private void spawnBoss() {
@@ -192,11 +263,18 @@ public class ModBoss extends MissionListener {
             lifeMult = 2.0f;
         }
         b.setElite(true);
-        b.setSpecificName(NAMES[kind]);
+        b.elite = false;                  // v30: the skull-and-star plate (ModLive) replaces the elite star and stock name
+        b.specificName = null;
+        b.levelStr = "";
         b.maxLife = b.maxLife * lifeMult;
         b.life = b.maxLife;
         b.lifeInPourc = 100.0f;
-        b.bulletDamage *= 1.5f;
+        // v30 boss profile: tankier and harder-hitting than any ship of its class, but slower, less agile, slower to reload
+        b.bulletDamage *= 2.2f;
+        b.milleSecBetweenShots = (long) (b.milleSecBetweenShots * 1.6f);
+        b.pouseeForce *= 0.75f;
+        b.maxTurnFactor *= 0.7f;
+        illusions.clear();
         if (b.lifeBar != null) b.lifeBar.setValue(100.0f);
         b.setPosition(spawn);
         b.isMissionObjective = true;
@@ -210,7 +288,12 @@ public class ModBoss extends MissionListener {
         shield33 = false;
         timerA = 4000;
         timerB = 6000;
+        timerC = 9000;
         invulnTimer = 0;
+        skillMs = 0;
+        overdriveMs = 0;
+        cloudMs = 0;
+        baseReload = b.milleSecBetweenShots;
     }
 
     private static void wave(Vector2 at, float r, float g, float b, float size) {
@@ -236,6 +319,34 @@ public class ModBoss extends MissionListener {
         }
     }
 
+    /** One-time enrage callout: the two lines from bosses_v30.json. */
+    private void callout() {
+        String[] d = data(kind);
+        PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+        Mod.floatText(boss, d[1].toUpperCase(), 1.0f, 0.35f, 0.9f);
+        if (ps != null) {
+            Mod.floatText(ps, d[2], 0.85f, 0.55f, 1.0f);
+            Mod.floatText(ps, d[3], 0.85f, 0.55f, 1.0f);
+        }
+        ObjectRegistry.INSTANCE.soundManager.playDanger();
+    }
+
+    /** Fan of heavy bolts at the player's predicted position. */
+    private void volley(PlayerShip ps, int n, float spread, float dmg) {
+        Vector2 calc = new Vector2(ps.position).add((ps.speed.x * 1000.0f) / 10.0f, (ps.speed.y * 1000.0f) / 10.0f);
+        double aim = Math.toDegrees(calc.getAngularWithInRad(boss.position)) - 90.0d;
+        for (int k = 0; k < n; k++) {
+            double deg = aim + (k - (n - 1) / 2.0d) * spread;
+            Projectile p = GamePools.newElectricBullet().init(dmg, 9, boss, fr.testudo.spacecorsair.business.loot.stuff.alteration.AlterationSpecs.DEFAULT);
+            p.position.setSameAs(boss.position);
+            p.speed.set(0.0f, -10.0f);
+            p.speed.applyRotatation(Math.toRadians(deg));
+            p.spin = (float) deg;
+            ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(p);
+        }
+        ObjectRegistry.INSTANCE.soundManager.playShockWave();
+    }
+
     private void bossPhysic(long j) {
         PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
         if (boss == null || boss.removed || ps == null || ps.removed) return;
@@ -243,34 +354,65 @@ public class ModBoss extends MissionListener {
         float hp = boss.life / boss.maxLife;
         if (!introDone && dist < 2500.0f) {
             introDone = true;
-            Mod.floatText(ps, NAMES[kind].toUpperCase() + " ENGAGED", 1.0f, 0.3f, 0.3f);
+            Mod.floatText(ps, displayName(kind).toUpperCase() + (ModLang.spanish() ? " EN COMBATE" : " ENGAGED"), 0.85f, 0.45f, 1.0f);
             ObjectRegistry.INSTANCE.soundManager.playDanger();
             boss.initAttackTarget(ps);
         }
         if (!introDone) return;
         timerA = (int) (timerA - j);
         timerB = (int) (timerB - j);
+        timerC = (int) (timerC - j);
 
         if (kind == MATRIARCH) {
+            // enrage once: three forms, only one is real
             if (!enraged && hp < 0.35f) {
                 enraged = true;
-                boss.pouseeForce *= 1.6f;
-                LaserBeam beam = beamOf(boss);
-                if (beam != null) beam.damage *= 2.0f;
-                escort(0, 2);
-                Mod.floatText(boss, "ENRAGED", 1.0f, 0.2f, 0.2f);
+                callout();
+                for (int i = 0; i < 2; i++) {
+                    Ennemis f = EnnemisFactory.newUfo(boss.level);
+                    double a = Math.random() * Math.PI * 2;
+                    f.position.setSameAs(boss.position).add((float) (Math.cos(a) * 520.0d), (float) (Math.sin(a) * 520.0d));
+                    f.updateSapCoords();
+                    f.maxLife = 1;
+                    f.life = 1;
+                    f.bulletDamage = 0;
+                    f.xp = 0;
+                    f.lootConfig = null;
+                    f.levelStr = "";
+                    f.initAttackTarget(ps);
+                    f.addToCurrentLevel();
+                    illusions.add(f);
+                    wave(f.position, 0.7f, 0.2f, 0.9f, 400.0f);
+                }
             }
-            if (timerA <= 0 && dist < 3000.0f) { // blink next to the prey
+            // phase blink next to the prey
+            if (timerA <= 0 && dist < 3000.0f) {
                 wave(boss.position, 0.7f, 0.2f, 0.9f, 400.0f);
                 double a = Math.random() * Math.PI * 2.0d;
-                boss.position.setSameAs(ps.position).add((float) (Math.cos(a) * 480.0d), (float) (Math.sin(a) * 480.0d));
+                boss.position.setSameAs(ps.position).add((float) (Math.cos(a) * 520.0d), (float) (Math.sin(a) * 520.0d));
                 boss.updateSapCoords();
                 boss.speed.set(0.0f, 0.0f);
                 wave(boss.position, 0.7f, 0.2f, 0.9f, 400.0f);
                 ObjectRegistry.INSTANCE.soundManager.playGateZap();
-                timerA = enraged ? 4000 : 7000;
+                timerA = enraged ? 5000 : 7500;
             }
+            // gravity well: drags the player towards a point for 4 s
+            if (timerC <= 0 && dist < 2600.0f && skillMs <= 0) {
+                well.setSameAs(ps.position).add(boss.position).divide(2.0f);
+                skillMs = 4000;
+                timerC = 11000;
+                Mod.floatText(ps, data(kind)[6].toUpperCase(), 0.75f, 0.4f, 1.0f);
+            }
+            if (skillMs > 0) {
+                skillMs = (int) (skillMs - j);
+                float dx = well.x - ps.position.x, dy = well.y - ps.position.y;
+                float d = Math.max(60.0f, (float) Math.sqrt(dx * dx + dy * dy));
+                float pull = 0.0045f * j * Math.min(1.0f, 700.0f / d + 0.35f);
+                ps.speed.add(dx / d * pull, dy / d * pull);
+            }
+            for (int i = illusions.size() - 1; i >= 0; i--) if (illusions.get(i).removed) illusions.remove(i);
         } else if (kind == GUARDIAN) {
+            // classic tutorial boss: shield phases and repulsion shockwave stay
             if (invulnTimer > 0) {
                 invulnTimer = (int) (invulnTimer - j);
                 if (timerB <= 0) {
@@ -298,19 +440,47 @@ public class ModBoss extends MissionListener {
                 }
                 timerA = 1500;
             }
-        } else {
-            if (!enraged && hp < 0.30f) {
+            // telegraphed broadside: turrets glow 1.5 s, then a heavy volley
+            if (timerC <= 0 && skillMs <= 0 && dist < 2200.0f) {
+                skillMs = 1500;
+                timerC = overdriveMs > 0 ? 5000 : 9000;
+            }
+            if (skillMs > 0) {
+                skillMs = (int) (skillMs - j);
+                if (skillMs <= 0) volley(ps, 7, 7.0f, boss.bulletDamage * 1.6f);
+            }
+            // enrage once: overdrive, 10 s of fast reload
+            if (!enraged && hp < 0.3f) {
                 enraged = true;
-                boss.setNewLife(Math.min(boss.maxLife, boss.life + boss.maxLife * 0.2f));
+                callout();
+                overdriveMs = 10000;
+                boss.milleSecBetweenShots = Math.max(60, (long) (baseReload * 0.35f));
+            }
+            if (overdriveMs > 0) {
+                overdriveMs = (int) (overdriveMs - j);
+                if (overdriveMs <= 0) boss.milleSecBetweenShots = baseReload;
+            }
+        } else {
+            // brood waves; the Empress heals while her brood lives
+            if (timerC <= 0) {
+                escortBrood(3);
+                timerC = 14000;
+                Mod.floatText(boss, data(kind)[4].toUpperCase(), 0.5f, 1.0f, 0.5f);
+            }
+            int alive = 0;
+            for (int i = brood.size() - 1; i >= 0; i--) {
+                if (brood.get(i).removed) brood.remove(i);
+                else alive++;
+            }
+            if (alive > 0 && boss.life < boss.maxLife) {
+                boss.setNewLife(Math.min(boss.maxLife, boss.life + boss.maxLife * 0.0015f * alive * j / 1000.0f));
                 if (boss.lifeBar != null) boss.lifeBar.setValue(boss.lifeInPourc);
-                escort(2, 2);
-                Mod.floatText(boss, ModLang.tr("BROOD SURGE"), 0.4f, 1.0f, 0.4f);
             }
             if (timerA <= 0 && dist < 2200.0f) { // three rooting shots
                 for (int k = -1; k <= 1; k++) {
                     Vector2 calc = new Vector2(ps.position).add((ps.speed.x * 1000.0f) / 10.0f, (ps.speed.y * 1000.0f) / 10.0f);
                     double deg = Math.toDegrees(calc.getAngularWithInRad(boss.position)) - 90.0d + (k * 15);
-                    Projectile p = GamePools.newElectricBullet().init(boss.bulletDamage, 8, boss, AlterationSpecsBuilder.root100_4sec);
+                    Projectile p = GamePools.newElectricBullet().init(boss.bulletDamage * 0.5f, 8, boss, AlterationSpecsBuilder.root100_4sec);
                     p.position.setSameAs(boss.position);
                     p.speed.set(0.0f, -11.0f);
                     p.speed.applyRotatation(Math.toRadians(deg));
@@ -327,6 +497,63 @@ public class ModBoss extends MissionListener {
                 }
                 wave(boss.position, 0.3f, 1.0f, 0.3f, 800.0f);
                 timerB = 2000;
+            }
+            // enrage once: a spore cloud that slowly drains shields inside it
+            if (!enraged && hp < 0.30f) {
+                enraged = true;
+                callout();
+                cloud.setSameAs(boss.position);
+                cloudMs = 14000;
+            }
+            if (cloudMs > 0) {
+                cloudMs = (int) (cloudMs - j);
+                cloud.add((boss.position.x - cloud.x) * 0.002f * j / 16.0f, (boss.position.y - cloud.y) * 0.002f * j / 16.0f);
+                if (ps.position.distance(cloud) < CLOUD_R && ps.shield != null && ps.shield.currentValue > 0) {
+                    ps.shield.currentValue = Math.max(0, ps.shield.currentValue - ps.shield.capacity * 0.07f * j / 1000.0f);
+                    ps.shield.valueInPourc = ps.shield.currentValue * 100.0f / Math.max(1.0f, ps.shield.capacity);
+                }
+            }
+        }
+    }
+
+    static final float CLOUD_R = 950.0f;
+
+    private void escortBrood(int count) {
+        PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+        for (int i = 0; i < count; i++) {
+            Ennemis e = EnnemisFactory.newAlienRat(level);
+            tmp.setSameAs(boss.position).add((float) (Math.random() * 500 - 250), (float) (Math.random() * 500 - 250));
+            e.position.setSameAs(tmp);
+            e.updateSapCoords();
+            e.initAttackTarget(ps);
+            e.addToCurrentLevel();
+            brood.add(e);
+        }
+    }
+
+    /** v30 skill visuals (from draw, every frame while the boss mission runs). */
+    private void drawSkills() {
+        if (boss == null || boss.removed) return;
+        long t = System.currentTimeMillis();
+        float side = Math.max(200.0f, boss.getPhysicDimension().x);
+        if (kind == GUARDIAN && skillMs > 0) {
+            // turrets heat up: glow growing over 1.5 s
+            float k = 1.0f - skillMs / 1500.0f;
+            ModFx.spr("fx_glow", boss.position.x, boss.position.y, side * (1.2f + k), side * (1.2f + k), 0, 1.0f, 0.55f, 0.2f, 0.25f + 0.6f * k, true);
+            for (int i = 0; i < 3; i++) {
+                tmp.set(0, (i - 1) * side * 0.3f).applyRotatation(Math.toRadians(boss.spin)).add(boss.position);
+                ModFx.spr("fx_core", tmp.x, tmp.y, 90 + 120 * k, 90 + 120 * k, 0, 1.0f, 0.7f, 0.3f, 0.5f + 0.5f * k, true);
+            }
+        } else if (kind == MATRIARCH && skillMs > 0) {
+            float a = Math.min(1.0f, skillMs / 600.0f);
+            ModFx.spr("vfx_doomsday_charge", well.x, well.y, 900, 900, (t / 8.0f) % 360, 0.7f, 0.35f, 1.0f, 0.75f * a, true);
+            ModFx.spr("fx_shock", well.x, well.y, 1300, 1300, -(t / 12.0f) % 360, 0.6f, 0.3f, 1.0f, 0.35f * a, true);
+        } else if (kind == EMPRESS && cloudMs > 0) {
+            float a = Math.min(1.0f, cloudMs / 1500.0f);
+            ModFx.spr("fx_glow", cloud.x, cloud.y, CLOUD_R * 2.2f, CLOUD_R * 2.2f, 0, 0.35f, 0.9f, 0.35f, 0.3f * a, true);
+            if ((t / 260) % 2 == 0 && Math.random() < 0.5) {
+                double r = Math.random() * CLOUD_R, an = Math.random() * Math.PI * 2;
+                ModLive.fx("fx_spore_sheet", 4, 16, cloud.x + (float) (Math.cos(an) * r), cloud.y + (float) (Math.sin(an) * r), 300, 1400, 0.5f, 1.0f, 0.45f, true);
             }
         }
     }
@@ -373,6 +600,8 @@ public class ModBoss extends MissionListener {
     private void onBossDead() {
         if (completed) return;
         completed = true;
+        for (Ennemis f : illusions) if (!f.removed) { wave(f.position, 0.7f, 0.2f, 0.9f, 300.0f); f.remove(); }
+        illusions.clear();
         boss = null;
         WelcomeMessage.setText(ObjectRegistry.INSTANCE.getStringRessource(fr.testudo.spacecorsair.R.string.missionSuccess), NAMES[kind] + " destroyed");
         ModLoot.bossBonus(kind);

@@ -2060,6 +2060,8 @@
     .registers 8
 
     .prologue
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLive;->frameStart()V
+
     const/4 v0, 0x0
 
     .line 727
@@ -2134,7 +2136,7 @@
     iput v3, p0, Lfr/testudo/spacecorsair/engine/GameThread;->visibleElement:I
 
     .line 751
-    invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/Element;->registerYourselfToDrawQueue()V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLive;->draw(Lfr/testudo/spacecorsair/business/Element;)V
 
     .line 742
     :goto_3d
@@ -8274,6 +8276,15 @@
     .registers 11
 
     .prologue
+    invoke-static {p6}, Lfr/testudo/spacecorsair/mod/ModDev;->noDialog(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-eqz v0, :mod_dialog_go
+
+    return-void
+
+    :mod_dialog_go
     .line 2194
     iget-object v0, p0, Lfr/testudo/spacecorsair/engine/GameThread;->msgHandler:Landroid/os/Handler;
 

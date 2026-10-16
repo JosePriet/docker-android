@@ -31,15 +31,15 @@
     .registers 2
 
     .prologue
-    .line 54
+    .line 57
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 56
+    .line 59
     const/4 v0, -0x1
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->data:I
 
-    .line 58
+    .line 61
     new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>()V

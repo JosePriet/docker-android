@@ -1,0 +1,312 @@
+{
+  "sites": [
+    {
+      "sector": "THOR_PASSING",
+      "event": "Halcyon Convoy Remains",
+      "history": "The Halcyon convoy tried to cross Thor Passing after its escort went silent. Survivors abandoned the cargo ships in the debris field and marked their last safe route for rescuers.",
+      "wrecks": [
+        {
+          "hull": "tortoise",
+          "count": 2
+        },
+        {
+          "hull": "albatros",
+          "count": 1
+        },
+        {
+          "hull": "orig_player_ship_corvette",
+          "count": 1
+        }
+      ],
+      "scan_text": "Cargo seals bear the Halcyon registry. One escort beacon still points toward the rescue lane.",
+      "entry_line": "Halcyon hulls drift across the passage, their distress lights long extinguished.",
+      "es": {
+        "event": "Restos del convoy Halcyon",
+        "history": "El convoy Halcyon intentó cruzar Thor Passing después de perder contacto con su escolta. Los sobrevivientes abandonaron los cargueros y marcaron su última ruta segura para los rescatistas.",
+        "scan_text": "Los sellos de carga llevan el registro Halcyon. Una baliza de escolta aún señala la ruta de rescate.",
+        "entry_line": "Los cascos de Halcyon flotan en el paso; sus luces de auxilio ya se apagaron."
+      }
+    },
+    {
+      "sector": "HERMES",
+      "event": "Aegis Line Skirmish",
+      "history": "A Spartan patrol held the Hermes approach while raiders probed the Aegis defence line. The line held, but shattered escorts remained where the last volley crossed the lane.",
+      "wrecks": [
+        {
+          "hull": "hornet",
+          "count": 2
+        },
+        {
+          "hull": "warlord",
+          "count": 1
+        }
+      ],
+      "scan_text": "Republic formation codes are fused into a burned escort panel. Reaver harpoon scars cross the other hull.",
+      "entry_line": "The Aegis line held here. Its broken escorts still mark the approach.",
+      "es": {
+        "event": "Escaramuza de la línea Aegis",
+        "history": "Una patrulla Spartan defendió el acceso a Hermes mientras los asaltantes probaron la línea Aegis. La línea resistió, pero las escoltas destruidas quedaron donde cruzó la última descarga.",
+        "scan_text": "Un panel quemado conserva códigos de formación Spartan. El otro casco tiene marcas de arpones Reaver.",
+        "entry_line": "La línea Aegis resistió aquí. Sus escoltas rotas aún marcan el acceso."
+      }
+    },
+    {
+      "sector": "GREEN_BORDER",
+      "event": "Repeater War",
+      "history": "Frontier Authority rangers fought to keep the Green Border repeaters open to every ship. The wrecks are from the final attempt to seal the route behind a private toll.",
+      "wrecks": [
+        {
+          "hull": "nightjar",
+          "count": 2
+        },
+        {
+          "hull": "orig_police",
+          "count": 1
+        },
+        {
+          "hull": "sovereign",
+          "count": 1
+        }
+      ],
+      "scan_text": "The repeater log ends with an open-route order. Its last signal was never encrypted.",
+      "entry_line": "Old repeater buoys blink between the wrecks of a fight over free passage.",
+      "es": {
+        "event": "Guerra de repetidores",
+        "history": "Los guardabosques de Frontier Authority lucharon para mantener abiertos los repetidores de Green Border. Los restos pertenecen al último intento de cerrar la ruta tras un peaje privado.",
+        "scan_text": "El registro termina con una orden de ruta abierta. Su última señal nunca fue cifrada.",
+        "entry_line": "Viejas balizas parpadean entre los restos de una lucha por el paso libre."
+      }
+    },
+    {
+      "sector": "SOLAR_FIELD",
+      "event": "Brood-Beacon Theft",
+      "history": "A stolen brood beacon drew Kre'tari pursuers into Solar Field. Both the thieves and the pursuing living ships fell before anyone could recover the signal core.",
+      "wrecks": [
+        {
+          "hull": "harbinger",
+          "count": 1
+        },
+        {
+          "hull": "orig_alien_rat0",
+          "count": 2
+        },
+        {
+          "hull": "sunlance",
+          "count": 1
+        }
+      ],
+      "scan_text": "A cracked beacon chamber pulses beside organic debris. The theft route ends here.",
+      "entry_line": "A dead brood signal hums under the solar glare.",
+      "es": {
+        "event": "Robo de la baliza de crías",
+        "history": "Una baliza de crías robada atrajo perseguidores Kre'tari a Solar Field. Tanto los ladrones como las naves vivientes cayeron antes de recuperar el núcleo de señal.",
+        "scan_text": "Una cámara de baliza agrietada pulsa junto a restos orgánicos. La ruta del robo termina aquí.",
+        "entry_line": "Una señal de crías apagada zumba bajo el resplandor solar."
+      }
+    },
+    {
+      "sector": "ORION",
+      "event": "Ledger War Graveyard",
+      "history": "Varn captains fought over erased debt ledgers and the routes they controlled. After the Ledger War, neither side claimed the wrecks; the contracts had outlived the crews.",
+      "wrecks": [
+        {
+          "hull": "sovereign",
+          "count": 2
+        },
+        {
+          "hull": "imperator",
+          "count": 1
+        },
+        {
+          "hull": "cobalt",
+          "count": 2
+        }
+      ],
+      "scan_text": "Serials are filed away, but the contract numbers were cut from every plate.",
+      "entry_line": "The Ledger War left a neat graveyard that no claimant will acknowledge.",
+      "es": {
+        "event": "Cementerio de la Guerra del Libro Mayor",
+        "history": "Capitanes Varn lucharon por libros de deuda borrados y las rutas que controlaban. Tras la Guerra del Libro Mayor, nadie reclamó los restos; los contratos sobrevivieron a las tripulaciones.",
+        "scan_text": "Los números de serie siguen archivados, pero quitaron los números de contrato de cada placa.",
+        "entry_line": "La Guerra del Libro Mayor dejó un cementerio que nadie quiere reconocer."
+      }
+    },
+    {
+      "sector": "THE_VAULT",
+      "event": "The Split Guardian",
+      "history": "A Guardian cruiser tried to hold The Vault against a boarding force. Its central spine broke in two, leaving sealed compartments on both halves and no surviving command log.",
+      "wrecks": [
+        {
+          "hull": "orig_croiseur_gentil",
+          "count": 1
+        },
+        {
+          "hull": "raptor",
+          "count": 2
+        }
+      ],
+      "scan_text": "The Guardian bridge is gone. The two halves still answer the same old authentication pulse.",
+      "entry_line": "A split Guardian cruiser hangs beside the sealed Vault lanes.",
+      "es": {
+        "event": "El Guardian dividido",
+        "history": "Un crucero Guardian intentó defender The Vault de un abordaje. Su espina central se partió en dos y dejó compartimentos sellados en ambas mitades, sin registro de mando.",
+        "scan_text": "El puente del Guardian desapareció. Ambas mitades aún responden al mismo pulso de autenticación.",
+        "entry_line": "Un crucero Guardian partido flota junto a las rutas selladas de The Vault."
+      }
+    },
+    {
+      "sector": "ORE_BELT",
+      "event": "Ore Belt Collapse",
+      "history": "Ironclad crews cut open an unstable ore seam to rescue trapped miners. The wall collapsed before the tugs cleared the shaft, burying their work lights in metal and dust.",
+      "wrecks": [
+        {
+          "hull": "tortoise",
+          "count": 2
+        },
+        {
+          "hull": "foundry",
+          "count": 1
+        },
+        {
+          "hull": "bulwark",
+          "count": 1
+        }
+      ],
+      "scan_text": "Cutting marks face inward. These crews were opening an escape, not mining a claim.",
+      "entry_line": "The collapsed seam still hides the last Ironclad rescue tug.",
+      "es": {
+        "event": "Derrumbe de Ore Belt",
+        "history": "Cuadrillas Ironclad abrieron una veta inestable para rescatar mineros atrapados. La pared cedió antes de sacar los remolcadores y enterró sus luces de trabajo en polvo y metal.",
+        "scan_text": "Las marcas de corte apuntan hacia dentro. Abrían una salida, no explotaban una veta.",
+        "entry_line": "La veta colapsada aún oculta el último remolcador de rescate Ironclad."
+      }
+    },
+    {
+      "sector": "DELTA_NODE",
+      "event": "Stranded Patrol",
+      "history": "A Frontier Authority patrol stayed at Delta Node to guide civilians through a relay failure. Its ships ran out of power after the last convoy passed, too far from support to tow home.",
+      "wrecks": [
+        {
+          "hull": "nightjar",
+          "count": 2
+        },
+        {
+          "hull": "orig_police",
+          "count": 1
+        }
+      ],
+      "scan_text": "The patrol log ends with a headcount: all civilian transponders cleared the node.",
+      "entry_line": "Silent patrol craft keep their place beside the dead relay.",
+      "es": {
+        "event": "Patrulla varada",
+        "history": "Una patrulla de Frontier Authority se quedó en Delta Node para guiar civiles durante una falla del relé. Sus naves agotaron la energía tras pasar el último convoy, demasiado lejos para remolcarlas.",
+        "scan_text": "El registro termina con un conteo: todos los transpondedores civiles salieron del nodo.",
+        "entry_line": "Naves de patrulla silenciosas permanecen junto al relé apagado."
+      }
+    },
+    {
+      "sector": "PIRATE_BAY",
+      "event": "Captain's Share",
+      "history": "Reaver captains settled a dispute over salvage in Pirate Bay with a running gunfight. Their crews later stripped the useful parts but left the broken hulls as a warning about divided spoils.",
+      "wrecks": [
+        {
+          "hull": "warlord",
+          "count": 1
+        },
+        {
+          "hull": "orig_player_ship_hullbreaker",
+          "count": 2
+        },
+        {
+          "hull": "crimson_throne",
+          "count": 1
+        }
+      ],
+      "scan_text": "Crew marks were burned off. The salvage claim stamps remain under the soot.",
+      "entry_line": "Reaver wrecks crowd the bay where a share dispute became a battle.",
+      "es": {
+        "event": "La parte del capitán",
+        "history": "Capitanes Reaver resolvieron una disputa por chatarra en Pirate Bay con un combate. Sus tripulaciones recuperaron piezas útiles y dejaron los cascos rotos como advertencia por un botín dividido.",
+        "scan_text": "Borraron las marcas de tripulación. Los sellos de reclamo siguen bajo el hollín.",
+        "entry_line": "Restos Reaver llenan la bahía donde una disputa por el botín acabó en batalla."
+      }
+    },
+    {
+      "sector": "HELIOSTAT",
+      "event": "Heliostat Calibration Fire",
+      "history": "Helion engineers tested a new route beacon during a solar flare. An emergency burn saved the station, but two escort ships lost guidance and struck its abandoned service ring.",
+      "wrecks": [
+        {
+          "hull": "sunlance",
+          "count": 1
+        },
+        {
+          "hull": "aurora",
+          "count": 2
+        }
+      ],
+      "scan_text": "The flight computer still holds a clean beacon test followed by one burst of solar noise.",
+      "entry_line": "A ruined service ring glints beyond the Heliostat beacon.",
+      "es": {
+        "event": "Incendio de calibración Heliostat",
+        "history": "Ingenieros Helion probaron una baliza de ruta durante una llamarada solar. Una maniobra de emergencia salvó la estación, pero dos escoltas perdieron guía y chocaron con su anillo de servicio.",
+        "scan_text": "La computadora conserva una prueba limpia de la baliza y luego un estallido de ruido solar.",
+        "entry_line": "Un anillo de servicio arruinado brilla más allá de la baliza Heliostat."
+      }
+    },
+    {
+      "sector": "THE_HIVE",
+      "event": "Abandoned Nursery",
+      "history": "The Kre'tari Brood moved its young away from a failing nursery chamber. The remaining living hulls shed their outer shells and died guarding the last escape route.",
+      "wrecks": [
+        {
+          "hull": "harbinger",
+          "count": 1
+        },
+        {
+          "hull": "orig_alien_blatte",
+          "count": 2
+        },
+        {
+          "hull": "orig_alien_rat0",
+          "count": 2
+        }
+      ],
+      "scan_text": "The husks hold empty brood chambers. Their final signal points away from the nest.",
+      "entry_line": "Living hulls became husks along the nursery escape route.",
+      "es": {
+        "event": "Criadero abandonado",
+        "history": "Kre'tari Brood trasladó a sus crías lejos de una cámara de crianza que fallaba. Las naves vivientes restantes mudaron sus caparazones y murieron protegiendo la última salida.",
+        "scan_text": "Los restos conservan cámaras de cría vacías. Su señal final apunta lejos del nido.",
+        "entry_line": "Las naves vivientes quedaron como caparazones en la ruta de escape."
+      }
+    },
+    {
+      "sector": "SPARTAN_HQ",
+      "event": "Founders' Escort",
+      "history": "During the Republic's first defence, a small escort group drew raiders away from civilian transports near Spartan HQ. The passage survived; the escorts never returned to formation.",
+      "wrecks": [
+        {
+          "hull": "hornet",
+          "count": 2
+        },
+        {
+          "hull": "sanctum",
+          "count": 1
+        },
+        {
+          "hull": "orig_player_ship_corvette",
+          "count": 1
+        }
+      ],
+      "scan_text": "The last order is a civilian departure vector, repeated until the transmitter failed.",
+      "entry_line": "A memorial beacon marks the escorts that held the founding passage.",
+      "es": {
+        "event": "Escolta fundadora",
+        "history": "Durante la primera defensa de la República, una escolta desvió a los asaltantes de transportes civiles cerca de Spartan HQ. El paso sobrevivió; las escoltas nunca volvieron a la formación.",
+        "scan_text": "La última orden repite el rumbo de salida civil hasta que falla el transmisor.",
+        "entry_line": "Una baliza recuerda a las escoltas que defendieron el paso fundador."
+      }
+    }
+  ]
+}

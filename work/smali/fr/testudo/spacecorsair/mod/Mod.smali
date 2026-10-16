@@ -45,7 +45,7 @@
     .end annotation
 .end field
 
-.field private static frameCounter:J
+.field static frameCounter:J
 
 .field private static guardianTurret:Lfr/testudo/spacecorsair/display/Drawable;
 

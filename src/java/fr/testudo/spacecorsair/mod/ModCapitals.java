@@ -48,6 +48,9 @@ public final class ModCapitals {
         new Faction("warden", "Frontier Authority", "FAV Warden", LevelId.HIGHWAY, 0.45f, 0.65f, 1.0f),
     };
 
+    /** v30 flagship profiles (FACTIONS order): hull and speed multipliers. */
+    static final float[] HULL_MULT = {0.8f, 1.5f, 1.1f, 0.7f, 1.2f, 0.75f, 1.0f};
+    static final float[] SPEED_MULT = {1.0f, 0.9f, 1.0f, 2.0f, 0.6f, 1.8f, 1.0f};
     static final int SIZE = 1500;                 // drawable size in world units (titans are 1000)
     static final long RESPAWN_MS = 3L * 3600 * 1000;
 
@@ -75,7 +78,7 @@ public final class ModCapitals {
     /** On every sector change (from ModCaps.tick). */
     public static void onLevel() {
         // Guardian ships are pooled: forget the previous sector's flagships before the pool hands them out again
-        for (GuardianCivilShip g : caps.keySet()) ModTitan.titanClass.remove(g);
+        for (GuardianCivilShip g : caps.keySet()) { ModTitan.titanClass.remove(g); ModTitanAI.forget(g); }
         caps.clear();
         try {
             LevelId id = ObjectRegistry.INSTANCE.game.currentLevel.id;
@@ -115,6 +118,8 @@ public final class ModCapitals {
         Faction f = FACTIONS[fi];
         int lvl = Math.max(0, Math.min(20, id.levelMax));
         GuardianCivilShip g = CivilFactory.newGuardianCivilShip(lvl);
+        ModTitanAI.forget(g);                       // pooled: no skill state from a previous life
+        g.a = 1.0f;
         Cap c = new Cap();
         c.f = f;
         c.data = ModFxData.index("cap_" + f.key);
@@ -128,15 +133,15 @@ public final class ModCapitals {
         c.anchor.setSameAs(anchorAt).add(2600, -1800);
         g.position.setSameAs(c.anchor);
         g.spin = 90;
-        float life = 500000f + 30000f * lvl;
+        float life = (500000f + 30000f * lvl) * HULL_MULT[fi];   // v30 profiles: Bloodforge huge, Crown/Sunspire brittle
         g.maxLife = life;
         g.life = life;
         g.xp = 30 * Math.max(500, g.xp);
         g.amountOfDamageAllowedInRatioByPlayerBeforeRebelion = (int) ModRep.tolerance(f.key);   // 10% of the hull from the player = war (25% when Friendly)
         g.neverEscapeWhenInjured = true;
         g.pourLifeToEscape = 0;
-        g.maxPouseeForce = 0.05f;
-        g.pouseeForce = 0.05f;
+        g.maxPouseeForce = 0.05f * SPEED_MULT[fi];
+        g.pouseeForce = 0.05f * SPEED_MULT[fi];
         g.distanceShoot = 3800f;
         int dmg = (int) Math.max(40, g.bulletDamage * 3);
         int reload = (int) Math.max(600, g.milleSecBetweenShots * 0.7f);
@@ -291,6 +296,7 @@ public final class ModCapitals {
                     }
                 }
             }
+            ModTitanAI.draw(g, c);
             // name, level and hull bar above the ship
             if (g.specificName != null) {
                 if (g.specificNameDecalX == -1) g.specificNameDecalX = (int) (fr.testudo.spacecorsair.engine.GameRenderer.glTextMedium.getLength(g.specificName) / 2.0f);
@@ -342,6 +348,7 @@ public final class ModCapitals {
                 if (!g.removed) continue;
                 it.remove();                      // pooled: never treat the recycled ship as a flagship
                 ModTitan.titanClass.remove(g);
+                ModTitanAI.forget(g);
                 if (g.life > 0) continue;          // left the sector, not destroyed
                 SharedPreferences p = prefs();
                 if (p != null) p.edit().putLong("cap_dead_" + c.f.key, System.currentTimeMillis()).commit();

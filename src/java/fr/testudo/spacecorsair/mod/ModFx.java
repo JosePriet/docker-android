@@ -110,8 +110,8 @@ public final class ModFx {
         PUMP.myTexture = new Texture();   // the render queue skips drawables without a texture
     }
 
-    // two frames of queue (render thread draws the previous one) never exceed 2 x 1000 elements
-    private static final Sprite[] RING = new Sprite[2400];
+    // two frames of queue (render thread draws the previous one)
+    private static final Sprite[] RING = new Sprite[3200];   // v30: up to ~1400 per frame, two frames in flight
     private static int ringPos;
     static {
         for (int i = 0; i < RING.length; i++) RING[i] = new Sprite();
@@ -134,6 +134,8 @@ public final class ModFx {
 
     private static final Vector2 at = new Vector2();
     public static int budget;
+    /** v30: queue in screen coordinates (camera-relative, like the player's hull) instead of world coordinates. */
+    static boolean relative;
 
     /** Queue one sprite in world coordinates. rot in degrees; local +y of the texture = rot direction rotated. */
     public static void spr(String tex, float x, float y, float w, float h, float rot, float r, float g, float b, float a, boolean add) {
@@ -162,6 +164,36 @@ public final class ModFx {
         sprUV(tex, x, y, size, size, rot, r, g, b, a, add, c * cu, rw * cv, (c + 1) * cu, (rw + 1) * cv, false);
     }
 
+    /** v30: any texture (game sprite, wreck piece, on-demand art), optionally a sub-rectangle; w/h in world units. */
+    public static void sprTex(Texture t, float x, float y, float w, float h, float rot, float r, float g, float b, float a, boolean add,
+                              float u0, float v0, float u1, float v1) {
+        if (t == null || a <= 0.01f || budget <= 0) return;
+        budget--;
+        Sprite s = RING[ringPos];
+        ringPos = (ringPos + 1) % RING.length;
+        s.myTexture = t;
+        s.u0 = u0; s.v0 = v0; s.u1 = u1; s.v1 = v1;
+        s.repeatT = false;
+        queue(s, x, y, w, h, rot, r, g, b, a, add);
+    }
+
+    /** v30: on-demand art (ModArt.ready): skipped until the texture is on the GPU. */
+    public static void sprR(String tex, float x, float y, float w, float h, float rot, float r, float g, float b, float a, boolean add) {
+        Texture t = ModArt.ready(tex);
+        if (t != null) sprTex(t, x, y, w, h, rot, r, g, b, a, add, 0, 0, 1, 1);
+    }
+
+    /** v30: one frame of an on-demand row-major flipbook. */
+    public static void flipR(String tex, int cols, int rows, int frame, float x, float y, float size, float rot, float r, float g, float b, float a, boolean add) {
+        int n = cols * rows;
+        if (frame < 0 || frame >= n) return;
+        Texture t = ModArt.ready(tex);
+        if (t == null) return;
+        float cu = 1.0f / cols, cv = 1.0f / rows;
+        int c = frame % cols, rw = frame / cols;
+        sprTex(t, x, y, size, size, rot, r, g, b, a, add, c * cu, rw * cv, (c + 1) * cu, (rw + 1) * cv);
+    }
+
     private static Sprite take(String tex, float a) {
         Texture t = tex(tex);
         if (t == null || a <= 0.01f || budget <= 0) return null;
@@ -177,7 +209,7 @@ public final class ModFx {
         s.h = h;
         s.additive = add;
         at.set(x, y);
-        ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(at, false, s, rot, false, Math.min(1.0f, a), r, g, b);
+        ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(at, relative, s, rot, false, Math.min(1.0f, a), r, g, b);
     }
 
     /** A stretched strip from (x1,y1) to (x2,y2). */

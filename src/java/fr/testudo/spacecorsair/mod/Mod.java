@@ -90,7 +90,7 @@ public class Mod {
     private static final java.util.ArrayList<Element> enemyCache = new java.util.ArrayList<Element>();
     private static final java.util.ArrayList<Element> rockCache = new java.util.ArrayList<Element>();
     private static long cacheFrame = -1;
-    private static long frameCounter = 0;
+    static long frameCounter = 0;
 
     private static void refreshCache() {
         if (cacheFrame == frameCounter) {

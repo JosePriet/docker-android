@@ -147,6 +147,7 @@ public final class ModCaps {
             ModWeapons.stockShops();
             testWeapon(ps);
             ModCapitals.testSpawn(ps);
+            ModDev.testV30(ps);
             ModTitan.holdFire = ModDev.testFlag("corsair_doomhold");
             ModFaction.testTick(ps);
             ModRep.testTick();
@@ -160,14 +161,19 @@ public final class ModCaps {
             }
         }
         ModComms.tick(ps);
+        ModDerelict.tick(ps, j);
         ModRep.tick(ps, j);
         ModAlerts.tick(ps, j);
         ModShield.tick(ps, j);
         ModCapitals.checkDestroyed();
+        ModTitanAI.tick(ps, j);
         if (lvl != level) {
             level = lvl;
             ModFx.clear();
             ModCapitals.onLevel();
+            ModWreck.onLevel();
+            ModTitanAI.resetPlayer(ps);
+            ModDerelict.onLevel(ps);
             if (!map && (p.titan || (p.top && p.big))) {
                 warp = 1100;
                 ModSound.play("warp_in", p.titan ? 1.0f : 0.7f, 1.0f, 2000);
@@ -313,12 +319,27 @@ public final class ModCaps {
     // ------------------------------------------------------------------ drawing
     /** Before the hull is queued (engines, aura, wake particles). */
     public static void drawUnder(PlayerShip ps) {
-        ModFx.budget = 420;
+        ModLive.frame();
+        if (ModFx.budget < 420) ModFx.budget = 420;   // map mode has no GameThread.doPhysic frame start
         if (ps.shipSpec == null || ps.removed || ObjectRegistry.INSTANCE.game.mapMode) return;
         Profile p = profile(ps);
         float sz = size(ps);
         long t = now;
         ModFx.drawParticles(false);
+        // v30 player side: cyan rim light and friendly marker (enemies get warm rims and hostile markers, ModLive)
+        fr.testudo.spacecorsair.display.Drawable hd = ps.getDrawableObject();
+        if (hd != null && hd.dimensions != null) {
+            float side = Math.max(hd.dimensions.x, hd.dimensions.y);
+            fr.testudo.spacecorsair.engine.Vector2 c = fr.testudo.spacecorsair.engine.GameRenderer.screenCenter;
+            try {
+                ModFx.relative = true;
+                ModFx.sprR("marker_friendly", c.x, c.y, side * 1.4f, side * 1.4f, (t / 90.0f) % 360, 0.3f, 0.85f, 1.0f, 0.36f, true);
+                fr.testudo.spacecorsair.display.Texture ht = hd.myTexture;
+                if (ht != null && ht.name > 0) ModFx.sprTex(ht, c.x, c.y, hd.dimensions.x * 1.06f, hd.dimensions.y * 1.06f, ps.spin, 0.35f, 0.85f, 1.0f, 0.5f, true, 0, 0, 1, 1);
+            } finally {
+                ModFx.relative = false;
+            }
+        }
         // engine plumes
         if (p.flames) {
             float[] e = ModFxData.ENGINES[p.data];
@@ -377,6 +398,8 @@ public final class ModCaps {
                 }
             }
 
+            fr.testudo.spacecorsair.display.Drawable hd = ps.getDrawableObject();
+            if (hd != null) ModLive.living(ps, hd, false, thrust, true);
             ModShield.draw(ps);
             ModTitan.drawTurrets(ps, p);
 
