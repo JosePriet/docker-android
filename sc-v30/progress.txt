@@ -1,0 +1,77 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[26s] shot launch ok
+[34s] cancel exit prompt
+[40s] shot after_back ok
+[55s] shot steering ok
+[55s] direct: BuyInapp gift
+[74s] tap 'id/txtGift' at 620 926
+[83s] tap 'id/btnGift' at 1253 939
+[87s] shot gift_box_redeemed ok
+[104s] Warlord page found=1
+[109s] tap '^(Use|USE)' at 1971 1008
+[127s] shot warlord_living ok
+[135s] shot warlord_thrust ok
+[141s] shot shield_100 ok
+[146s] shot shield_60 ok
+[150s] shot shield_30 ok
+[155s] shot shield_15 ok
+[159s] shot shield_0 ok
+[162s] shot shield_0_fizzle ok
+[167s] shot reboot_a ok
+[170s] shot reboot_b ok
+[174s] shot reboot_c ok
+[181s] shot enemy_albatros ok
+[189s] shot enemy_blatte ok
+[195s] shot enemy_frelon ok
+[201s] shot enemy_rats ok
+[207s] shot kill_1 ok
+[211s] shot kill_2 ok
+[216s] shot wrecks ok
+[223s] shot wrecks_drift ok
+[229s] shot wreckhit_1 ok
+[234s] shot loot_beams ok
+[239s] shot loot_beams_2 ok
+[250s] shot derelict_1 ok
+[255s] shot derelict_2 ok
+[265s] Harbinger page found=1
+[270s] tap '^(Use|USE)' at 1971 1008
+[290s] shot harbinger_living_1 ok
+[295s] shot harbinger_living_2 ok
+[304s] shot harbinger_thrust ok
+[327s] Leviathan page found=1
+[332s] tap '^(Use|USE)' at 1971 1008
+[355s] shot leviathan_player_titan ok
+[364s] shot cap_spartan_neutral ok
+[373s] shot cap_spartan_fight_1 ok
+[382s] shot cap_spartan_fight_2 ok
+[391s] shot cap_spartan_fight_3 ok
+[400s] shot cap_ironclad_neutral ok
+[408s] shot cap_ironclad_fight_1 ok
+[414s] shot cap_ironclad_fight_2 ok
+[423s] shot cap_ironclad_fight_3 ok
+[434s] shot cap_helion_neutral ok
+[442s] shot cap_helion_fight_1 ok
+[448s] shot cap_helion_fight_2 ok
+[456s] shot cap_helion_fight_3 ok
+[464s] shot cap_warden_neutral ok
+[471s] shot cap_warden_fight_1 ok
+[479s] shot cap_warden_fight_2 ok
+[487s] shot cap_warden_fight_3 ok
+[497s] shot cap_reaver_neutral ok
+[505s] shot cap_reaver_fight_1 ok
+[511s] shot cap_reaver_fight_2 ok
+[520s] shot cap_reaver_fight_3 ok
+[520s] tap 1960 180
+[529s] shot map_radar ok
+[529s] tap 164 905
+[540s] shot map_1 ok
+[547s] shot map_2 ok
+[554s] shot map_3 ok
+[561s] tap 1960 180
+[573s] shot death_1 ok
+[577s] shot death_2 ok
+[582s] shot death_3 ok
+[588s] shot death_after ok
+[590s] done; errors: 260 lines
+166 frames

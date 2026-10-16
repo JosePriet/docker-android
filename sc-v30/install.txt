@@ -1,0 +1,4 @@
+Performing Streamed Install
+Success
+    versionCode=1030 minSdk=9 targetSdk=24
+    versionName=mod v30 (base 1.5.1)

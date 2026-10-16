@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 619777 Realtime: 619777
+
+** MEMINFO in pid 2504 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    35244    35180        0        0    37612    47236    37021     6341
+  Dalvik Heap    12877    12744        0        0    17056    19143     9572     9571
+ Dalvik Other     1281      848        0        0     2604                           
+        Stack      824      824        0        0      840                           
+       Ashmem     8637     7984        0        0     9464                           
+    Other dev      124        0      124        0      328                           
+     .so mmap     4370      244      512        0    42468                           
+    .jar mmap     1725        0       92        0    23784                           
+    .apk mmap     1167        0      128        0    25024                           
+    .ttf mmap      377        0      152        0      988                           
+    .dex mmap     2368       12     2344        0     2496                           
+    .oat mmap     1037        0        8        0    15948                           
+    .art mmap     1848     1240        0        0    19968                           
+   Other mmap      353       36       72        0     2656                           
+      Unknown      395      380        0        0      840                           
+        TOTAL    72627    59492     3432        0    72627    66379    46593    15912
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    13984                          37024
+         Native Heap:    35180                          37612
+                Code:     3492                         111596
