@@ -132,12 +132,14 @@ elif [ $GAME = sc ]; then
     a shell "rm -f $T/corsair_kill"; sleep 3; shot wrecks_drift
     a shell "touch $T/corsair_wreckhit; chmod 644 $T/corsair_*"; sleep 1.2; shot wreckhit_1; sleep 2; shot loot_beams
     a shell "rm -f $T/corsair_wreckhit"
+    sleep 2; shot loot_beams_2
     # derelict site (The Split Guardian)
     a shell "echo 5 > $T/corsair_derelict; chmod 644 $T/corsair_*"; sleep 7; shot derelict_1; sleep 3; shot derelict_2
   fi
   if fly hullHarbinger Harbinger harbinger; then
     sleep 5; shot harbinger_living_1; sleep 0.7; shot harbinger_living_2
     a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2; shot harbinger_thrust; a shell input motionevent UP 222 650
+    sleep 12   # the ship-switch cooldown only runs in flight
   fi
   if fly hullLeviathan Leviathan leviathan; then
     sleep 5; shot leviathan_player_titan
