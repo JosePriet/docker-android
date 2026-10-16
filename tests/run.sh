@@ -14,6 +14,7 @@ tap() { log "tap $1 $2"; a shell input tap $1 $2; }
 # BACK that never leaves the game at the exit prompt: cancels "exit the game ?" if it appeared
 noexit() { dump noexit; if grep -q "exit the game" $OUT/last.xml 2>/dev/null; then xy=$(python3 tests/tap.py $OUT/last.xml "^Cancel"); [ -n "$xy" ] && { log "cancel exit prompt"; a shell input tap $xy; sleep 2; }; fi; }
 back() { a shell input keyevent KEYCODE_BACK; sleep ${1:-2}; noexit; }
+use_ready() { for w in $(seq 1 14); do dump use_$1; grep -q 'text="USE THIS SHIP"\|text="Use this ship"' $OUT/last.xml && break; sleep 3; done; tap_text "^(Use|USE)" use_$1; }
 # walk the ships pager forward (one page per swipe) until the dump shows $1
 find_page() {
   dump fp; if grep -q "$1" $OUT/last.xml 2>/dev/null; then return 0; fi
@@ -138,6 +139,7 @@ elif [ $GAME = sc ]; then
   a shell "rm -f /data/local/tmp/corsair_tree"
   back 2
   # v24 fitting screen
+  a shell "echo 20 > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_level"; sleep 2
   log "direct: MyShipActivity"; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; need fitting; shot fitting; dump fitting
   a shell "echo fit_weapon > /data/local/tmp/corsair_fit && chmod 644 /data/local/tmp/corsair_fit"
   back 3; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot fit_picker; dump fit_picker
@@ -167,7 +169,7 @@ elif [ $GAME = sc ]; then
     a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
     dump fp; f2=0; grep -q "text=\"$T\" resource-id=\"$PKG:id/shipName\"" $OUT/last.xml && f2=1; log "$T page found=$f2"; shot page_$tag
     if [ $f2 = 1 ]; then
-      noexit; tap_text "^(Use|USE)" use_$tag; sleep 8; noexit; need fly_$tag; shot fly_$tag
+      noexit; use_ready $tag; sleep 8; noexit; need fly_$tag; shot fly_$tag
       a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1932 680; sleep 1.5; shot guns_$tag
       a shell input motionevent UP 1932 680
       if [ $tag = megatron ]; then
@@ -207,7 +209,7 @@ elif [ $GAME = sc ]; then
   a shell am start -n $PKG/.activity.MissionActivity_ >/dev/null; sleep 5; shot es_missions; back 2
   sleep 3; shot es_flight
   a shell "rm -f /data/local/tmp/corsair_lang"
-  a shell "rm -f /data/local/tmp/corsair_page /data/local/tmp/corsair_rep /data/local/tmp/corsair_mission /data/local/tmp/corsair_weapon /data/local/tmp/corsair_shieldbreak"
+  a shell "rm -f /data/local/tmp/corsair_page /data/local/tmp/corsair_rep /data/local/tmp/corsair_mission /data/local/tmp/corsair_weapon /data/local/tmp/corsair_shieldbreak /data/local/tmp/corsair_level"
 else
   sleep 30; need launch; shot title
   tap 1140 643; sleep 4; need start; shot new_pilot
