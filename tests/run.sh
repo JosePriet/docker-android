@@ -115,7 +115,7 @@ elif [ $GAME = sc ]; then
     back 3; return 1
   }
   T=/data/local/tmp
-  SHORT=1   # v30d: only the stages run 3 missed
+  SHORT=   # set to 1 to skip the Warlord/Harbinger stages
   if [ -z "$SHORT" ] && fly hullWarlord Warlord warlord; then
     sleep 4; shot warlord_living
     a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2; shot warlord_thrust; a shell input motionevent UP 222 650
@@ -144,7 +144,7 @@ elif [ $GAME = sc ]; then
   fi
   if fly hullLeviathan Leviathan leviathan; then
     sleep 5; shot leviathan_player_titan
-    for C in ironclad helion warden; do
+    for C in spartan ironclad helion warden reaver; do
       a shell "echo $C > $T/corsair_capital && chmod 644 $T/corsair_capital"; sleep 5; shot cap_${C}_neutral
       a shell "touch $T/corsair_capfight; chmod 644 $T/corsair_*"; sleep 3; shot cap_${C}_fight_1; sleep 3; shot cap_${C}_fight_2; sleep 4; shot cap_${C}_fight_3
       a shell "rm -f $T/corsair_capfight"
