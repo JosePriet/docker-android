@@ -1,0 +1,2 @@
+public class V168b { public static void main(String[] a) throws Exception {
+ for (String n : new String[]{"fr.testudo.spacecorsair.business.projectiles.Missile","fr.testudo.spacecorsair.mod.ModArt","fr.testudo.spacecorsair.mod.ModScroll","fr.testudo.spacecorsair.activity.CommonActivity"}) { Class.forName(n, false, V168b.class.getClassLoader()).getDeclaredMethods(); System.out.println("ok "+n);} } }

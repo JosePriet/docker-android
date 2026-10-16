@@ -1,0 +1,121 @@
+{
+  "ships": {
+    "viper": {
+      "lore": "A knife-fast frigate for captains who share the spoils and settle betrayal up close."
+    },
+    "bastion": {
+      "lore": "A shield-first destroyer built to hold one safe lane while Republic crews move civilians clear."
+    },
+    "albatros": {
+      "lore": "A patched Reaver cruiser: never the best ship in the fight, but always the last one still charging."
+    },
+    "mule": {
+      "lore": "A long-range hauler that carries rescue gear as readily as ore; the Authority never asks what a stranded crew needs twice."
+    },
+    "tortoise": {
+      "lore": "Ironclad crews built this armored hauler so vital cargo can reach home through a shooting war."
+    },
+    "monolith": {
+      "lore": "A Republic line battleship whose layered hull gives escort crews time to regroup behind its spine."
+    },
+    "comet": {
+      "lore": "A Helion racer made to turn a clear route into a record; its light frame rewards speed over a fair duel."
+    },
+    "kite": {
+      "lore": "A compact patrol frigate sold on one promise: help will find you before the route closes."
+    },
+    "seraph": {
+      "lore": "The Authority sends Seraphs ahead of its convoys, where a bright beacon can matter as much as a gun."
+    },
+    "bulldog": {
+      "lore": "A Reaver brawler with room for two cannons and no patience for a captain who breaks crew trust."
+    },
+    "ironside": {
+      "lore": "Three patrol hulls became one Ironclad cruiser, reinforced wherever the miners said the first one failed."
+    },
+    "tidewarden": {
+      "lore": "A Frontier picket watches the public lane and holds its mark until a rescue signal answers."
+    },
+    "mantis": {
+      "lore": "A Republic strike cruiser that leaves formation only when a fast response can protect the whole patrol."
+    },
+    "verdant": {
+      "lore": "Built to bridge escort and battleship duties, Verdant carries a Republic line forward without leaving it exposed."
+    },
+    "imperator": {
+      "lore": "An Ironclad battleship made to hold ground long enough for settlement crews to evacuate behind its armor."
+    },
+    "leviathan": {
+      "lore": "The Leviathan anchors a Republic defense line; its lance waits until every civilian convoy is clear."
+    }
+  },
+  "factions": {
+    "spartan": {
+      "tagline": "Disciplined fleets; safe passage is a public duty.",
+      "panel": "We defend civilian routes with coordinated formations, layered shields and visible command ships. Force is a public trust, measured by who makes it home.",
+      "doctrine": [
+        "Fleet discipline",
+        "Layered shields",
+        "Escort support"
+      ]
+    },
+    "reaver": {
+      "tagline": "Share the spoils. Never leave a crew behind.",
+      "panel": "Captains earn authority by keeping a crew fed and a ship flying. Salvaged armor, close-range pressure and a hard code make betrayal costly.",
+      "doctrine": [
+        "Salvage armor",
+        "Close assault",
+        "Crew loyalty"
+      ]
+    },
+    "kretari": {
+      "tagline": "One living signal can guide a whole migration.",
+      "panel": "Living hulls carry brood chambers between safe worlds. Shared memory and the survival of the young shape every migration and answer to danger.",
+      "doctrine": [
+        "Living hulls",
+        "Brood survival",
+        "Signal swarm"
+      ]
+    },
+    "varn": {
+      "tagline": "Every risk priced. Every obligation recorded.",
+      "panel": "Predictable routes and enforceable contracts are our public good. Symmetrical command hulls protect the core while measured force keeps agreements intact.",
+      "doctrine": [
+        "Contract fleets",
+        "Protected cores",
+        "Measured force"
+      ]
+    },
+    "ironclad": {
+      "tagline": "Repair what you can. Hold while neighbors escape.",
+      "panel": "Settlement crews build with replaceable armor, visible braces and parts a belt-side shop can repair. We hold ground until the evacuation is done.",
+      "doctrine": [
+        "Heavy armor",
+        "Field repairs",
+        "Hold the line"
+      ]
+    },
+    "helion": {
+      "tagline": "Keep routes open with dependable speed.",
+      "panel": "Our light, efficient hulls move people and cargo between markets. Shared standards and reliable engines turn each successful contract into the next open route.",
+      "doctrine": [
+        "Fast hulls",
+        "Efficient engines",
+        "Trade routes"
+      ]
+    },
+    "warden": {
+      "tagline": "Rescue first. Keep the frontier routes public.",
+      "panel": "Rangers patrol beyond easy support, mark safe passages and answer distress calls. We cooperate on security while resisting tolls that close a public route.",
+      "doctrine": [
+        "Long patrol",
+        "Rescue service",
+        "Open routes"
+      ]
+    }
+  },
+  "independent": {
+    "tagline": "Civilian workhorses and pirate-market hulls.",
+    "panel": "Unaligned ships trade under local names and practical warranties. Expect civilian refits, salvaged hardware and a seller who values payment more than a flag."
+  }
+}

@@ -1,0 +1,667 @@
+{
+  "spartan": {
+    "faction": "Spartan Republic",
+    "commander": "Ilya Venn",
+    "ranks": {
+      "Hostile": "Threat to the Republic",
+      "Unfriendly": "Untrusted Contact",
+      "Neutral": "Visiting Captain",
+      "Friendly": "Republic Auxiliary",
+      "Trusted": "Republic Vanguard",
+      "Honored": "Shield of the Republic"
+    },
+    "rank_up": {
+      "Friendly": "The council recognizes your escort record. I name you a Republic Auxiliary; keep the lanes open, and our patrols will answer your call.",
+      "Trusted": "You held the line when it mattered. I trust you with Vanguard duty and the Republic's heaviest contracts.",
+      "Honored": "The fleet council records you as the Shield of the Republic. When our people call, my command channel is yours."
+    },
+    "rank_down": {
+      "Unfriendly": "Your recent choices have cost the Republic confidence. Until you make amends, our crews will treat you as an uncertain contact.",
+      "Hostile": "I will not let another Republic convoy suffer for your actions. Our patrols are cleared to stop you on sight."
+    },
+    "contracts": [
+      {
+        "title": "Supply Line",
+        "briefing": "Escort a ration hauler through a contested Republic lane. Keep it intact until it reaches the settlement dock.",
+        "success": "The convoy arrived with its cargo and crew safe. The council has logged your service.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Civilian Shield",
+        "briefing": "Reaver raiders are closing on an evacuation shuttle. Drive off the attackers before the passengers are exposed.",
+        "success": "The civilians are clear. Your restraint under fire will be remembered.",
+        "objective": "DEFEND_CIVILIANS",
+        "repeatable": true
+      },
+      {
+        "title": "Hold the Relay",
+        "briefing": "A Republic relay is under pressure. Hold the marked zone until the replacement patrol arrives.",
+        "success": "Relay control is secure. Our formation can move again.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true
+      },
+      {
+        "title": "Range Scan",
+        "briefing": "Scan civilian traffic near the lane junction and report any distress or route hazards.",
+        "success": "Traffic is logged and the safe passage report is filed.",
+        "objective": "SCAN_CIVIL",
+        "repeatable": true
+      },
+      {
+        "title": "Raider Bounty",
+        "briefing": "A Reaver cutter has been preying on Republic supply craft. Claim the posted bounty by bringing it down.",
+        "success": "The cutter will trouble no more convoys. Bounty confirmed.",
+        "objective": "BOUNTY",
+        "repeatable": true
+      },
+      {
+        "title": "Shield Plate Return",
+        "briefing": "Collect surplus shield plates from the depot circuit and sell the recovered stock to the Republic quartermaster.",
+        "success": "The plates are back in service. Settlement crews send thanks.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Evacuation Guard",
+        "briefing": "Amends contract: your last attack forced families from a Republic settlement. Escort their evacuation shuttle to safety.",
+        "success": "The families reached shelter. The council accepts this act of repair.",
+        "objective": "ESCORT",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Search the Wreck",
+        "briefing": "Amends contract: your fire crippled a Republic relief skiff. Rescue its stranded crew before life support fails.",
+        "success": "The skiff's crew is alive and accounted for. You have begun to repay the harm.",
+        "objective": "RESCUE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Aegis Longwatch",
+      "family": "railgun",
+      "lore": "A Republic railgun tuned for patient command crews: its clean white coil flash marks a shot designed to end a threat before it reaches a convoy."
+    },
+    "secret_ship": {
+      "name": "SRS Resolute",
+      "class": "Battlecruiser",
+      "role": "Fleet escort",
+      "signature_feature": "Layered shield-emitter lattice around a central command spine",
+      "lore": "The Resolute takes the first strike in a mixed patrol and holds position until every Republic vessel can withdraw."
+    }
+  },
+  "reaver": {
+    "faction": "Crimson Reavers",
+    "commander": "Captain Mara Vey",
+    "ranks": {
+      "Hostile": "Marked for Reprisal",
+      "Unfriendly": "Owed Blood",
+      "Neutral": "Loose Associate",
+      "Friendly": "Crew-Friend",
+      "Trusted": "Spoils-Honored",
+      "Honored": "Captain of the Freehold"
+    },
+    "rank_up": {
+      "Friendly": "You kept your word when the hull started burning. My crew will share a table with you now; don't make me regret it.",
+      "Trusted": "The crew voted you a full share. Take the good contracts, and remember who hauled you out of the fire.",
+      "Honored": "You're captain among captains on this deck. Nobody touches your cut while I still draw breath."
+    },
+    "rank_down": {
+      "Unfriendly": "Word is you left our people short. You can still square the account, but my crew won't spot you another favor.",
+      "Hostile": "You crossed the line and took from the crew. We have your trail; every Reaver you meet knows the price."
+    },
+    "contracts": [
+      {
+        "title": "Easy Pickings",
+        "briefing": "A soft target is carrying a posted bounty through Reaver space. Intercept it before another captain claims the purse.",
+        "success": "Purse secured. Your share is waiting at the firebox.",
+        "objective": "BOUNTY",
+        "repeatable": true
+      },
+      {
+        "title": "Fence the Salvage",
+        "briefing": "Gather loose salvage from the marked wreck field and sell the useful haul through the crew's fence.",
+        "success": "The salvage sold cleanly. The crew has its cut.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Crew in the Drift",
+        "briefing": "A Reaver skiff was abandoned after a bad jump. Find its crew and bring them back before scavengers arrive.",
+        "success": "They're back aboard, loud and alive. That's a fair day's work.",
+        "objective": "RESCUE",
+        "repeatable": true
+      },
+      {
+        "title": "Break the Tail",
+        "briefing": "A captured hauler has patrols on its wake. Escort it through the marked escape lane.",
+        "success": "The hauler slipped the patrol net. Cargo and crew are ours.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Burn the Tollhouse",
+        "briefing": "A debt marshal station is locking down a Reaver passage. Destroy the station and clear the lane.",
+        "success": "No more tolls from that station. The route is open.",
+        "objective": "DESTROY_STATION",
+        "repeatable": true
+      },
+      {
+        "title": "Find the Ledger",
+        "briefing": "Locate a stolen crew ledger in the wreck field. Whoever has it knows which captains still owe a share.",
+        "success": "Ledger found. Names and shares are back where they belong.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Miner's Safe Passage",
+        "briefing": "Amends contract: your last raid left civilian miners under fire. Defend them until their shuttle clears the field.",
+        "success": "The miners made it out. That's one debt we can stop carrying.",
+        "objective": "DEFEND_CIVILIANS",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Return the Med Crate",
+        "briefing": "Amends contract: your crew took medicine from a stranded hauler. Find the marked crate and return it to its owners.",
+        "success": "The medicine is back with the hauler's crew. Mara says the account is smaller now.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Redhand Rotary",
+      "family": "autocannon",
+      "lore": "A captured rotary gun rebuilt with scavenged feed drums. It spits a brutal amber storm, and Mara insists every round is already paid for."
+    },
+    "secret_ship": {
+      "name": "Pillager's Due",
+      "class": "Battleship",
+      "role": "Close-range raider",
+      "signature_feature": "A welded ram prow wrapped around a salvaged furnace core",
+      "lore": "Crews earn the Due by surviving a season aboard it; its mismatched armor is a record of every ship that failed to take it."
+    }
+  },
+  "kretari": {
+    "faction": "Kre'tari Brood",
+    "commander": "Nhal-of-the-Third-Egg",
+    "ranks": {
+      "Hostile": "Hunted Intruder",
+      "Unfriendly": "Unquiet Signal",
+      "Neutral": "Heard Stranger",
+      "Friendly": "Nesting Ally",
+      "Trusted": "Brood-Kin",
+      "Honored": "Memory-Guardian"
+    },
+    "rank_up": {
+      "Friendly": "Your signal has become familiar among the young. I mark you Nesting Ally; carry this trust gently.",
+      "Trusted": "The Brood remembers your care. You are Brood-Kin now, and our nest calls will reach you first.",
+      "Honored": "We share our oldest memory with you. Guard it as you guard the living, Memory-Guardian."
+    },
+    "rank_down": {
+      "Unfriendly": "Your signal brings unease to the nest. Restore what you disturbed, and the young may hear you again.",
+      "Hostile": "The Brood has marked your signal as danger. Leave our nesting grounds, or we will answer together."
+    },
+    "contracts": [
+      {
+        "title": "Nest Signal",
+        "briefing": "Find the missing brood signal among the quiet rocks. The nest cannot answer until its memory beacon is returned.",
+        "success": "The signal is heard again. The nest remembers your path.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Escort the Brood",
+        "briefing": "Guide a brood carrier through the outer passage while its young settle into their travel shells.",
+        "success": "The carrier reached quiet space. The young are safe.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Nest Perimeter",
+        "briefing": "Hold the marked nesting zone while memory keepers complete their signal exchange.",
+        "success": "The signal exchange is complete. The nest is calm.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true
+      },
+      {
+        "title": "Retrieve the Young",
+        "briefing": "Rescue broodlings stranded in a damaged travel pod before its shell breaks apart.",
+        "success": "The broodlings are returned to the nest. Their signal is bright.",
+        "objective": "RESCUE",
+        "repeatable": true
+      },
+      {
+        "title": "Predator Cull",
+        "briefing": "Remove the hostile predator craft circling the brood route. The young cannot travel while it hunts.",
+        "success": "The predator threat is gone. The route is quiet.",
+        "objective": "KILL_ENEMY_TYPE",
+        "repeatable": true
+      },
+      {
+        "title": "Silence the Drill",
+        "briefing": "Destroy the unmanned drilling station disturbing a nearby nesting ground.",
+        "success": "The drilling signal has stopped. The nest can rest.",
+        "objective": "DESTROY_STATION",
+        "repeatable": true
+      },
+      {
+        "title": "Return the Young",
+        "briefing": "Amends contract: your attack scattered a brood travel pod. Rescue the young before the cold reaches them.",
+        "success": "The young are safe. The Brood holds your new signal beside the old harm.",
+        "objective": "RESCUE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Quiet the Nest",
+        "briefing": "Amends contract: your weapons disturbed a nest transit. Defend the marked zone while brood carriers regroup.",
+        "success": "The carriers regrouped without loss. The nest has heard your repair.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Mnemic Spore",
+      "family": "disintegrator",
+      "lore": "A living focusing array remembers its target through every pulse. The Brood lends it only to a pilot who has protected the young."
+    },
+    "secret_ship": {
+      "name": "Cradle of Echoes",
+      "class": "Cruiser",
+      "role": "Brood courier",
+      "signature_feature": "Twin nest pods linked by a living signal spine",
+      "lore": "The Cradle carries memory keepers between nests, its paired pods pulsing with the shared history of every broodling aboard."
+    }
+  },
+  "varn": {
+    "faction": "Varn Syndicate",
+    "commander": "Director Sera Voss",
+    "ranks": {
+      "Hostile": "Contract Null",
+      "Unfriendly": "High-Risk Account",
+      "Neutral": "Unrated Counterparty",
+      "Friendly": "Bonded Partner",
+      "Trusted": "Preferred Principal",
+      "Honored": "Chartered Benefactor"
+    },
+    "rank_up": {
+      "Friendly": "Your account now carries a positive risk rating. I welcome you as a Bonded Partner; the service terms are attached.",
+      "Trusted": "Your reliability has earned Preferred Principal status. I have approved access to a private armament line.",
+      "Honored": "The board has entered your name among our Chartered Benefactors. You may consider the Syndicate's routes available to you."
+    },
+    "rank_down": {
+      "Unfriendly": "Your recent decisions have increased our exposure. I can still offer an amends contract, but no further credit is authorized.",
+      "Hostile": "Your account is closed and your access revoked. Any outstanding risk will be settled by our enforcement office."
+    },
+    "contracts": [
+      {
+        "title": "Vault Transfer",
+        "briefing": "Escort a sealed Varn vault transport between two insured docks. Keep the cargo intact for the full route.",
+        "success": "Delivery recorded without loss. Your fee has cleared.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Recover the Account",
+        "briefing": "Find a lost contract ledger in the marked debris field. The Syndicate requires the original record.",
+        "success": "Ledger recovered. The account is reconciled.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Cargo Margin",
+        "briefing": "Gather saleable freight from the listed caches and sell it through the approved Varn exchange.",
+        "success": "The exchange confirms the sale. Your margin is settled.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Contract Enforcer",
+        "briefing": "A known contract breaker has a bounty on their ship. Collect the fee and close the file.",
+        "success": "The file is closed. The agreed payment is yours.",
+        "objective": "BOUNTY",
+        "repeatable": true
+      },
+      {
+        "title": "Route Audit",
+        "briefing": "Scan civilian traffic near the insured corridor and report route disruptions to the claims office.",
+        "success": "The audit is filed. Insured traffic can proceed.",
+        "objective": "SCAN_CIVIL",
+        "repeatable": true
+      },
+      {
+        "title": "Secure the Dock",
+        "briefing": "Hold the marked transfer zone until the dock's cargo cranes finish their scheduled cycle.",
+        "success": "Transfer zone secured. No claims were opened.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true
+      },
+      {
+        "title": "Repaid Losses",
+        "briefing": "Amends contract: your seizure voided a Varn cargo policy. Recover the marked goods and sell them through the claim desk.",
+        "success": "The claim desk accepted the recovered value. Your liability has decreased.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Claim Escort",
+        "briefing": "Amends contract: your attack stranded a Varn assessor. Escort the claims shuttle as it pays affected carriers.",
+        "success": "The shuttle completed its route. The claimants have been paid.",
+        "objective": "ESCORT",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Quiet Clause",
+      "family": "railgun",
+      "lore": "A precision railgun hidden inside a polished Varn mount. Its pale charge gives no warning until a contract breaker is already out of options."
+    },
+    "secret_ship": {
+      "name": "Indemnity Crown",
+      "class": "Battlecruiser",
+      "role": "Convoy interdiction",
+      "signature_feature": "A sealed cargo bastion surrounding a concealed command core",
+      "lore": "The ship appears on the ledger as a secure transfer vessel; its protected core ensures the Syndicate's most important cargo arrives intact."
+    }
+  },
+  "ironclad": {
+    "faction": "Ironclad Militia",
+    "commander": "Marshal Dax Rourke",
+    "ranks": {
+      "Hostile": "Settlement Threat",
+      "Unfriendly": "Aid Debtor",
+      "Neutral": "Known Hand",
+      "Friendly": "Trusted Hand",
+      "Trusted": "Belt Defender",
+      "Honored": "Council Shield"
+    },
+    "rank_up": {
+      "Friendly": "You've put in honest work for the settlements. I call you a Trusted Hand; the next crew will know your name.",
+      "Trusted": "The councils trust you with the belt's hardest shifts. Take the Defender's contract and bring everybody home.",
+      "Honored": "The councils have made you their Shield. That means our people call, and I expect you to answer."
+    },
+    "rank_down": {
+      "Unfriendly": "You left a settlement carrying the cost of your choices. Work it off, and we can talk like neighbors again.",
+      "Hostile": "You put our families at risk. I won't send another crew to warn you; stay clear of Militia ground."
+    },
+    "contracts": [
+      {
+        "title": "Rig Guard",
+        "briefing": "Hold the marked mining rig zone while the shift crew completes a repair cycle.",
+        "success": "The rig is working and the crew is back on shift.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true
+      },
+      {
+        "title": "Evac Escort",
+        "briefing": "Escort a settlement evacuation shuttle past the belt's unstable debris.",
+        "success": "The shuttle reached shelter with its passengers safe.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Shift Bounty",
+        "briefing": "A Reaver raider has been hitting work crews between shifts. Claim the Militia bounty.",
+        "success": "The raider is gone. Workers can cross the belt again.",
+        "objective": "BOUNTY",
+        "repeatable": true
+      },
+      {
+        "title": "Scrap Returns",
+        "briefing": "Gather usable hull scrap from the listed wrecks and sell it to the settlement workshop.",
+        "success": "The workshop bought the scrap. Those parts will keep a rig running.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Missing Tool Crate",
+        "briefing": "Find the missing workshop tool crate before the next repair shift starts.",
+        "success": "The tools are back in the hands of the crews.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Protect the Miners",
+        "briefing": "Hostile ships are approaching a civilian mining crew. Drive them away before anyone is hurt.",
+        "success": "The miners finished their shift and returned home.",
+        "objective": "DEFEND_CIVILIANS",
+        "repeatable": true
+      },
+      {
+        "title": "Hold the Shelter",
+        "briefing": "Amends contract: your attack damaged a settlement power shelter. Defend the marked zone while workers restore it.",
+        "success": "The shelter is holding again. The settlement has room to trust you.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Mine Rescue",
+        "briefing": "Amends contract: workers were trapped after your strike damaged their rig. Rescue the crew before the air runs out.",
+        "success": "The workers are out. Dax says that counts for something.",
+        "objective": "RESCUE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Last Shift",
+      "family": "artillery",
+      "lore": "An ironclad siege cannon rebuilt from mining hardware. Its heavy orange shot is reserved for threats that put a settlement at risk."
+    },
+    "secret_ship": {
+      "name": "Foundry Sentinel",
+      "class": "Battleship",
+      "role": "Settlement defender",
+      "signature_feature": "Replaceable armor bulwarks built around a central repair spine",
+      "lore": "The Sentinel is assembled from workshop-standard plates, so a settlement can mend it even when the nearest shipyard is weeks away."
+    }
+  },
+  "helion": {
+    "faction": "Helion Combine",
+    "commander": "Flight Director Lio Serrin",
+    "ranks": {
+      "Hostile": "Route Hazard",
+      "Unfriendly": "Suspended Carrier",
+      "Neutral": "Open Account",
+      "Friendly": "Clear-Lane Partner",
+      "Trusted": "Combine Principal",
+      "Honored": "Route Patron"
+    },
+    "rank_up": {
+      "Friendly": "That's a clean run and a safer route for everyone. The Combine welcomes you as a Clear-Lane Partner.",
+      "Trusted": "Your record is consistent under pressure. I have Principal access approved, including a weapon line normally kept in reserve.",
+      "Honored": "You've kept our routes open when the margins got thin. The board names you Route Patron, and I couldn't be happier."
+    },
+    "rank_down": {
+      "Unfriendly": "Your last decisions delayed too many people. Help us repair the route record, and we can reopen your carrier status.",
+      "Hostile": "You have become a hazard to Combine traffic. Our escorts will turn you away until the board reviews your account."
+    },
+    "contracts": [
+      {
+        "title": "Courier Window",
+        "briefing": "Escort a Helion courier through the scheduled transit window. Keep the route clear until delivery.",
+        "success": "On-time delivery. I knew that flight plan had a good pilot.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Trade Boost",
+        "briefing": "Gather listed power cells from the route caches and sell them through a Helion station exchange.",
+        "success": "The exchange cleared the cargo. Nice work keeping the supply chain moving.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Lane Survey",
+        "briefing": "Scan civilian ships crossing the trade junction and file their route status with dispatch.",
+        "success": "Traffic is mapped and the lane report is in. Thanks for the clean survey.",
+        "objective": "SCAN_CIVIL",
+        "repeatable": true
+      },
+      {
+        "title": "Clear the Route",
+        "briefing": "Remove the hostile raider type disrupting the courier lanes. Dispatch has marked the search area.",
+        "success": "The route is clear. Couriers can keep their promised windows.",
+        "objective": "KILL_ENEMY_TYPE",
+        "repeatable": true
+      },
+      {
+        "title": "Beacon Recovery",
+        "briefing": "Find a lost navigation beacon near the outer route split and return its signal to dispatch.",
+        "success": "Beacon found and logged. The route map is useful again.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Passenger Safety",
+        "briefing": "Hostile craft are threatening a civilian passenger line. Defend the ships until they leave the danger zone.",
+        "success": "All passengers are clear. That's a good day's flying.",
+        "objective": "DEFEND_CIVILIANS",
+        "repeatable": true
+      },
+      {
+        "title": "Passenger Recovery",
+        "briefing": "Amends contract: your attack scattered a Helion passenger shuttle. Rescue the survivors from the marked area.",
+        "success": "The passengers are safe. I have marked the route record as repaired.",
+        "objective": "RESCUE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Restitution Run",
+        "briefing": "Amends contract: your strike delayed a food convoy. Escort the replacement cargo to the settlement dock.",
+        "success": "The food arrived before stores ran low. That matters more than the paperwork.",
+        "objective": "ESCORT",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Sunlane Arc",
+      "family": "arc",
+      "lore": "A fast-cycling arc projector built for route defense. Its blue-white discharge disables a threat before it can close on a courier."
+    },
+    "secret_ship": {
+      "name": "Far Meridian",
+      "class": "Battlecruiser",
+      "role": "Long-range route runner",
+      "signature_feature": "Paired solar collector fins feeding a bright central drive spine",
+      "lore": "The Far Meridian keeps a convoy moving across distant systems, with collectors shaped to work far from a friendly station."
+    }
+  },
+  "warden": {
+    "faction": "Frontier Authority",
+    "commander": "Ranger-Captain Anja Vale",
+    "ranks": {
+      "Hostile": "Route Violator",
+      "Unfriendly": "Uncleared Contact",
+      "Neutral": "Registered Traveler",
+      "Friendly": "Warden Auxiliary",
+      "Trusted": "Ranger Associate",
+      "Honored": "Frontier Beacon"
+    },
+    "rank_up": {
+      "Friendly": "You've answered the call without claiming the route. I welcome you as a Warden Auxiliary; keep that beacon lit.",
+      "Trusted": "You bring people home and leave passage open. I name you Ranger Associate, with my full trust on the frontier.",
+      "Honored": "The Authority names you Frontier Beacon. When a ship is lost beyond the chart, your word will guide us there."
+    },
+    "rank_down": {
+      "Unfriendly": "Your conduct has made the route less safe. Help the crews you put at risk, and I'll reconsider your clearance.",
+      "Hostile": "You have violated the Authority's open-route charter. Our patrols will stop you before you endanger another traveler."
+    },
+    "contracts": [
+      {
+        "title": "Beacon Cache",
+        "briefing": "Find the route beacon lost beyond the marked passage. Its signal is needed by every ship following you.",
+        "success": "The beacon is back online. Passage is clear again.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Open-Lane Scan",
+        "briefing": "Scan civilian traffic along the frontier corridor and report any ship requesting assistance.",
+        "success": "Every signal is accounted for. The route remains open.",
+        "objective": "SCAN_CIVIL",
+        "repeatable": true
+      },
+      {
+        "title": "Relief Convoy",
+        "briefing": "Escort a relief hauler to an isolated settlement. Keep the ship on course until it docks.",
+        "success": "The relief cargo reached the settlement. Good flying.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Civilian Screen",
+        "briefing": "A hostile ship is closing on civilian travelers. Defend them until they can leave the area.",
+        "success": "The travelers are safe and the lane is open.",
+        "objective": "DEFEND_CIVILIANS",
+        "repeatable": true
+      },
+      {
+        "title": "Drifter Bounty",
+        "briefing": "A raider is stalking distress beacons on the frontier. Claim the Authority's posted bounty.",
+        "success": "The raider is gone. Fewer ships will have to call for help.",
+        "objective": "BOUNTY",
+        "repeatable": true
+      },
+      {
+        "title": "Rescue Kit Trade",
+        "briefing": "Gather rescue kits from the listed caches and sell them to the Authority's remote outpost.",
+        "success": "The outpost has stocked its rescue lockers. Thanks for the practical help.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Beacon Repair",
+        "briefing": "Amends contract: your attack damaged a public route relay. Defend its zone while Authority crews restore the beacon.",
+        "success": "The route beacon is back. Your amends have helped keep passage public.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Stranded Passengers",
+        "briefing": "Amends contract: your fire left travelers stranded beyond the route marker. Rescue them and bring them to safety.",
+        "success": "The passengers are safe. I'll record that you chose to repair the harm.",
+        "objective": "RESCUE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Open Passage",
+      "family": "railgun",
+      "lore": "An Authority railgun with a blue-white charge and a narrow shot. Rangers reserve it for threats that block a public route."
+    },
+    "secret_ship": {
+      "name": "Wayfarer Prime",
+      "class": "Cruiser",
+      "role": "Deep-range patrol",
+      "signature_feature": "A reinforced ram nose surrounding a long-range beacon array",
+      "lore": "The Wayfarer Prime works beyond reliable comms, leaving a clear route marker wherever it finds a stranded crew."
+    }
+  }
+}

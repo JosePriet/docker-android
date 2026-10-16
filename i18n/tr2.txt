@@ -1,0 +1,176 @@
+AchievementHitByAstroid1000Name	Autos chocadores
+AchievementHitByAstroid1000Desc	Golpea 1000 asteroides
+AchievementDestroy10MissilesName	Sistema de bengalas
+AchievementDestroy10MissilesDesc	Destruye 10 misiles
+AchievementDestroy100MissilesName	Cúpula de Hierro
+AchievementDestroy100MissilesDesc	Destruye 100 misiles
+AchievementBoomerangName	Bumerán
+AchievementBoomerangDesc	Muere por tu propio misil
+Achievement10AchieveName	Fan de los logros
+Achievement10AchieveDesc	Desbloquea 10 logros
+Achievement100AchieveName	Coleccionista
+Achievement100AchieveDesc	Desbloquea 100 logros
+AchievementDie10Desc	Muere 10 veces
+AchievementDie100Name	14.2857 vidas de gato
+AchievementDie100Desc	Muere 100 veces
+AchievementKill10Minus10LevelDesc	Destruye 10 enemigos al menos 10 niveles por debajo
+AchievementKill1Over5LevelDesc	Destruye un enemigo al menos 5 niveles por encima
+AchievementDestroy1AlbatrosDesc	Destruye una nave Albatross
+AchievementDestroy20AlbatrosDesc	Destruye 20 naves Albatross
+AchievementDestroy100AlbatrosDesc	Destruye 100 naves Albatross
+AchievementLoot1000Name	Bulímico
+AchievementLoot1000Desc	Saquea 1000 objetos
+AchievementLoot9001Name	¡Es más de 9000!
+AchievementLoot9001Desc	Saquea 9001 objetos
+AchievementShoot500MissilesName	Katiusha
+AchievementShoot500MissilesDesc	Dispara 500 misiles
+AchievementPlayerMissileHit100Name	Autofijado
+AchievementPlayerMissileHit100Desc	Acierta 100 misiles en el blanco
+AchievementPlayerMake10KDamageName	Dañador nivel 1
+AchievementPlayerMake10KDamageDesc	Inflige 10K de daño a enemigos
+AchievementPlayerMake100KDamageName	Dañador nivel 2
+AchievementPlayerMake100KDamageDesc	Inflige 100K de daño a enemigos
+AchievementPlayerMake1MDamageName	Dañador nivel 3
+AchievementPlayerMake1MDamageDesc	Inflige 1M de daño a enemigos
+AchievementPlayerBuy20ObjectsName	Minisúper
+AchievementPlayerBuy20ObjectsDesc	Compra 20 objetos en estaciones
+AchievementPlayerBuy100ObjectsName	Tarjeta de crédito
+AchievementPlayerBuy100ObjectsDesc	Compra 100 objetos en estaciones
+AchievementPlayerSell1000ObjectsName	Pequeño negocio
+AchievementPlayerSell1000ObjectsDesc	Vende 1000 objetos
+AchievementKilledByCivilName	Fuego amigo
+AchievementKilledByCivilDesc	Muere a manos de una nave civil
+AchievementLevel10Name	Fin del entrenamiento
+Achievementlevel10Desc	Alcanza el nivel 10
+Achievement250StoneName	Pulgarcito
+Achievement250StoneDesc	Ten 250 bloques de piedra en tu inventario
+AchievementUse25InstaRepairName	Me salvó la vida
+AchievementUse25InstaRepairDesc	Usa 25 reparaciones exprés
+AchievementEquipGoldName	Caballero de brillante armadura
+AchievementEquipGoldDesc	Equipa un objeto de clase excepcional
+AchievementEquipLegendaryName	Legen... espera... dario
+AchievementEquipLegendaryDesc	Equipa un objeto de clase legendaria
+AchievementOneShootFiftyEnnemiesName	¡Sorpresa!
+AchievementOneShootFiftyEnnemiesDesc	Mata a 50 enemigos de un disparo
+AchievementGetOneShootName	Aún no eres nada
+AchievementGetOneShootDesc	Muere de un solo disparo
+AchievementEarn1MCreditName	Máquina de dinero
+AchievementEarn1MCreditDesc	Gana 1M de créditos
+AchievementGet1MCreditName	Piloto ahorrador
+AchievementGet1MCreditDesc	Ten 1M de créditos en tu cuenta
+AchievementBuyExpensiveDesc	Compra un objeto de más de 1M de créditos
+AchievementFinishMissionsGenesisName	Ciudadano honorario de Genesis
+AchievementFinishMissionsGenesisDesc	Completa todas las misiones de Genesis
+AchievementCleanPlanckPrideEnnemiesName	Limpiador de Planck Pride
+AchievementCleanPlanckPrideEnnemiesDesc	Destruye a todos los enemigos del sector Planck Pride
+AchievementCleanThorPassingEnnemiesName	Limpiador de Thor Passing
+AchievementCleanThorPassingEnnemiesDesc	Destruye a todos los enemigos del sector Thor Passing
+AchievementCleanHugoWisdomEnnemiesName	Limpiador de Hugo Wisdom
+AchievementCleanHugoWisdomEnnemiesDesc	Destruye a todos los enemigos del sector Hugo Wisdom
+AchievementCleanPirateBayEnnemiesName	Amo de Pirate Bay
+AchievementCleanPirateBayEnnemiesDesc	Destruye a todos los enemigos del sector Pirate Bay
+AchievementCleanHermesEnnemiesName	Señor de Hermes
+AchievementCleanHermesEnnemiesDesc	Destruye a todos los enemigos del sector Hermes
+Achievement500DoorsDesc	Cruza 500 portales de fase
+AchievementKill50CivilName	Guerra civil
+AchievementKill50CivilDesc	Destruye 50 naves civiles
+Achievement150KDeathPenaltyName	Los funerales no son gratis
+Achievement150KDeathPenaltyDesc	Pierde 150K créditos por muerte
+Achievement10KDeathPenaltyName	Pérdidas y ganancias
+Achievement10KDeathPenaltyDesc	Pierde 10K créditos por muerte
+AchievementDestroyDiamondName	No tan eterno (¡secreto!)
+AchievementDestroyDiamondDesc	Destruye un diamante
+AchievementNavigateFarName	Al infinito y más allá (¡secreto!)
+AchievementNavigateFarDesc	Aléjate mucho de todo objeto de una zona
+Achievement5SecretName	Lo probé todo
+Achievement5SecretDesc	Desbloquea 5 logros secretos
+AchievementKillEnnemiesWithoutHudName	Usa la fuerza, Luke (Secreto)
+AchievementKillEnnemiesWithoutHudDesc	Destruye 5 enemigos sin HUD
+AchievementGetKilledBySentryName	Muerte estática
+AchievementGetKilledBySentryDesc	Muere 10 veces por una torreta
+AchievementDock100TimeName	Sociable
+AchievementDock100TimeDesc	Atraca en 100 estaciones
+AchievementMiss500LootName	No lo necesito
+AchievementMiss500LootDesc	Pierde 500 botines
+AchievementMissGoldLootName	DOH, se me pasó
+AchievementMissGoldLootDesc	Pierde un botín excepcional
+AchievementFullSetGoldName	Traje de oro
+AchievementFullSetGoldDesc	Completa un set de clase excepcional
+AchievementDestroyGoldAsteroidName	Fiebre del oro
+AchievementDestroyGoldAsteroidDesc	Destruye 50 asteroides de oro
+AchievementDestroy500EnnemiesWithMissileDesc	Destruye 500 enemigos con misiles
+AchievementDestroy5EnnemiesWithOneMissileName	Buen tiro, señor
+AchievementDestroy5EnnemiesWithOneMissileDesc	Destruye 5 enemigos con la onda de un misil
+AchievementGetKille100TimeByMissileName	Qué injusto
+AchievementGetKille100TimeByMissileDesc	Muere 100 veces por misiles
+AchievementGetHit1000TimeByMissileName	Para eso están los escudos
+AchievementGetHit1000TimeByMissileDesc	Recibe 1000 impactos de misil
+AchievementDeveloperMateName	Amigos en las alturas
+AchievementDeveloperMateDesc	Gánate el favor del desarrollador
+AchievementDeveloperMailName	Se aceptan comentarios (Secreto)
+AchievementDeveloperMailDesc	Envía un correo al desarrollador
+AchievementBooster100kConsumeName	Quemapropulsor
+AchievementBooster100kConsumeDesc	Gasta 100 000 unidades de escudo con el propulsor
+AchievementBooster1MConsumeName	Fiel a la ley de Lavoisier
+AchievementBooster1MConsumeDesc	Gasta 1 millón de unidades de escudo con el propulsor
+AchievementPoliceVentoName	Proteger... y destruir
+AchievementPoliceVentoDesc	Únete a la policía de Ventohigh
+Achievement10SectorVisitedName	Explorador
+Achievement10SectorVisitedDesc	Explora 10 sectores distintos
+AchievementDestroy10StationName	Ecologista
+AchievementDestroy10StationDesc	Destruye 10 estaciones espaciales
+AchievementJump20TimeName	Más rápido que la luz
+AchievementJump20TimeDesc	Haz 20 saltos con el hipermotor.
+AchievementJump10Name	Salto largo
+AchievementJump10Desc	Salta al menos 10 sectores en un solo salto.
+AchievementFinishTutorialName	Cadete espacial
+AchievementFinishTutorialDesc	Completa el tutorial.
+AchievementKilledByMineName	Kabum
+AchievementKilledByMineDesc	Muere por una mina.
+AchievementFinishAllVentohighName	Fiel a Ventohigh
+AchievementFinishAllVentohighDesc	Completa todas las misiones de Ventohigh.
+AchievementCleanTheWaveName	Amo de la ola
+AchievementCleanTheWaveDesc	Destruye a todos los enemigos del sector The Wave.
+Achievement1000CriticalName	Fan de los críticos
+Achievement1000CriticalDesc	Haz 1000 disparos críticos.
+AchievementFinishOneArena	Gladiador
+AchievementFinishOneArenaDesc	Completa un nivel de arena
+AchievementBuyInapp	Patrocinador
+AchievementBuyInappDesc	Gasta dinero en la tienda
+AchievementFinishFiveArenaInaGame	Retador de la arena
+AchievementFinishFiveArenaInaGameDesc	Supera cinco niveles de arena seguidos
+AchievementFullSetLegendaryName	Soy leyenda
+AchievementFullSetLegendaryDesc	Equipa un set legendario completo
+AchievementDelivery5Name	Exportación galáctica
+AchievementDelivery5Desc	Completa 5 misiones de entrega
+AchievementUse3MobileShopName	Entrega a domicilio
+AchievementUse3MobileShopDesc	Llama a una tienda móvil tres veces
+AchievementKillOneElite	Cazaélites
+AchievementKillOneEliteDesc	Destruye un enemigo élite
+AchievementKill20EliteDesc	Destruye 20 enemigos élite
+AchievementCleanOrionEnnemiesName	Artemisa
+AchievementCleanOrionEnnemiesDesc	Destruye a todos los enemigos del sector Hermes
+AchievementBuyNewShip	Formando la armada
+AchievementBuyNewShipDesc	Compra una nave nueva
+AchievementFinishAllSpartanName	Corporativo
+AchievementFinishAllSpartanDesc	Completa todas las misiones de Spartan HQ.
+AchievementKill100EnemiesWithHull	Ariete de acero
+AchievementKill100EnemiesWithHullDesc	Mata 100 enemigos con la habilidad especial del Hullraiser
+AchievementKillAlien	Primer contacto
+AchievementKillAlienDesc	Mata a un enemigo alienígena
+AchievementKill100AlienDesc	Mata a 100 enemigos alienígenas
+AchievementKillAlienMotherShip	Control natal
+AchievementKillAlienDescMotherShip	Destruye una nave nodriza alienígena
+AchievementPlayWithMoga	Autocontrol
+AchievementPlayWithMogaDesc	Juega con un control Moga
+AchievementKillTheDev	Cómo te atreves
+AchievementKillTheDevDesc	Mata al desarrollador en multijugador
+AchievementKillMultiplayer	¿Te enojaste, bro?
+AchievementKillMultiplayerDesc	Mata a un jugador en multijugador
+AchievementWinMultiplayer	Domino internet
+AchievementWinMultiplayerDesc	Gana una batalla multijugador
+AchievementKill10MultiplayerDesc	Mata a 10 jugadores en multijugador
+AchievementKill100Multiplayer	Tengo mejor ping
+AchievementKill100MultiplayerDesc	Mata a 100 jugadores en multijugador
+AchievementKilledByTheDev	Tramposo
+AchievementKilledByTheDevDesc	Muerto por el desarrollador en multijugador

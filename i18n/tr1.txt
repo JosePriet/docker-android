@@ -1,0 +1,38 @@
+stone	Bloque de piedra
+diamond	Diamante
+ruby	Rubí
+debris	Restos de nave
+malachite	Malaquita
+goodsFood	Contenedor de comida
+goodsEnergyContainer	Bloque de energía
+alienJelly	Gelatina alienígena
+alienEgg	Huevo alienígena
+engineBlockDamaged	motor dañado
+water	agua
+AchievementDestroy100AsteroidDesc	Destruye 100 asteroides
+AchievementDestroy1000AsteroidDesc	Destruye 1000 asteroides
+AchievementGenesisDefensorName	Defensor de Genesis
+AchievementGenesisDefensorDesc	Completa la misión Contraataque
+AchievementTerminate10MissionName	Listo para el servicio
+AchievementTerminate10MissionDesc	Completa 10 misiones
+AchievementDestroy10ItemsMissionName	Falta de espacio
+AchievementDestroy10ItemsMissionDesc	Destruye 10 objetos de tu inventario
+AchievementDestroy100ItemsMissionName	¡Espera! ¿¡¿Puedo venderlo?!?
+AchievementDestroy100ItemsMissionDesc	Destruye 100 objetos de tu inventario
+AchievementDestroy1000ItemsMissionName	¿Se puede licuar?
+AchievementDestroy1000ItemsMissionDesc	Destruye 1000 objetos de tu inventario
+AchievementDestroy100EnnemisName	Es un comienzo
+AchievementDestroy100EnnemisDesc	Destruye 100 enemigos
+AchievementDestroy1000EnnemisName	Pateo traseros
+AchievementDestroy1000EnnemisDesc	Destruye 1000 enemigos
+AchievementDestroy10000EnnemisDesc	Destruye 10 000 enemigos
+AchievementDestroy100000EnnemisName	Farmeador incansable
+AchievementDestroy100000EnnemisDesc	Destruye 100 000 enemigos
+AchievementTestamentName	Es mi testamento
+AchievementTestamentDesc	Destruye un enemigo justo después de morir
+AchievementKilledByAstroid1Name	Bola de fuego
+AchievementKilledByAstroid1Desc	Choca contra un asteroide
+AchievementKilledByAstroid10Name	Estrella fugaz
+AchievementKilledByAstroid10Desc	Choca contra un asteroide 5 veces
+AchievementHitByAstroid100Name	Tengo seguro
+AchievementHitByAstroid100Desc	Golpea 100 asteroides

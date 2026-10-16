@@ -1,0 +1,394 @@
+statAstroidDestroyed	Asteroides destruidos
+statFinishMissions	Misiones completadas
+statDestroyItems	Objetos de inventario destruidos
+statKillEnemies	Enemigos eliminados
+statAstroidCrashed	Choques con asteroides
+statAstroidHit	Impactos a asteroides
+statDestroyMissiles	Misiles destruidos
+statAchievementUnlocked	Logros desbloqueados
+statDeaths	Muertes del jugador
+statKillAlbatross	Albatross eliminadas
+statLootsNumber	Número de botines
+statMissileShoots	Misiles disparados
+statPlayerMissileHit	Misiles propios acertados
+statPlayerDamageDealt	Daño infligido
+statItemBought	Objetos comprados
+statItemSell	Objetos vendidos
+statInstaRepair	Reparaciones exprés usadas
+statEnemiesOneShoots	Enemigos de un disparo
+statCreditEarned	Créditos ganados en total
+statSpaceGates	Portales usados
+statCivilKilled	Civiles destruidos
+statDeathPenalty	Total de penalización por muerte
+statSecretAchievements	Logros secretos desbloqueados
+statKilledBySentry	Muerto por torreta
+statDockTimes	Atraques en estación
+statLootMissed	Botines perdidos
+statGoldAsteroid	Asteroides de oro destruidos
+statEnemiesKilledByMissile	Enemigos muertos por misil
+statHitByMissile	Impactos de misil recibidos
+statShieldConsumedByBooster	Escudo consumido por el propulsor
+statSectorExplored	Sectores explorados
+statStationsDestroyed	Estaciones destruidas
+statHyperdriveJump	Hipersaltos
+statCrtiticalShoot	Disparos críticos
+statMobileShopCalled	Entregas de tienda móvil
+statEliteKilled	Enemigos élite eliminados
+statKilledByYourOwnMissile	Muerto por tu propio misil
+statBuyInapps	Compras in-app
+statKilledByCivilian	Muerto por un civil
+statKilledByMine	Muerto por una mina
+statArenaLevelCompleted	Niveles de arena superados
+statShipBought	Naves compradas
+statKillAliens	Alienígenas eliminados
+statKillAliensMotherShips	Naves nodriza eliminadas
+backtogame	volver al juego
+back	atrás
+inventory	Inventario
+map	Mapa
+settings	Ajustes
+enableVibration	Activar vibración
+quantity	Cantidad
+weight	Peso
+avg_price	Precio prom.
+avail_space_label	Carga :
+destroy	Destruir
+noItems	Inventario vacío
+itemQuality	Calidad
+qualityBasic	Común
+qualityFine	Bueno
+qualityRare	Raro
+qualityExceptional	Excepcional
+qualityLegendary	Legendario
+scaleFactor	Escala de pantalla
+trade	Comerciar
+station	estación
+TradeWith	Comerciar con estación
+buy	Comprar
+sell	Vender
+sellableItems	Objetos vendibles
+nothingToSell	No tienes nada que vender aquí
+basicShield	Clase civil
+pilotShield	Piloto
+pilotShieldAdv	Piloto mk2
+debugShield	desarrollador
+resistantShield	Resistente
+mediocreShield	Clase papel
+decentShield	Pesimista
+capacity	Capacidad
+reloadTimeShield	Tasa de regen.
+regenTime	Tiempo de regen.
+level	Nivel
+equip	equipar
+currentGear	¡Equipo actual!
+standardLaserCrtitical	Spike crítico
+mediocreLaser	Pequeño aguijón
+standardSlowLaser	Sagaz
+standardSlowLaserPlus	Sagaz mk2
+exceptionalLaser	Legado de Maiman
+corrosiveLaser	Corrosivo mk3
+Damage	Daño
+reloadLaserTime	Recarga
+laserPrecision	Precisión
+laserSpeed	Velocidad
+ennergyCell	Celda de energía
+gold	oro
+goldAlien	crédito alienígena
+percuteurMissileMod	Heat
+acidMissileMod	Ácido
+damage	Daño
+rangedamage	Daño a distancia
+agility	Agilidad
+life	Vida
+fuelTank	Tanque de combustible
+availQty	Cant. disp.
+hydraRoquette	Cohete Hydra
+increase_cargo_capacity300	Carga +300
+instaRepair	Reparación instantánea
+instaRepairInfinite	Reparación deluxe
+instaRepairUsedMessage	¡Nave reparada!
+instaRepairInfiniteUsedMessage	¡Nave y escudo reparados!
+mobileShopTicket	Tienda instantánea
+mobileShopTicketInfinite	Tienda instantánea ilimitada
+use	Usar
+timeUp	¡No está listo!
+fullLife	¡Nada que reparar!
+enableMusic	Activar música
+fxSoundEnabled	Activar efectos de sonido
+overrideJoystick	Personalizar joystick
+overrideJoystickSize	Tamaño
+disableHud	Ocultar controles
+missionKindBounty	Cazarrecompensas
+missionList	Lista de misiones
+AcceptMission	Aceptar
+LevelWithColumn	Nivel :
+activeMission	detalle de misión
+Objets	Objetos
+objectWithSemicolon	objeto :
+none	Ninguno
+Validate	Validar
+GiveUp	Abandonar
+MissionAccepted	¡Misión aceptada!
+smuggledGoods	contrabando
+pillard	Saqueador
+missionFailure	misión fallida
+inventoryFull	¡inventario lleno!
+AchievementTitle	Logros
+AchievementListTitle	Lista de logros
+mission	Misiones
+unlocked	¡desbloqueado!
+missile	Misil
+maxQty	Cant. máx.
+MissilebasicMissileMod	Básico
+youHaveNoMission	No tienes misiones activas.<BR> Para obtener una, atraca en una estación de mando.<BR><BR> Hay estaciones de mando en estos sectores:
+reapeatable	Repetible
+alreadyDone	Misión ya completada antes
+accept	Aceptar
+prisonner	Prisionero
+nopBooster	Falso
+basicBooster	Básico
+advancedBooster	Avanzado
+boosterExtra	Alien mk2
+sendEmailDev	Enviar comentarios
+soundOptions	Opciones de sonido
+gameplaylOptions	Jugabilidad
+miscOptions	Varios
+rateThisApp	Calificar la app
+disableAd	¡Quitar anuncios!
+giftCode	Código de regalo
+ErrorGift	¡Código de regalo no válido!
+ErrorGiftExpired	¡Código vencido o ya usado!
+giftValidated	Regalo validado:
+stationSmugler	guarida contrabandista
+secretMap	Mapa secreto
+treasureMap	Mapa del tesoro
+secretMapRevealed	Ubicación secreta revelada
+stationPirate	estación pirata
+shortLevel	Niv.
+treasureKeeper	guardián del tesoro
+smuggler	contrabandista
+alreadyStored	¡Ya guardado!
+missionSuccess	Misión cumplida
+ventoGovLaser	Rayo de Thomas
+rescueMan	empleado náufrago
+pirate	pirata
+myShip	Nave
+levelWithPoint	Nivel :
+lifeWithPoint	Vida :
+cashShop	Tienda
+textBuyTitle	Tienda
+buyTextArgument	El crédito alienígena es una moneda muy rara en la galaxia.<br> Úsalo en el juego para comprar equipo muy poderoso para tu nave.<br><br>
+buyTextArgumentCredit	¡Compra 250 000, 500 000 o 1 millón de créditos para mejorar tu nave con lo más caro de la galaxia!
+BuyMaj	Comprar
+spaceStation	Estación espacial
+currentPosition	ubicación actual
+minerShipName	recolector
+nopHyperdriveEngine	Falso
+extraHyperdriveEngine	Avanzado mk3
+jumpTo	saltar
+telemetryRecorder	Registrador de telemetría
+guardianShipName	guardian
+ventohighPoliceName	Policía
+ventohighCivilRevolteText	Ataque a civiles detectado<br><br> Enviando alertas a civiles cercanos.
+reward	recompensa
+solarPlan	planta solar
+pathFinder	explorador
+healerShield	Sanador
+shieldFactory	fábrica de escudos
+spartanMissiles	misiles spartan
+jumboShields	escudos jumbo
+spartanShields	escudos spartan
+help	Ayuda
+tutorialStation	estación espacial
+firstTimeLootMessage	Felicidades, recogiste tu primer botín espacial.<br><br> Para abrir el inventario, usa el botón de arriba a la izquierda.<br><br> Puedes vender objetos en las estaciones. Algunos, como escudos o láseres, se pueden equipar para mejorar tu nave.
+firstTimeDeathMessage	Es la primera vez que tú y tu nave son destruidos.<br><br> Por suerte, los portales guardan el último escaneo de tu nave y permiten regenerar su flujo atómico.<br><br> Cada regeneración se cobra según tu nivel.
+firstTimeOpenRadar	La vista de radar te permite explorar los alrededores.<br> Usa los dedos para moverte y hacer zoom.<br> El ícono de abajo a la izquierda abre la vista de constelación.<br><br> Toca el radar otra vez o usa el botón atrás de Android para volver al juego.
+reminderRadarExistDialog	Noté que no usaste la <font color = yellow> vista de mapa</font>.<br><br> ¿Sabías que al tocar el radar se abre un mapa navegable del sector actual?<br><br>
+reminderConstellationExistDialog	Noté que no usaste la <font color = yellow> vista de constelación</font>.<br><br> ¿Sabías que en el mapa del sector, tocar el ícono de abajo a la izquierda abre la vista de constelación?<br><br> Con un motor de salto podrías viajar directo de un sector a otro desde esa vista.
+firstTimeOpenGalaxy	La vista de constelación muestra cómo se conectan los sectores que ya visitaste.<br> Desliza el dedo para pasar de un sector a otro.<br><br> Con un hipermotor podrás saltar a cualquier sector visitado sin usar portales.
+firstTimeCivilAttack	¡La nave que atacaste es civil!<br><br> Los civiles no son agresivos por defecto. Si los provocas demasiado, pasarán a modo agresivo.<br> Cuidado: en algunos sectores atacar civiles provoca una respuesta inmediata de la policía.
+firstTimeEnnemyKilled	¡Felicidades! Destruiste una nave enemiga.<br><br> Destruir enemigos te da xp y objetos. Puedes vender objetos en estaciones o equiparlos si tienes el nivel requerido.
+firstTimeMissile	Es la primera vez que tienes un misil listo para lanzar. <br><br> Las características de tus misiles dependen del mod de misil equipado.<br> Puedes comprar mods para cambiar potencia, velocidad y agilidad de tus misiles.<br><br> Para lanzar un misil, pulsa el botón del centro a la derecha de la pantalla.
+firstTimeMissileMoga	Es la primera vez que tienes un misil listo para lanzar. <br><br> Las características de tus misiles dependen del mod de misil equipado.<br> Puedes comprar mods para cambiar potencia, velocidad y agilidad de tus misiles.<br><br> Para lanzar un misil, pulsa el botón L1 o L2.
+notifJumpEngineExists	Quizá ya lo sepas, pero puedes ahorrar mucho tiempo entre sectores.<br><br> Con un hipermotor viajas directo de un sector a otro en segundos.<br><br> Para comprar uno, usa la tienda del menú principal o, si no tienes créditos alienígenas, ve a un astillero, como el del sector Ventohigh.
+notifBoosterExists	Según mis escáneres, este sector parece bastante extenso.<br><br> Para ir más rápido o escapar de una situación peligrosa, deberías instalar un propulsor. Este sistema desvía la energía del escudo al motor principal.<br><br> Hay propulsores en la tienda del menú principal o, si no tienes créditos alienígenas, en un astillero, como el del sector Ventohigh.
+notifWelcomeSpartan	Bienvenido, corsario, te esperábamos.<br><br> Ven a la sede de SPARTAN, en el centro del sector.
+notifNotEnoughSpace	Parece que la nave está llena.<br><br> Para liberar espacio, destruye objetos del inventario o véndelos en una estación.<br><br> <font color = \"yellow\"> También puedes ampliar la carga en la tienda del juego </font>
+electronicChip	Chip electrónico
+deckOfficier	Oficial de cubierta
+debugLaser	Desarrollador
+alterationSnare	ralentizado
+alterationRoot	inmovilizado
+alterationPoison	ácido
+alterationReload	bloqueado
+alterationAgility	pérdida de agilidad
+alterationPoisonActive	¡Daño ácido!
+alterationSnareActive	- ¡Propulsión dañada!
+alterationRootedActive	- ¡Propulsión caída!
+alterationAgilityActive	- ¡Dirección dañada!
+alterationReloadActive	- ¡Sistema de recarga dañado!
+alterationTextCrit1	% disparo crítico (x
+alterationTextCrit2	daño)
+alterationTextPoison1	% prob. de infligir
+alterationTextPoison2	daño durante
+alterationTextReload1	% prob. de aumentar la recarga del objetivo un
+alterationTextReload2	% durante
+alterationTextAgility1	% prob. de reducir la agilidad del objetivo un
+alterationTextAgility2	% durante
+alterationTextSnare1	% prob. de reducir la velocidad del objetivo un
+alterationTextsnare2	% durante
+alterationTextRoot	% prob. de detener al objetivo durante
+dialogConfirmExit	¿Seguro que quieres salir del juego?
+creditsTitle	Créditos
+stationPiloteLicence	licencia de piloto
+shieldBonusRegen1	Repara
+shieldBonusRegen2	pts de casco por segundo con escudo lleno
+shieldBonusReduceDamage	Reduce
+shieldBonusReduceDamageMissile	del daño de misiles enemigos
+shieldBonusReduceDamageLaser	del daño láser enemigo
+shieldBonusBooster1	El propulsor consume
+shieldBonusBooster2	menos escudo.
+shieldBonusLaserReload	Recarga láser
+shieldBonusMissileReload	Recarga de misiles
+shieldBonusFaster	más rápida
+shieldBonusStrikeBack1	Refleja al atacante
+shieldBonusStrikeBack2	del daño absorbido por el escudo
+shieldBonusDamageIncrease1	Aumenta todo tu daño un
+shieldBonusDamageIncrease2	con el escudo lleno
+mirrorShield	Espejo
+warriorShield	Guerrero
+captureTargetAlive	captura al objetivo vivo
+captureTargetFailure	mataste al objetivo
+wreck	restos
+inappBillingNotAvail	¡Compras in-app no disponibles!
+arenaLeaved	vuelve a la arena
+arenaNext	siguiente arena
+arenaCompleted1	nivel de arena
+arenaCompleted2	superado
+arenaCompletedfinal	nivel final de arena
+arenaLeave	salir de la arena
+arenaBoss	jefe de la arena
+arenaFirstTimeMessage	Acabamos de entrar en la <font color=\"yellow\">arena galáctica</font>.<br><br> La arena es una oda a los torneos de antaño. Se transmite a toda la galaxia por el canal del mismo nombre.<br/> El objetivo es sobrevivir a las oleadas enemigas. Al limpiar la arena, accedes al siguiente nivel.<br/> Avanza lo más posible: cada nivel te da dinero de los patrocinadores.<br/><br/> Al morir serás expulsado de la arena y, claro, se te cobrará la regeneración.
+phosphoreLaser	Fósforo
+antimissileShield	Reactivo
+diamondShield	Diamante
+rootMissileMod	Desertor
+corrosifMissileMod	Corrosivo
+snareMissileMod	Perturbador
+tungstenMissileMod	Tungsteno
+agressorMissileMode	Agresor
+zoomValue	Zoom de cámara
+loading	cargando
+enableMusicVolume	Volumen
+giftCodeDescription	Si recibiste un código de regalo, ingrésalo aquí y valídalo. Recibirás el regalo asociado.
+giftCodeEnter	Ingresa el código aquí
+removeAds	Quitar anuncios
+alienCredits	Créditos alienígenas
+details	Detalles
+credits	Créditos
+getReward	Cobrar recompensa
+missionGivenUp	Misión abandonada
+noMission	No tienes misiones
+remove	Quitar
+description	Descripción
+alteration	Alteraciones
+mobileShopShipName	tienda móvil
+rateThisAppMessage	¡Hey! Si te gusta Space Corsair, tómate un momento para calificarlo. Es muy importante para nosotros saber que te gusta el juego... ;D
+changelog	Novedades
+share	Compartir el juego
+hyperdriveLoading	cargando hipermotor
+pub	Anuncios
+shield	Escudo
+close	Cerrar
+laser	Láser
+hyperdrive	Hipermotor
+constellation	Constelación
+stats	Estadísticas
+missileMod	Mod de misil
+booster	Propulsor
+mobileShopCalled	¡Tienda móvil en camino!
+instaRepairReloading	Recargando (
+elite	élite
+removeAdsOnly	Si prefieres, también puedes quitar solo los anuncios...
+basicMissileMod	Básico
+shipGearName	Nave
+shipText	Nave
+shipsText	Naves
+change	Cambiar
+speed	Velocidad
+shipSizeSmall	Pequeña
+shipSizeAverage	Mediana
+shipSizeLarge	Grande
+shipSizeVeryLarge	Muy grande
+shipSize	Tamaño
+shipLaserType	Tipo de láser
+shipLaserFixed	Fijo
+shipLaserRotative	Giratorio (360°)
+levelRequired	Nivel requerido
+currentShip	Nave actual
+available	Disponible
+armor	Blindaje
+shipUse	Usar esta nave
+omicronPrimeStationGoods	Tecnología Omicron
+next	Siguiente
+previous	Anterior
+shipSwitched	Nave cambiada
+shipBought	Nave comprada
+escort	escolta a
+destroyed	destruido
+omicronCivilRevolteText	Ataque a civiles detectado<br><br> Nave de defensa en camino
+omicronPoliceName	oficial
+spartanLasers	láseres spartan
+missionFailureTargetDestroyed	objetivo destruido
+civilianPilot	piloto civil
+boiteNoire	grabador secreto
+achievementUnlockedMailTitle	¡Logro desbloqueado!
+achievementUnlockedMailTextOne	¡Desbloqueé un logro de Space Corsair (http://goo.gl/WO62uw)!
+achievementUnlockedMailShareAchievement	¡Compartir logro!
+statShareText	¡Compartir estadística!
+statMailTitle	Mira mi estadística
+statMailText	¡Mira mi estadística de Space Corsair (http://goo.gl/WO62uw)!
+shipLaserRotativeX3	Giratorio x3 (360°)
+buyShipCorvetteZoomAlert	Esta nave es muy grande; considera cambiar el zoom de cámara en los ajustes.
+teleport	teletransporte
+hullRepair	casco reparado
+discoverGreenBorderDialogue	Más allá de este sector están los sectores alienígenas.<br> Espera actividad hostil.
+civilian	civil
+portalUnlocked	portal desbloqueado
+mogaConnected	moga conectado
+mogaDisconnected	moga desconectado
+sector	sector
+notEnoughCellToJumpMessage	¡No tenemos suficientes celdas de energía para este hipersalto!
+noJumpEngineMessage	No tenemos un motor de salto funcional.<br><br> Podríamos comprar uno en un astillero
+mogaDisconnectedDialog	Parece que perdimos conexión con el control moga de tu nave.<br><br> Reactivé los controles táctiles en pantalla.
+mogaNotPresent	El control Moga no está conectado
+mogaDeadZone	Zona muerta
+mogaAssignements	Ver controles
+mogaSwitchJoystick	Intercambiar joysticks
+closeMoga	Cerrar (B)
+cancelMoga	Cancelar (B)
+cancel	Cancelar
+multi	Multijugador
+gameStat	Estadísticas
+westernEurope	Europa Occidental
+asia	Asia
+us	Norteamérica
+gameTypeFFA	Todos contra todos
+gameTypeTeamDm	Duelo por equipos
+gameTypeCoopArena	Arena cooperativa
+enterYourName	Nombre multijugador :
+multiplayerLevelLabel	Nivel multijugador :
+serverList	Lista de servidores
+playerNameIssue	¡El nombre debe tener de 3 a 12 caracteres, solo letras y números!
+btnBackToPLayerMultiInfo	Volver a config. multi
+refresh	Actualizar
+serverListError	Error al listar servidores
+serverListPending	Obteniendo servidores...
+exitMulti	Salir del modo multi
+multiDisclamer	¡Esta es la versión alfa del modo multijugador!<br><br> Necesitas wifi con un router uPnp para que funcione. Si hay problemas con la conexión udp, intenta redirigir el puerto udp entrante 37001 a tu dispositivo en el router.
+dialogConfirmExitMuti	¿Salir del modo multijugador?
+playerNameRestricted	Ese nombre de jugador está restringido
+alienBlattePlayerShipDesc	Nave de mando clase Rectreon, sin transpondedor de flota y reclasificada como chatarra. Tres baterías de cañones contrarrotativas mantienen fijaciones de blanco independientes. La aceleración es geológica. El blindaje no es problema.
+alienRatPlayerShipDesc	Interceptor de patrón corneriano, origen no registrado. Sus cañones se reorientan a mitad de ráfaga y mantienen la fijación en espirales evasivas. La aceleración sublumínica más rápida de cualquier registro corsario. Cada milisegundo de duda te cuesta un casco.
+alienUfoPlayerShipDesc	Composición del casco clasificada. Su superficie antirradar emite interferencia de plasma a corta distancia que colapsa los armónicos de escudo estándar al contacto. Los pilotos reportan una resonancia subsónica constante en la cabina. No se detiene.
+policeShipPlayerShipDesc	Nave de persecución de la Frontier Authority, sin credenciales de patrulla. Blindaje apto para combate en los corredores de Highway. Ambos repetidores de plasma giratorios rastrean en 360°. El sprint sublumínico más rápido del registro civil. La sirena ya no está. La amenaza sí.

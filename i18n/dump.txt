@@ -1,0 +1,964 @@
+963 948
+stone||Stone Block
+diamond||Diamond
+ruby||Ruby
+debris||Wreck fragments
+SAME malachite||Malachite
+goodsFood||Food container
+goodsEnergyContainer||Energy bloc
+alienJelly||Alien jelly
+alienEgg||Alien egg
+engineBlockDamaged||damaged engine
+water||water
+SAME AchievementDestroy100AsteroidName||Space cowboy
+AchievementDestroy100AsteroidDesc||Destroy 100 asteroids
+SAME AchievementDestroy1000AsteroidName||Rock n roll
+AchievementDestroy1000AsteroidDesc||Destroy 1000 asteroids
+AchievementGenesisDefensorName||Genesis defender
+AchievementGenesisDefensorDesc||Finish the Strike back mission
+AchievementTerminate10MissionName||Reporting for duty
+AchievementTerminate10MissionDesc||Finish 10 missions
+AchievementDestroy10ItemsMissionName||Lack of space
+AchievementDestroy10ItemsMissionDesc||Destroy 10 objects from your inventory
+AchievementDestroy100ItemsMissionName||Ho wait ! I can sell it ?!?
+AchievementDestroy100ItemsMissionDesc||Destroy 100 objects from your inventory
+AchievementDestroy1000ItemsMissionName||Can it blend ?
+AchievementDestroy1000ItemsMissionDesc||Destroy 1000 objects from your inventory
+AchievementDestroy100EnnemisName||That\'s a start
+AchievementDestroy100EnnemisDesc||Destroy 100 enemies
+AchievementDestroy1000EnnemisName||I kick asses
+AchievementDestroy1000EnnemisDesc||Destroy 1000 enemies
+SAME AchievementDestroy10000EnnemisName||Terminator
+AchievementDestroy10000EnnemisDesc||Destroy 10 000 enemies
+AchievementDestroy100000EnnemisName||Chinese farmer
+AchievementDestroy100000EnnemisDesc||Destroy 100 000 enemies
+AchievementTestamentName||That\'s my testament
+AchievementTestamentDesc||Destoy an enemy just after your death
+AchievementKilledByAstroid1Name||Fire ball
+AchievementKilledByAstroid1Desc||Crash into an asteroid
+AchievementKilledByAstroid10Name||Shooting star
+AchievementKilledByAstroid10Desc||Crash into an asteroid 5 times
+AchievementHitByAstroid100Name||I have insurance
+AchievementHitByAstroid100Desc||Hit 100 asteroids
+AchievementHitByAstroid1000Name||Stock-car
+AchievementHitByAstroid1000Desc||Hit 1000 asteroids
+AchievementDestroy10MissilesName||Flare system
+AchievementDestroy10MissilesDesc||Destroy 10 missiles
+AchievementDestroy100MissilesName||Iron Dome
+AchievementDestroy100MissilesDesc||Destroy 100 missiles
+SAME AchievementBoomerangName||Boomerang
+AchievementBoomerangDesc||Get destroyed by your own missile
+Achievement10AchieveName||Achievement enthusiast
+Achievement10AchieveDesc||Unlock 10 achievements
+Achievement100AchieveName||Collector
+Achievement100AchieveDesc||Unlock 100 achievements
+SAME AchievementDie10Name||Duncan MacLeod
+AchievementDie10Desc||Die 10 times
+AchievementDie100Name||14.2857 Cat\'s lives
+AchievementDie100Desc||Die 100 times
+SAME AchievementKill10Minus10LevelName||Goliath
+AchievementKill10Minus10LevelDesc||Destroy 10 enemies that are at least 10 levels below you
+SAME AchievementKill1Over5LevelName||David
+AchievementKill1Over5LevelDesc||Destroy an enemy that is at least 5 levels above you
+SAME AchievementDestroy1AlbatrosName||Baudelaire
+AchievementDestroy1AlbatrosDesc||Destroy an Albatross spaceship
+AchievementDestroy20AlbatrosName||Baudelaire
+AchievementDestroy20AlbatrosDesc||Destroy 20 Albatross spaceship
+AchievementDestroy100AlbatrosName||Grande y Felicísima Armada
+AchievementDestroy100AlbatrosDesc||Destroy 100 Albatross spaceship
+AchievementLoot1000Name||Bulimic
+AchievementLoot1000Desc||Loot 1000 elements
+SAME AchievementLoot9001Name||It\'s over 9000!
+AchievementLoot9001Desc||Loot 9001 elements
+SAME AchievementShoot500MissilesName||Katioucha
+AchievementShoot500MissilesDesc||Shoot 500 missiles
+AchievementPlayerMissileHit100Name||Autolock
+AchievementPlayerMissileHit100Desc||Fire 100 missiles that reach target
+AchievementPlayerMake10KDamageName||Damage dealer level 1
+AchievementPlayerMake10KDamageDesc||Deal 10K damage to enemies
+AchievementPlayerMake100KDamageName||Damage dealer level 2
+AchievementPlayerMake100KDamageDesc||Deal 100K damage to enemies
+AchievementPlayerMake1MDamageName||Damage dealer level 3
+AchievementPlayerMake1MDamageDesc||Deal 1M damage to enemies
+AchievementPlayerBuy20ObjectsName||Minimarket
+AchievementPlayerBuy20ObjectsDesc||Buy 20 objects in the stations
+AchievementPlayerBuy100ObjectsName||Credit card
+AchievementPlayerBuy100ObjectsDesc||Buy 100 objects in the stations
+AchievementPlayerSell1000ObjectsName||Small business
+AchievementPlayerSell1000ObjectsDesc||Sell 1000 objects
+AchievementKilledByCivilName||Friendly Fire
+AchievementKilledByCivilDesc||Get killed by a civilian ship
+AchievementLevel10Name||Training is over
+Achievementlevel10Desc||Reach level 10
+Achievement250StoneName||Little Thumbling
+Achievement250StoneDesc||Get 250 stone rock in your inventory
+AchievementUse25InstaRepairName||Saved my life
+AchievementUse25InstaRepairDesc||Use 25 express repairs
+AchievementEquipGoldName||Knight in shining armor
+AchievementEquipGoldDesc||Equip an exceptional class object
+SAME AchievementEquipLegendaryName||Legend... wait for it
+AchievementEquipLegendaryDesc||Equip a legendary class item
+AchievementOneShootFiftyEnnemiesName||Surprize !
+AchievementOneShootFiftyEnnemiesDesc||One shot 50 ennemies
+AchievementGetOneShootName||You aint nothing yet
+AchievementGetOneShootDesc||Get killed in one shoot
+AchievementEarn1MCreditName||Cash machine
+AchievementEarn1MCreditDesc||Earn 1M credit
+AchievementGet1MCreditName||Thrifty pilot
+AchievementGet1MCreditDesc||Get 1M credit on your account
+SAME AchievementBuyExpensiveName||Pay to win
+AchievementBuyExpensiveDesc||Buy an item that costs more than 1M credit
+AchievementFinishMissionsGenesisName||Honorary citizen of Genesis
+AchievementFinishMissionsGenesisDesc||Finish all the genesis missions
+AchievementCleanPlanckPrideEnnemiesName||Planck Pride cleaner
+AchievementCleanPlanckPrideEnnemiesDesc||Destroy all enemies in Planck Pride sector
+AchievementCleanThorPassingEnnemiesName||Thor Passing cleaner
+AchievementCleanThorPassingEnnemiesDesc||Destroy all enemies in Thor Passing sector
+AchievementCleanHugoWisdomEnnemiesName||Hugo Wisdom cleaner
+AchievementCleanHugoWisdomEnnemiesDesc||Destroy all enemies in Hugo Wisdom sector
+AchievementCleanPirateBayEnnemiesName||Pirate Bay Master
+AchievementCleanPirateBayEnnemiesDesc||Destroy all enemies in Pirate Bay sector
+AchievementCleanHermesEnnemiesName||Lord of Hermes
+AchievementCleanHermesEnnemiesDesc||Destroy all enemies in Hermes sector
+SAME Achievement500DoorsName||Jack O\'Neill
+Achievement500DoorsDesc||Travel through 500 phase gates
+AchievementKill50CivilName||Civil War
+AchievementKill50CivilDesc||Destroy 50 civil ships
+Achievement150KDeathPenaltyName||Funerals are not free
+Achievement150KDeathPenaltyDesc||Lose 150K credit in death penalty
+Achievement10KDeathPenaltyName||Profit and loss
+Achievement10KDeathPenaltyDesc||Lose 10K credit in death penalty
+AchievementDestroyDiamondName||Not so eternal (secret !)
+AchievementDestroyDiamondDesc||Destroy one diamond
+AchievementNavigateFarName||To infinity and beyond (secret !)
+AchievementNavigateFarDesc||Get far far away from any objects of a zone
+Achievement5SecretName||I tried everything
+Achievement5SecretDesc||Unlock 5 secret achievements
+AchievementKillEnnemiesWithoutHudName||Use the force, Luke (Secret)
+AchievementKillEnnemiesWithoutHudDesc||Destroy 5 enemies without HUD
+AchievementGetKilledBySentryName||Static death
+AchievementGetKilledBySentryDesc||Get killed 10 times by a sentry
+SAME AchievementDock100TimeName||Sociable
+AchievementDock100TimeDesc||Land on 100 stations
+AchievementMiss500LootName||Don\'t need it
+AchievementMiss500LootDesc||Miss 500 loot
+AchievementMissGoldLootName||DOH I missed it
+AchievementMissGoldLootDesc||Miss an exceptional object loot
+AchievementFullSetGoldName||Gold suited
+AchievementFullSetGoldDesc||Get a full exceptional class object set
+AchievementDestroyGoldAsteroidName||Gold rush
+AchievementDestroyGoldAsteroidDesc||Destroy 50 gold asteroids
+SAME AchievementDestroy500EnnemiesWithMissileName||Fox 3
+AchievementDestroy500EnnemiesWithMissileDesc||Destroy 500 enemies with a missile
+SAME AchievementDestroy5EnnemiesWithOneMissileName||Nice shot sir
+AchievementDestroy5EnnemiesWithOneMissileDesc||Destroy 5 enemies at once with a missile shockwave
+AchievementGetKille100TimeByMissileName||That\'s unfair
+AchievementGetKille100TimeByMissileDesc||Get killed 100 times by a missile
+AchievementGetHit1000TimeByMissileName||That\'s what shields are made for
+AchievementGetHit1000TimeByMissileDesc||Get hit 1000 times by a missile
+AchievementDeveloperMateName||Friend in High Places
+AchievementDeveloperMateDesc||Get the favor of the game developer
+AchievementDeveloperMailName||Feedback are welcome (Secret)
+AchievementDeveloperMailDesc||Send the game developer an email
+SAME AchievementBooster100kConsumeName||Booster burner
+AchievementBooster100kConsumeDesc||Consume 100 000 shield unit with your booster
+AchievementBooster1MConsumeName||Lavoisier\'s law compliance
+AchievementBooster1MConsumeDesc||Consume 1 Milion shield unit with your booster
+AchievementPoliceVentoName||To protect ... and destroy
+AchievementPoliceVentoDesc||Join Ventohigh police force
+Achievement10SectorVisitedName||Explorer
+Achievement10SectorVisitedDesc||Explore 10 different sectors
+AchievementDestroy10StationName||Ecologist
+AchievementDestroy10StationDesc||Destroy 10 space stations
+AchievementJump20TimeName||Faster Than Light
+AchievementJump20TimeDesc||Perform 20 hyperdrive engine jumps.
+AchievementJump10Name||Long jump
+AchievementJump10Desc||Jump at leat 10 sectors in a single hyperdrive jump.
+AchievementFinishTutorialName||Space Cadet
+AchievementFinishTutorialDesc||Finish the tutorial.
+AchievementKilledByMineName||Kaboom
+AchievementKilledByMineDesc||Get killed by a mine.
+AchievementFinishAllVentohighName||Ventohigh commited
+AchievementFinishAllVentohighDesc||Finish all Ventohigh missions.
+SAME AchievementCleanTheWaveName||Wavemaster
+AchievementCleanTheWaveDesc||Destroy all enemies of The Wave sector.
+Achievement1000CriticalName||Critical enthusiast
+Achievement1000CriticalDesc||Make 1000 critical shoot.
+AchievementFinishOneArena||Gladiator
+AchievementFinishOneArenaDesc||Finish one arena level
+AchievementBuyInapp||Game sponsor
+AchievementBuyInappDesc||Spend money on the store
+AchievementFinishFiveArenaInaGame||Arena challenger
+AchievementFinishFiveArenaInaGameDesc||Clear five arena level in a single participation
+AchievementFullSetLegendaryName||I am a legend
+AchievementFullSetLegendaryDesc||Equip a full legendary object set
+SAME AchievementDelivery5Name||Galactic export
+AchievementDelivery5Desc||Complete 5 delivery missions
+AchievementUse3MobileShopName||Personal delivery
+AchievementUse3MobileShopDesc||Call a mobile shop three times
+AchievementKillOneElite||Elite killer
+AchievementKillOneEliteDesc||Destroy an elite enemy
+SAME AchievementKill20Elite||Full metal jacket
+AchievementKill20EliteDesc||Destroy 20 elite enemies
+AchievementCleanOrionEnnemiesName||Artemis
+AchievementCleanOrionEnnemiesDesc||Destroy all ennemies in Hermes sector
+AchievementBuyNewShip||Building the armada
+AchievementBuyNewShipDesc||Buy a new ship
+AchievementFinishAllSpartanName||Corporate
+AchievementFinishAllSpartanDesc||Finish all Spartan HQ missions.
+AchievementKill100EnemiesWithHull||Ram of steel
+AchievementKill100EnemiesWithHullDesc||Kill 100 enemies with the Hullraiser special capacity
+AchievementKillAlien||First encounter
+AchievementKillAlienDesc||Kill an alien enemy
+SAME AchievementKill100Alien||Independance day
+AchievementKill100AlienDesc||Kill 100 alien enemy
+AchievementKillAlienMotherShip||Birth control
+AchievementKillAlienDescMotherShip||Destroy an alien mothership
+AchievementPlayWithMoga||Self control
+AchievementPlayWithMogaDesc||Play with a Moga controller
+AchievementKillTheDev||How dare you
+AchievementKillTheDevDesc||Kill the game dev in a multiplayer game
+AchievementKillMultiplayer||U mad bro ?
+AchievementKillMultiplayerDesc||Kill a player in a multiplayer game
+AchievementWinMultiplayer||I rule the internet
+AchievementWinMultiplayerDesc||Win a multiplayer battle
+SAME AchievementKill10Multiplayer||Net Corsair
+AchievementKill10MultiplayerDesc||Kill 10 player in a multiplayer game
+AchievementKill100Multiplayer||Got a better ping
+AchievementKill100MultiplayerDesc||Kill 100 player in a multiplayer game
+AchievementKilledByTheDev||Cheater
+AchievementKilledByTheDevDesc||Killed by the dev in a multiplayer game
+malachite_desc||Malachite is an hydroxide mineral.&lt;br/&gt;&lt;br/&gt; It is used as both an ornamental stone and as a gemstone.&lt;br/&gt;&lt;br/&gt; It may be found in asteroid framgents, it\'s quite easy to sell since Malachite is often considered as a parallel currency by the border lands.
+diamond_desc||Diamond is the hardest known natural material in the galaxy.&lt;br/&gt;&lt;br/&gt; Composed of carbon, it can be formed in the interstellar environment as the result of the collision of asteroids.&lt;br/&gt;&lt;br/&gt; It\'s used both in jewellery and industry&lt;br/&gt;&lt;br/&gt; There are no more diamond deposits in the galaxy, making it one of the the most valuable materials.
+stone_desc||Stone blocks are the main component of asteroids.&lt;br/&gt;&lt;br/&gt; It can be sold to factories that specialise in mineral refinement.
+ruby_desc||Ruby is a red mineral whose color is caused mainly by the presence of chromium oxide.&lt;br/&gt;&lt;br/&gt; Like all gemstones, rubies are used in jewelry. What is less known is that they are widely used in space vehicle\'s gyroscopes due to the extremely low friction of metal on it. &lt;Br&gt;&lt;BR&gt;It\'s also present in the laser beam deflectors that are mounted on spaceships.
+shield_desc||The shield is your spacial guardian angel. It prevents your ship from taking damage.&lt;br/&gt;&lt;br/&gt; The &lt;b&gt;capacity&lt;/b&gt; of the shield defines the amount of damage it can withstand.&lt;br&gt;&lt;br&gt; The &lt;b&gt;regen rate&lt;/b&gt; stands for the shield regeneration speed. The higher it is, the faster your shield will recover.&lt;br&gt;&lt;br&gt; The &lt;b&gt;Regen time&lt;/b&gt; is the number of seconds after taking damage during which your shield won\'t regen. &lt;br&gt;&lt;br&gt; &lt;font color = reen&lt;b&gt;To recharge your shield faster after a fight, stop moving and shooting for a few seconds.&lt;/b&gt;&lt;/font&gt;
+laser_desc||Standard weapon found on most spaceships in the galaxy.&lt;br/&gt;&lt;br/&gt; There are a multitude of different laser cannons. Damage, reload speed and accuracy vary from one manufacturer to another.&lt;br/&gt;&lt;br/&gt; Feel free to try several to find one that suits you best.
+fermiumLaserDesc||Fermium class lasers are made by aliens.&lt;br&gt;&lt;br&gt; Extremely rare, they have both a high level of damage and many special effects .&lt;br&gt;&lt;br&gt; This makes the fermium class lasers the most powerful weapons of the galaxy.
+aggressorMissileModDesc||The aggressor missile modification combines the qualities of a military class missile with a devastating special effect. &lt;br&gt;&lt;br&gt; When it explodes, acid sprays on nearby enemies and deals high damage over time.
+diamondShieldDesc||The diamond class shield is state of the art in the ship\'s shield industry.&lt;br&lt;br&gt; In addition to its exceptional defense statistics, it takes the best options of the market\'s top shields, like hull regeneration or weapon reload time optimisation. &lt;br&gt;&lt;br&gt; If you need to travel in very dangerous locations, this shield is made for you.
+badAssLaserLevel3||Maverick Laser is a military class weapon.&lt;br&gt;&lt;br&gt; The projectile is designed to cause perturbation of the target\'s propulsion system. This new edition also includes a reload speed perturbator.
+corrosiveLaserLevel5||The Corrosive Laser Mk3 is a very powerful weapon.&lt;br&gt;&lt;br&gt; Not only are its characteristics more than honorable, but it\'s also equipped with a special module that causes bonus acid damage to the target\'s hull.
+energyCell_desc||Energy cells are the main standardised energy containers in the galaxy.&lt;BR&gt;&lt;BR&gt; They are used in all standard ships and factories. Energy cells are produced in large quantities by solar power plants.&lt;BR&gt;&lt;BR&gt; Despite several awareness campaigns, it is rare that the cells are recycled after use. With energy demand being constant, and the production cycle of new cells being a long process, the price of energy cells is very volatile.&lt;BR&gt;&lt;BR&gt; You can keep your cells for personal use, like in hyperdrive engines, or sell them. All stations of the galaxy will buy them with pleasure.
+missile_mosquito_desc||&lt;b&gt;A missile modification defines the characteristics of the missile you fire. You only need to buy it once. Mount it on your spaceship in order to apply the mod to your missiles.&lt;/b&gt; The Mosquito missile modification is SPARTAN Industries\' budget homing missile.&lt;BR&gt;&lt;BR&gt; It gives your missiles good speed but low manoeuvrability. It was designed to shoot a static target, moreover, its payload is quite low.
+missile_torpedo_desc||&lt;b&gt;A missile modification defines the characteristics of the missile you fire. You only need to buy it once. Mount it on your spaceship in order to apply the mod to your missiles.&lt;/b&gt; &lt;br&gt;&lt;br&gt; SPARTAN industries\' Torpedo missile modification uses state-of-the-art technology to provide one of the best homing missiles of the galaxy.&lt;BR&gt;&lt;BR&gt; It gives your missiles good manoeuvrability and a respectable payload. The compromise is a longer reload time and a low magazine size&lt;BR&gt;&lt;BR&gt;
+percuteurMissile_desc||&lt;b&gt;A missile modification defines the characteristics of the missile you fire. You only need to buy it once. Mount it on your spaceship in order to apply the mod to your missiles.&lt;/b&gt; &lt;br&gt;&lt;br&gt; The Heat missile modification fires very fast missiles. Its lack of agility is balanced by its very fast reload speed.&lt;br&gt;&lt;br&gt;
+acid_missile_mod_desc||&lt;b&gt;A missile modification defines the characteristics of the missile you fire. You only need to buy it once. Mount it on your spaceship in order to apply the mod to your missiles.&lt;/b&gt; &lt;br&gt;&lt;br&gt; The Acid missile modification fires missiles without an explosive charge. Instead it\'s filled with acid that sprays on enemies and causes damage to their hulls.
+rocket_hydra_desc||&lt;b&gt;A missile modification defines the characteristics of the missile you fire. You only need to buy it once. Mount it on your spaceship in order to apply the mod to your missiles.&lt;/b&gt; The Hydra rocket modification turns your missiles into rockets. Unlike homing missiles, they do not track enemies.&lt;BR&gt;&lt;BR&gt; The rocket will fly in a straight line and explode on the first impact.&lt;Br&gt;&lt;BR&gt; Its main advantages are its reload speed and the quantity of ammunition, however it\'s quite sensitive to enemy fire.
+souteIncrease300_desc||Based on the best compression algorithms, the Alcou Corp\'s storage cube increases your cargo ship capacity by 300 units.&lt;Br&gt;&lt;Br&gt; It\'s a must have for all the galaxy travelers !
+instaRepair_desc||Immediately repairs the ship\'s hull.&lt;br&gt;&lt;br&gt; The hull must cool down before using a repair again. &lt;br&gt;&lt;br&gt; Removed from inventory after use, buy the deluxe version for infinite use.
+missionContrebandeBox_desc||Galaxy standard container designed to resist the most advanced scanners making its contents completely secret, even to the carrier.
+missile_desc||The missile is a self-propelled weapon system.&lt;BR/&gt;&lt;BR/&gt; Since the Orion council, its shape is standardized. A missile itself is useless without a missile modification system.&lt;Br&gt;&lt;Br&gt; The modification system changes the velocity, agility, and damage of the standard missile. The better the missile modification is, the higher its price is.
+basicMissileMod_desc||Default missile modification.&lt;Br&gt;&lt;Br&gt; This missile modification is included on all military ships by default. It is designed to test the interface between the ship and the missile itself. During a fight it won\'t help you at all and you should consider buying a new one.&lt;Br&gt;&lt;Br&gt; You can find missile modifications on enemies, or buy them yourself in specialised space stations like those of SPARTAN Industries.
+prisonner_desc||Most of the time, prisoners are unlucky pilots drifting in their spacesuits.&lt;Br&gt;&lt;Br&gt; Prisoners are kept in an artificial sleep by the jail compartment of your ship. &lt;br&gt;&lt;br&gt; You can sell prisoners to Smuggler\'s stations.
+nopBooster_desc||&lt;b&gt;Non functional booster delivered by default with the ship&lt;/b&gt;.&lt;br&gt;&lt;br&gt; A booster is an alien technology that allows you to shunt your shield energy to the ship\'s engine.&lt;br&gt; This gives you extra speed and acceleration, but it consumes your shield reserves.&lt;Br&gt;&lt;Br&gt; Go to a Shipyard to buy an effective booster.
+classicBooster_desc||A booster is an alien technology that allows you to shunt your shield energy to the ship\'s engine.&lt;br&gt; This gives you extra speed and acceleration, but it consumes your shield reserves.&lt;Br&gt;&lt;Br&gt; This booster double your acceleration and consumes 10% of your shield per second.
+basicBooster_desc||A booster is an alien technology that allows you to shunt your shield energy to the ship\'s engine.&lt;br&gt; This gives you extra speed and acceleration, but it consumes your shield reserves.&lt;Br&gt;&lt;Br&gt; This booster increase your propulsion by 50&amp;#37; and consumes 20&amp;#37; of your shield per second.
+extraBooster_desc||A booster is an alien technology that allows you to shunt your shield energy to the ship\'s engine.&lt;br&gt; This gives you extra speed and acceleration, but it consumes your shield reserves.&lt;Br&gt;&lt;Br&gt; This booster has been crafted by the best engineer of the galaxy. &lt;b&gt;It contains a very specific architecture that allows you to get more acceleration than the classic booster, with four times less shield unit consumed per second.&lt;/b&gt;
+pirateBaySmugglerPos_desc||Level 8 max treasure Map&lt;br&gt;&lt;br&gt;. This electonic chip has been found on a pirate\'s wreck.&lt;br&gt;&lt;br&gt; It contains the location of a secret smuggler station in the Pirate Bay sector.&lt;br&gt;&lt;br&gt; If you own this card and you go to the description view, the coordinates of the secret station will be transferred to your navigation system. Thus, the station will appear on your radar the next time you enter the area. You can then get rid of the electronic chip.
+solarFieldSmugglerPos_desc||This electonic chip has been found on a pirate\'s wreck.&lt;br&gt;&lt;br&gt; It contains the location of a secret smuggler station in the Solar Field sector.&lt;br&gt;&lt;br&gt; If you own this card and you go to the description view, the coordinates of the secret station will be transferred to your navigation system. Thus, the station will appear on your radar the next time you enter the area. You can then get rid of the electronic chip.
+jaspinBite_Desc||Jaspin\'s bite is a artisanal laser produced in limited quantities.&lt;br&gt;&lt;br&gt; Due to its specific architecture, its reload time is quite important. This is balanced by a high impact damage. Specialists can identify the laser by the specific green color and the high velocity of its projectiles.
+pirateBayTreasureOne_desc||This electonic chip has been found on a spaceship wreck.&lt;br&gt;&lt;br&gt; It contains the location of a secret treasure in the Pirate Bay sector.&lt;br&gt;&lt;br&gt; If you own this card and you go to the description view, the coordinates of the treasure will be transferred to your navigation system. Thus, the treasure will appear on your radar the next time you enter the area. You can then get rid of the electronic chip. &lt;br&gt;&lt;br&gt; Once the treasure has been looted, it won\'t be accessible for a while. Additionally, if your level is beyond the area level, the treasure won\'t be available. &lt;br&gt;&lt;br&gt; Be careful, as treasures are usually heavily guarded.
+constellationTreasureOne_desc||Level 7 max treasure Map&lt;br&gt;&lt;br&gt;. This electonic chip has been found on a spaceship wreck.&lt;br&gt;&lt;br&gt; It contains the location of a smuggler ship position in the Constellation sector.&lt;br&gt;&lt;br&gt; Destroy the smuggler ship and his valuable shipment will be yours. The sector is quite isolated, so all of this should remain secret. &lt;br&gt;&lt;br&gt; If you own this card and you go to the description view, the coordinates of the treasure will be transferred to your navigation system. Thus, the treasure will appear on your radar the next time you enter the area. You can then get rid of the electronic chip. &lt;br&gt;&lt;br&gt; Once the treasure has been looted, it won\'t be accessible for a while. Additionally, if your level is beyound the area level, the treasure won\'t be available.
+ventoGovLaser_Desc||Former weapon of Ventohigh governor Thomas David.&lt;br&gt;&lt;br&gt; Composed of a neodyme layout, this laser has one of the fastest shooting rates of the galaxy.
+hugoWisdomTreasureOne_desc||Level 7 max treasure Map&lt;br&gt;&lt;br&gt;. This electonic chip has been found on a spaceship wreck.&lt;br&gt;&lt;br&gt; It contains the location of a &lt;b&gt;legendary destroyed Albatross spaceship&lt;/b&gt; in the Hugo Wisdom sector.&lt;br&gt;&lt;br&gt; If you own this card and you go to the description view, the coordinates of the treasure will be transferred to your navigation system. Thus, the treasure will appear on your radar the next time you enter the area. You can then get rid of the electronic chip. &lt;br&gt;&lt;br&gt; Once the treasure has been looted, it won\'t be accessible for a while. Additionally, if your level is beyond the area level, the treasure won\'t be available . &lt;br&gt;&lt;br&gt; Be careful, as treasures are usually heavily guarded.
+nopHyperdriveEngine_desc||Fake hyperdrive engine bundled with the ship. It keeps the ship gravity integrity without a real hyperdrive system. &lt;br&gt;&lt;br&gt; Hyperdrive engines were theorised by the scientist Burkhard Heim. The first implementation was made 2500 years later by SPARTAN Industries.&lt;br&gt; It allows you to jump from any point of the universe to another sector if it\'s present in your navigation system. Each jump consumes energy cells based on the travel distance. The quality of the engine defines its energy consumption. &lt;br&gt;&lt;br&gt; To purchase a functional hyperdrive engine, go to a shipyard.
+basicHyperdriveEngine_desc||Most common hyperdrive engine of the galaxy. If you have enough energy cells, it won\'t ever let you down. &lt;br&gt;&lt;br&gt; Hyperdrive engines were theorised by the scientist Burkhard Heim. The first implementation was made 2500 years later by SPARTAN Industries.&lt;br&gt; It allows you to jump from any point of the universe to another sector if it\'s present in your navigation system. Each jump consumes energy cells based on the travel distance. The quality of the engine defines its energy consumption. &lt;br&gt;&lt;br&gt; To perform a hyperdrive jump, go the the galaxy map view.
+extraHyperdriveEngine_desc||Perfect hyperdrive engine for mercenaries and smugglers, this advanced engine requires two times less energy cells for a jump. &lt;br&gt;&lt;br&gt; Hyperdrive engines were theorised by the scientist Burkhard Heim. The first implementation was made 2500 years later by SPARTAN Industries.&lt;br&gt; It allows you to jump from any point of the universe to another sector if it\'s present in your navigation system. Each jump consumes energy cells based on the travel distance. The quality of the engine defines its energy consumption. &lt;br&gt;&lt;br&gt; To perform a hyperdrive jump, go the the galaxy map view.
+telemetryRecorder_desc||Remote telemetry data transmission device.
+rescueMan_desc||Astronaut in distress, whose oxygen reserves in the sidereal space are limited. &lt;br&gt;&lt;br&gt;He will certainly be grateful to you for having saved his life.
+hermesTreasureOne_desc||This electonic chip has been found on a spaceship wreck.&lt;br&gt;&lt;br&gt; It contains the location of a &lt;b&gt;very dangerous Albatross spaceship&lt;/b&gt; in the Hermes sector.&lt;br&gt;&lt;br&gt; If you own this card and you go to the description view, the coordinates of the treasure will be transferred to your navigation system. Thus, the treasure will appear on your radar the next time you enter the area. You can then get rid of the electronic chip. &lt;br&gt;&lt;br&gt; Once the treasure has been looted, it won\'t be accessible for a while. Additionally, if your level is beyond the area level, the treasure won\'t be available.
+shield_proto_spartan_desc||The SPARTAN Prototype Shield is an outstanding piece of technology. This is one of the best civilian shields on the market. The R&amp;D team of SPARTAN spent more than 30 years designing it. &lt;br&gt;Its price may be high but it\'s really worth it, as it will save your life many times. &lt;br&gt;&lt;br&gt; The &lt;b&gt;capacity&lt;/b&gt; of the shield defines the amount of damage it can withstand.&lt;br&gt;&lt;br&gt; The &lt;b&gt;regen rate&lt;/b&gt; stands for the shield regeneration speed. The higher it is, the faster your shield will recover.&lt;br&gt;&lt;br&gt; The &lt;b&gt;Regen time&lt;/b&gt; is the number of seconds after taking damage during which your shield won\'t regen. &lt;br&gt;&lt;br&gt;
+electonicChip_desc||Electronic card with standard interface port.
+missionBountyAliveSpartan_desc||Niko Vinetau is known as a brilliant product manager at SPARTAN Industries.&lt;br&gt;&lt;br&gt; His natural corporate fragrance betrays a pronounced taste for alcohol.
+missile_mod_default_desc||A missile modification defines the characteristics of the missiles you fire like damage, agility, lifetime.&lt;br&gt;&lt;br&gt; You only need to buy it once. Mount it on your spaceship to apply the mod to your missiles.
+goodsEnergyContainer_desc||An energy bloc is a large industrial version of an energy cell.&lt;br&gt;&lt;br&gt;
+callMobileSeller_desc||Use this device to call a mobile shop ship ! &lt;br&gt;&lt;br&gt; If you need a repair, if your inventory is full, if you are low on energy cells, if you need more missiles, or if you need company, call the mobile shop ! This instant shop system will send a broadcast message to all the sectors of the galaxy. In a few seconds a cargo shop will come and offer you the opportunity to sell your objects or purchase necessary goods like missiles, or energy cells. &lt;br&gt;&lt;br&gt; This device is one time use only. Buy the \"Instant shop mk2 +\" for infinite uses !
+buy50KGold_desc||Buy this to get 50,000 credits.
+instaRepairInfinite_desc||Immediately repairs the ship\'s hull and charges the shield to its maximum. &lt;br&gt;&lt;br&gt; The hull must cool down before using a repair again. &lt;br&gt;&lt;br&gt; &lt;font color = \"yellow\"&gt;Reusable : remains in the inventory after use !&lt;/font&gt;
+defaultPlayerShipDesc_desc||The corsair one is your first space ship.&lt;br&gt;&lt;br&gt; Compact and manoeuvrable, it is perfect to snake in asteroid fieds.&lt;br&gt; It\'s equiped of two coaxial laser rack.
+condorPlayerShipDesc_desc||Middlesize spaceship equiped with one rotative dual laser rack that can shoot at 360°.&lt;br&gt; Laser rotation speed is a bit slower than the most recent versions.
+theVaultTreasureOne_desc||Level 15 max treasure Map&lt;br&gt;&lt;br&gt;. This electonic chip has been found on a spaceship wreck.&lt;br&gt;&lt;br&gt; It contains the location of a secret treasure in The Vault sector.&lt;br&gt;&lt;br&gt; If you own this card and you go to the description view, the coordinates of the treasure will be transferred to your navigation system. Thus, the treasure will appear on your radar the next time you enter the area. You can then get rid of the electronic chip. &lt;br&gt;&lt;br&gt; Once the treasure has been looted, it won\'t be accessible for a while. Additionally, if your level is beyond 15, the treasure won\'t be available. &lt;br&gt;&lt;br&gt; Be careful, as treasures are usually heavily guarded.
+rescueCivilPilot_desc||Civilian pilot ejected from his ship&lt;br&gt;&lt;br&gt;
+secretTransmeter_desc||Secret recorder system,&lt;br&gt;&lt;br&gt; You can read made by spartan on the side, it seems burn on the top.
+hullBreakerPlayerShipDesc_desc||Designed by alcou corps, this middlesize spaceship is equiped with two fixed laserracks. &lt;br&gt;&lt;br&gt; Its kinetic energy converter deals damage to targets on impact.
+corvettePlayerShipDesc_desc||The Cosmowarrior is a large spaceship equiped with three double lasercannons and a dual missiles slot allowing to fire two missile at a time.&lt;br&gt; This corvette has a double durasteel hull which confers on the spaceship a very high resistance, at the cost of a lack of maniability and speed.
+alien_jelly_desc||Alien slimy leftover.&lt;br&gt;&lt;br&gt; Whereas humanoids are composed of 60% of water, Aliens are mostly made up of jelly.&lt;br&gt;&lt;br&gt; Very nutritive, the alien jelly is used as a nutrutive source by clone farms.
+alien_egg_desc||It\'s an egg, it\'s green, it stinks : it\'s an alien egg !&lt;br&gt;&lt;br&gt; The Alien egg shells are widely used by shipyard industry for its capacity to resist to pressure, and to space radiations.
+engine_block_desc||This engine block is not usable but has a high resell value.
+water_desc||Drinkable water, extracted from frozen comets.&lt;br&gt;&lt;br&gt; warning, may contain some stardust.
+missionGotos||Go to
+missionReturs||Go back to
+missionDestroy||Destroy
+missionDockTo||Dock to
+missionGatherStone||Destroy asteroids and gather stone
+missionSellStone||Dock and then sell stone blocks
+missionGatherSmuggling||Collect smuggled goods
+missionBountyGameDept||Gambling dept
+missionBountyGameDeptDescription||Red Peter Blackman is a former defense member.&lt;BR/&gt;&lt;BR/&gt; Crippled with debt, he became one of the most corrupted men of the confederation. Fired after a huge scandal, he accumulated unpaid bills and debts in underground casinos. One of his creditors decided to make an example of him. He consequently recently placed a bounty on his head : dead or alive. It is said he hides away in the Thor Passing sector. &lt;BR&gt;&lt;BR&gt;Chase him down and the bounty is yours.
+missionBountyGameDeptDescriptionCompleted||I\'ll tell his creditor the job is done. Here is your reward.
+missionGenesisAsteroidGather||Space pickaxe
+missionGenesisAsteroidGatherDescription||Mining Corp is always looking for high quality rocks.&lt;BR&gt;&lt;BR&gt; It hires mercenaries to extract asteroid rock located in the Planck Pride sector. Not many people seem interested by the job since the area is full of hostile looters.
+missionGenesisAsteroidGatherCompleted||The local representative of Mining Corp seemed very enthusiastic about the quality of your shipment.&lt;BR/&gt; He agrees to buy your shipments any time.
+missionGenesisAsteroidGatherDIalogue||As you may have noticed, asteroids are represented on your radar by a yellow point.&lt;br&gt;&lt;br&gt; Enemies are in red and allies or loot are green.
+missionGenesisContrebande||Lost cargo
+missionGenesisContrebandeDescription||One of our cargo ships has been attacked by looters in the Planck Pride sector.&lt;BR&gt;&lt;BR&gt; This moron cast off all his cargo, so it\'s drifting in the middle of the looter sector. Find and bring back the cargo.&lt;Br&gt;&lt;BR&gt; You ought to expect resistance from the looters.
+missionGenesisContrebandeDescriptionCompleted||Obviously you could not get all the cargo, but it\'s better than nothing. Here\'s your reward.
+missionGenesisDefensePillard||Looters attack
+missionGenesisDefensePillardDescription||Planck Pride\'s looter activity has grown recently.&lt;BR&gt;&lt;BR&gt; We\'ve detected suspicious activity near the space portal. Our analyst concludes there is an 80% chance that an invasion is about to occur.&lt;BR&gt;&lt;BR&gt; Get close to their entry point and repel the assault !
+missionGenesisDefensePillardCompleted||Thanks to your timely intervention we avoided the worst. Genesis is deeply indebted to you!
+missionGenesisDefenseZoneText||Defend Genesis !
+missionGenesisDefensePillardEchecPart||you coward !
+missionGenesisTuerChefPillard||Strike back
+missionGenesisTuerChefPillardDescription||The recent offensive against Genesis shall not be without consequences.&lt;BR&gt;&lt;BR&gt; It\'s time to strike back hard. One of our spies put a transponder on the looter leader\'s ship. Sneak into the area and destroy him.&lt;BR&gt;&lt;BR&gt; Be very careful, it is very likely they are waiting for a counterattack....
+missionGenesisTuerChefPillardCompleted||Mission complete !&lt;BR&gt; I think they got the message loud and clear. Until they find a new leader we will have respite.&lt;BR&gt;&lt;BR&gt; Citizens of Genesis can finally leave their stations once again. Thank you for your help.
+missionGenesisTuerChefPillardNameChef||looter\'s leader
+missionGenesisTuerChefPillardDialogue||Whharg !&lt;br&gt;&lt;br&gt; They sent me a rookie. Get ready to meet your maker !
+missionGenesisDestroyStation||Space station to blow
+missionGenesisDestroyStationDescription||A group of pirates have installed sentries in the Thor Passing\'s asteroid belt. They frequently attack cargo ships that are enroute to Genesis.&lt;Br&gt;&lt;Br&gt; Reports reveal the presence of a pirate station outpost. &lt;BR&gt;&lt;BR&gt;Destroy this station and halt the pirate\'s activity in the area.
+missionGenesisDestroyStationCompleted||Well, this should calm them down for a while. &lt;BR&gt;&lt;BR&gt;Thanks to your brilliant intervention, we can reopen the trade routes with neighboring sectors.
+missionGenesisDestroyStationName||pirate station
+missionGenesisDestroyStationDestroySentence||Destroy the pirate station
+missionGenesisDestroyStationCapName||station captain
+missionGenesisKillTourelles||Stone cleaning
+missionGenesisKillTourellesDescription||Travelers have indicated the presence of sentries in the asteroid belt. &lt;BR&gt;&lt;BR&gt; Fix that problem and you will be rewarded.
+missionGenesisKillTourellesCompleted||Thank you for solving the problem.
+missionGenesisKillTourellesSentence||Destroy the sentries
+missionGenesisDiscoverName||First steps
+missionGenesisDiscoverDesc||Welcome to space, corsair. This mission will lead you to Rob Thomas, the Governor of the Genesis area.
+missionGenesisDiscoverCompleted||Welcome to the Genesis sector.&lt;BR&gt;&lt;BR&gt; I am Rob Thomas, Genesis\'s Governor. You have been highly recommended by our intermediary. As you may have noticed, the sector\'s business activity is almost nonexistent. We have been forced to restrict trade since the arrival of a terrorist group in the neighboring area of Planck Pride : The looters.&lt;Br&gt;&lt;Br&gt; You can take the time you need to visit the area. When you are ready, return to this space station to take missions and help us find some well deserved peace.
+missionGenesisDiscoverGotoStation||Dock to the GENESIS COMMAND CENTER
+missionGenesisGotoVentohigh||To Ventohigh and beyond!
+missionGenesisGotoVentohighDescription||If you feel ready to face the other challenges of the galaxy, the Ventohigh sector is made for you. It is a large area of activity that never lacks work on offer.&lt;Br/&gt;&lt;Br/&gt; Tell Captain Thomas Davis that I sent you, he is in charge of the local command center.&lt;Br&gt;&lt;Br&gt; Feel free to come by from time to time.
+missionGenesisGotoVentohighCompleted||Greetings corsair,&lt;Br/&gt;&lt;Br/&gt; I\'m Captain Thomas Davis, in charge of the Ventohigh command center.&lt;BR&gt; I heard you were looking for a job. That\'s good since we have a lot to do, some official tasks and some, more... exotic.&lt;BR&gt;&lt;BR&gt; In a nutshell, if you are ready to get your hands dirty you are my man !
+missionVentohighPolice||space police
+missionVentohighPoliceDescription||Some unscrupulous civilians try to hide contraband goods in their cargo.&lt;br&gt;&lt;br&gt; Because our forces are too busy with the pirate activity, smugglers take advantage of the situation. If you accept the mission, you will temporarily join the Ventohigh police force and will be provided a powerful scanner that detects forbidden goods.&lt;br&gt;&lt;br&gt; Get close to civilians for a few seconds. If the scanner detects something anormal, you are allowed to engage them !
+missionVentohighPoliceCompleted||Well done ! Here is your reward for the mission.&lt;br&gt;&lt;br&gt; Of course, no one is expected to know anything about our little ... arrangement. As long as you keep the secret, you are welcome within the Ventohigh police force.
+missionVentohighPoliceScan||Scan the civilians of the area.
+SAME missionVentohighPoliceScanOk||(scan ok)
+missionVentohighPoliceScanKo||(smuggler)
+missionVentohighFindStation||the twin star case
+missionVentohighFindStationDescription||There is action in the Twin Star sector. Civilians complain of recent pirate attacks. &lt;br&gt;&lt;br&gt; One civilian told us that the attackers were coming from south west of the sector far away in the south axis of the Hugo Wisdom portal. &lt;br&gt;&lt;br&gt; Your mission is to investigate the source of the attacks. Sneak into the sector and follow the pirate squadrons. Avoid all contact with hostiles and whatever you find do not attempt anything alone. &lt;br&gt;&lt;br&gt; When you locate the threat source, return for debriefing.
+missionVentohighFindStationCompleted||This is what I feared. A pirate station built next to the trade road.&lt;br&gt;&lt;br&gt; Thank for your search, we will formulate a strategy and contact you soon.
+missionVentohighFindStationFindText||Find the threat source.
+missionVentohighFindStationtGotoSud||According to the civilian statements, the station is south of your position. &lt;br&gt;&lt;br&gt; You can push on your radar to display the current level map.
+missionVentohighFindStationtGotoNord||According to the civilian statements, the station is north of your position. &lt;br&gt;&lt;br&gt; You can push on your radar to display the current level map.
+missionVentohighFindStationtGotoOuest||According to the civilian statements, the station is west of your position. &lt;br&gt;&lt;br&gt; You can push on your radar to display the current level map.
+missionVentohighFindStationtGotoEst||According to the civilian statements, the station is east of your position. &lt;br&gt;&lt;br&gt; You can push on your radar to display the current level map.
+missionVentohighDestroyTwinStation||Surgical Strike
+missionVentohighDestroyTwinStationDescription||We have more intel about the Twin Star pirate station you found recently. It turns out to be a massive ship factory.&lt;br&gt;&lt;br&gt; Our government cannot allow such a threat to exist next to our sector. We must attack as soon as possible, as forcefully as necessary.&lt;br&gt;&lt;br&gt; As you may already know, our forces are engaged in the outer border conflict. We cannot afford a massive assault. The target is protected by sentries. Destroy them so we can send missiles from the space gate. Then, stay close to the objective. We will use your ship as a guide for our missile guidance system.&lt;br&gt;&lt;br&gt; Once the station has been targeted, enjoy the show... and try to stay alive.
+missionVentohighDestroyTwinStationCompleted||Sector pacified, citizens reassured, governor to be reelected : Mission accomplished.&lt;br&gt;&lt;br&gt; Here is your reward, a rare weapon that was on my personal ship during the Fractal Wars.
+missionVentohighGetCloseToStationSpeach||Alright, &lt;br&gt;&lt;br&gt; Anti missile defenses are down. Now, come close to the station so we can use your ship as a router to our missile guidance system. &lt;br&gt; Be careful as it\'s a very powerful and fast missile, don\'t get in its way.
+missionVentohighDestroyTwinStationDestroySenty||Destroy anti missile sentries
+missionVentohighDestroyTwinStationLockStation||Stay close to the pirate station
+missionVentohighDestroyTwinStationLockStationTooFar||Approach pirate station for missile locking
+missionVentohighRescue||spaceship in distress
+missionVentohighRescueDescription||Five hours ago we received an SOS broadcast from a cargo ship.&lt;br&gt;&lt;br&gt; Since the last transmission we have not received any other information. You are requested to run recon in the sector, find the ship and evacuate any survivors.
+missionVentohighRescueCompleted||An Albatross class spaceship in this sector? This is very worrying.&lt;br&gt; Anyway, thanks for helping us.
+missionVentohighRescueRescue||Rescue the survivors
+missionVentohighRescueGotoVento||Bring the survivors back to Ventohigh
+missionVentohighRescueFail||survivors died
+missionVentohighRescueAlertDialogue||Alert alert !!!&lt;br&gt;&lt;br&gt; Our scanners just detected the entrance of an Albatross class enemy warship in your sector.&lt;br&gt;&lt;br&gt; You have no chance against it. Try to sneak out toward Ventohigh.
+missionVentohighDestroyTaupe||Meet the crocpierres
+missionVentohighDestroyTaupeDescription||Mining Corp has a drill point in the neighboring sector Ore Belt. &lt;br&gt;Reapers in the area are regularly annoyed by crocpierre, ships that can hide in the asteroids. &lt;br&gt;br&gt; Go to the area and destroy some specimens. To find them, approach an asteroid. The crocpierres generally come out of hiding when a ship approaches.
+missionVentohighDestroyTaupeCompleted||Thank you for your help. Mining Corp are our largest financiers and giving them a helping hand is always good for us.&lt;br&gt;&lt;br&gt; The crocpierres multiply rapidly, so let us know if you want to hunt them again.
+missionVentohighDestroyTaupeSentence||Destroy the crocpierre
+missionVentohighDestroyHugo||Lesson of wisdom
+missionVentohighDestroyHugoDescription||Hugo Wisdom is, after Pirate Bay, one of the most dangerous nearby sectors.&lt;br&gt;&lt;br&gt; Far from our police force but not so far from the trade routes are the worst mercenaries and thugs of the area.&lt;br&gt;&lt;br&gt; Under the \"Credit against Vermin\" program, you will be paid in exchange for punitive attacks in the sector.&lt;br&gt;&lt;br&gt; Forty ships destroyed should be sufficient.
+missionVentohighDestroyHugoCompleted||Here\'s your money, come back to me if you want more.
+missionVentohighDestroyHugoSentence||Destroy enemies in the sector
+missionVentohighTestMissile||Missile testing session
+missionVentohighTestMissileDescription||A Guardian class military ship, is visiting the sector to finish a test campaign. Capitin Raffy Rahajesy is looking for a good pilot to test the capabilities of his ship\'s new missiles. &lt;br&gt;&lt;br&gt; He offers a decent missile mod for those who accept the job. You ll need to install a telemetry tracker on your ship before starting the test.
+missionVentohighTestMissileCompleted||As promised, here is your missile modification.
+missionVentohighTestMissileBuyTracker||Buy a telemetry recorder in the shipyard.
+missionVentohighTestMissileFollowGuardian||Follow the Guardian cruiser.
+missionVentohighTestMissileComeBackGuardian||Get closer to the Guardian cruiser.
+missionVentohighTestMissileDodge||Dodge or destroy the test missiles.
+missionVentohighTestMissileWelcomeDialogue||Welcome civilian, &lt;br&gt; Please follow us until we reach the shooting area. We will test the proper functioning of your telemetry system during the journey.
+SAME missionVentohighTestMissileCaptainName||Capt. Rahajesy
+missionVentohighTestMissileFirstShootPhaseDialogue||Perfect, your transmitter is working fine, we will process the first missile salvo.&lt;br&gt;&lt;br&gt; Those are fake missiles with a very small active charge that should just scratch your shield.&lt;br&gt;&lt;br&gt; &lt;b&gt;Your objective is to dodge or destroy the incoming missiles. &lt;/b&gt;
+missionVentohighTestMissileSecondShootPhaseDialogue||Let\'s try something more powerful.&lt;br&gt;&lt;br&gt; The next missiles are faster and have greater agility. They are also a bit more resistant to laser damage. &lt;br&gt;&lt;br&gt; &lt;b&gt;Your objective is to dodge or destroy the incoming missiles. &lt;/b&gt;
+missionVentohighTestMissileForthShootPhaseDialogue||Our analysts are quite amazed by your performance.&lt;br&gt;&lt;br&gt; Let\'s see how you handle the new SPARTAN missile mod.
+missionVentohighTestMissileFiveShootPhaseDialogue||&lt;font color=\"red\"&gt; &lt;b&gt; OH MY GOD ! &lt;/b&gt; &lt;br&gt;&lt;br&gt; One of our technicians made a huge mistake and accidentally launched a real missile towards you.&lt;br&gt;&lt;br&gt; Do whatever you can to dodge it or I\'ll have to make a report to explain your death. &lt;/font&gt;
+missionVentohighTestMissileJokePhaseDialogue||HA HA HA&lt;br&gt;&lt;br&gt; That was fun. The \"real missile prank\" is one of my favorites.&lt;br&gt;&lt;br&gt; No hard feelings!
+missionVentohighTestMissileFailureKilledGuardian||Guardian destroyed
+NOFR missionVentohighDebugMission||mission debug
+missionVentohighKillEnnemisHermes||Hermes Sector
+missionVentohighKillEnnemisHermesDescription||Hermes sector has been neglected for too long. Many enemies roam waiting for a lost traveler to loot. &lt;br&gt;&lt;br&gt;Help us with clearing the sector and you will be rewarded.
+missionVentohighKillEnnemisHermesCompleted||Not too bad for a newbie. Here is your reward, feel free to sign up again.
+missionVentohighKillEnnemisHermesSentence||Destroy enemies on Hermes
+missionVentohighGotoSpartan||Meeting the big company
+missionVentohighGotoSpartanDescription||SPARTAN Industries is a very important company in the galaxy. They have huge economic and political power. &lt;br&gt;They are always ready to hire people like you that can strike fast and discretely.&lt;br&gt; SPARTAN has various missions that could help you develop your skills and increase your influence. &lt;br&gt;&lt;br&gt;Meet them in their headquarters, and of course, feel free to come back any time.
+missionVentohighGotoSpartanCompleted||Hello corsair, &lt;br&gt;&lt;br&gt; Welcome to the SPARTAN headquarters. I am Florentz Ladelander. We have heard about your achievements and followed your progress since you worked for the governor of Ventohigh.&lt;br&gt;&lt;br&gt; We hope that our cooperation will be mutually beneficial. Please accept these few credits as a welcome gift. A space station that sells our best shields is just next to our location if you don\'t know how to spend it.
+characterDroidHelp||astrodroid 4.4
+tutorielMissionGotoAstero||Follow the yellow mark toward the red asteroid
+tutorielMissionDestroyAsteroid||Destroy the red asteroid
+tutorielMissionDockToStation||Dock to the space station (yello mark)
+tutorielMissionTakePortal||Go through the Genesis space gate
+welcomeMessage||Welcome to Space Corsair ! &lt;br&gt;&lt;br&gt; I am your personal astrodroid, I am going to help you through this quick tutorial.&lt;br&gt;&lt;br&gt; Let\'s start with basic propulsion control. I added a yellow marker on the right side of your screen. Go toward its position, it will lead you to a special red asteroid. Use the joystick on the bottom left of your screen. Your ship will follow the joystick direction. The further your finger is from the center of the joystick, the faster your ship will go. &lt;br&gt;&lt;br&gt; This tutorial is very quick, but if you want to start playing right now, feel free to navigate to the \"Genesis\" space portal located to the north of your current position.
+welcomeMessageMoga||Welcome to Space Corsair ! &lt;br&gt;&lt;br&gt; I am your personal astrodroid, I am going to help you through this quick tutorial.&lt;br&gt;&lt;br&gt; Let\'s start with basic propulsion control. I added a yellow marker on the right side of your screen. Go toward its position, it will lead you to a special red asteroid. Use the left joystick on the bottom left of your screen. Your ship will follow the joystick direction. &lt;br&gt;&lt;br&gt; This tutorial is very quick, but if you want to start playing right now, feel free to navigate to the \"Genesis\" space portal located to the north of your current position.
+tutorielShootAsteroMessage||Well done, you can change the joystick size in the game settings as well as the default camera zoom level and other nice options.&lt;br&gt;&lt;br&gt; Now that you have mastered movement, let\'s see how you handle laser shooting.&lt;br&gt;&lt;br&gt; Try to destroy the big red asteroid, to do so, press the button at the bottom right of your screen.&lt;br&gt;&lt;br&gt; Keep the button pressed to shoot continuously.
+tutorielShootAsteroMessageMoga||Well done, you can change the joystick sensibility in the game settings as well as the default camera zoom level and other options.&lt;br&gt;&lt;br&gt; Now that you have mastered movement, let\'s see how you handle laser shooting.&lt;br&gt;&lt;br&gt; Try to destroy the big red asteroid, to do so, press the R1 or R2 button.&lt;br&gt;&lt;br&gt; Keep the button pressed to shoot continuously.
+tutorielAsteroidName||Target asteroid
+tutorielSellMessage||Let\'s try to dock to a space station.&lt;br&gt;&lt;br&gt; Follow the yellow mark on the bottom of your screen, it will lead you to the space station.&lt;br&gt;&lt;br&gt; Mission objectives are always represented with such marks. On your game radar, objectives are represented by a cross. &lt;br&gt;&lt;br&gt; &lt;font color=\"red\"&gt; You can click on the radar to open a larger view of the area&lt;/font&gt;. In radar mode, click again or press the back button to go back to the game.
+tutorielSellMessageMoga||Let\'s try to dock to a space station.&lt;br&gt;&lt;br&gt; Follow the yellow mark on the bottom of your screen, it will lead you to the space station.&lt;br&gt;&lt;br&gt; Mission objectives are always represented with such marks. On your game radar, objectives are represented by a cross. &lt;br&gt;&lt;br&gt; &lt;font color=\"red\"&gt; You can click on the radar or press the Y button to open a larger view of the area&lt;/font&gt;. In radar mode, click again or press the back button to go back to the game.
+tutorielGotoGenesisMessage||The last step of this tutorial is to lead you to the first area of the game : Genesis.&lt;br&gt; The local governor needs your help to fight off a pirate invasion.&lt;br&gt;&lt;br&gt; The sectors of the galaxy are millions of kilometers away from each other, but thanks to the space gates, you can move from one area to another in a flash.&lt;br&gt;&lt;br&gt; The Genesis space gate is located north of your current position, as always, the direction is indicated by a yellow mark on the edge of your screen.
+tutorielHelpDockMessage||You\'ve found the space station, that\'s good.&lt;br&gt;&lt;br&gt; It\'s quite easy to dock yourself to the station : navigate close enough to an edge until you see a tractor laser. Then, just release the motion joystick : the station docking point will attract you automaticaly.&lt;br&gt;&lt;br&gt; Once docked, the station sell menu will open. When you are done with it, use your Android back button to leave the station.
+tutorielBeforeJumpMessage||Making a hyperspace jump is simple : get close to the center of the gate and release the joystick. The gate will be loading for a while and when it\'s done, it will send you to its target location in a wink.&lt;br&gt;&lt;br&gt; The gate won\'t be activated if your speed is too high, now, try to jump to the Genesis sector.
+tutorielFirstJumpGenesis||Congratulation, you just made your first hyperdrive jump.&lt;br&gt;&lt;br&gt; This is the end of the tutorial, your adventure is starting in this sector, more precisely at the Genesis command center where the governor Rob Thomas is waiting for you.&lt;br&gt;&lt;br&gt;Follow the yellow mark, it will lead you to the mission station. (Top of your screen). &lt;br&gt;&lt;br&gt; Before you go, let me show you a quick summary of the game controls.
+missionSpartanTransformerDelivery||Energetic refuel
+missionSpartanTransformerDeliveryDescription||Because of the pirate activity, more and more delivery companies refuse to serve dangerous sectors. Some space stations in those sectors report a dangerously low level of energy.&lt;br&gt;&lt;br&gt; We\'ve decided to treat the issue by buying electric transformers and deliver them to the stations. &lt;br&gt;&lt;br&gt; Pirate activity is highly probable.
+missionSpartanTransformerDeliveryCompleted||Well done, energy is not a problem anymore.
+missionSpartanKillFrelon||Shield thieves
+missionSpartanKillFrelonDescripton||Three days ago, a convoy that were delivering shields to Genesis was attacked.&lt;br&gt;&lt;br&gt; All the bandits of nearby sectors bought the stolen goods on the black market.&lt;br&gt;&lt;br&gt; Go to the sector \"The Wave\" and destroy all the enemies with a shield.&lt;br&gt;&lt;br&gt; Of course, all information about the robbery is fully confidential.
+missionSpartanKillFrelonCompleted||Ill gotten, ill spent ... I guess the thieves will have trouble finding new buyers after our little demonstration. &lt;br&gt;&lt;br&gt; Here is your reward.
+missionTheWaveKillFrelonSentence||Find and destroy ships with shields
+missionSpartanDestroyGuardian||Licence control
+missionSpartanDestroyGuardianDescription||This is not well known but SPARTAN also produces software components for military ships.&lt;br&gt;&lt;br&gt; We suspect one of our customers, Intergalactic Defence Forces, are not respecting the licence agreement of our contract. Because we don\'t have access to the military ships we cannot check if their software version is genuine. We believe that a Guardian class ship is about to go to the Heliostat sector. Go there and destroy the cruiser.&lt;br&gt; Then, search among the debris for electronic chips. Bring any back so we can analyse them.
+missionSpartanDestroyGuardianCompleted||Our best analysts are currently studying the electronic chips you just brought us. Initial results seem to prove the licence piracy.&lt;br&gt; With these elements, we will sue them and earn a big amount of credit.
+missionSpartanDestroyGuardianDestoyText||Destroy the Guardian ship
+missionSpartanDestroyGuardianGatherEventtext||Gather licencing piracy evidence
+missionSpartanDestroyGuardianFailureEvidence||evidence lost
+missionSpartanDestroyGuardianOfficerDialogue||What the hell do you think you are you doing ?&lt;br&gt;&lt;br&gt; We are a member of the Intergalactic Defense Forces, cease your attack immediately and leave the area.
+missionSpartanDestroyGuardianBringBackDialogue||You just picked up the electronic chip, now leave the area and come back to the HQ before reinforcements arrive.
+missionSpartanBountyAlive||Human resources
+missionSpartanBountyAliveDescription||Niko Vinetau was one of our best employees. He is the product manager of a very strategic project for the company.&lt;br&gt; He disappeared two days ago in strange circumstances. According to our information, he might sell confidential data to the highest bidder. He has been located a few minutes ago in the Pirate Bay sector. &lt;br&gt;&lt;br&gt;It is imperative for us to catch him &lt;b&gt;alive&lt;/b&gt;. Make him leave his ship and return him to the company headquarters.&lt;br&gt;&lt;br&gt; If you damage his ship enough without destroying it, he\'ll probably eject to save his own life.
+missionSpartanBountyAliveCompleted||You mission ends here, we will take care of our plain old Niko.
+missionSpartanBountyAliveTargetName||Niko Vinetau
+missionSpartanBountyAliveEjectDialogue||Niko just ejected from his ship. Let\'s pick him up so we can get the bounty.
+missionSpartanBountyAliveCapturedDialogue||Argh, I\'ll make you pay for that, corsair.&lt;br&gt;&lt;br&gt; Be careful with SPARTAN Industries, one day they\'ll get rid of you just like they did with me...
+missionSpartanDiscoverArena||The galactic arena
+missionSpartanDiscoverArenaDescription||The advertisements in the weapon industry are highly regulated . It\'s very difficult for us to run marketing campaigns.&lt;br&gt;&lt;br&gt; We wish to use the galactic arena, a sporting event that\'s broadcast to the whole galaxy to create a buzz around SPARTAN products.&lt;br&gt; You have been registered as a contestant with SPARTAN as sponsor for the next arena fight. Show the world that SPARTAN gear makes you unbeatable. &lt;br&gt;&lt;br&gt; Get in the arena and fight as well as possible.
+missionSpartanDiscoverArenaCompleted||That was a nice show, however, because of your performance, we do not wish to sponsor you again.&lt;br/&gt;&lt;br/&gt; Having said that, you can participate in the arena by yourself any time.
+missionSpartanDiscoverArenaGotoMessage||participate in the arena
+missionDeliveryFailureDestroy||cargo destroyed
+missionDeliveryFetch||Collect
+missionDeliveryDeliver||Deliver
+missionDeliveryCannotJump||Because of the Planck effect, making a hyperdrive jump could damage the goods we have to deliver. It\'s a risk we cannot afford : we have to travel using only space gates.
+missionDestroySolarSentriesKillSentriesSentence||Find and destroy hidden missile sentries
+missionDestroySolarSentriesSentriesName||missile sentry
+missionDestroySolarSentries||Hidden Threat
+missionDestroySolarSentriesdescription||A new kind of rocket sentry is being developed by pirate groups.&lt;br&gt;&lt;br&gt; It\'s a furtive missile launcher system that fools even the best ship sensors by acting like a common asteroid. Once the target is close enough, the sentry switches to aggressive mode and it\'s usually no contest. &lt;br&gt;&lt;br&gt; As a leader of the shield manufacturing industry, we ought to study any new threats our customers may encounter. We decided to gather information about those sentries as soon as possible. Intelligence reveals that furtive sentries are being deployed in the solar field sector. Unfortunately, it\'s known as a hostile sector, and, as you can imagine, the presence of the sentries makes it even more dangerous. We need a veteran pilot for this mission, that\'s why we contacted you. &lt;br&gt;&lt;br&gt; Go to the sector, find the sentries, and destroy a few of them.
+missionDestroySolarSentriesCompleted||All the data collected through your spaceship will be very useful.&lt;br&gt;&lt;br&gt; Thank you for your collaboration.
+missionDestroyMines||Red or blue wire ?
+missionDestroyMinesdescription||There are many mines in the Orion Sector. This is an issue for the neighbour sector of Omicron Prime.&lt;br&gt;&lt;br&gt; The Omicron space station\'s director asks us to handle this issue. The Orion sector is quite dangerous, we don\'t want to attract too much attention to our mission, thus, destroying mines with laser and missiles is not an option. Instead, we will try to reprogram the mine\'s software core in order to defuse the ignition system. &lt;br&gt;&lt;br&gt; We\'ve installed on your ship an advanced SPARTAN technology that can penetrate into the mine\'s internal architecture. You need to stay close to the mines during this process. Be careful, those mines have a gravity system that will attract you. &lt;br&gt;&lt;br&gt; Go to the Orion sector and defuse the mines.
+missionDestroyMinesKillMinesSentence||Defuse mines
+missionDestroyMinesCompleted||The job is done, here is your reward.
+missionThe||the
+missionOmicronKillStravos||Finding Stravos
+missionOmicronKillStravosDescription||Stravos is a well known criminal involved in the Ventohigh terrorist attack.&lt;br&gt;&lt;br&gt; Security scan of a space gate has detected his passage to The Vault, a sector not so far from here. All the bounty hunters of the sector are forming a team to find and kill Stravos.&lt;br&gt;&lt;br&gt; If anyone had enough courage to attack him alone, he could keep the whole reward for himself ...
+missionOmicronBountKillStravosCompleted||Amazing, you did survived to The Vault, everyone in the sector will be impressed.
+missionSpartanGotoOmicron||Omicron Folks
+missionSpartanGotoOmicronDescription||We need to keep low profile, the alien right consorcium started an investigation on our last activities. Anyway, We must stop working with corsairs and mercenaries for a while. &lt;br&gt;&lt;br&gt; Omicron prime is a very famous spaceport in the whole galaxy. Maybe you should go there to continue your adventure.&lt;br&gt;&lt;br&gt; By the way, to make it cristal clear, yes, you\'ve just been fired.
+missionSpartanGotoOmicronCompleted||Greetings stranger.&lt;br&gt;&lt;br&gt; Omicron prime is an independant sector. Just because we don\'t have dedicated police force doesn\'t mean we cannot defend ourself.&lt;br&gt;&lt;br&gt; Anyway, If you are looking for a job it\'s the place to be. We are connected to all the underground gallactic job boards.
+missionOmicronEscortJailTargetName||prisonner ship
+missionOmicronEscortFailureGeneric||escort destroyed
+missionOmicronEscortJail||The convoy
+missionOmicronEscortJailApproachTarget||join the prisoner ship
+SAME missionOmicronEscortJailPoliceName||officier
+missionOmicronEscortJailMeetingDialogue||Hello corsair,&lt;br&gt;&lt;br&gt; We are here to transfert a dangerous prisoner to the eternity jail.&lt;br&gt; He is a former gang member, we expect an attack during the transfert, that\'s why we requested an escort. &lt;br&gt;&lt;br&gt; Follow us to the jail, you can engage any hostile on the way but stay close to our ship.
+missionOmicronEscortJailLastSectorDialogue||The jail is on your right, let\'s finish the job.
+missionOmicronEscortJailDockedDialogue||Thank you corsair, &lt;br&gt;&lt;br&gt; we may need another escort one day. &lt;br&gt;&lt;br&gt; Go back to omicron prime to get your money.
+missionOmicronEscortJailAbandonDialogue||Mayday mayday !&lt;br&gt;&lt;br&gt; Come back immediately, we are beeing attacked !
+missionOmicronEscortJailDescription||Spartan HQ paid a tranporter to take a prisoner to the eternity jail. He stopped in our sector complaining that the rest of the travel is too dangerous. The transport ship is looking for an escort in exchange of credit ...
+missionOmicronEscortJailCompleted||Good job, here is your money.
+missionOmicronDeliveryParadise||Delivery in paradise
+missionOmicronDeliveryParadiseDescription||Lost Paradise\'s missile factory need an energetic refuel.&lt;br&gt; If you are interested by the job, buy some energetic blocs in the solar field sector and deliver them to the missile factory.
+missionOmicronDeliveryParadiseCompleted||Here is your reward, and a little bonus to power your hyperdrive engine.
+missionOmicronDeliveryParadiseCompletedOfficerName||station manager
+missionOmicronDeliveryParadiseCompletedOfficerDialogue||Solar field\'s stations wish you a good journey and hope to see you again soon.&lt;br&gt;&lt;br&gt; Beware, your cargo is very valuable, it could tempt the avarice ...
+missionOmicronRescue||Spatial rescue
+missionOmicronRescueDescription||One director of eternity jail has been missing since yesterday. &lt;br&gt;&lt;br&gt; His last telemetry report were sent from the aeria passing sector.&lt;br&gt;&lt;br&gt; His ships is equipped with a distress system that emits magnetic pulse, your sonar should be able to detect the signal to locate the ship. &lt;br&gt;&lt;br&gt; Follow the lost ship signal and try to bring his pilot alive.
+missionOmicronRescueCompleted||The pilot seems unharmed, here is your reward.
+missionOmicronRescueFindText||Find the spaceship in distress.
+missionOmicronRescuePickUpText||Rescue the pilot
+missionOmicronRescueShipName||civilian
+missionOmicronRescueDroidHelpText||Our sonar uses both vibrator and sound to inform you of the target distance. &lt;br&gt;&lt;br&gt; Sonar beep frequency depends of the distance with the target.
+missionOmicronRescuePilotGratefullText||Greetings corsair,&lt;br&gt;&lt;br&gt; You arrived just in time ! Could you give me a lift to the Omicron spaceport ?
+missionOmicronFindTransmiter||Secret keeper
+missionOmicronFindTransmiterDescription||As you know, many bounty hunters dwell in omicron prime.&lt;br&gt;&lt;br&gt; They are ready to spend lot of credit for some intel. We installed hidden spying devices in dangerous sectors in order to gather information on potential bounty targets.&lt;br&gt;&lt;br&gt; One of the spy network device were attacked in the vault sector, try to find the device boite noire, we will provide you the signal frequency for your sonar. Bring the device back once you find it.
+missionOmicronFindTransmiterCompleted||The internal structure of the recorder seems intact. Hopefully we will be able to find out who attacked it.
+missionOmicronFindTransmiterFindText||Follow the secret device signal
+missionOmicronFindTransmiterPickUpText||Pick up the device
+missionOmicronFindTransmiterFoundText||Here is the secret recorder, let\'s pick it up and bring it to the spaceport.
+missionOmicronFindTransmiterDroidHelpText||Our ship sonar use the device vibrator and sound to inform you of the secret device distance. &lt;br&gt;&lt;br&gt; Sonar beep frequency depends of the distance with the target.
+missionOmicronGatherAlienJelly||Alien Jelly
+missionOmicronGatherAlienJellyDescription||&lt;br&gt;&lt;br&gt; Alien jelly is a very nutritive substance, perfect for the traveler\'s belly. The spaceport\'s restorants sell jelly based dishes at a high price. Unfortunately the jelly itself cannot be synthetise and must be extract directly from aliens.&lt;br&gt;&lt;br&gt; Here at Omicron Prime we are not so far from the alien sectors. Travel to the aliens sector after the green border, find alien spaceships and gather some jelly. About 30 units should be enough
+missionOmicronGatherAlienJellyCompleted||Yum yum, sweet jelly !&lt;br&gt;&lt;br&gt; Here is your reward, thanks for the delivery.
+missionOmicronGatherAlienJelly2||Green substance
+missionOmicronGatherAlienJellyDescription2||Since your last alien jelly delivery, all the restaurateurs of the sector keep me asking for more.&lt;br&gt;&lt;br&gt; Go back to alien sector and bring me some jelly back, about 50 units should be ok.
+missionOmicronGatherAlienJellyCompleted2||Let\'s turn this jelly into credits, here is your reward.
+missionOmicronGatherAlienEgg||Ripley\'s favourite
+missionOmicronGatherAlienEggDescription||You brought us some alien jelly in the past, now we are looking for a more precious thing.&lt;br&gt;&lt;br&gt; &lt;b&gt;Alien eggs&lt;/b&gt; are quite rare and worth a lot on the black market. If you could bring us 20 alien eggs we would be able to pay you with &lt;b&gt;two alien credits&lt;/b&gt;...
+missionOmicronGatherAlienEggCompleted||Perfect, here are your alien credits.
+SAME missionOmicronKillMotherShip||Mothership
+missionOmicronKillMotherShipDesciption||The hive is a very dangerous alien sector. It\'s one of the sectors where aliens ships are produced.&lt;br&gt;&lt;br&gt; Alien spaceships are built by the motherships, huge alien vessels that contains dozens of enemies. The hive sector contains a high concentration of those alien motherships.&lt;br&gt;&lt;br&gt; To reduce the amount of alien spaceships next to our sector we give a reward to anyone that dare destroy alien motherships. If you want to give it a try, be sure to be well prepared.
+missionOmicronKillMotherShipCompleted||Wow, impressive. Many pilots here thought you would not survive.&lt;br&gt;&lt;br&gt; Anyway, here is your reward.
+missionOmicronKillMotherShipKillSentence||Destroy an alien mothership
+missionOmicronControlSpeed||Speed control
+missionOmicronControlSpeedDescription||There have been many accident in the highway sector recently. Some civilians are not familiar with the strict speed limitations of the sector.&lt;br&gt;&lt;br&gt; Go to the Highway sector and search for civilians with excessive speed. Give those speeding citizens a few warning shots and they should comply with the laws.&lt;br&gt;
+missionOmicronControlSpeedCompleted||Good job, you can keep the money.
+missionOmicronControlSpeedSentence||Give the speeding citizens a few warning shots
+missionOmicronControlSpeedArrestedSentenceOne||I was hurry, and because of you I am even more.&lt;br/&gt; Take my money and let me go.
+missionOmicronControlSpeedArrestedSentenceTwo||Please don\'t kill me !&lt;br/&gt; I will go slower, I promise.
+missionOmicronControlSpeedArrestedSentenceThree||Did you just shoot on me ?&lt;br&gt; Consider yourself lucky that there are witnesses.
+missionOmicronControlSpeedArrestedSentenceFour||Oops, sorry didn\'t see I was going too fast.
+missionOmicronControlSpeedArrestedSentenceFive||You were going faster than me and shooting with all civilians around.&lt;br&gt;&lt;/br&gt;. YOU\'re the one that should be arrested.
+SAME missionOmicronControlSpeedArrestedSentenceSix||Bonka ? Kesima nar solo ? uhulu hulu !?!#
+missionOmicronControlSpeedFailureCivilianKilled||civilian killed
+missionProtectCivilianHighWay||Highway delivery
+missionProtectCivilianHighWayDescription||Space station in the highway sector require a ship to transport a valuable cargo, dock to the station and follow their instruction. &lt;br&gt;
+missionProtectCivilianHighWayCompleted||We are lucky you were in the sector during the attack.&lt;br&gt;&lt;br&gt; Thanks for your help.
+missionProtectCivilianHighWayAlertAttack||&lt;font color=\"red\"&gt; Alien detection alert !!! &lt;/font&gt;&lt;br&gt;&lt;br&gt; Our defense sensors have detected an alien activity in your sector.&lt;br&gt;&lt;br&gt; &lt;b&gt;Cancel the delivery mission and protect the civilians.&lt;/b&gt;
+missionProtectCivilianHighWayOmicronSecurityForce||omicron operator
+missionProtectCivilianHighWayObjective||protect civilians
+missionProtectCivilianHighWayFailure||too many victims
+missionProtectCivilianYouDiedFailure||you died
+NOFR missionGatherAlienJelly||Gather alien jelly
+fiftyKCredit||50,000 credits
+missionOmicronRescuePilotName||pilot
+statAstroidDestroyed||Asteroid destroyed
+statFinishMissions||Mission finished
+statDestroyItems||Inventory items destroyed
+statKillEnemies||Enemies killed
+statAstroidCrashed||Asteroid crashed
+statAstroidHit||Asteroid hits
+statDestroyMissiles||Missiles destroyed
+statAchievementUnlocked||Achievements unlocked
+statDeaths||Player deaths
+statKillAlbatross||Albatross killed
+statLootsNumber||Number of loots
+statMissileShoots||Missile shoots
+statPlayerMissileHit||Player\'s missiles hit target
+statPlayerDamageDealt||Damage dealt
+statItemBought||Items bought
+statItemSell||Items sell
+statInstaRepair||Repair express used
+statEnemiesOneShoots||Enemies one shot
+statCreditEarned||Total credit earned
+statSpaceGates||Space portal used
+statCivilKilled||Civilian destroyed
+statDeathPenalty||Total of death penalty
+statSecretAchievements||Secret achievements unlocked
+statKilledBySentry||Killed by a sentry
+statDockTimes||Station dock
+statLootMissed||Loot missed
+statGoldAsteroid||Gold asteroids destroyed
+statEnemiesKilledByMissile||Enemies killed by missile
+statHitByMissile||Hit by a missile
+statShieldConsumedByBooster||Amount of shield consumed by booster
+statSectorExplored||Sector explored
+statStationsDestroyed||Stations destroyed
+statHyperdriveJump||Hyperdrive jumps
+statCrtiticalShoot||Critical shoots
+statMobileShopCalled||Mobile shop deliveries
+statEliteKilled||Elite enemies killed
+statKilledByYourOwnMissile||Killed by your own missile
+statBuyInapps||Inapp bought items
+statKilledByCivilian||Killed by a civilian
+statKilledByMine||Killed by a mine
+statArenaLevelCompleted||Arena levels completed
+statShipBought||Space ship bought
+statKillAliens||Alien killed
+statKillAliensMotherShips||Alien motherships killed
+SAME app_name||Space Corsair
+backtogame||back to game
+back||back
+inventory||Inventory
+map||Map
+settings||Settings
+enableVibration||Enable vibration
+quantity||Quantity
+weight||Weight
+avg_price||Avg. price
+avail_space_label||Cargo :
+destroy||Destroy
+noItems||No items in inventory
+itemQuality||Quality
+qualityBasic||Common
+qualityFine||Fine
+SAME qualityRare||Rare
+qualityExceptional||Exceptional
+qualityLegendary||Legendary
+scaleFactor||Display scale factor
+trade||Trade
+SAME station||station
+TradeWith||Trade with station
+buy||Buy
+sell||Sell
+sellableItems||Sellable Items
+nothingToSell||You have nothing to sell to this station
+basicShield||Civilian Class
+pilotShield||Pilot
+pilotShieldAdv||Pilot mk2
+debugShield||developer
+SAME resistantShield||Resistant
+mediocreShield||Paper Class
+decentShield||Pessimistic
+capacity||Capacity
+reloadTimeShield||Regen rate
+regenTime||Regen time
+level||Level
+equip||equip
+currentGear||Current Gear !
+standardLaser||Spike
+standardLaserSlowReload||Spike mk2
+standardLaserCrtitical||Critical Spike
+mediocreLaser||Little Sting
+SAME standardFastLaser||Reflex
+SAME standardFastLaserPlus||Reflex mk2
+standardSlowLaser||Sagacious
+standardSlowLaserPlus||Sagacious mk2
+jaspinLaser||Jaspin\'s bite
+decentLaser||Alcou Corp
+exceptionalLaser||Maiman\'s Legacy
+badassLaser||Maverick
+corrosiveLaser||Corrosive mk3
+SAME dilmaxLaser||Dilmax
+Damage||Damage
+reloadLaserTime||Reload
+laserPrecision||Accuracy
+laserSpeed||Speed
+dps||DPS
+ennergyCell||Energy Cell
+SAME fastShield||Express
+SAME fastShieldPlus||Express mk3
+gold||gold
+goldAlien||alien credit
+mosquitoMissile||Mosquito
+SAME torpedoMissile||Torpedo
+percuteurMissileMod||Heat
+percuteurMissileModCritique||Heat mk2
+acidMissileMod||Acid
+damage||Damage
+rangedamage||Ranged Damage
+agility||Agility
+life||Life
+fuelTank||Fuel tank
+NOFR availQty||Avail. Qty
+SAME ok||Ok
+hydraRoquette||Hydra Rocket
+increase_cargo_capacity300||Cargo Size +300
+instaRepair||Instant Ship repair
+instaRepairInfinite||Ship repair deluxe
+instaRepairUsedMessage||Ship repaired !
+instaRepairInfiniteUsedMessage||Ship and shield repaired !
+mobileShopTicket||Instant shop
+mobileShopTicketInfinite||Instant shop unlimited
+use||Use
+timeUp||Not ready !
+fullLife||Nothing to repair !
+enableMusic||Enable music
+fxSoundEnabled||Enable FX sounds
+overrideJoystick||Customize the joystick
+overrideJoystickSize||Size
+disableHud||Hide controllers
+missionKindBounty||Bounty Hunter
+missionList||Mission list
+AcceptMission||Accept
+SAME xp||xp :
+LevelWithColumn||Level :
+activeMission||mission detail
+Objets||Objects
+objectWithSemicolon||object :
+none||None
+Validate||Validate
+GiveUp||Give Up
+MissionAccepted||Mission accepted !
+smuggledGoods||smuggled goods
+pillard||Looter
+missionFailure||mission failure
+inventoryFull||inventory full !
+AchievementTitle||Achievements
+AchievementListTitle||Achievements list
+SAME mission||Missions
+unlocked||unlocked !
+SAME missile||Missile
+maxQty||Max Qty
+NOFR MissilebasicMissileMod||Basic
+youHaveNoMission||You have no current mission.&lt;BR&gt; To get a mission you have to dock to a command station.&lt;BR&gt;&lt;BR&gt; You can find command stations in the sector below :
+reapeatable||Repeatable
+alreadyDone||Mission already done before
+accept||Accept
+prisonner||Prisoner
+nopBooster||Fake
+basicBooster||Basic
+advancedBooster||Advanced
+boosterExtra||Alien mk2
+sendEmailDev||Send a feedback
+soundOptions||Sound options
+SAME gameplaylOptions||Gameplay
+miscOptions||Misc
+rateThisApp||Rate the app
+disableAd||Remove ads !
+giftCode||Gift code
+ErrorGift||Gift code is not valid !
+ErrorGiftExpired||Gift code expired or already used !
+giftValidated||Gift validated:
+stationSmugler||smuggler\'s hideout
+secretMap||Secret map
+treasureMap||Treasure map
+secretMapRevealed||Secret location revealed
+stationPirate||pirate\'s station
+shortLevel||Lev.
+treasureKeeper||treasure keeper
+smuggler||smuggler
+alreadyStored||Already stored !
+missionSuccess||Mission success
+ventoGovLaser||Thomas\'s ray
+rescueMan||shipwrecked employee
+SAME pirate||pirate
+myShip||Ship
+levelWithPoint||Level :
+SAME xpWithPoint||Xp :
+lifeWithPoint||Life :
+cashShop||Shop
+textBuyTitle||Store
+buyTextArgument||Alien credit is a very rare currency in the galaxy.&lt;br&gt; You can use them in the game to buy very powerful equipment for your spaceship.&lt;br&gt;&lt;br&gt;
+buyTextArgumentCredit||Buy 250 000, 500 000 or 1 million credits to upgrate your ship whith the most expensive items of the galay !
+BuyMaj||Buy
+spaceStation||Space Station
+currentPosition||current location
+minerShipName||reaper
+SAME moleShipName||crocpierre
+nopHyperdriveEngine||Fake
+SAME basicHyperdriveEngine||Chronoplex
+extraHyperdriveEngine||Advanced mk3
+jumpTo||jump
+telemetryRecorder||Telemetry recorder
+guardianShipName||guardian
+SAME ventohighGovName||Rob Thomas
+ventohighPoliceName||Policeman
+ventohighCivilRevolteText||Civilian attack detected&lt;br&gt;&lt;br&gt; Sending alert messages to nearby civilians.
+reward||reward
+solarPlan||solar plant
+pathFinder||pathfinder
+ionShield||Spartan Ion
+ionShieldPlus||Spartan prototype
+healerShield||Healer
+shieldFactory||shield factory
+spartanMissiles||spartan missiles
+jumboShields||jumbo shields
+spartanShields||spartan shields
+help||Help
+tutorialStation||space station
+firstTimeLootMessage||Congratulations, you just picked up your first space loot.&lt;br&gt;&lt;br&gt; To open your inventory, use the button on the top left of the screen.&lt;br&gt;&lt;br&gt; You can sell objects in space stations. Some objects like shields or lasers can be equiped to improve your spaceship.
+firstTimeDeathMessage||It\'s the first time you and your spaceship have been destroyed.&lt;br&gt;&lt;br&gt; Fortunately, space gates memorise the last scan of your ship and allow regeneration of its atomic stream.&lt;br&gt;&lt;br&gt; Each regeneration is charged based on your level.
+firstTimeOpenRadar||The radar view allows you to explore the surroundings of the area.&lt;br&gt; Use your fingers to move and zoom in/out.&lt;br&gt; The icon at the bottom left of your screen opens the constellation view.&lt;br&gt;&lt;br&gt; Press the radar again or use the Android back button to return to the game.
+reminderRadarExistDialog||I noticed you haven\'t used the &lt;font color = yellow&gt; map view&lt;/font&gt;.&lt;br&gt;&lt;br&gt; Did you know that a click on your radar will open a navigable map view of the current sector?&lt;br&gt;&lt;br&gt;
+reminderConstellationExistDialog||I noticed you haven\'t used the &lt;font color = yellow&gt; constellation view&lt;/font&gt;.&lt;br&gt;&lt;br&gt; Did you know that once in the sector map view, a click on the bottom left icon will open the constellation view?&lt;br&gt;&lt;br&gt; With a jump engine you could travel directly from one sector to another from the constellation view.
+firstTimeOpenGalaxy||The constellation view shows you the interconnection of the sectors you\'ve already visited.&lt;br&gt; Swipe your finger to navigate from one sector to another.&lt;br&gt;&lt;br&gt; When you own a hyperdrive jump engine, you will be able to jump to any visited sector without space gates.
+firstTimeCivilAttack||The ship you just attacked is a civilian!&lt;br&gt;&lt;br&gt; Civilians are not aggressive by default. If you provoke them too much, then they will switch to aggressive mode.&lt;br&gt; Be careful as in some sectors attacking civilians can lead to immediate response by police forces.
+firstTimeEnnemyKilled||Congrats ! you just destroyed an enemy ship.&lt;br&gt;&lt;br&gt; Destroying enemies gives you xp and objects. You can sell items to station or equip them if you have the required level.
+firstTimeMissile||This is the first time you have a missile ready for launch. &lt;br&gt;&lt;br&gt; Your missiles characteristics are defined by your currently equiped missile mod.&lt;br&gt; You can buy missile mods to change the power, speed and agility of your missiles.&lt;br&gt;&lt;br&gt; To launch a missile, just press on the button on the middle right of your screen.
+firstTimeMissileMoga||This is the first time you have a missile ready for launch. &lt;br&gt;&lt;br&gt; Your missiles characteristics are defined by your currently equiped missile mod.&lt;br&gt; You can buy missile mods to change the power, speed and agility of your missiles.&lt;br&gt;&lt;br&gt; To launch a missile, press the L1 or L2 button.
+notifJumpEngineExists||You may already know but you can save a lot of time in inter-sector travels.&lt;br&gt;&lt;br&gt; By using a hyperdrive jump engine, you can travel directly from one sector to another in few seconds.&lt;br&gt;&lt;br&gt; To buy one, use the shop of the main menu, or, if you don\'t have any alien credit, go to a shipyard, like the one in the Ventohigh sector for example.
+notifBoosterExists||According to my scanners, this sector seems quite vast.&lt;br&gt;&lt;br&gt; To increase the speed of your ship or sneak out of a perilous situation, you should install a booster on your ship. This system allows you to shunt your shield energy to the main engine.&lt;br&gt;&lt;br&gt; You can find boosters in the shop of the main menu, or, if you don\'t have any alien credit, in a shipyard, like the one in the Ventohigh sector for example.
+notifWelcomeSpartan||Welcome to you corsair, we were waiting for you.&lt;br&gt;&lt;br&gt; Join me at the SPARTAN HQ, in the center of the sector.
+notifNotEnoughSpace||It seems the ship is full.&lt;br&gt;&lt;br&gt; To free some space, you can destroy some items from your inventory or sell them at a space station.&lt;br&gt;&lt;br&gt; &lt;font color = \"yellow\"&gt; You can also increase the cargo size in the game\'s shop &lt;/font&gt;
+SAME characterSpartanCeo||Florentz Ladelander
+electronicChip||Electronic chip
+deckOfficier||Deck Officer
+debugLaser||Developer
+alterationSnare||snared
+alterationRoot||rooted
+alterationPoison||acid
+alterationReload||jammed
+alterationAgility||agility loss
+alterationPoisonActive||Acid Damage !
+alterationSnareActive||- Propulsion damaged !
+alterationRootedActive||- Propulsion down !
+alterationAgilityActive||- Steering damaged !
+alterationReloadActive||- Reload system damaged !
+SAME debugMissileMod||Debug
+alterationTextCrit1||% critical shot (x
+alterationTextCrit2||dmge)
+alterationTextPoison1||% chance of dealing
+alterationTextPoison2||damage during
+alterationTextReload1||% chance to increase target reload time by
+alterationTextReload2||% during
+alterationTextAgility1||% chance to reduce target agility by
+alterationTextAgility2||% during
+alterationTextSnare1||% chance to reduce target speed by
+alterationTextsnare2||% during
+alterationTextRoot||% chance to stop target during
+dialogConfirmExit||Are you sure you want to exit the game ?
+SAME creditsTitle||Credits
+stationPiloteLicence||pilot licence
+shieldBonusRegen1||Repair
+shieldBonusRegen2||hull point per second when fully charged
+shieldBonusReduceDamage||Reduce
+shieldBonusReduceDamageMissile||of enemies missile damage
+shieldBonusReduceDamageLaser||of enemies laser damage
+shieldBonusBooster1||Booster consumes
+shieldBonusBooster2||less shield.
+shieldBonusLaserReload||Laser reload time is
+shieldBonusMissileReload||Missile reload time
+shieldBonusFaster||faster
+shieldBonusStrikeBack1||Reflect to the attacker
+shieldBonusStrikeBack2||of the shield absorbed damage
+shieldBonusDamageIncrease1||Increase all your damage by
+shieldBonusDamageIncrease2||when shield is fully charged
+mirrorShield||Mirror
+warriorShield||Warrior
+captureTargetAlive||capture the target alive
+captureTargetFailure||you killed the target
+wreck||wreck
+inappBillingNotAvail||In app billing not availlable !
+arenaLeaved||get back to the arena
+arenaNext||next arena
+arenaCompleted1||arena level
+arenaCompleted2||cleared
+arenaCompletedfinal||arena final level
+arenaLeave||leave arena
+arenaBoss||arena boss
+arenaFirstTimeMessage||We just entered the &lt;font color=\"yellow\"&gt;galactic arena&lt;/font&gt;.&lt;br&gt;&lt;br&gt; The arena is an ode to the old time\'s tournaments. It\'s broadcast to the whole galaxy on the eponym chanel.&lt;br/&gt; The aim is to survive the enemy waves. Once the arena is cleared, you will have acces to the next level.&lt;br/&gt; Try to progress as far as possible, as each level gives you money from sponsors.&lt;br/&gt;&lt;br/&gt; You will be ejected from the arena when you die and, of course, be charged for the regeneration.
+SAME iridiumLaser||Iridium
+phosphoreLaser||Phosphorus
+SAME radonLaser||Radon
+SAME solitaireLaser||Testudo
+SAME fermiumLaser||Fermium
+SAME galiumLaser||Galium
+SAME argonLaser||Argon
+SAME cobaltLaser||Cobalt
+SAME rapidoShield||Orion
+antimissileShield||Reactive
+SAME xenonShield||Xenon
+periousShield||Kamikaze
+diamondShield||Diamond
+rootMissileMod||Deserter
+corrosifMissileMod||Corrosive
+snareMissileMod||Perturbator
+SAME omegaMissileMod||Omega
+tungstenMissileMod||Tungsten
+agressorMissileMode||Aggressor
+zoomValue||Camera zoom
+loading||loading
+SAME enableMusicVolume||Volume
+giftCodeDescription||If you have received a gift code, you can enter it here and validate. You will then receive the associated gift.
+giftCodeEnter||Enter the gift code here
+removeAds||Remove ads
+alienCredits||Alien credits
+details||Details
+credits||Credits
+getReward||Get reward
+missionGivenUp||Mission given up
+noMission||You have no mission
+remove||Remove
+SAME description||Description
+SAME alteration||Alterations
+mobileShopShipName||mobile shop
+rateThisAppMessage||Hey ! If you enjoy Space Corsair, please take a moment to rate it. It is very important for us to know that you like this game... ;D
+changelog||Changelog
+share||Share this game
+hyperdriveLoading||hyperdrive charging
+pub||Ads
+shield||Shield
+close||Close
+SAME laser||Laser
+SAME hyperdrive||Hyperdrive
+SAME constellation||Constellation
+SAME stats||Stats
+SAME missileMod||Missile mod
+SAME booster||Booster
+mobileShopCalled||Mobile shop incoming !
+instaRepairReloading||Reloading (
+SAME elite||elite
+removeAdsOnly||You can also remove ads only if you prefer...
+basicMissileMod||Basic
+shipGearName||Ship
+SAME defaultPlayerShipName||Corsair one
+SAME condorPlayerShipName||Condor
+shipText||Ship
+shipsText||Ships
+change||Change
+speed||Speed
+shipSizeSmall||Small
+shipSizeAverage||Average
+SAME shipSizeLarge||Large
+shipSizeVeryLarge||Very Large
+shipSize||Size
+shipLaserType||Laser type
+shipLaserFixed||Static
+shipLaserRotative||Rotative (360°)
+levelRequired||Level required
+currentShip||Current ship
+available||Available
+armor||Armor
+shipUse||Use this ship
+SAME omicronPrimeStationGoods||Omicron tech
+SAME next||Suivant
+SAME previous||Précédent
+shipSwitched||Space ship changed
+shipBought||Space ship bought
+escort||escort the
+destroyed||destroyed
+omicronCivilRevolteText||Civilian attack detected&lt;br&gt;&lt;br&gt; Defense ship incoming
+omicronPoliceName||officer
+spartanLasers||spartan lasers
+missionFailureTargetDestroyed||target destroyed
+civilianPilot||civilian pilot
+boiteNoire||secret recorder
+hullBreakerShipName||Hullraiser
+achievementUnlockedMailTitle||Achievement unlocked !
+achievementUnlockedMailTextOne||I just unlocked a Space Corsair achievement (http://goo.gl/WO62uw) !
+achievementUnlockedMailShareAchievement||Share achievement !
+statShareText||Share stat !
+statMailTitle||Check out my stat
+statMailText||Check out my Space corsair Stat (http://goo.gl/WO62uw) !
+SAME corvetteShipName||Cosmowarrior
+shipLaserRotativeX3||Rotative x3 (360°)
+buyShipCorvetteZoomAlert||This ship is really big, you should consider changing the camera zoom in the setings.
+SAME teleport||teleport
+hullRepair||hull repaired
+discoverGreenBorderDialogue||Above this sector there is the alien sectors.&lt;br&gt; Hostile activity is to be expected.
+civilian||civilian
+portalUnlocked||portal unlocked
+mogaConnected||moga connected
+mogaDisconnected||moga disconnected
+sector||sector
+notEnoughCellToJumpMessage||We do not have enough energy cell for this hyperdrive jump !
+noJumpEngineMessage||We do not have a functional jump engine.&lt;br&gt;&lt;br&gt; We could buy one on a shipyard
+mogaDisconnectedDialog||It seems we lost connection with your ship\'s moga controller.&lt;br&gt;&lt;br&gt; I reactivated the manual screen controls in replacement.
+SAME mogaOptions||Moga
+mogaNotPresent||Moga controller is not connected
+mogaDeadZone||Dead zone
+mogaAssignements||View controls
+mogaSwitchJoystick||Switch joysticks
+closeMoga||Close (B)
+cancelMoga||Cancel (B)
+cancel||Cancel
+SAME okMoga||OK (A)
+multi||Multiplayer
+gameStat||Game Stats
+westernEurope||Western Europe
+asia||Asia
+us||North America
+gameTypeFFA||Free For All
+gameTypeTeamDm||Team Deathmatch
+gameTypeCoopArena||Coop arena
+enterYourName||Multiplayer name :
+multiplayerLevelLabel||Multiplayer level :
+serverList||Server list
+playerNameIssue||Player name should be between 3 and 12 characters with letter and number only !
+btnBackToPLayerMultiInfo||Back to multi config
+SAME multiShieldBasic||M1 beta
+SAME multiLaserBasic||Toros MK1
+refresh||Refresh
+serverListError||Error listing servers
+serverListPending||Feching server list...
+exitMulti||Exit multi mode
+multiDisclamer||This is the alpha version of the multiplayer mode !&lt;br&gt;&lt;br&gt; You need a wifi connection via an uPnp router to make it works. In case of trouble with the udp connection you can try to map the inbound udp port 37001 to your device on your router.
+dialogConfirmExitMuti||Exit multiplayer mode ?
+playerNameRestricted||The name of the player is restricted
+NOFR app_version||1.5.1
+NOFR app_package||fr.testudo.spacecorsair
+NOFR dev_mail||space.corsair.android@gmail.com
+NOFR alienBlatteShipName||Regent
+NOFR alienRatShipName||Arwing
+NOFR alienUfoShipName||Banshee
+NOFR alienBlattePlayerShipDesc||Rectreon-class command vessel, stripped of its fleet transponder and reclassified as salvage. Three counter-rotating cannon arrays maintain simultaneous independent targeting locks. Acceleration is geological. Armor is not a concern.
+NOFR alienRatPlayerShipDesc||Cornerian-pattern interceptor, origin unlogged. Its barrel geometry reorients independently mid-burst, holding lock through evasive spirals. Fastest sublight acceleration in any corsair registry. Every millisecond of hesitation costs you a hull.
+NOFR alienUfoPlayerShipDesc||Hull composition classified. Radar-absorbing surface emits focused plasma interference at close range, collapsing standard shield harmonics on contact. Pilots report a persistent subsonic resonance inside the cockpit. It does not stop.
+NOFR policeShipName||Enforcer
+NOFR policeShipPlayerShipDesc||Frontier Authority pursuit vessel, stripped of its patrol credentials. Armor rated for Highway corridor combat operations. Both swivel-mount plasma repeaters maintain full rotational tracking. Fastest recorded sublight sprint in the civilian registry. The siren is gone. The threat is not.

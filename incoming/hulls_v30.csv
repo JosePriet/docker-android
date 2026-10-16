@@ -1,0 +1,50 @@
+art,name,class,kind,level,rarity
+hornet,Hornet,destroyer,mechanical,6,exceptional
+albatros,Albatros,cruiser,mechanical,8,rare
+raptor,Raptor,cruiser,mechanical,10,exceptional
+sanctum,Sanctum,cruiser,mechanical,10,exceptional
+tortoise,Tortoise,industrial,mechanical,7,rare
+bulwark,Bulwark,industrial,mechanical,9,exceptional
+warlord,Warlord,battlecruiser,mechanical,12,exceptional
+harbinger,Harbinger,battlecruiser,alien,12,exceptional
+monolith,Monolith,battleship,mechanical,15,rare
+tempest,Tempest,battleship,mechanical,17,exceptional
+leviathan,Leviathan,titan,mechanical,17,legendary
+nightjar,Nightjar,frigate,mechanical,6,exceptional
+aurora,Aurora,destroyer,mechanical,7,exceptional
+raven,Raven,destroyer,mechanical,8,exceptional
+ironside,Ironside,cruiser,mechanical,9,rare
+foundry,Foundry,industrial,mechanical,10,exceptional
+cobalt,Cobalt,destroyer,mechanical,7,exceptional
+mantis,Mantis,cruiser,mechanical,8,rare
+hydra,Hydra,cruiser,mechanical,10,exceptional
+cardinal,Cardinal,cruiser,mechanical,11,exceptional
+verdant,Verdant,battlecruiser,mechanical,11,rare
+sovereign,Sovereign,battlecruiser,mechanical,13,exceptional
+sunlance,Sunlance,battlecruiser,mechanical,13,exceptional
+graywall,Graywall,industrial,mechanical,12,exceptional
+imperator,Imperator,battleship,mechanical,15,rare
+wraith,Wraith,battleship,mechanical,17,exceptional
+bastille,Bastille,battleship,mechanical,16,exceptional
+moth,Nebula Moth,capital,mechanical,17,legendary
+crimson_throne,Crimson Throne,titan,mechanical,17,legendary
+secret_spartan,SRS Resolute,battlecruiser,mechanical,14,legendary
+secret_reaver,Pillager's Due,battleship,mechanical,16,legendary
+secret_kretari,Cradle of Echoes,cruiser,alien,12,legendary
+secret_varn,Indemnity Crown,battlecruiser,mechanical,14,legendary
+secret_ironclad,Foundry Sentinel,battleship,mechanical,16,legendary
+secret_helion,Far Meridian,battlecruiser,mechanical,14,legendary
+secret_warden,Wayfarer Prime,cruiser,mechanical,12,legendary
+orig_player_ship_hullbreaker,Hullraiser,destroyer,mechanical,-,original
+orig_player_ship_corvette,Cosmowarrior,battlecruiser,mechanical,-,original
+orig_croiseur_gentil,Megatron / Guardian cruiser,battleship,mechanical,-,original
+orig_police,Enforcer,cruiser,mechanical,-,original
+orig_alien_blatte,Regent,capital,alien,-,original
+orig_alien_rat0,Arwing,frigate,alien,-,original
+cap_spartan,SRS Aegis,faction titan,mechanical,-,flagship
+cap_reaver,Bloodforge,faction titan,mechanical,-,flagship
+cap_kretari,Brood-Mother,faction titan,alien,-,flagship
+cap_varn,Syndicate Crown,faction titan,mechanical,-,flagship
+cap_ironclad,IMS Bastion,faction titan,mechanical,-,flagship
+cap_helion,Sunspire,faction titan,mechanical,-,flagship
+cap_warden,FAV Warden,faction titan,mechanical,-,flagship

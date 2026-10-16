@@ -1,0 +1,121 @@
+{
+  "ships": {
+    "viper": {
+      "lore": "Fragata veloz para capitanes que comparten el botín y saldan las traiciones de cerca."
+    },
+    "bastion": {
+      "lore": "Destructor centrado en escudos, diseñado para sostener una ruta segura mientras Spartan Republic evacúa civiles."
+    },
+    "albatros": {
+      "lore": "Crucero remendado de Crimson Reavers: rara vez domina el combate, pero siempre sigue avanzando."
+    },
+    "mule": {
+      "lore": "Carguero de largo alcance que lleva equipo de rescate además de mineral; Frontier Authority atiende a cada tripulación varada."
+    },
+    "tortoise": {
+      "lore": "Las tripulaciones de Ironclad Militia construyeron este carguero blindado para llevar la carga a casa bajo fuego."
+    },
+    "monolith": {
+      "lore": "Acorazado de línea que da tiempo a las escoltas de la República para reagruparse tras su casco por capas."
+    },
+    "comet": {
+      "lore": "Velocista de Helion Combine hecho para convertir una ruta despejada en récord; su casco ligero evita los duelos justos."
+    },
+    "kite": {
+      "lore": "Fragata de patrulla compacta con una promesa: la ayuda llegará antes de que se cierre la ruta."
+    },
+    "seraph": {
+      "lore": "Frontier Authority envía Seraphs delante de sus convoyes; una baliza clara puede valer tanto como un cañón."
+    },
+    "bulldog": {
+      "lore": "Peleador de Crimson Reavers con espacio para dos cañones y poca paciencia para quien traiciona a su tripulación."
+    },
+    "ironside": {
+      "lore": "Tres cascos de patrulla se volvieron un crucero Ironclad, reforzado donde falló el primero."
+    },
+    "tidewarden": {
+      "lore": "Un piquete de Frontier Authority vigila la ruta pública hasta que responde una señal de rescate."
+    },
+    "mantis": {
+      "lore": "Crucero de ataque de Spartan Republic: rompe formación solo cuando una respuesta rápida protege a toda la patrulla."
+    },
+    "verdant": {
+      "lore": "Une escolta y acorazado: Verdant impulsa la línea de Spartan Republic sin dejarla expuesta."
+    },
+    "imperator": {
+      "lore": "Acorazado de Ironclad Militia hecho para resistir hasta que las colonias evacúen tras su blindaje."
+    },
+    "leviathan": {
+      "lore": "Leviathan ancla la defensa de Spartan Republic; su lanza espera hasta que el convoy civil esté a salvo."
+    }
+  },
+  "factions": {
+    "spartan": {
+      "tagline": "Flotas disciplinadas; el paso seguro es un deber público.",
+      "panel": "Defendemos rutas civiles con formaciones coordinadas, escudos por capas y naves de mando visibles. La fuerza es un deber público, medido por quién logra volver.",
+      "doctrine": [
+        "Disciplina de flota",
+        "Escudos por capas",
+        "Apoyo a escoltas"
+      ]
+    },
+    "reaver": {
+      "tagline": "Comparte el botín. Nunca abandones a tu tripulación.",
+      "panel": "Los capitanes ganan autoridad al mantener a su tripulación y nave en marcha. El blindaje recuperado, la presión cercana y un código firme castigan la traición.",
+      "doctrine": [
+        "Blindaje recuperado",
+        "Asalto cercano",
+        "Lealtad de tripulación"
+      ]
+    },
+    "kretari": {
+      "tagline": "Una señal viva puede guiar toda una migración.",
+      "panel": "Los cascos vivos llevan cámaras de cría entre mundos seguros. La memoria compartida y la supervivencia de las crías guían cada migración y respuesta.",
+      "doctrine": [
+        "Cascos vivos",
+        "Protección de crías",
+        "Señal de enjambre"
+      ]
+    },
+    "varn": {
+      "tagline": "Cada riesgo tiene precio. Cada obligación, registro.",
+      "panel": "Las rutas previsibles y los contratos exigibles son nuestro bien público. Cascos simétricos protegen el núcleo; la fuerza medida hace cumplir los acuerdos.",
+      "doctrine": [
+        "Flotas contractuales",
+        "Núcleos protegidos",
+        "Fuerza medida"
+      ]
+    },
+    "ironclad": {
+      "tagline": "Repara lo posible. Resiste mientras otros escapan.",
+      "panel": "Las colonias construyen con blindaje reemplazable, refuerzos visibles y piezas reparables en talleres locales. Resistimos hasta completar la evacuación.",
+      "doctrine": [
+        "Blindaje pesado",
+        "Reparación de campo",
+        "Mantener la línea"
+      ]
+    },
+    "helion": {
+      "tagline": "Mantén las rutas abiertas con velocidad confiable.",
+      "panel": "Nuestros cascos ligeros y eficientes mueven personas y carga entre mercados. Los estándares y motores confiables abren la siguiente ruta.",
+      "doctrine": [
+        "Cascos rápidos",
+        "Motores eficientes",
+        "Rutas comerciales"
+      ]
+    },
+    "warden": {
+      "tagline": "Rescate primero. Mantén públicas las rutas fronterizas.",
+      "panel": "Los guardabosques patrullan lejos del apoyo, marcan pasos seguros y responden a emergencias. Cooperamos en seguridad y rechazamos peajes que cierran rutas públicas.",
+      "doctrine": [
+        "Patrulla lejana",
+        "Servicio de rescate",
+        "Rutas abiertas"
+      ]
+    }
+  },
+  "independent": {
+    "tagline": "Cargueros civiles y cascos del mercado pirata.",
+    "panel": "Las naves independientes comercian con nombres locales y garantías prácticas. Hay reformas civiles, piezas recuperadas y vendedores que prefieren el pago a cualquier bandera."
+  }
+}

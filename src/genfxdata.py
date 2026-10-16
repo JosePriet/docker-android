@@ -1,0 +1,141 @@
+# Scans hull sprites and writes ModFxData.java: per-art anchor points in hull-relative units
+# (x, y in -0.5..0.5 of the drawable size; +y = towards the stern, the image bottom).
+#   engines: x, y, w      nozzle centres on the stern edge (w = nozzle width)
+#   lights:  x, y         bright window/light pixels (spaced out) for pulsing hull lights
+#   nav:     lx, ly, rx, ry  port / starboard extremities for navigation lights
+#   dmg:     x, y         well-inside hull points for smoke, fire, scorch and cracks
+#   radius:  half the larger sprite extent
+import sys
+import numpy as np
+from PIL import Image, ImageFilter
+
+MODART, RES, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
+ARTS = sys.argv[4].split(',')
+ORIG = {'POLICE': 'police.png', 'TEST': 'croiseur_gentil.png', 'DEFAULT': 'playership_3.png', 'CONDOR': 'player_ship_condor.png',
+        'HULLBREAKER': 'player_ship_hullbreaker.png', 'CORVETTE': 'player_ship_corvette.png', 'ALIEN_BLATTE': 'alien_blatte.png',
+        'ALIEN_RAT': 'alien_rat0.png', 'ALIEN_UFO': 'alien10001.png'}
+
+
+def analyse(path):
+    im = Image.open(path).convert('RGBA')
+    n = max(im.size)
+    sq = Image.new('RGBA', (n, n), (0, 0, 0, 0))
+    sq.paste(im, ((n - im.size[0]) // 2, (n - im.size[1]) // 2))
+    im = sq.resize((256, 256), Image.LANCZOS) if n != 256 else sq
+    a = np.asarray(im).astype(np.float32)
+    alpha = a[..., 3] > 100
+    H, W = alpha.shape
+    rows = np.where(alpha.any(axis=1))[0]
+    cols = np.where(alpha.any(axis=0))[0]
+    top, bot, left, right = rows[0], rows[-1], cols[0], cols[-1]
+
+    def nx(c): return round((c + 0.5) / W - 0.5, 4)
+    def ny(r): return round((r + 0.5) / H - 0.5, 4)
+
+    # engines: per column, the lowest opaque row; nozzles are runs of columns whose stern edge lies in the last 7%
+    lowest = np.full(W, -1)
+    for c in range(W):
+        rr = np.where(alpha[:, c])[0]
+        if len(rr): lowest[c] = rr[-1]
+    band = bot - max(3, int((bot - top) * 0.07))
+    runs, cur = [], []
+    for c in range(W):
+        if lowest[c] >= band:
+            cur.append(c)
+        elif cur:
+            runs.append(cur); cur = []
+    if cur: runs.append(cur)
+    engines = []
+    for run in runs:
+        if len(run) < 2: continue
+        # split very wide runs (one wide stern block) into 2-4 nozzles
+        k = 1 if len(run) < W * 0.12 else min(4, max(2, len(run) // int(W * 0.08)))
+        for i in range(k):
+            seg = run[i * len(run) // k:(i + 1) * len(run) // k]
+            c = (seg[0] + seg[-1]) / 2.0
+            r = max(lowest[s] for s in seg)
+            engines.append((nx(c), ny(r), round(len(seg) / W, 4)))
+    if not engines:
+        engines.append((0.0, ny(bot), round((right - left) / W * 0.3, 4)))
+
+    # lights: brightest small pixels, spaced >= 18 px apart, inside the hull
+    lum = a[..., 0] * 0.3 + a[..., 1] * 0.55 + a[..., 2] * 0.15
+    lum[~alpha] = 0
+    idx = np.dstack(np.unravel_index(np.argsort(-lum, axis=None), lum.shape))[0]
+    lights = []
+    for (r, c) in idx[:4000]:
+        if lum[r, c] < 150: break
+        if all((r - lr) ** 2 + (c - lc) ** 2 > 18 ** 2 for lr, lc, _ in lights):
+            col = a[r, c, :3] / 255.0
+            lights.append((r, c, col))
+        if len(lights) >= 10: break
+    lights_out = [(nx(c), ny(r), round(float(col[0]), 2), round(float(col[1]), 2), round(float(col[2]), 2)) for r, c, col in lights]
+
+    # nav: extreme columns
+    lr = np.where(alpha[:, left])[0]
+    rr = np.where(alpha[:, right])[0]
+    nav = (nx(left + 1), ny(lr.mean()), nx(right - 1), ny(rr.mean()))
+
+    # damage points: eroded mask, deterministic spread
+    er = np.asarray(Image.fromarray((alpha * 255).astype(np.uint8)).filter(ImageFilter.MinFilter(9))) > 0
+    pts = np.argwhere(er)
+    rng = np.random.default_rng(len(pts))
+    dmg = []
+    if len(pts):
+        order = rng.permutation(len(pts))
+        for i in order:
+            r, c = pts[i]
+            if all((r - pr) ** 2 + (c - pc) ** 2 > 22 ** 2 for pr, pc in dmg):
+                dmg.append((r, c))
+            if len(dmg) >= 10: break
+    dmg_out = [(nx(c), ny(r)) for r, c in dmg]
+    radius = round(max(bot - top, right - left) / 2.0 / W, 4)
+    return engines, lights_out, nav, dmg_out, radius
+
+
+def jf(vals):
+    return 'new float[]{' + ', '.join(('%sf' % v) for v in vals) + '}'
+
+
+# hand-placed nozzle banks (x, y, width as fractions) where the scan merges separate nozzles into one block
+ENGINE_OVERRIDE = {
+    'leviathan': [(-0.070, 0.470, 0.03), (-0.036, 0.470, 0.03), (-0.002, 0.470, 0.03), (0.032, 0.470, 0.03), (0.067, 0.470, 0.03)],
+    'crimson_throne': [(-0.070, 0.478, 0.04), (-0.026, 0.478, 0.04), (0.018, 0.478, 0.04), (0.066, 0.478, 0.04)],
+}
+lines = []
+for art in ARTS:
+    eng, li, nav, dmg, rad = analyse('%s/%s.png' % (MODART, art))
+    lines.append((art, (ENGINE_OVERRIDE.get(art, eng), li, nav, dmg, rad)))
+for key, fn in ORIG.items():
+    lines.append((key, analyse('%s/%s' % (RES, fn))))
+
+j = ['package fr.testudo.spacecorsair.mod;', '',
+     '/** Generated by src/genfxdata.py from the hull sprites. Coordinates are fractions of the drawable size, +y = stern. */',
+     'final class ModFxData {', '    private ModFxData() {}', '',
+     '    static final String[] KEYS = {' + ', '.join('"%s"' % k for k, _ in lines) + '};',
+     '    static final float[][] ENGINES = {']
+for k, (eng, li, nav, dmg, rad) in lines:
+    j.append('        ' + jf([v for e in eng for v in e]) + ', // ' + k)
+j.append('    };')
+j.append('    static final float[][] LIGHTS = {')
+for k, (eng, li, nav, dmg, rad) in lines:
+    j.append('        ' + jf([v for e in li for v in e]) + ',')
+j.append('    };')
+j.append('    static final float[][] NAV = {')
+for k, (eng, li, nav, dmg, rad) in lines:
+    j.append('        ' + jf(nav) + ',')
+j.append('    };')
+j.append('    static final float[][] DMG = {')
+for k, (eng, li, nav, dmg, rad) in lines:
+    j.append('        ' + jf([v for d in dmg for v in d]) + ',')
+j.append('    };')
+j.append('    static final float[] RADIUS = ' + jf([l[1][4] for l in lines]) + ';')
+j.append('')
+j.append('    static int index(String key) {')
+j.append('        for (int i = 0; i < KEYS.length; i++) if (KEYS[i].equals(key)) return i;')
+j.append('        return -1;')
+j.append('    }')
+j.append('}')
+open(OUT, 'w').write('\n'.join(j) + '\n')
+for k, (eng, li, nav, dmg, rad) in lines:
+    print(k, 'engines', len(eng), 'lights', len(li), 'dmg', len(dmg), 'r', rad)

@@ -1,0 +1,227 @@
+missionGotos	Ir a
+missionReturs	Volver a
+missionDestroy	Destruir
+missionDockTo	Atracar en
+missionGatherStone	Destruye asteroides y junta piedra
+missionSellStone	Atraca y vende bloques de piedra
+missionGatherSmuggling	Recoge mercancía de contrabando
+missionBountyGameDept	Deuda de juego
+missionBountyGameDeptDescription	Red Peter Blackman es un exmiembro de defensa.<BR/><BR/> Ahogado en deudas, se volvió uno de los hombres más corruptos de la confederación. Despedido tras un gran escándalo, acumuló cuentas impagas y deudas en casinos clandestinos. Uno de sus acreedores decidió dar un escarmiento y puso precio a su cabeza: vivo o muerto. Dicen que se esconde en el sector Thor Passing. <BR><BR>Atrápalo y la recompensa es tuya.
+missionBountyGameDeptDescriptionCompleted	Le diré a su acreedor que el trabajo está hecho. Aquí tienes tu recompensa.
+missionGenesisAsteroidGather	Pico espacial
+missionGenesisAsteroidGatherDescription	Mining Corp siempre busca rocas de alta calidad.<BR><BR> Contrata mercenarios para extraer roca de asteroides en el sector Planck Pride. A pocos les interesa el trabajo, ya que la zona está llena de saqueadores hostiles.
+missionGenesisAsteroidGatherCompleted	El representante local de Mining Corp quedó encantado con la calidad de tu cargamento.<BR/> Acepta comprar tus envíos cuando quieras.
+missionGenesisAsteroidGatherDIalogue	Como habrás notado, los asteroides aparecen en tu radar como un punto amarillo.<br><br> Los enemigos son rojos y los aliados o botines, verdes.
+missionGenesisContrebande	Carga perdida
+missionGenesisContrebandeDescription	Una de nuestras naves de carga fue atacada por saqueadores en el sector Planck Pride.<BR><BR> El muy idiota soltó toda su carga, que ahora flota en pleno sector saqueador. Encuéntrala y tráela de vuelta.<Br><BR> Espera resistencia de los saqueadores.
+missionGenesisContrebandeDescriptionCompleted	Claro que no pudiste recuperar toda la carga, pero es mejor que nada. Aquí tienes tu recompensa.
+missionGenesisDefensePillard	Ataque saqueador
+missionGenesisDefensePillardDescription	La actividad saqueadora en Planck Pride ha crecido.<BR><BR> Detectamos actividad sospechosa cerca del portal espacial. Nuestro analista estima un 80% de probabilidad de invasión inminente.<BR><BR> ¡Acércate a su punto de entrada y repele el asalto!
+missionGenesisDefensePillardCompleted	Gracias a tu oportuna intervención evitamos lo peor. ¡Genesis está en deuda contigo!
+missionGenesisDefenseZoneText	¡Defiende Genesis!
+missionGenesisDefensePillardEchecPart	¡cobarde!
+missionGenesisTuerChefPillard	Contraataque
+missionGenesisTuerChefPillardDescription	La reciente ofensiva contra Genesis no quedará sin respuesta.<BR><BR> Es hora de devolver el golpe. Uno de nuestros espías puso un transpondedor en la nave del líder saqueador. Infíltrate en la zona y destrúyelo.<BR><BR> Ten mucho cuidado, es muy probable que esperen un contraataque....
+missionGenesisTuerChefPillardCompleted	¡Misión cumplida!<BR> Creo que captaron el mensaje. Hasta que encuentren nuevo líder tendremos un respiro.<BR><BR> Los ciudadanos de Genesis por fin pueden volver a salir de sus estaciones. Gracias por tu ayuda.
+missionGenesisTuerChefPillardNameChef	líder saqueador
+missionGenesisTuerChefPillardDialogue	¡Grrr!<br><br> Me mandaron a un novato. ¡Prepárate para conocer a tu creador!
+missionGenesisDestroyStation	Estación a volar
+missionGenesisDestroyStationDescription	Un grupo de piratas instaló torretas en el cinturón de asteroides de Thor Passing. Atacan a menudo a las naves de carga rumbo a Genesis.<Br><Br> Los informes revelan un puesto avanzado pirata. <BR><BR>Destruye esa estación y frena la actividad pirata en la zona.
+missionGenesisDestroyStationCompleted	Bueno, esto los calmará por un tiempo. <BR><BR>Gracias a tu brillante intervención, podemos reabrir las rutas comerciales con los sectores vecinos.
+missionGenesisDestroyStationName	estación pirata
+missionGenesisDestroyStationDestroySentence	Destruye la estación pirata
+missionGenesisDestroyStationCapName	capitán de estación
+missionGenesisKillTourelles	Limpieza de rocas
+missionGenesisKillTourellesDescription	Viajeros reportan torretas en el cinturón de asteroides. <BR><BR> Soluciona el problema y serás recompensado.
+missionGenesisKillTourellesCompleted	Gracias por resolver el problema.
+missionGenesisKillTourellesSentence	Destruye las torretas
+missionGenesisDiscoverName	Primeros pasos
+missionGenesisDiscoverDesc	Bienvenido al espacio, corsario. Esta misión te llevará con Rob Thomas, el gobernador de la zona Genesis.
+missionGenesisDiscoverCompleted	Bienvenido al sector Genesis.<BR><BR> Soy Rob Thomas, gobernador de Genesis. Nuestro intermediario te recomendó mucho. Como habrás notado, la actividad comercial del sector es casi nula. Tuvimos que restringir el comercio desde que llegó un grupo terrorista a la zona vecina de Planck Pride: los saqueadores.<Br><Br> Tómate el tiempo que necesites para recorrer la zona. Cuando estés listo, vuelve a esta estación para tomar misiones y ayudarnos a conseguir la paz que merecemos.
+missionGenesisDiscoverGotoStation	Atraca en el GENESIS COMMAND CENTER
+missionGenesisGotoVentohigh	¡A Ventohigh y más allá!
+missionGenesisGotoVentohighDescription	Si te sientes listo para otros desafíos de la galaxia, el sector Ventohigh es para ti. Es una zona de gran actividad donde nunca falta trabajo.<Br/><Br/> Dile al capitán Thomas Davis que vas de mi parte; está a cargo del centro de mando local.<Br><Br> Pasa a visitarnos de vez en cuando.
+missionGenesisGotoVentohighCompleted	Saludos, corsario.<Br/><Br/> Soy el capitán Thomas Davis, a cargo del centro de mando de Ventohigh.<BR> Me dijeron que buscas trabajo. Bien, porque hay mucho por hacer: tareas oficiales y otras más... exóticas.<BR><BR> En resumen, si estás dispuesto a ensuciarte las manos, ¡eres mi hombre!
+missionVentohighPolice	policía espacial
+missionVentohighPoliceDescription	Algunos civiles sin escrúpulos esconden contrabando en su carga.<br><br> Como nuestras fuerzas están ocupadas con los piratas, los contrabandistas aprovechan la situación. Si aceptas, te unirás temporalmente a la policía de Ventohigh y recibirás un potente escáner que detecta mercancía prohibida.<br><br> Acércate a los civiles unos segundos. Si el escáner detecta algo anormal, ¡puedes atacarlos!
+missionVentohighPoliceCompleted	¡Bien hecho! Aquí tienes tu recompensa.<br><br> Claro está, nadie debe saber nada de nuestro pequeño... acuerdo. Mientras guardes el secreto, eres bienvenido en la policía de Ventohigh.
+missionVentohighPoliceScan	Escanea a los civiles de la zona.
+missionVentohighPoliceScanOk	(escaneo ok)
+missionVentohighPoliceScanKo	(contrabandista)
+missionVentohighFindStation	el caso Twin Star
+missionVentohighFindStationDescription	Hay movimiento en el sector Twin Star. Los civiles se quejan de ataques piratas recientes. <br><br> Un civil nos dijo que los atacantes venían del suroeste del sector, muy al sur del portal de Hugo Wisdom. <br><br> Tu misión es investigar el origen de los ataques. Infíltrate en el sector y sigue a los escuadrones piratas. Evita todo contacto hostil y, encuentres lo que encuentres, no intentes nada solo. <br><br> Cuando localices el origen de la amenaza, vuelve para el informe.
+missionVentohighFindStationCompleted	Lo que me temía. Una estación pirata junto a la ruta comercial.<br><br> Gracias por tu búsqueda; idearemos una estrategia y te contactaremos pronto.
+missionVentohighFindStationFindText	Encuentra el origen de la amenaza.
+missionVentohighFindStationtGotoSud	Según los civiles, la estación está al sur de tu posición. <br><br> Toca el radar para ver el mapa del nivel actual.
+missionVentohighFindStationtGotoNord	Según los civiles, la estación está al norte de tu posición. <br><br> Toca el radar para ver el mapa del nivel actual.
+missionVentohighFindStationtGotoOuest	Según los civiles, la estación está al oeste de tu posición. <br><br> Toca el radar para ver el mapa del nivel actual.
+missionVentohighFindStationtGotoEst	Según los civiles, la estación está al este de tu posición. <br><br> Toca el radar para ver el mapa del nivel actual.
+missionVentohighDestroyTwinStation	Ataque quirúrgico
+missionVentohighDestroyTwinStationDescription	Tenemos más información sobre la estación pirata de Twin Star que encontraste. Resulta ser una enorme fábrica de naves.<br><br> Nuestro gobierno no puede permitir semejante amenaza junto a nuestro sector. Debemos atacar cuanto antes, con toda la fuerza necesaria.<br><br> Como sabrás, nuestras fuerzas están en el conflicto de la frontera exterior. No podemos permitirnos un asalto masivo. El objetivo está protegido por torretas. Destrúyelas para que podamos lanzar misiles desde el portal. Luego quédate cerca del objetivo: usaremos tu nave como guía para nuestro sistema de guiado de misiles.<br><br> Una vez fijada la estación, disfruta del espectáculo... e intenta seguir vivo.
+missionVentohighDestroyTwinStationCompleted	Sector pacificado, ciudadanos tranquilos, gobernador reelegible: misión cumplida.<br><br> Aquí tienes tu recompensa, un arma rara que llevaba mi nave personal en las Guerras Fractales.
+missionVentohighGetCloseToStationSpeach	Muy bien, <br><br> Las defensas antimisiles cayeron. Acércate a la estación para usar tu nave como enlace de nuestro sistema de guiado. <br> Cuidado, es un misil muy potente y rápido: no te cruces en su camino.
+missionVentohighDestroyTwinStationDestroySenty	Destruye las torretas antimisiles
+missionVentohighDestroyTwinStationLockStation	Quédate cerca de la estación pirata
+missionVentohighDestroyTwinStationLockStationTooFar	Acércate a la estación pirata para fijar el misil
+missionVentohighRescue	nave en apuros
+missionVentohighRescueDescription	Hace cinco horas recibimos un SOS de una nave de carga.<br><br> Desde entonces no hemos recibido nada más. Debes reconocer el sector, encontrar la nave y evacuar a los sobrevivientes.
+missionVentohighRescueCompleted	¿Una nave clase Albatross en este sector? Esto es muy preocupante.<br> En fin, gracias por ayudarnos.
+missionVentohighRescueRescue	Rescata a los sobrevivientes
+missionVentohighRescueGotoVento	Lleva a los sobrevivientes a Ventohigh
+missionVentohighRescueFail	sobrevivientes muertos
+missionVentohighRescueAlertDialogue	¡¡¡Alerta, alerta!!!<br><br> Nuestros escáneres detectaron la entrada de una nave de guerra enemiga clase Albatross en tu sector.<br><br> No tienes ninguna oportunidad. Intenta escabullirte hacia Ventohigh.
+missionVentohighDestroyTaupe	Conoce a los crocpierre
+missionVentohighDestroyTaupeDescription	Mining Corp tiene un punto de perforación en el sector vecino Ore Belt. <br>Los recolectores sufren a menudo a los crocpierre, naves que se esconden en los asteroides. <br>br> Ve a la zona y destruye algunos ejemplares. Para encontrarlos, acércate a un asteroide. Los crocpierre suelen salir cuando una nave se acerca.
+missionVentohighDestroyTaupeCompleted	Gracias por tu ayuda. Mining Corp es nuestro mayor financista y echarles una mano siempre nos conviene.<br><br> Los crocpierre se multiplican rápido; avísanos si quieres volver a cazarlos.
+missionVentohighDestroyTaupeSentence	Destruye los crocpierre
+missionVentohighDestroyHugo	Lección de sabiduría
+missionVentohighDestroyHugoDescription	Hugo Wisdom es, después de Pirate Bay, uno de los sectores cercanos más peligrosos.<br><br> Lejos de nuestra policía pero no tanto de las rutas comerciales están los peores mercenarios y matones de la zona.<br><br> Con el programa \"Créditos contra Alimañas\", se te pagará por ataques punitivos en el sector.<br><br> Cuarenta naves destruidas deberían bastar.
+missionVentohighDestroyHugoCompleted	Aquí está tu dinero; vuelve si quieres más.
+missionVentohighDestroyHugoSentence	Destruye enemigos en el sector
+missionVentohighTestMissile	Prueba de misiles
+missionVentohighTestMissileDescription	Una nave militar clase Guardian visita el sector para terminar una campaña de pruebas. El capitán Raffy Rahajesy busca un buen piloto para probar los nuevos misiles de su nave. <br><br> Ofrece un mod de misil decente a quien acepte. Debes instalar un registrador de telemetría en tu nave antes de empezar.
+missionVentohighTestMissileCompleted	Como prometí, aquí tienes tu mod de misil.
+missionVentohighTestMissileBuyTracker	Compra un registrador de telemetría en el astillero.
+missionVentohighTestMissileFollowGuardian	Sigue al crucero Guardian.
+missionVentohighTestMissileComeBackGuardian	Acércate al crucero Guardian.
+missionVentohighTestMissileDodge	Esquiva o destruye los misiles de prueba.
+missionVentohighTestMissileWelcomeDialogue	Bienvenido, civil. <br> Síguenos hasta la zona de tiro. Probaremos tu sistema de telemetría durante el trayecto.
+missionVentohighTestMissileFirstShootPhaseDialogue	Perfecto, tu transmisor funciona bien; lanzaremos la primera salva.<br><br> Son misiles falsos con una carga mínima que apenas rasguñará tu escudo.<br><br> <b>Tu objetivo es esquivar o destruir los misiles entrantes. </b>
+missionVentohighTestMissileSecondShootPhaseDialogue	Probemos algo más potente.<br><br> Los próximos misiles son más rápidos y ágiles. También resisten un poco más el daño láser. <br><br> <b>Tu objetivo es esquivar o destruir los misiles entrantes. </b>
+missionVentohighTestMissileForthShootPhaseDialogue	Nuestros analistas están asombrados con tu desempeño.<br><br> Veamos cómo manejas el nuevo mod de misil SPARTAN.
+missionVentohighTestMissileFiveShootPhaseDialogue	<font color=\"red\"> <b> ¡DIOS MÍO! </b> <br><br> Uno de nuestros técnicos cometió un error enorme y te lanzó un misil real por accidente.<br><br> Haz lo que sea para esquivarlo o tendré que redactar un informe explicando tu muerte. </font>
+missionVentohighTestMissileJokePhaseDialogue	JA JA JA<br><br> Qué divertido. La broma del \"misil real\" es de mis favoritas.<br><br> ¡Sin rencores!
+missionVentohighTestMissileFailureKilledGuardian	Guardian destruido
+missionVentohighDebugMission	misión debug
+missionVentohighKillEnnemisHermes	Sector Hermes
+missionVentohighKillEnnemisHermesDescription	El sector Hermes lleva demasiado tiempo abandonado. Muchos enemigos merodean esperando a algún viajero perdido para saquearlo. <br><br>Ayúdanos a limpiar el sector y serás recompensado.
+missionVentohighKillEnnemisHermesCompleted	Nada mal para un novato. Aquí tienes tu recompensa; vuelve cuando quieras.
+missionVentohighKillEnnemisHermesSentence	Destruye enemigos en Hermes
+missionVentohighGotoSpartan	La gran empresa
+missionVentohighGotoSpartanDescription	SPARTAN Industries es una empresa muy importante en la galaxia, con un enorme poder económico y político. <br>Siempre buscan gente como tú, que golpee rápido y con discreción.<br> SPARTAN tiene varias misiones que te ayudarán a mejorar tus habilidades y tu influencia. <br><br>Visítalos en su sede y, claro, vuelve cuando quieras.
+missionVentohighGotoSpartanCompleted	Hola, corsario. <br><br> Bienvenido a la sede de SPARTAN. Soy Florentz Ladelander. Supimos de tus logros y seguimos tu progreso desde que trabajaste para el gobernador de Ventohigh.<br><br> Esperamos que nuestra cooperación sea mutuamente beneficiosa. Acepta estos créditos como regalo de bienvenida. Junto a nosotros hay una estación que vende nuestros mejores escudos, por si no sabes en qué gastarlos.
+characterDroidHelp	astrodroide 4.4
+tutorielMissionGotoAstero	Sigue la marca amarilla hacia el asteroide rojo
+tutorielMissionDestroyAsteroid	Destruye el asteroide rojo
+tutorielMissionDockToStation	Atraca en la estación (marca amarilla)
+tutorielMissionTakePortal	Cruza el portal espacial de Genesis
+welcomeMessage	¡Bienvenido a Space Corsair! <br><br> Soy tu astrodroide personal y te ayudaré en este breve tutorial.<br><br> Empecemos con el control básico de propulsión. Añadí una marca amarilla en el lado derecho de tu pantalla. Ve hacia ella; te llevará a un asteroide rojo especial. Usa el joystick de abajo a la izquierda. Tu nave seguirá la dirección del joystick. Cuanto más lejos del centro esté tu dedo, más rápido irá la nave. <br><br> El tutorial es muy corto, pero si quieres jugar ya, navega hasta el portal espacial \"Genesis\", al norte de tu posición.
+welcomeMessageMoga	¡Bienvenido a Space Corsair! <br><br> Soy tu astrodroide personal y te ayudaré en este breve tutorial.<br><br> Empecemos con el control básico de propulsión. Añadí una marca amarilla en el lado derecho de tu pantalla. Ve hacia ella; te llevará a un asteroide rojo especial. Usa el joystick izquierdo. Tu nave seguirá la dirección del joystick. <br><br> El tutorial es muy corto, pero si quieres jugar ya, navega hasta el portal espacial \"Genesis\", al norte de tu posición.
+tutorielShootAsteroMessage	Bien hecho. Puedes cambiar el tamaño del joystick en los ajustes, así como el zoom de cámara y otras opciones.<br><br> Ya dominas el movimiento; veamos cómo disparas el láser.<br><br> Intenta destruir el gran asteroide rojo: pulsa el botón de abajo a la derecha.<br><br> Mantén el botón pulsado para disparar sin parar.
+tutorielShootAsteroMessageMoga	Bien hecho. Puedes cambiar la sensibilidad del joystick en los ajustes, así como el zoom de cámara y otras opciones.<br><br> Ya dominas el movimiento; veamos cómo disparas el láser.<br><br> Intenta destruir el gran asteroide rojo: pulsa el botón R1 o R2.<br><br> Mantén el botón pulsado para disparar sin parar.
+tutorielAsteroidName	Asteroide objetivo
+tutorielSellMessage	Intentemos atracar en una estación espacial.<br><br> Sigue la marca amarilla en la parte inferior de la pantalla; te llevará a la estación.<br><br> Los objetivos de misión siempre se muestran con estas marcas. En el radar, los objetivos se muestran con una cruz. <br><br> <font color=\"red\"> Toca el radar para abrir una vista ampliada de la zona</font>. En modo radar, toca de nuevo o pulsa atrás para volver al juego.
+tutorielSellMessageMoga	Intentemos atracar en una estación espacial.<br><br> Sigue la marca amarilla en la parte inferior de la pantalla; te llevará a la estación.<br><br> Los objetivos de misión siempre se muestran con estas marcas. En el radar, los objetivos se muestran con una cruz. <br><br> <font color=\"red\"> Toca el radar o pulsa el botón Y para abrir una vista ampliada de la zona</font>. En modo radar, toca de nuevo o pulsa atrás para volver al juego.
+tutorielGotoGenesisMessage	El último paso del tutorial es llevarte a la primera zona del juego: Genesis.<br> El gobernador local necesita tu ayuda contra una invasión pirata.<br><br> Los sectores de la galaxia están a millones de kilómetros entre sí, pero gracias a los portales espaciales puedes pasar de uno a otro en un instante.<br><br> El portal de Genesis está al norte de tu posición; como siempre, una marca amarilla en el borde de la pantalla indica la dirección.
+tutorielHelpDockMessage	Encontraste la estación espacial, muy bien.<br><br> Atracar es fácil: acércate a un borde hasta ver un láser tractor. Luego suelta el joystick: el punto de atraque te atraerá automáticamente.<br><br> Al atracar se abrirá el menú de venta. Cuando termines, usa el botón atrás de Android para salir de la estación.
+tutorielBeforeJumpMessage	Hacer un salto hiperespacial es simple: acércate al centro del portal y suelta el joystick. El portal se cargará un rato y luego te enviará a su destino en un parpadeo.<br><br> El portal no se activa si vas muy rápido. Ahora intenta saltar al sector Genesis.
+tutorielFirstJumpGenesis	Felicidades, acabas de hacer tu primer hipersalto.<br><br> Aquí termina el tutorial; tu aventura empieza en este sector, en el centro de mando de Genesis, donde te espera el gobernador Rob Thomas.<br><br>Sigue la marca amarilla hasta la estación de misiones (arriba en tu pantalla). <br><br> Antes de irte, te muestro un resumen de los controles.
+missionSpartanTransformerDelivery	Recarga energética
+missionSpartanTransformerDeliveryDescription	Por la actividad pirata, cada vez más empresas de reparto se niegan a servir a sectores peligrosos. Algunas estaciones allí reportan niveles de energía peligrosamente bajos.<br><br> Decidimos solucionarlo comprando transformadores eléctricos y entregándolos a las estaciones. <br><br> Es muy probable que haya piratas.
+missionSpartanTransformerDeliveryCompleted	Bien hecho, la energía ya no es un problema.
+missionSpartanKillFrelon	Ladrones de escudos
+missionSpartanKillFrelonDescripton	Hace tres días atacaron un convoy que llevaba escudos a Genesis.<br><br> Todos los bandidos de los sectores cercanos compraron lo robado en el mercado negro.<br><br> Ve al sector \"The Wave\" y destruye a todos los enemigos con escudo.<br><br> Por supuesto, toda información sobre el robo es confidencial.
+missionSpartanKillFrelonCompleted	Lo que mal empieza, mal acaba... Creo que a los ladrones les costará encontrar compradores tras nuestra pequeña demostración. <br><br> Aquí tienes tu recompensa.
+missionTheWaveKillFrelonSentence	Encuentra y destruye naves con escudo
+missionSpartanDestroyGuardian	Control de licencias
+missionSpartanDestroyGuardianDescription	Pocos lo saben, pero SPARTAN también produce software para naves militares.<br><br> Sospechamos que un cliente, Intergalactic Defence Forces, no respeta el acuerdo de licencia del contrato. Sin acceso a sus naves no podemos verificar si su software es original. Creemos que una nave clase Guardian va al sector Heliostat. Ve allí y destruye el crucero.<br> Luego busca chips electrónicos entre los restos y tráenoslos para analizarlos.
+missionSpartanDestroyGuardianCompleted	Nuestros mejores analistas estudian los chips que trajiste. Los primeros resultados parecen probar la piratería de licencias.<br> Con esto los demandaremos y ganaremos muchísimos créditos.
+missionSpartanDestroyGuardianDestoyText	Destruye la nave Guardian
+missionSpartanDestroyGuardianGatherEventtext	Junta pruebas de piratería
+missionSpartanDestroyGuardianFailureEvidence	pruebas perdidas
+missionSpartanDestroyGuardianOfficerDialogue	¿¡Qué demonios crees que haces!?<br><br> Somos de las Intergalactic Defense Forces; cesa tu ataque de inmediato y abandona la zona.
+missionSpartanDestroyGuardianBringBackDialogue	Recogiste el chip electrónico; ahora sal de la zona y vuelve a la sede antes de que lleguen refuerzos.
+missionSpartanBountyAlive	Recursos humanos
+missionSpartanBountyAliveDescription	Niko Vinetau era uno de nuestros mejores empleados, gerente de producto de un proyecto muy estratégico.<br> Desapareció hace dos días en circunstancias extrañas. Según nuestra información, podría vender datos confidenciales al mejor postor. Hace minutos lo ubicamos en el sector Pirate Bay. <br><br>Es imprescindible atraparlo <b>vivo</b>. Oblígalo a dejar su nave y tráelo a la sede.<br><br> Si dañas bastante su nave sin destruirla, seguramente se eyectará para salvarse.
+missionSpartanBountyAliveCompleted	Tu misión termina aquí; nosotros nos ocuparemos del buen Niko.
+missionSpartanBountyAliveEjectDialogue	Niko se eyectó de su nave. Recojámoslo para cobrar la recompensa.
+missionSpartanBountyAliveCapturedDialogue	Argh, me las pagarás, corsario.<br><br> Cuidado con SPARTAN Industries; un día se desharán de ti como hicieron conmigo...
+missionSpartanDiscoverArena	La arena galáctica
+missionSpartanDiscoverArenaDescription	La publicidad en la industria armamentista está muy regulada. Nos cuesta hacer campañas de marketing.<br><br> Queremos usar la arena galáctica, un evento deportivo transmitido a toda la galaxia, para generar revuelo con los productos SPARTAN.<br> Te inscribimos como concursante patrocinado por SPARTAN en la próxima pelea. Demuestra al mundo que el equipo SPARTAN te hace invencible. <br><br> Entra a la arena y pelea lo mejor posible.
+missionSpartanDiscoverArenaCompleted	Fue un buen espectáculo, pero por tu desempeño no volveremos a patrocinarte.<br/><br/> Dicho esto, puedes participar en la arena por tu cuenta cuando quieras.
+missionSpartanDiscoverArenaGotoMessage	participa en la arena
+missionDeliveryFailureDestroy	carga destruida
+missionDeliveryFetch	Recoger
+missionDeliveryDeliver	Entregar
+missionDeliveryCannotJump	Por el efecto Planck, un hipersalto podría dañar la mercancía. Es un riesgo que no podemos correr: solo viajaremos por portales espaciales.
+missionDestroySolarSentriesKillSentriesSentence	Encuentra y destruye torretas de misiles ocultas
+missionDestroySolarSentriesSentriesName	torreta de misiles
+missionDestroySolarSentries	Amenaza oculta
+missionDestroySolarSentriesdescription	Grupos piratas desarrollan un nuevo tipo de torreta de cohetes.<br><br> Es un lanzamisiles furtivo que engaña a los mejores sensores haciéndose pasar por un asteroide común. Cuando el objetivo se acerca, la torreta pasa a modo agresivo y la pelea suele estar decidida. <br><br> Como líderes en escudos, debemos estudiar toda nueva amenaza para nuestros clientes y queremos datos sobre estas torretas cuanto antes. Según la inteligencia, se están desplegando en el sector Solar Field. Por desgracia, es un sector hostil y, como imaginarás, las torretas lo hacen aún más peligroso. Necesitamos un piloto veterano, por eso te contactamos. <br><br> Ve al sector, encuentra las torretas y destruye algunas.
+missionDestroySolarSentriesCompleted	Los datos recogidos por tu nave serán muy útiles.<br><br> Gracias por tu colaboración.
+missionDestroyMines	¿Cable rojo o azul?
+missionDestroyMinesdescription	Hay muchas minas en el sector Orion, un problema para el sector vecino Omicron Prime.<br><br> El director de la estación Omicron nos pide resolverlo. Orion es bastante peligroso y no queremos llamar la atención, así que destruir minas con láser y misiles no es opción. En su lugar, reprogramaremos el núcleo de las minas para desactivar la ignición. <br><br> Instalamos en tu nave una tecnología avanzada de SPARTAN capaz de penetrar la arquitectura interna de las minas. Debes quedarte cerca de ellas durante el proceso. Cuidado: tienen un sistema gravitatorio que te atraerá. <br><br> Ve al sector Orion y desactiva las minas.
+missionDestroyMinesKillMinesSentence	Desactiva minas
+missionDestroyMinesCompleted	Trabajo hecho, aquí tienes tu recompensa.
+missionThe	el
+missionOmicronKillStravos	Buscando a Stravos
+missionOmicronKillStravosDescription	Stravos es un criminal conocido, implicado en el atentado de Ventohigh.<br><br> El escáner de un portal detectó su paso a The Vault, un sector no muy lejano. Todos los cazarrecompensas del sector se están uniendo para encontrarlo y matarlo.<br><br> Si alguien tuviera el valor de atacarlo solo, se quedaría con toda la recompensa...
+missionOmicronBountKillStravosCompleted	Increíble, sobreviviste a The Vault; todo el sector quedará impresionado.
+missionSpartanGotoOmicron	Gente de Omicron
+missionSpartanGotoOmicronDescription	Debemos mantener un perfil bajo: el consorcio por los derechos alienígenas investiga nuestras últimas actividades. Por ahora dejaremos de trabajar con corsarios y mercenarios. <br><br> Omicron Prime es un puerto espacial muy famoso en toda la galaxia. Quizá deberías seguir tu aventura allí.<br><br> Por cierto, para que quede clarísimo: sí, estás despedido.
+missionSpartanGotoOmicronCompleted	Saludos, forastero.<br><br> Omicron Prime es un sector independiente. Que no tengamos policía propia no significa que no sepamos defendernos.<br><br> En fin, si buscas trabajo, este es el lugar. Estamos conectados a todas las bolsas de trabajo clandestinas de la galaxia.
+missionOmicronEscortJailTargetName	nave de prisioneros
+missionOmicronEscortFailureGeneric	escolta destruida
+missionOmicronEscortJail	El convoy
+missionOmicronEscortJailApproachTarget	alcanza la nave de prisioneros
+missionOmicronEscortJailPoliceName	oficial
+missionOmicronEscortJailMeetingDialogue	Hola, corsario.<br><br> Debemos trasladar a un prisionero peligroso a la prisión Eternity.<br> Es un expandillero y esperamos un ataque durante el traslado; por eso pedimos escolta. <br><br> Síguenos hasta la prisión; puedes atacar a los hostiles en el camino, pero no te alejes de nuestra nave.
+missionOmicronEscortJailLastSectorDialogue	La prisión está a tu derecha; terminemos el trabajo.
+missionOmicronEscortJailDockedDialogue	Gracias, corsario. <br><br> Quizá necesitemos otra escolta algún día. <br><br> Vuelve a Omicron Prime a cobrar tu dinero.
+missionOmicronEscortJailAbandonDialogue	¡Mayday, mayday!<br><br> ¡Vuelve de inmediato, nos están atacando!
+missionOmicronEscortJailDescription	Spartan HQ pagó a un transportista para llevar un prisionero a la prisión Eternity. Se detuvo en nuestro sector diciendo que el resto del viaje es muy peligroso. La nave busca escolta a cambio de créditos...
+missionOmicronEscortJailCompleted	Buen trabajo, aquí está tu dinero.
+missionOmicronDeliveryParadise	Entrega en el paraíso
+missionOmicronDeliveryParadiseDescription	La fábrica de misiles de Lost Paradise necesita recarga energética.<br> Si te interesa, compra bloques de energía en el sector Solar Field y llévalos a la fábrica.
+missionOmicronDeliveryParadiseCompleted	Aquí tienes tu recompensa y un bonus para tu hipermotor.
+missionOmicronDeliveryParadiseCompletedOfficerName	jefe de estación
+missionOmicronDeliveryParadiseCompletedOfficerDialogue	Las estaciones de Solar Field te desean buen viaje y esperan verte pronto.<br><br> Cuidado, tu carga es muy valiosa y podría despertar la codicia...
+missionOmicronRescue	Rescate espacial
+missionOmicronRescueDescription	Un director de la prisión Eternity está desaparecido desde ayer. <br><br> Su último informe de telemetría se envió desde el sector Aeria Passing.<br><br> Su nave tiene un sistema de socorro que emite pulsos magnéticos; tu sonar debería detectar la señal. <br><br> Sigue la señal e intenta traer vivo al piloto.
+missionOmicronRescueCompleted	El piloto parece ileso; aquí tienes tu recompensa.
+missionOmicronRescueFindText	Encuentra la nave en apuros.
+missionOmicronRescuePickUpText	Rescata al piloto
+missionOmicronRescueShipName	civil
+missionOmicronRescueDroidHelpText	Nuestro sonar usa vibración y sonido para indicarte la distancia al objetivo. <br><br> La frecuencia del pitido depende de la distancia al objetivo.
+missionOmicronRescuePilotGratefullText	Saludos, corsario.<br><br> ¡Llegaste justo a tiempo! ¿Me llevas al puerto espacial de Omicron?
+missionOmicronFindTransmiter	Guardián de secretos
+missionOmicronFindTransmiterDescription	Como sabes, muchos cazarrecompensas viven en Omicron Prime.<br><br> Pagan muchos créditos por información. Instalamos espías ocultos en sectores peligrosos para reunir datos sobre posibles objetivos.<br><br> Uno de los dispositivos de la red fue atacado en el sector The Vault; intenta encontrar su caja negra; te daremos la frecuencia de la señal para tu sonar. Tráelo de vuelta cuando lo encuentres.
+missionOmicronFindTransmiterCompleted	La estructura interna del grabador parece intacta. Con suerte sabremos quién lo atacó.
+missionOmicronFindTransmiterFindText	Sigue la señal del dispositivo secreto
+missionOmicronFindTransmiterPickUpText	Recoge el dispositivo
+missionOmicronFindTransmiterFoundText	Aquí está el grabador secreto; recojámoslo y llevémoslo al puerto espacial.
+missionOmicronFindTransmiterDroidHelpText	El sonar usa la vibración y el sonido del dispositivo para indicarte la distancia al objeto secreto. <br><br> La frecuencia del pitido depende de la distancia al objetivo.
+missionOmicronGatherAlienJelly	Gelatina alienígena
+missionOmicronGatherAlienJellyDescription	<br><br> La gelatina alienígena es muy nutritiva, ideal para el estómago del viajero. Los restaurantes del puerto venden platos de gelatina a precio alto. Por desgracia, no se puede sintetizar: hay que extraerla de los alienígenas.<br><br> Omicron Prime no está lejos de los sectores alienígenas. Viaja más allá de la frontera verde, encuentra naves alienígenas y junta gelatina. Unas 30 unidades bastarán
+missionOmicronGatherAlienJellyCompleted	¡Ñam ñam, rica gelatina!<br><br> Aquí tienes tu recompensa, gracias por la entrega.
+missionOmicronGatherAlienJelly2	Sustancia verde
+missionOmicronGatherAlienJellyDescription2	Desde tu última entrega, todos los restauranteros del sector me piden más.<br><br> Vuelve al sector alienígena y tráeme gelatina, unas 50 unidades estarán bien.
+missionOmicronGatherAlienJellyCompleted2	Convirtamos esta gelatina en créditos; aquí tienes tu recompensa.
+missionOmicronGatherAlienEgg	El favorito de Ripley
+missionOmicronGatherAlienEggDescription	Ya nos trajiste gelatina alienígena; ahora buscamos algo más valioso.<br><br> Los <b>huevos alienígenas</b> son raros y valen mucho en el mercado negro. Si nos traes 20 huevos alienígenas podremos pagarte con <b>dos créditos alienígenas</b>...
+missionOmicronGatherAlienEggCompleted	Perfecto, aquí tienes tus créditos alienígenas.
+missionOmicronKillMotherShip	Nave nodriza
+missionOmicronKillMotherShipDesciption	The Hive es un sector alienígena muy peligroso, donde se producen naves alienígenas.<br><br> Las naves alienígenas las fabrican las naves nodriza, enormes naves que contienen decenas de enemigos. The Hive tiene una gran concentración de naves nodriza.<br><br> Para reducir las naves alienígenas cerca de nuestro sector, recompensamos a quien se atreva a destruir naves nodriza. Si quieres intentarlo, ve bien preparado.
+missionOmicronKillMotherShipCompleted	Vaya, impresionante. Muchos pilotos creían que no sobrevivirías.<br><br> En fin, aquí tienes tu recompensa.
+missionOmicronKillMotherShipKillSentence	Destruye una nave nodriza alienígena
+missionOmicronControlSpeed	Control de velocidad
+missionOmicronControlSpeedDescription	Hubo muchos accidentes en el sector Highway últimamente. Algunos civiles no conocen sus estrictos límites de velocidad.<br><br> Ve al sector Highway y busca civiles con exceso de velocidad. Dales unos disparos de advertencia y deberían cumplir la ley.<br>
+missionOmicronControlSpeedCompleted	Buen trabajo, puedes quedarte con el dinero.
+missionOmicronControlSpeedSentence	Da disparos de advertencia a los que van rápido
+missionOmicronControlSpeedArrestedSentenceOne	Tenía prisa, y por tu culpa ahora tengo más.<br/> Toma mi dinero y déjame ir.
+missionOmicronControlSpeedArrestedSentenceTwo	¡Por favor, no me mates!<br/> Iré más lento, lo prometo.
+missionOmicronControlSpeedArrestedSentenceThree	¿Me acabas de disparar?<br> Tienes suerte de que haya testigos.
+missionOmicronControlSpeedArrestedSentenceFour	Ups, perdón, no vi que iba tan rápido.
+missionOmicronControlSpeedArrestedSentenceFive	Ibas más rápido que yo y disparando con civiles alrededor.<br></br>. A TI deberían arrestarte.
+missionOmicronControlSpeedFailureCivilianKilled	civil muerto
+missionProtectCivilianHighWay	Entrega en Highway
+missionProtectCivilianHighWayDescription	Una estación del sector Highway necesita una nave para transportar carga valiosa; atraca y sigue sus instrucciones. <br>
+missionProtectCivilianHighWayCompleted	Por suerte estabas en el sector durante el ataque.<br><br> Gracias por tu ayuda.
+missionProtectCivilianHighWayAlertAttack	<font color=\"red\"> ¡¡¡Alerta de detección alienígena!!! </font><br><br> Nuestros sensores detectaron actividad alienígena en tu sector.<br><br> <b>Cancela la entrega y protege a los civiles.</b>
+missionProtectCivilianHighWayOmicronSecurityForce	operador de Omicron
+missionProtectCivilianHighWayObjective	protege a los civiles
+missionProtectCivilianHighWayFailure	demasiadas víctimas
+missionProtectCivilianYouDiedFailure	moriste
+missionGatherAlienJelly	Junta gelatina alienígena
+fiftyKCredit	50 000 créditos
+missionOmicronRescuePilotName	piloto

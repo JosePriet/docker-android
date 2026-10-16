@@ -1,0 +1,51 @@
+# Space Corsair v22 — Batch 2 notes
+
+## Hulls
+- `shade_v2.png` — Signature: needlehead interceptor with a sharply tapered reinforced nose, swept narrow stabilizer fins, and a compact sensor bridge; engine glow: `#78CFFF`.
+- `hornet_v2.png` — Signature: broad-front shield-tank destroyer with layered shield-generator plates on the shoulders and a bright central shield spine; engine glow: `#DDF3FF`.
+- `raptor_v2.png` — Signature: aggressive assault cruiser with split claw-like forward prongs, compact armored core, and swept side armor; engine glow: `#FF7C35`.
+- `sanctum_v2.png` — Signature: logistics cruiser with a visible central repair bay, orderly cargo pods, and sturdy service arms folded within its plan view; engine glow: `#FFB34C`.
+- `bulwark_v2.png` — Signature: deep-space freighter with a massive protected cargo block, reinforced bow, and compact escort-grade control prow; engine glow: `#78CFFF`.
+- `warlord_v2.png` — Signature: wide brawler battlecruiser with a blunt ram prow, heavy asymmetrical scavenged armor, and a concentrated centerline furnace; engine glow: `#FF7C35`.
+- `harbinger_v2.png` — Signature: organic missile boat with a pointed brood-grown body, paired launch-pod clusters, and violet nodes; launch-pod housings are smooth sealed hatches, not barrels; engine glow: `#C45CFF`.
+- `tempest_v2.png` — Signature: artillery battleship with a long armored central gun-deck spine, broad stable armor shoulders, and thick replaceable workshop plate; engine glow: `#FFB34C`.
+- `talon_v2.png` — Signature: light needlepoint interceptor with swept triangular wings, a compact nose sensor, and minimal armor for acceleration; engine glow: `#FFAD48`.
+- `nightjar_v2.png` — Signature: sleek strike frigate with a dark silver-blue tapered fuselage, compact swept stealth wings, and a compact closed weapons bay; engine glow: `#FFAD48`.
+- `aurora_v2.png` — Signature: clean triangular shield destroyer with a bright forward canopy strip and paired shield-emitter lobes integrated into its swept wings; engine glow: `#FFAD48`.
+- `raven_v2.png` — Signature: compact high-speed bomber with broad swept wings, a narrow forward nose, and exactly two prominent closed square bomb-bay hatches; engine glow: `#FFAD48`.
+- `foundry_v2.png` — Signature: industrial foundry ship with a thick workshop hull, central fabrication bay, side-mounted folded gantry arms, and visible repair modules; engine glow: `#FFB34C`.
+- `cobalt_v2.png` — Signature: compact symmetrical gunboat with short broad shoulders, a protected central command pod, and precise pale reactor lines; engine glow: `#F2DCA8`.
+- `hydra_v2.png` — Signature: support cruiser with a protected central reactor core and three balanced auxiliary service pods connected by clean armored struts; engine glow: `#F2DCA8`.
+- `cardinal_v2.png` — Signature: heavy assault cruiser with a tall armored prow, heavy symmetric side plates, and a bright protected central spine; engine glow: `#F2DCA8`.
+- `sovereign_v2.png` — Signature: command battlecruiser with a raised central command citadel, paired communication vanes, and a strong symmetrical fleet-leader silhouette; engine glow: `#F2DCA8`.
+- `sunlance_v2.png` — Signature: artillery battlecruiser with a long tapered central armored launcher spine and narrow lateral stabilizers; the launcher is hull-integrated, not mounted on a turret pad; engine glow: `#F2DCA8`.
+- `graywall_v2.png` — Signature: broad bulk freighter with a sealed central cargo bastion and symmetrical modular cargo blocks arranged like a precise ledger; engine glow: `#F2DCA8`.
+- `wraith_v2.png` — Signature: strike battleship with an angular low-profile dark-violet hull, swept shadow wings, and a narrow luminous central reactor spine; engine glow: `#F2DCA8`.
+- `bastille_v2.png` — Signature: siege fortress battleship with broad squared armor shoulders, nested bastion plates, reinforced ribs, and compact central command deck; engine glow: `#F2DCA8`.
+- `secret_spartan.png` — Signature: Layered shield-emitter lattice around a central command spine; engine glow: `#DDF3FF`.
+- `secret_reaver.png` — Signature: A welded ram prow wrapped around a salvaged furnace core; engine glow: `#FF7C35`.
+- `secret_kretari.png` — Signature: Twin nest pods linked by a living signal spine; engine glow: `#C45CFF`.
+- `secret_varn.png` — Signature: A sealed cargo bastion surrounding a concealed command core; engine glow: `#F2DCA8`.
+- `secret_ironclad.png` — Signature: Replaceable armor bulwarks built around a central repair spine; engine glow: `#FFB34C`.
+- `secret_helion.png` — Signature: Paired solar collector fins feeding a bright central drive spine; engine glow: `#FFAD48`.
+- `secret_warden.png` — Signature: A reinforced ram nose surrounding a long-range beacon array; engine glow: `#78CFFF`.
+
+## Weapon-family turrets
+- `turret_railgun_s.png` — paired long magnetic rails with cyan coil rings; family glow: `#8CF2FF`; pivot centered at (128, 128); size `s`.
+- `turret_railgun_m.png` — paired long magnetic rails with cyan coil rings; family glow: `#8CF2FF`; pivot centered at (128, 128); size `m`.
+- `turret_railgun_l.png` — paired long magnetic rails with cyan coil rings; family glow: `#8CF2FF`; pivot centered at (128, 128); size `l`.
+- `turret_autocannon_s.png` — rotary multi-barrel cluster with visible ammunition feed belts; family glow: `#FFD159`; pivot centered at (128, 128); size `s`.
+- `turret_autocannon_m.png` — rotary multi-barrel cluster with visible ammunition feed belts; family glow: `#FFD159`; pivot centered at (128, 128); size `m`.
+- `turret_autocannon_l.png` — rotary multi-barrel cluster with visible ammunition feed belts; family glow: `#FFD159`; pivot centered at (128, 128); size `l`.
+- `turret_artillery_s.png` — single long barrel, orange muzzle brake, and heavy mantlet; family glow: `#FF8C33`; pivot centered at (128, 128); size `s`.
+- `turret_artillery_m.png` — single long barrel, orange muzzle brake, and heavy mantlet; family glow: `#FF8C33`; pivot centered at (128, 128); size `m`.
+- `turret_artillery_l.png` — single long barrel, orange muzzle brake, and heavy mantlet; family glow: `#FF8C33`; pivot centered at (128, 128); size `l`.
+- `turret_blaster_s.png` — stubby twin wide-bore barrels, green muzzle rings, and heat-sink fins; family glow: `#59FFA6`; pivot centered at (128, 128); size `s`.
+- `turret_blaster_m.png` — stubby twin wide-bore barrels, green muzzle rings, and heat-sink fins; family glow: `#59FFA6`; pivot centered at (128, 128); size `m`.
+- `turret_blaster_l.png` — stubby twin wide-bore barrels, green muzzle rings, and heat-sink fins; family glow: `#59FFA6`; pivot centered at (128, 128); size `l`.
+- `turret_disintegrator_s.png` — red lens-prism emitter with a focusing array and no conventional barrel; family glow: `#FF404D`; pivot centered at (128, 128); size `s`.
+- `turret_disintegrator_m.png` — red lens-prism emitter with a focusing array and no conventional barrel; family glow: `#FF404D`; pivot centered at (128, 128); size `m`.
+- `turret_disintegrator_l.png` — red lens-prism emitter with a focusing array and no conventional barrel; family glow: `#FF404D`; pivot centered at (128, 128); size `l`.
+- `turret_arc_s.png` — Tesla-coil spire with blue conductor prongs and terminals; family glow: `#8CBFFF`; pivot centered at (128, 128); size `s`.
+- `turret_arc_m.png` — Tesla-coil spire with blue conductor prongs and terminals; family glow: `#8CBFFF`; pivot centered at (128, 128); size `m`.
+- `turret_arc_l.png` — Tesla-coil spire with blue conductor prongs and terminals; family glow: `#8CBFFF`; pivot centered at (128, 128); size `l`.

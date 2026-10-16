@@ -1,0 +1,667 @@
+{
+  "spartan": {
+    "faction": "Spartan Republic",
+    "commander": "Ilya Venn",
+    "ranks": {
+      "Hostile": "Amenaza para la República",
+      "Unfriendly": "Contacto no confiable",
+      "Neutral": "Capitán visitante",
+      "Friendly": "Auxiliar de la República",
+      "Trusted": "Vanguardia de la República",
+      "Honored": "Escudo de la República"
+    },
+    "rank_up": {
+      "Friendly": "El consejo reconoce tu historial de escolta. Te nombro Auxiliar de la República; mantén las rutas abiertas y nuestras patrullas responderán a tu llamado.",
+      "Trusted": "Mantuviste la línea cuando importaba. Te confío el deber de Vanguardia y los contratos más exigentes de la República.",
+      "Honored": "El consejo de flota te reconoce como Escudo de la República. Cuando nuestra gente te llame, mi canal de mando será tuyo."
+    },
+    "rank_down": {
+      "Unfriendly": "Tus últimas decisiones dañaron la confianza de la República. Hasta que repares el daño, nuestras tripulaciones te tratarán con recelo.",
+      "Hostile": "No dejaré que otro convoy de la República sufra por tus actos. Nuestras patrullas tienen permiso para detenerte en cuanto te vean."
+    },
+    "contracts": [
+      {
+        "title": "Línea de suministro",
+        "briefing": "Escolta un carguero de raciones por una ruta disputada de la República. Mantenlo intacto hasta el muelle del asentamiento.",
+        "success": "El convoy llegó con su carga y tripulación a salvo. El consejo registró tu servicio.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Escudo civil",
+        "briefing": "Asaltantes Reaver se acercan a una lanzadera de evacuación. Recházalos antes de que los pasajeros queden expuestos.",
+        "success": "Los civiles están a salvo. Recordaremos tu prudencia bajo fuego.",
+        "objective": "DEFEND_CIVILIANS",
+        "repeatable": true
+      },
+      {
+        "title": "Defiende el repetidor",
+        "briefing": "Un repetidor de la República está bajo presión. Defiende la zona marcada hasta que llegue la patrulla de relevo.",
+        "success": "El repetidor está asegurado. Nuestra formación puede volver a avanzar.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true
+      },
+      {
+        "title": "Escaneo de área",
+        "briefing": "Escanea el tráfico civil cerca del cruce de rutas e informa de señales de auxilio o peligros.",
+        "success": "Tráfico registrado e informe de paso seguro entregado.",
+        "objective": "SCAN_CIVIL",
+        "repeatable": true
+      },
+      {
+        "title": "Recompensa por asaltante",
+        "briefing": "Una nave ligera Reaver ataca suministros de la República. Derríbala para cobrar la recompensa publicada.",
+        "success": "La nave no molestará a más convoyes. Recompensa confirmada.",
+        "objective": "BOUNTY",
+        "repeatable": true
+      },
+      {
+        "title": "Devolución de placas",
+        "briefing": "Recoge placas de escudo sobrantes en los depósitos y vende lo recuperado al intendente de la República.",
+        "success": "Las placas vuelven al servicio. Las tripulaciones de los asentamientos te agradecen.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Guardia de evacuación",
+        "briefing": "Contrato de compensación: tu último ataque desplazó a familias de la República. Escolta su lanzadera de evacuación a un lugar seguro.",
+        "success": "Las familias llegaron al refugio. El consejo acepta este acto de reparación.",
+        "objective": "ESCORT",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Busca en los restos",
+        "briefing": "Contrato de compensación: tus disparos inutilizaron una nave de auxilio de la República. Rescata a su tripulación antes de que falle el soporte vital.",
+        "success": "La tripulación está viva y a salvo. Empezaste a reparar el daño.",
+        "objective": "RESCUE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Aegis Longwatch",
+      "family": "railgun",
+      "lore": "Un cañón de riel de la República ajustado para tripulaciones de mando pacientes: el destello blanco de sus bobinas anuncia un disparo que acaba con la amenaza antes de que alcance al convoy."
+    },
+    "secret_ship": {
+      "name": "SRS Resolute",
+      "class": "Battlecruiser",
+      "role": "Escolta de flota",
+      "signature_feature": "Red de emisores de escudo en capas alrededor de un eje central de mando",
+      "lore": "El Resolute recibe el primer golpe en una patrulla mixta y mantiene su posición hasta que todas las naves de la República se retiren."
+    }
+  },
+  "reaver": {
+    "faction": "Crimson Reavers",
+    "commander": "Captain Mara Vey",
+    "ranks": {
+      "Hostile": "Marcado para represalias",
+      "Unfriendly": "Deuda de sangre",
+      "Neutral": "Socio ocasional",
+      "Friendly": "Amigo de la tripulación",
+      "Trusted": "Honrado con botín",
+      "Honored": "Capitán del dominio libre"
+    },
+    "rank_up": {
+      "Friendly": "Cumpliste tu palabra cuando el casco empezó a arder. Mi tripulación compartirá mesa contigo; no me hagas arrepentirme.",
+      "Trusted": "La tripulación votó darte una parte completa. Toma los buenos contratos y recuerda quién te sacó del fuego.",
+      "Honored": "Eres capitán entre capitanes en esta cubierta. Nadie toca tu parte mientras yo siga respirando."
+    },
+    "rank_down": {
+      "Unfriendly": "Dicen que dejaste a los nuestros sin su parte. Aún puedes saldar la cuenta, pero mi tripulación no te dará otro favor.",
+      "Hostile": "Cruzaste la línea y le robaste a la tripulación. Tenemos tu rastro; cada Reaver que encuentres sabe el precio."
+    },
+    "contracts": [
+      {
+        "title": "Presa fácil",
+        "briefing": "Un blanco fácil con recompensa cruza el espacio Reaver. Intercéptalo antes de que otro capitán se lleve la bolsa.",
+        "success": "Bolsa asegurada. Tu parte espera junto al fogón.",
+        "objective": "BOUNTY",
+        "repeatable": true
+      },
+      {
+        "title": "Vende lo recuperado",
+        "briefing": "Recoge restos sueltos en el campo de naufragios marcado y vende lo útil al perista de la tripulación.",
+        "success": "Los restos se vendieron sin problemas. La tripulación tiene su parte.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Tripulación a la deriva",
+        "briefing": "Una nave Reaver quedó abandonada tras un mal salto. Busca a su tripulación y tráela antes de que lleguen los saqueadores.",
+        "success": "Están a bordo, ruidosos y vivos. Un buen día de trabajo.",
+        "objective": "RESCUE",
+        "repeatable": true
+      },
+      {
+        "title": "Pierde a los perseguidores",
+        "briefing": "Las patrullas siguen a un carguero capturado. Escóltalo por la ruta de escape marcada.",
+        "success": "El carguero burló a las patrullas. La carga y la tripulación son nuestras.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Quema el peaje",
+        "briefing": "Una estación de cobro de deudas bloquea un paso Reaver. Destrúyela y despeja la ruta.",
+        "success": "Esa estación no cobrará más peajes. La ruta está abierta.",
+        "objective": "DESTROY_STATION",
+        "repeatable": true
+      },
+      {
+        "title": "Encuentra el registro",
+        "briefing": "Busca un registro robado de la tripulación entre los restos. Quien lo tenga sabe qué capitanes aún deben una parte.",
+        "success": "Registro encontrado. Los nombres y las partes están donde deben.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Paso seguro para mineros",
+        "briefing": "Contrato de compensación: tu última incursión dejó mineros civiles bajo fuego. Defiéndelos hasta que su lanzadera salga del campo.",
+        "success": "Los mineros salieron. Una deuda menos que cargar.",
+        "objective": "DEFEND_CIVILIANS",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Devuelve la caja médica",
+        "briefing": "Contrato de compensación: tu tripulación robó medicinas de un carguero varado. Busca la caja marcada y devuélvela a sus dueños.",
+        "success": "Las medicinas volvieron al carguero. Mara dice que ahora la deuda es menor.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Redhand Rotary",
+      "family": "autocannon",
+      "lore": "Un cañón rotativo capturado y reconstruido con tambores de munición recuperados. Escupe una brutal tormenta ámbar, y Mara insiste en que cada bala ya está pagada."
+    },
+    "secret_ship": {
+      "name": "Pillager's Due",
+      "class": "Battleship",
+      "role": "Asaltante de corto alcance",
+      "signature_feature": "Proa de ariete soldada alrededor de un núcleo de horno recuperado",
+      "lore": "Las tripulaciones se ganan el Due al sobrevivir una temporada a bordo; su blindaje dispar registra cada nave que intentó tomarlo y falló."
+    }
+  },
+  "kretari": {
+    "faction": "Kre'tari Brood",
+    "commander": "Nhal-of-the-Third-Egg",
+    "ranks": {
+      "Hostile": "Intruso perseguido",
+      "Unfriendly": "Señal inquieta",
+      "Neutral": "Extraño escuchado",
+      "Friendly": "Aliado del nido",
+      "Trusted": "Hermano de la Prole",
+      "Honored": "Guardián de la memoria"
+    },
+    "rank_up": {
+      "Friendly": "Tu señal ya es familiar para las crías. Te nombro Aliado del nido; cuida esta confianza.",
+      "Trusted": "La Prole recuerda tu cuidado. Ahora eres Hermano de la Prole y recibirás primero los llamados del nido.",
+      "Honored": "Compartimos contigo nuestro recuerdo más antiguo. Protégelo como proteges a los vivos, Guardián de la memoria."
+    },
+    "rank_down": {
+      "Unfriendly": "Tu señal inquieta al nido. Restaura lo que perturbaste y quizá las crías vuelvan a escucharte.",
+      "Hostile": "La Prole marcó tu señal como peligro. Deja nuestros nidos o responderemos juntos."
+    },
+    "contracts": [
+      {
+        "title": "Señal del nido",
+        "briefing": "Encuentra la señal perdida de la prole entre las rocas silenciosas. El nido no podrá responder hasta recuperar su baliza de memoria.",
+        "success": "La señal vuelve a escucharse. El nido recuerda tu camino.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Escolta a la prole",
+        "briefing": "Guía un transporte de crías por el paso exterior mientras estas se acomodan en sus caparazones de viaje.",
+        "success": "El transporte llegó a espacio tranquilo. Las crías están a salvo.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Perímetro del nido",
+        "briefing": "Defiende la zona del nido marcada mientras los guardianes de la memoria completan su intercambio de señales.",
+        "success": "El intercambio terminó. El nido está tranquilo.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true
+      },
+      {
+        "title": "Rescata a las crías",
+        "briefing": "Rescata a las crías varadas en una cápsula de viaje dañada antes de que su caparazón se rompa.",
+        "success": "Las crías volvieron al nido. Su señal brilla.",
+        "objective": "RESCUE",
+        "repeatable": true
+      },
+      {
+        "title": "Elimina depredadores",
+        "briefing": "Elimina las naves depredadoras hostiles que rondan la ruta de la prole. Las crías no pueden viajar mientras cazan.",
+        "success": "La amenaza depredadora desapareció. La ruta está tranquila.",
+        "objective": "KILL_ENEMY_TYPE",
+        "repeatable": true
+      },
+      {
+        "title": "Silencia el taladro",
+        "briefing": "Destruye la estación perforadora no tripulada que perturba un nido cercano.",
+        "success": "La señal de perforación cesó. El nido puede descansar.",
+        "objective": "DESTROY_STATION",
+        "repeatable": true
+      },
+      {
+        "title": "Devuelve a las crías",
+        "briefing": "Contrato de compensación: tu ataque dispersó una cápsula de viaje de la prole. Rescata a las crías antes de que el frío las alcance.",
+        "success": "Las crías están a salvo. La Prole conserva tu nueva señal junto al daño pasado.",
+        "objective": "RESCUE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Calma el nido",
+        "briefing": "Contrato de compensación: tus armas perturbaron un traslado del nido. Defiende la zona marcada mientras los transportes de crías se reagrupan.",
+        "success": "Los transportes se reagruparon sin pérdidas. El nido escuchó tu reparación.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Mnemic Spore",
+      "family": "disintegrator",
+      "lore": "Una matriz de enfoque viva recuerda a su objetivo con cada pulso. La Prole solo la presta a un piloto que haya protegido a las crías."
+    },
+    "secret_ship": {
+      "name": "Cradle of Echoes",
+      "class": "Cruiser",
+      "role": "Correo de la prole",
+      "signature_feature": "Dos cápsulas de nido unidas por un eje vivo de señales",
+      "lore": "El Cradle lleva guardianes de la memoria entre nidos; sus cápsulas gemelas laten con la historia compartida de cada cría a bordo."
+    }
+  },
+  "varn": {
+    "faction": "Varn Syndicate",
+    "commander": "Director Sera Voss",
+    "ranks": {
+      "Hostile": "Contrato nulo",
+      "Unfriendly": "Cuenta de alto riesgo",
+      "Neutral": "Contraparte sin evaluar",
+      "Friendly": "Socio avalado",
+      "Trusted": "Cliente preferente",
+      "Honored": "Benefactor acreditado"
+    },
+    "rank_up": {
+      "Friendly": "Tu cuenta ya tiene una calificación de riesgo positiva. Te doy la bienvenida como Socio avalado; se adjuntan las condiciones de servicio.",
+      "Trusted": "Tu fiabilidad te ganó el rango de Cliente preferente. Autoricé tu acceso a una línea privada de armamento.",
+      "Honored": "La junta incluyó tu nombre entre nuestros Benefactores acreditados. Puedes considerar a tu disposición las rutas del Sindicato."
+    },
+    "rank_down": {
+      "Unfriendly": "Tus decisiones recientes aumentaron nuestra exposición. Aún puedo ofrecerte un contrato de reparación del daño, pero no se autoriza más crédito.",
+      "Hostile": "Tu cuenta está cerrada y tu acceso revocado. Nuestra oficina de ejecución resolverá cualquier riesgo pendiente."
+    },
+    "contracts": [
+      {
+        "title": "Traslado de cámara",
+        "briefing": "Escolta un transporte blindado Varn sellado entre dos muelles asegurados. Mantén la carga intacta durante todo el trayecto.",
+        "success": "Entrega registrada sin pérdidas. Tu pago fue aprobado.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Recupera la cuenta",
+        "briefing": "Encuentra un registro de contratos perdido en el campo de escombros marcado. El Sindicato requiere el original.",
+        "success": "Registro recuperado. La cuenta está conciliada.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Margen de carga",
+        "briefing": "Recoge mercancía vendible de los depósitos indicados y véndela en la bolsa Varn autorizada.",
+        "success": "La bolsa confirma la venta. Tu margen está liquidado.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Ejecutor de contratos",
+        "briefing": "Hay una recompensa por la nave de un infractor de contratos conocido. Cobra el pago y cierra el expediente.",
+        "success": "El expediente está cerrado. El pago acordado es tuyo.",
+        "objective": "BOUNTY",
+        "repeatable": true
+      },
+      {
+        "title": "Auditoría de ruta",
+        "briefing": "Escanea el tráfico civil cerca del corredor asegurado e informa las interrupciones a la oficina de reclamos.",
+        "success": "Auditoría entregada. El tráfico asegurado puede continuar.",
+        "objective": "SCAN_CIVIL",
+        "repeatable": true
+      },
+      {
+        "title": "Asegura el muelle",
+        "briefing": "Defiende la zona de transferencia marcada hasta que las grúas del muelle terminen su ciclo programado.",
+        "success": "Zona de transferencia asegurada. No se abrieron reclamos.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true
+      },
+      {
+        "title": "Pérdidas compensadas",
+        "briefing": "Contrato de compensación: tu confiscación anuló una póliza de carga Varn. Recupera los bienes marcados y véndelos por la oficina de reclamos.",
+        "success": "La oficina aceptó el valor recuperado. Tu responsabilidad disminuyó.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Escolta de reclamos",
+        "briefing": "Contrato de compensación: tu ataque dejó varado a un perito Varn. Escolta la lanzadera de reclamos mientras paga a los transportistas afectados.",
+        "success": "La lanzadera terminó su ruta. Los reclamantes recibieron su pago.",
+        "objective": "ESCORT",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Quiet Clause",
+      "family": "railgun",
+      "lore": "Un cañón de riel de precisión oculto en un montaje Varn pulido. Su carga pálida no avisa hasta que el infractor de contratos ya no tiene opciones."
+    },
+    "secret_ship": {
+      "name": "Indemnity Crown",
+      "class": "Battlecruiser",
+      "role": "Interdicción de convoyes",
+      "signature_feature": "Un bastión de carga sellado alrededor de un núcleo de mando oculto",
+      "lore": "La nave figura en los libros como transporte seguro; su núcleo protegido garantiza que la carga más importante del Sindicato llegue intacta."
+    }
+  },
+  "ironclad": {
+    "faction": "Ironclad Militia",
+    "commander": "Marshal Dax Rourke",
+    "ranks": {
+      "Hostile": "Amenaza del asentamiento",
+      "Unfriendly": "Deudor de auxilio",
+      "Neutral": "Colaborador conocido",
+      "Friendly": "Colaborador de confianza",
+      "Trusted": "Defensor del cinturón",
+      "Honored": "Escudo del consejo"
+    },
+    "rank_up": {
+      "Friendly": "Trabajaste honradamente por los asentamientos. Te nombro Colaborador de confianza; la próxima tripulación conocerá tu nombre.",
+      "Trusted": "Los consejos te confían los turnos más duros del cinturón. Acepta el contrato de Defensor y tráelos a todos a casa.",
+      "Honored": "Los consejos te nombraron su Escudo. Eso significa que nuestra gente llama y espero que respondas."
+    },
+    "rank_down": {
+      "Unfriendly": "Dejaste a un asentamiento pagando por tus decisiones. Compénsalo con trabajo y volveremos a hablar como vecinos.",
+      "Hostile": "Pusiste en riesgo a nuestras familias. No enviaré otra tripulación a advertirte; aléjate del territorio de la Milicia."
+    },
+    "contracts": [
+      {
+        "title": "Guardia de plataforma",
+        "briefing": "Defiende la zona minera marcada mientras la tripulación de turno completa un ciclo de reparación.",
+        "success": "La plataforma funciona y la tripulación volvió al trabajo.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true
+      },
+      {
+        "title": "Escolta de evacuación",
+        "briefing": "Escolta una lanzadera de evacuación del asentamiento entre los escombros inestables del cinturón.",
+        "success": "La lanzadera llegó al refugio con sus pasajeros a salvo.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Recompensa del turno",
+        "briefing": "Un asaltante Reaver ataca a los trabajadores entre turnos. Cobra la recompensa de la Milicia.",
+        "success": "El asaltante cayó. Los trabajadores pueden cruzar el cinturón otra vez.",
+        "objective": "BOUNTY",
+        "repeatable": true
+      },
+      {
+        "title": "Chatarra de vuelta",
+        "briefing": "Recoge chatarra de casco útil de los restos indicados y véndela al taller del asentamiento.",
+        "success": "El taller compró la chatarra. Esas piezas mantendrán una plataforma en marcha.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Caja de herramientas perdida",
+        "briefing": "Busca la caja de herramientas del taller antes del próximo turno de reparación.",
+        "success": "Las herramientas volvieron a manos de las tripulaciones.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Protege a los mineros",
+        "briefing": "Naves hostiles se acercan a mineros civiles. Expúlsalas antes de que alguien resulte herido.",
+        "success": "Los mineros terminaron su turno y volvieron a casa.",
+        "objective": "DEFEND_CIVILIANS",
+        "repeatable": true
+      },
+      {
+        "title": "Defiende el refugio",
+        "briefing": "Contrato de compensación: tu ataque dañó un refugio energético del asentamiento. Defiende la zona marcada mientras lo reparan.",
+        "success": "El refugio vuelve a resistir. El asentamiento tiene motivos para confiar en ti.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Rescate minero",
+        "briefing": "Contrato de compensación: tu ataque dañó una plataforma y atrapó a sus trabajadores. Rescátalos antes de que se agote el aire.",
+        "success": "Los trabajadores están fuera. Dax dice que eso cuenta.",
+        "objective": "RESCUE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Last Shift",
+      "family": "artillery",
+      "lore": "Un cañón de asedio blindado reconstruido con equipo minero. Su pesado proyectil naranja se reserva para amenazas que ponen en riesgo a un asentamiento."
+    },
+    "secret_ship": {
+      "name": "Foundry Sentinel",
+      "class": "Battleship",
+      "role": "Defensor de asentamientos",
+      "signature_feature": "Baluartes de blindaje reemplazables alrededor de un eje central de reparación",
+      "lore": "El Sentinel usa placas estándar de taller, así que un asentamiento puede repararlo aunque el astillero más cercano esté a semanas de viaje."
+    }
+  },
+  "helion": {
+    "faction": "Helion Combine",
+    "commander": "Flight Director Lio Serrin",
+    "ranks": {
+      "Hostile": "Peligro para la ruta",
+      "Unfriendly": "Transportista suspendido",
+      "Neutral": "Cuenta abierta",
+      "Friendly": "Socio de ruta segura",
+      "Trusted": "Cliente del Consorcio",
+      "Honored": "Patrono de las rutas"
+    },
+    "rank_up": {
+      "Friendly": "Un viaje impecable y una ruta más segura para todos. El Consorcio te da la bienvenida como Socio de ruta segura.",
+      "Trusted": "Tu historial es constante bajo presión. Autoricé tu acceso de Cliente, incluida una línea de armas que solemos mantener en reserva.",
+      "Honored": "Mantuviste abiertas nuestras rutas cuando los márgenes se estrecharon. La junta te nombra Patrono de las rutas y no podría estar más contento."
+    },
+    "rank_down": {
+      "Unfriendly": "Tus últimas decisiones retrasaron a demasiadas personas. Ayúdanos a reparar el historial de la ruta y restableceremos tu condición de transportista.",
+      "Hostile": "Te convertiste en un peligro para el tráfico del Consorcio. Nuestros escoltas te rechazarán hasta que la junta revise tu cuenta."
+    },
+    "contracts": [
+      {
+        "title": "Ventana de correo",
+        "briefing": "Escolta una nave correo Helion durante la ventana de tránsito programada. Mantén la ruta libre hasta la entrega.",
+        "success": "Entrega a tiempo. Sabía que ese plan de vuelo tenía un buen piloto.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Impulso comercial",
+        "briefing": "Recoge las celdas de energía indicadas en los depósitos de ruta y véndelas en el mercado de una estación Helion.",
+        "success": "El mercado aprobó la carga. Buen trabajo manteniendo el suministro en marcha.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Inspección de ruta",
+        "briefing": "Escanea naves civiles en el cruce comercial e informa a control sobre el estado de sus rutas.",
+        "success": "Tráfico cartografiado e informe recibido. Gracias por la inspección impecable.",
+        "objective": "SCAN_CIVIL",
+        "repeatable": true
+      },
+      {
+        "title": "Despeja la ruta",
+        "briefing": "Elimina el tipo de asaltante hostil que interrumpe las rutas de correo. Control marcó el área de búsqueda.",
+        "success": "La ruta está despejada. Los correos podrán cumplir sus horarios.",
+        "objective": "KILL_ENEMY_TYPE",
+        "repeatable": true
+      },
+      {
+        "title": "Recupera la baliza",
+        "briefing": "Busca una baliza de navegación perdida cerca de la bifurcación exterior y devuelve su señal a control.",
+        "success": "Baliza encontrada y registrada. El mapa de rutas vuelve a servir.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Seguridad de pasajeros",
+        "briefing": "Naves hostiles amenazan una línea civil de pasajeros. Defiéndela hasta que salga de la zona peligrosa.",
+        "success": "Todos los pasajeros están a salvo. Un buen día de vuelo.",
+        "objective": "DEFEND_CIVILIANS",
+        "repeatable": true
+      },
+      {
+        "title": "Rescate de pasajeros",
+        "briefing": "Contrato de compensación: tu ataque dispersó una lanzadera de pasajeros Helion. Rescata a los supervivientes del área marcada.",
+        "success": "Los pasajeros están a salvo. Marqué el historial de ruta como reparado.",
+        "objective": "RESCUE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Viaje de restitución",
+        "briefing": "Contrato de compensación: tu ataque retrasó un convoy de alimentos. Escolta la carga de reemplazo al muelle del asentamiento.",
+        "success": "La comida llegó antes de que escasearan las reservas. Eso importa más que el papeleo.",
+        "objective": "ESCORT",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Sunlane Arc",
+      "family": "arc",
+      "lore": "Un proyector de arco de ciclo rápido diseñado para defender rutas. Su descarga blanquiazul neutraliza amenazas antes de que alcancen a una nave correo."
+    },
+    "secret_ship": {
+      "name": "Far Meridian",
+      "class": "Battlecruiser",
+      "role": "Corredor de rutas lejanas",
+      "signature_feature": "Aletas colectoras solares gemelas alimentan un brillante eje motor central",
+      "lore": "El Far Meridian mantiene un convoy en marcha por sistemas lejanos, con colectores diseñados para operar lejos de estaciones aliadas."
+    }
+  },
+  "warden": {
+    "faction": "Frontier Authority",
+    "commander": "Ranger-Captain Anja Vale",
+    "ranks": {
+      "Hostile": "Infractor de rutas",
+      "Unfriendly": "Contacto no autorizado",
+      "Neutral": "Viajero registrado",
+      "Friendly": "Auxiliar de Warden",
+      "Trusted": "Guardián asociado",
+      "Honored": "Faro de la frontera"
+    },
+    "rank_up": {
+      "Friendly": "Respondiste al llamado sin adueñarte de la ruta. Te doy la bienvenida como Auxiliar de Warden; mantén encendida esa baliza.",
+      "Trusted": "Traes a la gente a casa y dejas el paso abierto. Te nombro Guardián asociado, con toda mi confianza en la frontera.",
+      "Honored": "La Autoridad te nombra Faro de la frontera. Si una nave se pierde más allá del mapa, tu palabra nos guiará hasta ella."
+    },
+    "rank_down": {
+      "Unfriendly": "Tu conducta hizo menos segura la ruta. Ayuda a las tripulaciones que pusiste en riesgo y reconsideraré tu autorización.",
+      "Hostile": "Violaste la carta de rutas abiertas de la Autoridad. Nuestras patrullas te detendrán antes de que pongas en peligro a otro viajero."
+    },
+    "contracts": [
+      {
+        "title": "Baliza oculta",
+        "briefing": "Encuentra la baliza de ruta perdida más allá del paso marcado. Todas las naves que te siguen necesitan su señal.",
+        "success": "La baliza vuelve a funcionar. El paso está despejado.",
+        "objective": "FIND_OBJECT",
+        "repeatable": true
+      },
+      {
+        "title": "Escaneo de ruta abierta",
+        "briefing": "Escanea el tráfico civil del corredor fronterizo e informa sobre toda nave que solicite ayuda.",
+        "success": "Todas las señales están registradas. La ruta sigue abierta.",
+        "objective": "SCAN_CIVIL",
+        "repeatable": true
+      },
+      {
+        "title": "Convoy de auxilio",
+        "briefing": "Escolta un carguero de auxilio hasta un asentamiento aislado. Mantenlo en rumbo hasta que atraque.",
+        "success": "La carga de auxilio llegó al asentamiento. Buen vuelo.",
+        "objective": "ESCORT",
+        "repeatable": true
+      },
+      {
+        "title": "Protección civil",
+        "briefing": "Una nave hostil se acerca a viajeros civiles. Defiéndelos hasta que puedan salir del área.",
+        "success": "Los viajeros están a salvo y la ruta está abierta.",
+        "objective": "DEFEND_CIVILIANS",
+        "repeatable": true
+      },
+      {
+        "title": "Recompensa por merodeador",
+        "briefing": "Un asaltante acecha balizas de auxilio en la frontera. Cobra la recompensa publicada por la Autoridad.",
+        "success": "El asaltante cayó. Menos naves tendrán que pedir ayuda.",
+        "objective": "BOUNTY",
+        "repeatable": true
+      },
+      {
+        "title": "Comercio de kits de rescate",
+        "briefing": "Recoge kits de rescate de los depósitos indicados y véndelos al puesto remoto de la Autoridad.",
+        "success": "El puesto tiene reservas de rescate. Gracias por la ayuda práctica.",
+        "objective": "GATHER_AND_SELL",
+        "repeatable": true
+      },
+      {
+        "title": "Reparación de baliza",
+        "briefing": "Contrato de compensación: tu ataque dañó un repetidor de ruta pública. Defiende su zona mientras la Autoridad restaura la baliza.",
+        "success": "La baliza de ruta funciona. Tu reparación ayudó a mantener público el paso.",
+        "objective": "DEFEND_ZONE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      },
+      {
+        "title": "Pasajeros varados",
+        "briefing": "Contrato de compensación: tus disparos dejaron viajeros varados más allá de la baliza. Rescátalos y llévalos a un lugar seguro.",
+        "success": "Los pasajeros están a salvo. Registraré que decidiste reparar el daño.",
+        "objective": "RESCUE",
+        "repeatable": true,
+        "amends": true,
+        "available_at": "Unfriendly"
+      }
+    ],
+    "secret_weapon": {
+      "name": "Open Passage",
+      "family": "railgun",
+      "lore": "Un cañón de riel de la Autoridad con carga blanquiazul y disparo estrecho. Los guardianes lo reservan para amenazas que bloquean una ruta pública."
+    },
+    "secret_ship": {
+      "name": "Wayfarer Prime",
+      "class": "Cruiser",
+      "role": "Patrulla de largo alcance",
+      "signature_feature": "Proa de ariete reforzada alrededor de una matriz de balizas de largo alcance",
+      "lore": "El Wayfarer Prime opera más allá de comunicaciones fiables y deja una clara baliza de ruta donde encuentra una tripulación varada."
+    }
+  }
+}
