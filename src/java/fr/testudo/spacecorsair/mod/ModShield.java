@@ -282,21 +282,21 @@ public final class ModShield {
         boolean rebooting = rebootLeft > 0;
         boolean charging = regen && frac < 0.999f;
         // overall brightness: faint at rest, brighter while charging, flashes on hits
-        float base = 0.16f + (charging ? 0.14f : 0) + 0.30f * hit;
+        float base = 0.32f + (charging ? 0.2f : 0) + 0.4f * hit;
         boolean low = frac > 0 && frac < 0.25f;
         float lit = frac * SEGMENTS;            // segments still powered (fractional boundary)
         for (int k = 0; k < SEGMENTS; k++) {
             int seg = DIM_ORDER[k];
             float p = Math.max(0.0f, Math.min(1.0f, lit - (SEGMENTS - 1 - k)));   // dark-first segments lose power first
-            float a = base * (0.10f + 0.90f * p);
+            float a = base * (0.06f + 0.94f * p);
             if (low) a *= 0.55f + 0.45f * (float) Math.random();              // sputtering emitters
             if (rebooting) {
                 float prog = 1.0f - rebootLeft / (float) REBOOT_MS;            // segments relight behind the pulse
-                a = (seg / (float) SEGMENTS) < prog ? 0.22f : 0.03f;
+                a = (seg / (float) SEGMENTS) < prog ? 0.45f : 0.03f;
             }
             if (frac <= 0 && !rebooting) {
                 long f = now - fizzleAt;
-                a = f < FIZZLE_MS ? 0.35f * (1.0f - f / (float) FIZZLE_MS) * (float) Math.random() : 0.0f;
+                a = f < FIZZLE_MS ? 0.6f * (1.0f - f / (float) FIZZLE_MS) * (float) Math.random() : 0.0f;
             }
             q(SEG[seg], "shield_segment", W, ps.spin + seg * 30.0f, a, r, g, b, 0, 0);
         }

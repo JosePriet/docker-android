@@ -566,16 +566,16 @@
 
     .line 285
     :goto_85
-    const v5, 0x3e23d70a    # 0.16f
+    const v5, 0x3ea3d70a    # 0.32f
 
     if-eqz v13, :cond_140
 
-    const v3, 0x3e0f5c29    # 0.14f
+    const v3, 0x3e4ccccd    # 0.2f
 
     :goto_8d
     add-float/2addr v3, v5
 
-    const v5, 0x3e99999a    # 0.3f
+    const v5, 0x3ecccccd    # 0.4f
 
     mul-float/2addr v2, v5
 
@@ -639,9 +639,9 @@
     move-result v2
 
     .line 291
-    const v3, 0x3dcccccd    # 0.1f
+    const v3, 0x3d75c28f    # 0.06f
 
-    const v6, 0x3f666666    # 0.9f
+    const v6, 0x3f70a3d7    # 0.94f
 
     mul-float/2addr v2, v6
 
@@ -696,7 +696,7 @@
 
     if-gez v2, :cond_148
 
-    const v2, 0x3e6147ae    # 0.22f
+    const v2, 0x3ee66666    # 0.45f
 
     :goto_f1
     move v6, v2
@@ -723,7 +723,7 @@
 
     if-gez v6, :cond_14c
 
-    const v6, 0x3eb33333    # 0.35f
+    const v6, 0x3f19999a    # 0.6f
 
     const/high16 v10, 0x3f800000    # 1.0f
 

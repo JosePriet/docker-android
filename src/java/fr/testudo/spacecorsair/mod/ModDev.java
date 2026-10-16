@@ -240,15 +240,15 @@ public final class ModDev {
 
     /**
      * v30 smali hook at the start of GameThread.showDialog: true skips the character dialog. Emulator tests only
-     * (/data/local/tmp/corsair_nodialog never exists on a phone). Dialogs with a dismiss action still show: the tutorial
-     * may wait on them.
+     * (/data/local/tmp/corsair_nodialog never exists on a phone).
      */
     public static boolean noDialog(String dismissAction) {
-        return dismissAction == null && testFlag("corsair_nodialog");
+        return testFlag("corsair_nodialog");   // dialogs pause the game; the only dismiss action opens the help screen
     }
 
     // ------------------------------------------------------------------ v30 emulator test switches (never present on a phone)
     private static String t30Spawn, t30Shield, t30Derelict;
+    private static int spawnN;
     private static boolean t30Kill, t30Wreck, t30Die, t30Cap;
 
     /** Once a second from ModCaps.tick. Rising edges / changed values only. */
@@ -258,6 +258,7 @@ public final class ModDev {
             String v = testValue("corsair_spawn");
             if (v != null && !v.equals(t30Spawn)) {
                 t30Spawn = v;
+                spawnN++;
                 String[] a = v.split(",");
                 int lvl = Math.max(1, fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.game.playerInfo.level);
                 for (int i = 0; i < (a[0].equals("rat") ? 3 : 1); i++) {
@@ -270,7 +271,7 @@ public final class ModDev {
                     else if (k.equals("defensor")) e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newDefensor(lvl);
                     else e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newAlienRat(lvl);
                     if (a.length > 1 && a[1].equals("elite")) e.setElite();
-                    e.position.set(0, -1000 - i * 250).applyRotatation(Math.toRadians(ps.spin)).add(ps.position).add(i * 260, 0);
+                    e.position.set(-420 + i * 300 + (spawnN % 3) * 280, -560 - (spawnN % 2) * 180).applyRotatation(Math.toRadians(ps.spin)).add(ps.position);
                     e.updateSapCoords();
                     e.setIaDisabled();
                     e.addToCurrentLevel();

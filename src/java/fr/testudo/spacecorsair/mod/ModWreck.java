@@ -118,15 +118,8 @@ public final class ModWreck extends Element {
         float heat = derelict ? 0.25f : Math.max(0.25f, 1.0f - (now - born) / 20000.0f);
         Texture et = ModArt.ready("wreck_edge");
         if (et != null) {
-            float eh = Math.max(24.0f, w * 0.11f);
-            if (cutTop) {
-                a.set(0, -h / 2).applyRotatation(Math.toRadians(spin)).add(position);
-                ModFx.sprTex(et, a.x, a.y, w * 1.02f, eh, spin, 1, 0.75f + 0.25f * heat, 0.6f + 0.4f * heat, alpha, false, 0, 0, 1, 1);
-            }
-            if (cutBottom) {
-                a.set(0, h / 2).applyRotatation(Math.toRadians(spin)).add(position);
-                ModFx.sprTex(et, a.x, a.y, w * 1.02f, eh, spin + 180, 1, 0.75f + 0.25f * heat, 0.6f + 0.4f * heat, alpha, false, 0, 0, 1, 1);
-            }
+            if (cutTop) edge(et, v0, -h / 2, spin, heat, alpha, d.myTexture);
+            if (cutBottom) edge(et, v1, h / 2, spin + 180, heat, alpha, d.myTexture);
         }
         // venting and sparks from the breach while hot, smoke when shot up
         if (now > nextVent && !derelict) {
@@ -140,6 +133,20 @@ public final class ModWreck extends Element {
             b.set((float) (Math.random() - 0.5) * w * 0.5f, (float) (Math.random() - 0.5) * h * 0.5f).applyRotatation(Math.toRadians(spin)).add(position);
             ModLive.fx("fx_smoke_sheet", 4, 16, b.x, b.y, w * 0.35f, 1500, 0.45f, 0.45f, 0.45f, true);
         }
+    }
+
+    private static final float[] sp = new float[2];
+
+    /** Torn hot edge along a cut, as wide as the hull's visible row there (texture row profile). */
+    private void edge(Texture et, float v, float ly, float rot, float heat, float alpha, Texture src) {
+        float x0 = 0.3f, x1 = 0.7f;
+        if (ModArt.span(src, Math.min(0.999f, Math.max(0, v)), sp) != null) { x0 = sp[0]; x1 = sp[1]; }
+        float ew = (x1 - x0) * w;
+        if (ew < 8) return;
+        float lx = ((x0 + x1) / 2 - 0.5f) * w;
+        float eh = Math.max(14.0f, Math.min(ew * 0.18f, w * 0.06f));
+        a.set(lx, ly).applyRotatation(Math.toRadians(spin)).add(position);
+        ModFx.sprTex(et, a.x, a.y, ew * 1.04f, eh, rot, 1, 0.75f + 0.25f * heat, 0.6f + 0.4f * heat, alpha, false, 0, 0, 1, 1);
     }
 
     @Override

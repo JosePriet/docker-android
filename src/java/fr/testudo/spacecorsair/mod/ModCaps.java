@@ -333,9 +333,14 @@ public final class ModCaps {
             fr.testudo.spacecorsair.engine.Vector2 c = fr.testudo.spacecorsair.engine.GameRenderer.screenCenter;
             try {
                 ModFx.relative = true;
-                ModFx.sprR("marker_friendly", c.x, c.y, side * 1.4f, side * 1.4f, (t / 90.0f) % 360, 0.3f, 0.85f, 1.0f, 0.36f, true);
+                ModFx.sprR("marker_friendly", c.x, c.y, side * 1.9f, side * 1.9f, (t / 90.0f) % 360, 0.3f, 0.85f, 1.0f, 0.3f, true);   // outside the shield shell
                 fr.testudo.spacecorsair.display.Texture ht = hd.myTexture;
-                if (ht != null && ht.name > 0) ModFx.sprTex(ht, c.x, c.y, hd.dimensions.x * 1.06f, hd.dimensions.y * 1.06f, ps.spin, 0.35f, 0.85f, 1.0f, 0.5f, true, 0, 0, 1, 1);
+                if (ht != null && ht.name > 0) {
+                    ModFx.flatNext = true;
+                    ModFx.sprTex(ht, c.x, c.y, hd.dimensions.x * 1.07f, hd.dimensions.y * 1.07f, ps.spin, 0.35f, 0.85f, 1.0f, 0.35f, true, 0, 0, 1, 1);
+                    ModFx.flatNext = true;
+                    ModFx.sprTex(ht, c.x, c.y, hd.dimensions.x * 1.035f, hd.dimensions.y * 1.035f, ps.spin, 0.45f, 0.9f, 1.0f, 0.6f, true, 0, 0, 1, 1);
+                }
             } finally {
                 ModFx.relative = false;
             }

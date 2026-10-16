@@ -38,6 +38,8 @@ public final class ModFx {
         /** v24: texture sub-rectangle (flipbook frames, tiling); default the whole texture. repeatT: GL_REPEAT on T for this draw. */
         float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
         boolean repeatT;
+        /** v30: draw the texture's shape in the flat tint colour (rim lights): RGB = vertex colour, alpha = texture alpha. */
+        boolean flat;
         private FloatBuffer uv;
         private float bu0 = 0, bv0 = 0, bu1 = 1, bv1 = 1;
 
@@ -90,7 +92,21 @@ public final class ModFx {
             if (rep) gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, 0x2901);
             gl.glRotatef(spin, 0, 0, 1);
             gl.glScalef(w, h, 1);
+            boolean fl = flat;
+            if (fl) {
+                // GLES 1.1 texture combiner: colour from glColor, alpha = texture alpha x glColor alpha
+                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, 0x8570);        // GL_COMBINE
+                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8571, 0x1E01);                 // COMBINE_RGB
+                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8580, 0x8577);                          // SRC0_RGB = PRIMARY_COLOR
+                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8590, 0x0300);               // OPERAND0_RGB
+                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8572, GL10.GL_MODULATE);                // COMBINE_ALPHA
+                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8588, 0x1702);                 // SRC0_ALPHA
+                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8598, 0x0302);               // OPERAND0_ALPHA
+                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8589, 0x8577);                          // SRC1_ALPHA = PRIMARY_COLOR
+                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8599, 0x0302);               // OPERAND1_ALPHA
+            }
             gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
+            if (fl) gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE);
             if (rep) gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
             gl.glColor4f(1, 1, 1, 1);
             gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
@@ -142,6 +158,7 @@ public final class ModFx {
         Sprite s = take(tex, a);
         if (s == null) return;
         s.fullUV();
+        s.flat = false;
         queue(s, x, y, w, h, rot, r, g, b, a, add);
     }
 
@@ -150,6 +167,7 @@ public final class ModFx {
                              float u0, float v0, float u1, float v1, boolean repeatT) {
         Sprite s = take(tex, a);
         if (s == null) return;
+        s.flat = false;
         s.u0 = u0; s.v0 = v0; s.u1 = u1; s.v1 = v1;
         s.repeatT = repeatT;
         queue(s, x, y, w, h, rot, r, g, b, a, add);
@@ -167,6 +185,8 @@ public final class ModFx {
     /** v30: any texture (game sprite, wreck piece, on-demand art), optionally a sub-rectangle; w/h in world units. */
     public static void sprTex(Texture t, float x, float y, float w, float h, float rot, float r, float g, float b, float a, boolean add,
                               float u0, float v0, float u1, float v1) {
+        boolean fl = flatNext;
+        flatNext = false;
         if (t == null || a <= 0.01f || budget <= 0) return;
         budget--;
         Sprite s = RING[ringPos];
@@ -174,8 +194,12 @@ public final class ModFx {
         s.myTexture = t;
         s.u0 = u0; s.v0 = v0; s.u1 = u1; s.v1 = v1;
         s.repeatT = false;
+        s.flat = fl;
         queue(s, x, y, w, h, rot, r, g, b, a, add);
     }
+
+    /** v30: the next sprTex draws a flat-colour silhouette (rim lights). */
+    static boolean flatNext;
 
     /** v30: on-demand art (ModArt.ready): skipped until the texture is on the GPU. */
     public static void sprR(String tex, float x, float y, float w, float h, float rot, float r, float g, float b, float a, boolean add) {

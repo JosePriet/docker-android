@@ -133,9 +133,9 @@ public final class ModLive {
             ModFx.sprR(SIGIL[boss], e.position.x, e.position.y, ss, ss, (t / 45.0f) % 360, 0.78f, 0.38f, 1.0f, 0.75f, true);
             ModFx.sprR(SIGIL[boss], e.position.x, e.position.y, ss * 0.82f, ss * 0.82f, -(t / 70.0f) % 360, 1.0f, 0.78f, 0.3f, 0.35f, true);
         }
-        float ms = side * 1.4f;
+        float ms = side * 1.6f;
         ModFx.sprR("marker_hostile", e.position.x, e.position.y, ms, ms, (t / 80.0f) % 360, 1.0f, 0.25f, 0.18f, 0.42f, true);
-        rim(d, e, 1.07f, 1.0f, 0.42f, 0.22f, 0.55f);
+        rim(d, e, 1.08f, 1.0f, 0.42f, 0.22f, 0.6f);
     }
 
     /** A slightly larger additive copy of the hull beneath it: only the outline shows (rim light). */
@@ -145,7 +145,11 @@ public final class ModLive {
         float w, h;
         if (d instanceof ModFx.Sprite) { w = ((ModFx.Sprite) d).w; h = ((ModFx.Sprite) d).h; }
         else { w = d.dimensions.x; h = d.dimensions.y; }
-        ModFx.sprTex(tex, e.position.x, e.position.y, w * scale, h * scale, e.spin, r, g, b, a, true, 0, 0, 1, 1);
+        ModFx.flatNext = true;
+        ModFx.sprTex(tex, e.position.x, e.position.y, w * scale, h * scale, e.spin, r, g, b, a * 0.6f, true, 0, 0, 1, 1);
+        float s2 = 1.0f + (scale - 1.0f) * 0.5f;
+        ModFx.flatNext = true;
+        ModFx.sprTex(tex, e.position.x, e.position.y, w * s2, h * s2, e.spin, r, g, b, a, true, 0, 0, 1, 1);
     }
 
     // ------------------------------------------------------------------ over the hull
@@ -211,7 +215,7 @@ public final class ModLive {
         } finally {
             ModFx.relative = false;
         }
-        damage(e, art, w);
+        damage(e, art, w, thrust);
     }
 
     /** Derived asset names per art (built once; the draw path runs for every visible hull every frame). */
@@ -271,7 +275,7 @@ public final class ModLive {
         }
     }
 
-    private static void damage(Element e, String art, float w) {
+    private static void damage(Element e, String art, float w, float thrust) {
         float x = e.position.x, y = e.position.y, sp = e.spin;
         float[] s = st(e);
         float hp = e.maxLife > 0 ? Math.max(0, Math.min(1, e.life / e.maxLife)) : 1;
@@ -286,6 +290,11 @@ public final class ModLive {
                 if (hp < 0.25f) fx("fx_fire_sheet", 4, 16, x + ox * 0.6f, y + oy * 0.6f, w * 0.2f, 700, 1.0f, 0.6f, 0.25f, true);
                 if (Math.random() < 0.25) fx("fx_sparks_sheet", 4, 16, x + ox, y + oy, w * 0.18f, 400, 1.0f, 0.85f, 0.5f, true);
             }
+        }
+        // living hulls shed a faint spore trail from the stern under thrust
+        if (alien && thrust > 0.5f && Math.random() < 0.22) {
+            ModFx.local(e.position, sp, (float) (Math.random() - 0.5) * w * 0.3f, w * 0.45f, tmp);
+            fx("fx_spore_sheet", 4, 16, tmp.x, tmp.y, w * 0.16f, 1100, 0.6f, 0.95f, 0.55f, true);
         }
         // manoeuvring thrusters: puffs at the bow when turning hard
         float dl = normDelta(sp - s[3]);

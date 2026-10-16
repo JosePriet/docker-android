@@ -303,6 +303,7 @@ public class ModArt {
     private static void upload(GL10 gl, Lazy t) {
         Bitmap bmp = takePending(t);
         if (bmp == null) bmp = decodeFull(t.asset);
+        if (bmp != null && !PROFILE.containsKey(t)) measure(t, bmp);   // v30: wreck cuts follow the hull's real width
         if (bmp != null && put(gl, t, bmp)) {
             t.resident = true;
             return;
@@ -801,18 +802,39 @@ public class ModArt {
             if (t == null || b == null || b.isRecycled()) return;
             int w = b.getWidth(), h = b.getHeight(), step = Math.max(1, Math.max(w, h) / 160);
             float cx = w / 2.0f, cy = h / 2.0f, best = 0;
+            float[] prof = new float[BANDS * 2];        // v30: per row band, visible x span (fractions of the width)
+            for (int i = 0; i < BANDS; i++) { prof[2 * i] = 2; prof[2 * i + 1] = -1; }
             for (int y = 0; y < h; y += step) {
+                int band = Math.min(BANDS - 1, y * BANDS / h);
                 for (int x = 0; x < w; x += step) {
                     if ((b.getPixel(x, y) >>> 24) > 40) {
                         float dx = x - cx, dy = y - cy, d = dx * dx + dy * dy;
                         if (d > best) best = d;
+                        float fx = x / (float) w;
+                        if (fx < prof[2 * band]) prof[2 * band] = fx;
+                        if (fx > prof[2 * band + 1]) prof[2 * band + 1] = fx;
                     }
                 }
             }
             if (best > 0) EXTENT.put(t, (float) (2.0 * Math.sqrt(best) / Math.max(w, h)));
+            PROFILE.put(t, prof);
         } catch (Throwable e) {
             // unknown extent: the shield uses its default size
         }
+    }
+
+    static final int BANDS = 32;
+    private static final java.util.Map<Texture, float[]> PROFILE = java.util.Collections.synchronizedMap(new java.util.WeakHashMap<Texture, float[]>());
+
+    /** v30: visible x span {x0, x1} (fractions) of the sprite's row at v (0 = top row), or null when not measured / empty. */
+    static float[] span(Texture t, float v, float[] out) {
+        float[] p = t == null ? null : PROFILE.get(t);
+        if (p == null) return null;
+        int band = Math.max(0, Math.min(BANDS - 1, (int) (v * BANDS)));
+        if (p[2 * band + 1] < p[2 * band]) return null;
+        out[0] = p[2 * band];
+        out[1] = p[2 * band + 1];
+        return out;
     }
 
     /** Measured extent for a texture, or a negative number when unknown. */
