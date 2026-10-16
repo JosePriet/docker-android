@@ -115,7 +115,8 @@ elif [ $GAME = sc ]; then
     back 3; return 1
   }
   T=/data/local/tmp
-  if fly hullWarlord Warlord warlord; then
+  SHORT=1   # v30d: only the stages run 3 missed
+  if [ -z "$SHORT" ] && fly hullWarlord Warlord warlord; then
     sleep 4; shot warlord_living
     a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2; shot warlord_thrust; a shell input motionevent UP 222 650
     for P in 100 60 30 15 0; do a shell "echo $P > $T/corsair_shieldpct; chmod 644 $T/corsair_*"; sleep 1.6; shot shield_$P; done
@@ -136,14 +137,14 @@ elif [ $GAME = sc ]; then
     # derelict site (The Split Guardian)
     a shell "echo 5 > $T/corsair_derelict; chmod 644 $T/corsair_*"; sleep 7; shot derelict_1; sleep 3; shot derelict_2
   fi
-  if fly hullHarbinger Harbinger harbinger; then
+  if [ -z "$SHORT" ] && fly hullHarbinger Harbinger harbinger; then
     sleep 5; shot harbinger_living_1; sleep 0.7; shot harbinger_living_2
     a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2; shot harbinger_thrust; a shell input motionevent UP 222 650
     sleep 12   # the ship-switch cooldown only runs in flight
   fi
   if fly hullLeviathan Leviathan leviathan; then
     sleep 5; shot leviathan_player_titan
-    for C in spartan reaver ironclad helion warden; do
+    for C in ironclad helion warden; do
       a shell "echo $C > $T/corsair_capital && chmod 644 $T/corsair_capital"; sleep 5; shot cap_${C}_neutral
       a shell "touch $T/corsair_capfight; chmod 644 $T/corsair_*"; sleep 3; shot cap_${C}_fight_1; sleep 3; shot cap_${C}_fight_2; sleep 4; shot cap_${C}_fight_3
       a shell "rm -f $T/corsair_capfight"
@@ -151,7 +152,7 @@ elif [ $GAME = sc ]; then
     a shell "rm -f $T/corsair_capital"
     # galaxy map territories (no tutorial dialog now)
     tap 1960 180; sleep 4; shot map_radar
-    tap 164 943; sleep 6; shot map_1
+    tap 164 905; sleep 8; shot map_1
     a shell input swipe 1100 300 1100 950 800; sleep 2; shot map_2
     a shell input swipe 1500 500 400 500 800; sleep 2; shot map_3
     back 3; tap 1960 180; sleep 3; noexit
