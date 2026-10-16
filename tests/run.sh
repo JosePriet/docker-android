@@ -142,6 +142,10 @@ elif [ $GAME = sc ]; then
   a shell "echo fit_weapon > /data/local/tmp/corsair_fit && chmod 644 /data/local/tmp/corsair_fit"
   back 3; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot fit_picker; dump fit_picker
   tap_text "^CLOSE " fit_close; sleep 2
+  a shell "echo fit_shield > /data/local/tmp/corsair_fit"; back 3
+  a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot fit_shield_picker; dump fit_shield_picker
+  tap_text "^FIT " fit_shield_btn && sleep 3
+  tap_text "^SHIELD " shield_tile && { sleep 2; tap_text "^DETAILS " shield_details && { sleep 4; shot shield_details; for i in 1 2; do a shell input swipe 1300 900 1300 300 400; sleep 1; done; shot shield_details_alterations; back 2; }; }
   a shell "echo classic > /data/local/tmp/corsair_fit"; back 3
   a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot fit_classic
   a shell "rm -f /data/local/tmp/corsair_fit"; back 3
@@ -157,7 +161,7 @@ elif [ $GAME = sc ]; then
   done
   a shell "rm -f /data/local/tmp/corsair_capital"
   # hulls (full-res art) + v24 shields: hull sheen, smaller bubble, collapse -> 1.3 s reboot (x2 below 50% hull) -> offline
-  for E in "hullSovereign:Sovereign:modArtilleryL15" "hullMantis:Mantis:modRailgunL15" "hullMoth:Nebula Moth:modBlasterL15"; do
+  for E in "hullSovereign:Sovereign:modArtilleryL15" "megatronShip:Megatron:modRailgunL15" "hullMoth:Nebula Moth:modBlasterL15"; do
     ID=${E%%:*}; R=${E#*:}; T=${R%%:*}; W=${R#*:}; tag=$(echo "$T" | tr 'A-Z ' 'a-z_')
     a shell "echo $ID > /data/local/tmp/corsair_page; echo $W > /data/local/tmp/corsair_weapon; chmod 644 /data/local/tmp/corsair_*"
     a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
@@ -166,6 +170,15 @@ elif [ $GAME = sc ]; then
       noexit; tap_text "^(Use|USE)" use_$tag; sleep 8; noexit; need fly_$tag; shot fly_$tag
       a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1932 680; sleep 1.5; shot guns_$tag
       a shell input motionevent UP 1932 680
+      if [ $tag = megatron ]; then
+        sleep 2; shot shield_fit_megatron
+        tap 1960 180; sleep 4; shot map_1
+        a shell input swipe 1100 300 1100 950 800; sleep 2; shot map_2
+        a shell input swipe 1500 500 400 500 800; sleep 2; shot map_3
+        a shell input swipe 1100 300 1100 900 800; sleep 2; shot map_4
+        a shell input swipe 400 500 1700 500 800; sleep 2; shot map_5
+        tap 1960 180; sleep 3; noexit
+      fi
       if [ $tag = sovereign ]; then
         for k in 1 2 3; do
           a shell "touch /data/local/tmp/corsair_shieldbreak && chmod 644 /data/local/tmp/corsair_shieldbreak"; sleep 0.8; shot shield_break${k}_a
