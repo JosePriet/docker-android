@@ -290,7 +290,8 @@ public class ModBoss extends MissionListener {
         b.life = b.maxLife;
         b.lifeInPourc = 100.0f;
         // v30 boss profile: tankier and harder-hitting than any ship of its class, but slower, less agile, slower to reload
-        b.bulletDamage *= 2.2f;
+        float dm = kind == EMPRESS ? 1.0f : 2.2f;   // the Empress keeps weak guns (brief: swarm boss)
+        b.bulletDamage *= dm;
         b.milleSecBetweenShots = (long) (b.milleSecBetweenShots * 1.6f);
         b.pouseeForce *= 0.75f;
         b.maxTurnFactor *= 0.7f;
@@ -301,13 +302,13 @@ public class ModBoss extends MissionListener {
         if (canons != null) {
             canonReload = new int[canons.length];
             for (int i = 0; i < canons.length; i++) {
-                canons[i].shootDamage = Math.round(canons[i].shootDamage * 2.2f);
+                canons[i].shootDamage = Math.round(canons[i].shootDamage * dm);
                 canons[i].timeBewteenShootInMilli = (int) (canons[i].timeBewteenShootInMilli * 1.6f);
                 canonReload[i] = canons[i].timeBewteenShootInMilli;
             }
         }
         LaserBeam beam = beamOf(b);
-        if (beam != null) beam.damage *= 2.2f;
+        if (beam != null) beam.damage *= dm;
         illusions.clear();
         if (b.lifeBar != null) b.lifeBar.setValue(100.0f);
         b.setPosition(spawn);
@@ -416,6 +417,8 @@ public class ModBoss extends MissionListener {
                     f.levelStr = "";
                     f.initAttackTarget(ps);
                     f.addToCurrentLevel();
+                    LaserBeam fb = beamOf(f);
+                    if (fb != null) fb.damage = 0;       // illusions are harmless
                     illusions.add(f);
                     wave(f.position, 0.7f, 0.2f, 0.9f, 400.0f);
                 }

@@ -75,3 +75,9 @@
 - Verified on the emulator: shield segments/pulse/reboot, enemy markers + rims, kills/loot/spore deaths, wreck pieces, derelicts, Harbinger glow, Leviathan, Aegis wall, Bloodforge hostile look, Bastion, Sunspire supernova, Warden fight, death + respawn.
 - Owner to check on the phone: player break-up animation, galaxy map territories (tutorial sector cannot show them), boss missions (mission-based, not testable via switches).
 - Release: https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-mod-signed-v30.apk
+
+## v31 (released, small fixes) and open items
+- Done in v31: Matriarch illusions harmless; Empress keeps normal gun damage; boss secret loot can be a faction secret item; shield test-flag check only every 3 s.
+- Code left for a future session (Claude): turret idle sweep/recoil; alien hull lean/flinch on the hull itself; player-titan identity (use titan_decal_* / player_titan_signature); Aegis sturdy shield / Bloodforge no shield as shield stats; use wreck_char on wreck edges and icon_elite on elites; boss pool item with a rarity floor.
+- Art for GPT: /home/user/chatgpt-brief-v31.zip (enemy sprite glow masks, split titan wrecks, player-titan signature).
+- Owner phone check: player break-up on death, galaxy map territories, a boss mission.

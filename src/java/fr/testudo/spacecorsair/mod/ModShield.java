@@ -124,7 +124,7 @@ public final class ModShield {
                 float side = Math.max(hd.dimensions.x, hd.dimensions.y);
                 d = e > 0 ? Math.max(side * 0.75f, side * e * 1.12f) : Math.max(d, side * 1.15f);
             }
-            if (ModDev.testFlag("corsair_titans") && (logMs -= j) <= 0) {   // emulator diagnostics only
+            if ((logMs -= j) <= 0 && ModDev.testFlag("corsair_titans")) {   // emulator diagnostics only (file checked every 3 s, not every frame)
                 logMs = 3000;
                 android.util.Log.i("ModShield", "spec=" + ps.shipSpec.drawableSize + " dimStatic=" + PlayerShip.drawableDimension.x
                     + " hd=" + (hd == null ? -1 : hd.dimensions.x) + " ext=" + (hd == null ? -9 : ModArt.extent(hd.myTexture))

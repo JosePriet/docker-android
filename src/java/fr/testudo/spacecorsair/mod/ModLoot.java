@@ -241,6 +241,17 @@ public class ModLoot {
         }
     }
 
+    /** A faction secret item (not a hull), for boss secret loot; null if none. */
+    static SpaceObjectType secretItem() {
+        ArrayList<SpaceObjectType> l = new ArrayList<SpaceObjectType>();
+        for (SpaceObjectType t : SpaceObjectType.values()) {
+            try {
+                if (ModRep.secretIndex(t) >= 0 && !SpaceObjectType.ALL_SHIPS.contains(t) && t.getGearSpec() != null) l.add(t);
+            } catch (Throwable e) { /* skip */ }
+        }
+        return l.isEmpty() ? null : l.get((int) (Math.random() * l.size()));
+    }
+
     /** Boss down (on top of the mission reward): one item of its own pool for sure, then a chance of rare or secret loot. */
     public static void bossBonus(int kind) {
         try {
@@ -249,7 +260,8 @@ public class ModLoot {
             int lvl = Math.max(1, ObjectRegistry.INSTANCE.game.playerInfo.level);
             double r = Math.random() / sectorMod();   // richer sectors: better odds
             if (r < 0.06) {
-                SpaceObjectType t = pick(LootRarety.LEGENDARY, lvl + 2);
+                SpaceObjectType t = secretItem();
+                if (t == null) t = pick(LootRarety.LEGENDARY, lvl + 2);
                 if (t != null) toHold(t, ModLang.tr("SECRET LOOT: "), 1.0f, 0.8f, 0.25f);
             } else if (r < 0.35) {
                 SpaceObjectType t = pick(LootRarety.EXCEPTIONAL, lvl + 1);
