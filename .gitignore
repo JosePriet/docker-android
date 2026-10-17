@@ -1,4 +1,15 @@
 work/key.p12
 work/modcls/
+work/modsmali/
+work/modart_v*/
+work/mod.dex
+work/mod.jar
+work/classes_v*.dex
+work/game_v[0-9]*.jar
+work/resources_v*.arsc
+work/AndroidManifest_v*.xml
+work/unsigned*.apk
+work/*_lossless.json
+releases_wt/
 out/
 __pycache__/
