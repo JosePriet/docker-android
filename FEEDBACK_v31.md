@@ -1,0 +1,9 @@
+# Owner feedback after playing v31 (for v32)
+1. Flagship weapons are cosmetic. The turret sprites drawn on the flagship (ModCapitals.draw, c.mounts) never fire; the ship still shoots the stock GuardianCivilShip lasers from its 3 hidden canons (canonCenter/Proue/Poupe). Owner: the IMS Bastion "felt like a glorified Guardian ship".
+   Fix: fire from every drawn mount, each turret tracking its own target, with the faction's lore weapon (ironclad = heavy artillery batteries, reaver = autocannons/flak, spartan = rails, varn = disintegrators, helion = lances/blasters, warden = rail and arc, kretari = bio-spines). Heavy shells, slower reload, muzzle flash, own projectile art (GPT v32 Part B). Keep stock canons off.
+2. Flagship skills were not noticed (owner fought the Bastion). ModTitanAI only runs while g.chasseTarget != null and dist < 5000. The ironclad kit is passive plates plus artillery every 7 s within 3200, with weak visuals.
+   Fix: announce every skill use (name callout on screen + sound), make the telegraphs big and obvious (GPT art), check that the skills run whenever the flagship is hostile (not only when chasseTarget is set), and log skill triggers under the test flag.
+3. Wrecks look like darkened copies of the ship sprite. Owner wants EVE-style wrecks: burnt, broken hulls with missing chunks, exposed girders, dead lights and a scorched palette.
+   Fix: use per-hull wreck sprites (GPT v32 Part A) for the pieces when present; fall back to the cut sprite with wreck_char overlaid.
+4. Wrecks move too much when shot. Owner: they should only move a bit, like asteroids, and the bigger the original ship the harder it is to move.
+   Fix: ModWreck mass scales with the hull size (e.g. size^2 / 2000, min 20); projectile hits give no push (or a tiny one); damp collision rebound; initial break-apart drift stays slow.
