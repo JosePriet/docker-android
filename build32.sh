@@ -1,0 +1,34 @@
+#!/bin/bash
+# v32 build (fail fast). Run from the repo root.
+set -e -o pipefail
+rm -rf work/modcls && mkdir work/modcls
+javac --release 8 -nowarn -cp work/game_v168.jar:tools/android-4.1.1.4.jar:work/stubcls -d work/modcls src/java/fr/testudo/spacecorsair/mod/*.java 2>&1 | grep -v "JAVA_TOOL\|Note:" || true
+test -f work/modcls/fr/testudo/spacecorsair/mod/ModTitan.class && test -f work/modcls/fr/testudo/spacecorsair/mod/ModUi.class
+n=$(ls work/modcls/fr/testudo/spacecorsair/mod/*.class | wc -l); echo "mod classes: $n"
+(cd work/modcls && rm -f ../mod.jar && jar cf ../mod.jar fr)
+java -cp tools/d2j/dalvik-dx-9.0.0_r3.jar com.android.dx.command.Main --dex --min-sdk-version=14 --output=work/mod.dex work/mod.jar 2>&1 | grep -v JAVA_TOOL || true
+rm -rf work/modsmali && java -cp "$(cat tools/cp.txt)" org.jf.baksmali.Main d work/mod.dex -o work/modsmali 2>&1 | grep -v JAVA_TOOL || true
+test -f work/modsmali/fr/testudo/spacecorsair/mod/ModTitan.smali
+rm -rf work/smali/fr/testudo/spacecorsair/mod && cp -r work/modsmali/fr/testudo/spacecorsair/mod work/smali/fr/testudo/spacecorsair/
+java -cp "$(cat tools/cp.txt)" org.jf.smali.Main a -a 15 work/smali -o work/classes_v32.dex 2>&1 | grep -v JAVA_TOOL || true
+java -cp "tools/d2j/*" com.googlecode.dex2jar.tools.Dex2jarCmd -f -o work/game_v32.jar work/classes_v32.dex 2>&1 | tail -1
+(cd work/dtest && java -Xverify:all -cp .:../game_v32.jar:../../tools/android-4.1.1.4.jar:../stubcls V17b 2>&1 | grep -v JAVA_TOOL | grep -v "^ok" ; java -Xverify:all -cp .:../game_v32.jar:../../tools/android-4.1.1.4.jar:../stubcls V17 2>&1 | grep -c "^ok ")
+(cd work/dtest && javac -nowarn -cp .:../game_v32.jar:../../tools/android-4.1.1.4.jar:../stubcls V30.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v32.jar:../../tools/android-4.1.1.4.jar:../stubcls V30 2>&1 | grep -v JAVA_TOOL | grep "V30 VERIFY-OK")
+# modart is lossless WebP; each name must ship once
+shopt -s nullglob
+dups=$(for f in work/modart/*.png work/modart/*.webp; do b=$(basename "$f"); echo "${b%.*}"; done | sort | uniq -d)
+test -z "$dups" || { echo "modart names present as both .png and .webp: $dups"; exit 1; }
+ADDS=$(for f in work/modart/*.png work/modart/*.webp; do echo -n "+assets/modart/$(basename $f)=$f "; done; for f in work/modsfx/*.ogg; do echo -n "+assets/modsfx/$(basename $f)=$f "; done)
+shopt -u nullglob
+# Spanish resources + mod dictionary
+test -f i18n/values-es/strings.xml && test -f i18n/lang/es_full.json
+MODVER=32
+SET_STRINGS="app_version=mod v$MODVER (base 1.5.1)" python3 -I es/add_locale.py base/space-corsair-mod-signed-v12.apk i18n/values-es work/resources_v32.arsc es fr
+python3 -I src/set_version_code.py base/space-corsair-mod-signed-v12.apk $((1000 + MODVER)) "mod v$MODVER (base 1.5.1)" work/AndroidManifest_v32.xml
+python3 -I -c "import json,sys; json.load(open(sys.argv[1],encoding='utf-8'))" i18n/lang/es_full.json
+python3 -I src/rebuild.py base/space-corsair-mod-signed-v12.apk work/unsigned32.apk classes.dex=work/classes_v32.dex resources.arsc=work/resources_v32.arsc AndroidManifest.xml=work/AndroidManifest_v32.xml +assets/lang/es.json=i18n/lang/es_full.json $ADDS | tail -1
+unzip -tq work/unsigned32.apk
+java -cp tools/uber-apk-signer-1.3.0.jar:work Sign work/unsigned32.apk out/space-corsair-mod-signed-v32.apk work/key.p12 android 2>&1 | grep -v JAVA_TOOL
+unzip -p out/space-corsair-mod-signed-v32.apk classes.dex | cmp - work/classes_v32.dex
+unzip -p out/space-corsair-mod-signed-v32.apk resources.arsc | cmp - work/resources_v32.arsc
+echo BUILD-OK

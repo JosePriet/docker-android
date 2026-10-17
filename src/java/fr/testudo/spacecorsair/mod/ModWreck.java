@@ -217,10 +217,24 @@ public final class ModWreck extends Element {
             }
             int cls = sizeClass(e);
             if (cls < 2) return;
+            boolean elite = e instanceof Ennemis && ((Ennemis) e).elite;
+            boolean boss = ModBoss.kindOf(e) >= 0;
+            ModCapitals.Cap cap = ModCapitals.cap(e);
+            if (cap != null && cap.f != null) {
+                ModWreck[] capMade = breakUpCap(e, d, cap.f.key);
+                if (capMade != null) {
+                    for (ModWreck w : capMade) {
+                        if (w == null) continue;
+                        w.srcLevel = e.level;
+                        w.srcClass = cls;
+                        w.srcElite = elite;
+                        w.srcBoss = boss;
+                    }
+                    return;
+                }
+            }
             ModWreck[] made = breakUp(e, d, cls, false, 0);
             if (made != null) {
-                boolean elite = e instanceof Ennemis && ((Ennemis) e).elite;
-                boolean boss = ModBoss.kindOf(e) >= 0;
                 for (ModWreck w : made) {
                     if (w == null) continue;
                     w.srcLevel = e.level;
@@ -232,6 +246,46 @@ public final class ModWreck extends Element {
         } catch (Throwable t) {
             // the stock death always happens
         }
+    }
+
+    /** Two pre-drawn cap halves for flagships; returns null if art not available. */
+    private static ModWreck[] breakUpCap(Element e, Drawable d, String key) {
+        String artA = "wreck_cap_" + key + "_a";
+        String artB = "wreck_cap_" + key + "_b";
+        float W, H;
+        if (d instanceof ModFx.Sprite) { W = ((ModFx.Sprite) d).w; H = ((ModFx.Sprite) d).h; }
+        else if (d.dimensions != null) { W = d.dimensions.x; H = d.dimensions.y; }
+        else return null;
+        float s = Math.max(W, H);
+        ModLive.fx("fx_explosion_big_sheet", 8, 64, e.position.x, e.position.y, s * 1.35f, 1300, 1.0f, 0.8f, 0.5f, true);
+        debris(e.position, e.speed, s, 8);
+        boolean[] grp = new boolean[1];
+        String[] arts = {artA, artB};
+        float[] offsets = {-0.25f, 0.25f};
+        ModWreck[] out = new ModWreck[2];
+        for (int i = 0; i < 2; i++) {
+            ModWreck w = new ModWreck();
+            w.group = grp;
+            w.art = arts[i];
+            w.u0 = 0; w.v0 = 0; w.u1 = 1; w.v1 = 1;
+            w.w = W;
+            w.h = H * 0.5f;
+            a.set(0, offsets[i] * H).applyRotatation(Math.toRadians(e.spin));
+            w.position.setSameAs(e.position).add(a);
+            w.spin = e.spin;
+            float push = 0.3f + (float) Math.random() * 0.3f;
+            float len = Math.max(1, (float) Math.sqrt(a.x * a.x + a.y * a.y));
+            w.speed.set(e.speed.x * 0.6f + a.x / len * push, e.speed.y * 0.6f + a.y / len * push);
+            w.spinSpeed = (float) (Math.random() - 0.5) * 0.10f;
+            w.phys.set(Math.min(W, w.h) * 0.8f, Math.min(W, w.h) * 0.8f);
+            w.maxLife = Math.max(300.0f, e.maxLife * 0.2f);
+            w.life = w.maxLife;
+            w.level = e.level;
+            w.updateSapCoords();
+            out[i] = w;
+            add(w);
+        }
+        return out;
     }
 
     /** Metal chunks (debris_sheet cells) flung out from a point. */

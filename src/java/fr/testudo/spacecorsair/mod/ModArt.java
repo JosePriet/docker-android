@@ -765,7 +765,14 @@ public class ModArt {
         try {
             if (t == null || appCtx == null) return bmp;
             String a = origAsset(appCtx, t.resource);
-            if (a == null) return bmp;
+            if (a == null) {
+                try {
+                    String name = appCtx.getResources().getResourceEntryName(t.resource);
+                    if (assetExists(name + "_glow_l") || assetExists(name + "_glow_e"))
+                        ORIGTEX.put(t, name);
+                } catch (Throwable ignored) {}
+                return bmp;
+            }
             Bitmap r = decodeFull(a);
             if (r == null) return bmp;
             int w = r.getWidth(), h = r.getHeight();

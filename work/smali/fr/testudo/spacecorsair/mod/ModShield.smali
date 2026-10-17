@@ -1919,14 +1919,6 @@
     .line 127
     :cond_54
     :goto_54
-    const-string v1, "corsair_titans"
-
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModDev;->testFlag(Ljava/lang/String;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_f6
-
     sget-wide v6, Lfr/testudo/spacecorsair/mod/ModShield;->logMs:J
 
     sub-long/2addr v6, p1
@@ -1936,6 +1928,14 @@
     cmp-long v1, v6, v10
 
     if-gtz v1, :cond_f6
+
+    const-string v1, "corsair_titans"
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModDev;->testFlag(Ljava/lang/String;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_f6
 
     .line 128
     const-wide/16 v6, 0xbb8

@@ -333,6 +333,7 @@ public final class ModCaps {
             fr.testudo.spacecorsair.engine.Vector2 c = fr.testudo.spacecorsair.engine.GameRenderer.screenCenter;
             try {
                 ModFx.relative = true;
+                if (p.titan) ModFx.spr("player_titan_signature", c.x, c.y, side * 1.5f, side * 1.5f, 0, 0.35f, 0.85f, 1.0f, 0.6f, true);
                 ModFx.sprR("marker_friendly", c.x, c.y, side * 1.9f, side * 1.9f, (t / 90.0f) % 360, 0.3f, 0.85f, 1.0f, 0.3f, true);   // outside the shield shell
                 fr.testudo.spacecorsair.display.Texture ht = hd.myTexture;
                 if (ht != null && ht.name > 0) {
