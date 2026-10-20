@@ -1,6 +1,7 @@
 #!/bin/bash
-# v17 build (fail fast). Run from the scratchpad.
+# Build the signed mod APK (fail fast). Run from the repo root: bash build.sh <version>
 set -e -o pipefail
+V=${1:-33}   # mod version: bash build.sh 32
 mkdir -p out
 test -f work/key.p12 || { echo "work/key.p12 missing: copy the signing key here (see HANDOFF.md)"; exit 1; }
 rm -rf work/modcls && mkdir work/modcls
@@ -12,10 +13,10 @@ java -cp tools/d2j/dalvik-dx-9.0.0_r3.jar com.android.dx.command.Main --dex --mi
 rm -rf work/modsmali && java -cp "$(cat tools/cp.txt)" org.jf.baksmali.Main d work/mod.dex -o work/modsmali 2>&1 | grep -v JAVA_TOOL || true
 test -f work/modsmali/fr/testudo/spacecorsair/mod/ModTitan.smali
 rm -rf work/smali/fr/testudo/spacecorsair/mod && cp -r work/modsmali/fr/testudo/spacecorsair/mod work/smali/fr/testudo/spacecorsair/
-java -cp "$(cat tools/cp.txt)" org.jf.smali.Main a -a 15 work/smali -o work/classes_v30.dex 2>&1 | grep -v JAVA_TOOL || true
-java -cp "tools/d2j/*" com.googlecode.dex2jar.tools.Dex2jarCmd -f -o work/game_v30.jar work/classes_v30.dex 2>&1 | tail -1
-(cd work/dtest && java -Xverify:all -cp .:../game_v30.jar:../../tools/android-4.1.1.4.jar:../stubcls V17b 2>&1 | grep -v JAVA_TOOL | grep -v "^ok" ; java -Xverify:all -cp .:../game_v30.jar:../../tools/android-4.1.1.4.jar:../stubcls V17 2>&1 | grep -c "^ok ")
-(cd work/dtest && javac -nowarn -cp .:../game_v30.jar:../../tools/android-4.1.1.4.jar:../stubcls V30.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v30.jar:../../tools/android-4.1.1.4.jar:../stubcls V30 2>&1 | grep -v JAVA_TOOL | grep "V30 VERIFY-OK")
+java -cp "$(cat tools/cp.txt)" org.jf.smali.Main a -a 15 work/smali -o work/classes_v${V}.dex 2>&1 | grep -v JAVA_TOOL || true
+java -cp "tools/d2j/*" com.googlecode.dex2jar.tools.Dex2jarCmd -f -o work/game_v${V}.jar work/classes_v${V}.dex 2>&1 | tail -1
+(cd work/dtest && java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V17b 2>&1 | grep -v JAVA_TOOL | grep -v "^ok" ; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V17 2>&1 | grep -c "^ok ")
+(cd work/dtest && javac -nowarn -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V30.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V30 2>&1 | grep -v JAVA_TOOL | grep "V30 VERIFY-OK")
 # v30: modart is lossless WebP (ModArt.open tries <name>.webp, then <name>.png); each name must ship once
 shopt -s nullglob
 dups=$(for f in work/modart/*.png work/modart/*.webp; do b=$(basename "$f"); echo "${b%.*}"; done | sort | uniq -d)
@@ -25,14 +26,14 @@ shopt -u nullglob
 # v30: Spanish resources (es locale in resources.arsc) + mod dictionary
 test -f i18n/values-es/strings.xml && test -f i18n/lang/es_full.json
 # v30: the phone's app info shows the mod version (versionName = app_version string) and versionCode climbs per release
-MODVER=30
-SET_STRINGS="app_version=mod v$MODVER (base 1.5.1)" python3 -I es/add_locale.py base/space-corsair-mod-signed-v12.apk i18n/values-es work/resources_v30.arsc es fr
-python3 -I src/set_version_code.py base/space-corsair-mod-signed-v12.apk $((1000 + MODVER)) "mod v$MODVER (base 1.5.1)" work/AndroidManifest_v30.xml
+MODVER=$V
+SET_STRINGS="app_version=mod v$MODVER (base 1.5.1)" python3 -I es/add_locale.py base/space-corsair-mod-signed-v12.apk i18n/values-es work/resources_v${V}.arsc es fr
+python3 -I src/set_version_code.py base/space-corsair-mod-signed-v12.apk $((1000 + MODVER)) "mod v$MODVER (base 1.5.1)" work/AndroidManifest_v${V}.xml
 python3 -I -c "import json,sys; json.load(open(sys.argv[1],encoding='utf-8'))" i18n/lang/es_full.json
-python3 -I src/rebuild.py base/space-corsair-mod-signed-v12.apk work/unsigned30.apk classes.dex=work/classes_v30.dex resources.arsc=work/resources_v30.arsc AndroidManifest.xml=work/AndroidManifest_v30.xml +assets/lang/es.json=i18n/lang/es_full.json $ADDS | tail -1
-unzip -tq work/unsigned30.apk
-java -cp tools/uber-apk-signer-1.3.0.jar:work Sign work/unsigned30.apk out/space-corsair-mod-signed-v30.apk work/key.p12 android 2>&1 | grep -v JAVA_TOOL
-unzip -p out/space-corsair-mod-signed-v30.apk classes.dex | cmp - work/classes_v30.dex
-unzip -p out/space-corsair-mod-signed-v30.apk resources.arsc | cmp - work/resources_v30.arsc
-cp out/space-corsair-mod-signed-v30.apk ./
+python3 -I src/rebuild.py base/space-corsair-mod-signed-v12.apk work/unsigned${V}.apk classes.dex=work/classes_v${V}.dex resources.arsc=work/resources_v${V}.arsc AndroidManifest.xml=work/AndroidManifest_v${V}.xml +assets/lang/es.json=i18n/lang/es_full.json $ADDS | tail -1
+unzip -tq work/unsigned${V}.apk
+java -cp tools/uber-apk-signer-1.3.0.jar:work Sign work/unsigned${V}.apk out/space-corsair-mod-signed-v${V}.apk work/key.p12 android 2>&1 | grep -v JAVA_TOOL
+unzip -p out/space-corsair-mod-signed-v${V}.apk classes.dex | cmp - work/classes_v${V}.dex
+unzip -p out/space-corsair-mod-signed-v${V}.apk resources.arsc | cmp - work/resources_v${V}.arsc
+cp out/space-corsair-mod-signed-v${V}.apk ./
 echo BUILD-OK
