@@ -28,6 +28,13 @@ Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and mer
 - Requests from the owner should follow: "Update TASK.md for this change: [...]. Include these acceptance criteria: [...]. Implement it, run the relevant checks, and report the result." Remind the owner of this format when a request lacks it.
 - Global Assault and Corsair Nova are on the back burner; do not work on them unless asked.
 
+## Usage budget
+- One session per update: start fresh from `HANDOFF.md` + `TASK.md`; never continue a long session (every turn re-sends the whole context).
+- Do not read large smali/Java files whole; grep, then read line ranges. Never paste build logs; `scripts/check.sh` prints PASS/FAIL only.
+- Subagents run on a cheaper model/low effort and return a short verdict.
+- No recurring routines or self check-ins; GitHub Actions runs are fine (they do not use Claude usage).
+- Art, lore, translations and long text go to ChatGPT.
+
 ## Needs in-game testing (cannot be proven by the build)
 Visuals, balance, AI behaviour (bosses, flagship skills), wreck physics, loot feel, Spanish text fitting the screen. Use the emulator run, then the owner's phone.
 
