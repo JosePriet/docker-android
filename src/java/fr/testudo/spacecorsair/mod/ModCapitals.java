@@ -60,7 +60,35 @@ public final class ModCapitals {
         float[] mounts;
         final Vector2 anchor = new Vector2();
         boolean hostileAnnounced;
+        float shot;                  // v33: base battery damage (the old Guardian canon shot)
+        float[] tAng;                // v33 per mount: turret rotation (texture convention), reload left, recoil left
+        int[] tReload, tKick;
+        boolean fireLogged;
     }
+
+    // ------------------------------------------------------------------ v33 batteries
+    /** One battery type: family (ModWeapons), damage x Cap.shot, reload ms, bullet speed (per 10 ms), range, spread deg,
+     *  shots per salvo, turn rate deg/s, colour. */
+    static final class Gun {
+        final int fam, reload, shots;
+        final float dmg, speed, range, spread, turn, r, g, b;
+        Gun(int fam, float dmg, int reload, float speed, float range, float spread, int shots, float turn, float r, float g, float b) {
+            this.fam = fam; this.dmg = dmg; this.reload = reload; this.speed = speed; this.range = range; this.spread = spread;
+            this.shots = shots; this.turn = turn; this.r = r; this.g = g; this.b = b;
+        }
+    }
+
+    /** FACTIONS order; a faction with two types alternates them over its mounts. Totals stay near the old 3 canons. */
+    static final Gun[][] GUNS = {
+        {new Gun(ModWeapons.RAIL, 3.0f, 2600, 26, 4200, 1, 1, 60, 0.55f, 0.95f, 1.0f)},                 // spartan rails
+        {new Gun(ModWeapons.AUTO, 0.3f, 220, 13, 2400, 7, 1, 120, 1.0f, 0.6f, 0.25f)},                  // reaver autocannon flak
+        {new Gun(ModWeapons.AUTO, 0.55f, 750, 12, 2600, 10, 3, 90, 0.7f, 1.0f, 0.45f)},                 // kretari bio-spines
+        {new Gun(ModWeapons.DISINT, 0.35f, 300, 10, 2400, 2, 1, 90, 1.0f, 0.3f, 0.35f)},                // varn disintegrators
+        {new Gun(ModWeapons.ARTY, 4.0f, 3400, 11, 3800, 3, 1, 40, 1.0f, 0.6f, 0.25f)},                  // ironclad heavy artillery
+        {new Gun(ModWeapons.BLAST, 0.8f, 650, 9, 1900, 4, 1, 100, 1.0f, 0.85f, 0.45f)},                 // helion blasters
+        {new Gun(ModWeapons.RAIL, 3.0f, 2800, 26, 4200, 1, 1, 60, 0.55f, 0.75f, 1.0f),
+         new Gun(ModWeapons.ARC, 1.2f, 900, 14, 2200, 2, 1, 90, 0.6f, 0.8f, 1.0f)},                     // warden rail + arc
+    };
 
     static final Map<GuardianCivilShip, Cap> caps = new WeakHashMap<GuardianCivilShip, Cap>();
     private static ModFx.Sprite[] hullSprites;
@@ -102,6 +130,12 @@ public final class ModCapitals {
         String v = ModDev.testValue("corsair_capital");
         if (v == null || v.equals(testSpawned)) return;
         testSpawned = v;
+        // v33: one test flagship at a time (the previous one would keep firing its batteries at the player)
+        for (GuardianCivilShip old : caps.keySet()) {
+            if (old.removed) continue;
+            old.removed = true;
+            ObjectRegistry.INSTANCE.game.currentLevel.toDelete.add(old);
+        }
         for (int i = 0; i < FACTIONS.length; i++) {
             if (!FACTIONS[i].key.equals(v)) continue;
             spawn(i, ObjectRegistry.INSTANCE.game.currentLevel.id);
@@ -148,6 +182,8 @@ public final class ModCapitals {
         g.canonCenter.init(reload, dmg, 6, 15.0f, 0.8f, 4, 3);
         g.canonProue.init(reload, dmg, 6, 15.0f, 0.8f, 4, 3);
         g.canonPoupe.init(reload, dmg, 6, 15.0f, 0.8f, 4, 3);
+        silenceStock(g);                            // v33: the drawn turrets fire instead (guns)
+        c.shot = dmg;
         g.specificName = f.name + " flagship: " + f.ship;
         g.specificNameDecalX = -1;
         g.radarPointSize = 12.0f;
@@ -258,15 +294,18 @@ public final class ModCapitals {
                     ModFx.spr("fx_flame", a.x, a.y, w * 2.0f, len, g.spin, c.f.r, c.f.g, c.f.b, 0.9f, true);
                 }
             }
-            // turrets on the rendered mounts, tracking the player when hostile
+            // turrets on the rendered mounts, each at its own tracked angle (guns), kicked back when it fires
             if (c.mounts != null) {
-                PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
-                boolean hostile = g.chasseTarget != null;
                 float ts = sz * 0.07f;
                 for (int k = 0; k + 1 < c.mounts.length; k += 2) {
+                    int m = k / 2;
                     ModFx.local(g.position, g.spin, c.mounts[k] * sz, c.mounts[k + 1] * sz, a);
-                    float ang = g.spin;
-                    if (hostile && ps != null) ang = (float) Math.toDegrees(Math.atan2(ps.position.y - a.y, ps.position.x - a.x)) - 90 + 180;
+                    float ang = c.tAng != null && m < c.tAng.length ? c.tAng[m] : g.spin;
+                    if (c.tKick != null && m < c.tKick.length && c.tKick[m] > 0) {
+                        float kick = ts * 0.18f * c.tKick[m] / 160.0f;
+                        double rad = Math.toRadians(ang);
+                        a.add(-(float) Math.sin(rad) * kick, (float) Math.cos(rad) * kick);   // back along the barrel
+                    }
                     ModFx.spr(c.f.turretTex, a.x, a.y, ts, ts, ang, 1, 1, 1, 1, false);
                 }
             }
@@ -317,6 +356,105 @@ public final class ModCapitals {
             // drawing never breaks the frame
         }
         return true;
+    }
+
+    /** The stock Guardian lasers stay silent. Re-armed every frame for a few seconds only: a pooled Guardian handed out
+     *  again as an ordinary one gets its guns back. */
+    private static void silenceStock(GuardianCivilShip g) {
+        g.canonCenter.nextShootAllowed = 3000;
+        g.canonProue.nextShootAllowed = 3000;
+        g.canonPoupe.nextShootAllowed = 3000;
+    }
+
+    private static final Vector2 aim = new Vector2(), mz = new Vector2();   // own scratch: draw() uses a
+    private static final float[] TURRET_ART = new float[FACTIONS.length];   // 1 = proj_cap_<key> exists, -1 = not, 0 = unknown
+
+    /** v33, per frame from ModTitanAI.tick: every drawn turret tracks the player and fires its faction battery. */
+    static void guns(GuardianCivilShip g, Cap c, PlayerShip ps, long j) {
+        silenceStock(g);
+        if (c.mounts == null) return;
+        int n = c.mounts.length / 2;
+        if (c.tAng == null) {
+            c.tAng = new float[n];
+            c.tReload = new int[n];
+            c.tKick = new int[n];
+            for (int k = 0; k < n; k++) { c.tAng[k] = g.spin; c.tReload[k] = 300 * k; }   // staggered first salvo
+        }
+        boolean hostile = !ps.removed && ModLive.titanHostile(g, c);
+        Gun[] gs = GUNS[indexOf(c.f)];
+        for (int k = 0; k < n; k++) {
+            Gun gun = gs[k % gs.length];
+            if (c.tReload[k] > 0) c.tReload[k] -= j;
+            if (c.tKick[k] > 0) c.tKick[k] -= j;
+            ModFx.local(g.position, g.spin, c.mounts[2 * k] * SIZE, c.mounts[2 * k + 1] * SIZE, mz);
+            float dist = ps.position.distance(mz);
+            float want = g.spin;                                           // idle: along the hull
+            boolean engage = hostile && dist < gun.range;
+            if (engage) {
+                float t = dist / (gun.speed * 100.0f);                        // flight time in s (speed is per 10 ms)
+                aim.set(ps.position.x + ps.speed.x * 100.0f * t, ps.position.y + ps.speed.y * 100.0f * t);
+                want = (float) Math.toDegrees(Math.atan2(aim.y - mz.y, aim.x - mz.x)) + 90;
+            }
+            float d = ModLive.normDelta(want - c.tAng[k]);
+            float step = gun.turn * j / 1000.0f;
+            c.tAng[k] = Element.normalizeSpin(c.tAng[k] + Math.max(-step, Math.min(step, d)));
+            if (!engage || c.tReload[k] > 0 || Math.abs(d) > 8) continue;
+            c.tReload[k] = (int) (gun.reload * (0.9f + 0.2f * (float) Math.random()));
+            c.tKick[k] = 160;
+            fire(g, c, gun, mz, c.tAng[k], dist);
+            if (!c.fireLogged && ModDev.testFlag("corsair_nodialog")) {
+                c.fireLogged = true;
+                android.util.Log.i("ModCapitals", c.f.key + " battery fire mount=" + k + " fam=" + ModWeapons.BASE[gun.fam] + " dmg=" + Math.round(c.shot * gun.dmg));
+            }
+        }
+    }
+
+    private static void fire(GuardianCivilShip g, Cap c, Gun gun, Vector2 at, float ang, float dist) {
+        double rad = Math.toRadians(ang);
+        float fx = (float) Math.sin(rad), fy = -(float) Math.cos(rad);       // unit barrel direction
+        float mx = at.x + fx * SIZE * 0.04f, my = at.y + fy * SIZE * 0.04f;
+        for (int i = 0; i < gun.shots; i++) {
+            float deg = ang + (gun.shots > 1 ? (i - (gun.shots - 1) / 2.0f) * gun.spread : (float) (Math.random() - 0.5) * 2 * gun.spread);
+            fr.testudo.spacecorsair.business.projectiles.EnergyBullet p = fr.testudo.spacecorsair.business.factory.GamePools.newEnnergyBullet()
+                .init(c.shot * gun.dmg, 6, g, 1.0f, gun.r, gun.g, gun.b, ModWeapons.TAG[gun.fam]);
+            p.position.set(mx, my);
+            p.speed.set(0.0f, -gun.speed).applyRotatation(Math.toRadians(deg));
+            p.speed.add(g.speed);
+            p.spin = deg;
+            p.lifeTimeInMilli = (long) (gun.range * 1.15f / (gun.speed * 0.1f));
+            ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(p);
+        }
+        // muzzle flash and a heavier report (fades with distance)
+        float fl = gun.fam == ModWeapons.ARTY ? 260 : gun.fam == ModWeapons.RAIL ? 200 : 120;
+        ModFx.part("fx_core", mx, my, 0, 0, 140, fl * 0.3f, fl, gun.r, gun.g, gun.b, 1.0f, true, true);
+        ModFx.part("fx_glow", mx, my, fx * 40, fy * 40, 220, fl * 0.5f, fl * 1.6f, gun.r, gun.g * 0.9f, gun.b * 0.8f, 0.7f, true, true);
+        if (gun.fam == ModWeapons.ARTY) {
+            for (int i = 0; i < 2; i++) ModFx.part("fx_smoke", mx, my, fx * 60 + ModFx.rnd(-25, 25), fy * 60 + ModFx.rnd(-25, 25), 1200, 60, 200, 0.45f, 0.42f, 0.4f, 0.55f, false, true);
+        }
+        float gain = Math.max(0, 1.0f - dist / 5000.0f);
+        if (gain > 0.05f) ModSound.play(ModWeapons.SOUND[gun.fam], 0.9f * gain, 0.78f * ModFx.rnd(0.95f, 1.05f), ModWeapons.GAP[gun.fam]);
+    }
+
+    /** From ModTitan.bullet: a flagship shell (proj_cap_<key> art when it exists, else the family's titan-size bolt). */
+    static Drawable bullet(fr.testudo.spacecorsair.business.projectiles.EnergyBullet e) {
+        try {
+            Cap c = cap(e.sender);
+            if (c == null) return null;
+            Drawable fam = ModWeapons.bullet(e, true);                     // trails and the fallback sprite
+            int i = indexOf(c.f);
+            if (TURRET_ART[i] == 0) TURRET_ART[i] = ModArt.lazyTex("proj_cap_" + c.f.key) != null ? 1 : -1;
+            if (TURRET_ART[i] > 0) {
+                fr.testudo.spacecorsair.display.Texture t = ModArt.ready("proj_cap_" + c.f.key);
+                if (t != null) {
+                    float s = ModWeapons.familyOf(e) == ModWeapons.ARTY ? 120 : 90;
+                    ModFx.sprTex(t, e.position.x, e.position.y, s * 0.5f, s, e.spin, 1, 1, 1, 1, true, 0, 0, 1, 1);
+                    return ModFx.EMPTY;
+                }
+            }
+            return fam;
+        } catch (Throwable t) {
+            return null;
+        }
     }
 
     /** From ModQol.civilAttacked: a flagship defends civilians attacked near it. */

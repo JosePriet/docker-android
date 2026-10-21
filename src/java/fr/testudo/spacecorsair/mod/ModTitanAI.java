@@ -18,8 +18,10 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
- * v30 faction flagship skills (profiles approved for v30, names and texts from bosses_v30.json). Skills only run while the
- * flagship is fighting the player; each enrage triggers once, at 30% hull.
+ * v30 faction flagship skills (profiles approved for v30, names and texts from bosses_v30.json). Skills run while the
+ * flagship is hostile (v33: hunting the player or the faction Unfriendly or worse); each enrage triggers once, at 30% hull.
+ * v33: every skill use shows a callout over the player's ship, plays a sound and is logged in emulator tests; the
+ * telegraphs are bigger (tele_cap_<key> art replaces the stock marker when it exists).
  *  spartan  SRS Aegis       sturdy shields, weak hull: frontal shield wall; enrage = shield dome over nearby allies
  *  reaver   Bloodforge      huge hull, no shields: harpoons, furnace ram; enrage = burning trail + ram charge
  *  kretari  Brood-Mother    hive pulse scrambles the radar; enrage = mirror swarm copying the player's movement
@@ -46,6 +48,8 @@ public final class ModTitanAI {
         float baseForce = -1;
         final ArrayList<Element> domed = new ArrayList<Element>();     // ships the Aegis dome made invincible
         final ArrayList<Boolean> domedWas = new ArrayList<Boolean>();   // their own flag before
+        boolean engaged;                      // v33: the passive skill was announced for this fight
+        long wallSaid;                        // v33: last shield wall callout
     }
 
     private static final Map<GuardianCivilShip, T> st = new WeakHashMap<GuardianCivilShip, T>();
@@ -122,6 +126,52 @@ public final class ModTitanAI {
         say(g, d[1].toUpperCase(), 1.0f, 0.35f, 0.25f);
         if (ps != null) { say(ps, d[2], 1.0f, 0.6f, 0.4f); say(ps, d[3], 1.0f, 0.6f, 0.4f); }
         ObjectRegistry.INSTANCE.soundManager.playDanger();
+        callout(d[0], d[1], 1.0f, 0.35f, 0.25f, 3000);
+        log(f, "enrage " + d[1]);
+    }
+
+    // ------------------------------------------------------------------ v33 skill callouts
+    private static String callText;
+    private static long callUntil;
+    private static int callMs;
+    private static float cr, cg, cb;
+    private static final Vector2 callAt = new Vector2();
+
+    private static void callout(String ship, String skill, float r, float g, float b, int ms) {
+        callText = (ship + ": " + skill).toUpperCase();
+        callMs = ms;
+        callUntil = System.currentTimeMillis() + ms;
+        cr = r; cg = g; cb = b;
+    }
+
+    /** A skill use: callout over the player's ship, name at the flagship, a charge-up sound, test log. */
+    private static void use(GuardianCivilShip g, int f, String skill, float r, float gr, float b) {
+        say(g, skill.toUpperCase(), r, gr, b);
+        callout(data(f)[0], skill, r, gr, b, 2200);
+        ModSound.play("doom_charge", 0.75f, 1.2f, 400);
+        log(f, "skill " + skill);
+    }
+
+    /** Emulator tests only (/data/local/tmp/corsair_nodialog): skill triggers in logcat. */
+    private static void log(int f, String what) {
+        if (ModDev.testFlag("corsair_nodialog")) android.util.Log.i("ModTitanAI", ModCapitals.FACTIONS[f].key + " " + what);
+    }
+
+    /** From ModCaps.drawOver: the latest skill callout above the player's ship, fading out. */
+    static void drawCallout(PlayerShip ps, float sz) {
+        String t = callText;
+        if (t == null) return;
+        long left = callUntil - System.currentTimeMillis();
+        if (left <= 0) { callText = null; return; }
+        float al = Math.min(1.0f, left / 500.0f) * Math.min(1.0f, (callMs - left) / 120.0f + 0.2f);
+        float half = fr.testudo.spacecorsair.engine.GameRenderer.glTextLarge.getLength(t) / 2.0f;
+        callAt.setSameAs(ps.position).add(-half, Math.max(260.0f, sz * 0.75f + 160.0f));
+        ObjectRegistry.INSTANCE.renderQueue.addTextToTextWaitingQueue(callAt, false, t, cr, cg, cb, al, fr.testudo.spacecorsair.textengine.TextSize.LARGE);
+    }
+
+    /** tele_cap_<key> (GPT telegraph art) when it ships, else the stock effect. */
+    private static String tele(String key, String fallback) {
+        return ModArt.lazyTex("tele_cap_" + key) != null ? "tele_cap_" + key : fallback;
     }
 
     /** Per frame from ModCaps.tick. */
@@ -144,6 +194,7 @@ public final class ModTitanAI {
             GuardianCivilShip g = e.getKey();
             if (g == null || g.removed || ps.removed) continue;
             try {
+                ModCapitals.guns(g, e.getValue(), ps, j);
                 run(g, e.getValue(), t(g), ps, j);
             } catch (Throwable x) {
                 // a skill never breaks the frame
@@ -152,15 +203,22 @@ public final class ModTitanAI {
     }
 
     private static void run(GuardianCivilShip g, ModCapitals.Cap c, T s, PlayerShip ps, long j) {
-        boolean fighting = g.chasseTarget != null;
+        boolean fighting = ModLive.titanHostile(g, c);
         float dist = g.position.distance(ps.position);
         int f = fi(c);
         String k = c.f.key;
         if (s.baseForce < 0) s.baseForce = g.pouseeForce;
         if ("ironclad".equals(k) && s.plates == null) s.plates = full(g);
-        if (!fighting || dist > 5000) {
+        if (!fighting || dist > 6000) {
             if (s.act > 0 || s.act2 > 0 || s.enrageMs > 0 || g.a < 1.0f || !s.domed.isEmpty()) calm(g, s);
+            if (!fighting) s.engaged = false;
             return;
+        }
+        if (!s.engaged && dist < 4500) {                // passive kits announce themselves when the fight starts
+            s.engaged = true;
+            String[] d0 = data(f);
+            if ("spartan".equals(k) || "ironclad".equals(k)) use(g, f, d0[4], c.f.r, c.f.g, c.f.b);
+            else log(f, "engaged");
         }
         s.a -= j; s.b -= j; s.c -= j;
         int pa = s.act, pa2 = s.act2;
@@ -191,12 +249,12 @@ public final class ModTitanAI {
         } else if ("reaver".equals(k)) {
             if (s.a <= 0 && dist < 2300) {           // harpoons: 2 s drag
                 s.a = 10000; s.act = 2000;
-                say(ps, d[4].toUpperCase(), 1.0f, 0.5f, 0.2f);
+                use(g, f, d[4], 1.0f, 0.5f, 0.2f);
             }
             if (s.act > 0) pull(ps, g.position, 0.006f * j);
             if ((s.b <= 0 && dist < 2600) || enrageNow) { // furnace ram
                 s.b = 16000; s.act2 = 2600; s.hitDone = false;
-                say(g, d[6].toUpperCase(), 1.0f, 0.45f, 0.15f);
+                use(g, f, d[6], 1.0f, 0.45f, 0.15f);
             }
             if (s.act2 > 0) {
                 dir(g.position, ps.position, v);
@@ -224,7 +282,7 @@ public final class ModTitanAI {
             if (s.a <= 0 && dist < 3000) {           // hive pulse: radar scrambled 4 s
                 s.a = 13000;
                 radarMs = 4000;
-                say(ps, d[4].toUpperCase(), 0.8f, 0.4f, 1.0f);
+                use(g, f, d[4], 0.8f, 0.4f, 1.0f);
                 ModLive.fx("fx_spore_sheet", 4, 16, g.position.x, g.position.y, 3200, 900, 0.75f, 0.4f, 1.0f, true);
             }
             if (enrageNow) {                         // mirror swarm: decoys copying the player's moves for 8 s
@@ -249,11 +307,11 @@ public final class ModTitanAI {
                     ModFx.local(g.position, g.spin, (i - 1) * 300, ModCapitals.SIZE * 0.5f, w);
                     mine(w);
                 }
-                say(g, d[4].toUpperCase(), 1.0f, 0.75f, 0.35f);
+                use(g, f, d[4], 1.0f, 0.75f, 0.35f);
             }
             if (s.b <= 0 && dist < 3000) {           // short cloak
                 s.b = 15000; s.act = 4000;
-                say(g, d[6].toUpperCase(), 1.0f, 0.75f, 0.35f);
+                use(g, f, d[6], 1.0f, 0.75f, 0.35f);
             }
             g.a = s.act > 0 ? 0.14f : 1.0f;
             if (enrageNow) {                         // liquidation: mine ring round the player + speed burst
@@ -267,10 +325,10 @@ public final class ModTitanAI {
             g.pouseeForce = s.enrageMs > 0 ? s.baseForce * 3.0f : s.baseForce;
         } else if ("ironclad".equals(k)) {
             if (enrageNow) { s.plates = full(g); say(g, ModLang.spanish() ? "BLINDAJE RESTAURADO" : "ARMOUR RESTORED", 1.0f, 0.8f, 0.3f); }
-            if (s.a <= 0 && dist < 3200) {           // telegraphed artillery
-                s.a = 7000; s.act = 1600; s.hitDone = false;
+            if (s.a <= 0 && dist < 3800) {           // telegraphed artillery
+                s.a = 6000; s.act = 2000; s.hitDone = false;
                 s.p1.setSameAs(ps.position);
-                say(ps, d[6].toUpperCase(), 1.0f, 0.8f, 0.3f);
+                use(g, f, d[6], 1.0f, 0.8f, 0.3f);
             }
             if (pa > 0 && s.act <= 0 && !s.hitDone) {
                 s.hitDone = true;
@@ -283,7 +341,7 @@ public final class ModTitanAI {
                 s.a = 12000; s.act = 3000;
                 float to = (float) Math.toDegrees(Math.atan2(ps.position.y - g.position.y, ps.position.x - g.position.x));
                 s.ang0 = to - 35; s.ang1 = to + 35;
-                say(g, d[4].toUpperCase(), 1.0f, 0.9f, 0.5f);
+                use(g, f, d[4], 1.0f, 0.9f, 0.5f);
             }
             if (s.act > 0) {
                 float k01 = 1.0f - s.act / 3000.0f;
@@ -293,7 +351,7 @@ public final class ModTitanAI {
             }
             if (s.b <= 0 && dist < 3500) {           // boost dash
                 s.b = 8000; s.act2 = 900;
-                say(g, d[6].toUpperCase(), 1.0f, 0.9f, 0.5f);
+                use(g, f, d[6], 1.0f, 0.9f, 0.5f);
             }
             if (s.act2 > 0) {
                 dir(g.position, ps.position, v);
@@ -310,19 +368,19 @@ public final class ModTitanAI {
         } else if ("warden".equals(k)) {
             if (s.a <= 0 && dist < 2600) {           // tractor beam 3 s
                 s.a = 10000; s.act = 3000;
-                say(ps, d[4].toUpperCase(), 0.5f, 0.7f, 1.0f);
+                use(g, f, d[4], 0.5f, 0.7f, 1.0f);
             }
             if (s.act > 0) pull(ps, g.position, 0.005f * j);
             if (s.b <= 0 && dist < 3000) {           // boost disruptor 4 s
                 s.b = 12000;
                 lockBoost(ps, 4000);
-                say(ps, d[6].toUpperCase(), 0.5f, 0.7f, 1.0f);
+                use(g, f, d[6], 0.5f, 0.7f, 1.0f);
             }
             if (s.c <= 0 && dist < 4200) {           // rail snipe: 1.2 s aim line, then a heavy hit along it
                 s.c = 9000; s.act2 = 1200; s.hitDone = false;
                 s.p1.setSameAs(g.position);
                 s.p2.setSameAs(ps.position);
-                say(g, d[8].toUpperCase(), 0.5f, 0.7f, 1.0f);
+                use(g, f, d[8], 0.5f, 0.7f, 1.0f);
             }
             if (pa2 > 0 && s.act2 <= 0 && !s.hitDone) {
                 s.hitDone = true;
@@ -346,6 +404,8 @@ public final class ModTitanAI {
             float to = Element.normalizeSpin(((float) Math.toDegrees(g.position.getAngularWithInRad(p.position))) % 360.0f + 90.0f);
             if (Math.abs(ModLive.normDelta(to - g.spin)) < 50) {
                 ModLive.fx("shield_ripple", 1, 1, p.position.x, p.position.y, 260, 380, c.f.r, c.f.g, c.f.b, true);
+                long now = System.currentTimeMillis();
+                if (now - s.wallSaid > 8000) { s.wallSaid = now; use(g, fi(c), data(fi(c))[4], c.f.r, c.f.g, c.f.b); }
                 return dmg * 0.1f;
             }
         } else if ("ironclad".equals(k) && s.plates != null) {
@@ -389,18 +449,34 @@ public final class ModTitanAI {
                 ModFx.sprR("shield_segment", w.x, w.y + 0, S * 0.9f, S * 0.9f, g.spin, c.f.r, c.f.g, c.f.b, 0.55f, true);
             }
             if (s.enrageMs > 0) ModFx.sprR("shield_shell", g.position.x, g.position.y, 5600, 5600, 0, c.f.r, c.f.g, c.f.b, 0.35f + 0.1f * (float) Math.sin(now / 200.0), true);
-        } else if ("reaver".equals(k) && s.act > 0 && ps != null) {
-            ModFx.line(g.position.x, g.position.y, ps.position.x, ps.position.y, 1.0f, 0.4f, 0.15f, 0.9f);
-            ModFx.strip("fx_beam", g.position.x, g.position.y, ps.position.x, ps.position.y, 28, 1.0f, 0.45f, 0.2f, 0.7f, true);
+        } else if ("reaver".equals(k) && ps != null && (s.act > 0 || s.act2 > 0)) {
+            if (s.act > 0) {                         // harpoon cable
+                ModFx.line(g.position.x, g.position.y, ps.position.x, ps.position.y, 1.0f, 0.4f, 0.15f, 0.9f);
+                ModFx.strip("fx_beam", g.position.x, g.position.y, ps.position.x, ps.position.y, 28, 1.0f, 0.45f, 0.2f, 0.7f, true);
+            }
+            if (s.act2 > 0) {                        // furnace ram: glowing bow and a charge lane
+                ModFx.local(g.position, g.spin, 0, -S * 0.42f, w);
+                ModFx.spr("fx_fire", w.x, w.y, S * 0.5f, S * 0.5f, now / 4.0f % 360, 1.0f, 0.5f, 0.15f, 0.9f, true);
+                ModFx.strip(tele(k, "fx_beam"), g.position.x, g.position.y, ps.position.x, ps.position.y, 180, 1.0f, 0.3f, 0.1f, 0.35f, true);
+            }
         } else if ("ironclad".equals(k) && s.plates != null) {
             for (int i = 0; i < s.plates.length; i++) {
                 if (s.plates[i] <= 0) continue;
                 ModFx.local(g.position, g.spin, plateX(i), plateY(i), w);
                 ModFx.spr("fx_hex", w.x, w.y, 300, 300, g.spin, 1.0f, 0.8f, 0.35f, 0.5f, true);
             }
-            if (s.act > 0) {
-                float k01 = s.act / 1600.0f;
-                ModFx.sprR("marker_hostile", s.p1.x, s.p1.y, 760 * (0.4f + 0.6f * k01), 760 * (0.4f + 0.6f * k01), now / 5.0f % 360, 1.0f, 0.3f, 0.15f, 0.8f, true);
+            if (s.act > 0) {                         // strike zone (the 380 damage radius), closing ring, the shell coming in
+                float k01 = s.act / 2000.0f;
+                float pulse = 0.5f + 0.5f * (float) Math.sin(now / 70.0);
+                ModFx.spr("fx_glow", s.p1.x, s.p1.y, 900, 900, 0, 1.0f, 0.2f, 0.1f, 0.35f + 0.3f * pulse, true);
+                ModFx.sprR(tele(k, "marker_hostile"), s.p1.x, s.p1.y, 760 * (0.5f + 1.2f * k01), 760 * (0.5f + 1.2f * k01), now / 5.0f % 360, 1.0f, 0.3f, 0.15f, 0.9f, true);
+                ModFx.spr("fx_shock", s.p1.x, s.p1.y, 780, 780, 0, 1.0f, 0.35f, 0.15f, 0.5f + 0.4f * pulse, true);
+                if (s.act < 500) {
+                    float q = 1.0f - s.act / 500.0f;
+                    float sx = g.position.x + (s.p1.x - g.position.x) * q, sy = g.position.y + (s.p1.y - g.position.y) * q;
+                    ModFx.spr("fx_core", sx, sy, 160, 160, 0, 1.0f, 0.7f, 0.35f, 1.0f, true);
+                    ModFx.strip("fx_beam", g.position.x, g.position.y, sx, sy, 40, 1.0f, 0.55f, 0.2f, 0.5f, true);
+                }
             }
         } else if ("helion".equals(k)) {
             if (s.act > 0) {
@@ -416,9 +492,12 @@ public final class ModTitanAI {
             }
         } else if ("warden".equals(k)) {
             if (s.act > 0 && ps != null) ModFx.strip("fx_beam", g.position.x, g.position.y, ps.position.x, ps.position.y, 60, 0.45f, 0.7f, 1.0f, 0.55f, true);
-            if (s.act2 > 0) {
+            if (s.act2 > 0) {                        // rail snipe aim line: widening, pulsing faster as it charges
                 float k01 = 1.0f - s.act2 / 1200.0f;
-                ModFx.line(s.p1.x, s.p1.y, s.p2.x + (s.p2.x - s.p1.x), s.p2.y + (s.p2.y - s.p1.y), 1.0f, 0.2f, 0.2f, 0.4f + 0.6f * k01);
+                float x2 = s.p2.x + (s.p2.x - s.p1.x), y2 = s.p2.y + (s.p2.y - s.p1.y);
+                ModFx.line(s.p1.x, s.p1.y, x2, y2, 1.0f, 0.2f, 0.2f, 0.4f + 0.6f * k01);
+                float pulse = 0.5f + 0.5f * (float) Math.sin(now / (90.0 - 60.0 * k01));
+                ModFx.strip(tele(k, "fx_beam"), s.p1.x, s.p1.y, x2, y2, 60 + 220 * k01, 1.0f, 0.25f, 0.2f, 0.25f + 0.45f * pulse, true);
             }
         } else if ("kretari".equals(k) && radarMs > 0 && ps != null) {
             ModFx.spr("fx_shock", ps.position.x, ps.position.y, 900, 900, now / 3.0f % 360, 0.8f, 0.4f, 1.0f, 0.35f, true);

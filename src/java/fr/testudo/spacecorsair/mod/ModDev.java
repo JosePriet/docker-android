@@ -249,7 +249,8 @@ public final class ModDev {
     // ------------------------------------------------------------------ v30 emulator test switches (never present on a phone)
     private static String t30Spawn, t30Shield, t30Derelict;
     private static int spawnN;
-    private static boolean t30Kill, t30Wreck, t30Die, t30Cap;
+    private static boolean t30Kill, t30Wreck, t30Die, t30Cap, t33Shot;
+    private static final java.util.Map<ModWreck, float[]> shotFrom = new java.util.HashMap<ModWreck, float[]>();
 
     /** Once a second from ModCaps.tick. Rising edges / changed values only. */
     static void testV30(fr.testudo.spacecorsair.business.player.PlayerShip ps) {
@@ -299,6 +300,36 @@ public final class ModDev {
                 }
             }
             t30Wreck = w;
+            // v33 corsair_wreckshot: 6 light player shots at every wreck piece within 3000; on removal, how far each moved
+            boolean ws = testFlag("corsair_wreckshot");
+            if (ws && !t33Shot) {
+                shotFrom.clear();
+                for (Object o : new java.util.ArrayList<ModWreck>(ModWreck.live)) {
+                    ModWreck m = (ModWreck) o;
+                    if (m.removed || m.derelict || m.position.distance(ps.position) > 3000) continue;
+                    shotFrom.put(m, new float[]{m.position.x, m.position.y, m.mass});
+                    for (int i = 0; i < 6; i++) {
+                        double an = Math.random() * Math.PI * 2;
+                        fr.testudo.spacecorsair.business.projectiles.EnergyBullet b = fr.testudo.spacecorsair.business.factory.GamePools.newEnnergyBullet()
+                            .init(1.0f, 3, ps, 1.0f, 1.0f, 0.9f, 0.5f, fr.testudo.spacecorsair.business.loot.stuff.alteration.AlterationSpecs.DEFAULT);
+                        b.position.set(m.position.x + (float) Math.cos(an) * 450, m.position.y + (float) Math.sin(an) * 450);
+                        b.speed.set(-(float) Math.cos(an) * 20, -(float) Math.sin(an) * 20);
+                        b.spin = (float) Math.toDegrees(Math.atan2(b.speed.x, -b.speed.y));
+                        fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(b);
+                    }
+                }
+                android.util.Log.i("ModWreck", "wreckshot pieces=" + shotFrom.size());
+            } else if (!ws && t33Shot) {
+                for (java.util.Map.Entry<ModWreck, float[]> e : shotFrom.entrySet()) {
+                    ModWreck m = e.getKey();
+                    float[] f = e.getValue();
+                    float dx = m.position.x - f[0], dy = m.position.y - f[1];
+                    android.util.Log.i("ModWreck", "wreckshot moved=" + Math.round(Math.sqrt(dx * dx + dy * dy)) + " mass=" + Math.round(f[2])
+                        + " size=" + Math.round(Math.max(m.w, m.h)) + " art=" + (m.preDrawn ? m.art : "cut") + " removed=" + m.removed);
+                }
+                shotFrom.clear();
+            }
+            t33Shot = ws;
             // corsair_shieldpct=N: the shield drops to N percent (segments, sputter)
             String sp = testValue("corsair_shieldpct");
             if (sp != null && !sp.equals(t30Shield) && ps.shield != null) {

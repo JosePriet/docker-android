@@ -21,9 +21,19 @@
 
 .field f:Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
+.field fireLogged:Z
+
 .field hostileAnnounced:Z
 
 .field mounts:[F
+
+.field shot:F
+
+.field tAng:[F
+
+.field tKick:[I
+
+.field tReload:[I
 
 
 # direct methods

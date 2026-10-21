@@ -460,6 +460,7 @@ public final class ModCaps {
                 ModFx.spr("fx_shock", ps.position.x, ps.position.y, sz * (0.5f + 2.6f * grow), sz * (0.5f + 2.6f * grow), grow * 90, p.ar, p.ag, p.ab, k * 0.9f, true);
                 ModFx.spr("fx_streak", ps.position.x, ps.position.y, sz * 3.5f * (0.4f + k), sz * 0.6f, 0, 1, 1, 1, k, true);
             }
+            ModTitanAI.drawCallout(ps, sz);
         } catch (Exception e) {
             // visuals never break the frame
         }

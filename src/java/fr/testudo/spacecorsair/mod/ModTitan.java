@@ -154,6 +154,7 @@ public final class ModTitan {
     public static Drawable bullet(EnergyBullet e) {
         try {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+            if (e.sender instanceof fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip) return ModCapitals.bullet(e);
             if (e.sender == null || e.sender != ps) return null;
             int k = kind(ps);
             Drawable family = ModWeapons.bullet(e, k != NONE);

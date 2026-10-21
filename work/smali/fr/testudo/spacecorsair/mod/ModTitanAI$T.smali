@@ -53,6 +53,8 @@
     .end annotation
 .end field
 
+.field engaged:Z
+
 .field enrageMs:I
 
 .field enraged:Z
@@ -89,16 +91,18 @@
 
 .field trailAt:J
 
+.field wallSaid:J
+
 
 # direct methods
 .method constructor <init>()V
     .registers 2
 
     .prologue
-    .line 34
+    .line 36
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 35
+    .line 37
     const/16 v0, 0xfa0
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->a:I
@@ -111,7 +115,7 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->c:I
 
-    .line 40
+    .line 42
     new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>()V
@@ -124,33 +128,33 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->p2:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 43
+    .line 45
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->mirror:Ljava/util/ArrayList;
 
-    .line 44
+    .line 46
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->trail:Ljava/util/ArrayList;
 
-    .line 46
+    .line 48
     const/high16 v0, -0x40800000    # -1.0f
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->baseForce:F
 
-    .line 47
+    .line 49
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->domed:Ljava/util/ArrayList;
 
-    .line 48
+    .line 50
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V

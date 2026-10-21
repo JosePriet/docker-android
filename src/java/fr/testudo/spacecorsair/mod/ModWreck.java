@@ -19,6 +19,9 @@ import java.util.ArrayList;
  * - The player's own hull breaks up during the 4 s before the respawn screen; it is visual only and then removed.
  * - Alien hulls dissolve into spores instead (no pieces).
  * - Derelict sites (ModDerelict) use the same pieces, pre-broken and still.
+ * - v33: hulls with hand-drawn wreck art (wreck_<art>_a/_b[/_c], same canvas as the hull sprite, a = bow) break into those
+ *   pieces; the others keep the cut sprite with wreck_char burnt in toward the cuts. Pieces are heavy (mass from the
+ *   original hull size) and only drift: hits and rams barely move them.
  */
 public final class ModWreck extends Element {
     // ------------------------------------------------------------------ piece
@@ -35,6 +38,8 @@ public final class ModWreck extends Element {
     float tint = 0.62f;
     int derelictSite = -1;
     boolean[] group;            // shared by the pieces of one hull: loot rolls once per hull
+    boolean preDrawn;           // v33: hand-drawn wreck art (already burnt and torn: no tint, no edge strip, no char)
+    private float lastVx, lastVy;
     private final Vector2 phys = new Vector2(), vis = new Vector2();
     private final ModFx.Sprite spr = new ModFx.Sprite();
     private long nextVent;
@@ -58,6 +63,7 @@ public final class ModWreck extends Element {
         spr.h = h;
         spr.u0 = u0; spr.v0 = v0; spr.u1 = u1; spr.v1 = v1;
         spr.additive = false;
+        spr.overlay = preDrawn || derelict ? null : ModArt.ready("wreck_char");
         return spr;
     }
 
@@ -84,12 +90,36 @@ public final class ModWreck extends Element {
         return !visualOnly && super.isColidable();
     }
 
+    /** v33: the hull's mass from its drawn size (a cruiser ~200, a flagship ~1100). */
+    static float massFor(float size) {
+        return Math.max(20.0f, size * size / 2000.0f);
+    }
+
+    static final float MAX_DRIFT = 0.4f;   // speed units are per 10 ms: 40 world units a second at most
+
+    /** v33: whatever pushed the piece since the last frame (hits, rams, blasts) only moves it a little. */
     @Override
     public void doPhysic(long j) {
+        float dx = speed.x - lastVx, dy = speed.y - lastVy;
+        if (dx != 0 || dy != 0) speed.set(lastVx + dx * 0.3f, lastVy + dy * 0.3f);
+        float v2 = speed.x * speed.x + speed.y * speed.y;
+        if (v2 > MAX_DRIFT * MAX_DRIFT) speed.multiply(MAX_DRIFT / (float) Math.sqrt(v2));
         super.doPhysic(j);
+        lastVx = speed.x;
+        lastVy = speed.y;
         if (visualOnly && System.currentTimeMillis() - born > lifeMs) {
             vanish();
         }
+    }
+
+    /** v33: a projectile hit gives (almost) no push. */
+    @Override
+    protected float applyRebound(Element o, int n) {
+        if (!(o instanceof fr.testudo.spacecorsair.business.projectiles.Projectile)) return super.applyRebound(o, n);
+        float vx = speed.x, vy = speed.y;
+        float r = super.applyRebound(o, n);
+        speed.set(vx + (speed.x - vx) * 0.1f, vy + (speed.y - vy) * 0.1f);
+        return r;
     }
 
     private void vanish() {
@@ -113,10 +143,11 @@ public final class ModWreck extends Element {
             alpha = k > 0.75f ? Math.max(0, 1 - (k - 0.75f) / 0.25f) : 1.0f;
         }
         float hp = maxLife > 0 ? life / maxLife : 1;
-        ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(position, false, spr, spin, false, alpha, tint, tint * 0.94f, tint * 0.9f);
+        float tn = preDrawn ? 1.0f : spr.overlay != null ? Math.max(tint, 0.82f) : tint;   // char burns it in: less flat darkening
+        ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(position, false, spr, spin, false, alpha, tn, tn * 0.94f, tn * 0.9f);
         // torn hot edges along the cuts (cool down over ~20 s)
         float heat = derelict ? 0.25f : Math.max(0.25f, 1.0f - (now - born) / 20000.0f);
-        Texture et = ModArt.ready("wreck_edge");
+        Texture et = preDrawn ? null : ModArt.ready("wreck_edge");
         if (et != null) {
             if (cutTop) edge(et, v0, -h / 2, spin, heat, alpha, d.myTexture);
             if (cutBottom) edge(et, v1, h / 2, spin + 180, heat, alpha, d.myTexture);
@@ -220,20 +251,8 @@ public final class ModWreck extends Element {
             boolean elite = e instanceof Ennemis && ((Ennemis) e).elite;
             boolean boss = ModBoss.kindOf(e) >= 0;
             ModCapitals.Cap cap = ModCapitals.cap(e);
-            if (cap != null && cap.f != null) {
-                ModWreck[] capMade = breakUpCap(e, d, cap.f.key);
-                if (capMade != null) {
-                    for (ModWreck w : capMade) {
-                        if (w == null) continue;
-                        w.srcLevel = e.level;
-                        w.srcClass = cls;
-                        w.srcElite = elite;
-                        w.srcBoss = boss;
-                    }
-                    return;
-                }
-            }
-            ModWreck[] made = breakUp(e, d, cls, false, 0);
+            ModWreck[] made = breakUpArt(e, d, cap != null && cap.f != null ? "wreck_cap_" + cap.f.key : art == null ? null : "wreck_" + art);
+            if (made == null) made = breakUp(e, d, cls, false, 0);
             if (made != null) {
                 for (ModWreck w : made) {
                     if (w == null) continue;
@@ -248,10 +267,17 @@ public final class ModWreck extends Element {
         }
     }
 
-    /** Two pre-drawn cap halves for flagships; returns null if art not available. */
-    private static ModWreck[] breakUpCap(Element e, Drawable d, String key) {
-        String artA = "wreck_cap_" + key + "_a";
-        String artB = "wreck_cap_" + key + "_b";
+    /** v33 piece bands of the hand-drawn art (v ranges, overlapping so the jagged break is never clipped). */
+    private static final float[][] BANDS2 = {{0, 0.56f}, {0.44f, 1}};
+    private static final float[][] BANDS3 = {{0, 0.4f}, {0.3f, 0.7f}, {0.6f, 1}};
+
+    /**
+     * Hand-drawn wreck pieces <prefix>_a, _b (and _c): full-canvas images on the hull sprite's canvas, a = bow. Each piece
+     * shows its band of the canvas at the hull's own anchor. Null when the art does not exist (cut the sprite instead).
+     */
+    private static ModWreck[] breakUpArt(Element e, Drawable d, String prefix) {
+        if (prefix == null || ModArt.lazyTex(prefix + "_a") == null || ModArt.lazyTex(prefix + "_b") == null) return null;
+        int n = ModArt.lazyTex(prefix + "_c") != null ? 3 : 2;
         float W, H;
         if (d instanceof ModFx.Sprite) { W = ((ModFx.Sprite) d).w; H = ((ModFx.Sprite) d).h; }
         else if (d.dimensions != null) { W = d.dimensions.x; H = d.dimensions.y; }
@@ -260,32 +286,46 @@ public final class ModWreck extends Element {
         ModLive.fx("fx_explosion_big_sheet", 8, 64, e.position.x, e.position.y, s * 1.35f, 1300, 1.0f, 0.8f, 0.5f, true);
         debris(e.position, e.speed, s, 8);
         boolean[] grp = new boolean[1];
-        String[] arts = {artA, artB};
-        float[] offsets = {-0.25f, 0.25f};
-        ModWreck[] out = new ModWreck[2];
-        for (int i = 0; i < 2; i++) {
+        float[][] bands = n == 3 ? BANDS3 : BANDS2;
+        ModWreck[] out = new ModWreck[n];
+        for (int i = 0; i < n; i++) {
             ModWreck w = new ModWreck();
             w.group = grp;
-            w.art = arts[i];
-            w.u0 = 0; w.v0 = 0; w.u1 = 1; w.v1 = 1;
+            w.art = prefix + "_" + (char) ('a' + i);
+            w.preDrawn = true;
+            w.tint = 1.0f;
+            w.u0 = 0; w.u1 = 1;
+            w.v0 = bands[i][0]; w.v1 = bands[i][1];
+            w.cutTop = i > 0;                     // vents at the break
+            w.cutBottom = i < n - 1;
             w.w = W;
-            w.h = H * 0.5f;
-            a.set(0, offsets[i] * H).applyRotatation(Math.toRadians(e.spin));
-            w.position.setSameAs(e.position).add(a);
-            w.spin = e.spin;
-            float push = 0.3f + (float) Math.random() * 0.3f;
-            float len = Math.max(1, (float) Math.sqrt(a.x * a.x + a.y * a.y));
-            w.speed.set(e.speed.x * 0.6f + a.x / len * push, e.speed.y * 0.6f + a.y / len * push);
-            w.spinSpeed = (float) (Math.random() - 0.5) * 0.10f;
-            w.phys.set(Math.min(W, w.h) * 0.8f, Math.min(W, w.h) * 0.8f);
-            w.maxLife = Math.max(300.0f, e.maxLife * 0.2f);
-            w.life = w.maxLife;
-            w.level = e.level;
-            w.updateSapCoords();
+            w.h = H * (w.v1 - w.v0);
+            place(w, e, H, s);
             out[i] = w;
             add(w);
         }
         return out;
+    }
+
+    /** Position, slow break-apart drift and mass of a piece cut from the hull e (band v0..v1 of a sprite H high). */
+    private static void place(ModWreck w, Element e, float H, float size) {
+        float ly = ((w.v0 + w.v1) / 2 - 0.5f) * H;
+        a.set(0, ly).applyRotatation(Math.toRadians(e.spin));
+        w.position.setSameAs(e.position).add(a);
+        w.spin = e.spin;
+        // apart along the long axis, plus a little of the hull's own drift and a slow tumble; heavier hulls drift slower
+        float push = (0.25f + (float) Math.random() * 0.25f) * Math.min(1.0f, 400.0f / Math.max(400.0f, size) + 0.3f);
+        float len = Math.max(1, (float) Math.sqrt(a.x * a.x + a.y * a.y));
+        w.speed.set(e.speed.x * 0.3f + a.x / len * push, e.speed.y * 0.3f + a.y / len * push);
+        float v2 = w.speed.x * w.speed.x + w.speed.y * w.speed.y;
+        if (v2 > MAX_DRIFT * MAX_DRIFT) w.speed.multiply(MAX_DRIFT / (float) Math.sqrt(v2));
+        w.spinSpeed = (float) (Math.random() - 0.5) * 0.05f;
+        w.phys.set(Math.min(w.w, w.h) * 0.8f, Math.min(w.w, w.h) * 0.8f);
+        w.mass = massFor(size);
+        w.maxLife = Math.max(300.0f, e.maxLife * 0.2f);
+        w.life = w.maxLife;
+        w.level = e.level;
+        w.updateSapCoords();
     }
 
     /** Metal chunks (debris_sheet cells) flung out from a point. */
@@ -330,22 +370,14 @@ public final class ModWreck extends Element {
             w.cutBottom = i < n - 1;
             w.w = W;
             w.h = H * (w.v1 - w.v0);
-            float ly = ((w.v0 + w.v1) / 2 - 0.5f) * H;
-            a.set(0, ly).applyRotatation(Math.toRadians(e.spin));
-            w.position.setSameAs(e.position).add(a);
-            w.spin = e.spin;
-            // apart along the long axis, plus the hull's own drift and a tumble
-            float push = 0.35f + (float) Math.random() * 0.35f;
-            float len = Math.max(1, (float) Math.sqrt(a.x * a.x + a.y * a.y));
-            w.speed.set(e.speed.x * 0.6f + a.x / len * push, e.speed.y * 0.6f + a.y / len * push);
-            w.spinSpeed = (float) (Math.random() - 0.5) * 0.12f;
-            w.phys.set(Math.min(W, w.h) * 0.8f, Math.min(W, w.h) * 0.8f);
-            w.maxLife = Math.max(300.0f, e.maxLife * 0.2f);
-            w.life = w.maxLife;
-            w.level = e.level;
+            // char toward the cuts (wreck_char darkens toward its v = 1 edge): v 0 at the far end, 1 at the cut
+            w.spr.ou0 = (float) Math.random() * 0.5f;
+            w.spr.ou1 = w.spr.ou0 + 0.5f;
+            w.spr.ovTop = w.cutTop ? 1.0f : 0.0f;
+            w.spr.ovBottom = !w.cutBottom ? 0.0f : w.cutTop ? 0.3f : 1.0f;   // middle piece: the bow-side cut darkest
+            place(w, e, H, s);
             w.visualOnly = visualOnly;
             w.lifeMs = lifeMs;
-            w.updateSapCoords();
             out[i] = w;
             add(w);
         }
@@ -353,6 +385,8 @@ public final class ModWreck extends Element {
     }
 
     static void add(ModWreck w) {
+        w.lastVx = w.speed.x;
+        w.lastVy = w.speed.y;
         if (w.visualOnly) {
             ObjectRegistry.INSTANCE.game.currentLevel.toAddDrawOnly.add(w);
             return;

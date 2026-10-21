@@ -251,8 +251,8 @@ public final class ModWeapons {
     }
 
     // ------------------------------------------------------------------ impacts
-    private static Element rampTarget;
-    private static long rampSince;
+    private static Element rampTarget, rampTargetE;
+    private static long rampSince, rampSinceE, rampLastE;
     private static final ArrayList<Element> near = new ArrayList<Element>();
     static final float[] arcs = new float[6 * 8];   // x1,y1,x2,y2,ttl,unused per arc
     static int arcCount;
@@ -264,9 +264,17 @@ public final class ModWeapons {
             if (f < 0 || target == null) return;
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             float[] c = COLOR[f];
+            boolean mine = b.sender == ps;          // v33: flagship batteries fire the families too: no splash/chains on the player's side
             switch (f) {
                 case DISINT: {
                     long now = System.currentTimeMillis();
+                    if (!mine) {
+                        if (target != rampTargetE || now - rampLastE > 1000) { rampTargetE = target; rampSinceE = now; }   // a pause restarts the ramp
+                        rampLastE = now;
+                        b.damage *= 1 + Math.min(1.0f, (now - rampSinceE) / 3000.0f);
+                        ModFx.part("fx_core", target.position.x, target.position.y, 0, 0, 160, 30, 90, 1.0f, 0.35f, 0.3f, 0.9f, true, true);
+                        break;
+                    }
                     if (target != rampTarget) { rampTarget = target; rampSince = now; }
                     float ramp = Math.min(1.0f, (now - rampSince) / 3000.0f);   // +100% after 3 s on the same target
                     b.damage *= 1 + ramp;
@@ -274,12 +282,14 @@ public final class ModWeapons {
                     break;
                 }
                 case ARTY: {
-                    Mod.enemiesInto(near);
+                    if (mine) Mod.enemiesInto(near);
+                    else near.clear();
                     for (int i = 0; i < near.size(); i++) {
                         Element e = near.get(i);
                         if (e == target || e.removed) continue;
                         if (e.position.distance(target.position) < 180) e.applyDamage(b.damage * 0.5f, b.sender, b);
                     }
+                    if (!mine && ps != null && target != ps && ps.position.distance(target.position) < 220) ps.applyDamage(b.damage * 0.5f, b.sender, b);
                     ModFx.part("fx_core", target.position.x, target.position.y, 0, 0, 260, 40, 260, 1.0f, 0.75f, 0.4f, 1.0f, true, true);
                     ModFx.part("fx_shock", target.position.x, target.position.y, 0, 0, 380, 40, 380, 1.0f, 0.55f, 0.2f, 0.8f, true, true);
                     for (int i = 0; i < 4; i++) {
@@ -290,7 +300,8 @@ public final class ModWeapons {
                     break;
                 }
                 case ARC: {
-                    Mod.enemiesInto(near);
+                    if (mine) Mod.enemiesInto(near);
+                    else near.clear();
                     Element from = target;
                     int jumps = 0;
                     for (int n = 0; n < 2; n++) {

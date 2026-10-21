@@ -235,7 +235,7 @@
 
     if-eqz v2, :cond_15
 
-    .line 466
+    .line 467
     :cond_14
     :goto_14
     return-void
@@ -786,7 +786,7 @@
 
     cmp-long v2, v2, v4
 
-    if-gez v2, :cond_434
+    if-gez v2, :cond_43b
 
     const/high16 v11, 0x3f800000    # 1.0f
 
@@ -874,7 +874,7 @@
 
     cmp-long v2, v2, v4
 
-    if-gez v2, :cond_439
+    if-gez v2, :cond_440
 
     const/high16 v11, 0x3f800000    # 1.0f
 
@@ -1060,7 +1060,7 @@
 
     iget v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->data:I
 
-    if-ltz v2, :cond_43e
+    if-ltz v2, :cond_445
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModFxData;->RADIUS:[F
 
@@ -1185,7 +1185,7 @@
 
     cmp-long v2, v2, v6
 
-    if-nez v2, :cond_443
+    if-nez v2, :cond_44a
 
     const-wide/16 v2, 0x10
 
@@ -1198,7 +1198,7 @@
     .line 456
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->warp:I
 
-    if-lez v2, :cond_14
+    if-lez v2, :cond_42f
 
     .line 457
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->warp:I
@@ -1397,34 +1397,42 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
+    .line 463
+    :cond_42f
+    move-object/from16 v0, p0
+
+    move/from16 v1, v23
+
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->drawCallout(Lfr/testudo/spacecorsair/business/player/PlayerShip;F)V
+
     goto/16 :goto_14
 
-    .line 463
-    :catch_431
+    .line 464
+    :catch_438
     move-exception v2
 
     goto/16 :goto_14
 
     .line 427
-    :cond_434
+    :cond_43b
     const v11, 0x3e19999a    # 0.15f
 
     goto/16 :goto_1ff
 
     .line 432
-    :cond_439
+    :cond_440
     const v11, 0x3e19999a    # 0.15f
 
     goto/16 :goto_24d
 
     .line 443
-    :cond_43e
+    :cond_445
     const v2, 0x3ee66666    # 0.45f
 
     goto/16 :goto_2ff
 
     .line 453
-    :cond_443
+    :cond_44a
     const-wide/16 v2, 0x64
 
     sget-wide v6, Lfr/testudo/spacecorsair/mod/ModCaps;->lastDraw:J
@@ -1432,8 +1440,8 @@
     sub-long v6, v4, v6
 
     invoke-static {v2, v3, v6, v7}, Ljava/lang/Math;->min(JJ)J
-    :try_end_44c
-    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_44c} :catch_431
+    :try_end_453
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_453} :catch_438
 
     move-result-wide v2
 
@@ -3152,18 +3160,18 @@
     .registers 21
 
     .prologue
-    .line 471
+    .line 472
     :try_start_0
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModCaps;->profile(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Lfr/testudo/spacecorsair/mod/ModCaps$Profile;
 
     move-result-object v18
 
-    .line 472
+    .line 473
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModCaps;->size(Lfr/testudo/spacecorsair/business/player/PlayerShip;)F
 
     move-result v19
 
-    .line 473
+    .line 474
     const/4 v2, -0x1
 
     move/from16 v17, v2
@@ -3175,7 +3183,7 @@
 
     if-gt v0, v2, :cond_115
 
-    .line 474
+    .line 475
     move-object/from16 v0, v18
 
     iget v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->data:I
@@ -3192,7 +3200,7 @@
 
     move-object v4, v2
 
-    .line 475
+    .line 476
     :goto_1f
     if-nez v4, :cond_f0
 
@@ -3208,13 +3216,13 @@
 
     move v3, v2
 
-    .line 476
+    .line 477
     :goto_2b
     if-nez v4, :cond_102
 
     const/4 v2, 0x0
 
-    .line 477
+    .line 478
     :goto_2e
     move-object/from16 v0, p0
 
@@ -3228,7 +3236,7 @@
 
     invoke-static {v4, v5, v3, v2, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 478
+    .line 479
     const-string v2, "fx_core"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3267,7 +3275,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 479
+    .line 480
     const-string v2, "fx_ring"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3306,7 +3314,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 480
+    .line 481
     const/4 v2, 0x0
 
     move/from16 v16, v2
@@ -3318,7 +3326,7 @@
 
     if-ge v0, v2, :cond_10f
 
-    .line 481
+    .line 482
     move-object/from16 v0, p0
 
     iget v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->spin:F
@@ -3349,7 +3357,7 @@
 
     move-result-wide v6
 
-    .line 482
+    .line 483
     const/high16 v2, 0x43480000    # 200.0f
 
     const/high16 v3, 0x43d20000    # 420.0f
@@ -3358,7 +3366,7 @@
 
     move-result v8
 
-    .line 483
+    .line 484
     const-string v2, "fx_spark"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3405,24 +3413,24 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 484
+    .line 485
     const v2, 0x3d8f5c29    # 0.07f
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFx;->lastStretch(F)V
 
-    .line 485
+    .line 486
     const/high16 v2, 0x40000000    # 2.0f
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFx;->lastDrag(F)V
 
-    .line 480
+    .line 481
     add-int/lit8 v2, v16, 0x1
 
     move/from16 v16, v2
 
     goto :goto_8b
 
-    .line 474
+    .line 475
     :cond_ec
     const/4 v2, 0x0
 
@@ -3430,7 +3438,7 @@
 
     goto/16 :goto_1f
 
-    .line 475
+    .line 476
     :cond_f0
     if-gez v17, :cond_fe
 
@@ -3456,7 +3464,7 @@
 
     goto :goto_f5
 
-    .line 476
+    .line 477
     :cond_102
     if-gez v17, :cond_10b
 
@@ -3476,7 +3484,7 @@
 
     goto :goto_107
 
-    .line 473
+    .line 474
     :cond_10f
     add-int/lit8 v2, v17, 0x2
 
@@ -3484,7 +3492,7 @@
 
     goto/16 :goto_b
 
-    .line 488
+    .line 489
     :cond_115
     const-string v2, "bay_launch"
 
@@ -3498,11 +3506,11 @@
     :try_end_121
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_121} :catch_122
 
-    .line 492
+    .line 493
     :goto_121
     return-void
 
-    .line 489
+    .line 490
     :catch_122
     move-exception v2
 
