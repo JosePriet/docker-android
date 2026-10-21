@@ -117,13 +117,16 @@ elif [ $GAME = sc ]; then
   T=/data/local/tmp
   SHORT=   # set to 1 to skip the Warlord/Harbinger stages
   HARB=    # set to 1 to run the Harbinger stage (v33: off)
+  QUICK=1  # v33 recheck: wrecks + the Bastion only (no shields, derelict, other flagships, map, death)
   if [ -z "$SHORT" ] && fly hullWarlord Warlord warlord; then
     sleep 4; shot warlord_living
     a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2; shot warlord_thrust; a shell input motionevent UP 222 650
-    for P in 100 60 30 15 0; do a shell "echo $P > $T/corsair_shieldpct; chmod 644 $T/corsair_*"; sleep 1.6; shot shield_$P; done
+    [ -z "$QUICK" ] && for P in 100 60 30 15 0; do a shell "echo $P > $T/corsair_shieldpct; chmod 644 $T/corsair_*"; sleep 1.6; shot shield_$P; done
+    if [ -z "$QUICK" ]; then
     sleep 0.4; shot shield_0_fizzle
     a shell "rm -f $T/corsair_shieldpct"; sleep 1
     a shell "touch $T/corsair_shieldbreak; chmod 644 $T/corsair_*"; sleep 0.9; shot reboot_a; sleep 0.5; shot reboot_b; a shell "rm -f $T/corsair_shieldbreak"; sleep 2; shot reboot_c
+    fi
     # enemies: hostile markers, warm rims, red engines; living alien enemy
     a shell "echo albatros,elite > $T/corsair_spawn; chmod 644 $T/corsair_*"; sleep 4; shot enemy_albatros
     a shell "echo blatte > $T/corsair_spawn"; sleep 4; shot enemy_blatte
@@ -139,7 +142,7 @@ elif [ $GAME = sc ]; then
     a shell "rm -f $T/corsair_wreckhit"
     sleep 2; shot loot_beams_2
     # derelict site (The Split Guardian)
-    a shell "echo 5 > $T/corsair_derelict; chmod 644 $T/corsair_*"; sleep 7; shot derelict_1; sleep 3; shot derelict_2
+    [ -z "$QUICK" ] && { a shell "echo 5 > $T/corsair_derelict; chmod 644 $T/corsair_*"; sleep 7; shot derelict_1; sleep 3; shot derelict_2; }
     [ -z "$HARB" ] && sleep 12   # the ship-switch cooldown only runs in flight
   fi
   if [ -z "$SHORT" ] && [ -n "$HARB" ] && fly hullHarbinger Harbinger harbinger; then
@@ -150,13 +153,15 @@ elif [ $GAME = sc ]; then
   if fly hullLeviathan Leviathan leviathan; then
     sleep 5; shot leviathan_player_titan
     # v33: every flagship's batteries + skill callouts (logcat ModCapitals / ModTitanAI); the reaver harpoon goes last
-    for C in ironclad spartan helion warden kretari varn reaver; do
+    CAPS="ironclad spartan helion warden kretari varn reaver"; [ -n "$QUICK" ] && CAPS="ironclad helion"
+    for C in $CAPS; do
       a shell "echo $C > $T/corsair_capital && chmod 644 $T/corsair_capital"; sleep 5; shot cap_${C}_neutral
       a shell "touch $T/corsair_capfight; chmod 644 $T/corsair_*"; sleep 2; shot cap_${C}_fight_1; sleep 1.5; shot cap_${C}_fight_2; sleep 1.5; shot cap_${C}_fight_3
       if [ $C = ironclad ]; then for i in 4 5 6 7 8 9; do sleep 1.3; shot cap_${C}_fight_$i; done; fi
       a shell "rm -f $T/corsair_capfight"
     done
     a shell "rm -f $T/corsair_capital"
+    if [ -z "$QUICK" ]; then
     # galaxy map territories (no tutorial dialog now)
     tap 1960 180; sleep 4; shot map_radar
     tap 164 905; sleep 8; shot map_1
@@ -165,6 +170,7 @@ elif [ $GAME = sc ]; then
     back 3; tap 1960 180; sleep 3; noexit
     # player death: break-up before the respawn screen
     a shell "touch $T/corsair_die; chmod 644 $T/corsair_*"; sleep 0.7; shot death_1; sleep 1.0; shot death_2; sleep 1.3; shot death_3; sleep 3; shot death_after
+    fi
   fi
   a shell "rm -f $T/corsair_page $T/corsair_spawn $T/corsair_derelict $T/corsair_die $T/corsair_level $T/corsair_capital"
 else
