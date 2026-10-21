@@ -165,7 +165,8 @@ public final class ModTitanAI {
         if (left <= 0) { callText = null; return; }
         float al = Math.min(1.0f, left / 500.0f) * Math.min(1.0f, (callMs - left) / 120.0f + 0.2f);
         float half = fr.testudo.spacecorsair.engine.GameRenderer.glTextLarge.getLength(t) / 2.0f;
-        callAt.setSameAs(ps.position).add(-half, Math.max(260.0f, sz * 0.75f + 160.0f));
+        // across the player's own hull: above it a big flagship anchored ahead covers it (emulator run v33)
+        callAt.setSameAs(ps.position).add(-half, -sz * 0.12f);
         ObjectRegistry.INSTANCE.renderQueue.addTextToTextWaitingQueue(callAt, false, t, cr, cg, cb, al, fr.testudo.spacecorsair.textengine.TextSize.LARGE);
     }
 

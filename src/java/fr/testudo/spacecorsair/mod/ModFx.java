@@ -40,11 +40,9 @@ public final class ModFx {
         boolean repeatT;
         /** v30: draw the texture's shape in the flat tint colour (rim lights): RGB = vertex colour, alpha = texture alpha. */
         boolean flat;
-        /** v33: second texture multiplied over the RGB (wreck char), x4 so its bright half leaves the sprite as is;
-         *  alpha stays the sprite's. ov* = its UV corners (top-left, top-right, bottom-left, bottom-right v). */
-        Texture overlay;
-        float ou0 = 0, ou1 = 1, ovTop = 0, ovBottom = 1;
-        private FloatBuffer uv, ovUv;
+        /** v33: per-corner alpha, v0 side then v1 side (x the queued alpha); null = uniform. Wreck burn gradients. */
+        float[] edgeA;
+        private FloatBuffer uv, col;
         private float bu0 = 0, bv0 = 0, bu1 = 1, bv1 = 1;
 
         void fullUV() {
@@ -76,11 +74,6 @@ public final class ModFx {
             }
             Texture t = myTexture;
             if (t == null) return;
-            Texture ov = overlay;
-            if (ov instanceof ModArt.Lazy) {
-                ModArt.use(gl, (ModArt.Lazy) ov);
-                if (!((ModArt.Lazy) ov).resident) ov = null;
-            }
             if (t instanceof ModArt.Lazy) ModArt.use(gl, (ModArt.Lazy) t);
             if (additive) gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
             gl.glEnable(GL10.GL_TEXTURE_2D);
@@ -114,33 +107,18 @@ public final class ModFx {
                 gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8589, 0x8577);                          // SRC1_ALPHA = PRIMARY_COLOR
                 gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8599, 0x0302);               // OPERAND1_ALPHA
             }
-            if (ov != null) {
-                if (ovUv == null) ovUv = buf(new float[8]);
-                ovUv.put(0, ou0); ovUv.put(1, ovTop); ovUv.put(2, ou1); ovUv.put(3, ovTop);
-                ovUv.put(4, ou0); ovUv.put(5, ovBottom); ovUv.put(6, ou1); ovUv.put(7, ovBottom);
-                gl.glActiveTexture(GL10.GL_TEXTURE1);
-                gl.glClientActiveTexture(GL10.GL_TEXTURE1);
-                gl.glEnable(GL10.GL_TEXTURE_2D);
-                gl.glBindTexture(GL10.GL_TEXTURE_2D, ov.name);
-                gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-                gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, ovUv);
-                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, 0x8570);        // GL_COMBINE
-                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8571, GL10.GL_MODULATE);                // COMBINE_RGB
-                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8580, 0x8578);                          // SRC0_RGB = PREVIOUS
-                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8581, GL10.GL_TEXTURE);                 // SRC1_RGB = TEXTURE
-                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8573, 4.0f);                            // RGB_SCALE
-                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8572, GL10.GL_REPLACE);                 // COMBINE_ALPHA
-                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8588, 0x8578);                          // SRC0_ALPHA = PREVIOUS
+            float[] ea = edgeA;
+            if (ea != null) {
+                if (col == null) col = buf(new float[16]);
+                for (int i = 0; i < 4; i++) {
+                    col.put(i * 4, r); col.put(i * 4 + 1, g); col.put(i * 4 + 2, b);
+                    col.put(i * 4 + 3, a * (i < 2 ? ea[0] : ea[1]));
+                }
+                gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+                gl.glColorPointer(4, GL10.GL_FLOAT, 0, col);
             }
             gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
-            if (ov != null) {
-                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, 0x8573, 1.0f);
-                gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE);
-                gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-                gl.glDisable(GL10.GL_TEXTURE_2D);
-                gl.glActiveTexture(GL10.GL_TEXTURE0);
-                gl.glClientActiveTexture(GL10.GL_TEXTURE0);
-            }
+            if (ea != null) gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
             if (fl) gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE);
             if (rep) gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
             gl.glColor4f(1, 1, 1, 1);

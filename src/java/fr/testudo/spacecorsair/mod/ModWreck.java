@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * - Alien hulls dissolve into spores instead (no pieces).
  * - Derelict sites (ModDerelict) use the same pieces, pre-broken and still.
  * - v33: hulls with hand-drawn wreck art (wreck_<art>_a/_b[/_c], same canvas as the hull sprite, a = bow) break into those
- *   pieces; the others keep the cut sprite with wreck_char burnt in toward the cuts. Pieces are heavy (mass from the
+ *   pieces; the others keep the cut sprite, scorched toward the cuts (flat dark gradient + char marks). Pieces are heavy (mass from the
  *   original hull size) and only drift: hits and rams barely move them.
  */
 public final class ModWreck extends Element {
@@ -42,6 +42,10 @@ public final class ModWreck extends Element {
     private float lastVx, lastVy;
     private final Vector2 phys = new Vector2(), vis = new Vector2();
     private final ModFx.Sprite spr = new ModFx.Sprite();
+    private final ModFx.Sprite burnSpr = new ModFx.Sprite();
+    private final float[] burnA = new float[2];   // v33 burn alpha at the v0 / v1 edge
+    private float[] scorch;
+    private float scorchSize;
     private long nextVent;
 
     ModWreck() {
@@ -63,7 +67,6 @@ public final class ModWreck extends Element {
         spr.h = h;
         spr.u0 = u0; spr.v0 = v0; spr.u1 = u1; spr.v1 = v1;
         spr.additive = false;
-        spr.overlay = preDrawn || derelict ? null : ModArt.ready("wreck_char");
         return spr;
     }
 
@@ -143,8 +146,36 @@ public final class ModWreck extends Element {
             alpha = k > 0.75f ? Math.max(0, 1 - (k - 0.75f) / 0.25f) : 1.0f;
         }
         float hp = maxLife > 0 ? life / maxLife : 1;
-        float tn = preDrawn ? 1.0f : spr.overlay != null ? Math.max(tint, 0.82f) : tint;   // char burns it in: less flat darkening
+        boolean burn = !preDrawn && !derelict && (cutTop || cutBottom);
+        float tn = preDrawn ? 1.0f : burn ? Math.max(tint, 0.8f) : tint;   // the burn does the darkening near the cuts
         ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(position, false, spr, spin, false, alpha, tn, tn * 0.94f, tn * 0.9f);
+        if (burn) {
+            // scorched toward the cuts: the piece's silhouette again in near-black, fading out away from the break
+            burnSpr.myTexture = spr.myTexture;
+            burnSpr.w = w; burnSpr.h = h;
+            burnSpr.u0 = u0; burnSpr.v0 = v0; burnSpr.u1 = u1; burnSpr.v1 = v1;
+            burnSpr.additive = false;
+            burnSpr.flat = true;
+            burnSpr.edgeA = burnA;
+            ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(position, false, burnSpr, spin, false, alpha * 0.85f, 0.07f, 0.05f, 0.04f);
+            if (scorch == null) {
+                scorch = new float[4];
+                for (int i = 0; i < 2; i++) {               // two char marks on the hull's real width near a cut
+                    boolean top = cutTop && (!cutBottom || i == 0);
+                    float vv = top ? v0 + (v1 - v0) * 0.12f : v1 - (v1 - v0) * 0.12f;
+                    float x0 = 0.4f, x1 = 0.6f;
+                    if (ModArt.span(spr.myTexture, Math.min(0.999f, Math.max(0, vv)), sp) != null) { x0 = sp[0]; x1 = sp[1]; }
+                    scorch[2 * i] = (x0 + (x1 - x0) * (0.3f + 0.4f * (float) Math.random()) - 0.5f) * w;
+                    scorch[2 * i + 1] = (top ? -0.38f : 0.38f) * h;
+                    scorchSize = Math.max(scorchSize, (x1 - x0) * w * 0.35f);
+                }
+            }
+            for (int i = 0; i < 2; i++) {
+                b.set(scorch[2 * i], scorch[2 * i + 1]).applyRotatation(Math.toRadians(spin)).add(position);
+                float ss = Math.min(scorchSize, h * 0.5f);
+                ModFx.spr("fx_scorch", b.x, b.y, ss, ss, spin + i * 97, 1, 1, 1, 0.8f * alpha, false);
+            }
+        }
         // torn hot edges along the cuts (cool down over ~20 s)
         float heat = derelict ? 0.25f : Math.max(0.25f, 1.0f - (now - born) / 20000.0f);
         Texture et = preDrawn ? null : ModArt.ready("wreck_edge");
@@ -370,11 +401,8 @@ public final class ModWreck extends Element {
             w.cutBottom = i < n - 1;
             w.w = W;
             w.h = H * (w.v1 - w.v0);
-            // char toward the cuts (wreck_char darkens toward its v = 1 edge): v 0 at the far end, 1 at the cut
-            w.spr.ou0 = (float) Math.random() * 0.5f;
-            w.spr.ou1 = w.spr.ou0 + 0.5f;
-            w.spr.ovTop = w.cutTop ? 1.0f : 0.0f;
-            w.spr.ovBottom = !w.cutBottom ? 0.0f : w.cutTop ? 0.3f : 1.0f;   // middle piece: the bow-side cut darkest
+            w.burnA[0] = w.cutTop ? 0.9f : 0.0f;          // burnt black at a cut, the far end untouched
+            w.burnA[1] = w.cutBottom ? 0.9f : 0.0f;
             place(w, e, H, s);
             w.visualOnly = visualOnly;
             w.lifeMs = lifeMs;
