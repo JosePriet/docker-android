@@ -1,4 +1,4 @@
-# Current task: v33
+# Current task: v33 (code done 2026-10-21; awaiting phone test and release)
 
 ## Goal
 Make faction flagships feel like flagships and wrecks look and behave like EVE wrecks (owner feedback after v31). Use the ChatGPT v32 art (wrecks, flagship weapons, skill telegraphs) when it arrives.
