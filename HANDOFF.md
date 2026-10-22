@@ -1,4 +1,4 @@
-# Handoff (state at v33, 2026-10-21)
+# Handoff (state at v34, 2026-10-22)
 
 ## Current progress
 - Released: v31 (https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-mod-signed-v31.apk). v30 added shields, wrecks, loot, derelicts, bosses, flagship skills, side markers and living ships; v31 had small fixes.
@@ -8,6 +8,10 @@
   - `wreck_<art>_a/_b[/_c]`: per-hull wreck pieces, full canvas of the hull sprite (`<art>` = ModArt.artOf name, e.g. orig_* or hull art), a = bow. Flagships: `wreck_cap_<key>_a/_b` (already shipped).
   - `proj_cap_<key>`: flagship shell sprite (drawn additive, ~45x90 world units, nose up).
   - `tele_cap_<key>`: telegraph art (ironclad strike marker; warden snipe / reaver ram lane strips).
+
+- v34 (2026-10-22, branch sc-mod-workspace, not released): core systems from TASK.md (level cap 40, enemy curve x class x tier, elites/bosses, pilot ATK/DEF/REA, counters, weapon rules and slots, industrials retired, bounty/death fee/rare salvage, reskin weapon families, stat block, hide-until-art). Full list, gaps and unrequested changes: /mnt/project-files/audits/v34-changes.md. Directive audit: audits/v34-directive-audit.md. Reviewed by a verifier + cross-check agent pair twice (owner rule); confirmed findings fixed in parts 6-7.
+- v34 gaps: req 12 (stock gear rarity pricing), 14 (faction hulls/weapons in NPC pools), 16 (top-region finale), 10 name tags + enemy_<art>, 13 mission reward/standing retune, Spanish for all new strings (GPT is writing them; Claude does the final pass). Energy regen dropped (no energy stat; owner OK).
+- v34 emulator run: sc-v34 (GitHub run 39706373726).
 
 ## Changed files (v30-v31)
 New: ModLive, ModWreck, ModTitanAI, ModDerelict, ModV30Data. Changed: ModShield, ModLoot, ModBoss, ModCapitals, ModCaps, ModArt, ModFx, ModDev, ModQol. Hooks: `src/patch/hooks30.py`, `hooks30b.py`, `hooks30c.py` (all applied).
@@ -33,4 +37,5 @@ New: ModLive, ModWreck, ModTitanAI, ModDerelict, ModV30Data. Changed: ModShield,
 - The reaver harpoon can pull the player into a station dock during tests; run that flagship last.
 
 ## Next action
-Owner tests v33 on the phone (flagship fight feel, wreck look, battery balance); then `scripts/release.sh v33 ...`. Key: owner uploads `key.p12` into the session (never in git).
+Read the sc-v34 results; fix crashes. Owner phone-tests v33 and v34; add GPT's ES strings to i18n; then release. v35 per TASK draft (refits: tier upgrades only enhance what a hull is already good at + one faction strength).
+Previous: owner tests v33 on the phone (flagship fight feel, wreck look, battery balance); then `scripts/release.sh v33 ...`. Key: owner uploads `key.p12` into the session (never in git).
