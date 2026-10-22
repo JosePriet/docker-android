@@ -231,13 +231,13 @@ public class ModLoot {
             if (w.lootKey != null) ModSector.looted(w.lootKey);   // v35: kept wrecks and wreck fields remember it
             int lvl = Math.max(1, w.srcLevel > 0 ? w.srcLevel : ObjectRegistry.INSTANCE.game.playerInfo.level);
             boolean field = w.lootKey != null && w.lootKey.startsWith("field:");   // owner 2026-10-22: wreck-field hulls always hold loot
-            float p = w.srcBoss || field ? 1.0f : Math.min(1.0f, (w.derelict ? 0.6f : w.srcElite ? 0.7f : 0.35f) * ModV35.lootMult());   // v35: Varn refit trait
+            float p = w.srcBoss || field ? 1.0f : Math.min(1.0f, (w.husk ? 0.15f : w.derelict ? 0.6f : w.srcElite ? 0.7f : 0.35f) * ModV35.lootMult());   // v35: Varn refit trait; husks a small roll (owner)
             if (Math.random() >= p) return;
             int bonus = (w.derelict ? 1 : 0) + (w.srcBoss ? 2 : 0);
-            LootRarety wr = roll(lvl, Math.max(2, w.srcClass), w.srcElite, bonus);
+            LootRarety wr = roll(lvl, w.husk ? 1 : Math.max(2, w.srcClass), w.srcElite, bonus);   // husks roll as a destroyer kill
             SpaceObjectType wt = wr.getRaretySort() >= LootRarety.RARE.getRaretySort() && Math.random() < (w.derelict ? 0.5 : 0.3) ? factionItem() : null;
             drop(w, wt != null ? wt : pick(wr, lvl));
-            if (Math.random() < 0.12) drop(w, SpaceObjectType.valueOf(ModWeapons.typeName((int) (Math.random() * ModWeapons.COUNT), tierForPilot())));
+            if (!w.husk && Math.random() < 0.12) drop(w, SpaceObjectType.valueOf(ModWeapons.typeName((int) (Math.random() * ModWeapons.COUNT), tierForPilot())));
         } catch (Throwable t) {
             // ignore
         }

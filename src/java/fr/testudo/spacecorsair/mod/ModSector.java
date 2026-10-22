@@ -485,7 +485,7 @@ public final class ModSector {
                 if (b.length() > 0) b.append(';');
                 b.append(art).append(',').append(w.v0).append(',').append(w.v1).append(',').append(w.w).append(',').append(w.h).append(',')
                     .append(w.position.x).append(',').append(w.position.y).append(',').append(w.spin).append(',').append(w.preDrawn ? 1 : 0)
-                    .append(',').append(w.cutTop ? 1 : 0).append(',').append(w.cutBottom ? 1 : 0);
+                    .append(',').append(w.cutTop ? 1 : 0).append(',').append(w.cutBottom ? 1 : 0).append(",0");   // last: shot
             }
             if (b.length() == 0) return;
             SharedPreferences p = ModQol.prefs();
@@ -494,9 +494,40 @@ public final class ModSector {
             long now = play();
             String rec = id.name() + "|" + now + "|0|" + b + "|0," + level + "," + (boss ? 1 : 0);
             p.edit().putString("v35_wrecks", all.length() == 0 ? rec : all + "\n" + rec).apply();
-            for (ModWreck w : made) if (w != null) w.lootKey = "keep:" + id.name() + "|" + now;
+            int idx = 0;
+            for (ModWreck w : made) {
+                if (w == null) continue;
+                String art = w.art != null ? w.art : ModArt.artOf(w.tex);
+                if (art == null) continue;
+                w.lootKey = "keep:" + id.name() + "|" + now;
+                w.pieceIdx = idx++;
+            }
         } catch (Throwable t) {
             // the wreck stays for this visit only
+        }
+    }
+
+    /** ModWreck.onDestroyed: a piece of a kept flagship wreck was shot apart; it does not come back. */
+    static void pieceShot(String key, int idx) {
+        try {
+            SharedPreferences p = ModQol.prefs();
+            if (p == null || !key.startsWith("keep:")) return;
+            String id = key.substring(5);
+            StringBuilder b = new StringBuilder();
+            for (String rec : p.getString("v35_wrecks", "").split("\n")) {
+                if (rec.length() == 0) continue;
+                if (b.length() > 0) b.append('\n');
+                String[] f = rec.split("\\|", -1);
+                if (f.length > 3 && (f[0] + "|" + f[1]).equals(id)) {
+                    String[] pcs = f[3].split(";");
+                    if (idx < pcs.length && pcs[idx].endsWith(",0")) pcs[idx] = pcs[idx].substring(0, pcs[idx].length() - 1) + "1";
+                    f[3] = android.text.TextUtils.join(";", pcs);
+                    b.append(android.text.TextUtils.join("|", f));
+                } else b.append(rec);
+            }
+            p.edit().putString("v35_wrecks", b.toString()).apply();
+        } catch (Throwable t) {
+            // the piece comes back next visit
         }
     }
 
@@ -544,13 +575,16 @@ public final class ModSector {
             String[] loot = (f.length > 4 ? f[4] : "1,1,0").split(",");   // looted, level, boss (records before part 5: looted)
             keep.append(f[0]).append('|').append(made).append('|').append(visits).append('|').append(f[3]).append('|').append(f.length > 4 ? f[4] : "1,1,0");
             if (!f[0].equals(id.name())) continue;
-            boolean[] grp = {"1".equals(loot[0])};         // owner 2026-10-22: a hull not looted on the kill visit keeps its loot
-            for (String pc : f[3].split(";")) {
-                String[] v = pc.split(",");
+            boolean[] grp = {"1".equals(loot[0])};         // records before part 7: one roll per hull
+            String[] pcs = f[3].split(";");
+            for (int pi = 0; pi < pcs.length; pi++) {
+                String[] v = pcs[pi].split(",");
                 if (v.length < 11) continue;
+                if (v.length > 11 && "1".equals(v[11])) continue;   // owner 2026-10-22: a piece shot before stays gone and empty
                 ModWreck w = new ModWreck();
                 w.art = v[0];
-                w.group = grp;
+                w.group = v.length > 11 ? new boolean[] {false} : grp;   // an unshot piece keeps its own loot roll
+                w.pieceIdx = v.length > 11 ? pi : -1;
                 w.poi = true;
                 w.lootKey = "keep:" + f[0] + "|" + made;
                 w.srcLevel = loot.length > 1 ? Integer.parseInt(loot[1]) : 1;

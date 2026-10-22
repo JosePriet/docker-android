@@ -264,12 +264,13 @@ public class ModV35 {
     /** ModRep.flagshipDestroyed: a faction core of a rival of the flagship's faction, the player's hull faction when it is one. */
     static void flagshipCore(String flagshipKey) {
         try {
-            String[] r = rivalCores(flagshipKey);
-            if (r.length == 0) return;
+            // owner 2026-10-22: the rival-flagship route is for pilots not on friendly terms with the core's faction (Friendly+ use the renegade hunt)
+            java.util.ArrayList<String> r = new java.util.ArrayList<String>();
+            for (String c : rivalCores(flagshipKey)) if (ModRep.rank(c) < ModRep.FRIENDLY) r.add(c);
+            if (r.isEmpty()) return;
             SpaceObjectType t = currentShip();
             String mine = t == null ? null : coreKey(ModShips.hull(t));
-            String k = r[(int) (Math.random() * r.length)];
-            for (String c : r) if (c.equals(mine)) k = c;
+            String k = r.contains(mine) ? mine : r.get((int) (Math.random() * r.size()));
             addCore(k, null);
         } catch (Throwable th) {
             // the standing loss still happens

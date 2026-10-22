@@ -41,6 +41,7 @@ public final class ModWreck extends Element {
     boolean preDrawn;           // v33: hand-drawn wreck art (already burnt and torn: no tint, no edge strip, no char)
     boolean poi;                // v35: wreck field / kept flagship wreck: never pushed out by newer wrecks
     String lootKey;             // v35: kept flagship wreck record or wreck-field sector; ModSector.looted marks it when the hull is looted
+    int pieceIdx = -1;          // v35: piece index inside a kept flagship wreck record (ModSector.pieceShot)
     boolean husk;               // v35: a small hull's husk (pushed out first)
     long fadeMs;                // v35: fades after this long (0 = stays for the visit)
     private float lastVx, lastVy;
@@ -227,6 +228,7 @@ public final class ModWreck extends Element {
             ObjectRegistry.INSTANCE.soundManager.playRandomExplode();
             if (z) ModLoot.fromWreck(this);
             if (derelict) ModDerelict.onPieceDestroyed(this, z);
+            if (pieceIdx >= 0 && lootKey != null) ModSector.pieceShot(lootKey, pieceIdx);   // owner 2026-10-22: shot pieces stay gone and empty
         } catch (Throwable t) {
             // a wreck always goes away
         }
