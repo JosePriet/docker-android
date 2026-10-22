@@ -1,0 +1,36 @@
+[
+  {
+    "hull_id": "varn_frigate_1",
+    "source_canvas": [
+      1254,
+      1254
+    ],
+    "source_bbox": [
+      384,
+      295,
+      871,
+      1010
+    ],
+    "native_content_px": [
+      487,
+      715
+    ],
+    "final_bbox": [
+      268,
+      154,
+      755,
+      869
+    ],
+    "translation": [
+      -116,
+      -141
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 408,
+      "glow_l": 2441
+    },
+    "flavour_chars_en": 65,
+    "flavour_chars_es": 75
+  }
+]

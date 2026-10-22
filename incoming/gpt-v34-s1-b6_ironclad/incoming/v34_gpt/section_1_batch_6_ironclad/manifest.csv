@@ -1,0 +1,16 @@
+filename,hull_id,kind,width,height,flavour_en,flavour_es
+ironclad_frigate_1.webp,ironclad_frigate_1,hull,1024,1024,"Built from workshop steel, it keeps a settlement’s first watch.","Hecho con acero de taller, cumple la primera guardia de un poblado."
+ironclad_frigate_1_glow_e.webp,ironclad_frigate_1,glow_e,1024,1024,,
+ironclad_frigate_1_glow_l.webp,ironclad_frigate_1,glow_l,1024,1024,,
+ironclad_destroyer_1.webp,ironclad_destroyer_1,hull,1024,1024,Its crews learned to mend armour before they learned to fire through it.,Sus tripulantes aprendieron a reparar blindajes antes que a disparar tras ellos.
+ironclad_destroyer_1_glow_e.webp,ironclad_destroyer_1,glow_e,1024,1024,,
+ironclad_destroyer_1_glow_l.webp,ironclad_destroyer_1,glow_l,1024,1024,,
+ironclad_battlecruiser_1.webp,ironclad_battlecruiser_1,hull,1024,1024,The belt’s scattered workshops built one answer to every siege.,Los talleres dispersos del cinturón crearon una respuesta para cada asedio.
+ironclad_battlecruiser_1_glow_e.webp,ironclad_battlecruiser_1,glow_e,1024,1024,,
+ironclad_battlecruiser_1_glow_l.webp,ironclad_battlecruiser_1,glow_l,1024,1024,,
+ironclad_capital_1.webp,ironclad_capital_1,hull,1024,1024,"Where its foundries travel, a battered settlement can begin again.","Por donde pasan sus fundiciones, un poblado devastado puede empezar de nuevo."
+ironclad_capital_1_glow_e.webp,ironclad_capital_1,glow_e,1024,1024,,
+ironclad_capital_1_glow_l.webp,ironclad_capital_1,glow_l,1024,1024,,
+notes_v34.md,batch_6,documentation,,,,
+validation.json,batch_6,documentation,,,,
+generation_prompts.md,batch_6,documentation,,,,

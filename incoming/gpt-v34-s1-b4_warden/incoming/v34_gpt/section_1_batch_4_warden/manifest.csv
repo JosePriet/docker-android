@@ -1,0 +1,16 @@
+filename,hull_id,kind,width,height,flavour_en,flavour_es
+warden_cruiser_1.webp,warden_cruiser_1,hull,1024,1024,Its patrol logs begin where the last public beacon falls silent.,Sus registros de patrulla empiezan donde calla la última baliza pública.
+warden_cruiser_1_glow_e.webp,warden_cruiser_1,glow_e,1024,1024,,
+warden_cruiser_1_glow_l.webp,warden_cruiser_1,glow_l,1024,1024,,
+warden_battlecruiser_1.webp,warden_battlecruiser_1,hull,1024,1024,Distant patrols find their way home by the relays along its spine.,Las patrullas lejanas vuelven a casa guiadas por los enlaces de su espina.
+warden_battlecruiser_1_glow_e.webp,warden_battlecruiser_1,glow_e,1024,1024,,
+warden_battlecruiser_1_glow_l.webp,warden_battlecruiser_1,glow_l,1024,1024,,
+warden_battleship_1.webp,warden_battleship_1,hull,1024,1024,No toll fleet closes a public lane while this guardian holds station.,Ninguna flota de peaje cierra una ruta pública mientras este guardián resiste.
+warden_battleship_1_glow_e.webp,warden_battleship_1,glow_e,1024,1024,,
+warden_battleship_1_glow_l.webp,warden_battleship_1,glow_l,1024,1024,,
+warden_capital_1.webp,warden_capital_1,hull,1024,1024,A moving harbour waits beyond the frontier’s last safe anchorage.,Un puerto móvil espera más allá del último fondeadero seguro de la frontera.
+warden_capital_1_glow_e.webp,warden_capital_1,glow_e,1024,1024,,
+warden_capital_1_glow_l.webp,warden_capital_1,glow_l,1024,1024,,
+notes_v34.md,batch_4,documentation,,,,
+validation.json,batch_4,documentation,,,,
+generation_prompts.md,batch_4,documentation,,,,

@@ -1,0 +1,177 @@
+[
+  {
+    "hull_id": "kretari_frigate_1",
+    "source_canvas": [
+      1254,
+      1254
+    ],
+    "source_bbox": [
+      450,
+      346,
+      804,
+      936
+    ],
+    "native_content_px": [
+      354,
+      590
+    ],
+    "final_bbox": [
+      335,
+      217,
+      689,
+      807
+    ],
+    "translation": [
+      -115,
+      -129
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 433,
+      "glow_l": 8614,
+      "veins": 3582
+    },
+    "flavour_chars_en": 63,
+    "flavour_chars_es": 71
+  },
+  {
+    "hull_id": "kretari_destroyer_1",
+    "source_canvas": [
+      1262,
+      1246
+    ],
+    "source_bbox": [
+      327,
+      232,
+      936,
+      1057
+    ],
+    "native_content_px": [
+      609,
+      825
+    ],
+    "final_bbox": [
+      207,
+      99,
+      816,
+      924
+    ],
+    "translation": [
+      -120,
+      -133
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 3091,
+      "glow_l": 19408,
+      "veins": 9578
+    },
+    "flavour_chars_en": 64,
+    "flavour_chars_es": 71
+  },
+  {
+    "hull_id": "kretari_cruiser_1",
+    "source_canvas": [
+      1024,
+      1536
+    ],
+    "source_bbox": [
+      162,
+      379,
+      862,
+      1219
+    ],
+    "native_content_px": [
+      700,
+      840
+    ],
+    "final_bbox": [
+      162,
+      92,
+      862,
+      932
+    ],
+    "translation": [
+      0,
+      -287
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 8566,
+      "glow_l": 16581,
+      "veins": 8007
+    },
+    "flavour_chars_en": 67,
+    "flavour_chars_es": 73
+  },
+  {
+    "hull_id": "kretari_battleship_1",
+    "source_canvas": [
+      1254,
+      1254
+    ],
+    "source_bbox": [
+      297,
+      168,
+      958,
+      1117
+    ],
+    "native_content_px": [
+      661,
+      949
+    ],
+    "final_bbox": [
+      181,
+      37,
+      842,
+      986
+    ],
+    "translation": [
+      -116,
+      -131
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 5728,
+      "glow_l": 20202,
+      "veins": 7149
+    },
+    "flavour_chars_en": 64,
+    "flavour_chars_es": 74
+  },
+  {
+    "hull_id": "kretari_capital_1",
+    "source_canvas": [
+      1254,
+      1254
+    ],
+    "source_bbox": [
+      259,
+      135,
+      992,
+      1133
+    ],
+    "native_content_px": [
+      733,
+      998
+    ],
+    "final_bbox": [
+      145,
+      13,
+      878,
+      1011
+    ],
+    "translation": [
+      -114,
+      -122
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 7216,
+      "glow_l": 29132,
+      "veins": 9155
+    },
+    "flavour_chars_en": 70,
+    "flavour_chars_es": 64
+  }
+]

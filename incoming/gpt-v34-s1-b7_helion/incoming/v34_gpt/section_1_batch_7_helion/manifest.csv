@@ -1,0 +1,16 @@
+filename,hull_id,kind,width,height,flavour_en,flavour_es
+helion_cruiser_1.webp,helion_cruiser_1,hull,1024,1024,Helion’s trade lanes stay open behind the sweep of its lance spars.,Las rutas de Helion siguen abiertas tras el paso de sus largueros de lanza.
+helion_cruiser_1_glow_e.webp,helion_cruiser_1,glow_e,1024,1024,,
+helion_cruiser_1_glow_l.webp,helion_cruiser_1,glow_l,1024,1024,,
+helion_battlecruiser_1.webp,helion_battlecruiser_1,hull,1024,1024,Its crews measure a blockade by the opening they can reach first.,Sus tripulantes miden un bloqueo por el hueco al que pueden llegar primero.
+helion_battlecruiser_1_glow_e.webp,helion_battlecruiser_1,glow_e,1024,1024,,
+helion_battlecruiser_1_glow_l.webp,helion_battlecruiser_1,glow_l,1024,1024,,
+helion_battleship_1.webp,helion_battleship_1,hull,1024,1024,The Combine’s longest lances clear a path for the slowest convoy.,Las lanzas más largas del Combine abren paso al convoy más lento.
+helion_battleship_1_glow_e.webp,helion_battleship_1,glow_e,1024,1024,,
+helion_battleship_1_glow_l.webp,helion_battleship_1,glow_l,1024,1024,,
+helion_capital_1.webp,helion_capital_1,hull,1024,1024,A new horizon leaves port whenever this carrier joins the route.,Un nuevo horizonte zarpa cada vez que este portanaves se suma a la ruta.
+helion_capital_1_glow_e.webp,helion_capital_1,glow_e,1024,1024,,
+helion_capital_1_glow_l.webp,helion_capital_1,glow_l,1024,1024,,
+notes_v34.md,batch_7,documentation,,,,
+validation.json,batch_7,documentation,,,,
+generation_prompts.md,batch_7,documentation,,,,

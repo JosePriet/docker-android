@@ -1,0 +1,138 @@
+[
+  {
+    "hull_id": "ironclad_frigate_1",
+    "source_canvas": [
+      1103,
+      1426
+    ],
+    "source_bbox": [
+      380,
+      360,
+      723,
+      1080
+    ],
+    "native_content_px": [
+      343,
+      720
+    ],
+    "final_bbox": [
+      340,
+      152,
+      683,
+      872
+    ],
+    "translation": [
+      -40,
+      -208
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 1596,
+      "glow_l": 1571
+    },
+    "flavour_chars_en": 63,
+    "flavour_chars_es": 67
+  },
+  {
+    "hull_id": "ironclad_destroyer_1",
+    "source_canvas": [
+      1254,
+      1254
+    ],
+    "source_bbox": [
+      448,
+      221,
+      806,
+      1054
+    ],
+    "native_content_px": [
+      358,
+      833
+    ],
+    "final_bbox": [
+      333,
+      95,
+      691,
+      928
+    ],
+    "translation": [
+      -115,
+      -126
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 1283,
+      "glow_l": 1994
+    },
+    "flavour_chars_en": 72,
+    "flavour_chars_es": 80
+  },
+  {
+    "hull_id": "ironclad_battlecruiser_1",
+    "source_canvas": [
+      1086,
+      1448
+    ],
+    "source_bbox": [
+      299,
+      209,
+      787,
+      1206
+    ],
+    "native_content_px": [
+      488,
+      997
+    ],
+    "final_bbox": [
+      268,
+      13,
+      756,
+      1010
+    ],
+    "translation": [
+      -31,
+      -196
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 1043,
+      "glow_l": 4180
+    },
+    "flavour_chars_en": 63,
+    "flavour_chars_es": 75
+  },
+  {
+    "hull_id": "ironclad_capital_1",
+    "source_canvas": [
+      1254,
+      1254
+    ],
+    "source_bbox": [
+      407,
+      242,
+      849,
+      1042
+    ],
+    "native_content_px": [
+      442,
+      800
+    ],
+    "final_bbox": [
+      291,
+      112,
+      733,
+      912
+    ],
+    "translation": [
+      -116,
+      -130
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 490,
+      "glow_l": 4601
+    },
+    "flavour_chars_en": 66,
+    "flavour_chars_es": 77
+  }
+]

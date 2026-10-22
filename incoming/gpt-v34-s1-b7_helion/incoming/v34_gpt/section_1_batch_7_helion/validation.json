@@ -1,0 +1,138 @@
+[
+  {
+    "hull_id": "helion_cruiser_1",
+    "source_canvas": [
+      1086,
+      1448
+    ],
+    "source_bbox": [
+      200,
+      298,
+      887,
+      1156
+    ],
+    "native_content_px": [
+      687,
+      858
+    ],
+    "final_bbox": [
+      168,
+      83,
+      855,
+      941
+    ],
+    "translation": [
+      -32,
+      -215
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 1611,
+      "glow_l": 5511
+    },
+    "flavour_chars_en": 67,
+    "flavour_chars_es": 75
+  },
+  {
+    "hull_id": "helion_battlecruiser_1",
+    "source_canvas": [
+      1254,
+      1254
+    ],
+    "source_bbox": [
+      387,
+      198,
+      868,
+      1096
+    ],
+    "native_content_px": [
+      481,
+      898
+    ],
+    "final_bbox": [
+      271,
+      63,
+      752,
+      961
+    ],
+    "translation": [
+      -116,
+      -135
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 1118,
+      "glow_l": 2653
+    },
+    "flavour_chars_en": 65,
+    "flavour_chars_es": 75
+  },
+  {
+    "hull_id": "helion_battleship_1",
+    "source_canvas": [
+      1086,
+      1448
+    ],
+    "source_bbox": [
+      203,
+      234,
+      883,
+      1240
+    ],
+    "native_content_px": [
+      680,
+      1006
+    ],
+    "final_bbox": [
+      172,
+      9,
+      852,
+      1015
+    ],
+    "translation": [
+      -31,
+      -225
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 2444,
+      "glow_l": 3102
+    },
+    "flavour_chars_en": 65,
+    "flavour_chars_es": 65
+  },
+  {
+    "hull_id": "helion_capital_1",
+    "source_canvas": [
+      1254,
+      1254
+    ],
+    "source_bbox": [
+      319,
+      229,
+      935,
+      1101
+    ],
+    "native_content_px": [
+      616,
+      872
+    ],
+    "final_bbox": [
+      204,
+      76,
+      820,
+      948
+    ],
+    "translation": [
+      -115,
+      -153
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 1214,
+      "glow_l": 2937
+    },
+    "flavour_chars_en": 64,
+    "flavour_chars_es": 72
+  }
+]

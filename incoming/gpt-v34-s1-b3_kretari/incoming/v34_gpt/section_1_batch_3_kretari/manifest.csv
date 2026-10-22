@@ -1,0 +1,24 @@
+filename,hull_id,kind,width,height,flavour_en,flavour_es
+kretari_frigate_1.webp,kretari_frigate_1,hull,1024,1024,The Brood’s first warning arrives on a whisper of living light.,La primera advertencia de la Prole llega en un susurro de luz viviente.
+kretari_frigate_1_glow_e.webp,kretari_frigate_1,glow_e,1024,1024,,
+kretari_frigate_1_glow_l.webp,kretari_frigate_1,glow_l,1024,1024,,
+kretari_frigate_1_veins.webp,kretari_frigate_1,veins,1024,1024,,
+kretari_destroyer_1.webp,kretari_destroyer_1,hull,1024,1024,"Grown to guard the young, it answers danger with the whole nest.","Creado para proteger a las crías, responde al peligro con todo el nido."
+kretari_destroyer_1_glow_e.webp,kretari_destroyer_1,glow_e,1024,1024,,
+kretari_destroyer_1_glow_l.webp,kretari_destroyer_1,glow_l,1024,1024,,
+kretari_destroyer_1_veins.webp,kretari_destroyer_1,veins,1024,1024,,
+kretari_cruiser_1.webp,kretari_cruiser_1,hull,1024,1024,Old migration paths pulse beneath the armour of this living escort.,Antiguas rutas migratorias laten bajo la coraza de esta escolta viviente.
+kretari_cruiser_1_glow_e.webp,kretari_cruiser_1,glow_e,1024,1024,,
+kretari_cruiser_1_glow_l.webp,kretari_cruiser_1,glow_l,1024,1024,,
+kretari_cruiser_1_veins.webp,kretari_cruiser_1,veins,1024,1024,,
+kretari_battleship_1.webp,kretari_battleship_1,hull,1024,1024,The Brood grows its oldest promises into walls of living chitin.,La Prole convierte sus promesas más antiguas en muros de quitina viviente.
+kretari_battleship_1_glow_e.webp,kretari_battleship_1,glow_e,1024,1024,,
+kretari_battleship_1_glow_l.webp,kretari_battleship_1,glow_l,1024,1024,,
+kretari_battleship_1_veins.webp,kretari_battleship_1,veins,1024,1024,,
+kretari_capital_1.webp,kretari_capital_1,hull,1024,1024,"Within its sheltered chambers, the next migration is already dreaming.","En sus cámaras protegidas, la próxima migración ya está soñando."
+kretari_capital_1_glow_e.webp,kretari_capital_1,glow_e,1024,1024,,
+kretari_capital_1_glow_l.webp,kretari_capital_1,glow_l,1024,1024,,
+kretari_capital_1_veins.webp,kretari_capital_1,veins,1024,1024,,
+notes_v34.md,batch_3,documentation,,,,
+validation.json,batch_3,documentation,,,,
+generation_prompts.md,batch_3,documentation,,,,

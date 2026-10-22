@@ -1,0 +1,7 @@
+filename,hull_id,kind,width,height,flavour_en,flavour_es
+varn_frigate_1.webp,varn_frigate_1,hull,1024,1024,The smallest clause in a Syndicate contract can still carry guns.,La cláusula más pequeña de un contrato del Sindicato también lleva cañones.
+varn_frigate_1_glow_e.webp,varn_frigate_1,glow_e,1024,1024,,
+varn_frigate_1_glow_l.webp,varn_frigate_1,glow_l,1024,1024,,
+notes_v34.md,batch_5,documentation,,,,
+validation.json,batch_5,documentation,,,,
+generation_prompts.md,batch_5,documentation,,,,

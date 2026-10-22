@@ -1,0 +1,70 @@
+[
+  {
+    "hull_id": "reaver_battleship_1",
+    "source_canvas": [
+      1254,
+      1254
+    ],
+    "source_bbox": [
+      315,
+      142,
+      939,
+      1123
+    ],
+    "native_content_px": [
+      624,
+      981
+    ],
+    "final_bbox": [
+      200,
+      21,
+      824,
+      1002
+    ],
+    "translation": [
+      -115,
+      -121
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 3669,
+      "glow_l": 8324
+    },
+    "flavour_chars_en": 69,
+    "flavour_chars_es": 68
+  },
+  {
+    "hull_id": "reaver_capital_1",
+    "source_canvas": [
+      1254,
+      1254
+    ],
+    "source_bbox": [
+      367,
+      155,
+      888,
+      1104
+    ],
+    "native_content_px": [
+      521,
+      949
+    ],
+    "final_bbox": [
+      251,
+      37,
+      772,
+      986
+    ],
+    "translation": [
+      -116,
+      -118
+    ],
+    "scale": 1.0,
+    "mask_pixels": {
+      "glow_e": 2384,
+      "glow_l": 6888
+    },
+    "flavour_chars_en": 59,
+    "flavour_chars_es": 67
+  }
+]

@@ -1,0 +1,10 @@
+filename,hull_id,kind,width,height,flavour_en,flavour_es
+reaver_battleship_1.webp,reaver_battleship_1,hull,1024,1024,Every captured plate adds another debt the Reavers intend to collect.,Cada placa capturada suma otra deuda que los Reavers piensan cobrar.
+reaver_battleship_1_glow_e.webp,reaver_battleship_1,glow_e,1024,1024,,
+reaver_battleship_1_glow_l.webp,reaver_battleship_1,glow_l,1024,1024,,
+reaver_capital_1.webp,reaver_capital_1,hull,1024,1024,A hundred stolen dockyards sail beneath one captain’s flag.,Cien astilleros robados navegan bajo la bandera de un solo capitán.
+reaver_capital_1_glow_e.webp,reaver_capital_1,glow_e,1024,1024,,
+reaver_capital_1_glow_l.webp,reaver_capital_1,glow_l,1024,1024,,
+notes_v34.md,batch_2,documentation,,,,
+validation.json,batch_2,documentation,,,,
+generation_prompts.md,batch_2,documentation,,,,
