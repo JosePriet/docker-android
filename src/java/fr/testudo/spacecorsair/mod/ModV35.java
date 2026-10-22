@@ -84,7 +84,7 @@ public class ModV35 {
             s[S_SHREGEN] = Math.max(h.shieldRegen, h.shieldDelay > 0 ? 1.0f / h.shieldDelay : 1.0f);
             s[S_MISSILE] = h.missileReload > 0 ? 1.0f / h.missileReload : 1.0f;
             s[S_CARGO] = h.cargo;
-            s[S_REPAIR] = h.hullRegen > 0 ? 1.0f + h.hullRegen * 20 : 0f;
+            s[S_REPAIR] = 0f;   // owner 2026-10-22: hull regen growth is the Kre'tari trait only, never a picked strength
         }
         if (spec != null) {
             float[] avg = classAverage(cls);
@@ -231,13 +231,30 @@ public class ModV35 {
         }
     }
 
-    /** Pure: ms until another hunt is allowed, from the completion times (ms) of past hunts; 0 = ready. */
+    /**
+     * Pure (owner 2026-10-22): the 12 h window opens with the first hunt; up to 5 hunts inside it; when it closes the
+     * next hunt opens a new window. Times are completion times (ms); returns ms until another hunt is allowed, 0 = ready.
+     */
     public static long huntWait(long[] done, long now) {
-        java.util.ArrayList<Long> in = new java.util.ArrayList<Long>();
-        for (long t : done) if (t > 0 && now - t < HUNT_WINDOW_MS) in.add(t);
-        if (in.size() < HUNT_MAX) return 0;
-        java.util.Collections.sort(in);
-        return in.get(in.size() - HUNT_MAX) + HUNT_WINDOW_MS - now;
+        long start = -1;
+        int n = 0;
+        java.util.Arrays.sort(done = done.clone());
+        for (long t : done) {
+            if (t <= 0) continue;
+            if (start < 0 || t >= start + HUNT_WINDOW_MS) { start = t; n = 0; }
+            n++;
+        }
+        if (start < 0 || now >= start + HUNT_WINDOW_MS || n < HUNT_MAX) return 0;
+        return start + HUNT_WINDOW_MS - now;
+    }
+
+    /** Start of the latest 12 h hunt window (-1 when none). */
+    static long windowStart(long[] done) {
+        long start = -1;
+        long[] d = done.clone();
+        java.util.Arrays.sort(d);
+        for (long t : d) if (t > 0 && (start < 0 || t >= start + HUNT_WINDOW_MS)) start = t;
+        return start;
     }
 
     static long[] huntTimes(String key) {
@@ -257,14 +274,16 @@ public class ModV35 {
         return huntWait(huntTimes(key), System.currentTimeMillis());
     }
 
-    /** ModFaction.complete for a renegade hunt: the core and the hunt's time (last 12 h kept). */
+    /** ModFaction.complete for a renegade hunt: the core and the hunt's time (only the current window is kept). */
     static void huntDone(String key) {
         addCore(key, null);
         SharedPreferences p = ModQol.prefs();
         if (p == null) return;
         long now = System.currentTimeMillis();
         StringBuilder b = new StringBuilder();
-        for (long t : huntTimes(key)) if (t > 0 && now - t < HUNT_WINDOW_MS) b.append(t).append(',');
+        long[] past = huntTimes(key);
+        long start = windowStart(past);
+        if (start > 0 && now < start + HUNT_WINDOW_MS) for (long t : past) if (t >= start) b.append(t).append(',');   // same window; else a new one opens
         b.append(now);
         p.edit().putString("v35_hunts_" + key, b.toString()).apply();
     }
@@ -392,7 +411,8 @@ public class ModV35 {
         try {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             float m = mults(currentShip(), h, ps == null ? null : ps.shipSpec)[S_REPAIR];
-            return regen(base, trait(ModShips.factionKey(h)) == S_REPAIR, m, h.cls);
+            boolean kre = trait(ModShips.factionKey(h)) == S_REPAIR;
+            return kre ? regen(base, true, m, h.cls) : base;   // other hulls keep their stock repair, no refit growth
         } catch (Throwable t) {
             return base;
         }

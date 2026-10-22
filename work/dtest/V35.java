@@ -36,14 +36,14 @@ eq("income L10 = sim 505,992/h",ModV35.income(10),505992,600);
 eq("fine = 8 min of income",ModV35.gearPrice(1,10)/ModV35.income(10)*60,8,0.05);eq("rare = 20 min",ModV35.gearPrice(2,19)/ModV35.income(19)*60,20,0.05);
 eq("exceptional = 1 h",ModV35.gearPrice(3,28)/ModV35.income(28)*60,60,0.05);eq("legendary = 2.5 h",ModV35.gearPrice(4,37)/ModV35.income(37),2.5,0.01);
 // Kre'tari regen (owner): 0.5%/s base on hulls without repair, cap 1%/s cruiser+ and 0.7%/s smaller
-eq("kretari base no refit",ModV35.regen(0,true,1,ModShips.FRIGATE),0.005,1e-6);eq("kretari frigate L10",ModV35.regen(0,true,1.2f,ModShips.FRIGATE),0.006,1e-6);
+eq("non-kretari hull: repair never a refit pick",ModV35.picks(new float[]{1,1,1,1,1,1,0,1,1,1})[0]!=ModV35.S_REPAIR?1:0,1,0);eq("kretari base no refit",ModV35.regen(0,true,1,ModShips.FRIGATE),0.005,1e-6);eq("kretari frigate L10",ModV35.regen(0,true,1.2f,ModShips.FRIGATE),0.006,1e-6);
 eq("small cap 0.7%",ModV35.regen(0.008f,false,1.3f,ModShips.DESTROYER),0.008,1e-6);eq("small hull capped 0.7%",ModV35.regen(0.006f,true,1.5f,ModShips.DESTROYER),0.007,1e-6);
 eq("sanctum (1%) capped at 1%",ModV35.regen(0.01f,true,1.2f,ModShips.CRUISER),0.01,1e-6);eq("no regen, not kretari",ModV35.regen(0,false,1.3f,ModShips.CRUISER),0,0);
 // faction cores (owner): 40% from the stock boss pools, rival flagships give a counter faction's core
 eq("boss core below 40%",ModV35.bossCore(1,0.39,0)!=null?1:0,1,0);eq("no boss core at 40%",ModV35.bossCore(1,0.41,0)==null?1:0,1,0);
 eq("guardian pool spartan",ModV35.bossCore(1,0,0).equals("spartan")?1:0,1,0);eq("empress pool varn",ModV35.bossCore(2,0,0.99).equals("varn")?1:0,1,0);
 int cv=0;for(int k=0;k<3;k++)for(int q=0;q<3;q++){String c=ModV35.bossCore(k,0,q/3.0+0.01);if(c!=null)cv|=1<<java.util.Arrays.asList("spartan","reaver","kretari","varn","ironclad","helion","warden").indexOf(c);}eq("boss pools cover all 7 factions",cv,127,0);
-long H=3600000L;eq("hunt ready with 4 in 12 h",ModV35.huntWait(new long[]{1,2,3,4},5),0,0);eq("5th hunt in 12 h blocks",ModV35.huntWait(new long[]{H,2*H,3*H,4*H,5*H},6*H)>0?1:0,1,0);eq("ready when oldest is 12 h old",ModV35.huntWait(new long[]{H,2*H,3*H,4*H,5*H},13*H),0,0);
+long H=3600000L;eq("hunt ready with 4 in 12 h",ModV35.huntWait(new long[]{1,2,3,4},5),0,0);eq("5th hunt in 12 h blocks",ModV35.huntWait(new long[]{H,2*H,3*H,4*H,5*H},6*H)>0?1:0,1,0);eq("window from first hunt: ready at 12 h",ModV35.huntWait(new long[]{H,2*H,3*H,4*H,5*H},13*H),0,0);eq("window wait = first + 12 h",ModV35.huntWait(new long[]{H,2*H,3*H,4*H,5*H},6*H),7*H,0);eq("new window after reset",ModV35.huntWait(new long[]{H,2*H,3*H,4*H,5*H,14*H},15*H),0,0);
 eq("reaver flagship -> 2 rival cores",ModV35.rivalCores("reaver").length,2,0);eq("reaver rivals include spartan",java.util.Arrays.asList(ModV35.rivalCores("reaver")).contains("spartan")?1:0,1,0);
 // v34 req 13: missions pay 3 same-level bounties x size (kills > loot > missions)
 eq("mission 10k at L10 = 3 bounties",ModV35.missionCredits(10000,10),Math.round(3*ModV34.bounty(10)),1);eq("mission size cap x3",ModV35.missionCredits(80000,10),Math.round(9*ModV34.bounty(10)),1);
