@@ -22,4 +22,14 @@ for(int lv=0;lv<=40;lv++){if(3*ModV34.deathFee(lv)>0.15*80*ModV34.bounty(lv)+1){
 eq("class frigate",ModV34.classFactor(0),0.6,1e-4);eq("class battleship",ModV34.classFactor(4),3.0,1e-4);eq("class titan",ModV34.classFactor(6),8.0,1e-4);
 
 eq("slot frigate",ModV34.slotOf(0),0,0);eq("slot titan",ModV34.slotOf(6),3,0);
+eq("level shield L40 +23%",ModV34.levelShield(40),1.23,1e-4);eq("level shield L17",ModV34.levelShield(17),1.0,1e-4);
+for(int r=0;r<20;r++){fr.testudo.spacecorsair.business.ennemis.Ennemis e=new fr.testudo.spacecorsair.business.ennemis.BasicEnnemyShip();
+ e.level=25;e.maxLife=1000;e.bulletDamage=10;e.milleSecBetweenShots=1200;e.xp=10;ModV34.scale(e);int t=ModV34.tier(e);float c=ModV34.curve(25);
+ eq("enemy L25 hull = curve x class",e.maxLife,1000*c,0.5);eq("enemy L25 damage = curve x tier",e.bulletDamage,10*c*ModV34.TIER_F[t],1e-2);eq("enemy L25 reload / tier",e.milleSecBetweenShots,(long)(1200/ModV34.TIER_F[t]),1);
+ eq("enemy tier 1-4",(t>=1&&t<=4)?1:0,1,0);eq("normal enemy not REA-eligible",ModV34.difficult(e)?1:0,0,0);
+ float l0=e.maxLife,d0=e.bulletDamage;e.elite=true;ModV34.elite(e);int t2=ModV34.tier(e);
+ eq("elite hull x2.5",e.maxLife,l0*2.5,0.5);eq("elite tier +1",t2,Math.min(4,t+1),0);eq("elite damage x1.5 x tier step",e.bulletDamage,d0*1.5*ModV34.TIER_F[t2]/ModV34.TIER_F[t],1e-2);eq("elite stat +150",ModV34.stat(e),ModV34.statBase(25)+150,0);
+ eq("elite is REA-eligible",ModV34.difficult(e)?1:0,1,0);
+ ModV34.boss(e);eq("boss hull x15",e.maxLife,l0*15,1);eq("boss damage x2 at T4",e.bulletDamage,d0*2*ModV34.TIER_F[4]/ModV34.TIER_F[t],1e-2);eq("boss tier 4",ModV34.tier(e),4,0);eq("boss stat +300",ModV34.stat(e),ModV34.statBase(25)+300,0);}
+{fr.testudo.spacecorsair.business.ennemis.Ennemis b=new fr.testudo.spacecorsair.business.ennemis.BasicEnnemyShip();b.level=40;b.maxLife=100;b.bulletDamage=1;b.milleSecBetweenShots=1000;b.xp=1;ModV34.scale(b);b.elite=true;ModV34.elite(b);ModV34.boss(b);eq("boss stats clamp 1000 at L40",ModV34.stat(b),1000,0);}
 System.out.println(bad==0?"V34 VALUES-OK":"V34 VALUES-FAIL "+bad);}}

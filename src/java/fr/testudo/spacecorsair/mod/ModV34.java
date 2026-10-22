@@ -162,7 +162,11 @@ public class ModV34 {
 
     /** Level bonus above L17: +1% shield regen per level. */
     public static float levelShield() {
-        return 1.0f + 0.01f * Math.max(0, Math.min(CAP, playerLevel()) - 17);
+        return levelShield(playerLevel());
+    }
+
+    public static float levelShield(int lv) {
+        return 1.0f + 0.01f * Math.max(0, Math.min(CAP, lv) - 17);
     }
 
     // ------------------------------------------------------------------ pilot stats
@@ -202,7 +206,7 @@ public class ModV34 {
     /** Per enemy: {tech tier 1-4, pilot stat}. Pooled enemies are re-keyed on every scale(). */
     private static final WeakHashMap<Element, int[]> state = new WeakHashMap<Element, int[]>();
 
-    static int stat(Element e) {
+    public static int stat(Element e) {
         if (e == null) return 0;
         if (e.isPlayer) return playerStat();
         int[] s = state.get(e);
@@ -210,7 +214,7 @@ public class ModV34 {
         return statBase(e.getLevel());
     }
 
-    static int tier(Element e) {
+    public static int tier(Element e) {
         int[] s = e == null ? null : state.get(e);
         return s == null ? 1 : s[0];
     }
@@ -227,14 +231,14 @@ public class ModV34 {
         return Math.max(0f, Math.min(0.25f, (reaTarget - reaAttacker) / 20f / 100f));
     }
 
-    static boolean difficult(Element e) {
+    public static boolean difficult(Element e) {
         if (e instanceof GuardianCivilShip) return ModCapitals.cap(e) != null;
         if (!(e instanceof Ennemis)) return false;
         return ((Ennemis) e).elite || ModBoss.isBoss(e);
     }
 
     // ------------------------------------------------------------------ enemy curve
-    static final float[] TIER_F = {1.0f, 1.0f, 1.15f, 1.3f, 1.5f};
+    public static final float[] TIER_F = {1.0f, 1.0f, 1.15f, 1.3f, 1.5f};
 
     /** Req 3 hull class factor (ModShips class index): frigate 0.6, battleship 3.0 (owner); destroyer 1, cruiser 1.6, BC 2.2, capital 5, titan 8 [P]. */
     public static float classFactor(int cls) {
