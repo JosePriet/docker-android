@@ -1,6 +1,6 @@
 # Current task: v35 (owner OK 2026-10-22: "proceed with the gaps, include them in v35")
 
-Status 2026-10-22: implemented, check.sh 35 PASS, reviewed (verifier + cross-check), emulator run sc-v35 pending; phone test and release not done.
+Status 2026-10-22: implemented, check.sh 35 PASS, reviewed (verifier + cross-check), emulator run sc-v35 passed (no crash); phone test and release not done.
 
 Source: v34-answers.md (owner's words; C1, E1b, G5, I4) and the owner's 2026-10-22 note on refits. [P] = Claude's proposal; replace with your own numbers if you want.
 
