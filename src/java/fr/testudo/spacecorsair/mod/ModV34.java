@@ -444,11 +444,15 @@ public class ModV34 {
         }
     }
 
-    /** H1: off-faction weapons also fire 40% slower (damage -40% is applied per hit in damage()). */
+    /** H1: off-faction weapons also fire 40% slower and their shots fly 40% slower, so range drops 40% too (damage -40% is per hit in damage()). */
     public static void offFactionRate(PlayerShip ps) {
         try {
             ps.milleSecBetweenShots = (long) (ps.milleSecBetweenShots / 0.6f);
-            if (ps.playerCannons != null) for (int k = 0; k < ps.playerCannons.length; k++) ps.playerCannons[k].timeBewteenShootInMilli = (int) (ps.playerCannons[k].timeBewteenShootInMilli / 0.6f);
+            ps.shootSpeed *= 0.6f;
+            if (ps.playerCannons != null) for (int k = 0; k < ps.playerCannons.length; k++) {
+                ps.playerCannons[k].timeBewteenShootInMilli = (int) (ps.playerCannons[k].timeBewteenShootInMilli / 0.6f);
+                ps.playerCannons[k].shootSpeed *= 0.6f;
+            }
         } catch (Throwable t) {
             // stock reload
         }
