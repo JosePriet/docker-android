@@ -101,7 +101,7 @@ public class ModFaction extends MissionListener {
                     c[3], contractGoal(obj, count), c[4], ModLang.tr("The contract has lapsed. The offer stands if you want to try again."), credits, "", ++n[ModFaction.commander(k)], amends};
             }
             for (int i = 0; i < hk.length; i++) {
-                // owner 2026-10-22: at Friendly+, once a day, a renegade of the faction carries one of its cores (guaranteed). Text: Claude's draft for GPT.
+                // owner 2026-10-22: at Friendly+, up to 5 per 12 h window, a renegade of the faction carries one of its cores (guaranteed). Text: Claude's draft for GPT.
                 String k = hk[i], hq = ModCapitals.FACTIONS[faction(k)].hq.name();
                 r[story.length + con.length + i] = new Object[]{k, 0, "Renegade Hunt", "BOUNTY", hq, hq, 1, 0, "", "Renegade Captain", "",
                     "A renegade captain deserted with one of our faction cores and is hiding near our headquarters. Bring the core back and it is yours to keep.",
