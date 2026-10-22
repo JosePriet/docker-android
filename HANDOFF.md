@@ -10,7 +10,7 @@
   - `tele_cap_<key>`: telegraph art (ironclad strike marker; warden snipe / reaver ram lane strips).
 
 - v34 (2026-10-22, branch sc-mod-workspace, not released): core systems from TASK.md (level cap 40, enemy curve x class x tier, elites/bosses, pilot ATK/DEF/REA, counters, weapon rules and slots, industrials retired, bounty/death fee/rare salvage, reskin weapon families, stat block, hide-until-art). Full list, gaps and unrequested changes: /mnt/project-files/audits/v34-changes.md. Directive audit: audits/v34-directive-audit.md. Reviewed by a verifier + cross-check agent pair twice (owner rule); confirmed findings fixed in parts 6-7.
-- v34 gaps: req 12 (stock gear rarity pricing), 14 (faction hulls/weapons in NPC pools), 16 (top-region finale), 10 name tags + enemy_<art>, 13 mission reward/standing retune, Spanish for all new strings (GPT is writing them; Claude does the final pass). Energy regen dropped (no energy stat; owner OK).
+- v34 gaps: req 12 (stock gear rarity pricing), 14 (faction hulls/weapons in NPC pools), 16 (top-region finale), 10 name tags + enemy_<art>, 13 mission reward/standing retune. Energy regen dropped (no energy stat; owner OK).
 - v34 emulator run sc-v34 (run 61, GitHub 39706373726): full run, 676 s, no crash, no FATAL/VerifyError/NoSuchMethod; all 7 flagships fired and logged skills; death ran. Not shown on screen: the spawned enemies (off-frame near the tutorial station), the pilot-stat UI and the stat block; the HUD still read "Level 0" because the test flag sets the level field without a HUD refresh. These need the phone test.
 
 ## Changed files (v30-v31)
@@ -37,5 +37,5 @@ New: ModLive, ModWreck, ModTitanAI, ModDerelict, ModV30Data. Changed: ModShield,
 - The reaver harpoon can pull the player into a station dock during tests; run that flagship last.
 
 ## Next action
-Read the sc-v34 results; fix crashes. Owner phone-tests v33 and v34; add GPT's ES strings to i18n; then release. v35 per TASK draft (refits: tier upgrades only enhance what a hull is already good at + one faction strength).
+Spanish strings, reskin names and counter lore merged (part 8, GPT section 9 partial). GPT handoff for the rest of section 9 and for section 1: /mnt/project-files/space-corsair/gpt-handoff-v34.zip. Owner phone-tests v33 and v34; add GPT's ES strings to i18n; then release. v35 per TASK draft (refits: tier upgrades only enhance what a hull is already good at + one faction strength).
 Previous: owner tests v33 on the phone (flagship fight feel, wreck look, battery balance); then `scripts/release.sh v33 ...`. Key: owner uploads `key.p12` into the session (never in git).
