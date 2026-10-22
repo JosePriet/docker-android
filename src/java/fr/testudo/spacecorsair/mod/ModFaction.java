@@ -174,6 +174,12 @@ public class ModFaction extends MissionListener {
         return String.format(java.util.Locale.US, "%,d", c);
     }
 
+    /** v35: id of a faction's last story mission (order 3), which unlocks its finale. */
+    private static String storyEnd(String k) {
+        for (int j = 0; j < count(); j++) if (!contract(j) && order(j) == 3 && key(j).equals(k)) return id(j);
+        return null;
+    }
+
     private static synchronized Mission[] all() {
         if (missions == null) {
             Mission[] ms = new Mission[count()];
@@ -190,7 +196,7 @@ public class ModFaction extends MissionListener {
                 Mission m = new Mission(id(i), fr.testudo.spacecorsair.R.string.missionGenesisTuerChefPillard, TEXT_DESC + i, TEXT_DONE + i,
                     false, minLevel(i), new ModFaction(i), MissionReward.withObject(loot, contract(i) ? 4000 : 900 * minLevel(i), num(i, 15) / 3), contract(i));
                 m.localizedName = contract(i) ? (amends(i) ? ModLang.tr("Amends: ") : ModLang.tr("Contract: ")) + str(i, 2) : str(i, 2);
-                m.restrictedMissionId = order(i) > 1 && order(i) != 4 ? id(i - 1) : null;   // v35: the finale opens on its own
+                m.restrictedMissionId = order(i) == 4 ? storyEnd(key(i)) : order(i) > 1 ? id(i - 1) : null;   // v35: the finale follows the chain's last story mission
                 ms[i] = m;
             }
             missions = ms;
@@ -226,6 +232,8 @@ public class ModFaction extends MissionListener {
                         if (contract(i) || !key(i).equals(k) || !ModV35.finale(order(i))) continue;
                         if (ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(id(i))) continue;
                         if (cur != ms[i] && plv < minLevel(i) - 2 && !testHail) break;
+                        String lock = ms[i].restrictedMissionId;
+                        if (cur != ms[i] && lock != null && !testHail && !ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(lock)) break;
                         if (!list.contains(ms[i])) list.add(ms[i]);
                         break;
                     }

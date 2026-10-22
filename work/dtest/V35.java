@@ -22,7 +22,7 @@ float up=ModV35.score(25,20,1,1,2,2,0,1,1);eq("enemy +5 levels -> aggressive",Mo
 float cw=ModV35.score(20,20,1,1,2,2,-1,0.5f,0.5f);eq("countered enemy keeps range",ModV35.mode(cw,1,false),ModV35.KITE,0);eq("countered enemy breaks off at low hull",ModV35.mode(cw,0.2f,false),ModV35.FLEE,0);
 eq("boss always aggressive",ModV35.mode(-1,0.1f,true),ModV35.AGGRO,0);
 eq("bigger class adds",ModV35.score(20,20,4,1,2,2,0,0.5f,0.5f)>=ModV35.EDGE?1:0,1,0);eq("low hull lowers",ModV35.score(20,20,1,1,2,2,0,0.1f,1)<=-ModV35.EDGE?1:0,1,0);
-eq("kill time with advantage ~2 s",6/ModV35.ttkFactor(0.3f),2,1e-4);eq("kill time matched ~6 s",6/ModV35.ttkFactor(0),6,1e-4);eq("kill time countered ~12 s",6/ModV35.ttkFactor(-0.3f),12,1e-4);
+eq("kill time player counters ~2 s",6/ModV35.ttkFactor(1),2,1e-4);eq("kill time matched ~6 s",6/ModV35.ttkFactor(0),6,1e-4);eq("kill time countered ~12 s",6/ModV35.ttkFactor(-1),12,1e-4);
 // wreck timers and persistence
 eq("husk 2 min",ModWreck.lifeMs(0),120000,0);eq("medium husk 2 min",ModWreck.lifeMs(1),120000,0);eq("cruiser wreck 5 min",ModWreck.lifeMs(2),300000,0);eq("battleship+ whole visit",ModWreck.lifeMs(3),0,0);
 eq("frigate (90) husk",ModWreck.sizeClassOf(90*0.62f),0,0);eq("destroyer (200) husk",ModWreck.sizeClassOf(200*0.7f),1,0);eq("cruiser (300) 5 min",ModWreck.lifeMs(ModWreck.sizeClassOf(300*0.62f)),300000,0);eq("battlecruiser (460) 5 min",ModWreck.lifeMs(ModWreck.sizeClassOf(460*0.7f)),300000,0);eq("battleship (600) whole visit",ModWreck.lifeMs(ModWreck.sizeClassOf(600*0.62f)),0,0);

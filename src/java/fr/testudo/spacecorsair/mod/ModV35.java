@@ -500,11 +500,9 @@ public class ModV35 {
         return HOLD;
     }
 
-    /** Kill-time targets for a same-level normal enemy (6 s matched): x3 damage (2 s) with the advantage, x0.5 (12 s) countered. */
-    public static float ttkFactor(float playerAdvantage) {
-        if (playerAdvantage >= EDGE) return 3.0f;
-        if (playerAdvantage <= -EDGE) return 0.5f;
-        return 1.0f;
+    /** Kill-time targets for a same-level normal enemy (6 s matched), set by the counter wheel (+1 the player counters the enemy): x3 damage (2 s), x0.5 (12 s) countered. */
+    public static float ttkFactor(int playerWheel) {
+        return playerWheel > 0 ? 3.0f : playerWheel < 0 ? 0.5f : 1.0f;
     }
 
     /** Per enemy: {stock disengage distance, mode, next evaluation (ms)}. */
@@ -573,8 +571,8 @@ public class ModV35 {
             PlayerShip ps = (PlayerShip) p.sender;
             String ef = ModV34.factionOf(e), pf = ModV34.factionOf(ps);
             int w = wheel(ef, pf);
-            float wheelDealt = w < 0 ? 1.3f : w > 0 ? 0.8f : 1.0f;   // ModV34.counter already applied this part: the target factor replaces it
-            return dmg / wheelDealt * ttkFactor(-score(e, ps, false));
+            float wheelDealt = w < 0 ? 1.3f : w > 0 ? 0.8f : 1.0f;   // ModV34.counter already applied the wheel's +30%/-20%: the stronger kill-time step replaces it
+            return dmg / wheelDealt * ttkFactor(-w);
         } catch (Throwable t) {
             return dmg;
         }
