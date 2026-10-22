@@ -622,7 +622,8 @@ public class ModShips {
     public static String desc(SpaceObjectType t) {
         Hull h = hull(t);
         if (h == null) return null;
-        return h.lore + ModLang.tr("<br><br><font color='#d21aff'><b>SPECIAL SKILL</b></font><br>") + h.skill + statBlock(h);
+        String f = ModShipFlavour.of(h.id);
+        return (f != null ? f : h.lore) + ModLang.tr("<br><br><font color='#d21aff'><b>SPECIAL SKILL</b></font><br>") + h.skill + statBlock(h);
     }
 
     /** v34 (J1): stat block generated from the hull data, so it is always correct. */
