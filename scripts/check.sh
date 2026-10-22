@@ -4,7 +4,7 @@
 cd "$(dirname "$0")/.." || exit 2
 V=${1:-33}; mkdir -p out; LOG=out/build-v$V.log
 bash build.sh "$V" > "$LOG" 2>&1; rc=$?
-if [ $rc -eq 0 ] && grep -q "BUILD-OK" "$LOG" && grep -q "V30 VERIFY-OK" "$LOG"; then
+if [ $rc -eq 0 ] && grep -q "BUILD-OK" "$LOG" && grep -q "V30 VERIFY-OK" "$LOG" && { [ "$V" -lt 34 ] || grep -q "V34 VALUES-OK" "$LOG"; }; then
   echo "PASS v$V: out/space-corsair-mod-signed-v$V.apk (log: $LOG)"
 else
   [ $rc -eq 0 ] && rc=1

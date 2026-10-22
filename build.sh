@@ -17,6 +17,8 @@ java -cp "$(cat tools/cp.txt)" org.jf.smali.Main a -a 15 work/smali -o work/clas
 java -cp "tools/d2j/*" com.googlecode.dex2jar.tools.Dex2jarCmd -f -o work/game_v${V}.jar work/classes_v${V}.dex 2>&1 | tail -1
 (cd work/dtest && java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V17b 2>&1 | grep -v JAVA_TOOL | grep -v "^ok" ; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V17 2>&1 | grep -c "^ok ")
 (cd work/dtest && javac -nowarn -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V30.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V30 2>&1 | grep -v JAVA_TOOL | grep "V30 VERIFY-OK")
+# v34: value checks of the v34 rules (prints every FAIL line; must end with V34 VALUES-OK)
+(cd work/dtest && javac -nowarn -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V34.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V34 2>&1 | grep -v JAVA_TOOL | grep -v "^ok " ; java -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V34 2>&1 | grep -q "V34 VALUES-OK")
 # v30: modart is lossless WebP (ModArt.open tries <name>.webp, then <name>.png); each name must ship once
 shopt -s nullglob
 dups=$(for f in work/modart/*.png work/modart/*.webp; do b=$(basename "$f"); echo "${b%.*}"; done | sort | uniq -d)
