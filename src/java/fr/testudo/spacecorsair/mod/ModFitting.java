@@ -878,6 +878,14 @@ public final class ModFitting {
             HyperdriveEngineSpec hs = ht != null && ht.getGearSpec() instanceof HyperdriveEngineSpec ? (HyperdriveEngineSpec) ht.getGearSpec() : null;
             row(ModLang.tr("Hyperdrive"), empty(ht) || hs == null ? ModLang.tr("none") : f1(hs.energyCellsPerUnit) + " cells/unit");
 
+            if (pi.level >= ModV34.STAT_LEVEL) {
+                // v34: pilot stats appear from L10 (automatic; the last 200 come from faction storylines)
+                int st = ModV34.playerStat();
+                stats.addView(section(c, ModLang.tr("PILOT STATS")));
+                row(ModLang.tr("Attack"), st + " / " + ModV34.STAT_CAP);
+                row(ModLang.tr("Defense"), st + " / " + ModV34.STAT_CAP);
+                row(ModLang.tr("Reaction"), st + " / " + ModV34.STAT_CAP);
+            }
             stats.addView(section(c, ModLang.tr("CARGO")));
             row(ModLang.tr("Hold"), inv.getTotalWeight() + " / " + inv.getCapacityInTon() + " t");
             if (hull != null && hull.cargo != 1) row(ModLang.tr("Hull cargo bonus"), pct(hull.cargo));

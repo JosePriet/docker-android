@@ -534,6 +534,11 @@ public class ModQol {
             if (ships.length() > 0) msg += ModLang.tr(" New ships you can fly: ") + ships + ".";
             msg += " Level " + lvl + ModLang.tr(" lasers, shields and missiles can now be equipped.");
             post(msg);
+            if (lvl == ModV34.STAT_LEVEL) {
+                post(ModLang.tr("Pilot stats unlock at level 10. They are automatic.") + " "
+                    + ModLang.tr("ATK: more damage. DEF: less damage taken. REA: dodge.") + " "
+                    + ModLang.tr("The last 200 points come from faction storylines."));
+            }
             ModUi.markNewShips(lvl);
             fr.testudo.spacecorsair.display.hud.WelcomeMessage.setText(fr.testudo.spacecorsair.display.hud.WelcomeMessage.messageHaut,
                 ships.length() > 0 ? ModLang.tr("New ships: ") + ships : ModLang.tr("New gear tier unlocked"));

@@ -619,7 +619,25 @@ public class ModShips {
     public static String desc(SpaceObjectType t) {
         Hull h = hull(t);
         if (h == null) return null;
-        return h.lore + ModLang.tr("<br><br><font color='#d21aff'><b>SPECIAL SKILL</b></font><br>") + h.skill;
+        return h.lore + ModLang.tr("<br><br><font color='#d21aff'><b>SPECIAL SKILL</b></font><br>") + h.skill + statBlock(h);
+    }
+
+    /** v34 (J1): stat block generated from the hull data, so it is always correct. */
+    static String statBlock(Hull h) {
+        StringBuilder b = new StringBuilder(ModLang.tr("<br><br><font color='#6ad0ff'><b>STATS</b></font>"));
+        b.append("<br>").append(ModLang.tr("Class")).append(": ").append(CLASS_NAMES[h.cls]);
+        if (h.tech > 0) b.append(" ").append(TECH[Math.min(3, h.tech)]);
+        b.append("<br>").append(ModLang.tr("Faction")).append(": ").append(h.faction == null || h.faction.length() == 0 ? ModLang.tr("Neutral") : ModLang.tr(h.faction));
+        b.append("<br>").append(ModLang.tr("Slot size")).append(": ").append(ModV34.SLOT_NAMES[ModV34.slotOf(h.cls)]);
+        PlayerShipSpec s = h.spec;
+        if (s != null) {
+            b.append("<br>").append(ModLang.tr("Hull")).append(": x").append(Math.round(s.lifeBooster * 100) / 100f);
+            b.append("<br>").append(ModLang.tr("Speed")).append(": ").append(s.maxSpeedInformational).append(" / 100");
+            b.append("<br>").append(ModLang.tr("Agility")).append(": ").append(s.agilityInformational).append(" / 100");
+            b.append("<br>").append(ModLang.tr("Turrets")).append(": ").append(s.canonCount).append(" · ").append(ModLang.tr("Missiles")).append(": ").append(s.missileCount);
+        }
+        b.append("<br>").append(ModLang.tr("Cargo")).append(": x").append(Math.round(h.cargo * 100) / 100f);
+        return b.toString();
     }
 
     // ------------------------------------------------------------------ hull licences

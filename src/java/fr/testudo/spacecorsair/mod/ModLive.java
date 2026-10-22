@@ -6,6 +6,7 @@ import fr.testudo.spacecorsair.business.loot.LootElement;
 import fr.testudo.spacecorsair.business.loot.LootRarety;
 import fr.testudo.spacecorsair.business.player.PlayerShip;
 import fr.testudo.spacecorsair.business.projectiles.Projectile;
+import fr.testudo.spacecorsair.business.world.civil.CivilShip;
 import fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip;
 import fr.testudo.spacecorsair.display.Drawable;
 import fr.testudo.spacecorsair.display.Texture;
@@ -122,9 +123,20 @@ public final class ModLive {
                 if (titanHostile((GuardianCivilShip) e, c)) {
                     ModFx.sprR("marker_hostile", e.position.x, e.position.y, sz * 0.95f, sz * 0.95f, (t / 60.0f) % 360, 1.0f, 0.22f, 0.15f, 0.45f * ga, true);
                     rim(d, e, 1.035f, 1.0f, 0.3f, 0.18f, 0.6f * ga);
+                } else if (ModRep.rank(c.f.key) >= ModRep.FRIENDLY) {
+                    rim(d, e, 1.035f, 0.3f, 1.0f, 0.5f, 0.45f * ga);   // v34 standing colour: friendly / allied
+                } else {
+                    rim(d, e, 1.035f, 0.85f, 0.9f, 1.0f, 0.3f * ga);   // v34 standing colour: neutral
                 }
                 return;
             }
+        }
+        if (e instanceof CivilShip) {
+            // v34 standing colours (EVE-style): red when it hunts the player, white when neutral
+            Element ct = ((CivilShip) e).chasseTarget;
+            if (ct != null && ct.isPlayer) rim(d, e, 1.06f, 1.0f, 0.3f, 0.18f, 0.5f);
+            else rim(d, e, 1.04f, 0.85f, 0.9f, 1.0f, 0.22f);
+            return;
         }
         if (!hostileEnemy(e)) return;
         int boss = ModBoss.kindOf(e);

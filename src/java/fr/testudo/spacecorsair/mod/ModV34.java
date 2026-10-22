@@ -265,6 +265,41 @@ public class ModV34 {
         state.put(e, new int[] {4, Math.min(STAT_CAP, (s == null ? statBase(e.getLevel()) : s[1]) + 300), 1});
     }
 
+    // ------------------------------------------------------------------ slot sizes (H2)
+    public static final String[] SLOT_NAMES = {"S", "M", "L", "XL"};
+
+    /** Largest weapon size a hull class carries: Frigate S, Destroyer/Cruiser M, Battlecruiser/Battleship L, Capital/Titan XL. */
+    public static int slotOf(int cls) {
+        switch (cls) {
+            case ModShips.FRIGATE: return 0;
+            case ModShips.DESTROYER: case ModShips.CRUISER: return 1;
+            case ModShips.BATTLECRUISER: case ModShips.BATTLESHIP: return 2;
+            case ModShips.CAPITAL: case ModShips.TITAN: return 3;
+            default: return 1;
+        }
+    }
+
+    /** Weapon size from its level band: below L7 S, L7+ M, L22+ L, L37+ XL (ModSpecs.TIER_REQ). Non-weapons: -1. */
+    public static int weaponSize(fr.testudo.spacecorsair.business.loot.SpaceObjectType t) {
+        fr.testudo.spacecorsair.business.loot.stuff.GearSpec g = t == null ? null : t.getGearSpec();
+        if (g == null || g.gearType != fr.testudo.spacecorsair.business.loot.stuff.GearSpec.Type.LASER) return -1;
+        int s = 0;
+        for (int i = 1; i < ModSpecs.TIER_REQ.length; i++) if (g.level >= ModSpecs.TIER_REQ[i]) s = i;
+        return s;
+    }
+
+    /** H2: true when the weapon fits the slots of the hull the pilot flies. */
+    public static boolean fits(fr.testudo.spacecorsair.business.loot.SpaceObjectType t) {
+        try {
+            int w = weaponSize(t);
+            if (w < 0) return true;
+            int c = ModShips.cls(ObjectRegistry.INSTANCE.game.playerInfo.playerGear.playerShip);
+            return c < 0 || w <= slotOf(c);
+        } catch (Throwable th) {
+            return true;
+        }
+    }
+
     // ------------------------------------------------------------------ factions and weapons
     static final int RAIL = 0, AUTO = 1, ARTY = 2, BLAST = 3, DISINT = 4, ARC = 5;
 
