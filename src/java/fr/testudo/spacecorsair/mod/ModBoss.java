@@ -274,24 +274,24 @@ public class ModBoss extends MissionListener {
         float lifeMult;
         if (kind == MATRIARCH) {
             b = EnnemisFactory.newUfo(lvl);
-            lifeMult = 10.0f;
+            lifeMult = 25.0f / 15.0f;      // v34 override on the x15 boss factor: the tankiest boss (was x25 in total)
         } else if (kind == GUARDIAN) {
             b = EnnemisFactory.newAlbatros(lvl);
-            lifeMult = 2.5f;
+            lifeMult = 1.0f;               // its three turrets carry the fight
         } else {
             b = EnnemisFactory.newAlienBlatte(lvl);
-            lifeMult = 2.0f;
+            lifeMult = 1.0f;
         }
         b.setElite(true);
         b.elite = false;                  // v30: the skull-and-star plate (ModLive) replaces the elite star and stock name
         b.specificName = null;
         b.levelStr = "";
+        ModV34.boss(b);                   // v34 factors: hull x15, damage x2, T4, +300 pilot stats; the per-boss overrides follow
         b.maxLife = b.maxLife * lifeMult;
         b.life = b.maxLife;
         b.lifeInPourc = 100.0f;
-        ModV34.boss(b);
         // v30 boss profile: tankier and harder-hitting than any ship of its class, but slower, less agile, slower to reload
-        float dm = kind == EMPRESS ? 1.0f : 2.2f;   // the Empress keeps weak guns (brief: swarm boss)
+        float dm = kind == EMPRESS ? 0.5f : 1.1f;   // on the x2 factor; the Empress keeps weak guns (brief: swarm boss)
         b.bulletDamage *= dm;
         b.milleSecBetweenShots = (long) (b.milleSecBetweenShots * 1.6f);
         b.pouseeForce *= 0.75f;

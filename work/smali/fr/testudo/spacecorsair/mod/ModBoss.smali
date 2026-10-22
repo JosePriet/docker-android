@@ -4676,36 +4676,36 @@
     .registers 12
 
     .prologue
-    const/4 v5, 0x2
-
     const/high16 v10, 0x42c80000    # 100.0f
 
     const v9, 0x3fcccccd    # 1.6f
+
+    const/high16 v0, 0x3f800000    # 1.0f
 
     const/4 v8, 0x1
 
     const/4 v4, 0x0
 
     .line 272
-    iget v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->level:I
+    iget v1, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->level:I
 
-    add-int/lit8 v0, v0, 0x2
+    add-int/lit8 v1, v1, 0x2
 
     .line 275
-    iget v1, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->kind:I
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->kind:I
 
-    if-nez v1, :cond_b0
+    if-nez v2, :cond_b4
 
     .line 276
-    invoke-static {v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newUfo(I)Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newUfo(I)Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;
 
     move-result-object v1
 
     .line 277
-    const/high16 v0, 0x41200000    # 10.0f
+    const v0, 0x3fd55555
 
     .line 285
-    :goto_16
+    :goto_18
     invoke-virtual {v1, v8}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->setElite(Z)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     .line 286
@@ -4722,34 +4722,36 @@
     iput-object v2, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->levelStr:Ljava/lang/String;
 
     .line 289
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModV34;->boss(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;)V
+
+    .line 290
     iget v2, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->maxLife:F
 
     mul-float/2addr v0, v2
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->maxLife:F
 
-    .line 290
+    .line 291
     iget v0, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->maxLife:F
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->life:F
 
-    .line 291
-    iput v10, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->lifeInPourc:F
-
     .line 292
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModV34;->boss(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;)V
+    iput v10, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->lifeInPourc:F
 
     .line 294
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->kind:I
 
-    if-ne v0, v5, :cond_c4
+    const/4 v2, 0x2
 
-    const/high16 v0, 0x3f800000    # 1.0f
+    if-ne v0, v2, :cond_c4
+
+    const/high16 v0, 0x3f000000    # 0.5f
 
     move v2, v0
 
     .line 295
-    :goto_37
+    :goto_3a
     iget v0, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->bulletDamage:F
 
     mul-float/2addr v0, v2
@@ -4810,6 +4812,8 @@
 
     aput-object v0, v3, v8
 
+    const/4 v5, 0x2
+
     move-object v0, v1
 
     check-cast v0, Lfr/testudo/spacecorsair/business/ennemis/Albatros;
@@ -4821,7 +4825,7 @@
     move-object v0, v3
 
     .line 302
-    :goto_6f
+    :goto_73
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->canons:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisCanon;
 
     .line 303
@@ -4841,7 +4845,7 @@
     move v0, v4
 
     .line 305
-    :goto_7d
+    :goto_81
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->canons:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisCanon;
 
     array-length v3, v3
@@ -4902,48 +4906,42 @@
     .line 305
     add-int/lit8 v0, v0, 0x1
 
-    goto :goto_7d
+    goto :goto_81
 
     .line 278
-    :cond_b0
-    iget v1, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->kind:I
+    :cond_b4
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->kind:I
 
-    if-ne v1, v8, :cond_bc
+    if-ne v2, v8, :cond_be
 
     .line 279
-    invoke-static {v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlbatros(I)Lfr/testudo/spacecorsair/business/ennemis/Albatros;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlbatros(I)Lfr/testudo/spacecorsair/business/ennemis/Albatros;
 
     move-result-object v1
 
-    .line 280
-    const/high16 v0, 0x40200000    # 2.5f
-
-    goto/16 :goto_16
+    goto/16 :goto_18
 
     .line 282
-    :cond_bc
-    invoke-static {v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlienBlatte(I)Lfr/testudo/spacecorsair/business/ennemis/AlienBlatte;
+    :cond_be
+    invoke-static {v1}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlienBlatte(I)Lfr/testudo/spacecorsair/business/ennemis/AlienBlatte;
 
     move-result-object v1
 
-    .line 283
-    const/high16 v0, 0x40000000    # 2.0f
-
-    goto/16 :goto_16
+    goto/16 :goto_18
 
     .line 294
     :cond_c4
-    const v0, 0x400ccccd    # 2.2f
+    const v0, 0x3f8ccccd    # 1.1f
 
     move v2, v0
 
-    goto/16 :goto_37
+    goto/16 :goto_3a
 
     .line 302
     :cond_ca
     const/4 v0, 0x0
 
-    goto :goto_6f
+    goto :goto_73
 
     .line 311
     :cond_cc

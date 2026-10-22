@@ -76,15 +76,16 @@ public class ModV34 {
     public static void refundIndustrials(PlayerInfo pi) {
         try {
             int total = 0;
-            java.util.Iterator<fr.testudo.spacecorsair.business.loot.SpaceObjectType> it = pi.availShips.iterator();
-            while (it.hasNext()) {
-                ModShips.Hull h = ModShips.hull(it.next());
+            java.util.ArrayList<fr.testudo.spacecorsair.business.loot.SpaceObjectType> gone = new java.util.ArrayList<fr.testudo.spacecorsair.business.loot.SpaceObjectType>();
+            for (fr.testudo.spacecorsair.business.loot.SpaceObjectType t : pi.availShips) {
+                ModShips.Hull h = ModShips.hull(t);
                 if (h == null || h.cls != ModShips.INDUSTRIAL) continue;
-                it.remove();
+                gone.add(t);
                 total += h.price;
             }
             if (total <= 0) return;
-            ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(total);
+            ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(total);   // credit first: a failure keeps the hulls
+            pi.availShips.removeAll(gone);
             ModQol.post(ModLang.tr("Industrial ship retired. Refund: ") + total + " cr. " + ModLang.tr("Fitted gear stays on your pilot."));
         } catch (Throwable t) {
             // keep the save as it is
@@ -147,10 +148,16 @@ public class ModV34 {
         }
     }
 
-    /** Death fee: 2 same-level kills, capped so 3 deaths cost at most 15% of the estimated hourly income (about 80 bounties). */
+    /**
+     * sim/econ_report.md hourly income in bounties: 40 kills + 4 elites x2 + 0.3 bosses x8 = 50.4, loot share 0.5 (+25.2),
+     * missions 1.5 x 3 = 4.5; about 80. The cap is a safety net: at 2 bounties a death it does not bind (sim worst case 7.4%).
+     */
+    static final float INCOME_BOUNTIES = 80f;
+
+    /** Death fee: 2 same-level kills, capped so 3 deaths cost at most 15% of the sim's hourly income. */
     public static int deathFee(int lv) {
         float b = bounty(lv);
-        return Math.round(Math.min(2f * b, 0.15f * 80f * b / 3f));
+        return Math.round(Math.min(2f * b, 0.15f * INCOME_BOUNTIES * b / 3f));
     }
 
     /** Level bonus above L17: +1% shield regen per level. */
@@ -229,6 +236,35 @@ public class ModV34 {
     // ------------------------------------------------------------------ enemy curve
     static final float[] TIER_F = {1.0f, 1.0f, 1.15f, 1.3f, 1.5f};
 
+    /** Req 3 hull class factor (ModShips class index): frigate 0.6, battleship 3.0 (owner); destroyer 1, cruiser 1.6, BC 2.2, capital 5, titan 8 [P]. */
+    public static float classFactor(int cls) {
+        switch (cls) {
+            case ModShips.FRIGATE: return 0.6f;
+            case ModShips.DESTROYER: return 1.0f;
+            case ModShips.CRUISER: return 1.6f;
+            case ModShips.BATTLECRUISER: return 2.2f;
+            case ModShips.BATTLESHIP: return 3.0f;
+            case ModShips.CAPITAL: return 5.0f;
+            case ModShips.TITAN: return 8.0f;
+            default: return 1.0f;
+        }
+    }
+
+    /** Stock enemy types are the neutral generalist baseline: their stock rows already carry their size, so they count as destroyer class (x1). */
+    static final int STOCK_CLASS = ModShips.DESTROYER;
+
+    /** Re-tier an enemy: damage, shield and fire rate move by TIER_F[to] / TIER_F[from]. */
+    static void retier(Ennemis e, int from, int to) {
+        float k = TIER_F[to] / TIER_F[from];
+        if (k == 1.0f) return;
+        e.bulletDamage *= k;
+        e.milleSecBetweenShots = (long) (e.milleSecBetweenShots / k);
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) {
+            fr.testudo.spacecorsair.business.player.Shield sh = ((fr.testudo.spacecorsair.business.ennemis.FrelonShip) e).shield;
+            if (sh != null) { sh.capacity *= k; sh.currentValue = sh.capacity; }
+        }
+    }
+
     /** Level curve past the stock tables (L15 row x 1.07 per level). */
     public static float curve(int lv) {
         return (float) Math.pow(1.07, Math.max(0, Math.min(CAP, lv) - 15));
@@ -252,12 +288,16 @@ public class ModV34 {
             int lv = e.getLevel();
             int t = Math.max(1, Math.min(4, 1 + lv / 12 + (int) Math.floor(Math.random() * 3) - 1));
             state.put(e, new int[] {t, statBase(lv)});
-            float c = curve(lv);
+            float c = curve(lv) * classFactor(STOCK_CLASS);
             e.maxLife *= c;
             e.life = e.maxLife;
-            e.xp = Math.round(e.xp * c);   // XP keeps pace with the +5% per level XP table
-            e.bulletDamage *= c * TIER_F[t];
-            e.milleSecBetweenShots = (long) (e.milleSecBetweenShots / (1.0f + (TIER_F[t] - 1.0f) * 0.5f));
+            e.xp = Math.round(e.xp * curve(lv));   // XP keeps pace with the +5% per level XP table
+            e.bulletDamage *= c;
+            if (e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) {
+                fr.testudo.spacecorsair.business.player.Shield sh = ((fr.testudo.spacecorsair.business.ennemis.FrelonShip) e).shield;
+                if (sh != null) { sh.capacity *= c; sh.currentValue = sh.capacity; }
+            }
+            retier(e, 1, t);
         } catch (Throwable th) {
             // stock stats
         }
@@ -269,19 +309,39 @@ public class ModV34 {
             int[] s = state.get(e);
             if (s == null) { s = new int[] {1, statBase(e.getLevel())}; state.put(e, s); }
             if (s.length > 2) return;
-            state.put(e, new int[] {Math.min(4, s[0] + 1), Math.min(STAT_CAP, s[1] + 150), 1});
+            int t = Math.min(4, s[0] + 1);
+            state.put(e, new int[] {t, Math.min(STAT_CAP, s[1] + 150), 1});
             e.maxLife *= 2.5f;
             e.life = e.maxLife;
             e.bulletDamage *= 1.5f;
+            retier(e, s[0], t);
         } catch (Throwable th) {
             // stock elite
         }
     }
 
-    /** Bosses (ModBoss) keep their hand-tuned profile and get +300 pilot stats on top. */
+    /**
+     * Req 3 boss factors: hull x15, damage x2, tier T4, +300 pilot stats (clamped). Replaces the elite factors the stock
+     * setElite applied; ModBoss then applies its per-boss overrides.
+     */
     public static void boss(Ennemis e) {
-        int[] s = state.get(e);
-        state.put(e, new int[] {4, Math.min(STAT_CAP, (s == null ? statBase(e.getLevel()) : s[1]) + 300), 1});
+        try {
+            int[] s = state.get(e);
+            int t = s == null ? 1 : s[0], st = s == null ? statBase(e.getLevel()) : s[1];
+            if (s != null && s.length > 2 && s[2] == 1) {   // undo the elite factors
+                e.maxLife /= 2.5f;
+                e.bulletDamage /= 1.5f;
+                st -= 150;
+            }
+            if (s != null && s.length > 2 && s[2] == 2) return;
+            state.put(e, new int[] {4, Math.min(STAT_CAP, st + 300), 2});
+            e.maxLife *= 15f;
+            e.life = e.maxLife;
+            e.bulletDamage *= 2f;
+            retier(e, t, 4);
+        } catch (Throwable th) {
+            // stock boss
+        }
     }
 
     // ------------------------------------------------------------------ slot sizes (H2)
@@ -329,6 +389,7 @@ public class ModV34 {
             if (e.isPlayer) return ModShips.factionKey((PlayerShip) e);
             ModCapitals.Cap c = ModCapitals.cap(e);
             if (c != null && c.f != null) return c.f.key;
+            if (e instanceof TransportCivilShip) return ModShips.factionKey(freighters.get(e));   // F1: Foundry Ironclad, Graywall Varn
             if (e instanceof Ennemis) {
                 String n = ((Ennemis) e).specificName;
                 if (n != null) {
@@ -372,12 +433,33 @@ public class ModV34 {
         }
     }
 
+    /** H1: a faction hull flying another faction's weapon family. */
+    public static boolean offFaction(PlayerShip ps) {
+        try {
+            String k = ModShips.factionKey(ps);
+            int fam = ModWeapons.family(ps.laserSpec);
+            return k.length() > 0 && fam >= 0 && !ownFamily(k, fam);
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    /** H1: off-faction weapons also fire 40% slower (damage -40% is applied per hit in damage()). */
+    public static void offFactionRate(PlayerShip ps) {
+        try {
+            ps.milleSecBetweenShots = (long) (ps.milleSecBetweenShots / 0.6f);
+            if (ps.playerCannons != null) for (int k = 0; k < ps.playerCannons.length; k++) ps.playerCannons[k].timeBewteenShootInMilli = (int) (ps.playerCannons[k].timeBewteenShootInMilli / 0.6f);
+        } catch (Throwable t) {
+            // stock reload
+        }
+    }
+
     /** H6: counter wheel x weapon-type resist, clamped to x0.5-x2.0. */
     public static float counter(String atk, String def, int fam) {
         float m = 1.0f;
         if (atk.length() > 0 && def.length() > 0 && !atk.equals(def)) {
-            if (ModCounterData.beats(atk, def)) m *= 1.3f * 1.2f;          // counter deals +30%, the countered side takes +20%
-            else if (ModCounterData.beats(def, atk)) m *= 0.7f * 0.8f;     // inverse: -30% dealt into a counter that takes -20%
+            if (ModCounterData.beats(atk, def)) m *= 1.3f;          // the counter deals +30% to its rival
+            else if (ModCounterData.beats(def, atk)) m *= 0.8f;     // and takes -20% from it
         }
         if (def.length() > 0 && fam >= 0) m *= ModCounterData.weaponTaken(def, fam);
         return Math.max(0.5f, Math.min(2.0f, m));

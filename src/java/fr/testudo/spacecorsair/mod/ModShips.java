@@ -521,7 +521,10 @@ public class ModShips {
 
     /** v34: faction key of the player's hull ("" = neutral line). Hull.faction holds the display name. */
     public static String factionKey(PlayerShip ps) {
-        Hull h = ps == null ? null : hullFor(ps.shipSpec);
+        return factionKey(ps == null ? null : hullFor(ps.shipSpec));
+    }
+
+    static String factionKey(Hull h) {
         if (h == null || h.faction == null || h.faction.length() == 0) return "";
         for (ModCapitals.Faction f : ModCapitals.FACTIONS) if (f.name.equals(h.faction) || f.key.equals(h.faction)) return f.key;
         return "";
@@ -740,8 +743,12 @@ public class ModShips {
     public static void apply(PlayerShip ps) {
         Hull h = hullFor(ps.shipSpec);
         if (h == null) return;
-        ModV34.railReload(ps);
-        if (h.dmg != 1.0f || h.reload != 1.0f) {
+        if (ModV34.offFaction(ps)) {
+            ModV34.offFactionRate(ps);   // H1: -40% fire rate too, and no innate hull bonuses
+        } else {
+            ModV34.railReload(ps);
+        }
+        if (!ModV34.offFaction(ps) && (h.dmg != 1.0f || h.reload != 1.0f)) {
             ps.bulletDamage *= h.dmg;
             ps.milleSecBetweenShots = (long) (ps.milleSecBetweenShots * h.reload);
             if (ps.playerCannons != null) {

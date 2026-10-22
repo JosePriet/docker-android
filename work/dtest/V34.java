@@ -14,7 +14,12 @@ eq("level map 4",ModV34.lvl(4),4,0);eq("level map 16",ModV34.lvl(16),40,0);eq("l
 eq("curve L15",ModV34.curve(15),1.0,1e-4);eq("curve L25",ModV34.curve(25),Math.pow(1.07,10),1e-3);
 float b=ModV34.bounty(15);eq("death fee = 2 bounties",ModV34.deathFee(15),Math.round(2*b),1);
 eq("off-faction -40%",ModV34.weaponRule("spartan",3),0.6,1e-4);eq("own family",ModV34.weaponRule("spartan",0),1.0,1e-4);eq("neutral -15%",ModV34.weaponRule("",4),0.85,1e-4);
-eq("counter spartan>reaver rail-weak",ModV34.counter("spartan","reaver",0),Math.min(2.0,1.3*1.2*1.2),1e-3);
-eq("counter clamp floor",ModV34.counter("reaver","spartan",3),0.5,1e-3);
+eq("counter spartan>reaver rail-weak",ModV34.counter("spartan","reaver",0),1.3*1.2,1e-3);
+eq("counter reaver into spartan, resisted",ModV34.counter("reaver","spartan",3),0.8*0.8,1e-3);
+eq("counter no rivalry",ModV34.counter("spartan","warden",4),1.0,1e-3);
+eq("counter clamp ceiling",ModV34.counter("spartan","reaver",0)<=2.0?1:0,1,0);
+for(int lv=0;lv<=40;lv++){if(3*ModV34.deathFee(lv)>0.15*80*ModV34.bounty(lv)+1){eq("death fee cap L"+lv,0,1,0);}}
+eq("class frigate",ModV34.classFactor(0),0.6,1e-4);eq("class battleship",ModV34.classFactor(4),3.0,1e-4);eq("class titan",ModV34.classFactor(6),8.0,1e-4);
+
 eq("slot frigate",ModV34.slotOf(0),0,0);eq("slot titan",ModV34.slotOf(6),3,0);
 System.out.println(bad==0?"V34 VALUES-OK":"V34 VALUES-FAIL "+bad);}}
