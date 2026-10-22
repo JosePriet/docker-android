@@ -847,7 +847,7 @@
     :cond_172
     const/4 v2, 0x3
 
-    if-lt v11, v2, :cond_1a7
+    if-lt v11, v2, :cond_1aa
 
     invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModV35;->huntLeft(Ljava/lang/String;)J
 
@@ -857,7 +857,7 @@
 
     cmp-long v2, v2, v12
 
-    if-nez v2, :cond_1a7
+    if-nez v2, :cond_1aa
 
     .line 253
     const/4 v2, 0x0
@@ -865,13 +865,13 @@
     :goto_180
     array-length v3, v5
 
-    if-ge v2, v3, :cond_1a7
+    if-ge v2, v3, :cond_1aa
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFaction;->hunt(I)Z
 
     move-result v3
 
-    if-eqz v3, :cond_1a4
+    if-eqz v3, :cond_1a7
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFaction;->key(I)Ljava/lang/String;
 
@@ -881,7 +881,7 @@
 
     move-result v3
 
-    if-eqz v3, :cond_1a4
+    if-eqz v3, :cond_1a7
 
     aget-object v3, v5, v2
 
@@ -891,7 +891,7 @@
 
     move-result v3
 
-    if-nez v3, :cond_1a4
+    if-nez v3, :cond_1a7
 
     aget-object v3, v5, v2
 
@@ -899,13 +899,15 @@
 
     invoke-interface {v0, v3}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    :cond_1a4
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->huntNote()V
+
+    :cond_1a7
     add-int/lit8 v2, v2, 0x1
 
     goto :goto_180
 
     .line 255
-    :cond_1a7
+    :cond_1aa
     if-eqz v6, :cond_35
 
     iget-object v2, v6, Lfr/testudo/spacecorsair/business/mission/Mission;->missionEngine:Lfr/testudo/spacecorsair/business/mission/MissionListener;
@@ -941,8 +943,8 @@
     move-object/from16 v0, p1
 
     invoke-interface {v0, v6}, Ljava/util/List;->add(Ljava/lang/Object;)Z
-    :try_end_1cc
-    .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_1cc} :catch_c3
+    :try_end_1cf
+    .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_1cf} :catch_c3
 
     goto/16 :goto_35
 .end method

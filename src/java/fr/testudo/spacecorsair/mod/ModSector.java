@@ -230,7 +230,6 @@ public final class ModSector {
 
     private static final String[] FIELD_ART = {"albatros", "warlord", "orig_police", "monolith", "bastion", "raptor"};
 
-    /** A field of still, burnt-out hulls (existing art). They block and can be shot apart; no loot (the derelict sites carry loot). */
     /** Owner 2026-10-22: a looted wreck field refills after 1 h of play. */
     static final long FIELD_REFILL_MS = 3600000L;
 
@@ -238,6 +237,7 @@ public final class ModSector {
         return lootedAt < 0 || now - lootedAt >= FIELD_REFILL_MS;
     }
 
+    /** A field of still, burnt-out hulls (existing art). They block and can be shot apart; each hull holds loot while the field is full. */
     private static void wreckField(LevelId id) {
         Random r = new Random(id.name().hashCode() * 31L + 5);
         Vector2 c = poi[WRECKS];
@@ -408,7 +408,7 @@ public final class ModSector {
     public static final float PURSUIT_STANDING = -25f;   // owner 2026-10-22
     public static final long[] WAVE_AT = {10000, 45000, 90000};   // owner 2026-10-22: 3 waves within 1.5 min of play
 
-    /** ModRep.flagshipDestroyed: -40 standing (allies follow by half, ModRep.change), then the pursuit starts. */
+    /** ModRep.flagshipDestroyed: -25 standing (allies follow by half, ModRep.change), then the pursuit starts. */
     static void flagshipKilled(String key) {
         SharedPreferences p = ModQol.prefs();
         if (p == null) return;

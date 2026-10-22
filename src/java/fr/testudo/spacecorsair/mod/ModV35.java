@@ -238,17 +238,20 @@ public class ModV35 {
         return Math.max(0, at + HUNT_COOLDOWN_MS - System.currentTimeMillis());
     }
 
-    /** ModFaction.complete for a renegade hunt: the core, the cooldown, and a one-time note about the cooldown. */
+    /** ModFaction.complete for a renegade hunt: the core and the daily cooldown. */
     static void huntDone(String key) {
         addCore(key, null);
         SharedPreferences p = ModQol.prefs();
         if (p == null) return;
-        SharedPreferences.Editor ed = p.edit().putLong("v35_hunt_" + key, System.currentTimeMillis());
-        if (!p.getBoolean("v35_hunt_note", false)) {
-            ed.putBoolean("v35_hunt_note", true);
-            ModQol.post(ModLang.tr("Renegade hunts can be taken once a day per faction. Stock bosses and rival flagships also drop faction cores."));
-        }
-        ed.apply();
+        p.edit().putLong("v35_hunt_" + key, System.currentTimeMillis()).apply();
+    }
+
+    /** ModFaction.addAvailable: the first time a renegade hunt is offered, a one-time note about its daily limit (owner). */
+    static void huntNote() {
+        SharedPreferences p = ModQol.prefs();
+        if (p == null || p.getBoolean("v35_hunt_note", false)) return;
+        p.edit().putBoolean("v35_hunt_note", true).apply();
+        ModQol.post(ModLang.tr("Renegade hunts can be taken once a day per faction. Stock bosses and rival flagships also drop faction cores."));
     }
 
     /** Pure: the factions whose core a flagship kill can give (those that counter the flagship's faction). */

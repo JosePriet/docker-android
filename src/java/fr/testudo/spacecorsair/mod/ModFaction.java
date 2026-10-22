@@ -250,7 +250,7 @@ public class ModFaction extends MissionListener {
                     if (!list.contains(ms[pick])) list.add(ms[pick]);
                 }
                 if (rank >= ModRep.FRIENDLY && ModV35.huntLeft(k) == 0) {
-                    for (int i = 0; i < ms.length; i++) if (hunt(i) && key(i).equals(k) && !list.contains(ms[i])) list.add(ms[i]);
+                    for (int i = 0; i < ms.length; i++) if (hunt(i) && key(i).equals(k) && !list.contains(ms[i])) { list.add(ms[i]); ModV35.huntNote(); }
                 }
                 if (cur != null && cur.missionEngine instanceof ModFaction && key(((ModFaction) cur.missionEngine).idx).equals(k) && !list.contains(cur)) list.add(cur);
             }

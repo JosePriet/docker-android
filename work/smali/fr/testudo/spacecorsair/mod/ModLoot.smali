@@ -213,16 +213,16 @@
     .prologue
     const/4 v0, 0x1
 
-    .line 258
+    .line 259
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV35;->bossCores(I)V
 
-    .line 260
+    .line 261
     :try_start_4
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLoot;->tierForPilot()I
 
     move-result v1
 
-    .line 261
+    .line 262
     if-ne p0, v0, :cond_62
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLoot;->SPARTAN:[I
@@ -246,7 +246,7 @@
 
     invoke-static {v0, v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModLoot;->toHold(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;Ljava/lang/String;FFF)V
 
-    .line 262
+    .line 263
     const/4 v0, 0x1
 
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
@@ -261,7 +261,7 @@
 
     move-result v1
 
-    .line 263
+    .line 264
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v2
@@ -274,19 +274,19 @@
 
     div-double/2addr v2, v4
 
-    .line 264
+    .line 265
     const-wide v4, 0x3faeb851eb851eb8L    # 0.06
 
     cmpg-double v0, v2, v4
 
     if-gez v0, :cond_65
 
-    .line 265
+    .line 266
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLoot;->secretItem()Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     move-result-object v0
 
-    .line 266
+    .line 267
     if-nez v0, :cond_4f
 
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
@@ -297,7 +297,7 @@
 
     move-result-object v0
 
-    .line 267
+    .line 268
     :cond_4f
     if-eqz v0, :cond_61
 
@@ -315,18 +315,18 @@
 
     invoke-static {v0, v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModLoot;->toHold(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;Ljava/lang/String;FFF)V
 
-    .line 275
+    .line 276
     :cond_61
     :goto_61
     return-void
 
-    .line 261
+    .line 262
     :cond_62
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLoot;->ALIEN:[I
 
     goto :goto_c
 
-    .line 268
+    .line 269
     :cond_65
     const-wide v4, 0x3fd6666666666666L    # 0.35
 
@@ -334,7 +334,7 @@
 
     if-gez v0, :cond_61
 
-    .line 269
+    .line 270
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/LootRarety;->EXCEPTIONAL:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     add-int/lit8 v1, v1, 0x1
@@ -343,7 +343,7 @@
 
     move-result-object v0
 
-    .line 270
+    .line 271
     if-eqz v0, :cond_61
 
     const-string v1, "RARE DROP: "
@@ -364,7 +364,7 @@
 
     goto :goto_61
 
-    .line 272
+    .line 273
     :catch_8a
     move-exception v0
 
@@ -642,7 +642,7 @@
 
     if-eqz v4, :cond_11
 
-    .line 243
+    .line 244
     :cond_10
     :goto_10
     return-void
@@ -673,22 +673,43 @@
 
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->srcLevel:I
 
-    if-lez v4, :cond_9a
+    if-lez v4, :cond_ab
 
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->srcLevel:I
 
     :goto_27
     invoke-static {v5, v4}, Ljava/lang/Math;->max(II)I
 
-    move-result v4
+    move-result v5
 
     .line 233
-    iget-boolean v5, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->srcBoss:Z
+    iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->lootKey:Ljava/lang/String;
 
-    if-eqz v5, :cond_a3
+    if-eqz v4, :cond_b5
+
+    iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->lootKey:Ljava/lang/String;
+
+    const-string v6, "field:"
+
+    invoke-virtual {v4, v6}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v4
+
+    if-eqz v4, :cond_b5
+
+    move v4, v2
 
     .line 234
-    :goto_2f
+    :goto_3a
+    iget-boolean v6, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->srcBoss:Z
+
+    if-nez v6, :cond_40
+
+    if-eqz v4, :cond_b7
+
+    .line 235
+    :cond_40
+    :goto_40
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v6
@@ -699,20 +720,20 @@
 
     if-gez v3, :cond_10
 
-    .line 235
+    .line 236
     iget-boolean v3, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->derelict:Z
 
-    if-eqz v3, :cond_c3
+    if-eqz v3, :cond_d7
 
-    :goto_3c
+    :goto_4d
     iget-boolean v3, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->srcBoss:Z
 
-    if-eqz v3, :cond_c6
+    if-eqz v3, :cond_da
 
-    :goto_40
+    :goto_51
     add-int/2addr v0, v2
 
-    .line 236
+    .line 237
     const/4 v1, 0x2
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->srcClass:I
@@ -723,11 +744,11 @@
 
     iget-boolean v2, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->srcElite:Z
 
-    invoke-static {v4, v1, v2, v0}, Lfr/testudo/spacecorsair/mod/ModLoot;->roll(IIZI)Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    invoke-static {v5, v1, v2, v0}, Lfr/testudo/spacecorsair/mod/ModLoot;->roll(IIZI)Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     move-result-object v2
 
-    .line 237
+    .line 238
     invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/LootRarety;->getRaretySort()I
 
     move-result v0
@@ -738,7 +759,7 @@
 
     move-result v1
 
-    if-lt v0, v1, :cond_cf
+    if-lt v0, v1, :cond_e3
 
     invoke-static {}, Ljava/lang/Math;->random()D
 
@@ -746,27 +767,27 @@
 
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->derelict:Z
 
-    if-eqz v0, :cond_c9
+    if-eqz v0, :cond_dd
 
     const-wide/high16 v0, 0x3fe0000000000000L    # 0.5
 
-    :goto_64
+    :goto_75
     cmpg-double v0, v6, v0
 
-    if-gez v0, :cond_cf
+    if-gez v0, :cond_e3
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLoot;->factionItem()Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     move-result-object v0
 
-    .line 238
-    :goto_6c
-    if-eqz v0, :cond_d1
+    .line 239
+    :goto_7d
+    if-eqz v0, :cond_e5
 
-    :goto_6e
+    :goto_7f
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModLoot;->drop(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)V
 
-    .line 239
+    .line 240
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v0
@@ -803,14 +824,14 @@
 
     goto/16 :goto_10
 
-    .line 240
-    :catch_97
+    .line 241
+    :catch_a8
     move-exception v0
 
     goto/16 :goto_10
 
     .line 232
-    :cond_9a
+    :cond_ab
     sget-object v4, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v4, v4, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -819,76 +840,82 @@
 
     iget v4, v4, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
 
-    goto :goto_27
+    goto/16 :goto_27
+
+    :cond_b5
+    move v4, v1
 
     .line 233
-    :cond_a3
-    const/high16 v5, 0x3f800000    # 1.0f
+    goto :goto_3a
+
+    .line 234
+    :cond_b7
+    const/high16 v4, 0x3f800000    # 1.0f
 
     iget-boolean v3, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->derelict:Z
 
-    if-eqz v3, :cond_b7
+    if-eqz v3, :cond_cb
 
     const v3, 0x3f19999a    # 0.6f
 
-    :goto_ac
+    :goto_c0
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->lootMult()F
 
     move-result v6
 
     mul-float/2addr v3, v6
 
-    invoke-static {v5, v3}, Ljava/lang/Math;->min(FF)F
+    invoke-static {v4, v3}, Ljava/lang/Math;->min(FF)F
 
     move-result v3
 
-    goto/16 :goto_2f
+    goto/16 :goto_40
 
-    :cond_b7
+    :cond_cb
     iget-boolean v3, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->srcElite:Z
 
-    if-eqz v3, :cond_bf
+    if-eqz v3, :cond_d3
 
     const v3, 0x3f333333    # 0.7f
 
-    goto :goto_ac
+    goto :goto_c0
 
-    :cond_bf
+    :cond_d3
     const v3, 0x3eb33333    # 0.35f
 
-    goto :goto_ac
+    goto :goto_c0
 
-    :cond_c3
+    :cond_d7
     move v2, v1
 
-    .line 235
-    goto/16 :goto_3c
+    .line 236
+    goto/16 :goto_4d
 
-    :cond_c6
+    :cond_da
     move v0, v1
 
-    goto/16 :goto_40
-
-    .line 237
-    :cond_c9
-    const-wide v0, 0x3fd3333333333333L    # 0.3
-
-    goto :goto_64
-
-    :cond_cf
-    const/4 v0, 0x0
-
-    goto :goto_6c
+    goto/16 :goto_51
 
     .line 238
-    :cond_d1
-    invoke-static {v2, v4}, Lfr/testudo/spacecorsair/mod/ModLoot;->pick(Lfr/testudo/spacecorsair/business/loot/LootRarety;I)Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
-    :try_end_d4
-    .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_d4} :catch_97
+    :cond_dd
+    const-wide v0, 0x3fd3333333333333L    # 0.3
+
+    goto :goto_75
+
+    :cond_e3
+    const/4 v0, 0x0
+
+    goto :goto_7d
+
+    .line 239
+    :cond_e5
+    invoke-static {v2, v5}, Lfr/testudo/spacecorsair/mod/ModLoot;->pick(Lfr/testudo/spacecorsair/business/loot/LootRarety;I)Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    :try_end_e8
+    .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_e8} :catch_a8
 
     move-result-object v0
 
-    goto :goto_6e
+    goto :goto_7f
 .end method
 
 .method private static index()V
@@ -1741,12 +1768,12 @@
     .registers 6
 
     .prologue
-    .line 247
+    .line 248
     new-instance v1, Ljava/util/ArrayList;
 
     invoke-direct {v1}, Ljava/util/ArrayList;-><init>()V
 
-    .line 248
+    .line 249
     invoke-static {}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->values()[Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     move-result-object v2
@@ -1760,7 +1787,7 @@
 
     aget-object v4, v2, v0
 
-    .line 250
+    .line 251
     :try_start_f
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModRep;->secretIndex(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
 
@@ -1786,14 +1813,14 @@
     :try_end_26
     .catch Ljava/lang/Throwable; {:try_start_f .. :try_end_26} :catch_43
 
-    .line 248
+    .line 249
     :cond_26
     :goto_26
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_b
 
-    .line 253
+    .line 254
     :cond_29
     invoke-virtual {v1}, Ljava/util/ArrayList;->isEmpty()Z
 
@@ -1829,7 +1856,7 @@
 
     goto :goto_30
 
-    .line 251
+    .line 252
     :catch_43
     move-exception v4
 

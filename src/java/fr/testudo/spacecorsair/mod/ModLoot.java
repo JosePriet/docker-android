@@ -230,7 +230,8 @@ public class ModLoot {
             }
             if (w.lootKey != null) ModSector.looted(w.lootKey);   // v35: kept wrecks and wreck fields remember it
             int lvl = Math.max(1, w.srcLevel > 0 ? w.srcLevel : ObjectRegistry.INSTANCE.game.playerInfo.level);
-            float p = w.srcBoss ? 1.0f : Math.min(1.0f, (w.derelict ? 0.6f : w.srcElite ? 0.7f : 0.35f) * ModV35.lootMult());   // v35: Varn refit trait
+            boolean field = w.lootKey != null && w.lootKey.startsWith("field:");   // owner 2026-10-22: wreck-field hulls always hold loot
+            float p = w.srcBoss || field ? 1.0f : Math.min(1.0f, (w.derelict ? 0.6f : w.srcElite ? 0.7f : 0.35f) * ModV35.lootMult());   // v35: Varn refit trait
             if (Math.random() >= p) return;
             int bonus = (w.derelict ? 1 : 0) + (w.srcBoss ? 2 : 0);
             LootRarety wr = roll(lvl, Math.max(2, w.srcClass), w.srcElite, bonus);
