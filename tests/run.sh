@@ -117,7 +117,7 @@ elif [ $GAME = sc ]; then
   T=/data/local/tmp
   SHORT=   # set to 1 to skip the Warlord/Harbinger stages
   HARB=    # set to 1 to run the Harbinger stage (v33: off)
-  QUICK=  # v34: full run at pilot level 34 (pilot stats, enemy curve, elites, bosses, flagships, death fee)
+  QUICK=  # v35: full run at pilot level 34 (advantage AI, refit/hostile art hooks, name-tag colours, wreck lifetimes, flagship pursuit)
   if [ -z "$SHORT" ] && fly hullWarlord Warlord warlord; then
     sleep 4; shot warlord_living
     a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2; shot warlord_thrust; a shell input motionevent UP 222 650
