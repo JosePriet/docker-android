@@ -5047,24 +5047,24 @@
     .line 372
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModShips;->applyHardpoints()V
 
-    .line 771
+    .line 773
     const/16 v0, 0x7530
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModShips;->doomsdayTimer:I
 
-    .line 772
+    .line 774
     new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceEnd:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 773
+    .line 775
     const/4 v0, 0x0
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceFlash:I
 
-    .line 789
+    .line 791
     new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>()V
@@ -5502,22 +5502,22 @@
 .end method
 
 .method public static apply(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
-    .registers 6
+    .registers 7
 
     .prologue
-    const/high16 v2, 0x3f800000    # 1.0f
+    const/high16 v4, 0x3f800000    # 1.0f
 
     .line 744
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shipSpec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hullFor(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
-    move-result-object v1
+    move-result-object v3
 
     .line 745
-    if-nez v1, :cond_b
+    if-nez v3, :cond_b
 
-    .line 769
+    .line 771
     :goto_a
     return-void
 
@@ -5527,7 +5527,7 @@
 
     move-result v0
 
-    if-eqz v0, :cond_65
+    if-eqz v0, :cond_69
 
     .line 747
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->offFactionRate(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
@@ -5536,180 +5536,205 @@
     :goto_14
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->offFaction(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Z
 
-    move-result v0
-
-    if-nez v0, :cond_69
-
-    iget v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
-
-    cmpl-float v0, v0, v2
-
-    if-nez v0, :cond_26
-
-    iget v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
-
-    cmpl-float v0, v0, v2
-
-    if-eqz v0, :cond_69
+    move-result v1
 
     .line 752
-    :cond_26
-    iget v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->bulletDamage:F
+    if-eqz v1, :cond_6d
 
-    iget v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
+    iget v0, v3, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
+
+    invoke-static {v4, v0}, Ljava/lang/Math;->min(FF)F
+
+    move-result v0
+
+    move v2, v0
+
+    :goto_21
+    if-eqz v1, :cond_71
+
+    iget v0, v3, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
+
+    invoke-static {v4, v0}, Ljava/lang/Math;->max(FF)F
+
+    move-result v0
+
+    move v1, v0
+
+    .line 753
+    :goto_2a
+    cmpl-float v0, v2, v4
+
+    if-nez v0, :cond_32
+
+    cmpl-float v0, v1, v4
+
+    if-eqz v0, :cond_75
+
+    .line 754
+    :cond_32
+    iget v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->bulletDamage:F
 
     mul-float/2addr v0, v2
 
     iput v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->bulletDamage:F
 
-    .line 753
-    iget-wide v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenShots:J
-
-    long-to-float v0, v2
-
-    iget v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
-
-    mul-float/2addr v0, v2
-
-    float-to-long v2, v0
-
-    iput-wide v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenShots:J
-
-    .line 754
-    iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
-
-    if-eqz v0, :cond_69
-
     .line 755
-    const/4 v0, 0x0
+    iget-wide v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenShots:J
 
-    :goto_3b
-    iget-object v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
+    long-to-float v0, v4
 
-    array-length v2, v2
+    mul-float/2addr v0, v1
 
-    if-ge v0, v2, :cond_69
+    float-to-long v4, v0
+
+    iput-wide v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenShots:J
 
     .line 756
-    iget-object v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
+    iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
 
-    aget-object v2, v2, v0
-
-    iget-object v3, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
-
-    aget-object v3, v3, v0
-
-    iget v3, v3, Lfr/testudo/spacecorsair/business/player/PlayerCanon;->shootDamage:I
-
-    int-to-float v3, v3
-
-    iget v4, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
-
-    mul-float/2addr v3, v4
-
-    float-to-int v3, v3
-
-    iput v3, v2, Lfr/testudo/spacecorsair/business/player/PlayerCanon;->shootDamage:I
+    if-eqz v0, :cond_75
 
     .line 757
-    iget-object v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
+    const/4 v0, 0x0
 
-    aget-object v2, v2, v0
+    :goto_43
+    iget-object v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
 
-    iget-object v3, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
+    array-length v4, v4
 
-    aget-object v3, v3, v0
+    if-ge v0, v4, :cond_75
 
-    iget v3, v3, Lfr/testudo/spacecorsair/business/player/PlayerCanon;->timeBewteenShootInMilli:I
+    .line 758
+    iget-object v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
 
-    int-to-float v3, v3
+    aget-object v4, v4, v0
 
-    iget v4, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
+    iget-object v5, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
 
-    mul-float/2addr v3, v4
+    aget-object v5, v5, v0
 
-    float-to-int v3, v3
+    iget v5, v5, Lfr/testudo/spacecorsair/business/player/PlayerCanon;->shootDamage:I
 
-    iput v3, v2, Lfr/testudo/spacecorsair/business/player/PlayerCanon;->timeBewteenShootInMilli:I
+    int-to-float v5, v5
 
-    .line 755
+    mul-float/2addr v5, v2
+
+    float-to-int v5, v5
+
+    iput v5, v4, Lfr/testudo/spacecorsair/business/player/PlayerCanon;->shootDamage:I
+
+    .line 759
+    iget-object v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
+
+    aget-object v4, v4, v0
+
+    iget-object v5, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
+
+    aget-object v5, v5, v0
+
+    iget v5, v5, Lfr/testudo/spacecorsair/business/player/PlayerCanon;->timeBewteenShootInMilli:I
+
+    int-to-float v5, v5
+
+    mul-float/2addr v5, v1
+
+    float-to-int v5, v5
+
+    iput v5, v4, Lfr/testudo/spacecorsair/business/player/PlayerCanon;->timeBewteenShootInMilli:I
+
+    .line 757
     add-int/lit8 v0, v0, 0x1
 
-    goto :goto_3b
+    goto :goto_43
 
     .line 749
-    :cond_65
+    :cond_69
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->railReload(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
     goto :goto_14
 
-    .line 761
-    :cond_69
-    iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    .line 752
+    :cond_6d
+    iget v0, v3, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    if-eqz v0, :cond_9c
+    move v2, v0
 
-    .line 762
-    iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    goto :goto_21
 
-    iget v2, v0, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
+    :cond_71
+    iget v0, v3, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    iget v3, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
+    move v1, v0
 
-    mul-float/2addr v2, v3
-
-    iput v2, v0, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
+    goto :goto_2a
 
     .line 763
+    :cond_75
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    iget v2, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadUnitBySec:F
-
-    iget v3, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
-
-    mul-float/2addr v2, v3
-
-    iput v2, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadUnitBySec:F
+    if-eqz v0, :cond_a8
 
     .line 764
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    iget v2, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadTime:F
+    iget v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
-    iget v3, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldDelay:F
+    iget v2, v3, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    mul-float/2addr v2, v3
+    mul-float/2addr v1, v2
 
-    iput v2, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadTime:F
+    iput v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
     .line 765
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
+    iget v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadUnitBySec:F
+
+    iget v2, v3, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
+
+    mul-float/2addr v1, v2
+
+    iput v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadUnitBySec:F
+
+    .line 766
+    iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+
+    iget v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadTime:F
+
+    iget v2, v3, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldDelay:F
+
+    mul-float/2addr v1, v2
+
+    iput v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadTime:F
+
+    .line 767
+    iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+
     iget v0, v0, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
 
-    iget-object v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    iget-object v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    iget v2, v2, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
+    iget v1, v1, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
-    cmpl-float v0, v0, v2
+    cmpl-float v0, v0, v1
 
-    if-lez v0, :cond_9c
+    if-lez v0, :cond_a8
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    iget-object v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    iget-object v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    iget v2, v2, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
+    iget v1, v1, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
-    iput v2, v0, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
+    iput v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
 
-    .line 767
-    :cond_9c
-    iget-wide v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenMissileShots:J
+    .line 769
+    :cond_a8
+    iget-wide v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenMissileShots:J
 
-    long-to-float v0, v2
+    long-to-float v0, v0
 
-    iget v1, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
+    iget v1, v3, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
 
     mul-float/2addr v0, v1
 
@@ -5717,7 +5742,7 @@
 
     iput-wide v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenMissileShots:J
 
-    .line 768
+    .line 770
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTitan;->apply(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
     goto/16 :goto_a
@@ -7238,25 +7263,25 @@
 
     const-wide/high16 v10, 0x403e000000000000L    # 30.0
 
-    .line 792
+    .line 794
     sget v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceFlash:I
 
     if-gtz v0, :cond_c
 
-    .line 797
+    .line 799
     :cond_b
     return-void
 
     :cond_c
     move v8, v3
 
-    .line 793
+    .line 795
     :goto_d
     const/4 v0, 0x6
 
     if-ge v8, v0, :cond_b
 
-    .line 794
+    .line 796
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->tmp:Lfr/testudo/spacecorsair/engine/Vector2;
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModShips;->lanceEnd:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -7287,7 +7312,7 @@
 
     invoke-virtual {v0, v1, v2}, Lfr/testudo/spacecorsair/engine/Vector2;->add(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 795
+    .line 797
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->renderQueue:Lfr/testudo/spacecorsair/engine/RenderQueue;
@@ -7304,7 +7329,7 @@
 
     invoke-virtual/range {v0 .. v7}, Lfr/testudo/spacecorsair/engine/RenderQueue;->addToWaitingQueue(Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/engine/Vector2;ZFFFF)V
 
-    .line 793
+    .line 795
     add-int/lit8 v0, v8, 0x1
 
     move v8, v0
@@ -7418,7 +7443,7 @@
     .registers 3
 
     .prologue
-    .line 801
+    .line 803
     const-string v0, "turret_heavy"
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->turretArt(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Ljava/lang/String;
@@ -8918,14 +8943,14 @@
     .registers 8
 
     .prologue
-    .line 778
+    .line 780
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shipSpec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hullFor(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v1
 
-    .line 779
+    .line 781
     if-eqz v1, :cond_29
 
     iget-boolean v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dev:Z
@@ -8937,7 +8962,7 @@
     :goto_d
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModArt;->devActive:Z
 
-    .line 780
+    .line 782
     sget v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceFlash:I
 
     if-lez v0, :cond_1a
@@ -8952,7 +8977,7 @@
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceFlash:I
 
-    .line 781
+    .line 783
     :cond_1a
     if-eqz v1, :cond_28
 
@@ -8968,18 +8993,18 @@
 
     if-eqz v0, :cond_2b
 
-    .line 787
+    .line 789
     :cond_28
     :goto_28
     return-void
 
-    .line 779
+    .line 781
     :cond_29
     const/4 v0, 0x0
 
     goto :goto_d
 
-    .line 782
+    .line 784
     :cond_2b
     iget v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
@@ -8997,7 +9022,7 @@
 
     if-gez v0, :cond_47
 
-    .line 783
+    .line 785
     iget v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
 
     iget v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
@@ -9014,7 +9039,7 @@
 
     invoke-virtual {p0, v0}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->addLife(F)V
 
-    .line 785
+    .line 787
     :cond_47
     iget-boolean v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dev:Z
 

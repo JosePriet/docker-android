@@ -57,6 +57,17 @@ public class ModLock {
         return "?";
     }
 
+    /** H2 slot rule; a ship's own signature gear always fits that ship. */
+    static boolean fitsHull(SpaceObjectType t) {
+        try {
+            PlayerShipSpec.Image req = requiredShip(t);
+            if (req != null && req == currentShip()) return true;
+        } catch (Throwable th) {
+            // no current ship: the slot rule decides
+        }
+        return ModV34.fits(t);
+    }
+
     private static PlayerShipSpec.Image currentShip() {
         PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
         return ((PlayerShipSpec) pi.playerGear.playerShip.getGearSpec()).image;
@@ -73,7 +84,7 @@ public class ModLock {
     /** Hook at the start of PlayerInfo.equipObject. */
     public static boolean canEquip(SpaceObjectType t) {
         PlayerShipSpec.Image req = requiredShip(t);
-        if (!ModV34.fits(t)) {
+        if (!fitsHull(t)) {
             toast(t.getLocalizedLabel() + ": " + ModLang.tr("Doesn't fit this slot") + " (" + ModV34.SLOT_NAMES[ModV34.weaponSize(t)] + ")");
             return false;
         }
@@ -101,7 +112,7 @@ public class ModLock {
                 gear.laser = laser;
                 changed = true;
             }
-            if (!ModV34.fits(gear.laser)) {
+            if (!fitsHull(gear.laser)) {
                 // v34 (H2): the new hull's slots are too small for the fitted weapon
                 swap(gear.laser, SpaceObjectType.standardLaserLevel0);
                 gear.laser = SpaceObjectType.standardLaserLevel0;

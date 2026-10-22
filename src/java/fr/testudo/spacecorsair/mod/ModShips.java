@@ -748,13 +748,15 @@ public class ModShips {
         } else {
             ModV34.railReload(ps);
         }
-        if (!ModV34.offFaction(ps) && (h.dmg != 1.0f || h.reload != 1.0f)) {
-            ps.bulletDamage *= h.dmg;
-            ps.milleSecBetweenShots = (long) (ps.milleSecBetweenShots * h.reload);
+        boolean off = ModV34.offFaction(ps);
+        float dm = off ? Math.min(1.0f, h.dmg) : h.dmg, rl = off ? Math.max(1.0f, h.reload) : h.reload;   // off-faction: hull penalties stay, bonuses go
+        if (dm != 1.0f || rl != 1.0f) {
+            ps.bulletDamage *= dm;
+            ps.milleSecBetweenShots = (long) (ps.milleSecBetweenShots * rl);
             if (ps.playerCannons != null) {
                 for (int k = 0; k < ps.playerCannons.length; k++) {
-                    ps.playerCannons[k].shootDamage = (int) (ps.playerCannons[k].shootDamage * h.dmg);
-                    ps.playerCannons[k].timeBewteenShootInMilli = (int) (ps.playerCannons[k].timeBewteenShootInMilli * h.reload);
+                    ps.playerCannons[k].shootDamage = (int) (ps.playerCannons[k].shootDamage * dm);
+                    ps.playerCannons[k].timeBewteenShootInMilli = (int) (ps.playerCannons[k].timeBewteenShootInMilli * rl);
                 }
             }
         }
