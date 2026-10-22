@@ -293,6 +293,7 @@ public class ModV35 {
     // ------------------------------------------------------------------ refit stage art (hidden until GPT delivers it)
     private static final HashMap<String, Boolean> ART = new HashMap<String, Boolean>();
     private static final HashMap<String, Drawable> SKINS = new HashMap<String, Drawable>();
+    private static final HashMap<String, String[]> RESOLVED = new HashMap<String, String[]>();
 
     static boolean art(String name) {
         Boolean b = ART.get(name);
@@ -363,12 +364,21 @@ public class ModV35 {
         try {
             if (d == null || d.dimensions == null || !(e instanceof Ennemis) || Mod.isDrone(e)) return d;
             String a = ModArt.artOf(d.myTexture);
-            if (a == null) return d;
-            int s = enemyStage(e);
-            String n = "enemy_" + a + "_stage" + s;
-            if (!art(n)) n = a + "_stage" + s;
-            if (!art(n)) n = "enemy_" + a;
-            if (!art(n)) return d;
+            if (a == null || !ModArt.listed()) return d;
+            String[] by = RESOLVED.get(a);
+            if (by == null) {
+                // resolved once per art (no string building per frame): stage s -> enemy_<art>_stage<s>, <art>_stage<s>, enemy_<art>
+                by = new String[STAGES + 1];
+                for (int s = 1; s <= STAGES; s++) {
+                    String n = "enemy_" + a + "_stage" + s;
+                    if (!art(n)) n = a + "_stage" + s;
+                    if (!art(n)) n = "enemy_" + a;
+                    by[s] = art(n) ? n : null;
+                }
+                RESOLVED.put(a, by);
+            }
+            String n = by[Math.max(1, Math.min(STAGES, enemyStage(e)))];
+            if (n == null) return d;
             Drawable o = skin(n, d.dimensions);
             return o == null ? d : o;
         } catch (Throwable t) {
