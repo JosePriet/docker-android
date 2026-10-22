@@ -498,12 +498,12 @@ public class ModFaction extends MissionListener {
             if (b != null) {
                 b.setElite(true);
                 name(b, str(idx, 9));
-                b.maxLife *= 4;
+                b.maxLife *= hunt(idx) ? 8 : 4;   // owner 2026-10-22: the renegade captain is tougher
                 b.life = b.maxLife;
                 b.lifeInPourc = 100;
                 if (b.lifeBar != null) b.lifeBar.setValue(100);
                 target = place(b, center, ps, true);
-                for (int k = 0; k < 2; k++) place(foe(varn ? VARN : REAVER, false), away(center, 150, 400), ps, false);
+                for (int k = 0; k < (hunt(idx) ? 4 : 2); k++) place(foe(varn ? VARN : REAVER, false), away(center, 150, 400), ps, false);
             }
         } else if ("KILL_ENEMY_TYPE".equals(obj)) {
             goal = Math.max(1, num(idx, 7));

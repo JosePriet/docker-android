@@ -168,7 +168,8 @@ public class ModV35 {
     /** Stock boss pools by ModBoss kind (Matriarch, Guardian, Empress); every boss also rolls the neutral core. */
     static final String[][] CORE_POOL = {{"reaver", "helion"}, {"spartan", "warden", "ironclad"}, {"kretari", "varn"}};
     public static final float CORE_CHANCE = 0.4f;
-    static final long HUNT_COOLDOWN_MS = 24L * 3600000L;
+    static final long HUNT_WINDOW_MS = 12L * 3600000L;   // owner 2026-10-22: 5 hunts per faction every 12 hours
+    public static final int HUNT_MAX = 5;
 
     /** The core a hull needs for its last refit: its faction's, "neutral" for hulls without one. */
     static String coreKey(ModShips.Hull h) {
@@ -230,20 +231,42 @@ public class ModV35 {
         }
     }
 
-    /** ms until a faction's renegade hunt can be taken again (0 = ready). */
-    public static long huntLeft(String key) {
-        SharedPreferences p = ModQol.prefs();
-        if (p == null) return 0;
-        long at = p.getLong("v35_hunt_" + key, 0);
-        return Math.max(0, at + HUNT_COOLDOWN_MS - System.currentTimeMillis());
+    /** Pure: ms until another hunt is allowed, from the completion times (ms) of past hunts; 0 = ready. */
+    public static long huntWait(long[] done, long now) {
+        java.util.ArrayList<Long> in = new java.util.ArrayList<Long>();
+        for (long t : done) if (t > 0 && now - t < HUNT_WINDOW_MS) in.add(t);
+        if (in.size() < HUNT_MAX) return 0;
+        java.util.Collections.sort(in);
+        return in.get(in.size() - HUNT_MAX) + HUNT_WINDOW_MS - now;
     }
 
-    /** ModFaction.complete for a renegade hunt: the core and the daily cooldown. */
+    static long[] huntTimes(String key) {
+        SharedPreferences p = ModQol.prefs();
+        String s = p == null ? "" : p.getString("v35_hunts_" + key, "");
+        if (s.length() == 0) return new long[0];
+        String[] a = s.split(",");
+        long[] r = new long[a.length];
+        for (int i = 0; i < a.length; i++) {
+            try { r[i] = Long.parseLong(a[i]); } catch (NumberFormatException e) { r[i] = 0; }
+        }
+        return r;
+    }
+
+    /** ms until a faction's renegade hunt can be taken again (0 = ready). */
+    public static long huntLeft(String key) {
+        return huntWait(huntTimes(key), System.currentTimeMillis());
+    }
+
+    /** ModFaction.complete for a renegade hunt: the core and the hunt's time (last 12 h kept). */
     static void huntDone(String key) {
         addCore(key, null);
         SharedPreferences p = ModQol.prefs();
         if (p == null) return;
-        p.edit().putLong("v35_hunt_" + key, System.currentTimeMillis()).apply();
+        long now = System.currentTimeMillis();
+        StringBuilder b = new StringBuilder();
+        for (long t : huntTimes(key)) if (t > 0 && now - t < HUNT_WINDOW_MS) b.append(t).append(',');
+        b.append(now);
+        p.edit().putString("v35_hunts_" + key, b.toString()).apply();
     }
 
     /** ModFaction.addAvailable: the first time a renegade hunt is offered, a one-time note about its daily limit (owner). */
@@ -251,7 +274,7 @@ public class ModV35 {
         SharedPreferences p = ModQol.prefs();
         if (p == null || p.getBoolean("v35_hunt_note", false)) return;
         p.edit().putBoolean("v35_hunt_note", true).apply();
-        ModQol.post(ModLang.tr("Renegade hunts can be taken once a day per faction. Stock bosses and rival flagships also drop faction cores."));
+        ModQol.post(ModLang.tr("Renegade hunts: up to 5 per faction every 12 hours. Stock bosses and rival flagships also drop faction cores."));
     }
 
     /** Pure: the factions whose core a flagship kill can give (those that counter the flagship's faction). */
