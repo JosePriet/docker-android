@@ -560,7 +560,7 @@
     .line 78
     new-array v0, v6, [Ljava/lang/String;
 
-    const-string v1, "Flak"
+    const-string v1, "Shrapnel Flak"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
@@ -568,7 +568,7 @@
 
     aput-object v1, v0, v2
 
-    const-string v1, "Lance"
+    const-string v1, "Solar Lance"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
@@ -576,7 +576,7 @@
 
     aput-object v1, v0, v7
 
-    const-string v1, "Bio-spines"
+    const-string v1, "Brood Spines"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
@@ -2028,14 +2028,14 @@
 .end method
 
 .method public static desc(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
-    .registers 7
+    .registers 9
 
     .prologue
-    const/4 v3, 0x2
+    const/4 v7, 0x1
 
-    const/4 v5, 0x1
+    const/4 v6, 0x2
 
-    const/4 v4, 0x0
+    const/4 v5, 0x0
 
     .line 175
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->name()Ljava/lang/String;
@@ -2059,22 +2059,14 @@
     :cond_f
     array-length v0, v1
 
-    if-le v0, v3, :cond_5b
+    if-le v0, v6, :cond_71
 
     .line 179
     const/4 v0, 0x3
 
     new-array v0, v0, [Ljava/lang/String;
 
-    const-string v2, "Flak: Reaver autocannon family. Own stats and colours."
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    aput-object v2, v0, v4
-
-    const-string v2, "Lance: Helion blaster family. Own stats and colours."
+    const-string v2, "A Reaver shell scatters jagged metal across the target\'s path."
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
@@ -2082,21 +2074,51 @@
 
     aput-object v2, v0, v5
 
-    const-string v2, "Bio-spines: Kre\'tari autocannon family. Own stats and colours."
+    const-string v2, "A Helion focusing array channels its charge into a narrow, brilliant lance."
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    aput-object v2, v0, v7
+
+    const-string v2, "Living Kre\'tari weapons shed hardened spines grown within their own bodies."
 
     .line 180
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v2
 
-    aput-object v2, v0, v3
+    aput-object v2, v0, v6
 
     .line 181
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
 
-    aget v3, v1, v3
+    const-string v3, "<b>"
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    sget-object v3, Lfr/testudo/spacecorsair/mod/ModWeapons;->RESKIN_NAME:[Ljava/lang/String;
+
+    aget v4, v1, v6
+
+    aget-object v3, v3, v4
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const-string v3, "</b>: "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    aget v3, v1, v6
 
     aget-object v0, v0, v3
 
@@ -2114,9 +2136,9 @@
 
     move-result-object v0
 
-    aget v2, v1, v4
+    aget v2, v1, v5
 
-    aget v1, v1, v5
+    aget v1, v1, v7
 
     invoke-static {v2, v1}, Lfr/testudo/spacecorsair/mod/ModWeapons;->soldAt(II)Ljava/lang/String;
 
@@ -2139,10 +2161,10 @@
     goto :goto_e
 
     .line 183
-    :cond_5b
-    aget v0, v1, v4
+    :cond_71
+    aget v0, v1, v5
 
-    packed-switch v0, :pswitch_data_b4
+    packed-switch v0, :pswitch_data_ca
 
     .line 189
     const-string v0, "<b>Arc Projector</b>: lightning bolts that jump from the target to 2 more enemies within 450 (60% damage each)."
@@ -2152,7 +2174,7 @@
     move-result-object v0
 
     .line 191
-    :goto_66
+    :goto_7c
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -2171,9 +2193,9 @@
 
     move-result-object v0
 
-    aget v2, v1, v4
+    aget v2, v1, v5
 
-    aget v1, v1, v5
+    aget v1, v1, v7
 
     invoke-static {v2, v1}, Lfr/testudo/spacecorsair/mod/ModWeapons;->soldAt(II)Ljava/lang/String;
 
@@ -2196,63 +2218,63 @@
     goto/16 :goto_e
 
     .line 184
-    :pswitch_91
+    :pswitch_a7
     const-string v0, "<b>Railgun</b>: magnetic slug thrower. Very long range, near-instant slugs, heavy damage per shot, slow reload."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    goto :goto_66
+    goto :goto_7c
 
     .line 185
-    :pswitch_98
+    :pswitch_ae
     const-string v0, "<b>Autocannon</b>: rapid-fire projectile gun. Small shells, huge rate of fire, spread at range."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    goto :goto_66
+    goto :goto_7c
 
     .line 186
-    :pswitch_9f
+    :pswitch_b5
     const-string v0, "<b>Artillery</b>: siege gun. Very slow reload, enormous shells that also hit everything within 180 of the impact (50%)."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    goto :goto_66
+    goto :goto_7c
 
     .line 187
-    :pswitch_a6
+    :pswitch_bc
     const-string v0, "<b>Blaster</b>: short-range plasma brawler. The highest damage per second, but the bolts fizzle out quickly."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    goto :goto_66
+    goto :goto_7c
 
     .line 188
-    :pswitch_ad
+    :pswitch_c3
     const-string v0, "<b>Disintegrator</b>: entropic beam pulses. Damage ramps up to +100% while you keep hitting the same target, resets when you switch."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    goto :goto_66
+    goto :goto_7c
 
     .line 183
-    :pswitch_data_b4
+    :pswitch_data_ca
     .packed-switch 0x0
-        :pswitch_91
-        :pswitch_98
-        :pswitch_9f
-        :pswitch_a6
-        :pswitch_ad
+        :pswitch_a7
+        :pswitch_ae
+        :pswitch_b5
+        :pswitch_bc
+        :pswitch_c3
     .end packed-switch
 .end method
 

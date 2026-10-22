@@ -75,7 +75,7 @@ public final class ModWeapons {
     // ------------------------------------------------------------------ v34 (H3) reskin families
     /** Flak (Reaver), Lance (Helion), Bio-spines (Kre'tari): own stats, names and colours on a parent family's mechanics (its TAG). */
     public static final String[] RESKIN_BASE = {"modFlak", "modLance", "modBioSpine"};
-    static final String[] RESKIN_NAME = {ModLang.tr("Flak"), ModLang.tr("Lance"), ModLang.tr("Bio-spines")};
+    static final String[] RESKIN_NAME = {ModLang.tr("Shrapnel Flak"), ModLang.tr("Solar Lance"), ModLang.tr("Brood Spines")};   // names: GPT section 9
     static final int[] RESKIN_PARENT = {AUTO, BLAST, AUTO};
     static final String[] RESKIN_FACTION = {"reaver", "helion", "kretari"};
     static final float[][] RESKIN_STAT = {
@@ -176,9 +176,9 @@ public final class ModWeapons {
         if (ft == null) return null;
         String d;
         if (ft.length > 2) {
-            String[] rd = {ModLang.tr("Flak: Reaver autocannon family. Own stats and colours."), ModLang.tr("Lance: Helion blaster family. Own stats and colours."),
-                ModLang.tr("Bio-spines: Kre'tari autocannon family. Own stats and colours.")};
-            return rd[ft[2]] + ModLang.tr("<br><br><font color='#6ad0ff'><b>Sold at:</b> ") + soldAt(ft[0], ft[1]) + "</font>";
+            String[] rd = {ModLang.tr("A Reaver shell scatters jagged metal across the target's path."), ModLang.tr("A Helion focusing array channels its charge into a narrow, brilliant lance."),
+                ModLang.tr("Living Kre'tari weapons shed hardened spines grown within their own bodies.")};
+            return "<b>" + RESKIN_NAME[ft[2]] + "</b>: " + rd[ft[2]] + ModLang.tr("<br><br><font color='#6ad0ff'><b>Sold at:</b> ") + soldAt(ft[0], ft[1]) + "</font>";
         }
         switch (ft[0]) {
             case RAIL: d = ModLang.tr("<b>Railgun</b>: magnetic slug thrower. Very long range, near-instant slugs, heavy damage per shot, slow reload."); break;

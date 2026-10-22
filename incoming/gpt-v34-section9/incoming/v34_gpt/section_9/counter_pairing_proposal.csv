@@ -1,0 +1,15 @@
+faction,rival
+spartan,reaver
+spartan,kretari
+ironclad,reaver
+ironclad,kretari
+reaver,helion
+reaver,warden
+kretari,varn
+kretari,warden
+warden,varn
+warden,helion
+helion,spartan
+helion,ironclad
+varn,spartan
+varn,ironclad

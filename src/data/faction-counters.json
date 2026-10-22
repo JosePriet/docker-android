@@ -1,0 +1,200 @@
+{
+ "status": "lore final (GPT section 9, 2026-10-22); numbers unchanged",
+ "rule": "H6",
+ "clamp": [
+  0.5,
+  2.0
+ ],
+ "counter": {
+  "dealt": 1.3,
+  "taken": 0.8,
+  "inverse_dealt": 0.7,
+  "inverse_taken": 1.2
+ },
+ "weapon_mod": {
+  "resist": 0.8,
+  "weak": 1.2
+ },
+ "family_alias_assumed": {
+  "FLAK": "AUTO",
+  "LANCE": "RAIL",
+  "SPINE": "ARC"
+ },
+ "wheel": [
+  {
+   "attacker": "spartan",
+   "defender": "reaver",
+   "lore_hostile": true,
+   "lore": "Disciplined Republic volleys strike exposed raider hardpoints while overlapping shields blunt their boarding rushes.",
+   "lore_es": "Las salvas disciplinadas de la República castigan los anclajes expuestos de los saqueadores mientras sus escudos solapados frenan los abordajes."
+  },
+  {
+   "attacker": "spartan",
+   "defender": "kretari",
+   "lore_hostile": true,
+   "lore": "Republic fire control isolates vital brood nodes while layered shields hold back the living swarm.",
+   "lore_es": "El control de tiro de la República aísla los nodos vitales de la prole mientras sus escudos escalonados contienen el enjambre viviente."
+  },
+  {
+   "attacker": "ironclad",
+   "defender": "reaver",
+   "lore_hostile": true,
+   "lore": "Militia gunners hammer the seams in scavenged hulls while reinforced bulkheads withstand the raiders' return fire.",
+   "lore_es": "Los artilleros de la Milicia machacan las juntas de los cascos recuperados mientras sus mamparos reforzados soportan la respuesta de los saqueadores."
+  },
+  {
+   "attacker": "ironclad",
+   "defender": "kretari",
+   "lore_hostile": true,
+   "lore": "Heavy Militia shells rupture grown chitin while thick armour keeps the Brood's spines away from vital systems.",
+   "lore_es": "Los proyectiles pesados de la Milicia revientan la quitina mientras su grueso blindaje mantiene las espinas de la Prole lejos de los sistemas vitales."
+  },
+  {
+   "attacker": "reaver",
+   "defender": "helion",
+   "lore_hostile": true,
+   "lore": "Reaver ambushes trap lightly armoured couriers in close crossfire, denying Helion the distance its weapons need.",
+   "lore_es": "Las emboscadas de los Reavers atrapan a los correos de blindaje ligero entre fuegos cruzados y niegan a Helion la distancia que necesitan sus armas."
+  },
+  {
+   "attacker": "reaver",
+   "defender": "frontier",
+   "lore_hostile": true,
+   "lore": "Raiders use false distress calls to draw isolated patrols into prepared kill zones beyond supporting fire.",
+   "lore_es": "Los saqueadores usan falsas llamadas de socorro para atraer patrullas aisladas a zonas de emboscada fuera del alcance del fuego de apoyo."
+  },
+  {
+   "attacker": "kretari",
+   "defender": "varn",
+   "lore_hostile": true,
+   "lore": "Brood hunters coil around cargo-heavy Syndicate hulls, striking sealed compartments from angles their escorts cannot cover.",
+   "lore_es": "Los cazadores de la Prole rodean los pesados cargueros del Sindicato y atacan sus compartimentos sellados desde ángulos que sus escoltas no pueden cubrir."
+  },
+  {
+   "attacker": "kretari",
+   "defender": "frontier",
+   "lore_hostile": true,
+   "lore": "Shared brood senses track lone rangers through sensor gaps, letting living hunters strike before patrol weapons can lock on.",
+   "lore_es": "Los sentidos compartidos de la Prole rastrean a los guardias solitarios entre lagunas de sensores y permiten atacar antes de que sus armas fijen el blanco."
+  },
+  {
+   "attacker": "frontier",
+   "defender": "varn",
+   "lore_hostile": true,
+   "lore": "Authority route surveys reveal blind approaches to Syndicate toll ships, letting rangers disable their fire control before it can answer.",
+   "lore_es": "Los mapas de la Autoridad revelan accesos ciegos a las naves de peaje del Sindicato y permiten inutilizar su control de tiro antes de que responda."
+  },
+  {
+   "attacker": "frontier",
+   "defender": "helion",
+   "lore_hostile": false,
+   "lore": "Authority relay arrays predict courier escape lanes, guiding patrol fire while keeping rangers outside Helion's forward firing arcs.",
+   "lore_es": "Las redes de enlace de la Autoridad predicen las rutas de fuga de los correos, guían el fuego de patrulla y mantienen a los guardias fuera del arco frontal de Helion."
+  },
+  {
+   "attacker": "helion",
+   "defender": "spartan",
+   "lore_hostile": false,
+   "lore": "Helion's fast lance craft slip around broad Republic shield fronts to strike the flanks beyond their coordinated volleys.",
+   "lore_es": "Las rápidas naves de lanza de Helion esquivan los amplios frentes de escudos de la República y golpean sus flancos fuera de las salvas coordinadas."
+  },
+  {
+   "attacker": "helion",
+   "defender": "ironclad",
+   "lore_hostile": false,
+   "lore": "Helion strike craft circle slow Militia fortresses, placing lance fire between armour ribs while outrunning heavy turret tracking.",
+   "lore_es": "Las naves de ataque de Helion rodean las lentas fortalezas de la Milicia y disparan entre sus nervaduras sin dar tiempo a seguirlas a las torretas pesadas."
+  },
+  {
+   "attacker": "varn",
+   "defender": "spartan",
+   "lore_hostile": false,
+   "lore": "Syndicate targeting archives expose Republic shield cycles, letting Varn strike during recovery and brace for the answering volley.",
+   "lore_es": "Los archivos de tiro del Sindicato revelan los ciclos de escudos de la República y permiten a Varn atacar durante su recuperación y prepararse para la respuesta."
+  },
+  {
+   "attacker": "varn",
+   "defender": "ironclad",
+   "lore_hostile": false,
+   "lore": "Syndicate salvage records map Militia reinforcement seams, guiding precision strikes while defensive systems track predictable heavy salvos.",
+   "lore_es": "Los registros de rescate del Sindicato localizan las juntas reforzadas de la Milicia y guían ataques precisos mientras sus defensas siguen las previsibles salvas pesadas."
+  }
+ ],
+ "weapons": {
+  "spartan": {
+   "resist": [
+    "BLAST"
+   ],
+   "weak": [
+    "ARC"
+   ],
+   "lore": "Layered Republic shields disperse explosive pressure, but arc discharges overload the relays linking their defensive layers.",
+   "lore_es": "Los escudos escalonados de la República dispersan las explosiones, pero las descargas de arco sobrecargan los relés que enlazan sus capas defensivas."
+  },
+  "reaver": {
+   "resist": [
+    "AUTO"
+   ],
+   "weak": [
+    "RAIL"
+   ],
+   "lore": "Overlapping scrap plates absorb autocannon bursts, but rail slugs punch through their uneven protection into exposed hardpoints.",
+   "lore_es": "Las placas de chatarra solapadas absorben las ráfagas de cañón automático, pero los proyectiles de riel atraviesan su protección irregular y alcanzan los anclajes expuestos."
+  },
+  "kretari": {
+   "resist": [
+    "ARC"
+   ],
+   "weak": [
+    "BLAST"
+   ],
+   "lore": "Insulating tissue disperses arc currents through sacrificial outer growths, but explosive blasts rupture the living chambers beneath.",
+   "lore_es": "El tejido aislante dispersa las corrientes de arco por apéndices externos prescindibles, pero las explosiones revientan las cámaras vivientes del interior."
+  },
+  "varn": {
+   "resist": [
+    "DISINT"
+   ],
+   "weak": [
+    "ARTY"
+   ],
+   "lore": "Syndicate ablative coatings delay disintegration, but heavy artillery crushes the sealed compartments their hulls depend on.",
+   "lore_es": "Los revestimientos ablativos del Sindicato retrasan la desintegración, pero la artillería pesada aplasta los compartimentos sellados de los que dependen sus cascos."
+  },
+  "ironclad": {
+   "resist": [
+    "ARTY"
+   ],
+   "weak": [
+    "DISINT"
+   ],
+   "lore": "Deep armour ribs and spaced slabs absorb artillery impacts, but disintegrators strip away the material that gives Militia hulls their strength.",
+   "lore_es": "Las profundas nervaduras y las planchas espaciadas absorben impactos de artillería, pero los desintegradores eliminan el material que da resistencia a los cascos de la Milicia."
+  },
+  "helion": {
+   "resist": [
+    "RAIL"
+   ],
+   "weak": [
+    "AUTO"
+   ],
+   "lore": "Spaced Helion frames limit damage along a rail slug's narrow path, but autocannon bursts shred their lightly protected systems across a wider area.",
+   "lore_es": "Los bastidores espaciados de Helion limitan el daño del estrecho paso de un proyectil de riel, pero las ráfagas de cañón automático destrozan sus sistemas poco protegidos en una zona mayor."
+  },
+  "frontier": {
+   "resist": [
+    "AUTO"
+   ],
+   "weak": [
+    "BLAST"
+   ],
+   "lore": "Reinforced patrol bows deflect autocannon fire, but explosive blasts reach the exposed relay fittings needed for frontier rescue work.",
+   "lore_es": "Las proas reforzadas de patrulla desvían el fuego de cañón automático, pero las explosiones alcanzan los enlaces expuestos necesarios para los rescates en la frontera."
+  }
+ },
+ "worst_case": {
+  "max": 1.872,
+  "min_raw": 0.448,
+  "min_clamped": 0.5
+ }
+}
