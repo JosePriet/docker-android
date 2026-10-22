@@ -56,6 +56,7 @@ public class ModSave {
                 if (!pi.availShips.contains(SpaceObjectType.defaultPlayerShip)) {
                     pi.availShips.add(SpaceObjectType.defaultPlayerShip);
                 }
+                ModV34.refundIndustrials(pi);
                 if (g != null && !pi.availShips.contains(g.playerShip)) {
                     g.playerShip = SpaceObjectType.defaultPlayerShip;
                 }

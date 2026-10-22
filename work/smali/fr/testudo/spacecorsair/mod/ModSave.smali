@@ -131,7 +131,7 @@
     .line 42
     if-nez v1, :cond_57
 
-    .line 66
+    .line 67
     :cond_56
     :goto_56
     return-void
@@ -240,6 +240,9 @@
 
     .line 59
     :cond_a9
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModV34;->refundIndustrials(Lfr/testudo/spacecorsair/business/player/PlayerInfo;)V
+
+    .line 60
     if-eqz v2, :cond_56
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->availShips:Ljava/util/List;
@@ -252,17 +255,17 @@
 
     if-nez v1, :cond_56
 
-    .line 60
+    .line 61
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->defaultPlayerShip:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     iput-object v1, v2, Lfr/testudo/spacecorsair/business/player/PlayerGear;->playerShip:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
-    :try_end_b9
-    .catch Ljava/lang/Exception; {:try_start_4e .. :try_end_b9} :catch_ba
+    :try_end_bc
+    .catch Ljava/lang/Exception; {:try_start_4e .. :try_end_bc} :catch_bd
 
     goto :goto_56
 
-    .line 63
-    :catch_ba
+    .line 64
+    :catch_bd
     move-exception v1
 
     goto :goto_56

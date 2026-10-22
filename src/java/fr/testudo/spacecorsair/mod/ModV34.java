@@ -7,6 +7,10 @@ import fr.testudo.spacecorsair.business.player.PlayerInfo;
 import fr.testudo.spacecorsair.business.player.PlayerShip;
 import fr.testudo.spacecorsair.business.projectiles.Projectile;
 import fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip;
+import fr.testudo.spacecorsair.business.world.civil.TransportCivilShip;
+import fr.testudo.spacecorsair.display.Drawable;
+import fr.testudo.spacecorsair.display.Texture;
+import fr.testudo.spacecorsair.engine.Vector2;
 import fr.testudo.spacecorsair.engine.ObjectRegistry;
 import fr.testudo.spacecorsair.game.levels.LevelId;
 import java.lang.reflect.Field;
@@ -65,6 +69,56 @@ public class ModV34 {
 
     static int playerLevel() {
         try { return ObjectRegistry.INSTANCE.game.playerInfo.level; } catch (Throwable t) { return 0; }
+    }
+
+    // ------------------------------------------------------------------ industrials (F1/F2)
+    /** Save load: owned industrial hulls are removed and refunded at 100% of their price. Gear is per pilot, so it stays fitted. */
+    public static void refundIndustrials(PlayerInfo pi) {
+        try {
+            int total = 0;
+            java.util.Iterator<fr.testudo.spacecorsair.business.loot.SpaceObjectType> it = pi.availShips.iterator();
+            while (it.hasNext()) {
+                ModShips.Hull h = ModShips.hull(it.next());
+                if (h == null || h.cls != ModShips.INDUSTRIAL) continue;
+                it.remove();
+                total += h.price;
+            }
+            if (total <= 0) return;
+            ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(total);
+            ModQol.post(ModLang.tr("Industrial ship retired. Refund: ") + total + " cr. " + ModLang.tr("Fitted gear stays on your pilot."));
+        } catch (Throwable t) {
+            // keep the save as it is
+        }
+    }
+
+    private static final WeakHashMap<Object, ModShips.Hull> freighters = new WeakHashMap<Object, ModShips.Hull>();
+    private static final java.util.HashMap<String, Drawable> freighterArts = new java.util.HashMap<String, Drawable>();
+
+    /** Smali hook: TransportCivilShip.initLevelConfig. Half the transports fly as a retired industrial hull. */
+    public static void freighter(TransportCivilShip c) {
+        try {
+            freighters.remove(c);
+            if (Math.random() < 0.5) return;
+            java.util.ArrayList<ModShips.Hull> l = new java.util.ArrayList<ModShips.Hull>();
+            for (ModShips.Hull h : ModShips.HULLS) if (h != null && h.cls == ModShips.INDUSTRIAL) l.add(h);
+            if (!l.isEmpty()) freighters.put(c, l.get((int) (Math.random() * l.size())));
+        } catch (Throwable t) {
+            // stock transport
+        }
+    }
+
+    /** Smali hook: TransportCivilShip.getDrawableObject. */
+    public static Drawable freighterArt(TransportCivilShip c, Drawable stock) {
+        ModShips.Hull h = freighters.get(c);
+        if (h == null) return stock;
+        Drawable d = freighterArts.get(h.art);
+        if (d == null) {
+            Texture tex = ModArt.texture(h.art);
+            if (tex == null) return stock;
+            d = new ModArt.Art(new Vector2(h.size, h.size), tex, false);
+            freighterArts.put(h.art, d);
+        }
+        return d;
     }
 
     // ------------------------------------------------------------------ economy

@@ -646,6 +646,10 @@
     .line 65
     sget-object v0, Lfr/testudo/spacecorsair/business/world/civil/TransportCivilShip;->drawable:Lfr/testudo/spacecorsair/display/Drawable;
 
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModV34;->freighterArt(Lfr/testudo/spacecorsair/business/world/civil/TransportCivilShip;Lfr/testudo/spacecorsair/display/Drawable;)Lfr/testudo/spacecorsair/display/Drawable;
+
+    move-result-object v0
+
     return-object v0
 .end method
 
@@ -878,6 +882,8 @@
     invoke-virtual/range {v0 .. v7}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisCanon;->init(IIIFFII)Lfr/testudo/spacecorsair/business/ennemis/EnnemisCanon;
 
     .line 129
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->freighter(Lfr/testudo/spacecorsair/business/world/civil/TransportCivilShip;)V
+
     return-object p0
 .end method
 

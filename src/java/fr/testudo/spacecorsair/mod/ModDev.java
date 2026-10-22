@@ -103,6 +103,9 @@ public final class ModDev {
     /** Dev content is invisible in ship lists until it has been redeemed. */
     public static boolean hidden(SpaceObjectType t) {
         if (t == null) return false;
+        ModShips.Hull v34 = ModShips.hull(t);
+        if (v34 != null && v34.cls == ModShips.INDUSTRIAL) return true;   // v34: industrials are NPC freighters only
+        if (v34 != null && !ModArt.hasArt(v34.art)) return true;           // v34: a hull shows only once its art ships
         if (t.name().startsWith("hullSecret")) {
             // v23 secret ships appear (locked) from Trusted, can be bought at Honored, stay listed once owned
             try {

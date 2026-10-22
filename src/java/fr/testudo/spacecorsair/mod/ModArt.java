@@ -248,6 +248,13 @@ public class ModArt {
         }
     }
 
+    /** v34: true when modart/<name> ships with the APK (true while the asset list is not readable yet). */
+    public static boolean hasArt(String name) {
+        if (appCtx == null) return true;
+        listAssets();
+        return assetNames == null || assetExists(name);
+    }
+
     private static boolean assetExists(String name) {
         if (assetNames != null) return assetNames.contains(name);
         Boolean b = exists.get(name);

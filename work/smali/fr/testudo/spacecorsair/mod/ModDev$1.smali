@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 152
+    .line 155
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModDev$1;->val$input:Landroid/widget/EditText;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModDev$1;->val$a:Landroid/app/Activity;
@@ -49,7 +49,7 @@
     .registers 6
 
     .prologue
-    .line 154
+    .line 157
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModDev$1;->val$input:Landroid/widget/EditText;
 
     invoke-virtual {v0}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
@@ -64,7 +64,7 @@
 
     move-result-object v0
 
-    .line 155
+    .line 158
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModDev$1;->val$a:Landroid/app/Activity;
 
     const/4 v2, 0x1
@@ -75,6 +75,6 @@
 
     invoke-virtual {v0}, Landroid/widget/Toast;->show()V
 
-    .line 156
+    .line 159
     return-void
 .end method

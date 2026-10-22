@@ -392,6 +392,9 @@ public class ModShips {
         for (String[] fa : rebalance) {
             for (Hull h : HULLS) if (h != null && h.id.equals(fa[0])) h.faction = fa[1];
         }
+        // v34 (F4): cargo grows with hull class (Frigate .. Titan, Industrial = NPC only); hull skills multiply on top
+        float[] cargoClass = {1.0f, 1.2f, 1.5f, 1.8f, 2.2f, 2.6f, 3.0f, 1.0f};
+        for (Hull h : HULLS) if (h != null && h.cls != INDUSTRIAL) h.cargo *= cargoClass[h.cls];
         for (int k = 0; k < ModHardpoints.ARTS.length; k++) {
             for (Hull h : HULLS) {
                 if (h == null || !h.art.equals(ModHardpoints.ARTS[k]) || h.spec == null) continue;
@@ -680,6 +683,7 @@ public class ModShips {
         try {
             Hull h = hull(t);
             if (h == null) return true;
+            if (h.cls == INDUSTRIAL) return false;   // v34: retired from the player line
             if (h.dev) {
                 try {
                     android.widget.Toast.makeText(ObjectRegistry.INSTANCE.game.context, ModLang.tr("DEV ONLY: this hull comes from a gift code."), android.widget.Toast.LENGTH_LONG).show();
