@@ -2129,6 +2129,12 @@
 
     move-result v0
 
+    div-int/lit8 v0, v0, 0x3
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->missionPay(I)I
+
+    move-result v0
+
     int-to-float v0, v0
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFaction;->idx:I
@@ -2148,7 +2154,7 @@
     move-result v0
 
     .line 329
-    if-lez v0, :cond_b1
+    if-lez v0, :cond_b7
 
     .line 330
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
@@ -2165,7 +2171,7 @@
     iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
     .line 332
-    if-eqz v1, :cond_b1
+    if-eqz v1, :cond_b7
 
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -2202,13 +2208,13 @@
     invoke-static {v1, v0, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/Mod;->floatText(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
     .line 334
-    :cond_b1
+    :cond_b7
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModFaction;->prefs()Landroid/content/SharedPreferences;
 
     move-result-object v0
 
     .line 335
-    if-eqz v0, :cond_db
+    if-eqz v0, :cond_e1
 
     invoke-interface {v0}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
@@ -2245,7 +2251,7 @@
     invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->commit()Z
 
     .line 336
-    :cond_db
+    :cond_e1
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     const v1, 0x7f0702c1

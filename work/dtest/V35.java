@@ -25,6 +25,7 @@ eq("bigger class adds",ModV35.score(20,20,4,1,2,2,0,0.5f,0.5f)>=ModV35.EDGE?1:0,
 eq("kill time with advantage ~2 s",6/ModV35.ttkFactor(0.3f),2,1e-4);eq("kill time matched ~6 s",6/ModV35.ttkFactor(0),6,1e-4);eq("kill time countered ~12 s",6/ModV35.ttkFactor(-0.3f),12,1e-4);
 // wreck timers and persistence
 eq("husk 2 min",ModWreck.lifeMs(0),120000,0);eq("medium husk 2 min",ModWreck.lifeMs(1),120000,0);eq("cruiser wreck 5 min",ModWreck.lifeMs(2),300000,0);eq("battleship+ whole visit",ModWreck.lifeMs(3),0,0);
+eq("frigate (90) husk",ModWreck.sizeClassOf(90*0.62f),0,0);eq("destroyer (200) husk",ModWreck.sizeClassOf(200*0.7f),1,0);eq("cruiser (300) 5 min",ModWreck.lifeMs(ModWreck.sizeClassOf(300*0.62f)),300000,0);eq("battlecruiser (460) 5 min",ModWreck.lifeMs(ModWreck.sizeClassOf(460*0.7f)),300000,0);eq("battleship (600) whole visit",ModWreck.lifeMs(ModWreck.sizeClassOf(600*0.62f)),0,0);
 eq("flagship wreck kept visit 3",ModSector.kept(0,29*60000L,3)?1:0,1,0);eq("flagship wreck gone visit 4",ModSector.kept(0,60000L,4)?1:0,0,0);eq("flagship wreck gone 30 min",ModSector.kept(0,30*60000L,1)?1:0,0,0);
 // pursuit
 eq("pursuit standing",ModSector.PURSUIT_STANDING,-40,0);eq("wave 1 at 20 s",ModSector.waveDue(20000,0),0,0);eq("no wave before",ModSector.waveDue(19999,0),-1,0);

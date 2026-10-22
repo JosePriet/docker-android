@@ -4875,11 +4875,11 @@
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModV35;->tagR:F
 
-    const/high16 v1, 0x3f800000    # 1.0f
+    const v1, 0x3f266666    # 0.65f
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModV35;->tagG:F
 
-    const v1, 0x3f0ccccd    # 0.55f
+    const/high16 v1, 0x3f800000    # 1.0f
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModV35;->tagB:F
 
@@ -4893,19 +4893,19 @@
 
     .line 409
     :cond_34
-    const v1, 0x3f6b851f    # 0.92f
+    const/high16 v1, 0x3f800000    # 1.0f
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModV35;->tagR:F
 
-    const v1, 0x3f70a3d7    # 0.94f
+    const/high16 v1, 0x3f800000    # 1.0f
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModV35;->tagG:F
 
     const/high16 v1, 0x3f800000    # 1.0f
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModV35;->tagB:F
-    :try_end_42
-    .catch Ljava/lang/Throwable; {:try_start_c .. :try_end_42} :catch_32
+    :try_end_40
+    .catch Ljava/lang/Throwable; {:try_start_c .. :try_end_40} :catch_32
 
     goto :goto_1f
 .end method

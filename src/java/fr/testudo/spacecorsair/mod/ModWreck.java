@@ -244,13 +244,17 @@ public final class ModWreck extends Element {
         return 0;
     }
 
-    /** Size class from the physic diameter: 0 small, 1 medium, 2 cruiser-size, 3 capital. */
+    /** Size class from the physic diameter: 0 small, 1 medium, 2 cruiser-size, 3 battleship-size and bigger. */
     static int sizeClass(Element e) {
         if (ModTitan.isTitanClass(e) || ModCapitals.cap(e) != null) return 3;
-        float p = e.getPhysicDimension() == null ? 0 : e.getPhysicDimension().x;
-        if (p < 100) return 0;
-        if (p < 300) return 1;
-        if (p < 900) return 2;
+        return sizeClassOf(e.getPhysicDimension() == null ? 0 : e.getPhysicDimension().x);
+    }
+
+    /** Physic diameter is 0.62-0.7 x hull size: frigates up to ~65, destroyers ~140, cruisers/battlecruisers ~320, battleships 370+. */
+    public static int sizeClassOf(float p) {
+        if (p < 70) return 0;
+        if (p < 145) return 1;
+        if (p < 340) return 2;
         return 3;
     }
 

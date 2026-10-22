@@ -325,7 +325,7 @@ public class ModFaction extends MissionListener {
         ModRep.change(key(idx), ModV35.missionStanding(contract(idx), order(idx)), true);   // v35 (v34 req 13)
         if (!contract(idx) && order(idx) == 3) ModV34.storyDone(key(idx));
         if ("KILL_FLAGSHIP".equals(obj) && str(idx, 8).length() > 0) ModRep.change(str(idx, 8), -0.8f, true);
-        int bonus = Math.round(num(idx, 15) * ModRep.payoutBonus(key(idx)));
+        int bonus = Math.round(ModQol.missionPay(num(idx, 15) / 3) * ModRep.payoutBonus(key(idx)));   // v35: bonus on the real payout
         if (bonus > 0) {
             ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(bonus);
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;

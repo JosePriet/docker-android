@@ -396,7 +396,7 @@ public class ModV35 {
 
     /**
      * Smali hook at the start of RenderQueue.addTextToTextWaitingQueue(Vector2, ...): true when the text is the name tag
-     * of the element being drawn, with its standing colour in tagR/G/B (v34 req 10). Hostile red, friendly/allied green,
+     * of the element being drawn, with its standing colour in tagR/G/B (v34 req 10). Hostile red, friendly/allied blue,
      * neutral white.
      */
     public static boolean tag(String s) {
@@ -405,8 +405,8 @@ public class ModV35 {
         try {
             int st = standing(e);
             if (st < 0) { tagR = 1.0f; tagG = 0.32f; tagB = 0.25f; }
-            else if (st > 0) { tagR = 0.35f; tagG = 1.0f; tagB = 0.55f; }
-            else { tagR = 0.92f; tagG = 0.94f; tagB = 1.0f; }
+            else if (st > 0) { tagR = 0.35f; tagG = 0.65f; tagB = 1.0f; }
+            else { tagR = 1.0f; tagG = 1.0f; tagB = 1.0f; }
             return true;
         } catch (Throwable t) {
             return false;
