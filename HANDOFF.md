@@ -37,5 +37,5 @@ New: ModLive, ModWreck, ModTitanAI, ModDerelict, ModV30Data. Changed: ModShield,
 - The reaver harpoon can pull the player into a station dock during tests; run that flagship last.
 
 ## Next action
-Spanish strings, reskin names and counter lore merged (part 8, GPT section 9 partial). GPT handoff for the rest of section 9 and for section 1: /mnt/project-files/space-corsair/gpt-handoff-v34.zip. Owner phone-tests v33 and v34; add GPT's ES strings to i18n; then release. v35 per TASK draft (refits: tier upgrades only enhance what a hull is already good at + one faction strength).
+GPT section 1 complete (22 faction hulls in incoming/gpt-v34-s1-b*, validated). Owner: keep staged until section 2 (titans) arrives, then integrate all faction ships together, stats as a TASK draft first. Spanish strings, reskin names and counter lore merged (part 8, GPT section 9 partial). GPT handoff for the rest of section 9 and for section 1: /mnt/project-files/space-corsair/gpt-handoff-v34.zip. Owner phone-tests v33 and v34; add GPT's ES strings to i18n; then release. v35 per TASK draft (refits: tier upgrades only enhance what a hull is already good at + one faction strength).
 Previous: owner tests v33 on the phone (flagship fight feel, wreck look, battery balance); then `scripts/release.sh v33 ...`. Key: owner uploads `key.p12` into the session (never in git).
