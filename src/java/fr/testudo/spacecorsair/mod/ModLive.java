@@ -440,6 +440,7 @@ public final class ModLive {
         float out = dmg;
         try {
             out = ModV34.damage(target, out, p);
+            out = ModV35.damage(target, out, p);   // v35 kill-time targets by advantage
             out = ModBoss.damageIn(target, out, p);
             out = ModTitanAI.damageIn(target, out, p);
             onHit(target);

@@ -886,6 +886,33 @@ public final class ModFitting {
                 row(ModLang.tr("Defense"), st + " / " + ModV34.STAT_CAP);
                 row(ModLang.tr("Reaction"), st + " / " + ModV34.STAT_CAP);
             }
+            String[] rf = ModV35.summary();
+            if (rf != null) {
+                // v35 refits: 10 levels per hull, rare parts for 6-10, one visual stage per 2 levels
+                stats.addView(section(c, ModLang.tr("REFIT")));
+                row(ModLang.tr("Refit level"), rf[0] + " / " + ModV35.REFIT_MAX + "  ·  " + ModLang.tr("Stage") + " " + rf[1] + " / " + ModV35.STAGES);
+                row(ModLang.tr("Rare parts"), rf[4]);
+                if (rf[2].length() > 0) {
+                    String need = NumberFormat.getNumberInstance(Locale.getDefault()).format(Long.parseLong(rf[2])) + " cr";
+                    if (!"0".equals(rf[3])) need += " + " + rf[3] + " " + ModLang.tr("parts");
+                    row(ModLang.tr("Next level"), need);
+                }
+                TextView rt = text(c, 10, GREY, false);
+                rt.setText(ModLang.tr("Each level: ") + rf[5]);
+                stats.addView(rt);
+                if (rf[2].length() > 0) {
+                    Button rb = button(c, ModLang.tr("REFIT"), Color.WHITE);
+                    rb.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            String msg = ModV35.buy();
+                            if (msg != null) android.widget.Toast.makeText(act, msg, android.widget.Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    lp.topMargin = (int) (4 * d);
+                    stats.addView(rb, lp);
+                }
+            }
             stats.addView(section(c, ModLang.tr("CARGO")));
             row(ModLang.tr("Hold"), inv.getTotalWeight() + " / " + inv.getCapacityInTon() + " t");
             if (hull != null && hull.cargo != 1) row(ModLang.tr("Hull cargo bonus"), pct(hull.cargo));

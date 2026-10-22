@@ -16,5 +16,6 @@ walk(json.load(open(S + '/src/data/faction_missions.json')), json.load(open(S + 
 walk(json.load(open(S + '/src/data/reputation.json')), json.load(open(S + '/i18n/gpt/reputation_es.json')))
 for k, v in json.load(open(S + '/i18n/gpt/v30_es.json', encoding='utf-8')).items(): d[k] = v   # v30 loot labels
 for k, v in json.load(open(S + '/i18n/gpt/v34_es.json', encoding='utf-8')).items(): d[k] = v   # v34 core strings
+for k, v in json.load(open(S + '/i18n/gpt/v35_es.json', encoding='utf-8')).items(): d[k] = v   # v35 strings (Claude draft, GPT to review)
 json.dump(d, open(S + '/i18n/lang/es_full.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=0, sort_keys=True)
 print('entries', len(d))

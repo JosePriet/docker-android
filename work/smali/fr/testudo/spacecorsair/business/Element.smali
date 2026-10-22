@@ -2693,6 +2693,10 @@
 
     move-result-object v3
 
+    invoke-static {p0, v3}, Lfr/testudo/spacecorsair/mod/ModV35;->skin(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/display/Drawable;)Lfr/testudo/spacecorsair/display/Drawable;
+
+    move-result-object v3
+
     iget v4, p0, Lfr/testudo/spacecorsair/business/Element;->spin:F
 
     iget v5, p0, Lfr/testudo/spacecorsair/business/Element;->a:F

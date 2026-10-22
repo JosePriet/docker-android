@@ -734,7 +734,7 @@ public class ModShips {
         try {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             Hull h = ps == null ? null : hullFor(ps.shipSpec);
-            return h == null ? 1.0f : h.cargo;
+            return h == null ? 1.0f : h.cargo * ModV35.cargo(h);
         } catch (Exception e) {
             return 1.0f;
         }
@@ -768,6 +768,7 @@ public class ModShips {
             if (ps.shield.currentValue > ps.shield.capacity) ps.shield.currentValue = ps.shield.capacity;
         }
         ps.milleSecBetweenMissileShots = (long) (ps.milleSecBetweenMissileShots * h.missileReload);
+        ModV35.apply(ps, h, off);   // v35 refit levels
         ModTitan.apply(ps);
     }
 
@@ -782,8 +783,9 @@ public class ModShips {
         ModArt.devActive = h != null && h.dev;
         if (lanceFlash > 0) lanceFlash = (int) (lanceFlash - j);
         if (h == null || ps.removed || ObjectRegistry.INSTANCE.game.mapMode) return;
-        if (h.hullRegen > 0 && ps.life < ps.maxLife) {
-            ps.addLife(ps.maxLife * h.hullRegen * j / 1000.0f);
+        float rep = ModV35.repair(h);   // v35: refit repair (Kre'tari trait, repair hulls)
+        if (rep > 0 && ps.life < ps.maxLife) {
+            ps.addLife(ps.maxLife * rep * j / 1000.0f);
         }
         if (h.dev) ModDev.tick(ps, j);
         // v17: the doomsday is manual and EVE-style (ModTitan.tick)

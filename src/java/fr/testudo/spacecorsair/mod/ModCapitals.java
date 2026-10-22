@@ -91,7 +91,7 @@ public final class ModCapitals {
     };
 
     static final Map<GuardianCivilShip, Cap> caps = new WeakHashMap<GuardianCivilShip, Cap>();
-    private static ModFx.Sprite[] hullSprites;
+    private static ModFx.Sprite[] hullSprites, hostileSprites;
     private static final Vector2 phys = new Vector2(SIZE * 0.55f, SIZE * 0.55f);
     private static final Vector2 a = new Vector2(), b = new Vector2();
 
@@ -237,6 +237,12 @@ public final class ModCapitals {
             int i = indexOf(c.f);
             if (hullSprites[i] == null) hullSprites[i] = ModFx.fixed("cap_" + c.f.key, SIZE, SIZE, false);
             if (hullSprites[i].myTexture == null) ModFx.rebind(hullSprites[i], "cap_" + c.f.key);
+            if (ModLive.titanHostile(g, c) && ModV35.hostileCap(c.f.key) != null) {   // v35 (v34 req 10): hostile art when it ships
+                if (hostileSprites == null) hostileSprites = new ModFx.Sprite[FACTIONS.length];
+                if (hostileSprites[i] == null) hostileSprites[i] = ModFx.fixed("enemy_cap_" + c.f.key, SIZE, SIZE, false);
+                if (hostileSprites[i].myTexture == null) ModFx.rebind(hostileSprites[i], "enemy_cap_" + c.f.key);
+                if (hostileSprites[i].myTexture != null) return hostileSprites[i];
+            }
             return hullSprites[i].myTexture == null ? null : hullSprites[i];
         } catch (Throwable t) {
             return null;

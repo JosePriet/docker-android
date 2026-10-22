@@ -186,6 +186,19 @@
     .registers 18
 
     .prologue
+    invoke-static {p3}, Lfr/testudo/spacecorsair/mod/ModV35;->tag(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-eqz v0, :v35_tag
+
+    sget p4, Lfr/testudo/spacecorsair/mod/ModV35;->tagR:F
+
+    sget p5, Lfr/testudo/spacecorsair/mod/ModV35;->tagG:F
+
+    sget p6, Lfr/testudo/spacecorsair/mod/ModV35;->tagB:F
+
+    :v35_tag
     .line 103
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->queueSize:I
 

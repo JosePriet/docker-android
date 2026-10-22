@@ -350,7 +350,7 @@ public class Mod {
             }
             return ratFrames[(int) ((System.currentTimeMillis() % 880) / 40)];
         }
-        return null;
+        return ModV35.playerArt(ps);   // v35 refit stage art, when it ships
     }
 
     private static Drawable[] build(Drawable[] src, int n, float dim) {

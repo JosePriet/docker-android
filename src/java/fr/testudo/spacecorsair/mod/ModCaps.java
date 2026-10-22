@@ -137,6 +137,7 @@ public final class ModCaps {
     /** Per frame from ModShips.tick (game thread). */
     public static void tick(PlayerShip ps, long j) {
         ModV34.boot();
+        ModV35.prices();   // v35 (v34 req 12): stock gear priced by rarity
         now += j;
         if (ps.shipSpec == null || ps.removed) return;
         Profile p = profile(ps);
@@ -163,6 +164,7 @@ public final class ModCaps {
         }
         ModComms.tick(ps);
         ModDerelict.tick(ps, j);
+        ModSector.tick(ps, j);
         ModRep.tick(ps, j);
         ModAlerts.tick(ps, j);
         ModShield.tick(ps, j);
@@ -175,6 +177,7 @@ public final class ModCaps {
             ModWreck.onLevel();
             ModTitanAI.resetPlayer(ps);
             ModDerelict.onLevel(ps);
+            ModSector.onLevel(ps);
             if (!map && (p.titan || (p.top && p.big))) {
                 warp = 1100;
                 ModSound.play("warp_in", p.titan ? 1.0f : 0.7f, 1.0f, 2000);

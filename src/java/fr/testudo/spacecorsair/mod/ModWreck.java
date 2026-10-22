@@ -39,6 +39,9 @@ public final class ModWreck extends Element {
     int derelictSite = -1;
     boolean[] group;            // shared by the pieces of one hull: loot rolls once per hull
     boolean preDrawn;           // v33: hand-drawn wreck art (already burnt and torn: no tint, no edge strip, no char)
+    boolean poi;                // v35: wreck field / kept flagship wreck: never pushed out by newer wrecks, no loot
+    boolean husk;               // v35: a small hull's husk (pushed out first)
+    long fadeMs;                // v35: fades after this long (0 = stays for the visit)
     private float lastVx, lastVy;
     private final Vector2 phys = new Vector2(), vis = new Vector2();
     private final ModFx.Sprite spr = new ModFx.Sprite();
@@ -110,7 +113,8 @@ public final class ModWreck extends Element {
         super.doPhysic(j);
         lastVx = speed.x;
         lastVy = speed.y;
-        if (visualOnly && System.currentTimeMillis() - born > lifeMs) {
+        long age = System.currentTimeMillis() - born;
+        if (visualOnly && age > lifeMs || fadeMs > 0 && age > fadeMs) {
             vanish();
         }
     }
@@ -141,8 +145,9 @@ public final class ModWreck extends Element {
         if (d == null) return;
         long now = System.currentTimeMillis();
         float alpha = 1.0f;
-        if (visualOnly) {
-            float k = (now - born) / (float) Math.max(1, lifeMs);
+        long span = visualOnly ? lifeMs : fadeMs;
+        if (span > 0) {
+            float k = (now - born) / (float) Math.max(1, span);
             alpha = k > 0.75f ? Math.max(0, 1 - (k - 0.75f) / 0.25f) : 1.0f;
         }
         float hp = maxLife > 0 ? life / maxLife : 1;
@@ -232,6 +237,13 @@ public final class ModWreck extends Element {
     static final ArrayList<ModWreck> live = new ArrayList<ModWreck>();
     static final int MAX = 36;
 
+    /** v35 (I4) wreck lifetime by size class: husks 2 min, cruiser wrecks 5 min, battleship-size and bigger the whole visit (0). */
+    public static long lifeMs(int sizeClass) {
+        if (sizeClass <= 1) return 120000;
+        if (sizeClass == 2) return 300000;
+        return 0;
+    }
+
     /** Size class from the physic diameter: 0 small, 1 medium, 2 cruiser-size, 3 capital. */
     static int sizeClass(Element e) {
         if (ModTitan.isTitanClass(e) || ModCapitals.cap(e) != null) return 3;
@@ -278,7 +290,10 @@ public final class ModWreck extends Element {
                 return;          // living hulls dissolve: no metal pieces
             }
             int cls = sizeClass(e);
-            if (cls < 2) return;
+            if (cls < 2) {
+                husk(e, d);
+                return;
+            }
             boolean elite = e instanceof Ennemis && ((Ennemis) e).elite;
             boolean boss = ModBoss.kindOf(e) >= 0;
             ModCapitals.Cap cap = ModCapitals.cap(e);
@@ -287,11 +302,13 @@ public final class ModWreck extends Element {
             if (made != null) {
                 for (ModWreck w : made) {
                     if (w == null) continue;
+                    w.fadeMs = lifeMs(cls);
                     w.srcLevel = e.level;
                     w.srcClass = cls;
                     w.srcElite = elite;
                     w.srcBoss = boss;
                 }
+                if (cap != null || ModTitan.isTitanClass(e)) ModSector.persist(made);   // v35: kept for the next visits
             }
         } catch (Throwable t) {
             // the stock death always happens
@@ -412,6 +429,30 @@ public final class ModWreck extends Element {
         return out;
     }
 
+    /** v35 (I4): a small hull leaves one burnt husk (the whole sprite), no loot, gone after 2 minutes. */
+    static void husk(Element e, Drawable d) {
+        Texture t = d.myTexture;
+        if (t == null || t.name <= 0) return;
+        float W, H;
+        if (d instanceof ModFx.Sprite) { W = ((ModFx.Sprite) d).w; H = ((ModFx.Sprite) d).h; }
+        else if (d.dimensions != null) { W = d.dimensions.x; H = d.dimensions.y; }
+        else return;
+        ModWreck w = new ModWreck();
+        w.group = new boolean[] {true};
+        w.husk = true;
+        w.tex = t;
+        w.u0 = 0; w.u1 = 1; w.v0 = 0; w.v1 = 1;
+        w.w = W;
+        w.h = H;
+        w.tint = 0.4f;
+        w.fadeMs = lifeMs(0);
+        place(w, e, H, Math.max(W, H));
+        w.maxLife = Math.max(100.0f, e.maxLife * 0.2f);
+        w.life = w.maxLife;
+        w.srcLevel = e.level;
+        add(w);
+    }
+
     static void add(ModWreck w) {
         w.lastVx = w.speed.x;
         w.lastVy = w.speed.y;
@@ -420,10 +461,11 @@ public final class ModWreck extends Element {
             return;
         }
         live.add(w);
-        if (live.size() > MAX) {
+        for (int pass = 0; pass < 2 && live.size() > MAX; pass++) {
+            // v35: husks go first, then the oldest wrecks; derelict sites, wreck fields and kept flagship wrecks stay
             for (int i = 0; i < live.size() && live.size() > MAX; i++) {
                 ModWreck old = live.get(i);
-                if (old.derelict) continue;
+                if (old.derelict || old.poi || old == w || pass == 0 && !old.husk) continue;
                 old.vanish();
                 i--;
             }

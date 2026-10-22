@@ -212,8 +212,18 @@ public class ModQol {
     /** Hook: Price.getSellPrice for fixed-price items. Original factor was 0.15. */
     public static float sellFactor() { return 0.25f; }
 
-    /** Hook: MissionReward constructor, credit amount. */
-    public static int missionCredits(int c) { return c > 0 ? c * 3 : c; }
+    /** Hook: MissionReward constructor, credit amount. v35: keeps the stock amount; the payout is worked out when read (missionPay). */
+    public static int missionCredits(int c) { return c; }
+
+    /**
+     * v35 (v34 req 13) hook on every read of MissionReward.creditReward (mission list, details, payout): 3 same-level
+     * bounties x the mission's size, at the pilot's level when it is shown or paid.
+     */
+    public static int missionPay(int stock) {
+        int lv = 0;
+        try { lv = ObjectRegistry.INSTANCE.game.playerInfo.level; } catch (Throwable t) { lv = 0; }
+        return ModV35.missionCredits(stock, lv);
+    }
 
     /** Hook: Ennemis.onDestroyed after the XP grant. Credit bounty scaled by enemy level; xp is the mitigated XP. */
     public static void bounty(Ennemis e, int xp) {
@@ -226,6 +236,7 @@ public class ModQol {
             int credits = Math.max(1, Math.round(c));
             ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(credits);
             ModV34.rareSalvage(e, credits);
+            ModV35.partsFromKill(e);
             Element at = fr.testudo.spacecorsair.engine.GameThread.isElementVisible(e) ? e : ObjectRegistry.INSTANCE.playerShip;
             ObjectRegistry.INSTANCE.game.currentLevel.toAddDrawOnly.add(
                 fr.testudo.spacecorsair.business.factory.GamePools.newGoldMessage().init("+" + credits + " c", at));

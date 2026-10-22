@@ -81,7 +81,10 @@ public class ModFaction extends MissionListener {
 
     private static synchronized Object[][] buildRows() {
         if (rows == null) {
-            Object[][] story = ModFactionData.MISSIONS, con = ModRepData.CONTRACTS;
+            Object[][] base = ModFactionData.MISSIONS, fin = ModV35.FINALE, con = ModRepData.CONTRACTS;
+            Object[][] story = new Object[base.length + fin.length][];   // v35 (v34 req 16): the finale rows follow the story chains
+            System.arraycopy(base, 0, story, 0, base.length);
+            System.arraycopy(fin, 0, story, base.length, fin.length);
             Object[][] r = new Object[story.length + con.length][];
             System.arraycopy(story, 0, r, 0, story.length);
             int[] n = new int[ModRepData.KEYS.length];
@@ -183,11 +186,11 @@ public class ModFaction extends MissionListener {
                         // reward item missing: credits and XP only
                     }
                 }
-                // MissionReward credits go through ModQol.missionCredits (x3), so the stored amount is a third of the payout
+                // v35: the stored amount is a third of the data value; ModQol.missionPay turns it into the payout (bounties x mission size)
                 Mission m = new Mission(id(i), fr.testudo.spacecorsair.R.string.missionGenesisTuerChefPillard, TEXT_DESC + i, TEXT_DONE + i,
                     false, minLevel(i), new ModFaction(i), MissionReward.withObject(loot, contract(i) ? 4000 : 900 * minLevel(i), num(i, 15) / 3), contract(i));
                 m.localizedName = contract(i) ? (amends(i) ? ModLang.tr("Amends: ") : ModLang.tr("Contract: ")) + str(i, 2) : str(i, 2);
-                m.restrictedMissionId = order(i) > 1 ? id(i - 1) : null;
+                m.restrictedMissionId = order(i) > 1 && order(i) != 4 ? id(i - 1) : null;   // v35: the finale opens on its own
                 ms[i] = m;
             }
             missions = ms;
@@ -210,11 +213,21 @@ public class ModFaction extends MissionListener {
                 if (rank <= ModRep.HOSTILE) continue;                       // the commander will not talk
                 if (rank >= ModRep.NEUTRAL) {
                     for (int i = 0; i < ms.length; i++) {
-                        if (contract(i) || !key(i).equals(k)) continue;
+                        if (contract(i) || !key(i).equals(k) || ModV35.finale(order(i))) continue;
                         if (ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(id(i))) continue;
                         if (cur != ms[i] && plv < minLevel(i) - 2 && !testHail) break;      // the chain opens up with the pilot's level
                         if (!list.contains(ms[i])) list.add(ms[i]);
                         break;                                                  // one mission of the chain at a time
+                    }
+                }
+                if (rank >= ModRep.NEUTRAL && at == LevelId.THE_HIVE) {
+                    // v35 (v34 req 16): the top region's final missions, one at a time, from L34
+                    for (int i = 0; i < ms.length; i++) {
+                        if (contract(i) || !key(i).equals(k) || !ModV35.finale(order(i))) continue;
+                        if (ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(id(i))) continue;
+                        if (cur != ms[i] && plv < minLevel(i) - 2 && !testHail) break;
+                        if (!list.contains(ms[i])) list.add(ms[i]);
+                        break;
                     }
                 }
                 // contracts: two of the regular ones (rotating daily) from Neutral up, only the amends ones when Unfriendly
@@ -254,8 +267,8 @@ public class ModFaction extends MissionListener {
             return "<b>" + ModFactionData.COMMANDER[c] + "</b>, " + f.name + "<br><br>" + str(i, 11)
                 + "<br><br><b>Objective</b>: " + str(i, 12)
                 + (where != null ? "<br><b>Sector</b>: " + pretty(where) : "")
-                + "<br><b>Reward</b>: " + credits(num(i, 15)) + " credits" + (str(i, 16).length() > 0 ? " + " + itemLabel(str(i, 16)) : "")
-                + " (+" + (contract(i) ? 6 : order(i) == 3 ? 20 : 15) + " standing" + (ModRep.payoutBonus(key(i)) > 0 ? ", +" + Math.round(ModRep.payoutBonus(key(i)) * 100) + ModLang.tr("% standing bonus") : "") + ModLang.tr(")"
+                + "<br><b>Reward</b>: " + credits(ModQol.missionPay(num(i, 15) / 3)) + " credits" + (str(i, 16).length() > 0 ? " + " + itemLabel(str(i, 16)) : "")
+                + " (+" + Math.round(ModV35.missionStanding(contract(i), order(i))) + " standing" + (ModRep.payoutBonus(key(i)) > 0 ? ", +" + Math.round(ModRep.payoutBonus(key(i)) * 100) + ModLang.tr("% standing bonus") : "") + ModLang.tr(")"
                 + "<br><br>Missions of this chain are handed out and handed in at <b>") + pretty(f.hq) + ModLang.tr("</b>: hail the ") + f.ship + ".";
         }
         i = id - TEXT_DONE;
@@ -309,7 +322,7 @@ public class ModFaction extends MissionListener {
         completed = true;
         ModAlerts.missionResult(true);
         // standing: story +15 (chain finale +20), contracts +6; fighting a faction's flagship costs a little with it
-        ModRep.change(key(idx), contract(idx) ? 6 : order(idx) == 3 ? 20 : 15, true);
+        ModRep.change(key(idx), ModV35.missionStanding(contract(idx), order(idx)), true);   // v35 (v34 req 13)
         if (!contract(idx) && order(idx) == 3) ModV34.storyDone(key(idx));
         if ("KILL_FLAGSHIP".equals(obj) && str(idx, 8).length() > 0) ModRep.change(str(idx, 8), -0.8f, true);
         int bonus = Math.round(num(idx, 15) * ModRep.payoutBonus(key(idx)));
@@ -485,13 +498,13 @@ public class ModFaction extends MissionListener {
             Ennemis r = EnnemisFactory.newRocketTourelle(foeLevel() + 1);
             if (r != null) {
                 r.setElite(true);
-                name(r, contract(idx) && str(idx, 9).length() > 0 ? str(idx, 9) : "Authority Relay Station");
+                name(r, (contract(idx) || ModV35.finale(order(idx))) && str(idx, 9).length() > 0 ? str(idx, 9) : "Authority Relay Station");
                 r.maxLife *= 8;
                 r.life = r.maxLife;
                 r.lifeInPourc = 100;
                 if (r.lifeBar != null) r.lifeBar.setValue(100);
                 target = place(r, center, ps, true);
-                for (int k = 0; k < 3; k++) place(foe(WARDEN, false), away(center, 300, 600), ps, false);
+                for (int k = 0; k < 3; k++) place(foe(ModV35.finale(order(idx)) ? side() : WARDEN, false), away(center, 300, 600), ps, false);
             }
         } else if ("ESCORT".equals(obj)) {
             CivilShip c = civil(away(ps.position, 250, 350), true);

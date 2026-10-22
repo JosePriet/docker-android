@@ -248,6 +248,11 @@ public class ModArt {
         }
     }
 
+    /** v35: the modart/ listing is known (hasArt answers are final). */
+    static boolean listed() {
+        return assetNames != null;
+    }
+
     /** v34: true when modart/<name> ships with the APK (true while the asset list is not readable yet). */
     public static boolean hasArt(String name) {
         if (appCtx == null) return true;

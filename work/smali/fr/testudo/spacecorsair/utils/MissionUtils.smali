@@ -252,6 +252,10 @@
 
     iget v6, v6, Lfr/testudo/spacecorsair/business/mission/MissionReward;->creditReward:I
 
+    invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModQol;->missionPay(I)I
+
+    move-result v6
+
     invoke-virtual {v3, v6}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v3

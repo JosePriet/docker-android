@@ -2848,7 +2848,7 @@
     :cond_58
     sget-object v3, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;->ALIEN_RAT:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;
 
-    if-ne v1, v3, :cond_a
+    if-ne v1, v3, :cond_9e
 
     .line 343
     sget-object v1, Lfr/testudo/spacecorsair/business/ennemis/AlienRat;->drawable:[Lfr/testudo/spacecorsair/display/Drawable;
@@ -2925,6 +2925,14 @@
     long-to-int v1, v2
 
     aget-object v0, v0, v1
+
+    goto/16 :goto_a
+
+    .line 353
+    :cond_9e
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV35;->playerArt(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Lfr/testudo/spacecorsair/display/Drawable;
+
+    move-result-object v0
 
     goto/16 :goto_a
 .end method

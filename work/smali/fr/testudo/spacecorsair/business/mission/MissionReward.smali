@@ -295,6 +295,10 @@
 
     iget v1, p0, Lfr/testudo/spacecorsair/business/mission/MissionReward;->creditReward:I
 
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModQol;->missionPay(I)I
+
+    move-result v1
+
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/business/player/Inventory;->addCredit(I)V
 
     .line 53

@@ -172,7 +172,8 @@ public final class ModRep {
 
     /** ModCapitals: the player destroyed a flagship. */
     static void flagshipDestroyed(String key) {
-        change(key, -10f, true);
+        change(key, ModSector.PURSUIT_STANDING, true);   // v35 req 5: -40 (was -10), then pursuit waves
+        ModSector.flagshipKilled(key);
     }
 
     /** ModQol.civilAttacked: the player hit a civilian in a faction's home sector (counted once per ship). */

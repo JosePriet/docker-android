@@ -32,7 +32,7 @@
     .registers 1
 
     .prologue
-    .line 1465
+    .line 1492
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -48,7 +48,7 @@
 
     const/4 v0, -0x1
 
-    .line 1467
+    .line 1494
     invoke-virtual {p1}, Lfr/testudo/spacecorsair/business/loot/SpaceObject;->getSpaceObjectType()Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     move-result-object v2
@@ -57,7 +57,7 @@
 
     move-result-object v3
 
-    .line 1468
+    .line 1495
     invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->canEquip()Z
 
     move-result v4
@@ -66,12 +66,12 @@
 
     move-result v5
 
-    .line 1469
+    .line 1496
     if-eq v4, v5, :cond_19
 
     if-eqz v4, :cond_17
 
-    .line 1473
+    .line 1500
     :cond_16
     :goto_16
     return v0
@@ -79,10 +79,10 @@
     :cond_17
     move v0, v1
 
-    .line 1469
+    .line 1496
     goto :goto_16
 
-    .line 1470
+    .line 1497
     :cond_19
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->headline(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)F
 
@@ -92,7 +92,7 @@
 
     move-result v5
 
-    .line 1471
+    .line 1498
     invoke-static {v4}, Ljava/lang/Float;->isNaN(F)Z
 
     move-result v6
@@ -123,7 +123,7 @@
 
     goto :goto_35
 
-    .line 1472
+    .line 1499
     :cond_39
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getRarety()Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
@@ -143,7 +143,7 @@
 
     sub-int/2addr v0, v1
 
-    .line 1473
+    .line 1500
     if-nez v0, :cond_16
 
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
@@ -167,7 +167,7 @@
     .registers 4
 
     .prologue
-    .line 1465
+    .line 1492
     check-cast p1, Lfr/testudo/spacecorsair/business/loot/SpaceObject;
 
     check-cast p2, Lfr/testudo/spacecorsair/business/loot/SpaceObject;

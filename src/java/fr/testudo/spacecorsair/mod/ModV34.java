@@ -140,6 +140,7 @@ public class ModV34 {
             if (Math.random() >= p) return;
             int c = Math.max(1, Math.round(bounty * k));
             ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(c);
+            ModV35.addParts(1, e);   // v35: rare salvage carries a refit part
             Element at = fr.testudo.spacecorsair.engine.GameThread.isElementVisible(e) ? e : ObjectRegistry.INSTANCE.playerShip;
             ObjectRegistry.INSTANCE.game.currentLevel.toAddDrawOnly.add(
                 fr.testudo.spacecorsair.business.factory.GamePools.newGoldMessage().init("+" + c + " c " + ModLang.tr("RARE SALVAGE"), at));
@@ -391,6 +392,8 @@ public class ModV34 {
         try {
             if (e == null) return "";
             if (e.isPlayer) return ModShips.factionKey((PlayerShip) e);
+            String v35 = ModSector.factionOf(e);   // v35 pursuers, wings and patrols
+            if (v35 != null) return v35;
             ModCapitals.Cap c = ModCapitals.cap(e);
             if (c != null && c.f != null) return c.f.key;
             if (e instanceof TransportCivilShip) return ModShips.factionKey(freighters.get(e));   // F1: Foundry Ironclad, Graywall Varn

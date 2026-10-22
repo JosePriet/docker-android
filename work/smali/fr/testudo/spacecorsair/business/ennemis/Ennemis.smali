@@ -1385,6 +1385,8 @@
     .line 191
     invoke-virtual {p0, p1, p2}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->doIa(J)V
 
+    invoke-static {p0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModV35;->ai(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;J)V
+
     .line 192
     return-void
 .end method

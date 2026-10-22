@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 1440
+    .line 1467
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$5;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 3
 
     .prologue
-    .line 1441
+    .line 1468
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$5;->val$a:Landroid/app/Activity;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModFitting;->refresh(Landroid/app/Activity;)V

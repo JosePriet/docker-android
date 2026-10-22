@@ -195,6 +195,10 @@
 
     iget v4, v4, Lfr/testudo/spacecorsair/business/mission/MissionReward;->creditReward:I
 
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModQol;->missionPay(I)I
+
+    move-result v4
+
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v3

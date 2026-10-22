@@ -201,8 +201,8 @@ public class ModFleet {
         if (ps.removed || ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode || lvl == null || excluded(lvl.id)) return;
         spawnTimer = (int) (spawnTimer - j);
         if (spawnTimer > 0) return;
-        spawnTimer = 60000 + (int) (Math.random() * 40000);
-        if (fleet.size() > 6) return;
+        spawnTimer = 24000 + (int) (Math.random() * 16000);   // v35 (E1b): 2.5x the wing traffic (was 60-100 s, 6 ships)
+        if (fleet.size() > 15) return;
         spawnGroup(ps, lvl.id);
     }
 

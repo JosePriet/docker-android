@@ -1102,17 +1102,17 @@
     .prologue
     const/4 v1, -0x1
 
-    .line 935
+    .line 962
     if-nez p0, :cond_5
 
     move v0, v1
 
-    .line 940
+    .line 967
     :cond_4
     :goto_4
     return v0
 
-    .line 936
+    .line 963
     :cond_5
     const/4 v0, 0x0
 
@@ -1123,12 +1123,12 @@
 
     if-ge v0, v2, :cond_2a
 
-    .line 937
+    .line 964
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     aget-object v2, v2, v0
 
-    .line 938
+    .line 965
     iget-object v3, v2, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->name:Ljava/lang/String;
 
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
@@ -1153,7 +1153,7 @@
 
     if-nez v2, :cond_4
 
-    .line 936
+    .line 963
     :cond_27
     add-int/lit8 v0, v0, 0x1
 
@@ -1162,7 +1162,7 @@
     :cond_2a
     move v0, v1
 
-    .line 940
+    .line 967
     goto :goto_4
 .end method
 

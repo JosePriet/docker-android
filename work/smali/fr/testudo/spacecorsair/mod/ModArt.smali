@@ -247,35 +247,35 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->BLANK:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 487
+    .line 492
     new-instance v0, Ljava/lang/Object;
 
     invoke-direct {v0}, Ljava/lang/Object;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->LOCK:Ljava/lang/Object;
 
-    .line 488
+    .line 493
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->queue:Ljava/util/ArrayList;
 
-    .line 489
+    .line 494
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->ready:Ljava/util/ArrayList;
 
-    .line 577
+    .line 582
     new-instance v0, Ljava/util/concurrent/ConcurrentHashMap;
 
     invoke-direct {v0}, Ljava/util/concurrent/ConcurrentHashMap;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->turrets:Ljava/util/Map;
 
-    .line 595
+    .line 600
     const/4 v0, 0x6
 
     new-array v0, v0, [Ljava/lang/String;
@@ -310,7 +310,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->FAMILY_TURRETS:[Ljava/lang/String;
 
-    .line 596
+    .line 601
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->FAMILY_TURRETS:[Ljava/lang/String;
 
     array-length v0, v0
@@ -329,7 +329,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->FAMILY_NAMES:[[Ljava/lang/String;
 
-    .line 598
+    .line 603
     new-array v3, v7, [Ljava/lang/String;
 
     const-string v0, "s"
@@ -346,7 +346,7 @@
 
     move v0, v1
 
-    .line 599
+    .line 604
     :goto_80
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModArt;->FAMILY_TURRETS:[Ljava/lang/String;
 
@@ -356,7 +356,7 @@
 
     move v2, v1
 
-    .line 600
+    .line 605
     :goto_86
     if-ge v2, v7, :cond_b4
 
@@ -404,13 +404,13 @@
 
     goto :goto_86
 
-    .line 599
+    .line 604
     :cond_b4
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_80
 
-    .line 604
+    .line 609
     :cond_b7
     new-instance v0, Ljava/util/HashMap;
 
@@ -418,10 +418,10 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->familyDrawables:Ljava/util/Map;
 
-    .line 605
+    .line 610
     sput v8, Lfr/testudo/spacecorsair/mod/ModArt;->memoKey:I
 
-    .line 642
+    .line 647
     new-instance v0, Ljava/util/WeakHashMap;
 
     invoke-direct {v0}, Ljava/util/WeakHashMap;-><init>()V
@@ -432,14 +432,14 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->ORIGTEX:Ljava/util/Map;
 
-    .line 745
+    .line 750
     new-instance v0, Ljava/util/HashMap;
 
     invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->ORIG:Ljava/util/Map;
 
-    .line 811
+    .line 816
     new-instance v0, Ljava/util/WeakHashMap;
 
     invoke-direct {v0}, Ljava/util/WeakHashMap;-><init>()V
@@ -450,7 +450,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->EXTENT:Ljava/util/Map;
 
-    .line 841
+    .line 846
     new-instance v0, Ljava/util/WeakHashMap;
 
     invoke-direct {v0}, Ljava/util/WeakHashMap;-><init>()V
@@ -488,16 +488,16 @@
     .registers 2
 
     .prologue
-    .line 646
+    .line 651
     if-nez p0, :cond_4
 
     const/4 v0, 0x0
 
-    .line 648
+    .line 653
     :goto_3
     return-object v0
 
-    .line 647
+    .line 652
     :cond_4
     instance-of v0, p0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
@@ -509,7 +509,7 @@
 
     goto :goto_3
 
-    .line 648
+    .line 653
     :cond_d
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->ORIGTEX:Ljava/util/Map;
 
@@ -526,7 +526,7 @@
     .registers 4
 
     .prologue
-    .line 259
+    .line 264
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->assetNames:Ljava/util/Set;
 
     if-eqz v0, :cond_b
@@ -537,11 +537,11 @@
 
     move-result v0
 
-    .line 273
+    .line 278
     :goto_a
     return v0
 
-    .line 260
+    .line 265
     :cond_b
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->exists:Ljava/util/Map;
 
@@ -551,7 +551,7 @@
 
     check-cast v0, Ljava/lang/Boolean;
 
-    .line 261
+    .line 266
     if-eqz v0, :cond_1a
 
     invoke-virtual {v0}, Ljava/lang/Boolean;->booleanValue()Z
@@ -560,11 +560,11 @@
 
     goto :goto_a
 
-    .line 263
+    .line 268
     :cond_1a
     const/4 v1, 0x0
 
-    .line 265
+    .line 270
     :try_start_1b
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->appCtx:Landroid/content/Context;
 
@@ -575,10 +575,10 @@
 
     move-result-object v1
 
-    .line 266
+    .line 271
     const/4 v0, 0x1
 
-    .line 270
+    .line 275
     if-eqz v1, :cond_27
 
     :try_start_24
@@ -586,7 +586,7 @@
     :try_end_27
     .catch Ljava/lang/Exception; {:try_start_24 .. :try_end_27} :catch_42
 
-    .line 272
+    .line 277
     :cond_27
     :goto_27
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->exists:Ljava/util/Map;
@@ -599,14 +599,14 @@
 
     goto :goto_a
 
-    .line 267
+    .line 272
     :catch_31
     move-exception v0
 
-    .line 268
+    .line 273
     const/4 v0, 0x0
 
-    .line 270
+    .line 275
     if-eqz v1, :cond_27
 
     :try_start_35
@@ -631,12 +631,12 @@
     :try_end_41
     .catch Ljava/lang/Exception; {:try_start_3e .. :try_end_41} :catch_44
 
-    .line 271
+    .line 276
     :cond_41
     :goto_41
     throw v0
 
-    .line 270
+    .line 275
     :catch_42
     move-exception v1
 
@@ -691,17 +691,17 @@
 
     const/4 v0, 0x0
 
-    .line 688
-    .line 690
+    .line 693
+    .line 695
     :try_start_2
     new-instance v2, Landroid/graphics/BitmapFactory$Options;
 
     invoke-direct {v2}, Landroid/graphics/BitmapFactory$Options;-><init>()V
 
-    .line 691
+    .line 696
     if-lez p2, :cond_32
 
-    .line 692
+    .line 697
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModArt;->open(Landroid/content/Context;Ljava/lang/String;)Ljava/io/InputStream;
     :try_end_c
     .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_c} :catch_48
@@ -709,24 +709,24 @@
 
     move-result-object v1
 
-    .line 693
+    .line 698
     const/4 v4, 0x1
 
     :try_start_e
     iput-boolean v4, v2, Landroid/graphics/BitmapFactory$Options;->inJustDecodeBounds:Z
 
-    .line 694
+    .line 699
     const/4 v4, 0x0
 
     invoke-static {v1, v4, v2}, Landroid/graphics/BitmapFactory;->decodeStream(Ljava/io/InputStream;Landroid/graphics/Rect;Landroid/graphics/BitmapFactory$Options;)Landroid/graphics/Bitmap;
 
-    .line 695
+    .line 700
     invoke-virtual {v1}, Ljava/io/InputStream;->close()V
     :try_end_17
     .catch Ljava/lang/Throwable; {:try_start_e .. :try_end_17} :catch_63
     .catchall {:try_start_e .. :try_end_17} :catchall_5f
 
-    .line 697
+    .line 702
     :try_start_17
     iget v1, v2, Landroid/graphics/BitmapFactory$Options;->outWidth:I
 
@@ -738,7 +738,7 @@
 
     move v2, v3
 
-    .line 698
+    .line 703
     :goto_20
     mul-int/lit8 v1, v2, 0x2
 
@@ -752,29 +752,29 @@
 
     goto :goto_20
 
-    .line 699
+    .line 704
     :cond_2a
     new-instance v1, Landroid/graphics/BitmapFactory$Options;
 
     invoke-direct {v1}, Landroid/graphics/BitmapFactory$Options;-><init>()V
 
-    .line 700
+    .line 705
     iput v2, v1, Landroid/graphics/BitmapFactory$Options;->inSampleSize:I
 
     move-object v2, v1
 
-    .line 702
+    .line 707
     :cond_32
     sget-object v1, Landroid/graphics/Bitmap$Config;->ARGB_8888:Landroid/graphics/Bitmap$Config;
 
     iput-object v1, v2, Landroid/graphics/BitmapFactory$Options;->inPreferredConfig:Landroid/graphics/Bitmap$Config;
 
-    .line 703
+    .line 708
     const/4 v1, 0x0
 
     iput-boolean v1, v2, Landroid/graphics/BitmapFactory$Options;->inScaled:Z
 
-    .line 704
+    .line 709
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModArt;->open(Landroid/content/Context;Ljava/lang/String;)Ljava/io/InputStream;
     :try_end_3c
     .catch Ljava/lang/Throwable; {:try_start_17 .. :try_end_3c} :catch_48
@@ -782,7 +782,7 @@
 
     move-result-object v1
 
-    .line 705
+    .line 710
     const/4 v3, 0x0
 
     :try_start_3e
@@ -793,7 +793,7 @@
 
     move-result-object v0
 
-    .line 709
+    .line 714
     if-eqz v1, :cond_47
 
     :try_start_44
@@ -801,18 +801,18 @@
     :try_end_47
     .catch Ljava/lang/Exception; {:try_start_44 .. :try_end_47} :catch_5b
 
-    .line 707
+    .line 712
     :cond_47
     :goto_47
     return-object v0
 
-    .line 706
+    .line 711
     :catch_48
     move-exception v1
 
     move-object v1, v0
 
-    .line 709
+    .line 714
     :goto_4a
     if-eqz v1, :cond_47
 
@@ -843,12 +843,12 @@
     :try_end_5a
     .catch Ljava/lang/Exception; {:try_start_57 .. :try_end_5a} :catch_5d
 
-    .line 710
+    .line 715
     :cond_5a
     :goto_5a
     throw v2
 
-    .line 709
+    .line 714
     :catch_5b
     move-exception v1
 
@@ -868,7 +868,7 @@
 
     goto :goto_55
 
-    .line 706
+    .line 711
     :catch_63
     move-exception v2
 
@@ -881,18 +881,18 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 399
+    .line 404
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->appCtx:Landroid/content/Context;
 
-    .line 400
+    .line 405
     if-nez v1, :cond_6
 
-    .line 409
+    .line 414
     :cond_5
     :goto_5
     return-object v0
 
-    .line 403
+    .line 408
     :cond_6
     :try_start_6
     invoke-static {v1, p0}, Lfr/testudo/spacecorsair/mod/ModArt;->open(Landroid/content/Context;Ljava/lang/String;)Ljava/io/InputStream;
@@ -902,23 +902,23 @@
 
     move-result-object v1
 
-    .line 404
+    .line 409
     :try_start_a
     new-instance v2, Landroid/graphics/BitmapFactory$Options;
 
     invoke-direct {v2}, Landroid/graphics/BitmapFactory$Options;-><init>()V
 
-    .line 405
+    .line 410
     sget-object v3, Landroid/graphics/Bitmap$Config;->ARGB_8888:Landroid/graphics/Bitmap$Config;
 
     iput-object v3, v2, Landroid/graphics/BitmapFactory$Options;->inPreferredConfig:Landroid/graphics/Bitmap$Config;
 
-    .line 406
+    .line 411
     const/4 v3, 0x0
 
     iput-boolean v3, v2, Landroid/graphics/BitmapFactory$Options;->inScaled:Z
 
-    .line 407
+    .line 412
     const/4 v3, 0x0
 
     invoke-static {v1, v3, v2}, Landroid/graphics/BitmapFactory;->decodeStream(Ljava/io/InputStream;Landroid/graphics/Rect;Landroid/graphics/BitmapFactory$Options;)Landroid/graphics/Bitmap;
@@ -928,7 +928,7 @@
 
     move-result-object v0
 
-    .line 411
+    .line 416
     if-eqz v1, :cond_5
 
     :try_start_1d
@@ -943,13 +943,13 @@
 
     goto :goto_5
 
-    .line 408
+    .line 413
     :catch_23
     move-exception v1
 
     move-object v1, v0
 
-    .line 411
+    .line 416
     :goto_25
     if-eqz v1, :cond_5
 
@@ -980,12 +980,12 @@
     :try_end_35
     .catch Ljava/lang/Exception; {:try_start_32 .. :try_end_35} :catch_36
 
-    .line 412
+    .line 417
     :cond_35
     :goto_35
     throw v2
 
-    .line 411
+    .line 416
     :catch_36
     move-exception v0
 
@@ -1000,7 +1000,7 @@
 
     goto :goto_30
 
-    .line 408
+    .line 413
     :catch_3c
     move-exception v2
 
@@ -1017,7 +1017,7 @@
 
     const/4 v3, 0x0
 
-    .line 528
+    .line 533
     :goto_3
     :try_start_3
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->LOCK:Ljava/lang/Object;
@@ -1026,7 +1026,7 @@
     :try_end_6
     .catch Ljava/lang/Throwable; {:try_start_3 .. :try_end_6} :catch_17
 
-    .line 529
+    .line 534
     :goto_6
     :try_start_6
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->queue:Ljava/util/ArrayList;
@@ -1043,7 +1043,7 @@
 
     goto :goto_6
 
-    .line 531
+    .line 536
     :catchall_14
     move-exception v0
 
@@ -1056,16 +1056,16 @@
     :try_end_17
     .catch Ljava/lang/Throwable; {:try_start_16 .. :try_end_17} :catch_17
 
-    .line 552
+    .line 557
     :catch_17
     move-exception v0
 
-    .line 553
+    .line 558
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->LOCK:Ljava/lang/Object;
 
     monitor-enter v1
 
-    .line 554
+    .line 559
     :try_start_1b
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->queue:Ljava/util/ArrayList;
 
@@ -1092,7 +1092,7 @@
 
     goto :goto_21
 
-    .line 557
+    .line 562
     :catchall_31
     move-exception v0
 
@@ -1102,7 +1102,7 @@
 
     throw v0
 
-    .line 530
+    .line 535
     :cond_34
     :try_start_34
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->queue:Ljava/util/ArrayList;
@@ -1115,12 +1115,12 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
-    .line 531
+    .line 536
     monitor-exit v1
     :try_end_3e
     .catchall {:try_start_34 .. :try_end_3e} :catchall_14
 
-    .line 535
+    .line 540
     :try_start_3e
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModArt;->LOCK:Ljava/lang/Object;
 
@@ -1144,7 +1144,7 @@
     :try_end_4b
     .catchall {:try_start_41 .. :try_end_4b} :catchall_79
 
-    .line 536
+    .line 541
     :try_start_4b
     iget-boolean v4, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->resident:Z
 
@@ -1160,7 +1160,7 @@
 
     move-result-object v1
 
-    .line 540
+    .line 545
     :goto_57
     :try_start_57
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModArt;->LOCK:Ljava/lang/Object;
@@ -1169,16 +1169,16 @@
     :try_end_5a
     .catch Ljava/lang/Throwable; {:try_start_57 .. :try_end_5a} :catch_17
 
-    .line 541
+    .line 546
     const/4 v5, 0x0
 
     :try_start_5b
     iput-boolean v5, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->queued:Z
 
-    .line 542
+    .line 547
     if-eqz v1, :cond_72
 
-    .line 543
+    .line 548
     iget-boolean v5, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->resident:Z
 
     if-nez v5, :cond_6f
@@ -1195,11 +1195,11 @@
 
     if-lt v5, v6, :cond_7f
 
-    .line 544
+    .line 549
     :cond_6f
     invoke-virtual {v1}, Landroid/graphics/Bitmap;->recycle()V
 
-    .line 550
+    .line 555
     :cond_72
     :goto_72
     monitor-exit v4
@@ -1221,7 +1221,7 @@
     :cond_77
     move v1, v3
 
-    .line 535
+    .line 540
     goto :goto_4a
 
     :catchall_79
@@ -1237,21 +1237,21 @@
     :try_end_7c
     .catch Ljava/lang/Throwable; {:try_start_7b .. :try_end_7c} :catch_7c
 
-    .line 537
+    .line 542
     :catch_7c
     move-exception v1
 
     move-object v1, v2
 
-    .line 538
+    .line 543
     goto :goto_57
 
-    .line 546
+    .line 551
     :cond_7f
     :try_start_7f
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->pending:Landroid/graphics/Bitmap;
 
-    .line 547
+    .line 552
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->ready:Ljava/util/ArrayList;
 
     invoke-virtual {v1, v0}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
@@ -1260,24 +1260,24 @@
 
     goto :goto_72
 
-    .line 555
+    .line 560
     :cond_87
     :try_start_87
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->queue:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->clear()V
 
-    .line 556
+    .line 561
     const/4 v0, 0x0
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->decoder:Ljava/lang/Thread;
 
-    .line 557
+    .line 562
     monitor-exit v1
     :try_end_90
     .catchall {:try_start_87 .. :try_end_90} :catchall_31
 
-    .line 559
+    .line 564
     return-void
 
     :cond_91
@@ -1290,12 +1290,12 @@
     .registers 2
 
     .prologue
-    .line 856
+    .line 861
     if-nez p0, :cond_8
 
     const/4 v0, 0x0
 
-    .line 857
+    .line 862
     :goto_3
     if-nez v0, :cond_11
 
@@ -1304,7 +1304,7 @@
     :goto_7
     return v0
 
-    .line 856
+    .line 861
     :cond_8
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->EXTENT:Ljava/util/Map;
 
@@ -1316,7 +1316,7 @@
 
     goto :goto_3
 
-    .line 857
+    .line 862
     :cond_11
     invoke-virtual {v0}, Ljava/lang/Float;->floatValue()F
 
@@ -1329,10 +1329,10 @@
     .registers 3
 
     .prologue
-    .line 330
+    .line 335
     const/4 v0, 0x0
 
-    .line 331
+    .line 336
     const/4 v1, 0x1
 
     if-ne p0, v1, :cond_19
@@ -1342,7 +1342,7 @@
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;->shipTexture:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 334
+    .line 339
     :cond_8
     :goto_8
     if-eqz v0, :cond_26
@@ -1361,11 +1361,11 @@
 
     iget v0, v0, Lfr/testudo/spacecorsair/display/Texture;->name:I
 
-    .line 338
+    .line 343
     :goto_18
     return v0
 
-    .line 332
+    .line 337
     :cond_19
     const/4 v1, 0x2
 
@@ -1375,7 +1375,7 @@
 
     if-eqz v1, :cond_8
 
-    .line 333
+    .line 338
     sget-object v0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->drawable:Lfr/testudo/spacecorsair/display/Drawable;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
@@ -1384,11 +1384,11 @@
 
     goto :goto_8
 
-    .line 335
+    .line 340
     :catch_25
     move-exception v0
 
-    .line 338
+    .line 343
     :cond_26
     sget v0, Lfr/testudo/spacecorsair/mod/ModArt;->blankName:I
 
@@ -1401,7 +1401,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 620
+    .line 625
     if-ltz p0, :cond_8
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->FAMILY_TURRETS:[Ljava/lang/String;
@@ -1410,18 +1410,18 @@
 
     if-lt p0, v0, :cond_9
 
-    .line 634
+    .line 639
     :cond_8
     :goto_8
     return-object v1
 
-    .line 621
+    .line 626
     :cond_9
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModArt;->sizeIndex(I)I
 
     move-result v2
 
-    .line 622
+    .line 627
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->textures:Ljava/util/Map;
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModArt;->FAMILY_NAMES:[[Ljava/lang/String;
@@ -1436,10 +1436,10 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 623
+    .line 628
     if-eqz v0, :cond_8
 
-    .line 624
+    .line 629
     mul-int/lit8 v1, p0, 0x3
 
     add-int/2addr v1, v2
@@ -1454,10 +1454,10 @@
 
     or-int/2addr v2, v1
 
-    .line 625
+    .line 630
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->memoTurret:Lfr/testudo/spacecorsair/display/Drawable;
 
-    .line 626
+    .line 631
     sget v3, Lfr/testudo/spacecorsair/mod/ModArt;->memoKey:I
 
     if-ne v2, v3, :cond_34
@@ -1468,7 +1468,7 @@
 
     if-eq v3, v0, :cond_8
 
-    .line 627
+    .line 632
     :cond_34
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->familyDrawables:Ljava/util/Map;
 
@@ -1482,14 +1482,14 @@
 
     check-cast v1, Lfr/testudo/spacecorsair/display/Drawable;
 
-    .line 628
+    .line 633
     if-eqz v1, :cond_46
 
     iget-object v3, v1, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
     if-eq v3, v0, :cond_5a
 
-    .line 629
+    .line 634
     :cond_46
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModArt$Art;
 
@@ -1501,7 +1501,7 @@
 
     invoke-direct {v1, v3, v0, v4}, Lfr/testudo/spacecorsair/mod/ModArt$Art;-><init>(Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/display/Texture;Z)V
 
-    .line 630
+    .line 635
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->familyDrawables:Ljava/util/Map;
 
     invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -1510,11 +1510,11 @@
 
     invoke-interface {v0, v3, v1}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 632
+    .line 637
     :cond_5a
     sput v2, Lfr/testudo/spacecorsair/mod/ModArt;->memoKey:I
 
-    .line 633
+    .line 638
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->memoTurret:Lfr/testudo/spacecorsair/display/Drawable;
 
     goto :goto_8
@@ -1524,7 +1524,7 @@
     .registers 4
 
     .prologue
-    .line 615
+    .line 620
     if-ltz p0, :cond_7
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->FAMILY_TURRETS:[Ljava/lang/String;
@@ -1536,7 +1536,7 @@
     :cond_7
     const/4 v0, 0x0
 
-    .line 616
+    .line 621
     :goto_8
     return-object v0
 
@@ -1558,18 +1558,18 @@
     .registers 4
 
     .prologue
-    .line 429
+    .line 434
     sget v0, Lfr/testudo/spacecorsair/mod/ModArt;->frame:I
 
     add-int/lit8 v0, v0, 0x1
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModArt;->frame:I
 
-    .line 431
+    .line 436
     :try_start_6
     sget-object v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->BASIC_TEXTURE:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 432
+    .line 437
     instance-of v1, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
     if-eqz v1, :cond_11
@@ -1578,18 +1578,18 @@
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModArt;->use(Ljavax/microedition/khronos/opengles/GL10;Lfr/testudo/spacecorsair/mod/ModArt$Lazy;)V
 
-    .line 433
+    .line 438
     :cond_11
     const/4 v0, 0x0
 
-    .line 434
+    .line 439
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->LOCK:Ljava/lang/Object;
 
     monitor-enter v1
     :try_end_15
     .catch Ljava/lang/Throwable; {:try_start_6 .. :try_end_15} :catch_3a
 
-    .line 435
+    .line 440
     :try_start_15
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModArt;->ready:Ljava/util/ArrayList;
 
@@ -1609,39 +1609,39 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
-    .line 436
+    .line 441
     :cond_26
     monitor-exit v1
     :try_end_27
     .catchall {:try_start_15 .. :try_end_27} :catchall_37
 
-    .line 437
+    .line 442
     if-eqz v0, :cond_36
 
-    .line 438
+    .line 443
     :try_start_29
     iget-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->resident:Z
 
     if-eqz v1, :cond_3c
 
-    .line 439
+    .line 444
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModArt;->takePending(Lfr/testudo/spacecorsair/mod/ModArt$Lazy;)Landroid/graphics/Bitmap;
 
     move-result-object v0
 
-    .line 440
+    .line 445
     if-eqz v0, :cond_36
 
     invoke-virtual {v0}, Landroid/graphics/Bitmap;->recycle()V
     :try_end_36
     .catch Ljava/lang/Throwable; {:try_start_29 .. :try_end_36} :catch_3a
 
-    .line 451
+    .line 456
     :cond_36
     :goto_36
     return-void
 
-    .line 436
+    .line 441
     :catchall_37
     move-exception v0
 
@@ -1653,13 +1653,13 @@
     :try_start_39
     throw v0
 
-    .line 448
+    .line 453
     :catch_3a
     move-exception v0
 
     goto :goto_36
 
-    .line 441
+    .line 446
     :cond_3c
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->failedGen:I
 
@@ -1667,18 +1667,18 @@
 
     if-eq v1, v2, :cond_46
 
-    .line 442
+    .line 447
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModArt;->upload(Ljavax/microedition/khronos/opengles/GL10;Lfr/testudo/spacecorsair/mod/ModArt$Lazy;)V
 
     goto :goto_36
 
-    .line 444
+    .line 449
     :cond_46
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModArt;->takePending(Lfr/testudo/spacecorsair/mod/ModArt$Lazy;)Landroid/graphics/Bitmap;
 
     move-result-object v0
 
-    .line 445
+    .line 450
     if-eqz v0, :cond_36
 
     invoke-virtual {v0}, Landroid/graphics/Bitmap;->recycle()V
@@ -1694,7 +1694,7 @@
     .prologue
     const/16 v4, 0x80
 
-    .line 773
+    .line 778
     if-eqz p2, :cond_8
 
     :try_start_4
@@ -1702,12 +1702,12 @@
 
     if-nez v0, :cond_9
 
-    .line 795
+    .line 800
     :cond_8
     :goto_8
     return-object p1
 
-    .line 774
+    .line 779
     :cond_9
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->appCtx:Landroid/content/Context;
 
@@ -1719,10 +1719,10 @@
 
     move-result-object v1
 
-    .line 775
+    .line 780
     if-nez v1, :cond_59
 
-    .line 777
+    .line 782
     :try_start_13
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->appCtx:Landroid/content/Context;
 
@@ -1736,7 +1736,7 @@
 
     move-result-object v0
 
-    .line 778
+    .line 783
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
@@ -1785,7 +1785,7 @@
 
     if-eqz v1, :cond_8
 
-    .line 779
+    .line 784
     :cond_51
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->ORIGTEX:Ljava/util/Map;
 
@@ -1795,23 +1795,23 @@
 
     goto :goto_8
 
-    .line 780
+    .line 785
     :catch_57
     move-exception v0
 
     goto :goto_8
 
-    .line 783
+    .line 788
     :cond_59
     :try_start_59
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModArt;->decodeFull(Ljava/lang/String;)Landroid/graphics/Bitmap;
 
     move-result-object v0
 
-    .line 784
+    .line 789
     if-eqz v0, :cond_8
 
-    .line 785
+    .line 790
     invoke-virtual {v0}, Landroid/graphics/Bitmap;->getWidth()I
 
     move-result v2
@@ -1820,7 +1820,7 @@
 
     move-result v3
 
-    .line 786
+    .line 791
     if-lt v2, v4, :cond_89
 
     if-lt v3, v4, :cond_89
@@ -1837,7 +1837,7 @@
 
     if-nez v2, :cond_89
 
-    .line 787
+    .line 792
     const/16 v2, 0xde1
 
     const v3, 0x8191
@@ -1846,7 +1846,7 @@
 
     invoke-interface {p0, v2, v3, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexParameterf(IIF)V
 
-    .line 788
+    .line 793
     const/16 v2, 0xde1
 
     const/16 v3, 0x2801
@@ -1855,7 +1855,7 @@
 
     invoke-interface {p0, v2, v3, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexParameterf(IIF)V
 
-    .line 790
+    .line 795
     :cond_89
     if-eqz p1, :cond_90
 
@@ -1863,11 +1863,11 @@
 
     invoke-virtual {p1}, Landroid/graphics/Bitmap;->recycle()V
 
-    .line 791
+    .line 796
     :cond_90
     invoke-static {p2, v0}, Lfr/testudo/spacecorsair/mod/ModArt;->measure(Lfr/testudo/spacecorsair/display/Texture;Landroid/graphics/Bitmap;)V
 
-    .line 792
+    .line 797
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModArt;->ORIGTEX:Ljava/util/Map;
 
     invoke-interface {v2, p2, v1}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
@@ -1876,10 +1876,10 @@
 
     move-object p1, v0
 
-    .line 793
+    .line 798
     goto/16 :goto_8
 
-    .line 794
+    .line 799
     :catch_9b
     move-exception v0
 
@@ -1892,21 +1892,21 @@
     .prologue
     const/4 v0, 0x1
 
-    .line 253
+    .line 258
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->appCtx:Landroid/content/Context;
 
     if-nez v1, :cond_6
 
-    .line 255
+    .line 260
     :cond_5
     :goto_5
     return v0
 
-    .line 254
+    .line 259
     :cond_6
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModArt;->listAssets()V
 
-    .line 255
+    .line 260
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->assetNames:Ljava/util/Set;
 
     if-eqz v1, :cond_5
@@ -1926,12 +1926,12 @@
     .registers 3
 
     .prologue
-    .line 571
+    .line 576
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->LOCK:Ljava/lang/Object;
 
     monitor-enter v1
 
-    .line 572
+    .line 577
     :try_start_3
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->pending:Landroid/graphics/Bitmap;
 
@@ -1949,7 +1949,7 @@
 
     goto :goto_8
 
-    .line 573
+    .line 578
     :catchall_c
     move-exception v0
 
@@ -1964,7 +1964,7 @@
     .registers 2
 
     .prologue
-    .line 638
+    .line 643
     if-eqz p0, :cond_12
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModFx;->EMPTY:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
@@ -2067,17 +2067,17 @@
     .registers 2
 
     .prologue
-    .line 653
+    .line 658
     if-nez p0, :cond_4
 
     const/4 v0, 0x0
 
-    .line 656
+    .line 661
     :cond_3
     :goto_3
     return-object v0
 
-    .line 654
+    .line 659
     :cond_4
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->textures:Ljava/util/Map;
 
@@ -2087,10 +2087,10 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 655
+    .line 660
     if-nez v0, :cond_3
 
-    .line 656
+    .line 661
     const/4 v0, 0x0
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModArt;->lazy(Ljava/lang/String;I)Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
@@ -2201,6 +2201,26 @@
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->assetNames:Ljava/util/Set;
 
     goto :goto_9
+.end method
+
+.method static listed()Z
+    .registers 1
+
+    .prologue
+    .line 253
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->assetNames:Ljava/util/Set;
+
+    if-eqz v0, :cond_6
+
+    const/4 v0, 0x1
+
+    :goto_5
+    return v0
+
+    :cond_6
+    const/4 v0, 0x0
+
+    goto :goto_5
 .end method
 
 .method public static load(Ljavax/microedition/khronos/opengles/GL10;Landroid/content/Context;)V
@@ -3098,7 +3118,7 @@
     .registers 6
 
     .prologue
-    .line 278
+    .line 283
     const/4 v0, 0x1
 
     :try_start_1
@@ -3108,22 +3128,22 @@
 
     invoke-interface {p0, v0, v1, v2}, Ljavax/microedition/khronos/opengles/GL10;->glGenTextures(I[II)V
 
-    .line 279
+    .line 284
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->ids:[I
 
     const/4 v1, 0x0
 
     aget v0, v0, v1
 
-    .line 280
+    .line 285
     const/16 v1, 0xde1
 
     invoke-interface {p0, v1, v0}, Ljavax/microedition/khronos/opengles/GL10;->glBindTexture(II)V
 
-    .line 281
+    .line 286
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModArt;->params(Ljavax/microedition/khronos/opengles/GL10;)V
 
-    .line 282
+    .line 287
     const/4 v1, 0x1
 
     const/4 v2, 0x1
@@ -3136,7 +3156,7 @@
 
     move-result-object v1
 
-    .line 284
+    .line 289
     const/16 v2, 0xde1
 
     const/4 v3, 0x0
@@ -3148,30 +3168,30 @@
     :try_end_23
     .catchall {:try_start_20 .. :try_end_23} :catchall_27
 
-    .line 286
+    .line 291
     :try_start_23
     invoke-virtual {v1}, Landroid/graphics/Bitmap;->recycle()V
 
-    .line 290
+    .line 295
     :goto_26
     return v0
 
-    .line 286
+    .line 291
     :catchall_27
     move-exception v0
 
     invoke-virtual {v1}, Landroid/graphics/Bitmap;->recycle()V
 
-    .line 287
+    .line 292
     throw v0
     :try_end_2c
     .catch Ljava/lang/Throwable; {:try_start_23 .. :try_end_2c} :catch_2c
 
-    .line 289
+    .line 294
     :catch_2c
     move-exception v0
 
-    .line 290
+    .line 295
     const/4 v0, -0x1
 
     goto :goto_26
@@ -3187,7 +3207,7 @@
 
     const/high16 v2, 0x40000000    # 2.0f
 
-    .line 816
+    .line 821
     if-eqz p0, :cond_e
 
     if-eqz p1, :cond_e
@@ -3199,12 +3219,12 @@
 
     if-eqz v0, :cond_f
 
-    .line 838
+    .line 843
     :cond_e
     :goto_e
     return-void
 
-    .line 817
+    .line 822
     :cond_f
     invoke-virtual {p1}, Landroid/graphics/Bitmap;->getWidth()I
 
@@ -3226,7 +3246,7 @@
 
     move-result v8
 
-    .line 818
+    .line 823
     int-to-float v0, v6
 
     div-float v9, v0, v2
@@ -3235,14 +3255,14 @@
 
     div-float v10, v0, v2
 
-    .line 819
+    .line 824
     const/16 v0, 0x40
 
     new-array v11, v0, [F
 
     move v0, v3
 
-    .line 820
+    .line 825
     :goto_2d
     const/16 v1, 0x20
 
@@ -3271,11 +3291,11 @@
 
     move v0, v5
 
-    .line 821
+    .line 826
     :goto_44
     if-ge v4, v7, :cond_8f
 
-    .line 822
+    .line 827
     const/16 v1, 0x1f
 
     mul-int/lit8 v2, v4, 0x20
@@ -3288,11 +3308,11 @@
 
     move v2, v3
 
-    .line 823
+    .line 828
     :goto_50
     if-ge v2, v6, :cond_8b
 
-    .line 824
+    .line 829
     invoke-virtual {p1, v2, v4}, Landroid/graphics/Bitmap;->getPixel(II)I
 
     move-result v1
@@ -3303,7 +3323,7 @@
 
     if-le v1, v13, :cond_87
 
-    .line 825
+    .line 830
     int-to-float v1, v2
 
     sub-float/2addr v1, v9
@@ -3318,14 +3338,14 @@
 
     add-float/2addr v1, v13
 
-    .line 826
+    .line 831
     cmpl-float v13, v1, v0
 
     if-lez v13, :cond_68
 
     move v0, v1
 
-    .line 827
+    .line 832
     :cond_68
     int-to-float v1, v2
 
@@ -3333,7 +3353,7 @@
 
     div-float/2addr v1, v13
 
-    .line 828
+    .line 833
     mul-int/lit8 v13, v12, 0x2
 
     aget v13, v11, v13
@@ -3346,7 +3366,7 @@
 
     aput v1, v11, v13
 
-    .line 829
+    .line 834
     :cond_77
     mul-int/lit8 v13, v12, 0x2
 
@@ -3364,7 +3384,7 @@
 
     aput v1, v11, v13
 
-    .line 823
+    .line 828
     :cond_87
     add-int v1, v2, v8
 
@@ -3372,7 +3392,7 @@
 
     goto :goto_50
 
-    .line 821
+    .line 826
     :cond_8b
     add-int v1, v4, v8
 
@@ -3380,7 +3400,7 @@
 
     goto :goto_44
 
-    .line 833
+    .line 838
     :cond_8f
     cmpl-float v1, v0, v5
 
@@ -3414,7 +3434,7 @@
 
     invoke-interface {v1, p0, v0}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 834
+    .line 839
     :cond_ab
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->PROFILE:Ljava/util/Map;
 
@@ -3424,7 +3444,7 @@
 
     goto/16 :goto_e
 
-    .line 835
+    .line 840
     :catch_b2
     move-exception v0
 
@@ -3435,19 +3455,19 @@
     .registers 2
 
     .prologue
-    .line 585
+    .line 590
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTitan;->missile(Lfr/testudo/spacecorsair/business/projectiles/Missile;)Lfr/testudo/spacecorsair/display/Drawable;
 
     move-result-object v0
 
-    .line 586
+    .line 591
     if-eqz v0, :cond_7
 
-    .line 588
+    .line 593
     :goto_6
     return-object v0
 
-    .line 587
+    .line 592
     :cond_7
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModArt;->devActive:Z
 
@@ -3472,7 +3492,7 @@
 
     goto :goto_6
 
-    .line 588
+    .line 593
     :cond_1b
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->devMissile:Lfr/testudo/spacecorsair/display/Drawable;
 
@@ -3488,7 +3508,7 @@
     .end annotation
 
     .prologue
-    .line 680
+    .line 685
     :try_start_0
     invoke-virtual {p0}, Landroid/content/Context;->getAssets()Landroid/content/res/AssetManager;
 
@@ -3524,15 +3544,15 @@
 
     move-result-object v0
 
-    .line 682
+    .line 687
     :goto_21
     return-object v0
 
-    .line 681
+    .line 686
     :catch_22
     move-exception v0
 
-    .line 682
+    .line 687
     invoke-virtual {p0}, Landroid/content/Context;->getAssets()Landroid/content/res/AssetManager;
 
     move-result-object v0
@@ -3574,23 +3594,23 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 749
+    .line 754
     if-eqz p0, :cond_5
 
     if-nez p1, :cond_6
 
-    .line 762
+    .line 767
     :cond_5
     :goto_5
     return-object v0
 
-    .line 750
+    .line 755
     :cond_6
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModArt;->ORIG:Ljava/util/Map;
 
     monitor-enter v2
 
-    .line 751
+    .line 756
     :try_start_9
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->ORIG:Ljava/util/Map;
 
@@ -3620,7 +3640,7 @@
 
     goto :goto_5
 
-    .line 763
+    .line 768
     :catchall_23
     move-exception v0
 
@@ -3630,7 +3650,7 @@
 
     throw v0
 
-    .line 754
+    .line 759
     :cond_26
     :try_start_26
     new-instance v1, Ljava/lang/StringBuilder;
@@ -3659,12 +3679,12 @@
 
     move-result-object v1
 
-    .line 755
+    .line 760
     invoke-static {p0, v1}, Lfr/testudo/spacecorsair/mod/ModArt;->open(Landroid/content/Context;Ljava/lang/String;)Ljava/io/InputStream;
 
     move-result-object v3
 
-    .line 756
+    .line 761
     invoke-virtual {v3}, Ljava/io/InputStream;->close()V
     :try_end_48
     .catch Ljava/lang/Throwable; {:try_start_26 .. :try_end_48} :catch_54
@@ -3672,7 +3692,7 @@
 
     move-object v0, v1
 
-    .line 761
+    .line 766
     :goto_49
     :try_start_49
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->ORIG:Ljava/util/Map;
@@ -3683,14 +3703,14 @@
 
     invoke-interface {v1, v3, v0}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 762
+    .line 767
     monitor-exit v2
     :try_end_53
     .catchall {:try_start_49 .. :try_end_53} :catchall_23
 
     goto :goto_5
 
-    .line 758
+    .line 763
     :catch_54
     move-exception v1
 
@@ -3703,7 +3723,7 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 801
+    .line 806
     invoke-virtual {p0}, Landroid/widget/ImageView;->getContext()Landroid/content/Context;
 
     move-result-object v1
@@ -3716,19 +3736,19 @@
 
     move-result-object v1
 
-    .line 802
+    .line 807
     if-nez v1, :cond_10
 
-    .line 807
+    .line 812
     :cond_f
     :goto_f
     return v0
 
-    .line 803
+    .line 808
     :cond_10
     if-lez p2, :cond_21
 
-    .line 804
+    .line 809
     :goto_12
     invoke-virtual {p0}, Landroid/widget/ImageView;->getContext()Landroid/content/Context;
 
@@ -3738,18 +3758,18 @@
 
     move-result-object v1
 
-    .line 805
+    .line 810
     if-eqz v1, :cond_f
 
-    .line 806
+    .line 811
     invoke-virtual {p0, v1}, Landroid/widget/ImageView;->setImageBitmap(Landroid/graphics/Bitmap;)V
 
-    .line 807
+    .line 812
     const/4 v0, 0x1
 
     goto :goto_f
 
-    .line 803
+    .line 808
     :cond_21
     const/high16 v2, 0x43b40000    # 360.0f
 
@@ -3778,31 +3798,31 @@
 
     const/16 v2, 0xde1
 
-    .line 296
+    .line 301
     const/16 v0, 0x2801
 
     const/high16 v1, 0x46180000    # 9728.0f
 
     invoke-interface {p0, v2, v0, v1}, Ljavax/microedition/khronos/opengles/GL10;->glTexParameterf(IIF)V
 
-    .line 297
+    .line 302
     const/16 v0, 0x2800
 
     const v1, 0x46180400    # 9729.0f
 
     invoke-interface {p0, v2, v0, v1}, Ljavax/microedition/khronos/opengles/GL10;->glTexParameterf(IIF)V
 
-    .line 298
+    .line 303
     const/16 v0, 0x2802
 
     invoke-interface {p0, v2, v0, v3}, Ljavax/microedition/khronos/opengles/GL10;->glTexParameterf(IIF)V
 
-    .line 299
+    .line 304
     const/16 v0, 0x2803
 
     invoke-interface {p0, v2, v0, v3}, Ljavax/microedition/khronos/opengles/GL10;->glTexParameterf(IIF)V
 
-    .line 300
+    .line 305
     const/16 v0, 0x2300
 
     const/16 v1, 0x2200
@@ -3811,7 +3831,7 @@
 
     invoke-interface {p0, v0, v1, v2}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 301
+    .line 306
     return-void
 .end method
 
@@ -3819,7 +3839,7 @@
     .registers 5
 
     .prologue
-    .line 495
+    .line 500
     instance-of v0, p0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
     if-eqz v0, :cond_8
@@ -3828,21 +3848,21 @@
 
     if-nez v0, :cond_9
 
-    .line 517
+    .line 522
     :cond_8
     :goto_8
     return-void
 
-    .line 496
+    .line 501
     :cond_9
     check-cast p0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
-    .line 497
+    .line 502
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->resident:Z
 
     if-nez v0, :cond_8
 
-    .line 499
+    .line 504
     :try_start_f
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->LOCK:Ljava/lang/Object;
 
@@ -3850,7 +3870,7 @@
     :try_end_12
     .catch Ljava/lang/Throwable; {:try_start_f .. :try_end_12} :catch_28
 
-    .line 500
+    .line 505
     :try_start_12
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->queued:Z
 
@@ -3875,7 +3895,7 @@
 
     goto :goto_8
 
-    .line 513
+    .line 518
     :catchall_25
     move-exception v0
 
@@ -3888,20 +3908,20 @@
     :try_end_28
     .catch Ljava/lang/Throwable; {:try_start_27 .. :try_end_28} :catch_28
 
-    .line 514
+    .line 519
     :catch_28
     move-exception v0
 
     goto :goto_8
 
-    .line 501
+    .line 506
     :cond_2a
     :try_start_2a
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->decoder:Ljava/lang/Thread;
 
     if-nez v0, :cond_47
 
-    .line 502
+    .line 507
     new-instance v0, Ljava/lang/Thread;
 
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModArt$1;
@@ -3912,39 +3932,39 @@
 
     invoke-direct {v0, v2, v3}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
-    .line 505
+    .line 510
     const/4 v2, 0x1
 
     invoke-virtual {v0, v2}, Ljava/lang/Thread;->setDaemon(Z)V
 
-    .line 506
+    .line 511
     const/4 v2, 0x2
 
     invoke-virtual {v0, v2}, Ljava/lang/Thread;->setPriority(I)V
 
-    .line 507
+    .line 512
     invoke-virtual {v0}, Ljava/lang/Thread;->start()V
 
-    .line 508
+    .line 513
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->decoder:Ljava/lang/Thread;
 
-    .line 510
+    .line 515
     :cond_47
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->queued:Z
 
-    .line 511
+    .line 516
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->queue:Ljava/util/ArrayList;
 
     invoke-virtual {v0, p0}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 512
+    .line 517
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->LOCK:Ljava/lang/Object;
 
     invoke-virtual {v0}, Ljava/lang/Object;->notifyAll()V
 
-    .line 513
+    .line 518
     monitor-exit v1
     :try_end_55
     .catchall {:try_start_2a .. :try_end_55} :catchall_25
@@ -3956,7 +3976,7 @@
     .registers 2
 
     .prologue
-    .line 521
+    .line 526
     if-eqz p0, :cond_d
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->textures:Ljava/util/Map;
@@ -3969,7 +3989,7 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModArt;->prefetch(Lfr/testudo/spacecorsair/display/Texture;)V
 
-    .line 522
+    .line 527
     :cond_d
     return-void
 .end method
@@ -3978,11 +3998,11 @@
     .registers 3
 
     .prologue
-    .line 419
+    .line 424
     :try_start_0
     sget-object v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->BASIC_TEXTURE:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 420
+    .line 425
     instance-of v1, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
     if-eqz v1, :cond_b
@@ -3991,17 +4011,17 @@
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModArt;->use(Ljavax/microedition/khronos/opengles/GL10;Lfr/testudo/spacecorsair/mod/ModArt$Lazy;)V
 
-    .line 421
+    .line 426
     :cond_b
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModArt;->scanQueue(Ljavax/microedition/khronos/opengles/GL10;)V
     :try_end_e
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_e} :catch_f
 
-    .line 425
+    .line 430
     :goto_e
     return-void
 
-    .line 422
+    .line 427
     :catch_f
     move-exception v0
 
@@ -4018,7 +4038,7 @@
 
     const/4 v1, 0x0
 
-    .line 368
+    .line 373
     const/4 v2, 0x1
 
     :try_start_5
@@ -4028,22 +4048,22 @@
 
     invoke-interface {p0, v2, v3, v4}, Ljavax/microedition/khronos/opengles/GL10;->glGenTextures(I[II)V
 
-    .line 369
+    .line 374
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModArt;->ids:[I
 
     const/4 v3, 0x0
 
     aget v2, v2, v3
 
-    .line 370
+    .line 375
     const/16 v3, 0xde1
 
     invoke-interface {p0, v3, v2}, Ljavax/microedition/khronos/opengles/GL10;->glBindTexture(II)V
 
-    .line 371
+    .line 376
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModArt;->params(Ljavax/microedition/khronos/opengles/GL10;)V
 
-    .line 374
+    .line 379
     invoke-virtual {p2}, Landroid/graphics/Bitmap;->getWidth()I
 
     move-result v3
@@ -4052,7 +4072,7 @@
 
     move-result v4
 
-    .line 375
+    .line 380
     if-lt v3, v5, :cond_42
 
     if-lt v4, v5, :cond_42
@@ -4069,7 +4089,7 @@
 
     if-nez v3, :cond_42
 
-    .line 376
+    .line 381
     const/16 v3, 0xde1
 
     const v4, 0x8191
@@ -4078,7 +4098,7 @@
 
     invoke-interface {p0, v3, v4, v5}, Ljavax/microedition/khronos/opengles/GL10;->glTexParameterf(IIF)V
 
-    .line 377
+    .line 382
     const/16 v3, 0xde1
 
     const/16 v4, 0x2801
@@ -4087,7 +4107,7 @@
 
     invoke-interface {p0, v3, v4, v5}, Ljavax/microedition/khronos/opengles/GL10;->glTexParameterf(IIF)V
 
-    .line 379
+    .line 384
     :cond_42
     const/16 v3, 0xde1
 
@@ -4097,7 +4117,7 @@
 
     invoke-static {v3, v4, p2, v5}, Landroid/opengl/GLUtils;->texImage2D(IILandroid/graphics/Bitmap;I)V
 
-    .line 380
+    .line 385
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModArt;->crop:[I
 
     const/4 v4, 0x0
@@ -4106,7 +4126,7 @@
 
     aput v5, v3, v4
 
-    .line 381
+    .line 386
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModArt;->crop:[I
 
     const/4 v4, 0x1
@@ -4117,7 +4137,7 @@
 
     aput v5, v3, v4
 
-    .line 382
+    .line 387
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModArt;->crop:[I
 
     const/4 v4, 0x2
@@ -4128,7 +4148,7 @@
 
     aput v5, v3, v4
 
-    .line 383
+    .line 388
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModArt;->crop:[I
 
     const/4 v4, 0x3
@@ -4141,7 +4161,7 @@
 
     aput v5, v3, v4
 
-    .line 384
+    .line 389
     check-cast p0, Ljavax/microedition/khronos/opengles/GL11;
 
     const/16 v3, 0xde1
@@ -4154,49 +4174,49 @@
 
     invoke-interface {p0, v3, v4, v5, v6}, Ljavax/microedition/khronos/opengles/GL11;->glTexParameteriv(II[II)V
 
-    .line 385
+    .line 390
     iput v2, p1, Lfr/testudo/spacecorsair/display/Texture;->name:I
 
-    .line 386
+    .line 391
     invoke-virtual {p2}, Landroid/graphics/Bitmap;->getWidth()I
 
     move-result v2
 
     iput v2, p1, Lfr/testudo/spacecorsair/display/Texture;->width:I
 
-    .line 387
+    .line 392
     invoke-virtual {p2}, Landroid/graphics/Bitmap;->getHeight()I
 
     move-result v2
 
     iput v2, p1, Lfr/testudo/spacecorsair/display/Texture;->height:I
 
-    .line 388
+    .line 393
     const/4 v2, 0x1
 
     iput-boolean v2, p1, Lfr/testudo/spacecorsair/display/Texture;->loaded:Z
 
-    .line 389
+    .line 394
     invoke-static {p1, p2}, Lfr/testudo/spacecorsair/mod/ModArt;->measure(Lfr/testudo/spacecorsair/display/Texture;Landroid/graphics/Bitmap;)V
     :try_end_8c
     .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_8c} :catch_90
     .catchall {:try_start_5 .. :try_end_8c} :catchall_96
 
-    .line 394
+    .line 399
     :try_start_8c
     invoke-virtual {p2}, Landroid/graphics/Bitmap;->recycle()V
     :try_end_8f
     .catch Ljava/lang/Throwable; {:try_start_8c .. :try_end_8f} :catch_9b
 
-    .line 392
+    .line 397
     :goto_8f
     return v0
 
-    .line 391
+    .line 396
     :catch_90
     move-exception v0
 
-    .line 394
+    .line 399
     :try_start_91
     invoke-virtual {p2}, Landroid/graphics/Bitmap;->recycle()V
     :try_end_94
@@ -4205,10 +4225,10 @@
     :goto_94
     move v0, v1
 
-    .line 392
+    .line 397
     goto :goto_8f
 
-    .line 394
+    .line 399
     :catchall_96
     move-exception v0
 
@@ -4217,11 +4237,11 @@
     :try_end_9a
     .catch Ljava/lang/Throwable; {:try_start_97 .. :try_end_9a} :catch_9f
 
-    .line 395
+    .line 400
     :goto_9a
     throw v0
 
-    .line 394
+    .line 399
     :catch_9b
     move-exception v1
 
@@ -4242,31 +4262,31 @@
     .registers 4
 
     .prologue
-    .line 664
+    .line 669
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModArt;->lazyTex(Ljava/lang/String;)Lfr/testudo/spacecorsair/display/Texture;
 
     move-result-object v0
 
-    .line 665
+    .line 670
     instance-of v1, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
     if-nez v1, :cond_9
 
-    .line 669
+    .line 674
     :cond_8
     :goto_8
     return-object v0
 
-    .line 666
+    .line 671
     :cond_9
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
-    .line 667
+    .line 672
     iget-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->resident:Z
 
     if-nez v1, :cond_8
 
-    .line 668
+    .line 673
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->failedGen:I
 
     sget v2, Lfr/testudo/spacecorsair/mod/ModArt;->gen:I
@@ -4275,7 +4295,7 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModArt;->prefetch(Lfr/testudo/spacecorsair/display/Texture;)V
 
-    .line 669
+    .line 674
     :cond_18
     const/4 v0, 0x0
 
@@ -4288,32 +4308,32 @@
     .prologue
     const/4 v5, 0x1
 
-    .line 458
+    .line 463
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModArt;->scanOff:Z
 
     if-eqz v0, :cond_6
 
-    .line 484
+    .line 489
     :cond_5
     :goto_5
     return-void
 
-    .line 460
+    .line 465
     :cond_6
     :try_start_6
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->gameRenderer:Lfr/testudo/spacecorsair/engine/GameRenderer;
 
-    .line 461
+    .line 466
     if-eqz v1, :cond_5
 
-    .line 462
+    .line 467
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->fQueue:Ljava/lang/reflect/Field;
 
     if-nez v0, :cond_2c
 
-    .line 463
+    .line 468
     const-class v0, Lfr/testudo/spacecorsair/engine/GameRenderer;
 
     const-string v2, "renderQueue"
@@ -4322,7 +4342,7 @@
 
     move-result-object v0
 
-    .line 464
+    .line 469
     const-class v2, Lfr/testudo/spacecorsair/engine/GameRenderer;
 
     const-string v3, "renderQueueSize"
@@ -4331,23 +4351,23 @@
 
     move-result-object v2
 
-    .line 465
+    .line 470
     const/4 v3, 0x1
 
     invoke-virtual {v0, v3}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 466
+    .line 471
     const/4 v3, 0x1
 
     invoke-virtual {v2, v3}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 467
+    .line 472
     sput-object v2, Lfr/testudo/spacecorsair/mod/ModArt;->fSize:Ljava/lang/reflect/Field;
 
-    .line 468
+    .line 473
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->fQueue:Ljava/lang/reflect/Field;
 
-    .line 470
+    .line 475
     :cond_2c
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->fQueue:Ljava/lang/reflect/Field;
 
@@ -4357,10 +4377,10 @@
 
     check-cast v0, [Lfr/testudo/spacecorsair/display/RenderElement;
 
-    .line 471
+    .line 476
     if-eqz v0, :cond_5
 
-    .line 472
+    .line 477
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModArt;->fSize:Ljava/lang/reflect/Field;
 
     invoke-virtual {v2, v1}, Ljava/lang/reflect/Field;->getInt(Ljava/lang/Object;)I
@@ -4373,7 +4393,7 @@
 
     move-result v3
 
-    .line 473
+    .line 478
     const/4 v1, 0x0
 
     move v2, v1
@@ -4381,13 +4401,13 @@
     :goto_43
     if-ge v2, v3, :cond_5
 
-    .line 474
+    .line 479
     aget-object v1, v0, v2
 
-    .line 475
+    .line 480
     if-nez v1, :cond_4d
 
-    .line 473
+    .line 478
     :cond_49
     :goto_49
     add-int/lit8 v1, v2, 0x1
@@ -4396,17 +4416,17 @@
 
     goto :goto_43
 
-    .line 476
+    .line 481
     :cond_4d
     iget-object v1, v1, Lfr/testudo/spacecorsair/display/RenderElement;->drawable:Lfr/testudo/spacecorsair/display/Drawable;
 
-    .line 477
+    .line 482
     if-eqz v1, :cond_49
 
-    .line 478
+    .line 483
     iget-object v1, v1, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 479
+    .line 484
     instance-of v4, v1, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
     if-eqz v4, :cond_49
@@ -4419,11 +4439,11 @@
 
     goto :goto_49
 
-    .line 481
+    .line 486
     :catch_5d
     move-exception v0
 
-    .line 482
+    .line 487
     sput-boolean v5, Lfr/testudo/spacecorsair/mod/ModArt;->scanOff:Z
 
     goto :goto_5
@@ -4433,12 +4453,12 @@
     .registers 3
 
     .prologue
-    .line 715
+    .line 720
     const/4 v0, 0x0
 
     invoke-static {p0, p1, v0}, Lfr/testudo/spacecorsair/mod/ModArt;->shipIcon(Landroid/widget/ImageView;Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;I)V
 
-    .line 716
+    .line 721
     return-void
 .end method
 
@@ -4446,19 +4466,19 @@
     .registers 6
 
     .prologue
-    .line 723
+    .line 728
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v1
 
-    .line 724
+    .line 729
     if-nez v1, :cond_12
 
     if-eqz p0, :cond_12
 
     if-eqz p1, :cond_12
 
-    .line 725
+    .line 730
     :try_start_a
     invoke-virtual {p1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getDrawableId()I
 
@@ -4468,32 +4488,32 @@
     :try_end_11
     .catch Ljava/lang/Throwable; {:try_start_a .. :try_end_11} :catch_4c
 
-    .line 742
+    .line 747
     :cond_11
     :goto_11
     return-void
 
-    .line 728
+    .line 733
     :cond_12
     if-eqz v1, :cond_11
 
     if-eqz p0, :cond_11
 
-    .line 731
+    .line 736
     if-gtz p2, :cond_31
 
-    .line 732
+    .line 737
     :try_start_18
     invoke-virtual {p0}, Landroid/widget/ImageView;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
 
     move-result-object v0
 
-    .line 733
+    .line 738
     if-nez v0, :cond_43
 
     const/4 v0, 0x0
 
-    .line 734
+    .line 739
     :goto_1f
     if-gtz v0, :cond_2f
 
@@ -4513,11 +4533,11 @@
 
     float-to-int v0, v0
 
-    .line 735
+    .line 740
     :cond_2f
     mul-int/lit8 p2, v0, 0x2
 
-    .line 737
+    .line 742
     :cond_31
     invoke-virtual {p0}, Landroid/widget/ImageView;->getContext()Landroid/content/Context;
 
@@ -4529,20 +4549,20 @@
 
     move-result-object v0
 
-    .line 738
+    .line 743
     if-eqz v0, :cond_11
 
     invoke-virtual {p0, v0}, Landroid/widget/ImageView;->setImageBitmap(Landroid/graphics/Bitmap;)V
 
     goto :goto_11
 
-    .line 739
+    .line 744
     :catch_41
     move-exception v0
 
     goto :goto_11
 
-    .line 733
+    .line 738
     :cond_43
     iget v2, v0, Landroid/view/ViewGroup$LayoutParams;->width:I
 
@@ -4556,7 +4576,7 @@
 
     goto :goto_1f
 
-    .line 725
+    .line 730
     :catch_4c
     move-exception v0
 
@@ -4571,7 +4591,7 @@
 
     const/4 v1, 0x1
 
-    .line 609
+    .line 614
     if-eqz p0, :cond_b
 
     if-eq p0, v1, :cond_b
@@ -4589,7 +4609,7 @@
     :goto_c
     return v0
 
-    .line 610
+    .line 615
     :cond_d
     if-eq p0, v0, :cond_12
 
@@ -4611,22 +4631,22 @@
 
     const/4 v1, 0x0
 
-    .line 845
+    .line 850
     if-nez p0, :cond_9
 
     move-object v0, v1
 
-    .line 846
+    .line 851
     :goto_5
     if-nez v0, :cond_12
 
     move-object p2, v1
 
-    .line 851
+    .line 856
     :goto_8
     return-object p2
 
-    .line 845
+    .line 850
     :cond_9
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->PROFILE:Ljava/util/Map;
 
@@ -4638,7 +4658,7 @@
 
     goto :goto_5
 
-    .line 847
+    .line 852
     :cond_12
     const/16 v2, 0x1f
 
@@ -4656,7 +4676,7 @@
 
     move-result v2
 
-    .line 848
+    .line 853
     mul-int/lit8 v3, v2, 0x2
 
     add-int/lit8 v3, v3, 0x1
@@ -4675,7 +4695,7 @@
 
     goto :goto_8
 
-    .line 849
+    .line 854
     :cond_30
     mul-int/lit8 v1, v2, 0x2
 
@@ -4683,7 +4703,7 @@
 
     aput v1, p2, v5
 
-    .line 850
+    .line 855
     const/4 v1, 0x1
 
     mul-int/lit8 v2, v2, 0x2
@@ -4701,34 +4721,34 @@
     .registers 4
 
     .prologue
-    .line 562
+    .line 567
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModArt;->LOCK:Ljava/lang/Object;
 
     monitor-enter v1
 
-    .line 563
+    .line 568
     :try_start_3
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->pending:Landroid/graphics/Bitmap;
 
-    .line 564
+    .line 569
     const/4 v2, 0x0
 
     iput-object v2, p0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->pending:Landroid/graphics/Bitmap;
 
-    .line 565
+    .line 570
     if-eqz v0, :cond_f
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModArt;->ready:Ljava/util/ArrayList;
 
     invoke-virtual {v2, p0}, Ljava/util/ArrayList;->remove(Ljava/lang/Object;)Z
 
-    .line 566
+    .line 571
     :cond_f
     monitor-exit v1
 
     return-object v0
 
-    .line 567
+    .line 572
     :catchall_11
     move-exception v0
 
@@ -4743,7 +4763,7 @@
     .registers 2
 
     .prologue
-    .line 673
+    .line 678
     if-nez p0, :cond_4
 
     const/4 v0, 0x0
@@ -4767,7 +4787,7 @@
     .registers 2
 
     .prologue
-    .line 592
+    .line 597
     if-nez p0, :cond_4
 
     const/4 v0, 0x0
@@ -4795,12 +4815,12 @@
 
     const/4 v4, 0x0
 
-    .line 343
+    .line 348
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModArt;->decodeFull(Ljava/lang/String;)Landroid/graphics/Bitmap;
 
     move-result-object v2
 
-    .line 344
+    .line 349
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModArt;->textures:Ljava/util/Map;
 
     invoke-interface {v0, p1}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -4809,16 +4829,16 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 345
+    .line 350
     if-nez v2, :cond_1a
 
-    .line 346
+    .line 351
     if-eqz v0, :cond_18
 
-    .line 347
+    .line 352
     iput-boolean v4, v0, Lfr/testudo/spacecorsair/display/Texture;->loaded:Z
 
-    .line 348
+    .line 353
     sget v2, Lfr/testudo/spacecorsair/mod/ModArt;->blankName:I
 
     iput v2, v0, Lfr/testudo/spacecorsair/display/Texture;->name:I
@@ -4826,26 +4846,26 @@
     :cond_18
     move-object v0, v1
 
-    .line 361
+    .line 366
     :cond_19
     :goto_19
     return-object v0
 
-    .line 352
+    .line 357
     :cond_1a
     if-nez v0, :cond_26
 
-    .line 353
+    .line 358
     new-instance v0, Lfr/testudo/spacecorsair/display/Texture;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/display/Texture;-><init>()V
 
-    .line 354
+    .line 359
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModArt;->textures:Ljava/util/Map;
 
     invoke-interface {v3, p1, v0}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 356
+    .line 361
     :cond_26
     invoke-static {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModArt;->put(Ljavax/microedition/khronos/opengles/GL10;Lfr/testudo/spacecorsair/display/Texture;Landroid/graphics/Bitmap;)Z
 
@@ -4853,17 +4873,17 @@
 
     if-nez v2, :cond_19
 
-    .line 357
+    .line 362
     iput-boolean v4, v0, Lfr/testudo/spacecorsair/display/Texture;->loaded:Z
 
-    .line 358
+    .line 363
     sget v2, Lfr/testudo/spacecorsair/mod/ModArt;->blankName:I
 
     iput v2, v0, Lfr/testudo/spacecorsair/display/Texture;->name:I
 
     move-object v0, v1
 
-    .line 359
+    .line 364
     goto :goto_19
 .end method
 
@@ -4871,12 +4891,12 @@
     .registers 4
 
     .prologue
-    .line 311
+    .line 316
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModArt;->takePending(Lfr/testudo/spacecorsair/mod/ModArt$Lazy;)Landroid/graphics/Bitmap;
 
     move-result-object v0
 
-    .line 312
+    .line 317
     if-nez v0, :cond_c
 
     iget-object v0, p1, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->asset:Ljava/lang/String;
@@ -4885,7 +4905,7 @@
 
     move-result-object v0
 
-    .line 313
+    .line 318
     :cond_c
     if-eqz v0, :cond_19
 
@@ -4899,7 +4919,7 @@
 
     invoke-static {p1, v0}, Lfr/testudo/spacecorsair/mod/ModArt;->measure(Lfr/testudo/spacecorsair/display/Texture;Landroid/graphics/Bitmap;)V
 
-    .line 314
+    .line 319
     :cond_19
     if-eqz v0, :cond_25
 
@@ -4909,35 +4929,35 @@
 
     if-eqz v0, :cond_25
 
-    .line 315
+    .line 320
     const/4 v0, 0x1
 
     iput-boolean v0, p1, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->resident:Z
 
-    .line 326
+    .line 331
     :goto_24
     return-void
 
-    .line 320
+    .line 325
     :cond_25
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModArt;->inLoad:Z
 
     if-eqz v0, :cond_2e
 
-    .line 321
+    .line 326
     sget v0, Lfr/testudo/spacecorsair/mod/ModArt;->blankName:I
 
     iput v0, p1, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->name:I
 
     goto :goto_24
 
-    .line 324
+    .line 329
     :cond_2e
     sget v0, Lfr/testudo/spacecorsair/mod/ModArt;->gen:I
 
     iput v0, p1, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->failedGen:I
 
-    .line 325
+    .line 330
     iget v0, p1, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->fallback:I
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModArt;->fallbackName(I)I
@@ -4953,12 +4973,12 @@
     .registers 4
 
     .prologue
-    .line 305
+    .line 310
     sget v0, Lfr/testudo/spacecorsair/mod/ModArt;->frame:I
 
     iput v0, p1, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->lastUse:I
 
-    .line 306
+    .line 311
     iget-boolean v0, p1, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;->resident:Z
 
     if-nez v0, :cond_e
@@ -4969,12 +4989,12 @@
 
     if-ne v0, v1, :cond_f
 
-    .line 308
+    .line 313
     :cond_e
     :goto_e
     return-void
 
-    .line 307
+    .line 312
     :cond_f
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModArt;->upload(Ljavax/microedition/khronos/opengles/GL10;Lfr/testudo/spacecorsair/mod/ModArt$Lazy;)V
 

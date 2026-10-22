@@ -1599,7 +1599,7 @@
 .end method
 
 .method public static tick(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
-    .registers 12
+    .registers 10
 
     .prologue
     .line 192
@@ -1718,19 +1718,17 @@
     if-gtz v0, :cond_4f
 
     .line 204
-    const v0, 0xea60
-
     invoke-static {}, Ljava/lang/Math;->random()D
 
-    move-result-wide v4
+    move-result-wide v0
 
-    const-wide v6, 0x40e3880000000000L    # 40000.0
+    const-wide v4, 0x40cf400000000000L    # 16000.0
 
-    mul-double/2addr v4, v6
+    mul-double/2addr v0, v4
 
-    double-to-int v1, v4
+    double-to-int v0, v0
 
-    add-int/2addr v0, v1
+    add-int/lit16 v0, v0, 0x5dc0
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModFleet;->spawnTimer:I
 
@@ -1741,7 +1739,7 @@
 
     move-result v0
 
-    const/4 v1, 0x6
+    const/16 v1, 0xf
 
     if-gt v0, v1, :cond_4f
 

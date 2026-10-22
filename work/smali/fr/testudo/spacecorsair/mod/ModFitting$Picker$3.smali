@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 1427
+    .line 1454
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$3;->val$dlg:Landroid/app/Dialog;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$3;->val$a:Landroid/app/Activity;
@@ -49,12 +49,12 @@
     .registers 4
 
     .prologue
-    .line 1429
+    .line 1456
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$3;->val$dlg:Landroid/app/Dialog;
 
     invoke-virtual {v0}, Landroid/app/Dialog;->dismiss()V
 
-    .line 1430
+    .line 1457
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$3;->val$a:Landroid/app/Activity;
 
     const-string v1, "txtShowInventory"
@@ -71,12 +71,12 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting;->invoke(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 1431
+    .line 1458
     :cond_16
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$3;->val$a:Landroid/app/Activity;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModFitting;->attach(Landroid/app/Activity;)V
 
-    .line 1432
+    .line 1459
     return-void
 .end method
