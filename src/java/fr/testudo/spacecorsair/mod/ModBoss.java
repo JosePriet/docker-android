@@ -136,6 +136,7 @@ public class ModBoss extends MissionListener {
         Mission m = new Mission(id, fr.testudo.spacecorsair.R.string.missionGenesisTuerChefPillard, TEXT_BASE + kind, TEXT_BASE + 10 + kind,
             false, level, engine, MissionReward.withObject(loot, xp, credits), true);   // v35: repeatable for faction cores
         m.localizedName = MISSION_NAMES[kind];
+        engine.mission = m;
         return m;
     }
 
@@ -225,6 +226,8 @@ public class ModBoss extends MissionListener {
     }
     private final Vector2 well = new Vector2(), cloud = new Vector2();
     private final java.util.ArrayList<Ennemis> brood = new java.util.ArrayList<Ennemis>();
+
+    private Mission mission;   // v35: its own mission (repeat rewards)
 
     private ModBoss(int kind, int level, LevelId zone, LevelId hub, String station) {
         this.kind = kind;
@@ -738,6 +741,13 @@ public class ModBoss extends MissionListener {
 
     @Override
     public void init() {
+        try {
+            // owner 2026-10-22: a repeat (same hub visit included) pays no fixed weapons
+            if (mission != null && mission.reward != null && mission.reward.rewardLoot != null
+                && ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(mission.missionId)) mission.reward.rewardLoot.clear();
+        } catch (Throwable t) {
+            // stock reward
+        }
         completed = false;
         boss = null;
         introDone = false;
