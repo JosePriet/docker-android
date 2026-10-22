@@ -231,17 +231,34 @@ public final class ModSector {
     private static final String[] FIELD_ART = {"albatros", "warlord", "orig_police", "monolith", "bastion", "raptor"};
 
     /** A field of still, burnt-out hulls (existing art). They block and can be shot apart; no loot (the derelict sites carry loot). */
+    /** Owner 2026-10-22: a looted wreck field refills after 1 h of play. */
+    static final long FIELD_REFILL_MS = 3600000L;
+
+    public static boolean fieldFull(long lootedAt, long now) {
+        return lootedAt < 0 || now - lootedAt >= FIELD_REFILL_MS;
+    }
+
     private static void wreckField(LevelId id) {
         Random r = new Random(id.name().hashCode() * 31L + 5);
         Vector2 c = poi[WRECKS];
         int n = 5;
+        SharedPreferences p = ModQol.prefs();
+        boolean full = p == null || fieldFull(p.getLong("v35_field_" + id.name(), -1), play());
+        int lvl = ObjectRegistry.INSTANCE.game.playerInfo.level;
         for (int k = 0; k < n; k++) {
             String art = FIELD_ART[r.nextInt(FIELD_ART.length)];
             if (!ModArt.hasArt(art)) continue;
             float size = artSize(art);
             double a = r.nextDouble() * Math.PI * 2;
             float d = 300 + k * 380 + r.nextFloat() * 200;
-            still(art, size, c.x + (float) Math.cos(a) * d, c.y + (float) Math.sin(a) * d, r.nextFloat() * 360, 0.4f + r.nextFloat() * 0.2f, false, r);
+            ModWreck[] hull = still(art, size, c.x + (float) Math.cos(a) * d, c.y + (float) Math.sin(a) * d, r.nextFloat() * 360, 0.4f + r.nextFloat() * 0.2f, false, r);
+            for (ModWreck w : hull) {
+                if (w == null) continue;
+                w.group[0] = !full;         // one roll per hull while the field is full
+                w.lootKey = "field:" + id.name();
+                w.srcLevel = lvl;
+                w.srcClass = 2;
+            }
             ModArt.ready(art);
         }
     }
@@ -254,7 +271,7 @@ public final class ModSector {
     /** Two still pieces of one hull, a gap between them (wreck fields and the restored flagship wrecks). */
     static ModWreck[] still(String art, float size, float x, float y, float spin, float cut, boolean preDrawn, Random r) {
         ModWreck[] out = new ModWreck[2];
-        boolean[] grp = {true};                 // no loot roll
+        boolean[] grp = {true};                 // no loot roll unless the caller opens it
         float gap = size * 0.08f;
         for (int k = 0; k < 2; k++) {
             ModWreck w = new ModWreck();
@@ -388,8 +405,8 @@ public final class ModSector {
     }
 
     // ------------------------------------------------------------------ flagship pursuit (req 5)
-    public static final float PURSUIT_STANDING = -40f;
-    public static final long[] WAVE_AT = {20000, 150000, 300000};   // 3 waves over 5 minutes of play [P]
+    public static final float PURSUIT_STANDING = -25f;   // owner 2026-10-22
+    public static final long[] WAVE_AT = {10000, 45000, 90000};   // owner 2026-10-22: 3 waves within 1.5 min of play
 
     /** ModRep.flagshipDestroyed: -40 standing (allies follow by half, ModRep.change), then the pursuit starts. */
     static void flagshipKilled(String key) {
@@ -456,7 +473,7 @@ public final class ModSector {
     }
 
     /** ModWreck: a flagship or titan broke up; its pieces come back on the next visits of this sector. */
-    static void persist(ModWreck[] made) {
+    static void persist(ModWreck[] made, int level, boolean boss) {
         try {
             LevelId id = ObjectRegistry.INSTANCE.game.currentLevel.id;
             if (excluded(id) || made == null) return;
@@ -474,10 +491,38 @@ public final class ModSector {
             SharedPreferences p = ModQol.prefs();
             if (p == null) return;
             String all = p.getString("v35_wrecks", "");
-            String rec = id.name() + "|" + play() + "|0|" + b;
+            long now = play();
+            String rec = id.name() + "|" + now + "|0|" + b + "|0," + level + "," + (boss ? 1 : 0);
             p.edit().putString("v35_wrecks", all.length() == 0 ? rec : all + "\n" + rec).apply();
+            for (ModWreck w : made) if (w != null) w.lootKey = "keep:" + id.name() + "|" + now;
         } catch (Throwable t) {
             // the wreck stays for this visit only
+        }
+    }
+
+    /** ModLoot.fromWreck: a kept flagship wreck or a wreck-field hull was looted. */
+    static void looted(String key) {
+        try {
+            SharedPreferences p = ModQol.prefs();
+            if (p == null) return;
+            if (key.startsWith("field:")) {
+                String k = "v35_field_" + key.substring(6);
+                if (fieldFull(p.getLong(k, -1), play())) p.edit().putLong(k, play()).apply();   // the hour runs from the first hull looted
+                return;
+            }
+            String id = key.substring(5);   // "<sector>|<made>"
+            String all = p.getString("v35_wrecks", "");
+            StringBuilder b = new StringBuilder();
+            for (String rec : all.split("\n")) {
+                if (rec.length() == 0) continue;
+                if (b.length() > 0) b.append('\n');
+                String[] f = rec.split("\\|");
+                if (f.length > 4 && (f[0] + "|" + f[1]).equals(id)) b.append(f[0]).append('|').append(f[1]).append('|').append(f[2]).append('|').append(f[3]).append("|1").append(f[4].substring(1));
+                else b.append(rec);
+            }
+            p.edit().putString("v35_wrecks", b.toString()).apply();
+        } catch (Throwable t) {
+            // the wreck just loots again next visit
         }
     }
 
@@ -496,9 +541,10 @@ public final class ModSector {
             int visits = Integer.parseInt(f[2]) + (f[0].equals(id.name()) ? 1 : 0);
             if (!kept(made, now, visits)) continue;
             if (keep.length() > 0) keep.append('\n');
-            keep.append(f[0]).append('|').append(made).append('|').append(visits).append('|').append(f[3]);
+            String[] loot = (f.length > 4 ? f[4] : "1,1,0").split(",");   // looted, level, boss (records before part 5: looted)
+            keep.append(f[0]).append('|').append(made).append('|').append(visits).append('|').append(f[3]).append('|').append(f.length > 4 ? f[4] : "1,1,0");
             if (!f[0].equals(id.name())) continue;
-            boolean[] grp = {true};
+            boolean[] grp = {"1".equals(loot[0])};         // owner 2026-10-22: a hull not looted on the kill visit keeps its loot
             for (String pc : f[3].split(";")) {
                 String[] v = pc.split(",");
                 if (v.length < 11) continue;
@@ -506,6 +552,10 @@ public final class ModSector {
                 w.art = v[0];
                 w.group = grp;
                 w.poi = true;
+                w.lootKey = "keep:" + f[0] + "|" + made;
+                w.srcLevel = loot.length > 1 ? Integer.parseInt(loot[1]) : 1;
+                w.srcBoss = loot.length > 2 && "1".equals(loot[2]);
+                w.srcClass = 3;
                 w.u0 = 0; w.u1 = 1;
                 w.v0 = Float.parseFloat(v[1]);
                 w.v1 = Float.parseFloat(v[2]);

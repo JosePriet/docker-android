@@ -201,7 +201,7 @@ public class ModLoot {
             }
             // v30 table
             int cls = ModWreck.sizeClass(e);
-            float p = e.elite ? 1.0f : Math.min(0.9f, CLASS_CHANCE[cls] + e.level * 0.002f * (cls + 1));
+            float p = e.elite ? 1.0f : Math.min(0.9f, (CLASS_CHANCE[cls] + e.level * 0.002f * (cls + 1)) * ModV35.lootMult());   // v35: Varn refit trait
             if (Math.random() < p) {
                 LootRarety r = roll(e.level, cls, e.elite, 0);
                 SpaceObjectType t = null;
@@ -228,8 +228,9 @@ public class ModLoot {
                 if (w.group[0]) return;
                 w.group[0] = true;
             }
+            if (w.lootKey != null) ModSector.looted(w.lootKey);   // v35: kept wrecks and wreck fields remember it
             int lvl = Math.max(1, w.srcLevel > 0 ? w.srcLevel : ObjectRegistry.INSTANCE.game.playerInfo.level);
-            float p = w.srcBoss ? 1.0f : w.derelict ? 0.6f : w.srcElite ? 0.7f : 0.35f;
+            float p = w.srcBoss ? 1.0f : Math.min(1.0f, (w.derelict ? 0.6f : w.srcElite ? 0.7f : 0.35f) * ModV35.lootMult());   // v35: Varn refit trait
             if (Math.random() >= p) return;
             int bonus = (w.derelict ? 1 : 0) + (w.srcBoss ? 2 : 0);
             LootRarety wr = roll(lvl, Math.max(2, w.srcClass), w.srcElite, bonus);
@@ -254,6 +255,7 @@ public class ModLoot {
 
     /** Boss down (on top of the mission reward): one item of its own pool for sure, then a chance of rare or secret loot. */
     public static void bossBonus(int kind) {
+        ModV35.bossCores(kind);   // v35: faction cores (owner 2026-10-22)
         try {
             int tier = tierForPilot();
             toHold(family(kind == ModBoss.GUARDIAN ? SPARTAN : ALIEN, tier), ModLang.tr("BOSS DROP: "), 0.82f, 0.45f, 1.0f);

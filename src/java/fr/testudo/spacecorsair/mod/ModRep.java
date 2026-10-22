@@ -172,8 +172,9 @@ public final class ModRep {
 
     /** ModCapitals: the player destroyed a flagship. */
     static void flagshipDestroyed(String key) {
-        change(key, ModSector.PURSUIT_STANDING, true);   // v35 req 5: -40 (was -10), then pursuit waves
+        change(key, ModSector.PURSUIT_STANDING, true);   // v35 req 5: -25 (was -10), then pursuit waves
         ModSector.flagshipKilled(key);
+        ModV35.flagshipCore(key);   // owner 2026-10-22: a rival flagship kill gives a faction core
     }
 
     /** ModQol.civilAttacked: the player hit a civilian in a faction's home sector (counted once per ship). */
@@ -192,7 +193,7 @@ public final class ModRep {
         if (fi < 0) return;
         String k = ModCapitals.FACTIONS[fi].key;
         if (rank(k) <= HOSTILE) return;
-        change(k, 1f, false);
+        change(k, 1.5f, false);   // owner 2026-10-22 (was +1)
     }
 
     private static String testRep;

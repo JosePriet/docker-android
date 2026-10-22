@@ -123,12 +123,18 @@ public class ModBoss extends MissionListener {
 
     private static Mission make(String id, int kind, int level, LevelId zone, LevelId hub, String station, String[] rewards, int xp, int credits) {
         List<SpaceObject> loot = new ArrayList<SpaceObject>();
-        for (String r : rewards) {
+        boolean again = false;
+        try {
+            again = ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(id);
+        } catch (Throwable t) {
+            // first clear
+        }
+        if (!again) for (String r : rewards) {   // owner 2026-10-22: repeats (core farming) pay XP, credits and boss loot, not the fixed weapons
             loot.add(SpaceObject.of(SpaceObjectType.valueOf(r)));
         }
         ModBoss engine = new ModBoss(kind, level, zone, hub, station);
         Mission m = new Mission(id, fr.testudo.spacecorsair.R.string.missionGenesisTuerChefPillard, TEXT_BASE + kind, TEXT_BASE + 10 + kind,
-            false, level, engine, MissionReward.withObject(loot, xp, credits), false);
+            false, level, engine, MissionReward.withObject(loot, xp, credits), true);   // v35: repeatable for faction cores
         m.localizedName = MISSION_NAMES[kind];
         return m;
     }

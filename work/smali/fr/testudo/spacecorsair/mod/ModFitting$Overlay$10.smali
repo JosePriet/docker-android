@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 905
+    .line 907
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,12 +40,12 @@
     .registers 5
 
     .prologue
-    .line 907
+    .line 909
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->buy()Ljava/lang/String;
 
     move-result-object v0
 
-    .line 908
+    .line 910
     if-eqz v0, :cond_12
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
@@ -60,7 +60,7 @@
 
     invoke-virtual {v0}, Landroid/widget/Toast;->show()V
 
-    .line 909
+    .line 911
     :cond_12
     return-void
 .end method

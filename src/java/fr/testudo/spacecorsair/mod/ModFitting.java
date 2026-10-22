@@ -892,9 +892,11 @@ public final class ModFitting {
                 stats.addView(section(c, ModLang.tr("REFIT")));
                 row(ModLang.tr("Refit level"), rf[0] + " / " + ModV35.REFIT_MAX + "  ·  " + ModLang.tr("Stage") + " " + rf[1] + " / " + ModV35.STAGES);
                 row(ModLang.tr("Rare parts"), rf[4]);
+                row(rf[6], rf[7]);   // owner 2026-10-22: the last refit needs the hull's faction core
                 if (rf[2].length() > 0) {
                     String need = NumberFormat.getNumberInstance(Locale.getDefault()).format(Long.parseLong(rf[2])) + " cr";
                     if (!"0".equals(rf[3])) need += " + " + rf[3] + " " + ModLang.tr("parts");
+                    if (Integer.parseInt(rf[0]) + 1 == ModV35.REFIT_MAX) need += " + 1 " + rf[6];
                     row(ModLang.tr("Next level"), need);
                 }
                 TextView rt = text(c, 10, GREY, false);

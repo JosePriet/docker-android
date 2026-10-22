@@ -164,6 +164,115 @@ public class ModV35 {
         }
     }
 
+    // ------------------------------------------------------------------ faction cores (owner 2026-10-22): refit 10 needs one of the hull's faction
+    /** Stock boss pools by ModBoss kind (Matriarch, Guardian, Empress); every boss also rolls the neutral core. */
+    static final String[][] CORE_POOL = {{"reaver", "helion"}, {"spartan", "warden", "ironclad"}, {"kretari", "varn"}};
+    public static final float CORE_CHANCE = 0.4f;
+    static final long HUNT_COOLDOWN_MS = 24L * 3600000L;
+
+    /** The core a hull needs for its last refit: its faction's, "neutral" for hulls without one. */
+    static String coreKey(ModShips.Hull h) {
+        String k = ModShips.factionKey(h);
+        return k.length() == 0 ? "neutral" : k;
+    }
+
+    static String coreName(String key) {
+        if ("neutral".equals(key)) return ModLang.tr("Neutral core");
+        try {
+            return ModCapitals.FACTIONS[ModFaction.faction(key)].name + " " + ModLang.tr("core");
+        } catch (Throwable t) {
+            return key + " " + ModLang.tr("core");
+        }
+    }
+
+    public static int cores(String key) {
+        SharedPreferences p = ModQol.prefs();
+        return p == null ? 0 : p.getInt("v35_core_" + key, 0);
+    }
+
+    static void addCore(String key, Element at) {
+        SharedPreferences p = ModQol.prefs();
+        if (p == null || key == null) return;
+        p.edit().putInt("v35_core_" + key, cores(key) + 1).apply();
+        try {
+            Element e = at != null && fr.testudo.spacecorsair.engine.GameThread.isElementVisible(at) ? at : ObjectRegistry.INSTANCE.playerShip;
+            Mod.floatText(e, "+1 " + coreName(key).toUpperCase(), 1.0f, 0.75f, 0.3f);
+            ModQol.post(ModLang.tr("Faction core recovered: ") + coreName(key) + ".");
+        } catch (Throwable t) {
+            // the core is stored
+        }
+    }
+
+    /** Pure: the faction core a stock boss drops for a roll in [0,1) and a pick in [0,1), or null. */
+    public static String bossCore(int kind, double roll, double pick) {
+        if (kind < 0 || kind >= CORE_POOL.length || roll >= CORE_CHANCE) return null;
+        String[] pool = CORE_POOL[kind];
+        return pool[Math.min(pool.length - 1, (int) (pick * pool.length))];
+    }
+
+    /** ModLoot.bossBonus: a stock boss down rolls a faction core from its pool and the neutral core; reminds of a hunt on cooldown. */
+    public static void bossCores(int kind) {
+        try {
+            String k = bossCore(kind, Math.random(), Math.random());
+            if (k != null) addCore(k, null);
+            if (Math.random() < CORE_CHANCE) addCore("neutral", null);
+            SpaceObjectType t = currentShip();
+            String mine = t == null ? null : coreKey(ModShips.hull(t));
+            if (mine == null || "neutral".equals(mine) || ModRep.rank(mine) < ModRep.FRIENDLY) return;
+            for (String c : CORE_POOL[kind]) {
+                long left = huntLeft(mine);
+                if (c.equals(mine) && left > 0) {
+                    ModQol.post(coreName(mine) + ": " + ModLang.tr("the renegade hunt at the faction's HQ guarantees one, ready again in ") + (left / 3600000L) + "h " + (left / 60000L % 60) + "m.");
+                }
+            }
+        } catch (Throwable t) {
+            // never break a boss kill
+        }
+    }
+
+    /** ms until a faction's renegade hunt can be taken again (0 = ready). */
+    public static long huntLeft(String key) {
+        SharedPreferences p = ModQol.prefs();
+        if (p == null) return 0;
+        long at = p.getLong("v35_hunt_" + key, 0);
+        return Math.max(0, at + HUNT_COOLDOWN_MS - System.currentTimeMillis());
+    }
+
+    /** ModFaction.complete for a renegade hunt: the core, the cooldown, and a one-time note about the cooldown. */
+    static void huntDone(String key) {
+        addCore(key, null);
+        SharedPreferences p = ModQol.prefs();
+        if (p == null) return;
+        SharedPreferences.Editor ed = p.edit().putLong("v35_hunt_" + key, System.currentTimeMillis());
+        if (!p.getBoolean("v35_hunt_note", false)) {
+            ed.putBoolean("v35_hunt_note", true);
+            ModQol.post(ModLang.tr("Renegade hunts can be taken once a day per faction. Stock bosses and rival flagships also drop faction cores."));
+        }
+        ed.apply();
+    }
+
+    /** Pure: the factions whose core a flagship kill can give (those that counter the flagship's faction). */
+    public static String[] rivalCores(String flagshipKey) {
+        java.util.ArrayList<String> l = new java.util.ArrayList<String>();
+        for (String[] w : ModCounterData.WHEEL) if (w[1].equals(flagshipKey)) l.add(w[0]);
+        return l.toArray(new String[0]);
+    }
+
+    /** ModRep.flagshipDestroyed: a faction core of a rival of the flagship's faction, the player's hull faction when it is one. */
+    static void flagshipCore(String flagshipKey) {
+        try {
+            String[] r = rivalCores(flagshipKey);
+            if (r.length == 0) return;
+            SpaceObjectType t = currentShip();
+            String mine = t == null ? null : coreKey(ModShips.hull(t));
+            String k = r[(int) (Math.random() * r.length)];
+            for (String c : r) if (c.equals(mine)) k = c;
+            addCore(k, null);
+        } catch (Throwable th) {
+            // the standing loss still happens
+        }
+    }
+
     /** Rare parts from kills (ModQol.bounty): bosses 2, elites 15% for 1 [P]. Rare salvage adds 1 (ModV34.rareSalvage). */
     public static void partsFromKill(Ennemis e) {
         try {
@@ -202,7 +311,7 @@ public class ModV35 {
         try {
             SpaceObjectType t = currentShip();
             float[] m = mults(t, h, ps.shipSpec);
-            float dm = offFaction ? 1.0f : m[S_DMG], rl = offFaction ? 1.0f : m[S_RELOAD];   // off-faction keeps v34's rule: no weapon bonuses
+            float dm = m[S_DMG], rl = m[S_RELOAD];   // owner 2026-10-22: refit bonuses apply to every weapon; the off-faction -40% (ModV34) multiplies the total
             if (dm != 1.0f || rl != 1.0f) {
                 ps.bulletDamage *= dm;
                 ps.milleSecBetweenShots = (long) (ps.milleSecBetweenShots / rl);
@@ -228,6 +337,18 @@ public class ModV35 {
         }
     }
 
+    /** Owner 2026-10-22: the Varn trait is cargo and loot: +2%/level on the loot drop chance of kills and wrecks. */
+    public static float lootMult() {
+        try {
+            SpaceObjectType t = currentShip();
+            ModShips.Hull h = t == null ? null : ModShips.hull(t);
+            if (h == null || trait(ModShips.factionKey(h)) != S_CARGO) return 1.0f;
+            return traitMult(level(t));
+        } catch (Throwable th) {
+            return 1.0f;
+        }
+    }
+
     /** Cargo multiplier of the refit (ModShips.cargoMult). */
     public static float cargo(ModShips.Hull h) {
         try {
@@ -238,20 +359,30 @@ public class ModV35 {
         }
     }
 
-    /** Hull repair per second with the refit (ModShips.tick). A hull without repair counts from 0.5%/s for the trait. */
+    /** Hull repair per second with the refit (ModShips.tick). */
     public static float repair(ModShips.Hull h) {
         float base = h == null ? 0 : h.hullRegen;
         try {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             float m = mults(currentShip(), h, ps == null ? null : ps.shipSpec)[S_REPAIR];
-            if (m == 1.0f) return base;
-            return base > 0 ? base * m : 0.005f * (m - 1.0f);
+            return regen(base, trait(ModShips.factionKey(h)) == S_REPAIR, m, h.cls);
         } catch (Throwable t) {
             return base;
         }
     }
 
-    /** Refit lines for the fitting screen: {level, stage, next credits, next parts, owned parts} and the boosted stat names. */
+    /**
+     * Owner 2026-10-22: Kre'tari hulls without hull repair get a 0.5%/s base; the refit multiplies the hull's rate,
+     * capped at 1%/s for cruisers and bigger and 0.7%/s for the rest (never below the hull's own stock rate).
+     */
+    public static float regen(float base, boolean kretari, float mult, int cls) {
+        if (kretari && base <= 0) base = 0.005f;
+        if (base <= 0) return 0;
+        float cap = cls >= ModShips.CRUISER && cls <= ModShips.TITAN ? 0.01f : 0.007f;
+        return Math.min(base * mult, Math.max(base, cap));
+    }
+
+    /** Refit lines for the fitting screen: {level, stage, next credits, next parts, owned parts, boosted stat names, core name, owned cores}. */
     public static String[] summary() {
         SpaceObjectType t = currentShip();
         if (t == null) return null;
@@ -263,7 +394,7 @@ public class ModV35 {
         for (int k : pk) if (k >= 0) b.append(ModLang.tr(STAT_EN[k])).append(" +").append(Math.round(PICK_STEP * 100)).append("%, ");
         b.append(ModLang.tr(STAT_EN[trait(ModShips.factionKey(h))])).append(" +").append(Math.round(TRAIT_STEP * 100)).append("% ").append(ModLang.tr("(faction)"));
         return new String[] {String.valueOf(n), String.valueOf(stage(n)), n >= REFIT_MAX ? "" : String.valueOf(cost(n + 1, hullPrice(t))),
-            String.valueOf(n >= REFIT_MAX ? 0 : partsFor(n + 1)), String.valueOf(parts()), b.toString()};
+            String.valueOf(n >= REFIT_MAX ? 0 : partsFor(n + 1)), String.valueOf(parts()), b.toString(), coreName(coreKey(h)), String.valueOf(cores(coreKey(h)))};
     }
 
     /** Buys the next refit level of the current ship (docked only). Returns the message to show. */
@@ -279,10 +410,14 @@ public class ModV35 {
             fr.testudo.spacecorsair.business.player.Inventory inv = ObjectRegistry.INSTANCE.game.playerCurrentShipInventory;
             if (inv.getCredit() < c) return ModLang.tr("Not enough credits for the refit.");
             if (parts() < need) return ModLang.tr("Not enough rare parts (elites, bosses, rare salvage).");
+            String core = n + 1 == REFIT_MAX ? coreKey(ModShips.hull(t)) : null;
+            if (core != null && cores(core) < 1) return ModLang.tr("The last refit needs a ") + coreName(core) + ModLang.tr(" (stock bosses, renegade hunts, rival flagships).");
             SharedPreferences p = ModQol.prefs();
             if (p == null) return null;
             inv.removeCredit(c);
-            p.edit().putInt("v35_refit_" + t.name(), n + 1).putInt("v35_parts", parts() - need).commit();
+            SharedPreferences.Editor ed = p.edit().putInt("v35_refit_" + t.name(), n + 1).putInt("v35_parts", parts() - need);
+            if (core != null) ed.putInt("v35_core_" + core, cores(core) - 1);
+            ed.commit();
             ps.applyGear();
             return ModLang.tr("Refit complete: level ") + (n + 1) + " / " + REFIT_MAX + ".";
         } catch (Throwable th) {
@@ -500,9 +635,9 @@ public class ModV35 {
         return HOLD;
     }
 
-    /** Kill-time targets for a same-level normal enemy (6 s matched), set by the counter wheel (+1 the player counters the enemy): x3 damage (2 s), x0.5 (12 s) countered. */
+    /** Owner 2026-10-22: on normal enemies the counter wheel adds a kill-time step on top of v34's +30%/-20%: x2.5 when the player counters, x0.5 when countered (rule of thumb ~3 s / 10 s / 25 s). */
     public static float ttkFactor(int playerWheel) {
-        return playerWheel > 0 ? 3.0f : playerWheel < 0 ? 0.5f : 1.0f;
+        return playerWheel > 0 ? 2.5f : playerWheel < 0 ? 0.5f : 1.0f;
     }
 
     /** Per enemy: {stock disengage distance, mode, next evaluation (ms)}. */
@@ -567,12 +702,11 @@ public class ModV35 {
         try {
             if (p == null || p.sender == null || !p.sender.isPlayer || !(target instanceof Ennemis) || dmg <= 0) return dmg;
             Ennemis e = (Ennemis) target;
-            if (e.elite || ModBoss.isBoss(e) || ModBoss.kindOf(e) >= 0 || Mod.isDrone(e)) return dmg;
+            if (e.elite || ModBoss.isBoss(e) || ModBoss.kindOf(e) >= 0 || Mod.isDrone(e) || ModCapitals.cap(e) != null || ModTitan.isTitanClass(e)) return dmg;   // normal enemies only
             PlayerShip ps = (PlayerShip) p.sender;
             String ef = ModV34.factionOf(e), pf = ModV34.factionOf(ps);
             int w = wheel(ef, pf);
-            float wheelDealt = w < 0 ? 1.3f : w > 0 ? 0.8f : 1.0f;   // ModV34.counter already applied the wheel's +30%/-20%: the stronger kill-time step replaces it
-            return dmg / wheelDealt * ttkFactor(-w);
+            return dmg * ttkFactor(-w);   // stacks on ModV34.counter's +30%/-20%
         } catch (Throwable t) {
             return dmg;
         }
@@ -602,12 +736,19 @@ public class ModV35 {
     }
 
     // ------------------------------------------------------------------ v34 req 12: stock gear prices by rarity
-    public static final float[] RARITY_F = {1.0f, 1.5f, 3.0f, 6.0f, 12.0f};   // basic, fine, rare, exceptional, legendary [P]
+    /** Owner 2026-10-22: minutes of farming at the item's level that one piece of gear costs (basic, fine, rare, exceptional, legendary). */
+    public static final float[] GEAR_MIN = {8f, 8f, 20f, 60f, 150f};   // basic gear keeps its stock price (prices())
 
-    /** Price of a piece of gear: 1000 x rarity x (1 + level)^1.25 on the v34 level scale [P]. */
+    /** Credits per hour at a level, from the v34 economy model (tools/sim): kills 40 + elites 4x2 + bosses 0.3x8, loot half of kills, 1.5 missions of 3 bounties. */
+    public static float income(int level40) {
+        return ModV34.bounty(level40) * ((40 + 4 * 2 + 0.3f * 8) * 1.5f + 1.5f * 3);
+    }
+
+    /** Price of a piece of gear: its rarity's farming minutes x the hourly income at its level (v34 level scale), rounded to hundreds. */
     public static int gearPrice(int rarity, int level40) {
-        float r = RARITY_F[Math.max(0, Math.min(RARITY_F.length - 1, rarity))];
-        return Math.round(1000f * r * (float) Math.pow(1 + Math.max(0, Math.min(ModV34.CAP, level40)), 1.25) / 100f) * 100;
+        float min = GEAR_MIN[Math.max(0, Math.min(GEAR_MIN.length - 1, rarity))];
+        int lv = Math.max(0, Math.min(ModV34.CAP, level40));
+        return Math.max(100, Math.round(min / 60f * income(lv) / 100f) * 100);
     }
 
     private static boolean priced;
@@ -626,6 +767,7 @@ public class ModV35 {
                 fr.testudo.spacecorsair.business.economy.Price pr = t.getObjectPrice();
                 if (g == null || pr == null || pr.inapp || !pr.fixed || g instanceof PlayerShipSpec) continue;
                 if (ModWeapons.label(t) != null || ModRep.secretIndex(t) >= 0 || ModDev.isDev(t)) continue;   // mod gear keeps its own prices
+                if (t.getRarety().ordinal() == 0 || pr.min <= 10) continue;   // basic placeholders and free starter gear stay stock
                 int v = gearPrice(t.getRarety().ordinal(), ModV34.lvl(g.level));
                 mn.setInt(pr, v);
                 mx.setInt(pr, v);
@@ -650,6 +792,6 @@ public class ModV35 {
     /** Standing per faction mission [P]: story +15 (finale +20) unchanged, contracts +8 (was +6) so Honored follows the story and 4 contracts. */
     public static float missionStanding(boolean contract, int order) {
         if (contract) return 8f;
-        return order == 3 ? 20f : 15f;
+        return order == 3 || order == 6 ? 20f : 15f;   // chain end and the last final mission +20
     }
 }

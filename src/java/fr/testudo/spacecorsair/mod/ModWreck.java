@@ -39,7 +39,8 @@ public final class ModWreck extends Element {
     int derelictSite = -1;
     boolean[] group;            // shared by the pieces of one hull: loot rolls once per hull
     boolean preDrawn;           // v33: hand-drawn wreck art (already burnt and torn: no tint, no edge strip, no char)
-    boolean poi;                // v35: wreck field / kept flagship wreck: never pushed out by newer wrecks, no loot
+    boolean poi;                // v35: wreck field / kept flagship wreck: never pushed out by newer wrecks
+    String lootKey;             // v35: kept flagship wreck record or wreck-field sector; ModSector.looted marks it when the hull is looted
     boolean husk;               // v35: a small hull's husk (pushed out first)
     long fadeMs;                // v35: fades after this long (0 = stays for the visit)
     private float lastVx, lastVy;
@@ -295,7 +296,7 @@ public final class ModWreck extends Element {
             }
             int cls = sizeClass(e);
             if (cls < 2) {
-                husk(e, d);
+                if (cls == 1) husk(e, d);   // owner 2026-10-22: frigates leave nothing (the kill's own loot chance only); destroyers a husk
                 return;
             }
             boolean elite = e instanceof Ennemis && ((Ennemis) e).elite;
@@ -312,7 +313,7 @@ public final class ModWreck extends Element {
                     w.srcElite = elite;
                     w.srcBoss = boss;
                 }
-                if (cap != null || ModTitan.isTitanClass(e)) ModSector.persist(made);   // v35: kept for the next visits
+                if (cap != null || ModTitan.isTitanClass(e)) ModSector.persist(made, e.level, boss);   // v35: kept for the next visits
             }
         } catch (Throwable t) {
             // the stock death always happens
@@ -433,7 +434,7 @@ public final class ModWreck extends Element {
         return out;
     }
 
-    /** v35 (I4): a small hull leaves one burnt husk (the whole sprite), no loot, gone after 2 minutes. */
+    /** v35 (I4): a destroyer-size hull leaves one burnt husk (the whole sprite), gone after 2 minutes; shooting it rolls wreck loot (owner). */
     static void husk(Element e, Drawable d) {
         Texture t = d.myTexture;
         if (t == null || t.name <= 0) return;
@@ -442,8 +443,10 @@ public final class ModWreck extends Element {
         else if (d.dimensions != null) { W = d.dimensions.x; H = d.dimensions.y; }
         else return;
         ModWreck w = new ModWreck();
-        w.group = new boolean[] {true};
+        w.group = new boolean[] {false};
         w.husk = true;
+        w.srcClass = 1;
+        w.srcElite = e instanceof Ennemis && ((Ennemis) e).elite;
         w.tex = t;
         w.u0 = 0; w.u1 = 1; w.v0 = 0; w.v1 = 1;
         w.w = W;

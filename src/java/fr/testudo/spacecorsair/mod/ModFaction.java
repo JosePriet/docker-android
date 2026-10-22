@@ -85,7 +85,8 @@ public class ModFaction extends MissionListener {
             Object[][] story = new Object[base.length + fin.length][];   // v35 (v34 req 16): the finale rows follow the story chains
             System.arraycopy(base, 0, story, 0, base.length);
             System.arraycopy(fin, 0, story, base.length, fin.length);
-            Object[][] r = new Object[story.length + con.length][];
+            String[] hk = ModRepData.KEYS;
+            Object[][] r = new Object[story.length + con.length + hk.length][];   // v35: one renegade hunt per faction after the contracts
             System.arraycopy(story, 0, r, 0, story.length);
             int[] n = new int[ModRepData.KEYS.length];
             for (int i = 0; i < con.length; i++) {
@@ -98,6 +99,14 @@ public class ModFaction extends MissionListener {
                 // order 0 = contract; column 1 of the original order slot keeps the per-faction number in column 17
                 r[story.length + i] = new Object[]{k, 0, c[1], obj, hq, hq, 1, count, "DEFEND_ZONE".equals(obj) ? k : "", c[6], "",
                     c[3], contractGoal(obj, count), c[4], ModLang.tr("The contract has lapsed. The offer stands if you want to try again."), credits, "", ++n[ModFaction.commander(k)], amends};
+            }
+            for (int i = 0; i < hk.length; i++) {
+                // owner 2026-10-22: at Friendly+, once a day, a renegade of the faction carries one of its cores (guaranteed). Text: Claude's draft for GPT.
+                String k = hk[i], hq = ModCapitals.FACTIONS[faction(k)].hq.name();
+                r[story.length + con.length + i] = new Object[]{k, 0, "Renegade Hunt", "BOUNTY", hq, hq, 1, 0, "", "Renegade Captain", "",
+                    "A renegade captain deserted with one of our faction cores and is hiding near our headquarters. Bring the core back and it is yours to keep.",
+                    contractGoal("BOUNTY", 0), "The renegade is down and the core is recovered.", ModLang.tr("The contract has lapsed. The offer stands if you want to try again."),
+                    110000, "", ++n[ModFaction.commander(k)], false, true};
             }
             rows = r;
         }
@@ -126,7 +135,8 @@ public class ModFaction extends MissionListener {
     }
     static int num(int i, int f) { return (Integer) rows()[i][f]; }
     static boolean contract(int i) { return order(i) == 0; }
-    static boolean amends(int i) { return contract(i) && (Boolean) rows()[i][18]; }
+    static boolean hunt(int i) { Object[] row = rows()[i]; return row.length > 19 && Boolean.TRUE.equals(row[19]); }
+        static boolean amends(int i) { return contract(i) && (Boolean) rows()[i][18]; }
     static String key(int i) { return str(i, 0); }
     static int order(int i) { return num(i, 1); }
     static String objective(int i) { return str(i, 3); }
@@ -174,12 +184,6 @@ public class ModFaction extends MissionListener {
         return String.format(java.util.Locale.US, "%,d", c);
     }
 
-    /** v35: id of a faction's last story mission (order 3), which unlocks its finale. */
-    private static String storyEnd(String k) {
-        for (int j = 0; j < count(); j++) if (!contract(j) && order(j) == 3 && key(j).equals(k)) return id(j);
-        return null;
-    }
-
     private static synchronized Mission[] all() {
         if (missions == null) {
             Mission[] ms = new Mission[count()];
@@ -196,7 +200,7 @@ public class ModFaction extends MissionListener {
                 Mission m = new Mission(id(i), fr.testudo.spacecorsair.R.string.missionGenesisTuerChefPillard, TEXT_DESC + i, TEXT_DONE + i,
                     false, minLevel(i), new ModFaction(i), MissionReward.withObject(loot, contract(i) ? 4000 : 900 * minLevel(i), num(i, 15) / 3), contract(i));
                 m.localizedName = contract(i) ? (amends(i) ? ModLang.tr("Amends: ") : ModLang.tr("Contract: ")) + str(i, 2) : str(i, 2);
-                m.restrictedMissionId = order(i) == 4 ? storyEnd(key(i)) : order(i) > 1 ? id(i - 1) : null;   // v35: the finale follows the chain's last story mission
+                m.restrictedMissionId = order(i) > 1 && order(i) != 4 ? id(i - 1) : null;   // v35: the finale opens at L34 on its own (owner 2026-10-22)
                 ms[i] = m;
             }
             missions = ms;
@@ -232,8 +236,6 @@ public class ModFaction extends MissionListener {
                         if (contract(i) || !key(i).equals(k) || !ModV35.finale(order(i))) continue;
                         if (ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(id(i))) continue;
                         if (cur != ms[i] && plv < minLevel(i) - 2 && !testHail) break;
-                        String lock = ms[i].restrictedMissionId;
-                        if (cur != ms[i] && lock != null && !testHail && !ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(lock)) break;
                         if (!list.contains(ms[i])) list.add(ms[i]);
                         break;
                     }
@@ -241,11 +243,14 @@ public class ModFaction extends MissionListener {
                 // contracts: two of the regular ones (rotating daily) from Neutral up, only the amends ones when Unfriendly
                 ArrayList<Integer> pool = new ArrayList<Integer>();
                 for (int i = 0; i < ms.length; i++) {
-                    if (contract(i) && key(i).equals(k) && amends(i) == (rank == ModRep.UNFRIENDLY)) pool.add(i);
+                    if (contract(i) && !hunt(i) && key(i).equals(k) && amends(i) == (rank == ModRep.UNFRIENDLY)) pool.add(i);
                 }
                 for (int n = 0; n < 2 && !pool.isEmpty(); n++) {
                     int pick = pool.remove((int) ((day * 7 + fi * 3 + n * 5) % pool.size()));
                     if (!list.contains(ms[pick])) list.add(ms[pick]);
+                }
+                if (rank >= ModRep.FRIENDLY && ModV35.huntLeft(k) == 0) {
+                    for (int i = 0; i < ms.length; i++) if (hunt(i) && key(i).equals(k) && !list.contains(ms[i])) list.add(ms[i]);
                 }
                 if (cur != null && cur.missionEngine instanceof ModFaction && key(((ModFaction) cur.missionEngine).idx).equals(k) && !list.contains(cur)) list.add(cur);
             }
@@ -332,6 +337,7 @@ public class ModFaction extends MissionListener {
         // standing: story +15 (chain finale +20), contracts +6; fighting a faction's flagship costs a little with it
         ModRep.change(key(idx), ModV35.missionStanding(contract(idx), order(idx)), true);   // v35 (v34 req 13)
         if (!contract(idx) && order(idx) == 3) ModV34.storyDone(key(idx));
+        if (hunt(idx)) ModV35.huntDone(key(idx));
         if ("KILL_FLAGSHIP".equals(obj) && str(idx, 8).length() > 0) ModRep.change(str(idx, 8), -0.8f, true);
         int bonus = Math.round(ModQol.missionPay(num(idx, 15) / 3) * ModRep.payoutBonus(key(idx)));   // v35: bonus on the real payout
         if (bonus > 0) {
