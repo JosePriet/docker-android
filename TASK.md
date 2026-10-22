@@ -1,4 +1,4 @@
-# Current task: v34 core systems (owner OK 2026-10-22). Status: coded (parts 1-7), check.sh 34 PASS, emulator run sc-v34 pending; gaps 10 (name tags), 12, 13 (missions), 14, 16, ES strings
+# Current task: v34 core systems (owner OK 2026-10-22). Status: coded (parts 1-7), check.sh 34 PASS, emulator run sc-v34 passed (smoke), phone test pending; gaps 10 (name tags), 12, 13 (missions), 14, 16, ES strings
 
 Source: owner answers in `v34-answers.md` (live Q&A, 2026-10-21/22). v33 release is still pending the phone test; v34 builds on top of it.
 

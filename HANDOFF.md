@@ -11,7 +11,7 @@
 
 - v34 (2026-10-22, branch sc-mod-workspace, not released): core systems from TASK.md (level cap 40, enemy curve x class x tier, elites/bosses, pilot ATK/DEF/REA, counters, weapon rules and slots, industrials retired, bounty/death fee/rare salvage, reskin weapon families, stat block, hide-until-art). Full list, gaps and unrequested changes: /mnt/project-files/audits/v34-changes.md. Directive audit: audits/v34-directive-audit.md. Reviewed by a verifier + cross-check agent pair twice (owner rule); confirmed findings fixed in parts 6-7.
 - v34 gaps: req 12 (stock gear rarity pricing), 14 (faction hulls/weapons in NPC pools), 16 (top-region finale), 10 name tags + enemy_<art>, 13 mission reward/standing retune, Spanish for all new strings (GPT is writing them; Claude does the final pass). Energy regen dropped (no energy stat; owner OK).
-- v34 emulator run: sc-v34 (GitHub run 39706373726).
+- v34 emulator run sc-v34 (run 61, GitHub 39706373726): full run, 676 s, no crash, no FATAL/VerifyError/NoSuchMethod; all 7 flagships fired and logged skills; death ran. Not shown on screen: the spawned enemies (off-frame near the tutorial station), the pilot-stat UI and the stat block; the HUD still read "Level 0" because the test flag sets the level field without a HUD refresh. These need the phone test.
 
 ## Changed files (v30-v31)
 New: ModLive, ModWreck, ModTitanAI, ModDerelict, ModV30Data. Changed: ModShield, ModLoot, ModBoss, ModCapitals, ModCaps, ModArt, ModFx, ModDev, ModQol. Hooks: `src/patch/hooks30.py`, `hooks30b.py`, `hooks30c.py` (all applied).
