@@ -145,6 +145,7 @@ public class ModFleet {
         ModArt.prefetch(d.myTexture);   // decoded in the background while the ship flies in from off-screen
         Vector2 phys = new Vector2(t.size * 0.7f, t.size * 0.7f);
         Ennemis e;
+        ModV34.want(lvl);   // the spec tables stop at L15; scale() restores the real level
         switch (t.ai) {
             case BASIC: { Fighter f = new Fighter(); f.d = d; f.phys = phys; f.initLevelConfig(spec(EnnemisSpecByLevel.BasciEnnemisSpec, lvl), clampLvl(EnnemisSpecByLevel.BasciEnnemisSpec, lvl)); e = f; break; }
             case FRELON: { Raider f = new Raider(); f.d = d; f.phys = phys; f.initLevelConfig(spec(EnnemisSpecByLevel.FrelonSpec, lvl), clampLvl(EnnemisSpecByLevel.FrelonSpec, lvl)); e = f; break; }
@@ -208,7 +209,7 @@ public class ModFleet {
     private static Type pick(boolean kretari, int level, boolean lead) {
         ArrayList<Type> ok = new ArrayList<Type>();
         for (Type t : TYPES) {
-            if (t.kretari != kretari || t.minLevel > level || t.ai == BLATTE) continue;
+            if (t.kretari != kretari || ModV34.lvl(t.minLevel) > level || t.ai == BLATTE) continue;
             if (!lead && t.size > 200) continue;
             ok.add(t);
         }
@@ -224,7 +225,7 @@ public class ModFleet {
     private static void spawnGroup(PlayerShip ps, LevelId id) {
         int level = id.levelMin + (int) (Math.random() * (Math.max(0, id.levelMax - id.levelMin) + 1));
         if (level < 2) return;
-        boolean kretari = id.levelMin >= 10 && Math.random() < 0.6d;
+        boolean kretari = id.levelMin >= ModV34.lvl(10) && Math.random() < 0.6d;
         double a = Math.random() * Math.PI * 2.0d;
         Vector2 center = new Vector2(ps.position).add((float) (Math.cos(a) * 3200.0d), (float) (Math.sin(a) * 3200.0d));
         EnnemisActivitySequence patrol = new EnnemisActivitySequence()
@@ -232,7 +233,7 @@ public class ModFleet {
             .addActivity(new EnnemisActivity().initIdleDuring(3000))
             .addActivity(new EnnemisActivity().initGotoRandom(center.x, center.y, 3500))
             .addActivity(new EnnemisActivity().initIdleDuring(2000));
-        if (kretari && level >= 14 && Math.random() < 0.08d) {
+        if (kretari && level >= ModV34.lvl(14) && Math.random() < 0.08d) {
             Ennemis m = build(TYPES[TYPES.length - 1], level);
             if (m != null) {
                 place(m, center, patrol);
@@ -240,7 +241,7 @@ public class ModFleet {
             }
             return;
         }
-        int count = 2 + (level >= 8 ? 1 : 0) + (level >= 12 ? 1 : 0);
+        int count = 2 + (level >= ModV34.lvl(8) ? 1 : 0) + (level >= ModV34.lvl(12) ? 1 : 0);
         for (int k = 0; k < count; k++) {
             Type t = pick(kretari, level, k == 0);
             if (t == null) continue;

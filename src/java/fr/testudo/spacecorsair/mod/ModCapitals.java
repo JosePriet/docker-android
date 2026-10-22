@@ -150,7 +150,7 @@ public final class ModCapitals {
 
     private static GuardianCivilShip spawn(int fi, LevelId id) {
         Faction f = FACTIONS[fi];
-        int lvl = Math.max(0, Math.min(20, id.levelMax));
+        int lvl = Math.max(0, Math.min(ModV34.CAP, id.levelMax));
         GuardianCivilShip g = CivilFactory.newGuardianCivilShip(lvl);
         ModTitanAI.forget(g);                       // pooled: no skill state from a previous life
         g.a = 1.0f;

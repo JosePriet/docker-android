@@ -703,6 +703,8 @@
     iput v0, p0, Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;->distanceToPlayer:F
 
     .line 143
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->scale(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;)V
+
     return-object p0
 .end method
 

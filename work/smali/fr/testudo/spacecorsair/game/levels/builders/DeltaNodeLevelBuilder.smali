@@ -204,7 +204,7 @@
     invoke-virtual {v1, v2, v3}, Lfr/testudo/spacecorsair/engine/Vector2;->set(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
     .line 139
-    invoke-static {v7, v7}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newUfo(II)Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;
+    invoke-static {v7, v7}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newUfo(II)Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;
 
     move-result-object v1
 

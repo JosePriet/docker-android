@@ -342,7 +342,7 @@
 
     const/16 v6, 0x9
 
-    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newTaupe(II)Lfr/testudo/spacecorsair/business/ennemis/TaupeShip;
+    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newTaupe(II)Lfr/testudo/spacecorsair/business/ennemis/TaupeShip;
 
     move-result-object v5
 
@@ -441,7 +441,7 @@
     invoke-virtual {v1, v2, v3}, Lfr/testudo/spacecorsair/engine/Vector2;->set(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
     .line 113
-    invoke-static {v9}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v9}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v2
 
@@ -459,7 +459,7 @@
     invoke-virtual {v1, v2, v3}, Lfr/testudo/spacecorsair/engine/Vector2;->set(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
     .line 117
-    invoke-static {v9}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v9}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v2
 
@@ -609,7 +609,7 @@
     .line 155
     const/4 v0, 0x5
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlbatros(I)Lfr/testudo/spacecorsair/business/ennemis/Albatros;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newAlbatros(I)Lfr/testudo/spacecorsair/business/ennemis/Albatros;
 
     move-result-object v0
 

@@ -960,7 +960,7 @@
 
     const/4 v3, 0x5
 
-    invoke-static {v2, v3}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v2, v3}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v2
 

@@ -260,7 +260,7 @@
 
     const/4 v6, 0x6
 
-    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v5
 
@@ -275,7 +275,7 @@
 
     const/4 v6, 0x6
 
-    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newDefensor(II)Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
+    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newDefensor(II)Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
 
     move-result-object v5
 
@@ -334,7 +334,7 @@
 
     const/4 v6, 0x6
 
-    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newBasicEnnemisShip(II)Lfr/testudo/spacecorsair/business/ennemis/BasicEnnemyShip;
+    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newBasicEnnemisShip(II)Lfr/testudo/spacecorsair/business/ennemis/BasicEnnemyShip;
 
     move-result-object v5
 
@@ -404,7 +404,7 @@
 
     const/4 v6, 0x6
 
-    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newBasicEnnemisShip(II)Lfr/testudo/spacecorsair/business/ennemis/BasicEnnemyShip;
+    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newBasicEnnemisShip(II)Lfr/testudo/spacecorsair/business/ennemis/BasicEnnemyShip;
 
     move-result-object v5
 
@@ -681,7 +681,7 @@
     .line 154
     const/16 v0, 0x9
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newDefensor(I)Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newDefensor(I)Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
 
     move-result-object v0
 

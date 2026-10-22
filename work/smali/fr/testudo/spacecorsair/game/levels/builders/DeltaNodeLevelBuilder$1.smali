@@ -137,7 +137,7 @@
     invoke-virtual {v0, v1, v2, v4}, Lfr/testudo/spacecorsair/game/levels/Level;->getRandomPlayerLocationCirclePoint(Lfr/testudo/spacecorsair/engine/Vector2;II)V
 
     .line 113
-    invoke-static {v5, v5}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newUfo(II)Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;
+    invoke-static {v5, v5}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newUfo(II)Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;
 
     move-result-object v0
 
@@ -188,7 +188,7 @@
     .line 98
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    invoke-static {v5}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
 
     move-result-object v1
 
@@ -211,7 +211,7 @@
     .line 99
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    invoke-static {v5}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
 
     move-result-object v1
 
@@ -234,7 +234,7 @@
     .line 101
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    invoke-static {v5}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
 
     move-result-object v1
 
@@ -257,7 +257,7 @@
     .line 102
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    invoke-static {v5}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
 
     move-result-object v1
 

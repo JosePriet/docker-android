@@ -1640,17 +1640,17 @@
     .prologue
     const/high16 v3, 0x3f000000    # 0.5f
 
-    const/4 v1, 0x0
+    const/4 v0, 0x0
 
     .line 88
     if-eqz p0, :cond_b
 
     :try_start_5
-    iget v0, p0, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
+    iget v1, p0, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
-    cmpg-float v0, v0, v1
+    cmpg-float v1, v1, v0
 
-    if-gtz v0, :cond_c
+    if-gtz v1, :cond_c
 
     .line 98
     :cond_b
@@ -1659,70 +1659,81 @@
 
     .line 89
     :cond_c
-    iget v0, p0, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
+    iget v1, p0, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
 
     iget v2, p0, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
-    div-float/2addr v0, v2
+    div-float/2addr v1, v2
 
     .line 90
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShield;->curve(F)F
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModShield;->curve(F)F
 
-    move-result v0
+    move-result v1
 
     .line 91
     iget-boolean v2, p0, Lfr/testudo/spacecorsair/business/player/Shield;->isPlayerShield:Z
 
-    if-eqz v2, :cond_20
+    if-eqz v2, :cond_27
 
     .line 92
-    sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModShield;->slow:Z
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModShield;->slow:Z
 
-    if-eqz v1, :cond_1e
+    if-eqz v0, :cond_3e
 
-    mul-float/2addr v0, v3
+    mul-float v0, v1, v3
 
     .line 93
-    :cond_1e
-    mul-float/2addr p1, v0
+    :goto_1f
+    mul-float/2addr v0, p1
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->levelShield()F
+
+    move-result v1
+
+    mul-float p1, v0, v1
 
     goto :goto_b
 
     .line 95
-    :cond_20
+    :cond_27
     iget v2, p0, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
 
-    cmpg-float v2, v2, v1
+    cmpg-float v2, v2, v0
 
-    if-gtz v2, :cond_30
+    if-gtz v2, :cond_37
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/business/player/Shield;->holder:Lfr/testudo/spacecorsair/business/Element;
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModShield;->regenFromZero(Lfr/testudo/spacecorsair/business/Element;)Z
-    :try_end_2b
-    .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_2b} :catch_34
+    :try_end_32
+    .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_32} :catch_3c
 
     move-result v2
 
-    if-nez v2, :cond_30
+    if-nez v2, :cond_37
 
-    move p1, v1
+    move p1, v0
 
     goto :goto_b
 
     .line 96
-    :cond_30
-    mul-float/2addr v0, p1
+    :cond_37
+    mul-float v0, p1, v1
 
     mul-float p1, v0, v3
 
     goto :goto_b
 
     .line 97
-    :catch_34
+    :catch_3c
     move-exception v0
 
     goto :goto_b
+
+    :cond_3e
+    move v0, v1
+
+    goto :goto_1f
 .end method
 
 .method static regenFromZero(Lfr/testudo/spacecorsair/business/Element;)Z

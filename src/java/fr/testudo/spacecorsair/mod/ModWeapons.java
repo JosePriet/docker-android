@@ -57,7 +57,7 @@ public final class ModWeapons {
                 float m = ModSpecs.TIER_MULT[t];
                 LaserSpec s = new LaserSpec();
                 s.rarety = t == 0 ? LootRarety.RARE : t == 3 ? LootRarety.LEGENDARY : LootRarety.EXCEPTIONAL;
-                s.level = ModSpecs.TIER_LEVELS[t];
+                s.level = ModSpecs.TIER_REQ[t];
                 s.damage = Math.max(1, Math.round(STAT[f][0] * m));
                 s.reload = (int) STAT[f][1];
                 s.precision = (int) STAT[f][2];

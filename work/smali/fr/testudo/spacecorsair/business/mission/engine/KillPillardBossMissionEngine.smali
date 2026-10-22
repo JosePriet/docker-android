@@ -143,7 +143,7 @@
     .line 98
     iget v0, p0, Lfr/testudo/spacecorsair/business/mission/engine/KillPillardBossMissionEngine;->targetLevel:I
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newDefensor(I)Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newDefensor(I)Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
 
     move-result-object v0
 
@@ -226,7 +226,7 @@
 
     add-int/lit8 v2, v2, -0x1
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v2
 
@@ -273,7 +273,7 @@
 
     add-int/lit8 v2, v2, -0x2
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v2
 
@@ -307,7 +307,7 @@
 
     add-int/lit8 v2, v2, -0x2
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v2
 
@@ -341,7 +341,7 @@
 
     add-int/lit8 v2, v2, -0x2
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v2
 
@@ -375,7 +375,7 @@
 
     add-int/lit8 v1, v1, -0x2
 
-    invoke-static {v1}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v1
 
@@ -437,7 +437,7 @@
 
     add-int/lit8 v2, v2, -0x1
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v2
 

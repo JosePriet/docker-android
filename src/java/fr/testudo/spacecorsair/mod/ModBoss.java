@@ -289,6 +289,7 @@ public class ModBoss extends MissionListener {
         b.maxLife = b.maxLife * lifeMult;
         b.life = b.maxLife;
         b.lifeInPourc = 100.0f;
+        ModV34.boss(b);
         // v30 boss profile: tankier and harder-hitting than any ship of its class, but slower, less agile, slower to reload
         float dm = kind == EMPRESS ? 1.0f : 2.2f;   // the Empress keeps weak guns (brief: swarm boss)
         b.bulletDamage *= dm;

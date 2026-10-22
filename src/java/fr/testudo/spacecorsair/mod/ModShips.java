@@ -516,6 +516,14 @@ public class ModShips {
         return null;
     }
 
+    /** v34: faction key of the player's hull ("" = neutral line). Hull.faction holds the display name. */
+    public static String factionKey(PlayerShip ps) {
+        Hull h = ps == null ? null : hullFor(ps.shipSpec);
+        if (h == null || h.faction == null || h.faction.length() == 0) return "";
+        for (ModCapitals.Faction f : ModCapitals.FACTIONS) if (f.name.equals(h.faction) || f.key.equals(h.faction)) return f.key;
+        return "";
+    }
+
     private static volatile Hull lastHull;   // hullFor runs several times per frame with the same spec
 
     public static Hull hullFor(PlayerShipSpec spec) {

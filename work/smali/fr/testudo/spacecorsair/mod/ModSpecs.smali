@@ -38,6 +38,8 @@
 
 .field public static final TIER_MULT:[F
 
+.field public static final TIER_REQ:[I
+
 .field public static arwingBolt:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
 .field public static megatronBattery:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
@@ -59,38 +61,81 @@
 
     new-array v0, v0, [I
 
-    fill-array-data v0, :array_168
+    fill-array-data v0, :array_18c
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_LEVELS:[I
 
-    .line 17
+    .line 18
     const/4 v0, 0x4
 
-    new-array v0, v0, [F
+    new-array v0, v0, [I
 
-    fill-array-data v0, :array_174
+    const/4 v1, 0x0
 
-    sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_MULT:[F
+    const/4 v2, 0x0
+
+    aput v2, v0, v1
+
+    const/4 v1, 0x1
+
+    const/4 v2, 0x5
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+
+    move-result v2
+
+    aput v2, v0, v1
+
+    const/4 v1, 0x2
+
+    const/16 v2, 0xa
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+
+    move-result v2
+
+    aput v2, v0, v1
+
+    const/4 v1, 0x3
+
+    const/16 v2, 0xf
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+
+    move-result v2
+
+    aput v2, v0, v1
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_REQ:[I
 
     .line 19
     const/4 v0, 0x4
 
     new-array v0, v0, [F
 
-    fill-array-data v0, :array_180
+    fill-array-data v0, :array_198
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_MULT:[F
+
+    .line 21
+    const/4 v0, 0x4
+
+    new-array v0, v0, [F
+
+    fill-array-data v0, :array_1a4
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->HIVE_DMG:[F
 
-    .line 20
+    .line 22
     const/4 v0, 0x4
 
     new-array v0, v0, [I
 
-    fill-array-data v0, :array_18c
+    fill-array-data v0, :array_1b0
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->HIVE_LIFE:[I
 
-    .line 23
+    .line 25
     const/4 v0, 0x6
 
     new-array v0, v0, [Ljava/lang/String;
@@ -133,74 +178,74 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->FAMILY_NAMES:[Ljava/lang/String;
 
-    .line 25
+    .line 27
     const/4 v0, 0x4
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->BANSHEE:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    .line 26
+    .line 28
     const/4 v0, 0x4
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->REGENT:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    .line 27
+    .line 29
     const/4 v0, 0x4
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->ARWING:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    .line 28
+    .line 30
     const/4 v0, 0x4
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->BATTERY:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    .line 29
+    .line 31
     const/4 v0, 0x4
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->SALVO:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    .line 30
+    .line 32
     const/4 v0, 0x4
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->HIVE:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    .line 40
+    .line 42
     const/4 v0, 0x0
 
     move v7, v0
 
-    :goto_63
+    :goto_86
     const/4 v0, 0x4
 
-    if-ge v7, v0, :cond_144
+    if-ge v7, v0, :cond_167
 
-    .line 41
+    .line 43
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_MULT:[F
 
     aget v8, v0, v7
 
-    .line 42
+    .line 44
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSpecs;->BANSHEE:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    if-nez v7, :cond_13d
+    if-nez v7, :cond_160
 
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpecBuilder;->alienBeamLaser:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    :goto_70
+    :goto_93
     aput-object v0, v1, v7
 
-    .line 43
+    .line 45
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->BANSHEE:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     aget-object v0, v0, v7
@@ -223,7 +268,7 @@
 
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModSpecs;->beam(Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;IIFFF)V
 
-    .line 44
+    .line 46
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->REGENT:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     new-instance v1, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
@@ -232,7 +277,7 @@
 
     aput-object v1, v0, v7
 
-    .line 45
+    .line 47
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->REGENT:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     aget-object v0, v0, v7
@@ -255,7 +300,7 @@
 
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModSpecs;->beam(Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;IIFFF)V
 
-    .line 46
+    .line 48
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->REGENT:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     aget-object v0, v0, v7
@@ -264,7 +309,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->alterationSpecs:Lfr/testudo/spacecorsair/business/loot/stuff/alteration/AlterationSpecs;
 
-    .line 47
+    .line 49
     sget-object v9, Lfr/testudo/spacecorsair/mod/ModSpecs;->ARWING:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     const/high16 v0, 0x42400000    # 48.0f
@@ -293,7 +338,7 @@
 
     aput-object v0, v9, v7
 
-    .line 48
+    .line 50
     sget-object v9, Lfr/testudo/spacecorsair/mod/ModSpecs;->BATTERY:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     const/high16 v0, 0x435c0000    # 220.0f
@@ -322,7 +367,7 @@
 
     aput-object v0, v9, v7
 
-    .line 49
+    .line 51
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->SALVO:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     const/high16 v1, 0x44c80000    # 1600.0f
@@ -347,7 +392,7 @@
 
     aput-object v1, v0, v7
 
-    .line 50
+    .line 52
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->HIVE:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModSpecs;->hiveBay(I)Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
@@ -356,7 +401,7 @@
 
     aput-object v1, v0, v7
 
-    .line 51
+    .line 53
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->BANSHEE:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     aget-object v0, v0, v7
@@ -373,7 +418,7 @@
 
     aget-object v3, v3, v7
 
-    sget-object v4, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_LEVELS:[I
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_REQ:[I
 
     aget v4, v4, v7
 
@@ -385,7 +430,7 @@
 
     iput v4, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->level:I
 
-    .line 52
+    .line 54
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->SALVO:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     aget-object v0, v0, v7
@@ -394,7 +439,7 @@
 
     aget-object v1, v1, v7
 
-    sget-object v2, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_LEVELS:[I
+    sget-object v2, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_REQ:[I
 
     aget v2, v2, v7
 
@@ -402,23 +447,23 @@
 
     iput v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->level:I
 
-    .line 40
+    .line 42
     add-int/lit8 v0, v7, 0x1
 
     move v7, v0
 
-    goto/16 :goto_63
+    goto/16 :goto_86
 
-    .line 42
-    :cond_13d
+    .line 44
+    :cond_160
     new-instance v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;-><init>()V
 
-    goto/16 :goto_70
+    goto/16 :goto_93
 
-    .line 54
-    :cond_144
+    .line 56
+    :cond_167
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->REGENT:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     const/4 v1, 0x0
@@ -427,7 +472,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->regentBeam:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    .line 55
+    .line 57
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->ARWING:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     const/4 v1, 0x0
@@ -436,7 +481,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->arwingBolt:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    .line 56
+    .line 58
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->BATTERY:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     const/4 v1, 0x0
@@ -445,7 +490,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->megatronBattery:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    .line 57
+    .line 59
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->SALVO:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     const/4 v1, 0x0
@@ -454,7 +499,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->megatronSalvo:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    .line 58
+    .line 60
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->HIVE:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     const/4 v1, 0x0
@@ -463,11 +508,13 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->regentHiveBay:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    .line 59
+    .line 61
     return-void
 
     .line 16
-    :array_168
+    nop
+
+    :array_18c
     .array-data 4
         0x0
         0x5
@@ -475,8 +522,8 @@
         0xf
     .end array-data
 
-    .line 17
-    :array_174
+    .line 19
+    :array_198
     .array-data 4
         0x3ecccccd    # 0.4f
         0x3f19999a    # 0.6f
@@ -484,8 +531,8 @@
         0x3f800000    # 1.0f
     .end array-data
 
-    .line 19
-    :array_180
+    .line 21
+    :array_1a4
     .array-data 4
         0x3f333333    # 0.7f
         0x3f59999a    # 0.85f
@@ -493,8 +540,8 @@
         0x3f99999a    # 1.2f
     .end array-data
 
-    .line 20
-    :array_18c
+    .line 22
+    :array_1b0
     .array-data 4
         0x3a98
         0x4650
@@ -517,47 +564,47 @@
     .registers 7
 
     .prologue
-    .line 111
+    .line 113
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->isBeam:Z
 
-    .line 112
+    .line 114
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->rarety:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
-    .line 113
+    .line 115
     iput p1, p0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->damage:I
 
-    .line 114
+    .line 116
     iput p2, p0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->reload:I
 
-    .line 115
+    .line 117
     const/16 v0, 0x64
 
     iput v0, p0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->precision:I
 
-    .line 116
+    .line 118
     const/4 v0, 0x5
 
     iput v0, p0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->heatBySec:I
 
-    .line 117
+    .line 119
     const/high16 v0, -0x3f000000    # -8.0f
 
     iput v0, p0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->bulletSpeed:F
 
-    .line 118
+    .line 120
     iput p3, p0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->r:F
 
-    .line 119
+    .line 121
     iput p4, p0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->g:F
 
-    .line 120
+    .line 122
     iput p5, p0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->b:F
 
-    .line 121
+    .line 123
     return-void
 .end method
 
@@ -565,7 +612,7 @@
     .registers 2
 
     .prologue
-    .line 107
+    .line 109
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModSpecs;->isRegentBeam(Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;)Z
 
     move-result v0
@@ -587,10 +634,10 @@
     .registers 3
 
     .prologue
-    .line 63
+    .line 65
     packed-switch p0, :pswitch_data_22
 
-    .line 69
+    .line 71
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->HIVE:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     aget-object v0, v0, p1
@@ -598,7 +645,7 @@
     :goto_7
     return-object v0
 
-    .line 64
+    .line 66
     :pswitch_8
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->BANSHEE:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
@@ -606,7 +653,7 @@
 
     goto :goto_7
 
-    .line 65
+    .line 67
     :pswitch_d
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->REGENT:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
@@ -614,7 +661,7 @@
 
     goto :goto_7
 
-    .line 66
+    .line 68
     :pswitch_12
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->ARWING:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
@@ -622,7 +669,7 @@
 
     goto :goto_7
 
-    .line 67
+    .line 69
     :pswitch_17
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->BATTERY:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
@@ -630,7 +677,7 @@
 
     goto :goto_7
 
-    .line 68
+    .line 70
     :pswitch_1c
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->SALVO:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
@@ -638,7 +685,7 @@
 
     goto :goto_7
 
-    .line 63
+    .line 65
     nop
 
     :pswitch_data_22
@@ -657,26 +704,26 @@
     .prologue
     const/4 v8, 0x0
 
-    .line 158
+    .line 160
     new-instance v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;-><init>()V
 
-    .line 159
+    .line 161
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->rarety:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
-    .line 160
+    .line 162
     iput v8, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->damage:F
 
-    .line 161
+    .line 163
     iput v8, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->radiusDamage:F
 
-    .line 162
+    .line 164
     iput v8, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->life:F
 
-    .line 163
+    .line 165
     const-wide/16 v2, 0x2ee0
 
     int-to-long v4, p0
@@ -689,7 +736,7 @@
 
     iput-wide v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->reloadSpeedInMilli:J
 
-    .line 164
+    .line 166
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSpecs;->HIVE_LIFE:[I
 
     aget v1, v1, p0
@@ -698,33 +745,33 @@
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->lifeTime:I
 
-    .line 165
+    .line 167
     iput v8, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->maxTurnFactor:F
 
-    .line 166
+    .line 168
     iput v8, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->pousseeForce:F
 
-    .line 167
+    .line 169
     const/4 v1, 0x0
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->agility:I
 
-    .line 168
+    .line 170
     const/4 v1, 0x1
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->sendAndForget:Z
 
-    .line 169
+    .line 171
     const/16 v1, 0x14
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->maxCountInventory:I
 
-    .line 170
+    .line 172
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec$Image;->normal:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec$Image;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->image:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec$Image;
 
-    .line 171
+    .line 173
     return-object v0
 .end method
 
@@ -732,7 +779,7 @@
     .registers 4
 
     .prologue
-    .line 74
+    .line 76
     const/4 v0, 0x0
 
     :goto_1
@@ -740,22 +787,22 @@
 
     if-ge v0, v1, :cond_c
 
-    .line 75
+    .line 77
     aget-object v1, p0, v0
 
     if-ne v1, p1, :cond_9
 
-    .line 77
+    .line 79
     :goto_8
     return v0
 
-    .line 74
+    .line 76
     :cond_9
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_1
 
-    .line 77
+    .line 79
     :cond_c
     const/4 v0, -0x1
 
@@ -766,7 +813,7 @@
     .registers 2
 
     .prologue
-    .line 91
+    .line 93
     if-eqz p0, :cond_14
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->BANSHEE:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
@@ -801,7 +848,7 @@
     .registers 2
 
     .prologue
-    .line 99
+    .line 101
     if-eqz p0, :cond_c
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->ARWING:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
@@ -827,7 +874,7 @@
     .registers 2
 
     .prologue
-    .line 103
+    .line 105
     if-eqz p0, :cond_c
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->HIVE:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
@@ -853,7 +900,7 @@
     .registers 2
 
     .prologue
-    .line 95
+    .line 97
     if-eqz p0, :cond_c
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->REGENT:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
@@ -879,43 +926,43 @@
     .registers 9
 
     .prologue
-    .line 124
+    .line 126
     new-instance v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;-><init>()V
 
-    .line 125
+    .line 127
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->rarety:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
-    .line 126
+    .line 128
     iput p0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->damage:I
 
-    .line 127
+    .line 129
     iput p1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->reload:I
 
-    .line 128
+    .line 130
     iput p2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->precision:I
 
-    .line 129
+    .line 131
     const/4 v1, 0x5
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->heatBySec:I
 
-    .line 130
+    .line 132
     iput p3, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->bulletSpeed:F
 
-    .line 131
+    .line 133
     iput p4, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->r:F
 
-    .line 132
+    .line 134
     iput p5, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->g:F
 
-    .line 133
+    .line 135
     iput p6, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->b:F
 
-    .line 134
+    .line 136
     return-object v0
 .end method
 
@@ -933,103 +980,103 @@
 
     const/4 v5, 0x1
 
-    .line 175
+    .line 177
     new-instance v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;-><init>()V
 
-    .line 176
+    .line 178
     iput v6, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->level:I
 
-    .line 177
+    .line 179
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;->TEST:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->image:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;
 
-    .line 178
+    .line 180
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->rarety:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
-    .line 179
+    .line 181
     const/4 v1, 0x3
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserCount:I
 
-    .line 180
+    .line 182
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;->ROTATIVE_TRIPLE:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserType:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;
 
-    .line 181
+    .line 183
     const v1, 0x3f80c49c    # 1.006f
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->deperditionFactor:F
 
-    .line 182
+    .line 184
     const/16 v1, 0x200
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->drawableSize:I
 
-    .line 183
+    .line 185
     const/16 v1, 0x280
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->drawableSizeOfShield:I
 
-    .line 184
+    .line 186
     const/16 v1, 0xbb8
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->mass:I
 
-    .line 185
+    .line 187
     const/high16 v1, 0x40a00000    # 5.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->lifeBooster:F
 
-    .line 186
+    .line 188
     const v1, 0x3e4ccccd    # 0.2f
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->maxPouseeForce:F
 
-    .line 187
+    .line 189
     const/16 v1, 0x14a
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->physicSizeWithoutShield:I
 
-    .line 188
+    .line 190
     const/16 v1, 0x230
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->physicSizeWithShield:I
 
-    .line 189
+    .line 191
     const v1, 0x3eb33333    # 0.35f
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->maxTurnFactor:F
 
-    .line 190
+    .line 192
     const/16 v1, 0xe6
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->gazDecal:I
 
-    .line 191
+    .line 193
     const/16 v1, 0x96
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->drawableSizeOfGaz:I
 
-    .line 192
+    .line 194
     iput-boolean v5, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->gazBehindImage:Z
 
-    .line 193
+    .line 195
     sget-object v1, Lfr/testudo/spacecorsair/business/player/PlayerGazDrawable;->simpleGaz:Lfr/testudo/spacecorsair/business/player/PlayerGazDrawable;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->gazDrawable:Lfr/testudo/spacecorsair/business/player/PlayerGazDrawable;
 
-    .line 194
+    .line 196
     const/4 v1, 0x3
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonCount:I
 
-    .line 195
+    .line 197
     iget-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonPos:[Lfr/testudo/spacecorsair/engine/Vector2;
 
     new-instance v2, Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1040,7 +1087,7 @@
 
     aput-object v2, v1, v6
 
-    .line 196
+    .line 198
     iget-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonPos:[Lfr/testudo/spacecorsair/engine/Vector2;
 
     new-instance v2, Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1051,7 +1098,7 @@
 
     aput-object v2, v1, v5
 
-    .line 197
+    .line 199
     iget-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonPos:[Lfr/testudo/spacecorsair/engine/Vector2;
 
     new-instance v2, Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1062,18 +1109,18 @@
 
     aput-object v2, v1, v7
 
-    .line 198
+    .line 200
     const v1, 0x3fa66666    # 1.3f
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonSpeed:F
 
-    .line 199
+    .line 201
     iput-boolean v5, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->tirGroupe:Z
 
-    .line 200
+    .line 202
     iput v7, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileCount:I
 
-    .line 201
+    .line 203
     new-array v1, v7, [Lfr/testudo/spacecorsair/engine/Vector2;
 
     new-instance v2, Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1098,51 +1145,51 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileExitPoint:[Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 202
+    .line 204
     iput v8, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->lootDistance:I
 
-    .line 203
+    .line 205
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;->VERY_LARGE:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->sizeInformational:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;
 
-    .line 204
+    .line 206
     const/16 v1, 0xf
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->agilityInformational:I
 
-    .line 205
+    .line 207
     const/16 v1, 0x14
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->maxSpeedInformational:I
 
-    .line 206
+    .line 208
     const/16 v1, 0x64
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->armorInformational:I
 
-    .line 207
+    .line 209
     const/high16 v1, 0x40800000    # 4.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->attractionFactor:F
 
-    .line 208
+    .line 210
     iput v8, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->playerNameDecalY:I
 
-    .line 209
+    .line 211
     const/16 v1, -0x41
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->playerLifeBarDecalY:I
 
-    .line 210
+    .line 212
     iput v8, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->playerLifeBarWidth:I
 
-    .line 211
+    .line 213
     const/4 v1, 0x7
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->playerLifeBarHeight:I
 
-    .line 212
+    .line 214
     return-object v0
 .end method
 
@@ -1160,23 +1207,23 @@
 
     const/4 v4, 0x0
 
-    .line 217
+    .line 219
     invoke-static {}, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpecBuilder;->getAlienBlatte()Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     move-result-object v0
 
-    .line 218
+    .line 220
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;->FIXED:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserType:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;
 
-    .line 219
+    .line 221
     iput v8, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserCount:I
 
-    .line 220
+    .line 222
     iput v7, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonCount:I
 
-    .line 221
+    .line 223
     iget-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonPos:[Lfr/testudo/spacecorsair/engine/Vector2;
 
     new-instance v2, Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1187,27 +1234,27 @@
 
     aput-object v2, v1, v6
 
-    .line 222
+    .line 224
     const/16 v1, 0x384
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->drawableSize:I
 
-    .line 223
+    .line 225
     const/16 v1, 0x2f8
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->drawableSizeOfShield:I
 
-    .line 224
+    .line 226
     const/16 v1, 0x17c
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->physicSizeWithoutShield:I
 
-    .line 225
+    .line 227
     const/16 v1, 0x280
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->physicSizeWithShield:I
 
-    .line 226
+    .line 228
     new-array v1, v8, [Lfr/testudo/spacecorsair/engine/Vector2;
 
     new-instance v2, Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1224,17 +1271,17 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileExitPoint:[Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 227
+    .line 229
     const/16 v1, 0x14a
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->playerNameDecalY:I
 
-    .line 228
+    .line 230
     const/16 v1, 0x12c
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->playerLifeBarWidth:I
 
-    .line 229
+    .line 231
     return-object v0
 .end method
 
@@ -1242,78 +1289,78 @@
     .registers 6
 
     .prologue
-    .line 139
+    .line 141
     new-instance v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;-><init>()V
 
-    .line 140
+    .line 142
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->rarety:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
-    .line 141
+    .line 143
     iput p0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->damage:F
 
-    .line 142
+    .line 144
     iput p1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->radiusDamage:F
 
-    .line 143
+    .line 145
     const/high16 v1, 0x41c80000    # 25.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->life:F
 
-    .line 144
+    .line 146
     const-wide/16 v2, 0x1770
 
     iput-wide v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->reloadSpeedInMilli:J
 
-    .line 145
+    .line 147
     const/16 v1, 0xc
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->lifeTime:I
 
-    .line 146
+    .line 148
     const/high16 v1, 0x3fc00000    # 1.5f
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->maxTurnFactor:F
 
-    .line 147
+    .line 149
     const/high16 v1, 0x40400000    # 3.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->pousseeForce:F
 
-    .line 148
+    .line 150
     const v1, 0x3f83d70a    # 1.03f
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->speedDeperdition:F
 
-    .line 149
+    .line 151
     const/16 v1, 0x3c
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->agility:I
 
-    .line 150
+    .line 152
     const/16 v1, 0x4b0
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->timeAllume:I
 
-    .line 151
+    .line 153
     const/4 v1, 0x0
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->sendAndForget:Z
 
-    .line 152
+    .line 154
     const/16 v1, 0x1e
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->maxCountInventory:I
 
-    .line 153
+    .line 155
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec$Image;->normal:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec$Image;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->image:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec$Image;
 
-    .line 154
+    .line 156
     return-object v0
 .end method
 
@@ -1321,7 +1368,7 @@
     .registers 2
 
     .prologue
-    .line 82
+    .line 84
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->BANSHEE:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     invoke-static {v0, p0}, Lfr/testudo/spacecorsair/mod/ModSpecs;->indexIn([Ljava/lang/Object;Ljava/lang/Object;)I
@@ -1330,12 +1377,12 @@
 
     if-ltz v0, :cond_9
 
-    .line 87
+    .line 89
     :cond_8
     :goto_8
     return v0
 
-    .line 83
+    .line 85
     :cond_9
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->REGENT:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
@@ -1345,7 +1392,7 @@
 
     if-gez v0, :cond_8
 
-    .line 84
+    .line 86
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->ARWING:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     invoke-static {v0, p0}, Lfr/testudo/spacecorsair/mod/ModSpecs;->indexIn([Ljava/lang/Object;Ljava/lang/Object;)I
@@ -1354,7 +1401,7 @@
 
     if-gez v0, :cond_8
 
-    .line 85
+    .line 87
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->BATTERY:[Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     invoke-static {v0, p0}, Lfr/testudo/spacecorsair/mod/ModSpecs;->indexIn([Ljava/lang/Object;Ljava/lang/Object;)I
@@ -1363,7 +1410,7 @@
 
     if-gez v0, :cond_8
 
-    .line 86
+    .line 88
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->SALVO:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     invoke-static {v0, p0}, Lfr/testudo/spacecorsair/mod/ModSpecs;->indexIn([Ljava/lang/Object;Ljava/lang/Object;)I
@@ -1372,7 +1419,7 @@
 
     if-gez v0, :cond_8
 
-    .line 87
+    .line 89
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->HIVE:[Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     invoke-static {v0, p0}, Lfr/testudo/spacecorsair/mod/ModSpecs;->indexIn([Ljava/lang/Object;Ljava/lang/Object;)I

@@ -27,6 +27,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 120
     .line 122
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->albatrosSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
@@ -92,6 +94,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 234
     .line 236
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->alienBlatteSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
@@ -157,6 +161,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 215
     .line 217
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->alienRatSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
@@ -222,6 +228,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 254
     .line 256
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->alienTourelleSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
@@ -287,6 +295,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 63
     .line 65
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->BasciEnnemisSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
@@ -352,6 +362,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 139
     .line 141
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->defensorSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
@@ -572,6 +584,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 82
     .line 84
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->tourelleEnnemisSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
@@ -637,6 +651,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 176
     .line 178
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->FrelonSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
@@ -702,6 +718,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 100
     .line 102
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->rocketTourelleEnemisSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
@@ -767,6 +785,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 158
     .line 160
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->TaupeSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
@@ -832,6 +852,8 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
+
     .line 195
     .line 197
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->UfoSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;

@@ -127,7 +127,7 @@ public class ModFaction extends MissionListener {
     static String key(int i) { return str(i, 0); }
     static int order(int i) { return num(i, 1); }
     static String objective(int i) { return str(i, 3); }
-    static int minLevel(int i) { return num(i, 6); }
+    static int minLevel(int i) { return ModV34.lvl(num(i, 6)); }   // v34: data levels are on the stock 0-16 scale
     static String id(int i) { return contract(i) ? "FACTION_C_" + key(i).toUpperCase() + "_" + num(i, 17) : "FACTION_" + key(i).toUpperCase() + "_" + order(i); }
 
     static int faction(String key) {
@@ -310,6 +310,7 @@ public class ModFaction extends MissionListener {
         ModAlerts.missionResult(true);
         // standing: story +15 (chain finale +20), contracts +6; fighting a faction's flagship costs a little with it
         ModRep.change(key(idx), contract(idx) ? 6 : order(idx) == 3 ? 20 : 15, true);
+        if (!contract(idx) && order(idx) == 3) ModV34.storyDone(key(idx));
         if ("KILL_FLAGSHIP".equals(obj) && str(idx, 8).length() > 0) ModRep.change(str(idx, 8), -0.8f, true);
         int bonus = Math.round(num(idx, 15) * ModRep.payoutBonus(key(idx)));
         if (bonus > 0) {
@@ -336,7 +337,7 @@ public class ModFaction extends MissionListener {
         int base = minLevel(idx);
         if (contract(idx)) {
             // contracts scale with the pilot
-            try { base = Math.max(1, Math.min(20, ObjectRegistry.INSTANCE.game.playerInfo.level)); } catch (Throwable t) { base = 5; }
+            try { base = Math.max(1, Math.min(ModV34.CAP, ObjectRegistry.INSTANCE.game.playerInfo.level)); } catch (Throwable t) { base = 5; }
         }
         return base + (int) (Math.random() * 2);
     }
@@ -354,7 +355,7 @@ public class ModFaction extends MissionListener {
         if (side == REAVER) {
             ArrayList<ModFleet.Type> ok = new ArrayList<ModFleet.Type>();
             for (ModFleet.Type t : ModFleet.TYPES) {
-                if (!t.kretari && t.minLevel <= lvl && (big || t.size <= 200)) ok.add(t);
+                if (!t.kretari && ModV34.lvl(t.minLevel) <= lvl && (big || t.size <= 200)) ok.add(t);
             }
             if (!ok.isEmpty()) {
                 int from = Math.max(0, ok.size() - 4);

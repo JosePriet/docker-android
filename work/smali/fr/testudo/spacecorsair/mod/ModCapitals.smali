@@ -4371,7 +4371,7 @@
     .line 153
     const/4 v0, 0x0
 
-    const/16 v1, 0x14
+    const/16 v1, 0x28
 
     iget v2, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
 

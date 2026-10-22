@@ -16,6 +16,7 @@ import java.util.Map;
  */
 public class ModSave {
     public static void sanitize() {
+        ModV34.boot();
         try {
             Inventory inv = ObjectRegistry.INSTANCE.game.playerCurrentShipInventory;
             if (inv != null) {

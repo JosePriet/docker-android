@@ -177,7 +177,7 @@
 
     iget v2, p0, Lfr/testudo/spacecorsair/business/mission/engine/BountyMissionEngine;->targetLevel:I
 
-    invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newEnnemis(Lfr/testudo/spacecorsair/business/ennemis/EnnemisType;II)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+    invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newEnnemis(Lfr/testudo/spacecorsair/business/ennemis/EnnemisType;II)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     move-result-object v0
 
@@ -251,7 +251,7 @@
 
     iget v1, p0, Lfr/testudo/spacecorsair/business/mission/engine/BountyMissionEngine;->targetLevel:I
 
-    invoke-static {v1}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v1
 
@@ -285,7 +285,7 @@
 
     iget v1, p0, Lfr/testudo/spacecorsair/business/mission/engine/BountyMissionEngine;->targetLevel:I
 
-    invoke-static {v1}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v1
 
@@ -319,7 +319,7 @@
 
     iget v1, p0, Lfr/testudo/spacecorsair/business/mission/engine/BountyMissionEngine;->targetLevel:I
 
-    invoke-static {v1}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v1
 
@@ -353,7 +353,7 @@
 
     iget v1, p0, Lfr/testudo/spacecorsair/business/mission/engine/BountyMissionEngine;->targetLevel:I
 
-    invoke-static {v1}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v1
 

@@ -6,7 +6,7 @@
 # static fields
 .field public static final DEATH_PENALITY:[I
 
-.field public static final LEVEL_MAX:I = 0x11
+.field public static final LEVEL_MAX:I = 0x28
 
 .field public static final PLAYER_SHIP_LIFE:[I
 
@@ -28,20 +28,16 @@
     sput-object v0, Lfr/testudo/spacecorsair/business/player/XpBuilder;->DEATH_PENALITY:[I
 
     .line 21
-    const/16 v0, 0x14
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->xpCap()[J
 
-    new-array v0, v0, [J
-
-    fill-array-data v0, :array_52
+    move-result-object v0
 
     sput-object v0, Lfr/testudo/spacecorsair/business/player/XpBuilder;->XP_CAP:[J
 
     .line 22
-    const/16 v0, 0x18
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->shipLife()[I
 
-    new-array v0, v0, [I
-
-    fill-array-data v0, :array_a6
+    move-result-object v0
 
     sput-object v0, Lfr/testudo/spacecorsair/business/player/XpBuilder;->PLAYER_SHIP_LIFE:[I
 
@@ -300,7 +296,7 @@
 
     .prologue
     .line 31
-    const/16 v0, 0x11
+    const/16 v0, 0x28
 
     if-gt p0, v0, :cond_9
 

@@ -2068,6 +2068,8 @@
     invoke-virtual {p0, v2}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->initDifficultyColor(Z)V
 
     .line 150
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->elite(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;)V
+
     return-object p0
 .end method
 

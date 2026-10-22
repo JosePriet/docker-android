@@ -90,7 +90,7 @@ public final class ModShield {
             float k = curve(frac);
             if (s.isPlayerShield) {
                 if (slow) k *= SLOW;
-                return f * k;
+                return f * k * ModV34.levelShield();
             }
             if (s.currentValue <= 0 && !regenFromZero(s.holder)) return 0;
             return f * k * 0.5f;

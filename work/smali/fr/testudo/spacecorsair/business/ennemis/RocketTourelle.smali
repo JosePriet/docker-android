@@ -729,6 +729,8 @@
     invoke-virtual {p0, v3}, Lfr/testudo/spacecorsair/business/ennemis/RocketTourelle;->setHidden(Z)Lfr/testudo/spacecorsair/business/ennemis/RocketTourelle;
 
     .line 119
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->scale(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;)V
+
     return-object p0
 .end method
 

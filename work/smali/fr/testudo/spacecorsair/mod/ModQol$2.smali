@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 295
+    .line 294
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModQol$2;->val$key:Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 5
 
     .prologue
-    .line 297
+    .line 296
     const-string v0, "fixedStick"
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModQol$2;->val$key:Ljava/lang/String;
@@ -59,7 +59,7 @@
     # setter for: Lfr/testudo/spacecorsair/mod/ModQol;->optStick:Z
     invoke-static {p2}, Lfr/testudo/spacecorsair/mod/ModQol;->access$102(Z)Z
 
-    .line 301
+    .line 300
     :cond_d
     :goto_d
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModQol$2;->val$key:Ljava/lang/String;
@@ -67,10 +67,10 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModQol;->save(Ljava/lang/String;Z)V
     invoke-static {v0, p2}, Lfr/testudo/spacecorsair/mod/ModQol;->access$500(Ljava/lang/String;Z)V
 
-    .line 302
+    .line 301
     return-void
 
-    .line 298
+    .line 297
     :cond_13
     const-string v0, "barNumbers"
 
@@ -87,7 +87,7 @@
 
     goto :goto_d
 
-    .line 299
+    .line 298
     :cond_21
     const-string v0, "damageNumbers"
 
@@ -104,7 +104,7 @@
 
     goto :goto_d
 
-    .line 300
+    .line 299
     :cond_2f
     const-string v0, "bigButtons"
 

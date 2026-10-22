@@ -281,7 +281,7 @@
     .line 93
     iget v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
 
-    const/16 v1, 0x11
+    const/16 v1, 0x28
 
     if-lt v0, v1, :cond_7
 

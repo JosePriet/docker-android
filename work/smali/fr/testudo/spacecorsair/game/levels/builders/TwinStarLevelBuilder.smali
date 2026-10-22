@@ -550,7 +550,7 @@
     const/4 v3, 0x4
 
     .line 159
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -563,7 +563,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 160
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -576,7 +576,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 161
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -591,7 +591,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 164
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -606,7 +606,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 165
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -621,7 +621,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 166
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -636,7 +636,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 172
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -649,7 +649,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 173
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -662,7 +662,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 174
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -675,7 +675,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 175
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -686,7 +686,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 176
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -699,7 +699,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 177
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 
@@ -714,7 +714,7 @@
     invoke-interface {p0, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 178
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFixedTourelle(II)Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
     move-result-object v0
 

@@ -31,7 +31,7 @@ public class ModLoot {
         int lvl = ObjectRegistry.INSTANCE.game.playerInfo.level;
         int t = 0;
         for (int i = 0; i < ModSpecs.TIER_LEVELS.length; i++) {
-            if (ModSpecs.TIER_LEVELS[i] <= lvl) t = i;
+            if (ModSpecs.TIER_REQ[i] <= lvl) t = i;
         }
         return t;
     }

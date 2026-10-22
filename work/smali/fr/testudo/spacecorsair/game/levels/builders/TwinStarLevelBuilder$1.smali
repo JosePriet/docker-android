@@ -631,7 +631,7 @@
     packed-switch v0, :pswitch_data_52
 
     .line 312
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newBasicEnnemisShip(II)Lfr/testudo/spacecorsair/business/ennemis/BasicEnnemyShip;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newBasicEnnemisShip(II)Lfr/testudo/spacecorsair/business/ennemis/BasicEnnemyShip;
 
     move-result-object v0
 
@@ -692,7 +692,7 @@
 
     .line 309
     :pswitch_4d
-    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newDefensor(II)Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newDefensor(II)Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
 
     move-result-object v0
 

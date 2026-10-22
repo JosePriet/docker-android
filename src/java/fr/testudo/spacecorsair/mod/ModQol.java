@@ -219,8 +219,7 @@ public class ModQol {
     public static void bounty(Ennemis e, int xp) {
         try {
             if (e == null || xp <= 0 || e.xp <= 0) return;
-            int lv = Math.max(0, Math.min(20, e.getLevel()));
-            float c = 18f * (lv + 1) * (lv + 1);
+            float c = ModV34.bounty(e.getLevel());
             c *= Math.min(1.45f, xp / (float) e.xp);
             if (ModBoss.isBoss(e) || e.xp >= 500) c *= 8f;
             else if (e.elite) c *= 2f;
@@ -320,10 +319,9 @@ public class ModQol {
     public static int deathFee() {
         try {
             PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
-            int lvl = Math.max(0, Math.min(XpBuilder.DEATH_PENALITY.length - 1, pi.level));
             SpaceObjectType ship = pi.playerGear.playerShip;
             if (ship != null && ModShips.tech(ship) <= 1) return 0;
-            return XpBuilder.DEATH_PENALITY[lvl];
+            return ModV34.deathFee(pi.level);
         } catch (Exception e) {
             return 0;
         }
@@ -730,12 +728,12 @@ public class ModQol {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             Portal portal = ObjectRegistry.INSTANCE.game.currentLevel.findClosestPortal(ps.position);
             Vector2 at = portal != null ? portal.position : new Vector2(ps.position).add(2500.0f, 0.0f);
-            int n = 1 + responseWave + (id.levelMax >= 10 ? 1 : 0);
+            int n = 1 + responseWave + (id.levelMax >= ModV34.lvl(10) ? 1 : 0);
             spawningPolice = true;
             for (int i = 0; i < n; i++) {
                 int lvl = id.levelMin + (int) (Math.random() * (Math.max(0, id.levelMax - id.levelMin) + 1));
                 PoliceShip p = CivilFactory.newPolice(lvl);
-                if (id.levelMax <= 6) {
+                if (id.levelMax <= ModV34.lvl(6)) {
                     // early sectors: a light patrol, not the full pursuit cruiser
                     p.maxLife *= 0.5f;
                     p.life = p.maxLife;

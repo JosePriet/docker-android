@@ -427,6 +427,7 @@ public final class ModLive {
     public static float hit(Element target, float dmg, Projectile p) {
         float out = dmg;
         try {
+            out = ModV34.damage(target, out, p);
             out = ModBoss.damageIn(target, out, p);
             out = ModTitanAI.damageIn(target, out, p);
             onHit(target);

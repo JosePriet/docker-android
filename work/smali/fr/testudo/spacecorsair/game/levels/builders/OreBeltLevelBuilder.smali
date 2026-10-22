@@ -912,7 +912,7 @@
 
     const/4 v11, 0x5
 
-    invoke-static {v10, v11}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newTaupe(II)Lfr/testudo/spacecorsair/business/ennemis/TaupeShip;
+    invoke-static {v10, v11}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newTaupe(II)Lfr/testudo/spacecorsair/business/ennemis/TaupeShip;
 
     move-result-object v10
 

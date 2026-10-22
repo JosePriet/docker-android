@@ -26,7 +26,7 @@
     .line 144
     const/16 v0, 0xc
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newFrelon(I)Lfr/testudo/spacecorsair/business/ennemis/FrelonShip;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newFrelon(I)Lfr/testudo/spacecorsair/business/ennemis/FrelonShip;
 
     move-result-object v0
 

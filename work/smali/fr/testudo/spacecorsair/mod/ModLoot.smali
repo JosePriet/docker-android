@@ -1962,7 +1962,7 @@
     if-ge v0, v1, :cond_1b
 
     .line 34
-    sget-object v1, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_LEVELS:[I
+    sget-object v1, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_REQ:[I
 
     aget v1, v1, v0
 

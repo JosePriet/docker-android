@@ -130,7 +130,7 @@
     if-ge v0, v2, :cond_53
 
     .line 88
-    invoke-static {v10, v10}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newUfo(II)Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;
+    invoke-static {v10, v10}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newUfo(II)Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;
 
     move-result-object v2
 

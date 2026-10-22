@@ -756,7 +756,7 @@
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     .line 92
-    invoke-static {v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
 
     move-result-object v1
 
@@ -771,7 +771,7 @@
     invoke-interface {v0, v1}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 93
-    invoke-static {v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newAlienTourelle(I)Lfr/testudo/spacecorsair/business/ennemis/AlienTourelle;
 
     move-result-object v1
 

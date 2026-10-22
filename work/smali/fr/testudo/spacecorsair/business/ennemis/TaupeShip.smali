@@ -827,6 +827,8 @@
     iput v0, p0, Lfr/testudo/spacecorsair/business/ennemis/TaupeShip;->distanceToPlayer:F
 
     .line 141
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->scale(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;)V
+
     return-object p0
 .end method
 

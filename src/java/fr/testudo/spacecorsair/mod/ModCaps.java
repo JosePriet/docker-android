@@ -136,6 +136,7 @@ public final class ModCaps {
 
     /** Per frame from ModShips.tick (game thread). */
     public static void tick(PlayerShip ps, long j) {
+        ModV34.boot();
         now += j;
         if (ps.shipSpec == null || ps.removed) return;
         Profile p = profile(ps);

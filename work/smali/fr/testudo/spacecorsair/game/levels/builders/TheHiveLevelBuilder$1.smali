@@ -68,7 +68,7 @@
     .line 78
     add-int/lit8 v1, v0, -0x1
 
-    invoke-static {v1, v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newAlienBlatte(II)Lfr/testudo/spacecorsair/business/ennemis/AlienBlatte;
+    invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newAlienBlatte(II)Lfr/testudo/spacecorsair/business/ennemis/AlienBlatte;
 
     move-result-object v0
 

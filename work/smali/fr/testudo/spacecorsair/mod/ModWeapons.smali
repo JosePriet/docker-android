@@ -391,7 +391,7 @@
     iput-object v0, v5, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->rarety:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     .line 60
-    sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_LEVELS:[I
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModSpecs;->TIER_REQ:[I
 
     aget v0, v0, v1
 

@@ -680,7 +680,7 @@
     :goto_23
     iget-object v2, p2, Lfr/testudo/spacecorsair/game/levels/arena/ArenaWave;->enemisType:Lfr/testudo/spacecorsair/business/ennemis/EnnemisType;
 
-    invoke-static {v2, v1, v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newEnnemis(Lfr/testudo/spacecorsair/business/ennemis/EnnemisType;II)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+    invoke-static {v2, v1, v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newEnnemis(Lfr/testudo/spacecorsair/business/ennemis/EnnemisType;II)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     move-result-object v1
 

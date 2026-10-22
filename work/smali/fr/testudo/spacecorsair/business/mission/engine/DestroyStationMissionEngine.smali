@@ -1171,7 +1171,7 @@
     :pswitch_38
     iget v0, p0, Lfr/testudo/spacecorsair/business/mission/engine/DestroyStationMissionEngine;->curWaveLevel:I
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newDefensor(I)Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newDefensor(I)Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
 
     move-result-object v0
 
@@ -1189,7 +1189,7 @@
     :pswitch_47
     iget v0, p0, Lfr/testudo/spacecorsair/business/mission/engine/DestroyStationMissionEngine;->curWaveLevel:I
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newBasicEnnemisShip(I)Lfr/testudo/spacecorsair/business/ennemis/BasicEnnemyShip;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newBasicEnnemisShip(I)Lfr/testudo/spacecorsair/business/ennemis/BasicEnnemyShip;
 
     move-result-object v0
 

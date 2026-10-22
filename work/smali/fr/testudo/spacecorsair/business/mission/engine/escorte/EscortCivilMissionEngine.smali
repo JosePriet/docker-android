@@ -1147,7 +1147,7 @@
 
     iget v5, v2, Lfr/testudo/spacecorsair/business/mission/engine/escorte/EnemyPack;->levelMax:I
 
-    invoke-static {v3, v4, v5}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisFactory;->newEnnemis(Lfr/testudo/spacecorsair/business/ennemis/EnnemisType;II)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+    invoke-static {v3, v4, v5}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->newEnnemis(Lfr/testudo/spacecorsair/business/ennemis/EnnemisType;II)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     move-result-object v3
 

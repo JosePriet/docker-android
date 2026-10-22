@@ -14,6 +14,8 @@ import fr.testudo.spacecorsair.engine.Vector2;
 public class ModSpecs {
     /** Gear tiers: level requirement and stat multiplier (tier 3 = endgame values). */
     public static final int[] TIER_LEVELS = {0, 5, 10, 15};
+    /** v34: pilot level a tier needs on the 0-40 scale (TIER_LEVELS stays the item-name suffix, so saves keep their items). */
+    public static final int[] TIER_REQ = {0, ModV34.lvl(5), ModV34.lvl(10), ModV34.lvl(15)};
     public static final float[] TIER_MULT = {0.4f, 0.6f, 0.8f, 1.0f};
     /** Hive Bay: drone damage multiplier and lifetime per tier. */
     public static final float[] HIVE_DMG = {0.7f, 0.85f, 1.0f, 1.2f};
@@ -48,8 +50,8 @@ public class ModSpecs {
             BATTERY[t] = laser(Math.round(220 * m), 1100, 96, -13.0f, 1.0f, 0.7f, 0.7f);
             SALVO[t] = salvo(1600.0f * m, 600.0f * (0.6f + 0.4f * m));
             HIVE[t] = hiveBay(t);
-            BANSHEE[t].level = REGENT[t].level = ARWING[t].level = BATTERY[t].level = TIER_LEVELS[t];
-            SALVO[t].level = HIVE[t].level = TIER_LEVELS[t];
+            BANSHEE[t].level = REGENT[t].level = ARWING[t].level = BATTERY[t].level = TIER_REQ[t];
+            SALVO[t].level = HIVE[t].level = TIER_REQ[t];
         }
         regentBeam = REGENT[0];
         arwingBolt = ARWING[0];

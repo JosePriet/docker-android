@@ -1441,6 +1441,8 @@
     iput v0, p0, Lfr/testudo/spacecorsair/business/ennemis/Albatros;->lootDispersion:I
 
     .line 173
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->scale(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;)V
+
     return-object p0
 .end method
 
