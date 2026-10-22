@@ -859,7 +859,7 @@
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;->getLocalizedLabel()Ljava/lang/String;
     :try_end_127
-    .catch Ljava/lang/Throwable; {:try_start_122 .. :try_end_127} :catch_4ac
+    .catch Ljava/lang/Throwable; {:try_start_122 .. :try_end_127} :catch_52b
 
     move-result-object v0
 
@@ -903,7 +903,7 @@
 
     move-result v4
 
-    if-lez v4, :cond_4b1
+    if-lez v4, :cond_530
 
     new-instance v4, Ljava/lang/StringBuilder;
 
@@ -1033,13 +1033,13 @@
 
     move-result v0
 
-    if-nez v0, :cond_4b5
+    if-nez v0, :cond_534
 
-    if-eqz p1, :cond_4b5
+    if-eqz p1, :cond_534
 
     iget-object v0, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->missileSpec:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    if-eqz v0, :cond_4b5
+    if-eqz v0, :cond_534
 
     .line 860
     const-string v0, "Missile damage"
@@ -1279,7 +1279,7 @@
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->booster:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     .line 875
-    if-eqz v2, :cond_4c6
+    if-eqz v2, :cond_545
 
     invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
@@ -1287,7 +1287,7 @@
 
     instance-of v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
 
-    if-eqz v0, :cond_4c6
+    if-eqz v0, :cond_545
 
     invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
@@ -1309,7 +1309,7 @@
 
     if-nez v2, :cond_2db
 
-    if-nez v0, :cond_4c9
+    if-nez v0, :cond_548
 
     :cond_2db
     const-string v0, "none"
@@ -1327,7 +1327,7 @@
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->hyperdriveEngine:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     .line 878
-    if-eqz v2, :cond_4fa
+    if-eqz v2, :cond_579
 
     invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
@@ -1335,7 +1335,7 @@
 
     instance-of v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
 
-    if-eqz v0, :cond_4fa
+    if-eqz v0, :cond_579
 
     invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
@@ -1357,7 +1357,7 @@
 
     if-nez v2, :cond_306
 
-    if-nez v0, :cond_4fd
+    if-nez v0, :cond_57c
 
     :cond_306
     const-string v0, "none"
@@ -1370,6 +1370,133 @@
     invoke-direct {p0, v3, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 881
+    iget v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+
+    const/16 v2, 0xa
+
+    if-lt v0, v2, :cond_38e
+
+    .line 883
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->playerStat()I
+
+    move-result v0
+
+    .line 884
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
+
+    const-string v3, "PILOT STATS"
+
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-direct {p0, v1, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+
+    .line 885
+    const-string v2, "Attack"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    const-string v4, " / "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    const/16 v4, 0x3e8
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-direct {p0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 886
+    const-string v2, "Defense"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    const-string v4, " / "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    const/16 v4, 0x3e8
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-direct {p0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 887
+    const-string v2, "Reaction"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v3, " / "
+
+    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const/16 v3, 0x3e8
+
+    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-direct {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 889
+    :cond_38e
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     const-string v2, "CARGO"
@@ -1384,7 +1511,7 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 882
+    .line 890
     const-string v0, "Hold"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1429,8 +1556,8 @@
 
     invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 883
-    if-eqz p5, :cond_365
+    .line 891
+    if-eqz p5, :cond_3e4
 
     iget v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
@@ -1438,7 +1565,7 @@
 
     cmpl-float v0, v0, v2
 
-    if-eqz v0, :cond_365
+    if-eqz v0, :cond_3e4
 
     const-string v0, "Hull cargo bonus"
 
@@ -1454,23 +1581,23 @@
 
     invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 885
-    :cond_365
-    if-eqz p5, :cond_4ab
+    .line 893
+    :cond_3e4
+    if-eqz p5, :cond_52a
 
-    .line 886
+    .line 894
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 887
+    .line 895
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
     const/high16 v3, 0x3f800000    # 1.0f
 
     cmpl-float v2, v2, v3
 
-    if-eqz v2, :cond_38d
+    if-eqz v2, :cond_40c
 
     const-string v2, "Laser damage "
 
@@ -1496,15 +1623,15 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 888
-    :cond_38d
+    .line 896
+    :cond_40c
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
     const/high16 v3, 0x3f800000    # 1.0f
 
     cmpl-float v2, v2, v3
 
-    if-eqz v2, :cond_3ae
+    if-eqz v2, :cond_42d
 
     const-string v2, "Laser reload time "
 
@@ -1530,15 +1657,15 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 889
-    :cond_3ae
+    .line 897
+    :cond_42d
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
     const/high16 v3, 0x3f800000    # 1.0f
 
     cmpl-float v2, v2, v3
 
-    if-eqz v2, :cond_3cf
+    if-eqz v2, :cond_44e
 
     const-string v2, "Shield capacity "
 
@@ -1564,15 +1691,15 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 890
-    :cond_3cf
+    .line 898
+    :cond_44e
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
     const/high16 v3, 0x3f800000    # 1.0f
 
     cmpl-float v2, v2, v3
 
-    if-eqz v2, :cond_3f0
+    if-eqz v2, :cond_46f
 
     const-string v2, "Shield regeneration "
 
@@ -1598,15 +1725,15 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 891
-    :cond_3f0
+    .line 899
+    :cond_46f
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldDelay:F
 
     const/high16 v3, 0x3f800000    # 1.0f
 
     cmpl-float v2, v2, v3
 
-    if-eqz v2, :cond_411
+    if-eqz v2, :cond_490
 
     const-string v2, "Shield recovery delay "
 
@@ -1632,15 +1759,15 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 892
-    :cond_411
+    .line 900
+    :cond_490
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
 
     const/high16 v3, 0x3f800000    # 1.0f
 
     cmpl-float v2, v2, v3
 
-    if-eqz v2, :cond_432
+    if-eqz v2, :cond_4b1
 
     const-string v2, "Missile reload time "
 
@@ -1666,11 +1793,11 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 893
-    :cond_432
+    .line 901
+    :cond_4b1
     iget-object v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
-    if-eqz v2, :cond_43e
+    if-eqz v2, :cond_4bd
 
     iget-object v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
@@ -1678,17 +1805,17 @@
 
     move-result v2
 
-    if-gtz v2, :cond_444
+    if-gtz v2, :cond_4c3
 
-    :cond_43e
+    :cond_4bd
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
 
     move-result v2
 
-    if-lez v2, :cond_4ab
+    if-lez v2, :cond_52a
 
-    .line 894
-    :cond_444
+    .line 902
+    :cond_4c3
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     const-string v3, "HULL BONUSES"
@@ -1703,14 +1830,14 @@
 
     invoke-virtual {v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 895
+    .line 903
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
 
     move-result v2
 
-    if-lez v2, :cond_47b
+    if-lez v2, :cond_4fa
 
-    .line 896
+    .line 904
     const/high16 v2, 0x41300000    # 11.0f
 
     const/4 v3, -0x1
@@ -1721,7 +1848,7 @@
 
     move-result-object v2
 
-    .line 897
+    .line 905
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v0
@@ -1732,7 +1859,7 @@
 
     invoke-virtual {v2, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 898
+    .line 906
     const/high16 v0, 0x40000000    # 2.0f
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -1743,16 +1870,16 @@
 
     invoke-virtual {v2, v0, v3}, Landroid/widget/TextView;->setLineSpacing(FF)V
 
-    .line 899
+    .line 907
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 901
-    :cond_47b
+    .line 909
+    :cond_4fa
     iget-object v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
-    if-eqz v0, :cond_4ab
+    if-eqz v0, :cond_52a
 
     iget-object v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
@@ -1760,9 +1887,9 @@
 
     move-result v0
 
-    if-lez v0, :cond_4ab
+    if-lez v0, :cond_52a
 
-    .line 902
+    .line 910
     const/high16 v0, 0x41200000    # 10.0f
 
     const v2, -0x4f3b26
@@ -1773,7 +1900,7 @@
 
     move-result-object v0
 
-    .line 903
+    .line 911
     iget-object v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
     invoke-static {v1}, Landroid/text/Html;->fromHtml(Ljava/lang/String;)Landroid/text/Spanned;
@@ -1782,7 +1909,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 904
+    .line 912
     const/4 v1, 0x0
 
     const/high16 v2, 0x40800000    # 4.0f
@@ -1799,17 +1926,17 @@
 
     invoke-virtual {v0, v1, v2, v3, v4}, Landroid/widget/TextView;->setPadding(IIII)V
 
-    .line 905
+    .line 913
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 909
-    :cond_4ab
+    .line 917
+    :cond_52a
     return-void
 
     .line 850
-    :catch_4ac
+    :catch_52b
     move-exception v0
 
     const-string v0, ""
@@ -1817,13 +1944,13 @@
     goto/16 :goto_128
 
     .line 852
-    :cond_4b1
+    :cond_530
     const-string v0, ""
 
     goto/16 :goto_162
 
     .line 865
-    :cond_4b5
+    :cond_534
     const-string v0, "Missiles"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1841,13 +1968,13 @@
     goto/16 :goto_25d
 
     .line 875
-    :cond_4c6
+    :cond_545
     const/4 v0, 0x0
 
     goto/16 :goto_2cd
 
     .line 876
-    :cond_4c9
+    :cond_548
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -1897,13 +2024,13 @@
     goto/16 :goto_2e1
 
     .line 878
-    :cond_4fa
+    :cond_579
     const/4 v0, 0x0
 
     goto/16 :goto_2f8
 
     .line 879
-    :cond_4fd
+    :cond_57c
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -2686,17 +2813,17 @@
 
     const/4 v5, 0x0
 
-    .line 912
+    .line 920
     new-instance v0, Landroid/widget/LinearLayout;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     invoke-direct {v0, v1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 913
+    .line 921
     invoke-virtual {v0, v5}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 914
+    .line 922
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
     mul-float/2addr v1, v3
@@ -2711,7 +2838,7 @@
 
     invoke-virtual {v0, v5, v1, v5, v2}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 915
+    .line 923
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     const v2, -0x4f3b26
@@ -2720,10 +2847,10 @@
 
     move-result-object v1
 
-    .line 916
+    .line 924
     invoke-virtual {v1, p1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 917
+    .line 925
     new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v3, -0x2
@@ -2734,7 +2861,7 @@
 
     invoke-virtual {v0, v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 918
+    .line 926
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     const/4 v2, -0x1
@@ -2745,23 +2872,23 @@
 
     move-result-object v1
 
-    .line 919
+    .line 927
     invoke-virtual {v1, p2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 920
+    .line 928
     const/4 v2, 0x5
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 921
+    .line 929
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 922
+    .line 930
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 923
+    .line 931
     return-void
 .end method
 

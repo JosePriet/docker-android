@@ -72,6 +72,53 @@ public final class ModWeapons {
         }
     }
 
+    // ------------------------------------------------------------------ v34 (H3) reskin families
+    /** Flak (Reaver), Lance (Helion), Bio-spines (Kre'tari): own stats, names and colours on a parent family's mechanics (its TAG). */
+    public static final String[] RESKIN_BASE = {"modFlak", "modLance", "modBioSpine"};
+    static final String[] RESKIN_NAME = {ModLang.tr("Flak"), ModLang.tr("Lance"), ModLang.tr("Bio-spines")};
+    static final int[] RESKIN_PARENT = {AUTO, BLAST, AUTO};
+    static final String[] RESKIN_FACTION = {"reaver", "helion", "kretari"};
+    static final float[][] RESKIN_STAT = {
+        {26, 140, 70, -11.0f, 0.6f},
+        {150, 700, 98, -16.0f, 1.2f},
+        {24, 120, 88, -10.0f, 1.1f},
+    };
+    static final float[][] RESKIN_COLOR = {{1.0f, 0.5f, 0.25f}, {1.0f, 0.95f, 0.55f}, {0.55f, 1.0f, 0.3f}};
+    static final LaserSpec[][] RSPECS = new LaserSpec[3][4];
+
+    static {
+        for (int r = 0; r < 3; r++) {
+            for (int t = 0; t < 4; t++) {
+                float m = ModSpecs.TIER_MULT[t];
+                LaserSpec s = new LaserSpec();
+                s.rarety = t == 0 ? LootRarety.RARE : t == 3 ? LootRarety.LEGENDARY : LootRarety.EXCEPTIONAL;
+                s.level = ModSpecs.TIER_REQ[t];
+                s.damage = Math.max(1, Math.round(RESKIN_STAT[r][0] * m));
+                s.reload = (int) RESKIN_STAT[r][1];
+                s.precision = (int) RESKIN_STAT[r][2];
+                s.bulletSpeed = RESKIN_STAT[r][3];
+                s.heatBySec = 5;
+                s.r = RESKIN_COLOR[r][0];
+                s.g = RESKIN_COLOR[r][1];
+                s.b = RESKIN_COLOR[r][2];
+                s.alterationSpecs = TAG[RESKIN_PARENT[r]];
+                RSPECS[r][t] = s;
+            }
+        }
+    }
+
+    /** Used by the hooks34c enum constants: reskinSpec(reskin * 4 + tier). */
+    public static GearSpec reskinSpec(int i) {
+        return RSPECS[i / 4][i % 4];
+    }
+
+    /** Reskin index of a laser spec, -1 for any other weapon. */
+    static int reskinOf(LaserSpec s) {
+        if (s == null) return -1;
+        for (int r = 0; r < 3; r++) for (int t = 0; t < 4; t++) if (RSPECS[r][t] == s) return r;
+        return -1;
+    }
+
     /** Used by the new enum constants (hooks13): spec(family * 4 + tier). */
     public static GearSpec spec(int i) {
         return SPECS[i / 4][i % 4];
@@ -103,6 +150,12 @@ public final class ModWeapons {
     }
 
     private static int[] parse(String n) {
+        for (int r = 0; r < 3; r++) {
+            if (!n.startsWith(RESKIN_BASE[r])) continue;
+            String rest = n.substring(RESKIN_BASE[r].length());
+            if (rest.length() == 0) return new int[]{RESKIN_PARENT[r], 0, r};
+            for (int t = 1; t < 4; t++) if (rest.equals("L" + ModSpecs.TIER_LEVELS[t])) return new int[]{RESKIN_PARENT[r], t, r};
+        }
         for (int f = 0; f < COUNT; f++) {
             if (!n.startsWith(BASE[f])) continue;
             String rest = n.substring(BASE[f].length());
@@ -114,6 +167,7 @@ public final class ModWeapons {
 
     public static String label(SpaceObjectType t) {
         int[] ft = parse(t.name());
+        if (ft != null && ft.length > 2) return TIER_NAME[ft[1]] + " " + RESKIN_NAME[ft[2]];
         return ft == null ? null : TIER_NAME[ft[1]] + " " + NAME[ft[0]];
     }
 
@@ -121,6 +175,11 @@ public final class ModWeapons {
         int[] ft = parse(t.name());
         if (ft == null) return null;
         String d;
+        if (ft.length > 2) {
+            String[] rd = {ModLang.tr("Flak: Reaver autocannon family. Own stats and colours."), ModLang.tr("Lance: Helion blaster family. Own stats and colours."),
+                ModLang.tr("Bio-spines: Kre'tari autocannon family. Own stats and colours.")};
+            return rd[ft[2]] + ModLang.tr("<br><br><font color='#6ad0ff'><b>Sold at:</b> ") + soldAt(ft[0], ft[1]) + "</font>";
+        }
         switch (ft[0]) {
             case RAIL: d = ModLang.tr("<b>Railgun</b>: magnetic slug thrower. Very long range, near-instant slugs, heavy damage per shot, slow reload."); break;
             case AUTO: d = ModLang.tr("<b>Autocannon</b>: rapid-fire projectile gun. Small shells, huge rate of fire, spread at range."); break;
@@ -168,6 +227,10 @@ public final class ModWeapons {
                         for (String[] r : SHOP_RULES(f, t)) {
                             if (r[0] != null && n.contains(r[0].toLowerCase())) {
                                 st.inventory.addObject(SpaceObject.ofInfinite(SpaceObjectType.valueOf(typeName(f, t))));
+                                for (int k = 0; k < 3; k++) {
+                                    if (RESKIN_PARENT[k] != f) continue;   // v34: reskins sit next to their parent family
+                                    st.inventory.addObject(SpaceObject.ofInfinite(SpaceObjectType.valueOf(t == 0 ? RESKIN_BASE[k] : RESKIN_BASE[k] + "L" + ModSpecs.TIER_LEVELS[t])));
+                                }
                                 any = true;
                             }
                         }
@@ -187,9 +250,11 @@ public final class ModWeapons {
             int f = familyOf(o);
             if (f < 0) return;
             EnergyBullet b = (EnergyBullet) o;
-            b.r = COLOR[f][0];
-            b.g = COLOR[f][1];
-            b.b = COLOR[f][2];
+            int rs = ps == null ? -1 : reskinOf(ps.laserSpec);
+            float[] col = rs >= 0 ? RESKIN_COLOR[rs] : COLOR[f];
+            b.r = col[0];
+            b.g = col[1];
+            b.b = col[2];
             b.a = 1.0f;
             b.lifeTimeInMilli = (long) (b.lifeTimeInMilli * STAT[f][4]);
             ModFx.part("fx_core", b.position.x, b.position.y, 0, 0, 120, 30, f == ARTY ? 120 : f == RAIL ? 90 : 50, COLOR[f][0], COLOR[f][1], COLOR[f][2], 0.9f, true, true);

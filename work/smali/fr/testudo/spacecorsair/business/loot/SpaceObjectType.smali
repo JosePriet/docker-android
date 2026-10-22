@@ -674,6 +674,30 @@
 
 .field public static final enum hullSecretWarden:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
+.field public static final enum modFlak:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modFlakL5:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modFlakL10:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modFlakL15:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modLance:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modLanceL5:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modLanceL10:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modLanceL15:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modBioSpine:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modBioSpineL5:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modBioSpineL10:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+.field public static final enum modBioSpineL15:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
 
 
 
@@ -10556,8 +10580,236 @@
     invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
     sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->hullSecretWarden:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modFlak"
+    const/16 v2, 0x14b
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->RARE:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x7530
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0x0
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modFlak:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modFlakL5"
+    const/16 v2, 0x14c
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->EXCEPTIONAL:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x15f90
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0x1
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modFlakL5:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modFlakL10"
+    const/16 v2, 0x14d
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->EXCEPTIONAL:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x3d090
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0x2
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modFlakL10:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modFlakL15"
+    const/16 v2, 0x14e
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x927c0
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0x3
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modFlakL15:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modLance"
+    const/16 v2, 0x14f
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->RARE:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x7530
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0x4
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modLance:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modLanceL5"
+    const/16 v2, 0x150
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->EXCEPTIONAL:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x15f90
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0x5
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modLanceL5:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modLanceL10"
+    const/16 v2, 0x151
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->EXCEPTIONAL:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x3d090
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0x6
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modLanceL10:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modLanceL15"
+    const/16 v2, 0x152
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x927c0
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0x7
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modLanceL15:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modBioSpine"
+    const/16 v2, 0x153
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->RARE:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x7530
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0x8
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modBioSpine:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modBioSpineL5"
+    const/16 v2, 0x154
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->EXCEPTIONAL:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x15f90
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0x9
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modBioSpineL5:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modBioSpineL10"
+    const/16 v2, 0x155
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->EXCEPTIONAL:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x3d090
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0xa
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modBioSpineL10:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    new-instance v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    const-string v1, "modBioSpineL15"
+    const/16 v2, 0x156
+    sget-object v3, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
+    const v4, 0x7f070265
+    const/16 v5, 0xa
+    const v6, 0x7f0200ca
+    const/4 v7, 0x0
+    const/4 v8, 0x1
+    const v9, 0x927c0
+    invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
+    move-result-object v9
+    const/16 v10, 0xb
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModWeapons;->reskinSpec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+    move-result-object v10
+    const v11, 0x7f0700ee
+    invoke-direct/range {v0 .. v11}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;-><init>(Ljava/lang/String;ILfr/testudo/spacecorsair/business/loot/LootRarety;IIIZZLfr/testudo/spacecorsair/business/economy/Price;Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;I)V
+    sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modBioSpineL15:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
     .line 28
-    const/16 v0, 0x14b
+    const/16 v0, 0x157
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
@@ -12333,6 +12585,54 @@
 
     const/16 v1, 0x14a
     sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->hullSecretWarden:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x14b
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modFlak:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x14c
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modFlakL5:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x14d
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modFlakL10:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x14e
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modFlakL15:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x14f
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modLance:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x150
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modLanceL5:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x151
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modLanceL10:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x152
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modLanceL15:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x153
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modBioSpine:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x154
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modBioSpineL5:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x155
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modBioSpineL10:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x156
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->modBioSpineL15:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
     aput-object v2, v0, v1
 
     sput-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->$VALUES:[Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;

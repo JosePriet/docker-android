@@ -740,6 +740,7 @@ public class ModShips {
     public static void apply(PlayerShip ps) {
         Hull h = hullFor(ps.shipSpec);
         if (h == null) return;
+        ModV34.railReload(ps);
         if (h.dmg != 1.0f || h.reload != 1.0f) {
             ps.bulletDamage *= h.dmg;
             ps.milleSecBetweenShots = (long) (ps.milleSecBetweenShots * h.reload);

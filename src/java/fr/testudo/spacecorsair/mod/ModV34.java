@@ -128,6 +128,25 @@ public class ModV34 {
         return 355.5f * (float) Math.pow(lv + 1, 1.2);
     }
 
+    /**
+     * G3 rare loot: a kill can drop rare salvage worth several bounties. Expected value is half the bounty
+     * (normal 4% x 12.5, elite 25% x 2, boss always x 0.5), so loot sits between kills and missions.
+     */
+    public static void rareSalvage(Ennemis e, int bounty) {
+        try {
+            boolean boss = ModBoss.isBoss(e) || e.xp >= 500;
+            float p = boss ? 1.0f : e.elite ? 0.25f : 0.04f, k = boss ? 0.5f : e.elite ? 2.0f : 12.5f;
+            if (Math.random() >= p) return;
+            int c = Math.max(1, Math.round(bounty * k));
+            ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(c);
+            Element at = fr.testudo.spacecorsair.engine.GameThread.isElementVisible(e) ? e : ObjectRegistry.INSTANCE.playerShip;
+            ObjectRegistry.INSTANCE.game.currentLevel.toAddDrawOnly.add(
+                fr.testudo.spacecorsair.business.factory.GamePools.newGoldMessage().init("+" + c + " c " + ModLang.tr("RARE SALVAGE"), at));
+        } catch (Throwable t) {
+            // never break a kill
+        }
+    }
+
     /** Death fee: 2 same-level kills, capped so 3 deaths cost at most 15% of the estimated hourly income (about 80 bounties). */
     public static int deathFee(int lv) {
         float b = bounty(lv);
@@ -342,6 +361,17 @@ public class ModV34 {
         return ownFamily(hullFaction, fam) ? 1.0f : 0.6f;
     }
 
+    /** H5: Frontier (warden) hulls reload rails 10% faster. From ModShips.apply after gear is applied. */
+    public static void railReload(PlayerShip ps) {
+        try {
+            if (!"warden".equals(ModShips.factionKey(ps)) || ModWeapons.family(ps.laserSpec) != RAIL) return;
+            ps.milleSecBetweenShots = (long) (ps.milleSecBetweenShots * 0.9f);
+            if (ps.playerCannons != null) for (int k = 0; k < ps.playerCannons.length; k++) ps.playerCannons[k].timeBewteenShootInMilli = (int) (ps.playerCannons[k].timeBewteenShootInMilli * 0.9f);
+        } catch (Throwable t) {
+            // stock reload
+        }
+    }
+
     /** H6: counter wheel x weapon-type resist, clamped to x0.5-x2.0. */
     public static float counter(String atk, String def, int fam) {
         float m = 1.0f;
@@ -367,7 +397,10 @@ public class ModV34 {
             int fam = ModWeapons.familyOf(p);
             String fa = factionOf(src), fd = factionOf(target);
             float out = dmg * pilot(stat(src), stat(target)) * counter(fa, fd, fam);
-            if (src.isPlayer) out *= weaponRule(fa, fam);
+            if (src.isPlayer) {
+                out *= weaponRule(fa, fam);
+                if (fam == RAIL && "spartan".equals(fa)) out *= 1.1f;   // H5: Spartan hulls +10% rail damage
+            }
             return out;
         } catch (Throwable t) {
             return dmg;

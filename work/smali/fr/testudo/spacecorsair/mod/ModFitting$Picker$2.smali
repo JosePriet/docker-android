@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 1391
+    .line 1399
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$2;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$2;->val$so:Lfr/testudo/spacecorsair/business/loot/SpaceObject;
@@ -53,7 +53,7 @@
     .registers 4
 
     .prologue
-    .line 1394
+    .line 1402
     :try_start_0
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$2;->val$a:Landroid/app/Activity;
 
@@ -63,16 +63,16 @@
     :try_end_7
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_7} :catch_d
 
-    .line 1398
+    .line 1406
     :goto_7
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$2;->val$dlg:Landroid/app/Dialog;
 
     invoke-virtual {v0}, Landroid/app/Dialog;->dismiss()V
 
-    .line 1399
+    .line 1407
     return-void
 
-    .line 1395
+    .line 1403
     :catch_d
     move-exception v0
 

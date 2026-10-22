@@ -225,6 +225,7 @@ public class ModQol {
             else if (e.elite) c *= 2f;
             int credits = Math.max(1, Math.round(c));
             ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(credits);
+            ModV34.rareSalvage(e, credits);
             Element at = fr.testudo.spacecorsair.engine.GameThread.isElementVisible(e) ? e : ObjectRegistry.INSTANCE.playerShip;
             ObjectRegistry.INSTANCE.game.currentLevel.toAddDrawOnly.add(
                 fr.testudo.spacecorsair.business.factory.GamePools.newGoldMessage().init("+" + credits + " c", at));
