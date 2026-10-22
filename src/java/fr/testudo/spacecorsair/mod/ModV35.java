@@ -180,9 +180,9 @@ public class ModV35 {
     static String coreName(String key) {
         if ("neutral".equals(key)) return ModLang.tr("Neutral core");
         try {
-            return ModCapitals.FACTIONS[ModFaction.faction(key)].name + " " + ModLang.tr("core");
+            return ModLang.trf("%s core", ModCapitals.FACTIONS[ModFaction.faction(key)].name);
         } catch (Throwable t) {
-            return key + " " + ModLang.tr("core");
+            return ModLang.trf("%s core", key);
         }
     }
 

@@ -52,7 +52,7 @@
   "The relay still stands. The harvest fleet regroups around it.": "El repetidor sigue en pie. La flota cosechadora se reagrupa a su alrededor.",
   "The renegade is down and the core is recovered.": "El renegado ha caído y el núcleo ha sido recuperado.",
   "This hull is fully refitted.": "Este casco ha alcanzado su nivel máximo de mejora.",
-  "core": "núcleo",
+  "%s core": "núcleo de %s",
   "parts": "piezas",
   "the renegade hunt at the faction's HQ guarantees one, ready again in ": "la caza de renegados en el cuartel general de la facción garantiza uno, disponible de nuevo en "
 }
