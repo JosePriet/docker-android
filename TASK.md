@@ -1,4 +1,9 @@
-# Current task: v35 (owner OK 2026-10-22: "proceed with the gaps, include them in v35")
+# Current task: v36 (owner, 2026-10-28)
+Owner: "the game's BGM is mainly quiet... when you can hear it its volume is way lower than the sound effects... add a different bar to adjust BGM and sound effects; the asteroids on the minimap should have a brighter yellow colour since they can be confused for green if the phone has a filter."
+Requirements: (1) find why BGM is mostly silent / quieter than SFX and fix; (2) separate BGM and SFX bars; (3) minimap asteroids brighter yellow, not green under a colour filter.
+Status 2026-10-28: implemented (5915b16), check.sh 36 PASS, verifier + cross-check done, emulator sc-v36. Changes: /mnt/project-files/audits/v36-changes.md. Asteroid colour value: owner's pick (gold 1.0/0.82/0.0 by default; ModMap.ASTEROID_*).
+
+# Previous task: v35
 
 Status 2026-10-22: implemented, check.sh 35 PASS, reviewed (verifier + cross-check), emulator run sc-v35 passed (no crash); phone test and release not done.
 

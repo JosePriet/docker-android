@@ -17,6 +17,8 @@
 - v35 final (2026-10-22): emulator sc-v35d (run 65, build 896731d): full script 629 s incl. death step, no crash/FATAL/ANR. GPT ES strings merged (699afdc); core name "núcleo de <faction>" fix (292268c), check.sh 35 PASS. Remaining: GPT art, phone playtest (hunt difficulty, AI feel, kill times), release.
 - v35 owner review (2026-10-22): every unrequested item and invented number decided one by one; record /mnt/project-files/audits/v35-owner-decisions.md; applied in parts 5-6 (acc4e30, f3480ca): faction cores for refit 10, renegade hunts, repeatable stock bosses, income-based gear prices, stacked kill-time step, pursuit -25 / 10-45-90 s. GPT text prompt: /mnt/project-files/space-corsair/gpt-v35-text-prompt.md. Known: work/dtest/V34.java no longer compiles (dup variable b, since v34 part 11); the committed V34.class still runs.
 
+- v36 (2026-10-28, 5915b16, not released): BGM fix (space1/2/3/voyager were -28 to -46 LUFS; raised to -16 LUFS in work/modmusic, swapped into res/raw by build.sh), music bar re-applied on resume, SFX bar in Settings (prefs corsair_audio/sfx, scales SoundManager + ModSound), minimap asteroids gold (ModMap.asteroidRadar). hooks36 applied. List: /mnt/project-files/audits/v36-changes.md. Needs the phone test for audibility (emulator runs -noaudio).
+
 ## Changed files (v30-v31)
 New: ModLive, ModWreck, ModTitanAI, ModDerelict, ModV30Data. Changed: ModShield, ModLoot, ModBoss, ModCapitals, ModCaps, ModArt, ModFx, ModDev, ModQol. Hooks: `src/patch/hooks30.py`, `hooks30b.py`, `hooks30c.py` (all applied).
 
