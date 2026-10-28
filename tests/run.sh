@@ -107,6 +107,10 @@ elif [ $GAME = sc ]; then
   for i in 1 2 3 4 5; do a shell input swipe 1000 900 1000 200 300; sleep 1; done
   tap_text "id/txtGift" giftbox && { sleep 2; a shell input text CORSAIRDEV; sleep 1; a shell input keyevent KEYCODE_BACK; sleep 1; tap_text "id/btnGift" giftbtn; sleep 3; shot gift_box_redeemed; }
   back 3
+  # v36: settings screen with the new sound-effects bar (shown under "Enable sound effects")
+  log "direct: Settings"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 4; need settings; shot settings_v36; dump settings_v36
+  log "seekbars on settings: $(grep -o 'class="android.widget.SeekBar"' $OUT/last.xml | wc -l)"
+  back 3
   fly() { # $1 hull id, $2 name, $3 tag
     a shell "echo $1 > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
     a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
@@ -117,7 +121,7 @@ elif [ $GAME = sc ]; then
   T=/data/local/tmp
   SHORT=   # set to 1 to skip the Warlord/Harbinger stages
   HARB=    # set to 1 to run the Harbinger stage (v33: off)
-  QUICK=  # v35b: full run at pilot level 34 after the owner decisions (cores, repeatable bosses, wreck loot, prices)
+  QUICK=1  # v36: quick run (audio/settings/minimap change). v35b: full run at pilot level 34 after the owner decisions (cores, repeatable bosses, wreck loot, prices)
   if [ -z "$SHORT" ] && fly hullWarlord Warlord warlord; then
     sleep 4; shot warlord_living
     a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 650; sleep 2; shot warlord_thrust; a shell input motionevent UP 222 650
