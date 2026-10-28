@@ -4,6 +4,12 @@
 
 
 # static fields
+.field public static final ASTEROID_B:F = 0.0f
+
+.field public static final ASTEROID_G:F = 0.82f
+
+.field public static final ASTEROID_R:F = 1.0f
+
 .field private static final EMBLEM:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
 .field private static final GLOW:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
@@ -28,7 +34,7 @@
     .prologue
     const/4 v1, 0x1
 
-    .line 50
+    .line 59
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;-><init>()V
@@ -47,24 +53,24 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->EMBLEM:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
-    .line 52
+    .line 61
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->GLOW:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->additive:Z
 
-    .line 53
+    .line 62
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->RING:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->additive:Z
 
-    .line 54
+    .line 63
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->EMBLEM:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     const/4 v1, 0x0
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->additive:Z
 
-    .line 56
+    .line 65
     new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>()V
@@ -78,9 +84,32 @@
     .registers 1
 
     .prologue
-    .line 16
+    .line 25
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
+    return-void
+.end method
+
+.method public static asteroidRadar(Lfr/testudo/spacecorsair/business/Element;)V
+    .registers 2
+
+    .prologue
+    .line 20
+    const/high16 v0, 0x3f800000    # 1.0f
+
+    iput v0, p0, Lfr/testudo/spacecorsair/business/Element;->radarColorR:F
+
+    .line 21
+    const v0, 0x3f51eb85    # 0.82f
+
+    iput v0, p0, Lfr/testudo/spacecorsair/business/Element;->radarColorG:F
+
+    .line 22
+    const/4 v0, 0x0
+
+    iput v0, p0, Lfr/testudo/spacecorsair/business/Element;->radarColorB:F
+
+    .line 23
     return-void
 .end method
 
@@ -96,31 +125,31 @@
 
     const/4 v5, 0x0
 
-    .line 23
+    .line 32
     invoke-static {}, Lfr/testudo/spacecorsair/game/levels/LevelId;->values()[Lfr/testudo/spacecorsair/game/levels/LevelId;
 
     move-result-object v0
 
     array-length v0, v0
 
-    .line 24
+    .line 33
     new-array v1, v0, [I
 
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModMap;->owner:[I
 
-    .line 25
+    .line 34
     new-array v0, v0, [Z
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->home:[Z
 
-    .line 26
+    .line 35
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->owner:[I
 
     const/4 v1, -0x1
 
     invoke-static {v0, v1}, Ljava/util/Arrays;->fill([II)V
 
-    .line 27
+    .line 36
     const-string v0, "spartan"
 
     sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->SPARTAN_HQ:Lfr/testudo/spacecorsair/game/levels/LevelId;
@@ -141,7 +170,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModMap;->claim(Ljava/lang/String;Lfr/testudo/spacecorsair/game/levels/LevelId;[Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
-    .line 28
+    .line 37
     const-string v0, "reaver"
 
     sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->PIRATE_BAY:Lfr/testudo/spacecorsair/game/levels/LevelId;
@@ -150,7 +179,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModMap;->claim(Ljava/lang/String;Lfr/testudo/spacecorsair/game/levels/LevelId;[Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
-    .line 29
+    .line 38
     const-string v0, "helion"
 
     sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->HELIOSTAT:Lfr/testudo/spacecorsair/game/levels/LevelId;
@@ -167,7 +196,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModMap;->claim(Ljava/lang/String;Lfr/testudo/spacecorsair/game/levels/LevelId;[Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
-    .line 30
+    .line 39
     const-string v0, "ironclad"
 
     sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->ORE_BELT:Lfr/testudo/spacecorsair/game/levels/LevelId;
@@ -176,7 +205,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModMap;->claim(Ljava/lang/String;Lfr/testudo/spacecorsair/game/levels/LevelId;[Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
-    .line 31
+    .line 40
     const-string v0, "varn"
 
     sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->OMICRON_PRIME:Lfr/testudo/spacecorsair/game/levels/LevelId;
@@ -209,7 +238,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModMap;->claim(Ljava/lang/String;Lfr/testudo/spacecorsair/game/levels/LevelId;[Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
-    .line 32
+    .line 41
     const-string v0, "kretari"
 
     sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->THE_HIVE:Lfr/testudo/spacecorsair/game/levels/LevelId;
@@ -218,7 +247,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModMap;->claim(Ljava/lang/String;Lfr/testudo/spacecorsair/game/levels/LevelId;[Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
-    .line 33
+    .line 42
     const-string v0, "warden"
 
     sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->HIGHWAY:Lfr/testudo/spacecorsair/game/levels/LevelId;
@@ -235,7 +264,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModMap;->claim(Ljava/lang/String;Lfr/testudo/spacecorsair/game/levels/LevelId;[Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
-    .line 34
+    .line 43
     return-void
 .end method
 
@@ -243,19 +272,19 @@
     .registers 8
 
     .prologue
-    .line 37
+    .line 46
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModFaction;->faction(Ljava/lang/String;)I
 
     move-result v1
 
-    .line 38
+    .line 47
     if-gez v1, :cond_7
 
-    .line 42
+    .line 51
     :cond_6
     return-void
 
-    .line 39
+    .line 48
     :cond_7
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->owner:[I
 
@@ -265,7 +294,7 @@
 
     aput v1, v0, v2
 
-    .line 40
+    .line 49
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->home:[Z
 
     invoke-virtual {p1}, Lfr/testudo/spacecorsair/game/levels/LevelId;->ordinal()I
@@ -276,7 +305,7 @@
 
     aput-boolean v3, v0, v2
 
-    .line 41
+    .line 50
     array-length v2, p2
 
     const/4 v0, 0x0
@@ -303,14 +332,14 @@
     .registers 3
 
     .prologue
-    .line 46
+    .line 55
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->owner:[I
 
     if-nez v0, :cond_7
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModMap;->build()V
 
-    .line 47
+    .line 56
     :cond_7
     if-nez p0, :cond_b
 
@@ -335,26 +364,26 @@
     .registers 15
 
     .prologue
-    .line 62
+    .line 71
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModMap;->owner(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
 
     move-result v10
 
-    .line 63
+    .line 72
     if-gez v10, :cond_7
 
-    .line 111
+    .line 120
     :cond_6
     :goto_6
     return-void
 
-    .line 64
+    .line 73
     :cond_7
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     aget-object v11, v0, v10
 
-    .line 65
+    .line 74
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->home:[Z
 
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/game/levels/LevelId;->ordinal()I
@@ -363,7 +392,7 @@
 
     aget-boolean v12, v0, v1
 
-    .line 66
+    .line 75
     const v0, 0x3f59999a    # 0.85f
 
     const v1, 0x3e19999a    # 0.15f
@@ -396,7 +425,7 @@
 
     add-float v13, v0, v1
 
-    .line 68
+    .line 77
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -421,14 +450,14 @@
 
     move-result-object v0
 
-    .line 69
+    .line 78
     if-eqz v0, :cond_184
 
     const/4 v1, 0x1
 
     move v6, v1
 
-    .line 70
+    .line 79
     :goto_4f
     if-nez v0, :cond_1aa
 
@@ -440,39 +469,39 @@
 
     move-object v1, v0
 
-    .line 71
+    .line 80
     :goto_58
     if-eqz v1, :cond_8d
 
-    .line 72
+    .line 81
     if-eqz v12, :cond_188
 
     const/high16 v0, 0x44340000    # 720.0f
 
-    .line 73
+    .line 82
     :goto_5e
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModMap;->GLOW:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     iput-object v1, v2, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 74
+    .line 83
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMap;->GLOW:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     iput v0, v1, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->w:F
 
-    .line 75
+    .line 84
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMap;->GLOW:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     iput v0, v1, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->h:F
 
-    .line 76
+    .line 85
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->at:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->mapPos:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 77
+    .line 86
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->renderQueue:Lfr/testudo/spacecorsair/engine/RenderQueue;
@@ -487,7 +516,7 @@
 
     const/4 v5, 0x0
 
-    .line 78
+    .line 87
     if-eqz v6, :cond_191
 
     if-eqz v12, :cond_18c
@@ -503,21 +532,21 @@
 
     iget v9, v11, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->b:F
 
-    .line 77
+    .line 86
     invoke-virtual/range {v0 .. v9}, Lfr/testudo/spacecorsair/engine/RenderQueue;->addToWaitingQueue(Lfr/testudo/spacecorsair/engine/Vector2;ZLfr/testudo/spacecorsair/display/Drawable;FZFFFF)V
 
-    .line 81
+    .line 90
     :cond_8d
     if-eqz v12, :cond_ce
 
-    .line 82
+    .line 91
     const-string v0, "map_border"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModArt;->texture(Ljava/lang/String;)Lfr/testudo/spacecorsair/display/Texture;
 
     move-result-object v0
 
-    .line 83
+    .line 92
     if-nez v0, :cond_9d
 
     const-string v0, "fx_ring"
@@ -526,37 +555,37 @@
 
     move-result-object v0
 
-    .line 84
+    .line 93
     :cond_9d
     if-eqz v0, :cond_ce
 
-    .line 85
+    .line 94
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMap;->RING:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     iput-object v0, v1, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 86
+    .line 95
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->RING:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     const/high16 v1, 0x43b40000    # 360.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->w:F
 
-    .line 87
+    .line 96
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->RING:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     const/high16 v1, 0x43b40000    # 360.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->h:F
 
-    .line 88
+    .line 97
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->at:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->mapPos:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 89
+    .line 98
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->renderQueue:Lfr/testudo/spacecorsair/engine/RenderQueue;
@@ -583,7 +612,7 @@
 
     invoke-virtual/range {v0 .. v9}, Lfr/testudo/spacecorsair/engine/RenderQueue;->addToWaitingQueue(Lfr/testudo/spacecorsair/engine/Vector2;ZLfr/testudo/spacecorsair/display/Drawable;FZFFFF)V
 
-    .line 93
+    .line 102
     :cond_ce
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -609,31 +638,31 @@
 
     move-result-object v1
 
-    .line 94
+    .line 103
     if-eqz v1, :cond_122
 
-    .line 95
+    .line 104
     if-eqz v12, :cond_19d
 
     const/high16 v0, 0x42f00000    # 120.0f
 
-    .line 96
+    .line 105
     :goto_ed
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModMap;->EMBLEM:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     iput-object v1, v2, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 97
+    .line 106
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMap;->EMBLEM:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     iput v0, v1, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->w:F
 
-    .line 98
+    .line 107
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMap;->EMBLEM:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     iput v0, v1, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->h:F
 
-    .line 99
+    .line 108
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->at:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->mapPos:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -651,7 +680,7 @@
 
     invoke-virtual {v1, v0, v2}, Lfr/testudo/spacecorsair/engine/Vector2;->add(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 100
+    .line 109
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->renderQueue:Lfr/testudo/spacecorsair/engine/RenderQueue;
@@ -679,11 +708,11 @@
 
     invoke-virtual/range {v0 .. v9}, Lfr/testudo/spacecorsair/engine/RenderQueue;->addToWaitingQueue(Lfr/testudo/spacecorsair/engine/Vector2;ZLfr/testudo/spacecorsair/display/Drawable;FZFFFF)V
 
-    .line 102
+    .line 111
     :cond_122
     if-eqz v12, :cond_6
 
-    .line 103
+    .line 112
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->labels:[Ljava/lang/String;
 
     if-nez v0, :cond_136
@@ -704,7 +733,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->labelHalf:[F
 
-    .line 104
+    .line 113
     :cond_136
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->labels:[Ljava/lang/String;
 
@@ -712,7 +741,7 @@
 
     if-nez v0, :cond_157
 
-    .line 105
+    .line 114
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->labels:[Ljava/lang/String;
 
     iget-object v1, v11, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->name:Ljava/lang/String;
@@ -723,7 +752,7 @@
 
     aput-object v1, v0, v10
 
-    .line 106
+    .line 115
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->labelHalf:[F
 
     sget-object v1, Lfr/testudo/spacecorsair/engine/GameRenderer;->glTextNormalPlus:Lfr/testudo/spacecorsair/textengine/GLText;
@@ -742,7 +771,7 @@
 
     aput v1, v0, v10
 
-    .line 108
+    .line 117
     :cond_157
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMap;->at:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -762,7 +791,7 @@
 
     invoke-virtual {v0, v1, v2}, Lfr/testudo/spacecorsair/engine/Vector2;->add(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 109
+    .line 118
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->renderQueue:Lfr/testudo/spacecorsair/engine/RenderQueue;
@@ -789,7 +818,7 @@
 
     goto/16 :goto_6
 
-    .line 69
+    .line 78
     :cond_184
     const/4 v1, 0x0
 
@@ -797,13 +826,13 @@
 
     goto/16 :goto_4f
 
-    .line 72
+    .line 81
     :cond_188
     const/high16 v0, 0x44020000    # 520.0f
 
     goto/16 :goto_5e
 
-    .line 78
+    .line 87
     :cond_18c
     const v6, 0x3eb33333    # 0.35f
 
@@ -821,19 +850,19 @@
 
     goto/16 :goto_83
 
-    .line 95
+    .line 104
     :cond_19d
     const/high16 v0, 0x42a00000    # 80.0f
 
     goto/16 :goto_ed
 
-    .line 99
+    .line 108
     :cond_1a1
     const/high16 v0, -0x3cf40000    # -140.0f
 
     goto/16 :goto_105
 
-    .line 100
+    .line 109
     :cond_1a5
     const v6, 0x3f19999a    # 0.6f
 

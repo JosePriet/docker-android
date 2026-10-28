@@ -379,6 +379,14 @@
     invoke-virtual {v0, v1}, Landroid/widget/CheckBox;->setChecked(Z)V
 
     .line 129
+    iget-object v0, p0, Lfr/testudo/spacecorsair/activity/SettingsActivity;->ckbFx:Landroid/widget/CheckBox;
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/activity/SettingsActivity;->layMusicVolume:Landroid/view/View;
+
+    iget-object v2, p0, Lfr/testudo/spacecorsair/activity/SettingsActivity;->skbMusic:Landroid/widget/SeekBar;
+
+    invoke-static {p0, v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModSound;->settingsBar(Landroid/app/Activity;Landroid/widget/CheckBox;Landroid/view/View;Landroid/widget/SeekBar;)V
+
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModQol;->settings(Ljava/lang/Object;)V
 
     return-void

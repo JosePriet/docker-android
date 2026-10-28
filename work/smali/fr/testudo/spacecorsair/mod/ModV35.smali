@@ -2524,9 +2524,13 @@
 .end method
 
 .method static coreName(Ljava/lang/String;)Ljava/lang/String;
-    .registers 4
+    .registers 8
 
     .prologue
+    const/4 v6, 0x1
+
+    const/4 v5, 0x0
+
     .line 181
     const-string v0, "neutral"
 
@@ -2534,7 +2538,7 @@
 
     move-result v0
 
-    if-eqz v0, :cond_f
+    if-eqz v0, :cond_11
 
     const-string v0, "Neutral core"
 
@@ -2543,88 +2547,56 @@
     move-result-object v0
 
     .line 185
-    :goto_e
+    :goto_10
     return-object v0
 
     .line 183
-    :cond_f
-    :try_start_f
-    new-instance v0, Ljava/lang/StringBuilder;
+    :cond_11
+    :try_start_11
+    const-string v0, "%s core"
 
-    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+    const/4 v1, 0x1
 
-    sget-object v1, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
+    new-array v1, v1, [Ljava/lang/Object;
+
+    const/4 v2, 0x0
+
+    sget-object v3, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModFaction;->faction(Ljava/lang/String;)I
 
-    move-result v2
+    move-result v4
 
-    aget-object v1, v1, v2
+    aget-object v3, v3, v4
 
-    iget-object v1, v1, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->name:Ljava/lang/String;
+    iget-object v3, v3, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->name:Ljava/lang/String;
 
-    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    aput-object v3, v1, v2
 
-    move-result-object v0
-
-    const-string v1, " "
-
-    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLang;->trf(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    :try_end_26
+    .catch Ljava/lang/Throwable; {:try_start_11 .. :try_end_26} :catch_28
 
     move-result-object v0
 
-    const-string v1, "core"
-
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-    :try_end_35
-    .catch Ljava/lang/Throwable; {:try_start_f .. :try_end_35} :catch_37
-
-    move-result-object v0
-
-    goto :goto_e
+    goto :goto_10
 
     .line 184
-    :catch_37
+    :catch_28
     move-exception v0
 
     .line 185
-    new-instance v0, Ljava/lang/StringBuilder;
+    const-string v0, "%s core"
 
-    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+    new-array v1, v6, [Ljava/lang/Object;
 
-    invoke-virtual {v0, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    aput-object p0, v1, v5
 
-    move-result-object v0
-
-    const-string v1, " "
-
-    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLang;->trf(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v0
 
-    const-string v1, "core"
-
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v0
-
-    goto :goto_e
+    goto :goto_10
 .end method
 
 .method public static cores(Ljava/lang/String;)I

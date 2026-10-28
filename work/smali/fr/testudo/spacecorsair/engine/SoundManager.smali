@@ -1194,6 +1194,12 @@
     .line 117
     div-float v2, v1, v0
 
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSound;->sfx()F
+
+    move-result v0
+
+    mul-float/2addr v2, v0
+
     .line 120
     iget-object v0, p0, Lfr/testudo/spacecorsair/engine/SoundManager;->soundPool:Landroid/media/SoundPool;
 

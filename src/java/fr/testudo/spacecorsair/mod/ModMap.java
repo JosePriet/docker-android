@@ -13,6 +13,15 @@ import fr.testudo.spacecorsair.engine.Vector2;
  * code-drawn with fx_glow / fx_ring otherwise.
  */
 public final class ModMap {
+    /** v36: asteroid dots on the minimap radar in gold instead of the stock pure yellow, which reads green under phone colour filters (hooks36). */
+    public static final float ASTEROID_R = 1.0f, ASTEROID_G = 0.82f, ASTEROID_B = 0.0f;
+
+    public static void asteroidRadar(fr.testudo.spacecorsair.business.Element e) {
+        e.radarColorR = ASTEROID_R;
+        e.radarColorG = ASTEROID_G;
+        e.radarColorB = ASTEROID_B;
+    }
+
     private ModMap() {}
 
     /** Sector -> faction index into ModCapitals.FACTIONS (-1 = unclaimed); HOME marks the capital sectors. */

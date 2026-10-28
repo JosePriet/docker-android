@@ -352,6 +352,8 @@
     .line 69
     iput v1, p0, Lfr/testudo/spacecorsair/business/world/Asteroid;->radarColorR:F
 
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModMap;->asteroidRadar(Lfr/testudo/spacecorsair/business/Element;)V
+
     .line 70
     const/high16 v0, 0x40000000    # 2.0f
 

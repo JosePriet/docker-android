@@ -6,6 +6,8 @@
 # static fields
 .field public static final NAMES:[Ljava/lang/String;
 
+.field private static final PREFS:Ljava/lang/String; = "corsair_audio"
+
 .field private static audio:Landroid/media/AudioManager;
 
 .field private static ctx:Landroid/content/Context;
@@ -41,6 +43,10 @@
 
 .field private static volatile pool:Landroid/media/SoundPool;
 
+.field private static sfx:F
+
+.field private static sfxLoaded:Z
+
 .field private static volAt:J
 
 .field private static volCache:F
@@ -51,7 +57,7 @@
     .registers 3
 
     .prologue
-    .line 21
+    .line 31
     const/16 v0, 0x1f
 
     new-array v0, v0, [Ljava/lang/String;
@@ -244,21 +250,26 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSound;->NAMES:[Ljava/lang/String;
 
-    .line 28
+    .line 38
     new-instance v0, Ljava/util/HashMap;
 
     invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSound;->ids:Ljava/util/Map;
 
-    .line 30
+    .line 40
     new-instance v0, Ljava/util/HashMap;
 
     invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSound;->last:Ljava/util/Map;
 
-    .line 118
+    .line 45
+    const/high16 v0, 0x3f800000    # 1.0f
+
+    sput v0, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
+
+    .line 132
     const/high16 v0, -0x40800000    # -1.0f
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModSound;->loopGain:F
@@ -270,10 +281,71 @@
     .registers 1
 
     .prologue
-    .line 19
+    .line 29
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
+.end method
+
+.method static synthetic access$000()F
+    .registers 1
+
+    .prologue
+    .line 28
+    sget v0, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
+
+    return v0
+.end method
+
+.method static synthetic access$002(F)F
+    .registers 1
+
+    .prologue
+    .line 28
+    sput p0, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
+
+    return p0
+.end method
+
+.method static synthetic access$100(F)F
+    .registers 2
+
+    .prologue
+    .line 28
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModSound;->clamp01(F)F
+
+    move-result v0
+
+    return v0
+.end method
+
+.method private static clamp01(F)F
+    .registers 4
+
+    .prologue
+    const/high16 v1, 0x3f800000    # 1.0f
+
+    const/4 v0, 0x0
+
+    .line 171
+    cmpg-float v2, p0, v0
+
+    if-gez v2, :cond_9
+
+    move p0, v0
+
+    :cond_8
+    :goto_8
+    return p0
+
+    :cond_9
+    cmpl-float v0, p0, v1
+
+    if-lez v0, :cond_8
+
+    move p0, v1
+
+    goto :goto_8
 .end method
 
 .method private static copy(Landroid/content/Context;Ljava/lang/String;Ljava/io/File;)V
@@ -285,7 +357,7 @@
     .end annotation
 
     .prologue
-    .line 63
+    .line 77
     invoke-virtual {p0}, Landroid/content/Context;->getAssets()Landroid/content/res/AssetManager;
 
     move-result-object v0
@@ -294,7 +366,7 @@
 
     move-result-object v1
 
-    .line 65
+    .line 79
     :try_start_8
     invoke-virtual {v1}, Ljava/io/InputStream;->available()I
 
@@ -302,7 +374,7 @@
 
     int-to-long v2, v0
 
-    .line 66
+    .line 80
     invoke-virtual {p2}, Ljava/io/File;->exists()Z
 
     move-result v0
@@ -325,14 +397,14 @@
 
     if-lez v0, :cond_25
 
-    .line 76
+    .line 90
     invoke-virtual {v1}, Ljava/io/InputStream;->close()V
 
-    .line 78
+    .line 92
     :goto_24
     return-void
 
-    .line 67
+    .line 81
     :cond_25
     :try_start_25
     new-instance v2, Ljava/io/FileOutputStream;
@@ -341,13 +413,13 @@
     :try_end_2a
     .catchall {:try_start_25 .. :try_end_2a} :catchall_3e
 
-    .line 69
+    .line 83
     const/16 v0, 0x4000
 
     :try_start_2c
     new-array v0, v0, [B
 
-    .line 71
+    .line 85
     :goto_2e
     invoke-virtual {v1, v0}, Ljava/io/InputStream;->read([B)I
 
@@ -363,35 +435,35 @@
 
     goto :goto_2e
 
-    .line 73
+    .line 87
     :catchall_39
     move-exception v0
 
     :try_start_3a
     invoke-virtual {v2}, Ljava/io/OutputStream;->close()V
 
-    .line 74
+    .line 88
     throw v0
     :try_end_3e
     .catchall {:try_start_3a .. :try_end_3e} :catchall_3e
 
-    .line 76
+    .line 90
     :catchall_3e
     move-exception v0
 
     invoke-virtual {v1}, Ljava/io/InputStream;->close()V
 
-    .line 77
+    .line 91
     throw v0
 
-    .line 73
+    .line 87
     :cond_43
     :try_start_43
     invoke-virtual {v2}, Ljava/io/OutputStream;->close()V
     :try_end_46
     .catchall {:try_start_43 .. :try_end_46} :catchall_3e
 
-    .line 76
+    .line 90
     invoke-virtual {v1}, Ljava/io/InputStream;->close()V
 
     goto :goto_24
@@ -405,7 +477,7 @@
 
     const/4 v2, 0x0
 
-    .line 37
+    .line 50
     const-class v3, Lfr/testudo/spacecorsair/mod/ModSound;
 
     monitor-enter v3
@@ -417,27 +489,27 @@
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSound;->initDone:Z
     :try_end_b
-    .catchall {:try_start_5 .. :try_end_b} :catchall_aa
+    .catchall {:try_start_5 .. :try_end_b} :catchall_af
 
     if-nez v0, :cond_f
 
     if-nez p0, :cond_11
 
-    .line 60
+    .line 74
     :cond_f
     :goto_f
     monitor-exit v3
 
     return-void
 
-    .line 40
+    .line 53
     :cond_11
     :try_start_11
     invoke-virtual {p0}, Landroid/content/Context;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v0
 
-    .line 41
+    .line 54
     if-eqz v0, :cond_18
 
     move-object p0, v0
@@ -445,7 +517,12 @@
     :cond_18
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModSound;->ctx:Landroid/content/Context;
 
-    .line 42
+    .line 55
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModSound;->ctx:Landroid/content/Context;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSound;->loadSfx(Landroid/content/Context;)V
+
+    .line 56
     new-instance v0, Landroid/media/SoundPool;
 
     const/16 v4, 0x8
@@ -455,12 +532,12 @@
     const/4 v6, 0x0
 
     invoke-direct {v0, v4, v5, v6}, Landroid/media/SoundPool;-><init>(III)V
-    :try_end_23
-    .catch Ljava/lang/Throwable; {:try_start_11 .. :try_end_23} :catch_af
-    .catchall {:try_start_11 .. :try_end_23} :catchall_aa
+    :try_end_28
+    .catch Ljava/lang/Throwable; {:try_start_11 .. :try_end_28} :catch_b4
+    .catchall {:try_start_11 .. :try_end_28} :catchall_af
 
-    .line 43
-    :try_start_23
+    .line 57
+    :try_start_28
     new-instance v4, Ljava/io/File;
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSound;->ctx:Landroid/content/Context;
@@ -473,22 +550,22 @@
 
     invoke-direct {v4, v1, v5}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 44
+    .line 58
     invoke-virtual {v4}, Ljava/io/File;->mkdirs()Z
 
-    .line 45
+    .line 59
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModSound;->NAMES:[Ljava/lang/String;
 
     array-length v6, v5
 
     move v1, v2
 
-    :goto_37
-    if-ge v1, v6, :cond_8e
+    :goto_3c
+    if-ge v1, v6, :cond_93
 
     aget-object v2, v5, v1
 
-    .line 46
+    .line 60
     new-instance v7, Ljava/io/File;
 
     new-instance v8, Ljava/lang/StringBuilder;
@@ -511,7 +588,7 @@
 
     invoke-direct {v7, v4, v8}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 47
+    .line 61
     sget-object v8, Lfr/testudo/spacecorsair/mod/ModSound;->ctx:Landroid/content/Context;
 
     new-instance v9, Ljava/lang/StringBuilder;
@@ -540,7 +617,7 @@
 
     invoke-static {v8, v9, v7}, Lfr/testudo/spacecorsair/mod/ModSound;->copy(Landroid/content/Context;Ljava/lang/String;Ljava/io/File;)V
 
-    .line 48
+    .line 62
     sget-object v8, Lfr/testudo/spacecorsair/mod/ModSound;->ids:Ljava/util/Map;
 
     invoke-virtual {v7}, Ljava/io/File;->getAbsolutePath()Ljava/lang/String;
@@ -559,7 +636,7 @@
 
     invoke-interface {v8, v2, v7}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 49
+    .line 63
     sget-object v7, Lfr/testudo/spacecorsair/mod/ModSound;->last:Ljava/util/Map;
 
     const/4 v8, 0x1
@@ -568,85 +645,174 @@
 
     invoke-interface {v7, v2, v8}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 45
+    .line 59
     add-int/lit8 v1, v1, 0x1
 
-    goto :goto_37
+    goto :goto_3c
 
-    .line 51
-    :cond_8e
+    .line 65
+    :cond_93
     const/4 v1, 0x1
 
     sput-boolean v1, Lfr/testudo/spacecorsair/mod/ModSound;->initDone:Z
 
-    .line 52
+    .line 66
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSound;->pool:Landroid/media/SoundPool;
-    :try_end_93
-    .catch Ljava/lang/Throwable; {:try_start_23 .. :try_end_93} :catch_95
-    .catchall {:try_start_23 .. :try_end_93} :catchall_aa
+    :try_end_98
+    .catch Ljava/lang/Throwable; {:try_start_28 .. :try_end_98} :catch_9a
+    .catchall {:try_start_28 .. :try_end_98} :catchall_af
 
     goto/16 :goto_f
 
-    .line 53
-    :catch_95
+    .line 67
+    :catch_9a
     move-exception v1
 
-    .line 55
-    :goto_96
-    :try_start_96
+    .line 69
+    :goto_9b
+    :try_start_9b
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSound;->ids:Ljava/util/Map;
 
     invoke-interface {v1}, Ljava/util/Map;->clear()V
 
-    .line 56
+    .line 70
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSound;->last:Ljava/util/Map;
 
     invoke-interface {v1}, Ljava/util/Map;->clear()V
-    :try_end_a0
-    .catchall {:try_start_96 .. :try_end_a0} :catchall_aa
-
-    .line 57
-    if-eqz v0, :cond_a5
-
-    :try_start_a2
-    invoke-virtual {v0}, Landroid/media/SoundPool;->release()V
     :try_end_a5
-    .catch Ljava/lang/Throwable; {:try_start_a2 .. :try_end_a5} :catch_ad
-    .catchall {:try_start_a2 .. :try_end_a5} :catchall_aa
+    .catchall {:try_start_9b .. :try_end_a5} :catchall_af
 
-    .line 58
-    :cond_a5
-    :goto_a5
+    .line 71
+    if-eqz v0, :cond_aa
+
+    :try_start_a7
+    invoke-virtual {v0}, Landroid/media/SoundPool;->release()V
+    :try_end_aa
+    .catch Ljava/lang/Throwable; {:try_start_a7 .. :try_end_aa} :catch_b2
+    .catchall {:try_start_a7 .. :try_end_aa} :catchall_af
+
+    .line 72
+    :cond_aa
+    :goto_aa
     const/4 v0, 0x0
 
-    :try_start_a6
+    :try_start_ab
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSound;->pool:Landroid/media/SoundPool;
-    :try_end_a8
-    .catchall {:try_start_a6 .. :try_end_a8} :catchall_aa
+    :try_end_ad
+    .catchall {:try_start_ab .. :try_end_ad} :catchall_af
 
     goto/16 :goto_f
 
-    .line 37
-    :catchall_aa
+    .line 50
+    :catchall_af
     move-exception v0
 
     monitor-exit v3
 
     throw v0
 
-    .line 57
-    :catch_ad
+    .line 71
+    :catch_b2
     move-exception v0
 
-    goto :goto_a5
+    goto :goto_aa
 
-    .line 53
-    :catch_af
+    .line 67
+    :catch_b4
     move-exception v0
 
     move-object v0, v1
 
-    goto :goto_96
+    goto :goto_9b
+.end method
+
+.method private static loadSfx(Landroid/content/Context;)V
+    .registers 4
+
+    .prologue
+    .line 164
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSound;->sfxLoaded:Z
+
+    if-nez v0, :cond_6
+
+    if-nez p0, :cond_7
+
+    .line 169
+    :cond_6
+    :goto_6
+    return-void
+
+    .line 166
+    :cond_7
+    :try_start_7
+    invoke-virtual {p0}, Landroid/content/Context;->getApplicationContext()Landroid/content/Context;
+
+    move-result-object v0
+
+    const-string v1, "corsair_audio"
+
+    const/4 v2, 0x0
+
+    invoke-virtual {v0, v1, v2}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object v0
+
+    const-string v1, "sfx"
+
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getFloat(Ljava/lang/String;F)F
+
+    move-result v0
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSound;->clamp01(F)F
+
+    move-result v0
+
+    sput v0, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
+
+    .line 167
+    const/4 v0, 0x1
+
+    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModSound;->sfxLoaded:Z
+    :try_end_23
+    .catch Ljava/lang/Throwable; {:try_start_7 .. :try_end_23} :catch_24
+
+    goto :goto_6
+
+    .line 168
+    :catch_24
+    move-exception v0
+
+    goto :goto_6
+.end method
+
+.method public static musicResume(Landroid/media/MediaPlayer;)V
+    .registers 2
+
+    .prologue
+    .line 179
+    :try_start_0
+    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+
+    iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->config:Lfr/testudo/spacecorsair/game/Config;
+
+    iget v0, v0, Lfr/testudo/spacecorsair/game/Config;->musicVolums:F
+
+    .line 180
+    invoke-virtual {p0, v0, v0}, Landroid/media/MediaPlayer;->setVolume(FF)V
+    :try_end_9
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_9} :catch_a
+
+    .line 182
+    :goto_9
+    return-void
+
+    .line 181
+    :catch_a
+    move-exception v0
+
+    goto :goto_9
 .end method
 
 .method public static play(Ljava/lang/String;FFJ)I
@@ -655,7 +821,7 @@
     .prologue
     const/4 v9, 0x0
 
-    .line 100
+    .line 114
     :try_start_1
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModSound;->pool:Landroid/media/SoundPool;
 
@@ -663,11 +829,11 @@
 
     move v2, v9
 
-    .line 113
+    .line 127
     :goto_6
     return v2
 
-    .line 101
+    .line 115
     :cond_7
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModSound;->ids:Ljava/util/Map;
 
@@ -681,20 +847,20 @@
 
     move-object v3, v0
 
-    .line 102
+    .line 116
     if-nez v3, :cond_15
 
     move v2, v9
 
     goto :goto_6
 
-    .line 103
+    .line 117
     :cond_15
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v4
 
-    .line 104
+    .line 118
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModSound;->last:Ljava/util/Map;
 
     invoke-interface {v2, p0}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -703,10 +869,10 @@
 
     check-cast v2, [J
 
-    .line 105
+    .line 119
     if-eqz v2, :cond_3a
 
-    .line 106
+    .line 120
     const/4 v6, 0x0
 
     aget-wide v6, v2, v6
@@ -731,33 +897,37 @@
 
     goto :goto_6
 
-    .line 107
+    .line 121
     :cond_37
     const/4 v6, 0x0
 
     aput-wide v4, v2, v6
 
-    .line 109
+    .line 123
     :cond_3a
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSound;->volume()F
 
     move-result v2
 
+    sget v4, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
+
+    mul-float/2addr v2, v4
+
     mul-float v4, v2, p1
 
-    .line 110
+    .line 124
     const/4 v2, 0x0
 
     cmpg-float v2, v4, v2
 
-    if-gtz v2, :cond_47
+    if-gtz v2, :cond_4a
 
     move v2, v9
 
     goto :goto_6
 
-    .line 111
-    :cond_47
+    .line 125
+    :cond_4a
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModSound;->pool:Landroid/media/SoundPool;
 
     invoke-virtual {v3}, Ljava/lang/Integer;->intValue()I
@@ -773,20 +943,20 @@
     move v8, p2
 
     invoke-virtual/range {v2 .. v8}, Landroid/media/SoundPool;->play(IFFIIF)I
-    :try_end_54
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_54} :catch_56
+    :try_end_57
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_57} :catch_59
 
     move-result v2
 
     goto :goto_6
 
-    .line 112
-    :catch_56
+    .line 126
+    :catch_59
     move-exception v2
 
     move v2, v9
 
-    .line 113
+    .line 127
     goto :goto_6
 .end method
 
@@ -794,18 +964,18 @@
     .registers 9
 
     .prologue
-    .line 123
+    .line 137
     :try_start_0
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSound;->pool:Landroid/media/SoundPool;
 
     if-nez v1, :cond_5
 
-    .line 143
+    .line 157
     :cond_4
     :goto_4
     return-void
 
-    .line 124
+    .line 138
     :cond_5
     const v1, 0x3c23d70a    # 0.01f
 
@@ -813,7 +983,7 @@
 
     if-gtz v1, :cond_21
 
-    .line 125
+    .line 139
     sget v1, Lfr/testudo/spacecorsair/mod/ModSound;->loopStream:I
 
     if-eqz v1, :cond_17
@@ -824,39 +994,43 @@
 
     invoke-virtual {v1, v2}, Landroid/media/SoundPool;->stop(I)V
 
-    .line 126
+    .line 140
     :cond_17
     const/4 v1, 0x0
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModSound;->loopStream:I
 
-    .line 127
+    .line 141
     const/high16 v1, -0x40800000    # -1.0f
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModSound;->loopGain:F
 
     goto :goto_4
 
-    .line 140
+    .line 154
     :catch_1f
     move-exception v1
 
     goto :goto_4
 
-    .line 130
+    .line 144
     :cond_21
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSound;->volume()F
 
     move-result v1
 
+    sget v2, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
+
+    mul-float/2addr v1, v2
+
     mul-float v3, v1, p0
 
-    .line 131
+    .line 145
     sget v1, Lfr/testudo/spacecorsair/mod/ModSound;->loopStream:I
 
-    if-nez v1, :cond_52
+    if-nez v1, :cond_55
 
-    .line 132
+    .line 146
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSound;->ids:Ljava/util/Map;
 
     const-string v2, "engine_rumble"
@@ -871,7 +1045,7 @@
 
     move-object v2, v0
 
-    .line 133
+    .line 147
     if-eqz v2, :cond_4
 
     const/4 v1, 0x0
@@ -880,7 +1054,7 @@
 
     if-lez v1, :cond_4
 
-    .line 134
+    .line 148
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSound;->pool:Landroid/media/SoundPool;
 
     invoke-virtual {v2}, Ljava/lang/Integer;->intValue()I
@@ -901,13 +1075,13 @@
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModSound;->loopStream:I
 
-    .line 135
+    .line 149
     sput p0, Lfr/testudo/spacecorsair/mod/ModSound;->loopGain:F
 
     goto :goto_4
 
-    .line 136
-    :cond_52
+    .line 150
+    :cond_55
     sget v1, Lfr/testudo/spacecorsair/mod/ModSound;->loopGain:F
 
     sub-float v1, p0, v1
@@ -922,31 +1096,275 @@
 
     if-lez v1, :cond_4
 
-    .line 137
+    .line 151
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSound;->pool:Landroid/media/SoundPool;
 
     sget v2, Lfr/testudo/spacecorsair/mod/ModSound;->loopStream:I
 
     invoke-virtual {v1, v2, v3, v3}, Landroid/media/SoundPool;->setVolume(IFF)V
 
-    .line 138
+    .line 152
     sput p0, Lfr/testudo/spacecorsair/mod/ModSound;->loopGain:F
-    :try_end_6a
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_6a} :catch_1f
+    :try_end_6d
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_6d} :catch_1f
 
     goto :goto_4
+.end method
+
+.method public static settingsBar(Landroid/app/Activity;Landroid/widget/CheckBox;Landroid/view/View;Landroid/widget/SeekBar;)V
+    .registers 11
+
+    .prologue
+    const/4 v2, 0x0
+
+    .line 190
+    :try_start_1
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModSound;->loadSfx(Landroid/content/Context;)V
+
+    .line 191
+    if-eqz p1, :cond_12
+
+    if-eqz p2, :cond_12
+
+    if-eqz p3, :cond_12
+
+    invoke-virtual {p1}, Landroid/widget/CheckBox;->getParent()Landroid/view/ViewParent;
+
+    move-result-object v0
+
+    instance-of v0, v0, Landroid/view/ViewGroup;
+
+    if-nez v0, :cond_13
+
+    .line 230
+    :cond_12
+    :goto_12
+    return-void
+
+    .line 192
+    :cond_13
+    invoke-virtual {p1}, Landroid/widget/CheckBox;->getParent()Landroid/view/ViewParent;
+
+    move-result-object v0
+
+    check-cast v0, Landroid/view/ViewGroup;
+
+    .line 193
+    const-string v1, "v36_sfx"
+
+    invoke-virtual {v0, v1}, Landroid/view/ViewGroup;->findViewWithTag(Ljava/lang/Object;)Landroid/view/View;
+
+    move-result-object v1
+
+    if-nez v1, :cond_12
+
+    .line 194
+    new-instance v3, Landroid/widget/LinearLayout;
+
+    invoke-direct {v3, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
+
+    .line 195
+    const-string v1, "v36_sfx"
+
+    invoke-virtual {v3, v1}, Landroid/widget/LinearLayout;->setTag(Ljava/lang/Object;)V
+
+    .line 196
+    const/4 v1, 0x0
+
+    invoke-virtual {v3, v1}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
+    .line 197
+    new-instance v4, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-virtual {p2}, Landroid/view/View;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
+
+    move-result-object v1
+
+    check-cast v1, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-direct {v4, v1}, Landroid/widget/LinearLayout$LayoutParams;-><init>(Landroid/view/ViewGroup$MarginLayoutParams;)V
+
+    invoke-virtual {v3, v4}, Landroid/widget/LinearLayout;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 198
+    check-cast p2, Landroid/view/ViewGroup;
+
+    const/4 v1, 0x0
+
+    invoke-virtual {p2, v1}, Landroid/view/ViewGroup;->getChildAt(I)Landroid/view/View;
+
+    move-result-object v1
+
+    .line 199
+    instance-of v4, v1, Landroid/widget/TextView;
+
+    if-eqz v4, :cond_7d
+
+    .line 200
+    check-cast v1, Landroid/widget/TextView;
+
+    new-instance v4, Landroid/widget/TextView;
+
+    invoke-direct {v4, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
+
+    .line 201
+    invoke-virtual {v1}, Landroid/widget/TextView;->getText()Ljava/lang/CharSequence;
+
+    move-result-object v5
+
+    invoke-virtual {v4, v5}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 202
+    const/4 v5, 0x0
+
+    invoke-virtual {v1}, Landroid/widget/TextView;->getTextSize()F
+
+    move-result v6
+
+    invoke-virtual {v4, v5, v6}, Landroid/widget/TextView;->setTextSize(IF)V
+
+    .line 203
+    invoke-virtual {v1}, Landroid/widget/TextView;->getTextColors()Landroid/content/res/ColorStateList;
+
+    move-result-object v5
+
+    invoke-virtual {v4, v5}, Landroid/widget/TextView;->setTextColor(Landroid/content/res/ColorStateList;)V
+
+    .line 204
+    invoke-virtual {v1}, Landroid/widget/TextView;->getTypeface()Landroid/graphics/Typeface;
+
+    move-result-object v5
+
+    invoke-virtual {v4, v5}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
+
+    .line 205
+    new-instance v5, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-virtual {v1}, Landroid/widget/TextView;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
+
+    move-result-object v1
+
+    check-cast v1, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-direct {v5, v1}, Landroid/widget/LinearLayout$LayoutParams;-><init>(Landroid/view/ViewGroup$MarginLayoutParams;)V
+
+    invoke-virtual {v4, v5}, Landroid/widget/TextView;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 206
+    invoke-virtual {v3, v4}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+
+    .line 208
+    :cond_7d
+    new-instance v4, Landroid/widget/SeekBar;
+
+    invoke-direct {v4, p0}, Landroid/widget/SeekBar;-><init>(Landroid/content/Context;)V
+
+    .line 209
+    new-instance v5, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-virtual {p3}, Landroid/widget/SeekBar;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
+
+    move-result-object v1
+
+    check-cast v1, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-direct {v5, v1}, Landroid/widget/LinearLayout$LayoutParams;-><init>(Landroid/view/ViewGroup$MarginLayoutParams;)V
+
+    invoke-virtual {v4, v5}, Landroid/widget/SeekBar;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 210
+    const/16 v1, 0xa
+
+    invoke-virtual {v4, v1}, Landroid/widget/SeekBar;->setMax(I)V
+
+    .line 211
+    sget v1, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
+
+    const/high16 v5, 0x41200000    # 10.0f
+
+    mul-float/2addr v1, v5
+
+    invoke-static {v1}, Ljava/lang/Math;->round(F)I
+
+    move-result v1
+
+    invoke-virtual {v4, v1}, Landroid/widget/SeekBar;->setProgress(I)V
+
+    .line 212
+    new-instance v1, Lfr/testudo/spacecorsair/mod/ModSound$1;
+
+    invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModSound$1;-><init>(Landroid/app/Activity;)V
+
+    invoke-virtual {v4, v1}, Landroid/widget/SeekBar;->setOnSeekBarChangeListener(Landroid/widget/SeekBar$OnSeekBarChangeListener;)V
+
+    .line 220
+    invoke-virtual {v3, v4}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+
+    .line 221
+    invoke-virtual {v0, p1}, Landroid/view/ViewGroup;->indexOfChild(Landroid/view/View;)I
+
+    move-result v1
+
+    add-int/lit8 v1, v1, 0x1
+
+    invoke-virtual {v0, v3, v1}, Landroid/view/ViewGroup;->addView(Landroid/view/View;I)V
+
+    .line 223
+    invoke-virtual {p1}, Landroid/widget/CheckBox;->isChecked()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_cc
+
+    move v0, v2
+
+    :goto_bc
+    invoke-virtual {v3, v0}, Landroid/view/View;->setVisibility(I)V
+
+    .line 224
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModSound$2;
+
+    invoke-direct {v0, v3}, Lfr/testudo/spacecorsair/mod/ModSound$2;-><init>(Landroid/view/View;)V
+
+    invoke-virtual {p1, v0}, Landroid/widget/CheckBox;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
+    :try_end_c7
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_c7} :catch_c9
+
+    goto/16 :goto_12
+
+    .line 227
+    :catch_c9
+    move-exception v0
+
+    goto/16 :goto_12
+
+    .line 223
+    :cond_cc
+    const/16 v0, 0x8
+
+    goto :goto_bc
+.end method
+
+.method public static sfx()F
+    .registers 1
+
+    .prologue
+    .line 174
+    sget v0, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
+
+    return v0
 .end method
 
 .method public static stopAll()V
     .registers 1
 
     .prologue
-    .line 146
+    .line 160
     const/4 v0, 0x0
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSound;->rumble(F)V
 
-    .line 147
+    .line 161
     return-void
 .end method
 
@@ -956,7 +1374,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 82
+    .line 96
     :try_start_1
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -968,17 +1386,17 @@
 
     move v0, v1
 
-    .line 93
+    .line 107
     :goto_a
     return v0
 
-    .line 84
+    .line 98
     :cond_b
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v2
 
-    .line 85
+    .line 99
     sget-wide v4, Lfr/testudo/spacecorsair/mod/ModSound;->volAt:J
 
     const-wide/16 v6, 0x0
@@ -1007,11 +1425,11 @@
 
     goto :goto_a
 
-    .line 86
+    .line 100
     :cond_2a
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSound;->audio:Landroid/media/AudioManager;
 
-    .line 87
+    .line 101
     if-nez v0, :cond_3a
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSound;->ctx:Landroid/content/Context;
@@ -1026,7 +1444,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSound;->audio:Landroid/media/AudioManager;
 
-    .line 88
+    .line 102
     :cond_3a
     const/4 v4, 0x3
 
@@ -1046,22 +1464,22 @@
 
     div-float v0, v4, v0
 
-    .line 89
+    .line 103
     sput v0, Lfr/testudo/spacecorsair/mod/ModSound;->volCache:F
 
-    .line 90
+    .line 104
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModSound;->volAt:J
     :try_end_4c
     .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_4c} :catch_4d
 
     goto :goto_a
 
-    .line 92
+    .line 106
     :catch_4d
     move-exception v0
 
     move v0, v1
 
-    .line 93
+    .line 107
     goto :goto_a
 .end method

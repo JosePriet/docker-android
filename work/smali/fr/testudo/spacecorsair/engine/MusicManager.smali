@@ -666,6 +666,8 @@
     .line 93
     iget-object v0, p0, Lfr/testudo/spacecorsair/engine/MusicManager;->curPlaying:Landroid/media/MediaPlayer;
 
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSound;->musicResume(Landroid/media/MediaPlayer;)V
+
     invoke-virtual {v0}, Landroid/media/MediaPlayer;->start()V
 
     .line 96
