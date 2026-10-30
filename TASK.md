@@ -12,6 +12,12 @@ Requirements (from the answers):
 8. HAIL: greeting first, mission screen only from OPEN MISSIONS (Q12); briefing stays until tapped; the panel no longer auto-hides behind the mission screen (Q13); one-time explanation pop-up + subtitle under the button (Q14); shown only within 6,000 of the flagship (Q15); "no missions" subtitle when nothing is offered (Q16). Boss missions unchanged (Q17).
 9. New text: EN placeholders now; GPT writes the final EN + ES (Q18).
 Acceptance: check.sh 37 PASS; emulator run of one mission per type with no crash; two-agent verification; /mnt/project-files/audits/v37-changes.md; directive audit; phone test by the owner.
+Also in this update (owner 2026-10-30): v36 (music volume, separate sound-effects bar, gold minimap asteroids) is the base of v37 and its checks join the phone test (details: /mnt/project-files/audits/v36-changes.md):
+- Music clearly audible in space1/space2 sectors (Tutorial, Genesis, Spartan HQ, Twin Star, Omicron Prime) and not buried under effects in a fight.
+- Settings > sound-effects Volume bar at 0 silences every effect (flagship, UI, engine rumble); at 10 sounds as before.
+- A music bar change is heard right after leaving Settings.
+- Music keeps playing after a mission, a death/respawn and a sector jump.
+- Minimap asteroid dots read yellow/gold, not green, with the phone's colour filter on.
 
 # Previous task: v36 (owner, 2026-10-28)
 Owner: "the game's BGM is mainly quiet... when you can hear it its volume is way lower than the sound effects... add a different bar to adjust BGM and sound effects; the asteroids on the minimap should have a brighter yellow colour since they can be confused for green if the phone has a filter."
