@@ -121,8 +121,17 @@ public final class ModWreck extends Element {
         float dx = speed.x - lastVx, dy = speed.y - lastVy;
         hitAge = dx != 0 || dy != 0 ? 0 : hitAge + j;
         // v37: the blast share keeps 5%; projectile hits (already 10% in applyRebound) and rams keep 30% as in v33
-        hit[0] = lastVx + damp(dx, blastVx) - baseVx;
-        hit[1] = lastVy + damp(dy, blastVy) - baseVy;
+        float cx = damp(dx, blastVx), cy = damp(dy, blastVy);
+        // a push against the drift (a bounce off an asteroid or a ship) slows the drift itself, down to 0; the rest is hit motion
+        float b2 = baseVx * baseVx + baseVy * baseVy;
+        float q = b2 > 0 ? (cx * baseVx + cy * baseVy) / b2 : 0;
+        if (q < 0) {
+            q = Math.max(q, -1);
+            baseVx *= 1 + q;
+            baseVy *= 1 + q;
+        }
+        hit[0] = lastVx + cx - baseVx;
+        hit[1] = lastVy + cy - baseVy;
         blastVx = blastVy = 0;
         brake(hit, j, hitAge);
         speed.set(baseVx + hit[0], baseVy + hit[1]);
