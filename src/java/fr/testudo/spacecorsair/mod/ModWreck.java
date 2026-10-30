@@ -22,6 +22,8 @@ import java.util.ArrayList;
  * - v33: hulls with hand-drawn wreck art (wreck_<art>_a/_b[/_c], same canvas as the hull sprite, a = bow) break into those
  *   pieces; the others keep the cut sprite, scorched toward the cuts (flat dark gradient + char marks). Pieces are heavy (mass from the
  *   original hull size) and only drift: hits and rams barely move them.
+ * - v37: blasts (missiles, mines) keep 5% of their push; motion from hits and rams brakes out within 2 s and is capped at
+ *   10 u/s on top of the slow break-apart drift. Alien beams (UFO, AlienBlatte) stop at the first piece on their line.
  */
 public final class ModWreck extends Element {
     // ------------------------------------------------------------------ piece
@@ -45,6 +47,8 @@ public final class ModWreck extends Element {
     boolean husk;               // v35: a small hull's husk (pushed out first)
     long fadeMs;                // v35: fades after this long (0 = stays for the visit)
     private float lastVx, lastVy;
+    private float baseVx, baseVy;   // v37: the slow break-apart drift (stock friction only); speed minus this = motion from hits
+    float blastVx, blastVy;         // v37: blast pushes since the last frame (ModWreck.blastPush)
     private final Vector2 phys = new Vector2(), vis = new Vector2();
     private final ModFx.Sprite spr = new ModFx.Sprite();
     private final ModFx.Sprite burnSpr = new ModFx.Sprite();
@@ -105,20 +109,93 @@ public final class ModWreck extends Element {
 
     static final float MAX_DRIFT = 0.4f;   // speed units are per 10 ms: 40 world units a second at most
 
+    static final float BLAST_PUSH = 0.05f;   // v37 owner: blasts keep 5% of the stock push (v33: 30%, like rams)
+    static final float HIT_MAX = 0.1f;       // v37 owner: motion from hits capped at 10 u/s
+    static final float HIT_TAU = 2000.0f / 3; // v37 owner: motion from hits gone within 2 s (5% left at 2 s, then snapped to 0)
+    static final float HIT_REST = 0.005f;    // below 0.5 u/s the hit motion stops
+
     /** v33: whatever pushed the piece since the last frame (hits, rams, blasts) only moves it a little. */
     @Override
     public void doPhysic(long j) {
         float dx = speed.x - lastVx, dy = speed.y - lastVy;
-        if (dx != 0 || dy != 0) speed.set(lastVx + dx * 0.3f, lastVy + dy * 0.3f);
+        if (dx != 0 || dy != 0) {
+            // v37: the blast share keeps 5%; projectile hits (already 10% in applyRebound) and rams keep 30% as in v33
+            speed.set(lastVx + (dx - blastVx) * 0.3f + blastVx * BLAST_PUSH, lastVy + (dy - blastVy) * 0.3f + blastVy * BLAST_PUSH);
+        }
+        blastVx = blastVy = 0;
+        hit[0] = speed.x - baseVx;
+        hit[1] = speed.y - baseVy;
+        brake(hit, j);
+        speed.set(baseVx + hit[0], baseVy + hit[1]);
         float v2 = speed.x * speed.x + speed.y * speed.y;
         if (v2 > MAX_DRIFT * MAX_DRIFT) speed.multiply(MAX_DRIFT / (float) Math.sqrt(v2));
         super.doPhysic(j);
+        // the break-apart drift slows with the stock friction (Element.doPhysic divides the speed by this each frame)
+        float f = speedDeperditionfactor + (speedDeperditionfactor - 1) * j / 160.0f;
+        baseVx /= f;
+        baseVy /= f;
         lastVx = speed.x;
         lastVy = speed.y;
         long age = System.currentTimeMillis() - born;
         if (visualOnly && age > lifeMs || fadeMs > 0 && age > fadeMs) {
             vanish();
         }
+    }
+
+    private final float[] hit = new float[2];
+
+    /** v37: motion from hits (h, speed units per 10 ms) after j ms: capped at HIT_MAX, decays with HIT_TAU, stops below HIT_REST. */
+    static void brake(float[] h, long j) {
+        float v = (float) Math.sqrt(h[0] * h[0] + h[1] * h[1]);
+        if (v == 0) return;
+        float n = Math.min(v, HIT_MAX) * (float) Math.exp(-Math.max(0, j) / HIT_TAU);
+        if (n < HIT_REST) n = 0;
+        h[0] *= n / v;
+        h[1] *= n / v;
+    }
+
+    /** v37 smali hook (Missile.applyRadiusDamage, Mine.applyRadiusDamage): the stock blast push, marked on wreck pieces. */
+    public static void blastPush(Element e, Vector2 v) {
+        e.speed.add(v);
+        if (e instanceof ModWreck) {
+            ModWreck w = (ModWreck) e;
+            w.blastVx += v.x;
+            w.blastVy += v.y;
+        }
+    }
+
+    /**
+     * v37 smali hook (UfoAlienShip / AlienBlatte beam: damage, impact sparks and drawing): the first wreck piece crossing the
+     * beam from the shooter to its target takes the beam instead; otherwise the target.
+     */
+    public static Element beamTarget(Element shooter, Element target) {
+        if (shooter == null || target == null || target.removed || target instanceof ModWreck) return target;
+        try {
+            Element best = target;
+            float bt = 2;
+            float ax = shooter.position.x, ay = shooter.position.y;
+            for (int i = 0, n = live.size(); i < n; i++) {
+                ModWreck w = live.get(i);
+                if (w.removed || w.visualOnly) continue;
+                float t = segHit(ax, ay, target.position.x, target.position.y, w.position.x, w.position.y, w.phys.x / 2);
+                if (t >= 0 && t < bt) { bt = t; best = w; }
+            }
+            return best;
+        } catch (Throwable t) {
+            return target;   // the stock beam always works
+        }
+    }
+
+    /** Where (0..1 along a->b) the segment first meets the circle (c, r); -1 when it misses. */
+    static float segHit(float ax, float ay, float bx, float by, float cx, float cy, float r) {
+        float dx = bx - ax, dy = by - ay, fx = ax - cx, fy = ay - cy;
+        float A = dx * dx + dy * dy, B = 2 * (fx * dx + fy * dy), C = fx * fx + fy * fy - r * r;
+        if (C <= 0) return 0;                // the shooter is inside the piece
+        if (A == 0) return -1;
+        float D = B * B - 4 * A * C;
+        if (D < 0) return -1;
+        float t = (-B - (float) Math.sqrt(D)) / (2 * A);
+        return t >= 0 && t <= 1 ? t : -1;
     }
 
     /** v33: a projectile hit gives (almost) no push. */
@@ -463,8 +540,8 @@ public final class ModWreck extends Element {
     }
 
     static void add(ModWreck w) {
-        w.lastVx = w.speed.x;
-        w.lastVy = w.speed.y;
+        w.lastVx = w.baseVx = w.speed.x;
+        w.lastVy = w.baseVy = w.speed.y;
         if (w.visualOnly) {
             ObjectRegistry.INSTANCE.game.currentLevel.toAddDrawOnly.add(w);
             return;

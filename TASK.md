@@ -19,6 +19,16 @@ Also in this update (owner 2026-10-30): v36 (music volume, separate sound-effect
 - Music keeps playing after a mission, a death/respawn and a sector jump.
 - Minimap asteroid dots read yellow/gold, not green, with the phone's colour filter on, and are bigger than before (owner pick: gold + bigger dot).
 
+## v37 wrecks (owner, 2026-10-29/30; thread "Improve Space Corsair wreck visuals and drift")
+Owner: "visuals would be, for the most part handled by chat gpt, for code fix how wrecks fly around after being hit (reduce their inertia), make alien lasers hit wrecks too since the ones on the UFO seem to ignore wrecks." Numbers approved on a card 2026-10-30. Plan: /mnt/project-files/space-corsair/wreck-plan/wreck-plan-v37.md.
+1. Missile blast push on wrecks: 5% of stock (was 30%).
+2. Motion from hits and rams dies out within 2 s.
+3. Wreck speed cap for hit motion: 10 u/s (was 40).
+4. Bullet/laser push: keep 10%. 5. Slow break-apart drift after the kill: keep. 6. Husk mass floor: keep 20.
+7-8. UFO and AlienBlatte beams stop at the first wreck piece on the line to their target; that piece takes the damage, the beam is drawn to it.
+9. Beams do not push wrecks (stock). 10. Wrecks destroyed by any enemy drop no loot (already true).
+Acceptance: check.sh 37 PASS with V37W VALUES-OK; emulator run (wrecks shot with missiles move little and stop; UFO beam hits a wreck in its path); phone test: missile a cruiser wreck several times, it shifts a little and stops within ~2 s; a UFO firing past a wreck hits the wreck.
+
 # Previous task: v36 (owner, 2026-10-28)
 Owner: "the game's BGM is mainly quiet... when you can hear it its volume is way lower than the sound effects... add a different bar to adjust BGM and sound effects; the asteroids on the minimap should have a brighter yellow colour since they can be confused for green if the phone has a filter."
 Requirements: (1) find why BGM is mostly silent / quieter than SFX and fix; (2) separate BGM and SFX bars; (3) minimap asteroids brighter yellow, not green under a colour filter.

@@ -319,12 +319,20 @@
     .line 177
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;->attackTarget:Lfr/testudo/spacecorsair/business/Element;
 
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->beamTarget(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;)Lfr/testudo/spacecorsair/business/Element;
+
+    move-result-object v0
+
     const/4 v3, 0x2
 
     invoke-static {v0, v3}, Lfr/testudo/spacecorsair/display/ParticuleFactory;->addRed(Lfr/testudo/spacecorsair/business/Element;I)V
 
     .line 178
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;->attackTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->beamTarget(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;)Lfr/testudo/spacecorsair/business/Element;
+
+    move-result-object v0
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/display/ParticuleFactory;->addWhite(Lfr/testudo/spacecorsair/business/Element;I)V
 
@@ -335,6 +343,10 @@
 
     .line 180
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;->attackTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->beamTarget(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;)Lfr/testudo/spacecorsair/business/Element;
+
+    move-result-object v0
 
     iget-object v3, p0, Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;->fakeProjectile:Lfr/testudo/spacecorsair/business/projectiles/LaserBeam;
 
@@ -805,6 +817,10 @@
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;->tempVector:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/ennemis/UfoAlienShip;->attackTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    invoke-static {p0, v1}, Lfr/testudo/spacecorsair/mod/ModWreck;->beamTarget(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;)Lfr/testudo/spacecorsair/business/Element;
+
+    move-result-object v1
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 

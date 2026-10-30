@@ -712,6 +712,10 @@
     .line 300
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/ennemis/AlienBlatte;->attackTarget:Lfr/testudo/spacecorsair/business/Element;
 
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->beamTarget(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;)Lfr/testudo/spacecorsair/business/Element;
+
+    move-result-object v0
+
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/display/ParticuleFactory;->addYellow(Lfr/testudo/spacecorsair/business/Element;I)V
 
     .line 301
@@ -721,6 +725,10 @@
 
     .line 302
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/ennemis/AlienBlatte;->attackTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->beamTarget(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;)Lfr/testudo/spacecorsair/business/Element;
+
+    move-result-object v0
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/ennemis/AlienBlatte;->fakeProjectile:Lfr/testudo/spacecorsair/business/projectiles/LaserBeam;
 
@@ -1809,6 +1817,10 @@
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/ennemis/AlienBlatte;->tempVector:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/ennemis/AlienBlatte;->attackTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    invoke-static {p0, v1}, Lfr/testudo/spacecorsair/mod/ModWreck;->beamTarget(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;)Lfr/testudo/spacecorsair/business/Element;
+
+    move-result-object v1
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 

@@ -829,11 +829,9 @@
     invoke-virtual {v5, v10, v11}, Lfr/testudo/spacecorsair/engine/Vector2;->applyRotatation(D)Lfr/testudo/spacecorsair/engine/Vector2;
 
     .line 419
-    iget-object v0, v0, Lfr/testudo/spacecorsair/business/Element;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
-
     iget-object v4, p0, Lfr/testudo/spacecorsair/business/projectiles/Missile;->tempVector:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    invoke-virtual {v0, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->add(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
+    invoke-static {v0, v4}, Lfr/testudo/spacecorsair/mod/ModWreck;->blastPush(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/engine/Vector2;)V
 
     :cond_a7
     move v4, v1
