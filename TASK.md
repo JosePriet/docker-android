@@ -17,7 +17,7 @@ Also in this update (owner 2026-10-30): v36 (music volume, separate sound-effect
 - Settings > sound-effects Volume bar at 0 silences every effect (flagship, UI, engine rumble); at 10 sounds as before.
 - A music bar change is heard right after leaving Settings.
 - Music keeps playing after a mission, a death/respawn and a sector jump.
-- Minimap asteroid dots read yellow/gold, not green, with the phone's colour filter on.
+- Minimap asteroid dots read yellow/gold, not green, with the phone's colour filter on, and are bigger than before (owner pick: gold + bigger dot).
 
 # Previous task: v36 (owner, 2026-10-28)
 Owner: "the game's BGM is mainly quiet... when you can hear it its volume is way lower than the sound effects... add a different bar to adjust BGM and sound effects; the asteroids on the minimap should have a brighter yellow colour since they can be confused for green if the phone has a filter."
