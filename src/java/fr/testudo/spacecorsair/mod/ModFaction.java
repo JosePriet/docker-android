@@ -917,7 +917,8 @@ public class ModFaction extends MissionListener {
         } else if ("DEFEND_ZONE".equals(obj)) {
             if (outpost != null) {
                 if (outpost.removed || outpost.life <= 0) { fail(); return; }
-                outpostLost = Math.max(0, Math.min(99, 100 - Math.round(100f * outpost.life / outpost.maxLife)));
+                int lost = Math.max(0, Math.min(99, 100 - Math.round(100f * outpost.life / outpost.maxLife)));
+                if (lost != outpostLost) { outpostLost = lost; save(); }   // Q11: the outpost's damage survives a jump
             }
             boolean in = ps.position.distance(center) < 1800;
             if (in) {
