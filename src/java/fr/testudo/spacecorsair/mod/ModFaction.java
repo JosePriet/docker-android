@@ -334,7 +334,7 @@ public class ModFaction extends MissionListener {
     private final Vector2 entry = new Vector2();
     private final Vector2 center = new Vector2();
     private final Vector2 endAt = new Vector2();
-    private boolean courierMoving;
+    private boolean courierMoving, secondLegPlaced;
     private final ArrayList<Element> spawned = new ArrayList<Element>();
     private final ArrayList<CivilShip> civs = new ArrayList<CivilShip>();
     private float[] markers;                  // x, y pairs
@@ -409,7 +409,7 @@ public class ModFaction extends MissionListener {
         b.append(zone != null ? zone.name() : "").append(';').append(phase).append(';')
             .append(ref.x).append(',').append(ref.y).append(';').append(center.x).append(',').append(center.y).append(';')
             .append(endAt.x).append(',').append(endAt.y).append(';').append(progress).append(';').append(goal).append(';')
-            .append(holdMs).append(';').append(waveNo).append(';').append(wavesLeft).append(';').append(courierMoving ? 1 : 0).append(';')
+            .append(holdMs).append(';').append(waveNo).append(';').append(wavesLeft).append(';').append((courierMoving ? 1 : 0) | (secondLegPlaced ? 2 : 0)).append(';')
             .append(lastCourier.x).append(',').append(lastCourier.y).append(';');
         if (markers != null) {
             for (int k = 0; k < taken.length; k++) {
@@ -437,7 +437,9 @@ public class ModFaction extends MissionListener {
             holdMs = Integer.parseInt(f[7]);
             waveNo = Integer.parseInt(f[8]);
             wavesLeft = Integer.parseInt(f[9]);
-            courierMoving = "1".equals(f[10]);
+            int cm = Integer.parseInt(f[10]);
+            courierMoving = (cm & 1) != 0;
+            secondLegPlaced = (cm & 2) != 0;
             xy(f[11], lastCourier);
             markers = null;
             taken = null;
@@ -569,13 +571,14 @@ public class ModFaction extends MissionListener {
     }
 
     private void scatter(int n, Vector2 around, float radius) {
-        markers = new float[n * 2];
-        taken = new boolean[n];
+        float[] m = new float[n * 2];
         for (int k = 0; k < n; k++) {
             Vector2 p = away(around, radius * 0.2f, radius);
-            markers[k * 2] = p.x;
-            markers[k * 2 + 1] = p.y;
+            m[k * 2] = p.x;
+            m[k * 2 + 1] = p.y;
         }
+        taken = new boolean[n];
+        markers = m;
         goal = n;
         progress = 0;
     }
@@ -642,14 +645,15 @@ public class ModFaction extends MissionListener {
         waveNo = 0;
         wavesLeft = 0;
         courierMoving = false;
+        secondLegPlaced = false;
         markers = null;
         taken = null;
         ref.setSameAs(ps.position);
         if ("DEFEND_ZONE".equals(obj)) center.setSameAs(ModPlace.farPoint(ref, ModPlace.OUTPOST_MIN, ModPlace.OUTPOST_MAX));
         else center.setSameAs(ModPlace.farPoint(ref, ModPlace.OBJECTIVE_MIN, Float.MAX_VALUE));
         if ("FIND_OBJECT".equals(obj) || "DELIVERY".equals(obj)) {
-            markers = new float[]{center.x, center.y};
             taken = new boolean[1];
+            markers = new float[]{center.x, center.y};
             goal = 1;
         } else if ("GATHER_AND_SELL".equals(obj)) {
             scatter(6, center, 2200);
@@ -736,12 +740,16 @@ public class ModFaction extends MissionListener {
             }
         } else if ("ESCORT".equals(obj)) {
             Vector2 at = new Vector2(lastCourier);
-            if (phase == 1 && !courierMoving) {
-                // second leg (S8): the courier comes through the gate with the player, then heads for a station here
-                at.setSameAs(entry);
+            boolean wait = !courierMoving;
+            if (phase == 1 && !courierMoving && !secondLegPlaced) {
+                // second leg (S8): the courier went through first and waits out of sight (R4), on the way to a station here
                 Station end = ModPlace.farthestStation(entry, null);
                 endAt.setSameAs(end != null ? end.position : farGate(entry));
-                courierMoving = true;
+                double a = Math.atan2(endAt.y - entry.y, endAt.x - entry.x);
+                at.set(entry.x + (float) (Math.cos(a) * ModPlace.AMBUSH_DIST), entry.y + (float) (Math.sin(a) * ModPlace.AMBUSH_DIST));
+                lastCourier.setSameAs(at);
+                secondLegPlaced = true;
+                save();
             }
             CivilShip c = civil(at, true);
             if (c != null) {
@@ -752,7 +760,7 @@ public class ModFaction extends MissionListener {
                 c.missionObjectiveColor = MissionObjectiveColor.GREEN;
                 target = c;
                 gate.setSameAs(endAt);
-                if (courierMoving) c.setActivity(new CivilActivity[]{CivilActivity.newMoove(gate.x, gate.y)});
+                if (!wait) c.setActivity(new CivilActivity[]{CivilActivity.newMoove(gate.x, gate.y)});
                 else c.setActivity(new CivilActivity[]{CivilActivity.newWaitUntilPlayerClose(500, 4.0f), CivilActivity.newMoove(gate.x, gate.y)});
                 startDist = Math.max(1, (phase == 0 ? center : entry).distance(gate));
                 lastCourier.setSameAs(c.position);
@@ -868,7 +876,11 @@ public class ModFaction extends MissionListener {
             if (wavesLeft == 0 && liveFoes() == 0) complete();
         } else if ("DEFEND_ZONE".equals(obj)) {
             boolean in = ps.position.distance(center) < 1800;
-            if (in) { holdMs += j; wavesOn = true; }
+            if (in) {
+                if ((holdMs + j) / 1000 != holdMs / 1000) save();   // Q11: hold time survives a jump or a restart
+                holdMs += j;
+                wavesOn = true;
+            }
             if (wavesOn) {
                 timer -= j;
                 int waves = goal / 15000;
@@ -968,6 +980,7 @@ public class ModFaction extends MissionListener {
         if (phase == 0 && secondSector() != null) {
             phase = 1;
             courierMoving = false;
+            secondLegPlaced = false;
             target = null;
             save();
             inZone = sectorIs(activeSector());
@@ -1014,11 +1027,14 @@ public class ModFaction extends MissionListener {
                 bx = st.position.x; by = st.position.y;
                 label = "DELIVERY".equals(f.obj) ? ModLang.tr("DELIVER") : ModLang.tr("SELL");
             }
-        } else if (f.markers != null) {
+        } else if (f.markers != null && f.taken != null) {
+            // read once: the game thread can swap these arrays while the GL thread draws
+            float[] mk = f.markers;
+            boolean[] tk = f.taken;
             boolean signal = "FIND_OBJECT".equals(f.obj) || "DELIVERY".equals(f.obj);
-            for (int k = 0; k < f.taken.length; k++) {
-                if (f.taken[k]) continue;
-                float x = f.markers[k * 2], y = f.markers[k * 2 + 1];
+            for (int k = 0; mk != null && tk != null && k < tk.length && k * 2 + 1 < mk.length; k++) {
+                if (tk[k]) continue;
+                float x = mk[k * 2], y = mk[k * 2 + 1];
                 ModFx.spr("fx_ring", x, y, 260 * pulse, 260 * pulse, 0, fc.r, fc.g, fc.b, 0.8f, true);
                 ModFx.spr("fx_glow", x, y, 180, 180, 0, fc.r, fc.g, fc.b, 0.6f + 0.3f * pulse, true);
                 ModFx.spr("fx_core", x, y, 60, 60, 0, 1, 1, 1, 0.9f, true);
@@ -1150,8 +1166,8 @@ public class ModFaction extends MissionListener {
         // Q5: the crate is lost with the ship; Q22: so is gathered cargo. The points come back where they were.
         if (!completed && ("DELIVERY".equals(obj) || "GATHER_AND_SELL".equals(obj)) && planned && (phase == 1 || progress > 0)) {
             if ("DELIVERY".equals(obj)) {
-                markers = new float[]{center.x, center.y};
                 taken = new boolean[1];
+                markers = new float[]{center.x, center.y};
             } else if (markers == null || phase == 1) {
                 scatter(6, center, 2200);   // the cargo was all aboard: new pods around the same spot
             } else {
