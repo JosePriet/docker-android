@@ -413,10 +413,10 @@ public class ModV34 {
      * Battlecruisers and up (by ModV35.enemyClass) carry a shield: the level-matched player shield (stock decent shield of
      * that table level) x class factor x level curve [P curve, so it keeps pace with the hull]. It regenerates at one steady
      * rate at all times (no delay, from zero too), 15% slower while the player hit it in the last 3 s. Frelons keep their own.
-     * Per enemy: {capacity, current, rate per s, last tick ms, last player hit ms}.
      */
     private static final WeakHashMap<Element, Integer> stockLvOf = new WeakHashMap<Element, Integer>();
-    static final WeakHashMap<Element, float[]> bigShield = new WeakHashMap<Element, float[]>();
+    static final class Sh { float cap, cur, rate; long last, hit = -UNDER_FIRE_MS; }
+    static final WeakHashMap<Element, Sh> bigShield = new WeakHashMap<Element, Sh>();
     static final float UNDER_FIRE = 0.85f;
     static final long UNDER_FIRE_MS = 3000;
 
@@ -427,7 +427,11 @@ public class ModV34 {
         if (sc >= 0 && e.elite) cls = Math.min(ModShips.TITAN, sc + 1);   // elites: one class up
         if (cls < ModShips.BATTLECRUISER || e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) return;
         float[] cr = shieldStats(stockLv, lv, cls);
-        if (cr != null) bigShield.put(e, new float[]{cr[0], cr[0], cr[1], 0, 0});
+        if (cr == null) return;
+        Sh h = new Sh();
+        h.cap = h.cur = cr[0];
+        h.rate = cr[1];
+        bigShield.put(e, h);
     }
 
     /** {capacity, regen per second} for a big enemy at a stock table level / v34 level and class, or null. */
@@ -447,29 +451,37 @@ public class ModV34 {
         return rate * dtSec * (sinceHitMs < UNDER_FIRE_MS ? UNDER_FIRE : 1.0f);
     }
 
-    /** ModLive.under, every frame per element. */
+    /** Lazy regen up to {@code now} (also off-screen: credited on the next draw or hit). */
+    private static Sh charge(Element e, long now) {
+        Sh h = bigShield.get(e);
+        if (h == null) return null;
+        if (h.last > 0 && now > h.last) h.cur = Math.min(h.cap, h.cur + regen(h.rate, (now - h.last) / 1000f, now - h.hit));
+        h.last = now;
+        return h;
+    }
+
+    /** ModLive.under, every frame per drawn element. */
     static void shieldTick(Element e, long now) {
-        float[] s = bigShield.get(e);
-        if (s == null) return;
-        if (s[3] > 0) s[1] = Math.min(s[0], s[1] + regen(s[2], Math.min(0.5f, (now - (long) s[3]) / 1000f), now - (long) s[4]));
-        s[3] = now;
+        charge(e, now);
     }
 
     /** ModLive.hit: the shield takes the damage first. */
     static float shieldAbsorb(Element target, float dmg, Projectile p) {
-        float[] s = bigShield.get(target);
-        if (s == null || dmg <= 0) return dmg;
-        if (p != null && p.sender != null && p.sender.isPlayer) s[4] = System.currentTimeMillis();
-        float a = Math.min(dmg, s[1]);
-        s[1] -= a;
+        if (dmg <= 0) return dmg;
+        long now = System.currentTimeMillis();
+        Sh h = charge(target, now);
+        if (h == null) return dmg;
+        if (p != null && p.sender != null && p.sender.isPlayer) h.hit = now;
+        float a = Math.min(dmg, h.cur);
+        h.cur -= a;
         return dmg - a;
     }
 
     /** ModLive.over: a faint shell that dims with the charge. */
     static void shieldDraw(Element e, float side) {
-        float[] s = bigShield.get(e);
-        if (s == null || s[0] <= 0 || s[1] <= 0) return;
-        float f = s[1] / s[0], w = side * 1.15f;
+        Sh h = bigShield.get(e);
+        if (h == null || h.cap <= 0 || h.cur <= 0) return;
+        float f = h.cur / h.cap, w = side * 1.15f;
         ModFx.spr("shield_shell", e.position.x, e.position.y, w, w, 0, 0.45f, 0.75f, 1.0f, 0.12f + 0.25f * f, true);
     }
 

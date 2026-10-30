@@ -51,4 +51,6 @@ eq("skill vs non-dodgeable: pilot only",ModV34.skillDamage(100,700,400,false,fal
 {fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpec[] d=fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpecBuilder.decentLaserSpecByLevel;
  for(int s=3;s<d.length;s++){float dps=2*d[s].getDps();double fr=ModV34.baseHull(s)*0.6/dps,de=ModV34.baseHull(s)/dps;
   eq("model kill time stock L"+s+" frigate "+String.format("%.1f",fr)+" s, destroyer "+String.format("%.1f",de)+" s (C1 baseline 3-4 s, band 1-5 s)",fr>=1&&de<=5?1:0,1,0);}}
+eq("shield regen steady",ModV34.regen(10,2,99999),20,1e-4);eq("shield regen -15% under player fire",ModV34.regen(10,2,1000),17,1e-4);
+{float[] s1=ModV34.shieldStats(10,20,3),s2=ModV34.shieldStats(10,20,5);eq("shield capital = 5/2.2 x battlecruiser",s2[0]/s1[0],5/2.2,1e-3);}
 System.out.println(bad==0?"V34 VALUES-OK":"V34 VALUES-FAIL "+bad);}}
