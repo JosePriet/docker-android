@@ -411,7 +411,7 @@
     :goto_29
     const/4 v0, 0x2
 
-    if-ge v3, v0, :cond_6b
+    if-ge v3, v0, :cond_6d
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
 
@@ -419,7 +419,7 @@
 
     move-result v0
 
-    if-le v0, v5, :cond_6b
+    if-le v0, v5, :cond_6d
 
     move v1, v2
 
@@ -431,7 +431,7 @@
 
     move-result v0
 
-    if-ge v1, v0, :cond_67
+    if-ge v1, v0, :cond_69
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
 
@@ -439,7 +439,7 @@
 
     move-result v0
 
-    if-le v0, v5, :cond_67
+    if-le v0, v5, :cond_69
 
     .line 584
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
@@ -451,25 +451,27 @@
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModWreck;
 
     .line 585
-    iget-boolean v4, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->derelict:Z
-
-    if-nez v4, :cond_5d
-
     iget-boolean v4, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->poi:Z
 
-    if-nez v4, :cond_5d
+    if-nez v4, :cond_5f
 
-    if-eq v0, p0, :cond_5d
+    invoke-virtual {v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->playerOnly()Z
 
-    if-nez v3, :cond_61
+    move-result v4
+
+    if-nez v4, :cond_5f
+
+    if-eq v0, p0, :cond_5f
+
+    if-nez v3, :cond_63
 
     iget-boolean v4, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->husk:Z
 
-    if-nez v4, :cond_61
+    if-nez v4, :cond_63
 
     .line 583
-    :cond_5d
-    :goto_5d
+    :cond_5f
+    :goto_5f
     add-int/lit8 v0, v1, 0x1
 
     move v1, v0
@@ -477,16 +479,16 @@
     goto :goto_35
 
     .line 586
-    :cond_61
+    :cond_63
     invoke-direct {v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->vanish()V
 
     .line 587
     add-int/lit8 v1, v1, -0x1
 
-    goto :goto_5d
+    goto :goto_5f
 
     .line 581
-    :cond_67
+    :cond_69
     add-int/lit8 v0, v3, 0x1
 
     move v3, v0
@@ -494,7 +496,7 @@
     goto :goto_29
 
     .line 590
-    :cond_6b
+    :cond_6d
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
