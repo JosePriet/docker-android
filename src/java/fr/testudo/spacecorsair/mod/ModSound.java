@@ -182,8 +182,8 @@ public final class ModSound {
     }
 
     /**
-     * SettingsActivity.bindUI (hooks36): a "Volume" bar under the sound-effects checkbox, built like the music one
-     * (same label string, layout params, 0-10 steps) and shown only while sound effects are on. Saved on every move.
+     * SettingsActivity.bindUI (hooks36): an EFFECTS bar under the sound-effects checkbox, built like the music one
+     * (same layout params, 0-10 steps; v37 labels the music bar MUSIC) and shown only while sound effects are on. Saved on every move.
      */
     public static void settingsBar(final Activity a, CheckBox fx, View musicRow, SeekBar musicBar) {
         try {
@@ -198,7 +198,8 @@ public final class ModSound {
             View lbl0 = ((ViewGroup) musicRow).getChildAt(0);
             if (lbl0 instanceof TextView) {
                 TextView m = (TextView) lbl0, t = new TextView(a);
-                t.setText(m.getText());
+                m.setText(ModLang.tr("MUSIC"));   // v37 (owner): the two bars read MUSIC / EFFECTS, not "Volume" twice
+                t.setText(ModLang.tr("EFFECTS"));
                 t.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, m.getTextSize());
                 t.setTextColor(m.getTextColors());
                 t.setTypeface(m.getTypeface());

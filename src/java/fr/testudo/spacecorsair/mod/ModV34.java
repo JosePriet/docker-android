@@ -129,14 +129,15 @@ public class ModV34 {
         return 355.5f * (float) Math.pow(lv + 1, 1.2);
     }
 
-    /**
-     * G3 rare loot: a kill can drop rare salvage worth several bounties. Expected value is half the bounty
-     * (normal 4% x 12.5, elite 25% x 2, boss always x 0.5), so loot sits between kills and missions.
-     */
+    /** G3 rare salvage odds and amounts (x kill credits) for normal, elite, boss kills: from tools/sim/econ_sim.py (check.sh compares them). */
+    public static final float[] RARE_P = {0.04f, 0.25f, 1.0f}, RARE_K = {12.5f, 2.0f, 0.5f};
+
+    /** G3 rare loot: a kill can drop rare salvage worth several bounties; mean value = the sim's loot share of the kill. */
     public static void rareSalvage(Ennemis e, int bounty) {
         try {
             boolean boss = ModBoss.isBoss(e) || e.xp >= 500;
-            float p = boss ? 1.0f : e.elite ? 0.25f : 0.04f, k = boss ? 0.5f : e.elite ? 2.0f : 12.5f;
+            int c0 = boss ? 2 : e.elite ? 1 : 0;
+            float p = RARE_P[c0], k = RARE_K[c0];
             if (Math.random() >= p) return;
             int c = Math.max(1, Math.round(bounty * k));
             ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(c);
@@ -150,15 +151,74 @@ public class ModV34 {
     }
 
     /**
-     * sim/econ_report.md hourly income in bounties: 40 kills + 4 elites x2 + 0.3 bosses x8 = 50.4, loot share 0.5 (+25.2),
-     * missions 1.5 x 3 = 4.5; about 80. The cap is a safety net: at 2 bounties a death it does not bind (sim worst case 7.4%).
+     * B3 death fee (owner): about 2 same-level kills, capped so 3 deaths cost at most 15% of the hour's income.
+     * v37 (owner: "make it actually limit something"): the sim's income is always ~80 bounties/h, so a cap on it never binds.
+     * The cap now uses the player's real income over the last 60 minutes of play (credits gained, any source); minutes not
+     * yet tracked count at the sim's rate (ModV35.income). It binds once real income is under ~40 bounties/h.
      */
-    static final float INCOME_BOUNTIES = 80f;
-
-    /** Death fee: 2 same-level kills, capped so 3 deaths cost at most 15% of the sim's hourly income. */
     public static int deathFee(int lv) {
+        return deathFee(lv, hourlyIncome(lv));
+    }
+
+    public static int deathFee(int lv, float hourly) {
         float b = bounty(lv);
-        return Math.round(Math.min(2f * b, 0.15f * INCOME_BOUNTIES * b / 3f));
+        return Math.max(0, Math.round(Math.min(2f * b, 0.15f * hourly / 3f)));
+    }
+
+    static final int WINDOW = 60;                       // minutes of play
+    private static long[] perMin;                       // credits gained per play minute (ring)
+    private static int ring, tracked;                   // next slot, minutes tracked (<= 60)
+    private static long cur, lastCredit = -1, lastMs, minMs;
+
+    /** Real income over the last hour of play; untracked minutes at the sim rate. */
+    public static float hourlyIncome(int lv) {
+        loadIncome();
+        long sum = cur;
+        for (long v : perMin) sum += v;
+        return sum + (WINDOW - tracked) / (float) WINDOW * ModV35.income(lv);
+    }
+
+    private static void loadIncome() {
+        if (perMin != null) return;
+        perMin = new long[WINDOW];
+        try {
+            SharedPreferences p = ModQol.prefs();
+            if (p == null) return;
+            String[] f = p.getString("v37_income", "").split(",");
+            tracked = Math.min(WINDOW, p.getInt("v37_income_n", 0));
+            ring = Math.max(0, Math.min(WINDOW - 1, p.getInt("v37_income_i", 0)));
+            for (int k = 0; k < WINDOW && k < f.length; k++) if (f[k].length() > 0) perMin[k] = Long.parseLong(f[k]);
+        } catch (Throwable t) {
+            perMin = new long[WINDOW];
+            tracked = 0;
+        }
+    }
+
+    /** ModLive.frame, once per game frame: credit gains counted per minute of play (paused time does not count). */
+    static void incomeTick(long now) {
+        try {
+            if (now - lastMs < 1000) return;
+            long dt = lastMs == 0 ? 0 : Math.min(2000, now - lastMs);
+            lastMs = now;
+            loadIncome();
+            long c = ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.getCredit();
+            if (lastCredit >= 0 && c > lastCredit) cur += c - lastCredit;
+            lastCredit = c;
+            minMs += dt;
+            if (minMs < 60000) return;
+            minMs = 0;
+            perMin[ring] = cur;
+            cur = 0;
+            ring = (ring + 1) % WINDOW;
+            tracked = Math.min(WINDOW, tracked + 1);
+            SharedPreferences p = ModQol.prefs();
+            if (p == null) return;
+            StringBuilder b = new StringBuilder();
+            for (int k = 0; k < WINDOW; k++) b.append(k > 0 ? "," : "").append(perMin[k]);
+            p.edit().putString("v37_income", b.toString()).putInt("v37_income_n", tracked).putInt("v37_income_i", ring).commit();
+        } catch (Throwable t) {
+            // the fee falls back to the sim rate
+        }
     }
 
     /** Level bonus above L17: +1% shield regen per level. */
@@ -255,8 +315,39 @@ public class ModV34 {
         }
     }
 
-    /** Stock enemy types are the neutral generalist baseline: their stock rows already carry their size, so they count as destroyer class (x1). */
+    /** Fallback class (x1) for enemies with no class of their own (turrets, unknown types). */
     static final int STOCK_CLASS = ModShips.DESTROYER;
+
+    /**
+     * v37 (owner): each stock enemy type gets its real class from its drawn size (the ModV35.enemyClass size rule):
+     * Taupe 40, Basic 50, Defensor 70 = frigate; Rat 80, Ufo 140 = destroyer; Frelon 190 = cruiser; Albatros 512,
+     * Blatte 600 = capital. Turrets are structures (-1: stock hull kept). Exact classes only: ModFleet hulls keep their own rule.
+     */
+    public static int stockClass(Element e) {
+        if (e == null) return -1;
+        Class<?> c = e.getClass();
+        if (c == fr.testudo.spacecorsair.business.ennemis.TaupeShip.class || c == fr.testudo.spacecorsair.business.ennemis.BasicEnnemyShip.class
+            || c == fr.testudo.spacecorsair.business.ennemis.DefensorShip.class) return ModShips.FRIGATE;
+        if (c == fr.testudo.spacecorsair.business.ennemis.AlienRat.class || c == fr.testudo.spacecorsair.business.ennemis.UfoAlienShip.class) return ModShips.DESTROYER;
+        if (c == fr.testudo.spacecorsair.business.ennemis.FrelonShip.class) return ModShips.CRUISER;
+        if (c == fr.testudo.spacecorsair.business.ennemis.Albatros.class || c == fr.testudo.spacecorsair.business.ennemis.AlienBlatte.class) return ModShips.CAPITAL;
+        return -1;
+    }
+
+    /**
+     * Req 3 / C2 base curve: the destroyer hull at a stock table level = mean of the two destroyer-class stock rows
+     * (AlienRat, Ufo). Stock rows already carry size, so hull = this base x class factor, not stock hull x class factor.
+     */
+    public static float baseHull(int stockLv) {
+        try {
+            fr.testudo.spacecorsair.business.ennemis.EnnemisSpec[] r = fr.testudo.spacecorsair.business.ennemis.EnnemisSpecByLevel.alienRatSpec,
+                u = fr.testudo.spacecorsair.business.ennemis.EnnemisSpecByLevel.UfoSpec;
+            int i = Math.max(0, Math.min(Math.min(r.length, u.length) - 1, stockLv));
+            return (r[i].life + u[i].life) / 2f;
+        } catch (Throwable t) {
+            return -1f;
+        }
+    }
 
     /** Re-tier an enemy: damage, shield and fire rate move by TIER_F[to] / TIER_F[from]. */
     static void retier(Ennemis e, int from, int to) {
@@ -285,6 +376,12 @@ public class ModV34 {
     /** Smali hook at the end of every stock initLevelConfig (stats from the spec row are set). */
     public static void scale(Ennemis e) {
         try {
+            int cls = stockClass(e);
+            float base = cls >= 0 ? baseHull(e.level) : -1f;   // e.level is still the stock table level here
+            if (base > 0) {
+                e.maxLife = base * classFactor(cls);
+                e.life = e.maxLife;
+            }
             if (want > e.level) {
                 e.level = Math.min(CAP, want);
                 e.levelStr = String.valueOf(e.level);
@@ -293,7 +390,7 @@ public class ModV34 {
             int lv = e.getLevel();
             int t = Math.max(1, Math.min(4, 1 + lv / 12 + (int) Math.floor(Math.random() * 3) - 1));
             state.put(e, new int[] {t, statBase(lv)});
-            float c = curve(lv) * classFactor(STOCK_CLASS);
+            float c = curve(lv);   // the class factor is in the hull above (req 3: class factor = hull)
             e.maxLife *= c;
             e.life = e.maxLife;
             e.xp = Math.round(e.xp * curve(lv));   // XP keeps pace with the +5% per level XP table
@@ -474,6 +571,34 @@ public class ModV34 {
         }
         if (def.length() > 0 && fam >= 0) m *= ModCounterData.weaponTaken(def, fam);
         return Math.max(0.5f, Math.min(2.0f, m));
+    }
+
+    /**
+     * v37 (owner): flagship and boss skills (shock waves, beams, auras) go through REA dodge and the pilot formula like
+     * gunfire. A one-shot skill rolls the dodge; a per-frame skill takes the dodge as an average cut (no EVADED spam).
+     */
+    public static void skillHit(Element target, Element src, float dmg, boolean perFrame) {
+        if (target == null || dmg <= 0) return;
+        try {
+            if (src != null) dmg = skillDamage(dmg, stat(src), stat(target), target.isPlayer && difficult(src), perFrame, Math.random());
+            if (dmg <= 0) {
+                if (target instanceof PlayerShip) Mod.floatText((PlayerShip) target, ModLang.tr("EVADED"), 0.6f, 0.9f, 1.0f);
+                return;
+            }
+        } catch (Throwable t) {
+            // raw skill damage
+        }
+        target.applyDamage(dmg, src, null);
+    }
+
+    /** Skill damage after REA dodge (only when {@code dodgeable}) and the pilot formula; 0 = evaded. */
+    public static float skillDamage(float dmg, int atk, int def, boolean dodgeable, boolean perFrame, double roll) {
+        if (dodgeable) {
+            float d = dodge(def, atk);
+            if (perFrame) dmg *= 1.0f - d;
+            else if (roll < d) return 0f;
+        }
+        return dmg * pilot(atk, def);
     }
 
     /** Hook from ModLive.hit (before boss skills): dodge, pilot formula, counters, off-faction penalty. */

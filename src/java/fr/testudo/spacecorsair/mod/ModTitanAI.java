@@ -262,7 +262,7 @@ public final class ModTitanAI {
                 g.speed.set(v.x * 9.0f, v.y * 9.0f);
                 if (!s.hitDone && dist < ModCapitals.SIZE * 0.45f) {
                     s.hitDone = true;
-                    ps.applyDamage(ps.maxLife * 0.1f, g, null);
+                    ModV34.skillHit(ps, g, ps.maxLife * 0.1f, false);
                     ObjectRegistry.INSTANCE.soundManager.playShockWave();
                 }
             }
@@ -276,7 +276,7 @@ public final class ModTitanAI {
                     ModLive.fx("fx_fire_sheet", 4, 16, w.x, w.y, 420, 1800, 1.0f, 0.55f, 0.2f, true);
                 }
                 for (int i = 0; i < s.trail.size(); i++) {
-                    if (s.trail.get(i).distance(ps.position) < 230) { ps.applyDamage(ps.maxLife * 0.02f * j / 1000.0f, g, null); break; }
+                    if (s.trail.get(i).distance(ps.position) < 230) { ModV34.skillHit(ps, g, ps.maxLife * 0.02f * j / 1000.0f, true); break; }
                 }
             }
         } else if ("kretari".equals(k)) {
@@ -335,7 +335,7 @@ public final class ModTitanAI {
                 s.hitDone = true;
                 ModLive.fx("fx_explosion_big_sheet", 8, 64, s.p1.x, s.p1.y, 900, 900, 1.0f, 0.75f, 0.4f, true);
                 ObjectRegistry.INSTANCE.soundManager.playRandomExplode();
-                if (ps.position.distance(s.p1) < 380) ps.applyDamage(ps.maxLife * 0.12f, g, null);
+                if (ps.position.distance(s.p1) < 380) ModV34.skillHit(ps, g, ps.maxLife * 0.12f, false);
             }
         } else if ("helion".equals(k)) {
             if (s.a <= 0 && dist < 3000) {           // solar lance sweep, 3 s
@@ -348,7 +348,7 @@ public final class ModTitanAI {
                 float k01 = 1.0f - s.act / 3000.0f;
                 float ang = s.ang0 + (s.ang1 - s.ang0) * k01;
                 float toP = (float) Math.toDegrees(Math.atan2(ps.position.y - g.position.y, ps.position.x - g.position.x));
-                if (Math.abs(ModLive.normDelta(toP - ang)) < 4.0f && dist < 3200) ps.applyDamage(ps.maxLife * 0.25f * j / 1000.0f, g, null);
+                if (Math.abs(ModLive.normDelta(toP - ang)) < 4.0f && dist < 3200) ModV34.skillHit(ps, g, ps.maxLife * 0.25f * j / 1000.0f, true);
             }
             if (s.b <= 0 && dist < 3500) {           // boost dash
                 s.b = 8000; s.act2 = 900;
@@ -363,7 +363,7 @@ public final class ModTitanAI {
                 float r = 3000.0f * (1.0f - s.enrageMs / 2500.0f);
                 if (!s.hitDone && Math.abs(dist - r) < 180) {
                     s.hitDone = true;
-                    ps.applyDamage(ps.maxLife * 0.18f, g, null);
+                    ModV34.skillHit(ps, g, ps.maxLife * 0.18f, false);
                 }
             }
         } else if ("warden".equals(k)) {
@@ -385,7 +385,7 @@ public final class ModTitanAI {
             }
             if (pa2 > 0 && s.act2 <= 0 && !s.hitDone) {
                 s.hitDone = true;
-                if (segDist(ps.position, s.p1, s.p2) < 140) ps.applyDamage(ps.maxLife * 0.15f, g, null);
+                if (segDist(ps.position, s.p1, s.p2) < 140) ModV34.skillHit(ps, g, ps.maxLife * 0.15f, false);
                 ObjectRegistry.INSTANCE.soundManager.playElectricSpark();
             }
             if (enrageNow) { lockBoost(ps, 6000); noMissileMs = Math.max(noMissileMs, 6000); }

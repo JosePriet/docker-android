@@ -642,7 +642,7 @@ public class ModV35 {
         return 0;
     }
 
-    /** Enemy hull class: stock rows are the destroyer baseline (v34); mod NPC hulls by drawn size. */
+    /** Enemy hull class: mod NPC hulls by drawn size; stock types by ModV34.stockClass (v37); turrets x1. */
     static int enemyClass(Ennemis e) {
         try {
             if (e instanceof ModFleet.Fighter || e instanceof ModFleet.Raider || e instanceof ModFleet.Gunship || e instanceof ModFleet.Cruiser
@@ -653,7 +653,8 @@ public class ModV35 {
         } catch (Throwable t) {
             // baseline
         }
-        return ModV34.STOCK_CLASS;
+        int c = ModV34.stockClass(e);   // v37: stock types by their real class
+        return c >= 0 ? c : ModV34.STOCK_CLASS;
     }
 
     /** The player's side of the comparison: {level, class, tier}. */

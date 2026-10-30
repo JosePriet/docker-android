@@ -364,8 +364,66 @@ public final class ModDev {
                 ps.applyDamage(ps.life + ps.maxLife, src != null ? src : ps, null);
             }
             t30Die = d;
+            testV37(ps);
         } catch (Throwable t) {
             android.util.Log.w("ModDev", "v30 test " + t);
+        }
+    }
+
+    // ------------------------------------------------------------------ v37 emulator switches: go where each feature lives
+    private static String t37Near, t37Music;
+    private static boolean t37Dock, t37KillFlag;
+    private static long t37Hop;
+
+    /**
+     * corsair_goto=LEVELID: fly gate by gate (real jumps, one every 4 s) to that sector. corsair_near=objective|flagship|station[N]
+     * (a new value re-triggers): the ship moves 1,200 from it. corsair_dock: dock at the nearest station. corsair_killflag:
+     * flagships within 4,000 die, credited to the player. corsair_musiclog: logcat "ModSound music" on every change.
+     */
+    private static void testV37(PlayerShip ps) {
+        fr.testudo.spacecorsair.game.levels.Level lvl = ObjectRegistry.INSTANCE.game.currentLevel;
+        String g = testValue("corsair_goto");
+        if (g != null && g.length() > 0 && System.currentTimeMillis() - t37Hop > 4000) {
+            fr.testudo.spacecorsair.game.levels.LevelId dest = fr.testudo.spacecorsair.game.levels.LevelId.valueOf(g);
+            if (!dest.levelName.equals(lvl.name)) {
+                t37Hop = System.currentTimeMillis();
+                fr.testudo.spacecorsair.business.world.Portal p = lvl.findPortalByName(fr.testudo.spacecorsair.business.world.PathFinder.getPortalNameToGoTo(dest));
+                android.util.Log.i("ModDev", "goto " + lvl.name + " -> " + dest.levelName + (p != null ? " via " + p.jumpLevelName : " no gate"));
+                if (p != null) p.jump();
+            }
+        }
+        String n = testValue("corsair_near");
+        if (n != null && !n.equals(t37Near)) {
+            t37Near = n;
+            fr.testudo.spacecorsair.engine.Vector2 to = null;
+            if (n.startsWith("objective")) to = ModFaction.testObjective();
+            else if (n.startsWith("station")) { fr.testudo.spacecorsair.business.world.station.Station st = ModPlace.farthestStation(ps.position, null); if (st != null) to = st.position; }
+            else if (n.startsWith("flagship")) for (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip c : ModCapitals.caps.keySet()) if (!c.removed) { to = c.position; break; }
+            android.util.Log.i("ModDev", "near " + n + (to != null ? " ok" : " none"));
+            if (to != null) { ps.position.set(to.x + 1200, to.y); ps.speed.set(0, 0); }
+        }
+        boolean dk = testFlag("corsair_dock");
+        if (dk && !t37Dock) {
+            fr.testudo.spacecorsair.business.world.station.Station st = ModPlace.nearestStation(ps.position);
+            android.util.Log.i("ModDev", "dock " + (st != null ? st.name : "none"));
+            if (st != null) st.onPlayerDock();
+        }
+        t37Dock = dk;
+        boolean kf = testFlag("corsair_killflag");
+        if (kf && !t37KillFlag) {
+            for (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip c : new java.util.ArrayList<fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip>(ModCapitals.caps.keySet())) {
+                if (c.removed || c.position.distance(ps.position) > 4000) continue;
+                android.util.Log.i("ModDev", "killflag " + ModCapitals.cap(c).f.key);
+                c.invincible = false;
+                c.applyDamage(c.life + 1, ps, null);
+            }
+        }
+        t37KillFlag = kf;
+        if (testFlag("corsair_musiclog")) {
+            fr.testudo.spacecorsair.engine.MusicManager mm = ObjectRegistry.INSTANCE.musicManager;
+            android.media.MediaPlayer mp = mm != null ? mm.curPlaying : null;
+            String st = lvl.name + " playing=" + (mp != null && mp.isPlaying()) + " enabled=" + (mm != null && mm.getMusicEnabed());
+            if (!st.equals(t37Music)) { t37Music = st; android.util.Log.i("ModSound", "music " + st); }
         }
     }
 

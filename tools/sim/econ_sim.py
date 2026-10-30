@@ -16,7 +16,13 @@ P = dict(
     missions_h=1.5, mission_base=3.0,          # stock mission reward = mission_base * bounty(lv) per mission
     gear_frac=0.5,                             # full gear fit cost = gear_frac * hull price (per class)
     resale=0.5,                                # previous hull resold at resale*price
+    rare_p=(0.04, 0.25, 1.0),                  # G3 rare salvage odds per kill: normal, elite, boss (owner OK 2026-10-30)
 )
+
+def rare(T):
+    """v37: rare salvage is the sim's loot term. Each kill class pays loot_share x its own bounty on average, so the
+    salvage amount (in kill credits) is loot_share / odds. ModV34.RARE_P / RARE_K must equal these (pace_check.py)."""
+    return [(p, T["loot"]/p) for p in P["rare_p"]]
 # ship price targets (cheapest of class, from owner/task list) and ladder
 SHIPS = [("cruiser",150e3),("battleship",1.1e6),("titan",6e6)]
 TARGET_H = {"cruiser":2,"battleship":8,"titan":20}
@@ -40,7 +46,7 @@ def income(lv, T):
 
 def death_cost(lv, T):
     gross = sum(income(lv, T))
-    raw = 2*18*(lv+1)**2                        # draft formula (not scaled by kb)
+    raw = 2*bounty(lv, T)                       # v37: the game's fee, 2 same-level bounties (ModV34.deathFee)
     cap = P["death_cap"]*gross/P["deaths_h"]
     return min(raw, cap), raw, cap, P["deaths_h"]*min(raw, cap)/gross
 
@@ -98,7 +104,7 @@ def main():
     L.append("L18-40 XP per level: " + ", ".join(f"L{i+1}:{xt[i]/1000:.1f}k" for i in range(17,CAP-1)))
     L.append("")
     L.append("## Assumptions (parameters in econ_sim.py)")
-    L.append(f"- {P['kills_h']} kills/h, {P['elites_h']} elites/h, {P['bosses_h']} bosses/h at matched level; {P['deaths_h']} deaths/h; penalty 2*18*(lv+1)^2 capped at {int(P['death_cap']*100)}% of hourly income.")
+    L.append(f"- {P['kills_h']} kills/h, {P['elites_h']} elites/h, {P['bosses_h']} bosses/h at matched level; {P['deaths_h']} deaths/h; penalty 2 bounties capped at {int(P['death_cap']*100)}% of hourly income.")
     L.append(f"- XP per normal kill ASSUMED = {P['xp_k']}*(lv+1)^{P['xp_p']} (real value not in mod code); elite x{P['elite_xp']}, boss x{P['boss_xp']}.")
     L.append(f"- Missions {P['missions_h']}/h, each worth {P['mission_base']:.0f} kill-bounties before the mission factor; loot income = share of kill income (sold at 25%).")
     L.append(f"- Gear fit = {P['gear_frac']:.0%} of hull price per class; previous hull resold at {P['resale']:.0%}; cash accumulates across the ladder cruiser > battleship > titan (cheapest of class: 150k / 1.1M / 6M).")
@@ -122,6 +128,11 @@ def main():
     L.append(f"\nDeath-penalty check (3 deaths <= 15% of income): worst level = {worst*100:.1f}% -> {'PASS' if worst<=0.1501 else 'FAIL'}. "
              f"Uncapped draft formula would exceed 15% at levels: " +
              (", ".join(str(lv) for lv in range(1,CAP+1) if death_cost(lv,T)[1]*3 > 0.15*sum(income(lv,T))) or "none") + ".")
+    R = rare(T); per_h = P["kills_h"]*R[0][0] + P["elites_h"]*R[1][0] + P["bosses_h"]*R[2][0]
+    ev = (P["kills_h"]*R[0][0]*R[0][1] + P["elites_h"]*2*R[1][0]*R[1][1] + P["bosses_h"]*8*R[2][0]*R[2][1]) / (P["kills_h"] + P["elites_h"]*2 + P["bosses_h"]*8)
+    g3 = per_h >= 1 and R[0][0] < R[1][0] <= R[2][0] and abs(ev - T["loot"]) < 1e-6
+    L.append(f"Rare salvage (loot term): odds {R[0][0]:g}/{R[1][0]:g}/{R[2][0]:g}, amount x{R[0][1]:g}/x{R[1][1]:g}/x{R[2][1]:g} kill credits; "
+             f"{per_h:.1f} drops/h at matched play; mean value {ev:g} x kill income: {'PASS' if g3 else 'FAIL'} (G3: seen every hour, more often from elites/bosses, value = loot share).")
     k,l,m = income(15,T); L.append(f"Ordering check at L15: kills {fmt(k)} > loot {fmt(l)} > missions {fmt(m)}: {'PASS' if k>l>m else 'FAIL'}.")
     L.append("")
     L.append("## Proposed constants")
@@ -130,7 +141,9 @@ def main():
     L.append(f"BOUNTY_EXP    = {T['bp']}       # was 2.0")
     L.append(f"LOOT_SHARE    = {T['loot']}       # loot sale value ~ share of kill income (ordering kills>loot>missions)")
     L.append(f"MISSION_MULT  = {T['mf']}       # was x3 (ModQol.missionCredits)")
-    L.append("DEATH_PENALTY = min(2*18*(lv+1)^2, 0.15*hourly_income(lv)/3)")
+    L.append("DEATH_PENALTY = min(2*bounty(lv), 0.15*hourly_income/3)   # game: hourly_income = the player's real last hour of play (v37)")
+    L.append("RARE_P        = " + ", ".join(f"{p:g}" for p,_ in rare(T)) + "       # rare salvage odds: normal, elite, boss")
+    L.append("RARE_K        = " + ", ".join(f"{k:g}" for _,k in rare(T)) + "       # rare salvage amount x kill credits")
     L.append("```")
     L.append("Caveat: XP/kill and loot/mission volumes are assumed; re-fit after one emulator/phone measurement of kills/h and credits/h.")
     open(out,"w").write("\n".join(L)+"\n")

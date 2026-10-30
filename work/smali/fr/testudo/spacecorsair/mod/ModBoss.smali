@@ -1418,17 +1418,17 @@
     invoke-static {v0, v1, v2, v6}, Lfr/testudo/spacecorsair/business/Util;->applyShockWaveOnPlayer(Lfr/testudo/spacecorsair/business/Element;III)V
 
     .line 486
-    iget v0, v3, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    const v1, 0x3d23d70a    # 0.04f
+    iget v1, v3, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
 
-    mul-float/2addr v0, v1
+    const v2, 0x3d23d70a    # 0.04f
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+    mul-float/2addr v1, v2
 
     const/4 v2, 0x0
 
-    invoke-virtual {v3, v0, v1, v2}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+    invoke-static {v3, v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModV34;->skillHit(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;FZ)V
 
     .line 487
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
@@ -2039,17 +2039,17 @@
     if-gez v0, :cond_4d7
 
     .line 544
-    iget v0, v3, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    const v1, 0x3cf5c28f    # 0.03f
+    iget v1, v3, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
 
-    mul-float/2addr v0, v1
+    const v2, 0x3cf5c28f    # 0.03f
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+    mul-float/2addr v1, v2
 
     const/4 v2, 0x0
 
-    invoke-virtual {v3, v0, v1, v2}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+    invoke-static {v3, v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModV34;->skillHit(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;FZ)V
 
     .line 545
     const/4 v0, 0x3

@@ -3314,7 +3314,7 @@
 
     move-object/from16 v1, p0
 
-    invoke-virtual {v0, v2, v1, v3}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+    invoke-static {v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModV34;->skillHit(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;FZ)V
 
     .line 266
     sget-object v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
@@ -3501,13 +3501,13 @@
 
     div-float/2addr v2, v3
 
-    const/4 v3, 0x0
+    const/4 v3, 0x1
 
     move-object/from16 v0, p3
 
     move-object/from16 v1, p0
 
-    invoke-virtual {v0, v2, v1, v3}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+    invoke-static {v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModV34;->skillHit(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;FZ)V
 
     goto/16 :goto_7e
 
@@ -4204,7 +4204,7 @@
 
     move-object/from16 v1, p0
 
-    invoke-virtual {v0, v2, v1, v3}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+    invoke-static {v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModV34;->skillHit(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;FZ)V
 
     goto/16 :goto_7e
 
@@ -4451,13 +4451,13 @@
 
     div-float/2addr v2, v4
 
-    const/4 v4, 0x0
+    const/4 v4, 0x1
 
     move-object/from16 v0, p3
 
     move-object/from16 v1, p0
 
-    invoke-virtual {v0, v2, v1, v4}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+    invoke-static {v0, v1, v2, v4}, Lfr/testudo/spacecorsair/mod/ModV34;->skillHit(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;FZ)V
 
     .line 353
     :cond_69e
@@ -4651,7 +4651,7 @@
 
     move-object/from16 v1, p0
 
-    invoke-virtual {v0, v2, v1, v3}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+    invoke-static {v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModV34;->skillHit(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;FZ)V
 
     goto/16 :goto_7e
 
@@ -4903,7 +4903,7 @@
 
     move-object/from16 v1, p0
 
-    invoke-virtual {v0, v2, v1, v3}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+    invoke-static {v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModV34;->skillHit(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/Element;FZ)V
 
     .line 389
     :cond_837

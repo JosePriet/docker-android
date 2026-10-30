@@ -1136,7 +1136,7 @@
 
     if-nez v0, :cond_13
 
-    .line 230
+    .line 231
     :cond_12
     :goto_12
     return-void
@@ -1198,7 +1198,7 @@
     .line 199
     instance-of v4, v1, Landroid/widget/TextView;
 
-    if-eqz v4, :cond_7d
+    if-eqz v4, :cond_88
 
     .line 200
     check-cast v1, Landroid/widget/TextView;
@@ -1208,13 +1208,24 @@
     invoke-direct {v4, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
     .line 201
-    invoke-virtual {v1}, Landroid/widget/TextView;->getText()Ljava/lang/CharSequence;
+    const-string v5, "MUSIC"
+
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-virtual {v1, v5}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 202
+    const-string v5, "EFFECTS"
+
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v5
 
     invoke-virtual {v4, v5}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 202
+    .line 203
     const/4 v5, 0x0
 
     invoke-virtual {v1}, Landroid/widget/TextView;->getTextSize()F
@@ -1223,21 +1234,21 @@
 
     invoke-virtual {v4, v5, v6}, Landroid/widget/TextView;->setTextSize(IF)V
 
-    .line 203
+    .line 204
     invoke-virtual {v1}, Landroid/widget/TextView;->getTextColors()Landroid/content/res/ColorStateList;
 
     move-result-object v5
 
     invoke-virtual {v4, v5}, Landroid/widget/TextView;->setTextColor(Landroid/content/res/ColorStateList;)V
 
-    .line 204
+    .line 205
     invoke-virtual {v1}, Landroid/widget/TextView;->getTypeface()Landroid/graphics/Typeface;
 
     move-result-object v5
 
     invoke-virtual {v4, v5}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
 
-    .line 205
+    .line 206
     new-instance v5, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-virtual {v1}, Landroid/widget/TextView;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
@@ -1250,16 +1261,16 @@
 
     invoke-virtual {v4, v5}, Landroid/widget/TextView;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 206
+    .line 207
     invoke-virtual {v3, v4}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 208
-    :cond_7d
+    .line 209
+    :cond_88
     new-instance v4, Landroid/widget/SeekBar;
 
     invoke-direct {v4, p0}, Landroid/widget/SeekBar;-><init>(Landroid/content/Context;)V
 
-    .line 209
+    .line 210
     new-instance v5, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-virtual {p3}, Landroid/widget/SeekBar;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
@@ -1272,12 +1283,12 @@
 
     invoke-virtual {v4, v5}, Landroid/widget/SeekBar;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 210
+    .line 211
     const/16 v1, 0xa
 
     invoke-virtual {v4, v1}, Landroid/widget/SeekBar;->setMax(I)V
 
-    .line 211
+    .line 212
     sget v1, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
 
     const/high16 v5, 0x41200000    # 10.0f
@@ -1290,17 +1301,17 @@
 
     invoke-virtual {v4, v1}, Landroid/widget/SeekBar;->setProgress(I)V
 
-    .line 212
+    .line 213
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModSound$1;
 
     invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModSound$1;-><init>(Landroid/app/Activity;)V
 
     invoke-virtual {v4, v1}, Landroid/widget/SeekBar;->setOnSeekBarChangeListener(Landroid/widget/SeekBar$OnSeekBarChangeListener;)V
 
-    .line 220
+    .line 221
     invoke-virtual {v3, v4}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 221
+    .line 222
     invoke-virtual {v0, p1}, Landroid/view/ViewGroup;->indexOfChild(Landroid/view/View;)I
 
     move-result v1
@@ -1309,40 +1320,40 @@
 
     invoke-virtual {v0, v3, v1}, Landroid/view/ViewGroup;->addView(Landroid/view/View;I)V
 
-    .line 223
+    .line 224
     invoke-virtual {p1}, Landroid/widget/CheckBox;->isChecked()Z
 
     move-result v0
 
-    if-eqz v0, :cond_cc
+    if-eqz v0, :cond_d7
 
     move v0, v2
 
-    :goto_bc
+    :goto_c7
     invoke-virtual {v3, v0}, Landroid/view/View;->setVisibility(I)V
 
-    .line 224
+    .line 225
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModSound$2;
 
     invoke-direct {v0, v3}, Lfr/testudo/spacecorsair/mod/ModSound$2;-><init>(Landroid/view/View;)V
 
     invoke-virtual {p1, v0}, Landroid/widget/CheckBox;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
-    :try_end_c7
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_c7} :catch_c9
+    :try_end_d2
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_d2} :catch_d4
 
     goto/16 :goto_12
 
-    .line 227
-    :catch_c9
+    .line 228
+    :catch_d4
     move-exception v0
 
     goto/16 :goto_12
 
-    .line 223
-    :cond_cc
+    .line 224
+    :cond_d7
     const/16 v0, 0x8
 
-    goto :goto_bc
+    goto :goto_c7
 .end method
 
 .method public static sfx()F

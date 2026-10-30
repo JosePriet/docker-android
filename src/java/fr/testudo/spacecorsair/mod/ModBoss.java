@@ -483,7 +483,7 @@ public class ModBoss extends MissionListener {
             if (timerA <= 0) {
                 if (dist < 450.0f + boss.getPhysicDimension().x / 2.0f) {
                     Util.applyShockWaveOnPlayer(boss, 300, 1000, 800);
-                    ps.applyDamage(ps.maxLife * 0.04f, boss, null);
+                    ModV34.skillHit(ps, boss, ps.maxLife * 0.04f, false);
                     ObjectRegistry.INSTANCE.soundManager.playShockWave();
                 }
                 timerA = 1500;
@@ -541,7 +541,7 @@ public class ModBoss extends MissionListener {
             }
             if (timerB <= 0) { // venom aura
                 if (dist < 500.0f + boss.getPhysicDimension().x / 2.0f) {
-                    ps.applyDamage(ps.maxLife * 0.03f, boss, null);
+                    ModV34.skillHit(ps, boss, ps.maxLife * 0.03f, false);
                     fr.testudo.spacecorsair.display.ParticuleFactory.addGreen(ps, 3);
                 }
                 wave(boss.position, 0.3f, 1.0f, 0.3f, 800.0f);

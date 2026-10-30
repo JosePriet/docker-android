@@ -343,6 +343,11 @@ public class ModFaction extends MissionListener {
     private Element target;                   // bounty, relay, courier or flagship
     private int progress, goal;
     private int timer, wavesLeft, holdMs, waveNo;
+    /** Q21: the hold-zone outpost (raiders attack it; destroyed = failed) and the % of its hull lost so far (saved). */
+    private CivilShip outpost;
+    private int outpostLost;
+    /** Q21 [P]: outpost hull = a transport's x12. */
+    static final int OUTPOST_HULL = 12;
     private boolean ambushed, ambushed2, wavesOn;
     private float startDist;
     private final Vector2 gate = new Vector2();
@@ -368,6 +373,7 @@ public class ModFaction extends MissionListener {
     private void complete() {
         if (completed) return;
         completed = true;
+        android.util.Log.i("ModFaction", "completed " + id(idx));
         ModAlerts.missionResult(true);
         // standing: story +15 (chain finale +20), contracts +6; fighting a faction's flagship costs a little with it
         ModRep.change(key(idx), ModV35.missionStanding(contract(idx), order(idx)), true);   // v35 (v34 req 13)
@@ -388,12 +394,27 @@ public class ModFaction extends MissionListener {
     }
 
     private void fail() {
+        android.util.Log.i("ModFaction", "failed " + id(idx));
         cleanup();
         planned = false;
         save();
         ModAlerts.missionResult(false);
         ModComms.show(key(idx), str(idx, 14), 9000);
         Mission.setMissionFailure(str(idx, 14));
+    }
+
+    /** Emulator tests (ModDev corsair_near=objective): the running faction mission's objective point, or null. */
+    static Vector2 testObjective() {
+        try {
+            Mission m = ObjectRegistry.INSTANCE.currentMission;
+            if (m != null && m.missionEngine instanceof ModFaction) {
+                ModFaction f = (ModFaction) m.missionEngine;
+                if (f.planned) return f.target != null && !f.target.removed ? f.target.position : f.center;
+            }
+        } catch (Throwable t) {
+            // test only
+        }
+        return null;
     }
 
     // ------------------------------------------------------------------ v37 saved plan (Q11)
@@ -409,7 +430,7 @@ public class ModFaction extends MissionListener {
         b.append(zone != null ? zone.name() : "").append(';').append(phase).append(';')
             .append(ref.x).append(',').append(ref.y).append(';').append(center.x).append(',').append(center.y).append(';')
             .append(endAt.x).append(',').append(endAt.y).append(';').append(progress).append(';').append(goal).append(';')
-            .append(holdMs).append(';').append(waveNo).append(';').append(wavesLeft).append(';').append((courierMoving ? 1 : 0) | (secondLegPlaced ? 2 : 0)).append(';')
+            .append(holdMs).append(';').append(waveNo).append(';').append(wavesLeft).append(';').append((courierMoving ? 1 : 0) | (secondLegPlaced ? 2 : 0) | (outpostLost << 2)).append(';')
             .append(lastCourier.x).append(',').append(lastCourier.y).append(';');
         if (markers != null) {
             for (int k = 0; k < taken.length; k++) {
@@ -440,6 +461,7 @@ public class ModFaction extends MissionListener {
             int cm = Integer.parseInt(f[10]);
             courierMoving = (cm & 1) != 0;
             secondLegPlaced = (cm & 2) != 0;
+            outpostLost = Math.max(0, Math.min(99, cm >> 2));
             xy(f[11], lastCourier);
             markers = null;
             taken = null;
@@ -642,6 +664,7 @@ public class ModFaction extends MissionListener {
         phase = 0;
         progress = 0;
         holdMs = 0;
+        outpostLost = 0;
         waveNo = 0;
         wavesLeft = 0;
         courierMoving = false;
@@ -651,6 +674,7 @@ public class ModFaction extends MissionListener {
         ref.setSameAs(ps.position);
         if ("DEFEND_ZONE".equals(obj)) center.setSameAs(ModPlace.farPoint(ref, ModPlace.OUTPOST_MIN, ModPlace.OUTPOST_MAX));
         else center.setSameAs(ModPlace.farPoint(ref, ModPlace.OBJECTIVE_MIN, Float.MAX_VALUE));
+        android.util.Log.i("ModFaction", "plan " + id(idx) + " " + obj + " sector=" + ObjectRegistry.INSTANCE.game.currentLevel.name + " objective=" + Math.round(center.distance(ref)));
         if ("FIND_OBJECT".equals(obj) || "DELIVERY".equals(obj)) {
             taken = new boolean[1];
             markers = new float[]{center.x, center.y};
@@ -711,6 +735,16 @@ public class ModFaction extends MissionListener {
             timer = 6000;
         } else if ("DEFEND_ZONE".equals(obj)) {
             timer = 4000;
+            // Q21: an outpost with a hull at the zone centre, still, green-marked; it keeps the hull it had when the player left
+            outpost = civil(center, true);
+            if (outpost != null) {
+                outpost.maxLife *= OUTPOST_HULL;
+                outpost.life = outpost.maxLife * (100 - outpostLost) / 100f;
+                name(outpost, ModLang.tr("Outpost"));
+                outpost.isMissionObjective = true;
+                outpost.missionObjectiveColor = MissionObjectiveColor.GREEN;
+                outpost.setActivity(new CivilActivity[]{CivilActivity.newWait(3600000f), CivilActivity.newWait(3600000f)});
+            }
         } else if ("BOUNTY".equals(obj)) {
             boolean varn = str(idx, 9).equals("Scoria") || side() == VARN;
             Ennemis b = varn ? EnnemisFactory.newFrelon(foeLevel() + 1) : foe(REAVER, true);
@@ -798,6 +832,7 @@ public class ModFaction extends MissionListener {
         spawned.clear();
         civs.clear();
         target = null;
+        outpost = null;
         setupDone = false;
         zoneMs = 0;
         ModPlace.clearBoost();
@@ -875,6 +910,10 @@ public class ModFaction extends MissionListener {
             }
             if (wavesLeft == 0 && liveFoes() == 0) complete();
         } else if ("DEFEND_ZONE".equals(obj)) {
+            if (outpost != null) {
+                if (outpost.removed || outpost.life <= 0) { fail(); return; }
+                outpostLost = Math.max(0, Math.min(99, 100 - Math.round(100f * outpost.life / outpost.maxLife)));
+            }
             boolean in = ps.position.distance(center) < 1800;
             if (in) {
                 if ((holdMs + j) / 1000 != holdMs / 1000) save();   // Q11: hold time survives a jump or a restart
@@ -889,7 +928,10 @@ public class ModFaction extends MissionListener {
                     timer = 15000;
                     waveNo++;
                     int n = Math.min(8, (contract(idx) ? 5 : 6) + waveNo - 1);
-                    reinforce(n, ps, true, holdLevel(), waveNo == waves);
+                    // Q21: half the wave goes for the outpost, the rest (with the last wave's elite) for the player
+                    int atOutpost = outpost != null && !outpost.removed ? (n + 1) / 2 : 0;
+                    if (atOutpost > 0) reinforce(atOutpost, outpost, true, holdLevel(), false);
+                    reinforce(n - atOutpost, ps, atOutpost == 0, holdLevel(), waveNo == waves);
                     Mod.floatText(ps, ModLang.tr("RAIDERS INBOUND (") + waveNo + "/" + waves + ")", 1.0f, 0.4f, 0.3f);
                     save();
                 }
@@ -1123,6 +1165,7 @@ public class ModFaction extends MissionListener {
         // the old sector's ships are gone with it; the plan and progress stay (Q11)
         spawned.clear();
         civs.clear();
+        outpost = null;
         target = null;
         setupDone = false;
         zoneMs = 0;
@@ -1280,6 +1323,7 @@ public class ModFaction extends MissionListener {
         completed = p != null && p.getBoolean("fm_done_" + id(idx), false);
         spawned.clear();
         civs.clear();
+        outpost = null;
         target = null;
         setupDone = false;
         zoneMs = 0;

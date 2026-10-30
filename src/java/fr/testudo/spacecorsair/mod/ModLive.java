@@ -47,6 +47,7 @@ public final class ModLive {
         frameDone = true;
         ModFx.budget = 1000;
         nowMs = System.currentTimeMillis();
+        ModV34.incomeTick(nowMs);   // v37: real income for the death-fee cap
         try {
             drawFx();
         } catch (Throwable t) {
