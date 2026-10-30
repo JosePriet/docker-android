@@ -319,24 +319,25 @@ public class ModV34 {
     static final int STOCK_CLASS = ModShips.DESTROYER;
 
     /**
-     * v37 (owner): each stock enemy type gets its real class from its drawn size (the ModV35.enemyClass size rule):
-     * Taupe 40, Basic 50, Defensor 70 = frigate; Rat 80, Ufo 140 = destroyer; Frelon 190 = cruiser; Albatros 512,
-     * Blatte 600 = capital. Turrets are structures (-1: stock hull kept). Exact classes only: ModFleet hulls keep their own rule.
+     * v37 (owner): each stock enemy type gets a class, spread over frigate..capital in drawn-size order:
+     * Taupe 40, Basic 50 = frigate; Defensor 70, Rat 80 = destroyer; Ufo 140 = cruiser; Frelon 190 = battlecruiser;
+     * Albatros 512 = battleship; Blatte 600 = capital. Turrets are structures (-1: stock hull kept). Exact classes only: ModFleet hulls keep their own rule.
      */
     public static int stockClass(Element e) {
         if (e == null) return -1;
         Class<?> c = e.getClass();
-        if (c == fr.testudo.spacecorsair.business.ennemis.TaupeShip.class || c == fr.testudo.spacecorsair.business.ennemis.BasicEnnemyShip.class
-            || c == fr.testudo.spacecorsair.business.ennemis.DefensorShip.class) return ModShips.FRIGATE;
-        if (c == fr.testudo.spacecorsair.business.ennemis.AlienRat.class || c == fr.testudo.spacecorsair.business.ennemis.UfoAlienShip.class) return ModShips.DESTROYER;
-        if (c == fr.testudo.spacecorsair.business.ennemis.FrelonShip.class) return ModShips.CRUISER;
-        if (c == fr.testudo.spacecorsair.business.ennemis.Albatros.class || c == fr.testudo.spacecorsair.business.ennemis.AlienBlatte.class) return ModShips.CAPITAL;
+        if (c == fr.testudo.spacecorsair.business.ennemis.TaupeShip.class || c == fr.testudo.spacecorsair.business.ennemis.BasicEnnemyShip.class) return ModShips.FRIGATE;
+        if (c == fr.testudo.spacecorsair.business.ennemis.DefensorShip.class || c == fr.testudo.spacecorsair.business.ennemis.AlienRat.class) return ModShips.DESTROYER;
+        if (c == fr.testudo.spacecorsair.business.ennemis.UfoAlienShip.class) return ModShips.CRUISER;
+        if (c == fr.testudo.spacecorsair.business.ennemis.FrelonShip.class) return ModShips.BATTLECRUISER;
+        if (c == fr.testudo.spacecorsair.business.ennemis.Albatros.class) return ModShips.BATTLESHIP;
+        if (c == fr.testudo.spacecorsair.business.ennemis.AlienBlatte.class) return ModShips.CAPITAL;
         return -1;
     }
 
     /**
      * Req 3 / C2 base curve: the destroyer hull at a stock table level = mean of the two destroyer-class stock rows
-     * (AlienRat, Ufo). Stock rows already carry size, so hull = this base x class factor, not stock hull x class factor.
+     * (AlienRat, Ufo stock rows; the size-reference pair). Stock rows already carry size, so hull = this base x class factor, not stock hull x class factor.
      */
     public static float baseHull(int stockLv) {
         try {
@@ -376,7 +377,7 @@ public class ModV34 {
     /** Smali hook at the end of every stock initLevelConfig (stats from the spec row are set). */
     public static void scale(Ennemis e) {
         try {
-            int cls = stockClass(e);
+            int cls = stockClass(e), stockLv = e.level;
             float base = cls >= 0 ? baseHull(e.level) : -1f;   // e.level is still the stock table level here
             if (base > 0) {
                 e.maxLife = base * classFactor(cls);
@@ -400,9 +401,72 @@ public class ModV34 {
                 if (sh != null) { sh.capacity *= c; sh.currentValue = sh.capacity; }
             }
             retier(e, 1, t);
+            giveShield(e, stockLv, lv);   // v37: battlecruisers and up carry a shield
         } catch (Throwable th) {
             // stock stats
         }
+    }
+
+    // ------------------------------------------------------------------ v37 default shields on big enemies (owner 2026-10-30)
+    /**
+     * Battlecruisers and up (by ModV35.enemyClass) carry a shield: the level-matched player shield (stock decent shield of
+     * that table level) x class factor x level curve [P curve, so it keeps pace with the hull]. It regenerates at one steady
+     * rate at all times (no delay, from zero too), 15% slower while the player hit it in the last 3 s. Frelons keep their own.
+     * Per enemy: {capacity, current, rate per s, last tick ms, last player hit ms}.
+     */
+    static final WeakHashMap<Element, float[]> bigShield = new WeakHashMap<Element, float[]>();
+    static final float UNDER_FIRE = 0.85f;
+    static final long UNDER_FIRE_MS = 3000;
+
+    static void giveShield(Ennemis e, int stockLv, int lv) {
+        bigShield.remove(e);
+        int cls = ModV35.enemyClass(e);
+        if (cls < ModShips.BATTLECRUISER || e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) return;
+        float[] cr = shieldStats(stockLv, lv, cls);
+        if (cr != null) bigShield.put(e, new float[]{cr[0], cr[0], cr[1], 0, 0});
+    }
+
+    /** {capacity, regen per second} for a big enemy at a stock table level / v34 level and class, or null. */
+    public static float[] shieldStats(int stockLv, int lv, int cls) {
+        try {
+            fr.testudo.spacecorsair.business.loot.stuff.shield.ShieldSpec[] t = fr.testudo.spacecorsair.business.loot.stuff.shield.ShieldSpecBuilder.decentShieldSpecByLevel;
+            fr.testudo.spacecorsair.business.loot.stuff.shield.ShieldSpec sp = t[Math.max(0, Math.min(t.length - 1, stockLv))];
+            float k = classFactor(cls) * curve(lv);
+            return new float[]{sp.capacity * k, sp.reloadBySec * k};
+        } catch (Throwable th) {
+            return null;
+        }
+    }
+
+    /** Regen at {@code now}: one rate always, x0.85 within 3 s of a player hit. */
+    public static float regen(float rate, float dtSec, long sinceHitMs) {
+        return rate * dtSec * (sinceHitMs < UNDER_FIRE_MS ? UNDER_FIRE : 1.0f);
+    }
+
+    /** ModLive.under, every frame per element. */
+    static void shieldTick(Element e, long now) {
+        float[] s = bigShield.get(e);
+        if (s == null) return;
+        if (s[3] > 0) s[1] = Math.min(s[0], s[1] + regen(s[2], Math.min(0.5f, (now - (long) s[3]) / 1000f), now - (long) s[4]));
+        s[3] = now;
+    }
+
+    /** ModLive.hit: the shield takes the damage first. */
+    static float shieldAbsorb(Element target, float dmg, Projectile p) {
+        float[] s = bigShield.get(target);
+        if (s == null || dmg <= 0) return dmg;
+        if (p != null && p.sender != null && p.sender.isPlayer) s[4] = System.currentTimeMillis();
+        float a = Math.min(dmg, s[1]);
+        s[1] -= a;
+        return dmg - a;
+    }
+
+    /** ModLive.over: a faint shell that dims with the charge. */
+    static void shieldDraw(Element e, float side) {
+        float[] s = bigShield.get(e);
+        if (s == null || s[0] <= 0 || s[1] <= 0) return;
+        float f = s[1] / s[0], w = side * 1.15f;
+        ModFx.spr("shield_shell", e.position.x, e.position.y, w, w, 0, 0.45f, 0.75f, 1.0f, 0.12f + 0.25f * f, true);
     }
 
     /** Smali hook at the end of Ennemis.setElite: hull x2.5, damage x1.5, +1 tier, +150 pilot stats (once per spawn). */

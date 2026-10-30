@@ -115,6 +115,7 @@ public final class ModLive {
         float side = sizeOf(d);
         if (side <= 0) return;
         long t = nowMs;
+        ModV34.shieldTick(e, t);
         if (e instanceof GuardianCivilShip) {
             ModCapitals.Cap c = ModCapitals.cap(e);
             if (c != null) {
@@ -174,6 +175,7 @@ public final class ModLive {
         boolean pousee = e instanceof Ennemis ? ((Ennemis) e).isPousee
             : e instanceof fr.testudo.spacecorsair.business.world.civil.CivilShip && ((fr.testudo.spacecorsair.business.world.civil.CivilShip) e).isPousee;
         living(e, d, enemy, pousee ? 1.0f : 0.15f, false);
+        ModV34.shieldDraw(e, sizeOf(d));
         if (enemy) {
             int boss = ModBoss.kindOf(e);
             if (boss >= 0) bossPlate((Ennemis) e, d, boss);
@@ -444,6 +446,7 @@ public final class ModLive {
             out = ModV35.damage(target, out, p);   // v35 kill-time targets by advantage
             out = ModBoss.damageIn(target, out, p);
             out = ModTitanAI.damageIn(target, out, p);
+            out = ModV34.shieldAbsorb(target, out, p);   // v37: big enemies' default shield
             onHit(target);
             if (target.isPlayer && p != null) {
                 PlayerShip ps = (PlayerShip) target;

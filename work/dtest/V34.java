@@ -36,7 +36,7 @@ for(int r=0;r<20;r++){fr.testudo.spacecorsair.business.ennemis.Ennemis e=new fr.
 
 // v37: class factor for stock enemies, REA vs flagships, skills through dodge + pilot, model kill times
 {String P="fr.testudo.spacecorsair.business.ennemis.";String[] n={"TaupeShip","BasicEnnemyShip","DefensorShip","AlienRat","UfoAlienShip","FrelonShip","Albatros","AlienBlatte","FixedTourelle","RocketTourelle","AlienTourelle"};
- int[] w={0,0,0,1,1,2,5,5,-1,-1,-1};for(int i=0;i<n.length;i++)eq("class "+n[i],ModV34.stockClass((fr.testudo.spacecorsair.business.Element)mk(Class.forName(P+n[i]))),w[i],0);
+ int[] w={0,0,1,1,2,3,4,5,-1,-1,-1};for(int i=0;i<n.length;i++)eq("class "+n[i],ModV34.stockClass((fr.testudo.spacecorsair.business.Element)mk(Class.forName(P+n[i]))),w[i],0);
  eq("mod fleet hull keeps its own rule",ModV34.stockClass((fr.testudo.spacecorsair.business.Element)mk(ModFleet.Fighter.class)),-1,0);
  eq("base hull L12 = mean of Rat and Ufo rows",ModV34.baseHull(12),(410+1010)/2.0,0.5);
  for(int i=0;i<8;i++){fr.testudo.spacecorsair.business.ennemis.Ennemis e=(fr.testudo.spacecorsair.business.ennemis.Ennemis)mk(Class.forName(P+n[i]));e.level=12;e.maxLife=999;e.bulletDamage=10;e.milleSecBetweenShots=1000;e.xp=1;ModV34.scale(e);
