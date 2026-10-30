@@ -13,7 +13,7 @@ import fr.testudo.spacecorsair.engine.Vector2;
  * code-drawn with fx_glow / fx_ring otherwise.
  */
 public final class ModMap {
-    /** v36: asteroid dots on the minimap radar in gold instead of the stock pure yellow, which reads green under phone colour filters (hooks36). */
+    /** v36: asteroid dots on the minimap radar in gold instead of the stock pure yellow, which reads green under phone colour filters (hooks36); dots 2 -> 3 px, big 3 -> 4.5 px (hooks36b, owner pick 2026-10-30). */
     public static final float ASTEROID_R = 1.0f, ASTEROID_G = 0.82f, ASTEROID_B = 0.0f;
 
     public static void asteroidRadar(fr.testudo.spacecorsair.business.Element e) {

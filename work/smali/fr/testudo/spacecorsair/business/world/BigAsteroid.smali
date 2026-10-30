@@ -229,7 +229,7 @@
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModMap;->asteroidRadar(Lfr/testudo/spacecorsair/business/Element;)V
 
     .line 58
-    const/high16 v0, 0x40400000    # 3.0f
+    const/high16 v0, 0x40900000    # 4.5f
 
     iput v0, p0, Lfr/testudo/spacecorsair/business/world/BigAsteroid;->radarPointSize:F
 
