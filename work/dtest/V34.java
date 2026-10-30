@@ -29,9 +29,9 @@ for(int r=0;r<20;r++){fr.testudo.spacecorsair.business.ennemis.Ennemis e=new fr.
  eq("enemy L25 hull = base x frigate 0.6 x curve",e.maxLife,ModV34.baseHull(25)*0.6*c,0.5);eq("enemy L25 damage = curve x tier",e.bulletDamage,10*c*ModV34.TIER_F[t],1e-2);eq("enemy L25 reload / tier",e.milleSecBetweenShots,(long)(1200/ModV34.TIER_F[t]),1);
  eq("enemy tier 1-4",(t>=1&&t<=4)?1:0,1,0);eq("normal enemy not REA-eligible",ModV34.difficult(e)?1:0,0,0);
  float l0=e.maxLife,d0=e.bulletDamage;e.elite=true;ModV34.elite(e);int t2=ModV34.tier(e);
- eq("elite hull x2.5",e.maxLife,l0*2.5,0.5);eq("elite tier +1",t2,Math.min(4,t+1),0);eq("elite damage x1.5 x tier step",e.bulletDamage,d0*1.5*ModV34.TIER_F[t2]/ModV34.TIER_F[t],1e-2);eq("elite stat +150",ModV34.stat(e),ModV34.statBase(25)+150,0);
+ eq("elite hull x2.5 x class step frigate->destroyer",e.maxLife,l0*2.5*ModV34.classFactor(1)/ModV34.classFactor(0),0.5);eq("elite tier +1",t2,Math.min(4,t+1),0);eq("elite damage x1.5 x tier step",e.bulletDamage,d0*1.5*ModV34.TIER_F[t2]/ModV34.TIER_F[t],1e-2);eq("elite stat +150",ModV34.stat(e),ModV34.statBase(25)+150,0);
  eq("elite is REA-eligible",ModV34.difficult(e)?1:0,1,0);
- ModV34.boss(e);eq("boss hull x15",e.maxLife,l0*15,1);eq("boss damage x2 at T4",e.bulletDamage,d0*2*ModV34.TIER_F[4]/ModV34.TIER_F[t],1e-2);eq("boss tier 4",ModV34.tier(e),4,0);eq("boss stat +300",ModV34.stat(e),ModV34.statBase(25)+300,0);}
+ ModV34.boss(e);eq("boss hull x15 (on the elite class)",e.maxLife,l0*15*ModV34.classFactor(1)/ModV34.classFactor(0),1);eq("boss damage x2 at T4",e.bulletDamage,d0*2*ModV34.TIER_F[4]/ModV34.TIER_F[t],1e-2);eq("boss tier 4",ModV34.tier(e),4,0);eq("boss stat +300",ModV34.stat(e),ModV34.statBase(25)+300,0);}
 {fr.testudo.spacecorsair.business.ennemis.Ennemis bb=new fr.testudo.spacecorsair.business.ennemis.BasicEnnemyShip();bb.level=40;bb.maxLife=100;bb.bulletDamage=1;bb.milleSecBetweenShots=1000;bb.xp=1;ModV34.scale(bb);bb.elite=true;ModV34.elite(bb);ModV34.boss(bb);eq("boss stats clamp 1000 at L40",ModV34.stat(bb),1000,0);}
 
 // v37: class factor for stock enemies, REA vs flagships, skills through dodge + pilot, model kill times

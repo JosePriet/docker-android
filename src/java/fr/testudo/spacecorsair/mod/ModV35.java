@@ -653,7 +653,8 @@ public class ModV35 {
         } catch (Throwable t) {
             // baseline
         }
-        int c = ModV34.stockClass(e);   // v37: stock types by their real class
+        int c = ModV34.stockClass(e);   // v37: stock types by their real class; elites one class up
+        if (c >= 0 && e.elite) c = Math.min(ModShips.TITAN, c + 1);
         return c >= 0 ? c : ModV34.STOCK_CLASS;
     }
 

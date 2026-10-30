@@ -401,6 +401,7 @@ public class ModV34 {
                 if (sh != null) { sh.capacity *= c; sh.currentValue = sh.capacity; }
             }
             retier(e, 1, t);
+            stockLvOf.put(e, stockLv);
             giveShield(e, stockLv, lv);   // v37: battlecruisers and up carry a shield
         } catch (Throwable th) {
             // stock stats
@@ -414,6 +415,7 @@ public class ModV34 {
      * rate at all times (no delay, from zero too), 15% slower while the player hit it in the last 3 s. Frelons keep their own.
      * Per enemy: {capacity, current, rate per s, last tick ms, last player hit ms}.
      */
+    private static final WeakHashMap<Element, Integer> stockLvOf = new WeakHashMap<Element, Integer>();
     static final WeakHashMap<Element, float[]> bigShield = new WeakHashMap<Element, float[]>();
     static final float UNDER_FIRE = 0.85f;
     static final long UNDER_FIRE_MS = 3000;
@@ -421,6 +423,8 @@ public class ModV34 {
     static void giveShield(Ennemis e, int stockLv, int lv) {
         bigShield.remove(e);
         int cls = ModV35.enemyClass(e);
+        int sc = stockClass(e);
+        if (sc >= 0 && e.elite) cls = Math.min(ModShips.TITAN, sc + 1);   // elites: one class up
         if (cls < ModShips.BATTLECRUISER || e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) return;
         float[] cr = shieldStats(stockLv, lv, cls);
         if (cr != null) bigShield.put(e, new float[]{cr[0], cr[0], cr[1], 0, 0});
@@ -481,6 +485,14 @@ public class ModV34 {
             e.life = e.maxLife;
             e.bulletDamage *= 1.5f;
             retier(e, s[0], t);
+            // v37 (owner): an elite stock enemy is one class bigger: hull class step, and a shield from battlecruiser up
+            int c = stockClass(e);
+            if (c >= 0 && c < ModShips.TITAN) {
+                e.maxLife *= classFactor(c + 1) / classFactor(c);
+                e.life = e.maxLife;
+                Integer sl = stockLvOf.get(e);
+                giveShield(e, sl != null ? sl : e.getLevel(), e.getLevel());
+            }
         } catch (Throwable th) {
             // stock elite
         }
