@@ -111,24 +111,28 @@ public final class ModWreck extends Element {
 
     static final float BLAST_PUSH = 0.05f;   // v37 owner: blasts keep 5% of the stock push (v33: 30%, like rams)
     static final float HIT_MAX = 0.1f;       // v37 owner: motion from hits capped at 10 u/s
-    static final float HIT_TAU = 2000.0f / 3; // v37 owner: motion from hits gone within 2 s (5% left at 2 s, then snapped to 0)
-    static final float HIT_REST = 0.005f;    // below 0.5 u/s the hit motion stops
+    static final float HIT_TAU = 2000.0f / 3; // v37: hit motion decays to 5% in 2 s ...
+    static final long HIT_STOP = 2000;       // ... and is set to 0 once 2 s pass without a new push (owner: gone within 2 s)
+    private long hitAge;                     // ms since the last push
 
     /** v33: whatever pushed the piece since the last frame (hits, rams, blasts) only moves it a little. */
     @Override
     public void doPhysic(long j) {
         float dx = speed.x - lastVx, dy = speed.y - lastVy;
-        if (dx != 0 || dy != 0) {
-            // v37: the blast share keeps 5%; projectile hits (already 10% in applyRebound) and rams keep 30% as in v33
-            speed.set(lastVx + (dx - blastVx) * 0.3f + blastVx * BLAST_PUSH, lastVy + (dy - blastVy) * 0.3f + blastVy * BLAST_PUSH);
-        }
+        hitAge = dx != 0 || dy != 0 ? 0 : hitAge + j;
+        // v37: the blast share keeps 5%; projectile hits (already 10% in applyRebound) and rams keep 30% as in v33
+        hit[0] = lastVx + damp(dx, blastVx) - baseVx;
+        hit[1] = lastVy + damp(dy, blastVy) - baseVy;
         blastVx = blastVy = 0;
-        hit[0] = speed.x - baseVx;
-        hit[1] = speed.y - baseVy;
-        brake(hit, j);
+        brake(hit, j, hitAge);
         speed.set(baseVx + hit[0], baseVy + hit[1]);
         float v2 = speed.x * speed.x + speed.y * speed.y;
-        if (v2 > MAX_DRIFT * MAX_DRIFT) speed.multiply(MAX_DRIFT / (float) Math.sqrt(v2));
+        if (v2 > MAX_DRIFT * MAX_DRIFT) {
+            float k = MAX_DRIFT / (float) Math.sqrt(v2);
+            speed.multiply(k);
+            baseVx *= k;          // keep the drift's share in step, so the cap does not bend it
+            baseVy *= k;
+        }
         super.doPhysic(j);
         // the break-apart drift slows with the stock friction (Element.doPhysic divides the speed by this each frame)
         float f = speedDeperditionfactor + (speedDeperditionfactor - 1) * j / 160.0f;
@@ -144,12 +148,16 @@ public final class ModWreck extends Element {
 
     private final float[] hit = new float[2];
 
-    /** v37: motion from hits (h, speed units per 10 ms) after j ms: capped at HIT_MAX, decays with HIT_TAU, stops below HIT_REST. */
-    static void brake(float[] h, long j) {
+    /** v37: the kept part of a velocity change d whose blast share is b: blasts BLAST_PUSH, everything else 30% (v33). */
+    static float damp(float d, float b) {
+        return (d - b) * 0.3f + b * BLAST_PUSH;
+    }
+
+    /** v37: motion from hits (h, speed units per 10 ms) after j ms, age ms after the last push: capped at HIT_MAX, decays with HIT_TAU, 0 from HIT_STOP. */
+    static void brake(float[] h, long j, long age) {
         float v = (float) Math.sqrt(h[0] * h[0] + h[1] * h[1]);
         if (v == 0) return;
-        float n = Math.min(v, HIT_MAX) * (float) Math.exp(-Math.max(0, j) / HIT_TAU);
-        if (n < HIT_REST) n = 0;
+        float n = age >= HIT_STOP ? 0 : Math.min(v, HIT_MAX) * (float) Math.exp(-Math.max(0, j) / HIT_TAU);
         h[0] *= n / v;
         h[1] *= n / v;
     }
