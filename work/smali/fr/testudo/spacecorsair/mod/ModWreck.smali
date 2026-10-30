@@ -3361,24 +3361,24 @@
 
     .prologue
     .line 243
-    iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->removed:Z
-
-    if-eqz v0, :cond_5
-
-    .line 248
-    :goto_4
-    return-void
-
-    .line 244
-    :cond_5
-    const/4 v0, 0x1
-
-    iput-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->removed:Z
-
-    .line 245
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
 
     invoke-virtual {v0, p0}, Ljava/util/ArrayList;->remove(Ljava/lang/Object;)Z
+
+    .line 244
+    iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->removed:Z
+
+    if-eqz v0, :cond_a
+
+    .line 248
+    :goto_9
+    return-void
+
+    .line 245
+    :cond_a
+    const/4 v0, 0x1
+
+    iput-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->removed:Z
 
     .line 246
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->visualOnly:Z
@@ -3395,7 +3395,7 @@
 
     invoke-interface {v0, p0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    goto :goto_4
+    goto :goto_9
 
     .line 247
     :cond_1d
@@ -3409,7 +3409,7 @@
 
     invoke-interface {v0, p0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    goto :goto_4
+    goto :goto_9
 .end method
 
 

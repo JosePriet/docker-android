@@ -240,9 +240,9 @@ public final class ModWreck extends Element {
     }
 
     private void vanish() {
+        live.remove(this);   // v37: always, so the wreck cap loop in add() moves on even for an already removed piece
         if (removed) return;
         removed = true;
-        live.remove(this);
         if (visualOnly) ObjectRegistry.INSTANCE.game.currentLevel.toDeleteDrawOnly.add(this);
         else ObjectRegistry.INSTANCE.game.currentLevel.toDelete.add(this);
     }
