@@ -116,9 +116,9 @@ public class ModFaction extends MissionListener {
 
     private static String contractGoal(String obj, int count) {
         if ("FIND_OBJECT".equals(obj)) return ModLang.tr("Follow the signal and recover the marked object.");
-        if ("GATHER_AND_SELL".equals(obj)) return ModLang.tr("Collect the 6 marked cargo pods.");
+        if ("GATHER_AND_SELL".equals(obj)) return ModLang.tr("Collect the 6 marked cargo pods and sell them at headquarters.");   // v37 Q6 (placeholder for GPT)
         if ("DEFEND_CIVILIANS".equals(obj)) return ModLang.tr("Protect the transports through 4 raider waves.");
-        if ("DEFEND_ZONE".equals(obj)) return ModLang.tr("Hold the zone beside the flagship for ") + count + " seconds.";
+        if ("DEFEND_ZONE".equals(obj)) return ModLang.tr("Hold the outpost zone for ") + 60 + " seconds.";   // v37 Q7a/Q7b (placeholder for GPT)
         if ("BOUNTY".equals(obj)) return ModLang.tr("Hunt down the marked target.");
         if ("KILL_ENEMY_TYPE".equals(obj)) return ModLang.tr("Destroy ") + count + ModLang.tr(" hostile ships.");
         if ("DESTROY_STATION".equals(obj)) return ModLang.tr("Destroy the marked station and its guards.");

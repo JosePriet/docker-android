@@ -2725,7 +2725,7 @@
 
     if-eqz v0, :cond_1e
 
-    const-string v0, "Collect the 6 marked cargo pods."
+    const-string v0, "Collect the 6 marked cargo pods and sell them at headquarters."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
@@ -2759,13 +2759,13 @@
 
     move-result v0
 
-    if-eqz v0, :cond_53
+    if-eqz v0, :cond_55
 
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v1, "Hold the zone beside the flagship for "
+    const-string v1, "Hold the outpost zone for "
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
@@ -2775,7 +2775,9 @@
 
     move-result-object v0
 
-    invoke-virtual {v0, p1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    const/16 v1, 0x3c
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -2792,14 +2794,14 @@
     goto :goto_e
 
     .line 122
-    :cond_53
+    :cond_55
     const-string v0, "BOUNTY"
 
     invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_62
+    if-eqz v0, :cond_64
 
     const-string v0, "Hunt down the marked target."
 
@@ -2810,14 +2812,14 @@
     goto :goto_e
 
     .line 123
-    :cond_62
+    :cond_64
     const-string v0, "KILL_ENEMY_TYPE"
 
     invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_8c
+    if-eqz v0, :cond_8e
 
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -2854,14 +2856,14 @@
     goto :goto_e
 
     .line 124
-    :cond_8c
+    :cond_8e
     const-string v0, "DESTROY_STATION"
 
     invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_9c
+    if-eqz v0, :cond_9e
 
     const-string v0, "Destroy the marked station and its guards."
 
@@ -2872,14 +2874,14 @@
     goto/16 :goto_e
 
     .line 125
-    :cond_9c
+    :cond_9e
     const-string v0, "ESCORT"
 
     invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_ac
+    if-eqz v0, :cond_ae
 
     const-string v0, "Escort the ship to its jump point."
 
@@ -2890,14 +2892,14 @@
     goto/16 :goto_e
 
     .line 126
-    :cond_ac
+    :cond_ae
     const-string v0, "SCAN_CIVIL"
 
     invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_d7
+    if-eqz v0, :cond_d9
 
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -2934,14 +2936,14 @@
     goto/16 :goto_e
 
     .line 127
-    :cond_d7
+    :cond_d9
     const-string v0, "RESCUE"
 
     invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_102
+    if-eqz v0, :cond_104
 
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -2978,7 +2980,7 @@
     goto/16 :goto_e
 
     .line 128
-    :cond_102
+    :cond_104
     const-string v0, ""
 
     goto/16 :goto_e
