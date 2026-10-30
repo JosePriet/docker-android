@@ -225,6 +225,20 @@ public final class ModWreck extends Element {
         return r;
     }
 
+    /** v37 owner: kept flagship/titan wreck pieces and derelict pieces hold high-value loot; only the player (or a drone) can finish them. */
+    boolean playerOnly() {
+        return derelict || lootKey != null && lootKey.startsWith("keep:");
+    }
+
+    @Override
+    public void applyDamage(float f, Element sender, fr.testudo.spacecorsair.business.projectiles.Projectile p) {
+        if (playerOnly() && !(sender != null && (sender.isPlayer || Mod.isDrone(sender)))) {
+            f = Math.min(f, life - 1);   // enemies, asteroids and blasts from others can wear it down but never break it
+            if (f <= 0) return;
+        }
+        super.applyDamage(f, sender, p);
+    }
+
     private void vanish() {
         if (removed) return;
         removed = true;
