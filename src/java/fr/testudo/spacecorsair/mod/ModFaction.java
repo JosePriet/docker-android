@@ -59,6 +59,11 @@ public class ModFaction extends MissionListener {
                 return;
             }
             Mission m = byId(v);
+            if (m == null && v.contains("_MOD_BOSS_")) {   // v37 test: the ModBoss missions too (VENTOHIGH_/SPARTAN_/OMICRON_MOD_BOSS_x)
+                java.util.ArrayList<Mission> l = new java.util.ArrayList<Mission>();
+                ModBoss.addMissions(v.substring(0, v.indexOf("_MOD_BOSS_")), l);
+                for (Mission b : l) if (v.equals(b.missionId)) m = b;
+            }
             if (m == null) return;
             Mission cur = ObjectRegistry.INSTANCE.currentMission;
             if (cur != null && cur != m) cur.missionEngine.giveUp();

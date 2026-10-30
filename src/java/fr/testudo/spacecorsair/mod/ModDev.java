@@ -371,12 +371,12 @@ public final class ModDev {
     }
 
     // ------------------------------------------------------------------ v37 emulator switches: go where each feature lives
-    private static String t37Near, t37Music;
+    private static String t37Near, t37Music, t37Arrived;
     private static boolean t37Dock, t37KillFlag;
     private static long t37Hop;
 
     /**
-     * corsair_goto=LEVELID: fly gate by gate (real jumps, one every 4 s) to that sector. corsair_near=objective|flagship|station[N]
+     * corsair_goto=LEVELID: fly gate by gate (real jumps, one every 4 s) to that sector. corsair_near=objective|flagship|station|xy:X,Y[N]
      * (a new value re-triggers): the ship moves 1,200 from it. corsair_dock: dock at the nearest station. corsair_killflag:
      * flagships within 4,000 die, credited to the player. corsair_musiclog: logcat "ModSound music" on every change.
      */
@@ -385,7 +385,10 @@ public final class ModDev {
         String g = testValue("corsair_goto");
         if (g != null && g.length() > 0 && System.currentTimeMillis() - t37Hop > 4000) {
             fr.testudo.spacecorsair.game.levels.LevelId dest = fr.testudo.spacecorsair.game.levels.LevelId.valueOf(g);
-            if (!dest.levelName.equals(lvl.name)) {
+            if (dest.levelName.equals(lvl.name)) {
+                if (!g.equals(t37Arrived)) { t37Arrived = g; android.util.Log.i("ModDev", "goto arrived " + g); }
+            } else {
+                t37Arrived = null;
                 t37Hop = System.currentTimeMillis();
                 fr.testudo.spacecorsair.business.world.Portal p = lvl.findPortalByName(fr.testudo.spacecorsair.business.world.PathFinder.getPortalNameToGoTo(dest));
                 android.util.Log.i("ModDev", "goto " + lvl.name + " -> " + dest.levelName + (p != null ? " via " + p.jumpLevelName : " no gate"));
@@ -397,6 +400,7 @@ public final class ModDev {
             t37Near = n;
             fr.testudo.spacecorsair.engine.Vector2 to = null;
             if (n.startsWith("objective")) to = ModFaction.testObjective();
+            else if (n.startsWith("xy:")) { String[] xy = n.substring(3).split(","); to = new fr.testudo.spacecorsair.engine.Vector2(Float.parseFloat(xy[0]), Float.parseFloat(xy[1])); }
             else if (n.startsWith("station")) { fr.testudo.spacecorsair.business.world.station.Station st = ModPlace.farthestStation(ps.position, null); if (st != null) to = st.position; }
             else if (n.startsWith("flagship")) for (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip c : ModCapitals.caps.keySet()) if (!c.removed) { to = c.position; break; }
             android.util.Log.i("ModDev", "near " + n + (to != null ? " ok" : " none"));
