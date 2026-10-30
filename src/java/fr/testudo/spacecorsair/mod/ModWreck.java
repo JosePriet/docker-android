@@ -582,7 +582,7 @@ public final class ModWreck extends Element {
             // v35: husks go first, then the oldest wrecks; derelict sites, wreck fields and kept flagship wrecks stay
             for (int i = 0; i < live.size() && live.size() > MAX; i++) {
                 ModWreck old = live.get(i);
-                if (old.poi || old.playerOnly() || old == w || pass == 0 && !old.husk) continue;
+                if (old.poi || old.playerOnly() || old == w || old.group != null && old.group == w.group || pass == 0 && !old.husk) continue;
                 old.vanish();
                 i--;
             }

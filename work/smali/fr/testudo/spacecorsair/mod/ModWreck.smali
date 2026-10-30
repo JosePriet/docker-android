@@ -354,10 +354,10 @@
 .end method
 
 .method static add(Lfr/testudo/spacecorsair/mod/ModWreck;)V
-    .registers 7
+    .registers 8
 
     .prologue
-    const/16 v5, 0x24
+    const/16 v6, 0x24
 
     const/4 v2, 0x0
 
@@ -411,7 +411,7 @@
     :goto_29
     const/4 v0, 0x2
 
-    if-ge v3, v0, :cond_6d
+    if-ge v3, v0, :cond_77
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
 
@@ -419,7 +419,7 @@
 
     move-result v0
 
-    if-le v0, v5, :cond_6d
+    if-le v0, v6, :cond_77
 
     move v1, v2
 
@@ -431,7 +431,7 @@
 
     move-result v0
 
-    if-ge v1, v0, :cond_69
+    if-ge v1, v0, :cond_73
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
 
@@ -439,7 +439,7 @@
 
     move-result v0
 
-    if-le v0, v5, :cond_69
+    if-le v0, v6, :cond_73
 
     .line 584
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
@@ -453,25 +453,36 @@
     .line 585
     iget-boolean v4, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->poi:Z
 
-    if-nez v4, :cond_5f
+    if-nez v4, :cond_69
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->playerOnly()Z
 
     move-result v4
 
-    if-nez v4, :cond_5f
+    if-nez v4, :cond_69
 
-    if-eq v0, p0, :cond_5f
+    if-eq v0, p0, :cond_69
 
-    if-nez v3, :cond_63
+    iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->group:[Z
+
+    if-eqz v4, :cond_63
+
+    iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->group:[Z
+
+    iget-object v5, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->group:[Z
+
+    if-eq v4, v5, :cond_69
+
+    :cond_63
+    if-nez v3, :cond_6d
 
     iget-boolean v4, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->husk:Z
 
-    if-nez v4, :cond_63
+    if-nez v4, :cond_6d
 
     .line 583
-    :cond_5f
-    :goto_5f
+    :cond_69
+    :goto_69
     add-int/lit8 v0, v1, 0x1
 
     move v1, v0
@@ -479,16 +490,16 @@
     goto :goto_35
 
     .line 586
-    :cond_63
+    :cond_6d
     invoke-direct {v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->vanish()V
 
     .line 587
     add-int/lit8 v1, v1, -0x1
 
-    goto :goto_5f
+    goto :goto_69
 
     .line 581
-    :cond_69
+    :cond_73
     add-int/lit8 v0, v3, 0x1
 
     move v3, v0
@@ -496,7 +507,7 @@
     goto :goto_29
 
     .line 590
-    :cond_6d
+    :cond_77
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
