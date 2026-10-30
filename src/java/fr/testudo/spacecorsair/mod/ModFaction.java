@@ -17,6 +17,7 @@ import fr.testudo.spacecorsair.business.world.civil.CivilActivity;
 import fr.testudo.spacecorsair.business.world.civil.CivilFactory;
 import fr.testudo.spacecorsair.business.world.civil.CivilShip;
 import fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip;
+import fr.testudo.spacecorsair.business.world.station.Station;
 import fr.testudo.spacecorsair.display.hud.WelcomeMessage;
 import fr.testudo.spacecorsair.engine.ObjectRegistry;
 import fr.testudo.spacecorsair.engine.Vector2;
@@ -276,7 +277,7 @@ public class ModFaction extends MissionListener {
         if (i >= 0 && i < count()) {
             ModCapitals.Faction f = ModCapitals.FACTIONS[faction(key(i))];
             int c = commander(key(i));
-            LevelId where = level(str(i, 4));
+            LevelId where = zoneOf(i);
             return "<b>" + ModFactionData.COMMANDER[c] + "</b>, " + f.name + "<br><br>" + str(i, 11)
                 + "<br><br><b>Objective</b>: " + str(i, 12)
                 + (where != null ? "<br><b>Sector</b>: " + pretty(where) : "")
@@ -289,26 +290,60 @@ public class ModFaction extends MissionListener {
         return null;
     }
 
+    // ------------------------------------------------------------------ v37 sectors
+    /**
+     * v37 (owner 2026-10-30): the sector a mission plays in. Story rows carry it in the data (S1-S9 moved out of the HQ);
+     * contracts go to a neighbour of the giver's HQ that rotates daily (Q1/Q2); renegade hunts and the finale stay in the HQ.
+     */
+    static LevelId zoneOf(int i) {
+        ModFaction act = active();
+        if (act != null && act.idx == i && act.zone != null) return act.zone;
+        if (contract(i) && !hunt(i)) return ModPlace.contractSector(ModCapitals.FACTIONS[faction(key(i))].hq, i, System.currentTimeMillis() / 86400000L);
+        return level(str(i, 4));
+    }
+
+    /** Where the second step happens: DELIVERY hands in at column 5, GATHER_AND_SELL sells there, the story ESCORT ends there. */
+    private LevelId secondSector() {
+        if ("DELIVERY".equals(obj) || "GATHER_AND_SELL".equals(obj)) return level(str(idx, 5));
+        if ("ESCORT".equals(obj) && !contract(idx)) return level(str(idx, 10));
+        return null;
+    }
+
+    /** The sector the mission needs the player in right now. */
+    private LevelId activeSector() {
+        if (phase == 1) {
+            LevelId s = secondSector();
+            if (s != null) return s;
+        }
+        return zone;
+    }
+
     // ------------------------------------------------------------------ engine state
     private final int idx;
     private final String obj;
-    private final LevelId zone;
+    private LevelId zone;
     private final int fi;
     private boolean completed;
     private boolean inZone;
     private boolean setupDone;
     private int zoneMs;
+    // v37 plan: made once per run, kept when the player leaves the sector (Q11) and across restarts (prefs)
+    private boolean planned;
+    private int phase;                        // 0 objective, 1 hand-in / sell / second escort leg
+    private final Vector2 ref = new Vector2(); // where the player arrived when the plan was made
+    private final Vector2 entry = new Vector2();
     private final Vector2 center = new Vector2();
+    private final Vector2 endAt = new Vector2();
+    private boolean courierMoving;
     private final ArrayList<Element> spawned = new ArrayList<Element>();
     private final ArrayList<CivilShip> civs = new ArrayList<CivilShip>();
     private float[] markers;                  // x, y pairs
     private boolean[] taken;
     private int[] scanMs;
     private Element target;                   // bounty, relay, courier or flagship
-    private GuardianCivilShip ally;
     private int progress, goal;
-    private int timer, wavesLeft, holdMs;
-    private boolean ambushed, ambushed2;
+    private int timer, wavesLeft, holdMs, waveNo;
+    private boolean ambushed, ambushed2, wavesOn;
     private float startDist;
     private final Vector2 gate = new Vector2();
     private final Vector2 lastCourier = new Vector2();
@@ -346,7 +381,7 @@ public class ModFaction extends MissionListener {
             if (ps != null) Mod.floatText(ps, ModLang.tr("STANDING BONUS +") + credits(bonus), 1.0f, 0.85f, 0.3f);
         }
         SharedPreferences p = prefs();
-        if (p != null) p.edit().putBoolean("fm_done_" + id(idx), true).commit();
+        if (p != null) p.edit().putBoolean("fm_done_" + id(idx), true).remove(stateKey()).commit();
         WelcomeMessage.setText(ObjectRegistry.INSTANCE.getStringRessource(fr.testudo.spacecorsair.R.string.missionSuccess), str(idx, 2));
         ModComms.show(key(idx), str(idx, 13), 9000);
         markGates(true);
@@ -354,9 +389,78 @@ public class ModFaction extends MissionListener {
 
     private void fail() {
         cleanup();
+        planned = false;
+        save();
         ModAlerts.missionResult(false);
         ModComms.show(key(idx), str(idx, 14), 9000);
         Mission.setMissionFailure(str(idx, 14));
+    }
+
+    // ------------------------------------------------------------------ v37 saved plan (Q11)
+    private String stateKey() {
+        return "fm_st_" + id(idx);
+    }
+
+    private void save() {
+        SharedPreferences p = prefs();
+        if (p == null) return;
+        if (!planned) { p.edit().remove(stateKey()).apply(); return; }
+        StringBuilder b = new StringBuilder();
+        b.append(zone != null ? zone.name() : "").append(';').append(phase).append(';')
+            .append(ref.x).append(',').append(ref.y).append(';').append(center.x).append(',').append(center.y).append(';')
+            .append(endAt.x).append(',').append(endAt.y).append(';').append(progress).append(';').append(goal).append(';')
+            .append(holdMs).append(';').append(waveNo).append(';').append(wavesLeft).append(';').append(courierMoving ? 1 : 0).append(';')
+            .append(lastCourier.x).append(',').append(lastCourier.y).append(';');
+        if (markers != null) {
+            for (int k = 0; k < taken.length; k++) {
+                b.append(markers[k * 2]).append(',').append(markers[k * 2 + 1]).append(',').append(taken[k] ? 1 : 0).append(k + 1 < taken.length ? ":" : "");
+            }
+        }
+        p.edit().putString(stateKey(), b.toString()).apply();
+    }
+
+    private void load() {
+        planned = false;
+        SharedPreferences p = prefs();
+        String v = p != null ? p.getString(stateKey(), null) : null;
+        if (v == null) return;
+        try {
+            String[] f = v.split(";", -1);
+            LevelId z = level(f[0]);
+            if (z != null) zone = z;
+            phase = Integer.parseInt(f[1]);
+            xy(f[2], ref);
+            xy(f[3], center);
+            xy(f[4], endAt);
+            progress = Integer.parseInt(f[5]);
+            goal = Integer.parseInt(f[6]);
+            holdMs = Integer.parseInt(f[7]);
+            waveNo = Integer.parseInt(f[8]);
+            wavesLeft = Integer.parseInt(f[9]);
+            courierMoving = "1".equals(f[10]);
+            xy(f[11], lastCourier);
+            markers = null;
+            taken = null;
+            if (f.length > 12 && f[12].length() > 0) {
+                String[] m = f[12].split(":");
+                markers = new float[m.length * 2];
+                taken = new boolean[m.length];
+                for (int k = 0; k < m.length; k++) {
+                    String[] c = m[k].split(",");
+                    markers[k * 2] = Float.parseFloat(c[0]);
+                    markers[k * 2 + 1] = Float.parseFloat(c[1]);
+                    taken[k] = "1".equals(c[2]);
+                }
+            }
+            planned = true;
+        } catch (Throwable t) {
+            planned = false;   // a broken save starts the objective over
+        }
+    }
+
+    private static void xy(String s, Vector2 into) {
+        String[] c = s.split(",");
+        into.set(Float.parseFloat(c[0]), Float.parseFloat(c[1]));
     }
 
     // ------------------------------------------------------------------ spawning
@@ -369,6 +473,15 @@ public class ModFaction extends MissionListener {
         return base + (int) (Math.random() * 2);
     }
 
+    /** Q7d: hold-zone raiders are at the pilot's level or the sector's top level, whichever is higher. */
+    private int holdLevel() {
+        int lv = 1;
+        try { lv = ObjectRegistry.INSTANCE.game.playerInfo.level; } catch (Throwable t) { /* default */ }
+        LevelId z = zone;
+        if (z != null) lv = Math.max(lv, z.levelMax);
+        return Math.max(1, Math.min(ModV34.CAP, lv));
+    }
+
     private int side() {
         String k = key(idx);
         if (k.equals("kretari") || (k.equals("reaver") && order(idx) < 3)) return VARN;
@@ -377,7 +490,10 @@ public class ModFaction extends MissionListener {
     }
 
     private Ennemis foe(int side, boolean big) {
-        int lvl = foeLevel();
+        return foe(side, big, foeLevel());
+    }
+
+    private Ennemis foe(int side, boolean big, int lvl) {
         Ennemis e = null;
         if (side == REAVER) {
             ArrayList<ModFleet.Type> ok = new ArrayList<ModFleet.Type>();
@@ -404,7 +520,8 @@ public class ModFaction extends MissionListener {
         e.specificNameDecalX = -1;
     }
 
-    private Ennemis place(Ennemis e, Vector2 at, Element attack, boolean objective) {
+    /** {@code attack} null with {@code aggro} false: the ship waits at its post and engages through the game's own detection. */
+    private Ennemis place(Ennemis e, Vector2 at, Element attack, boolean objective, boolean aggro) {
         if (e == null) return null;
         e.position.setSameAs(at);
         e.updateSapCoords();
@@ -414,24 +531,41 @@ public class ModFaction extends MissionListener {
             e.missionObjectiveColor = MissionObjectiveColor.RED;
         }
         PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
-        e.initAttackTarget(attack != null && !attack.removed ? attack : ps);
+        if (aggro) e.initAttackTarget(attack != null && !attack.removed ? attack : ps);
         e.addToCurrentLevel();
         spawned.add(e);
         return e;
     }
 
-    private void wave(int n, Vector2 around, float dist, Element attack, boolean big) {
+    private Ennemis place(Ennemis e, Vector2 at, Element attack, boolean objective) {
+        return place(e, at, attack, objective, true);
+    }
+
+    /** A group waiting at the objective (spawned while the player is far away: no pop-in, R4). */
+    private void post(int n, Vector2 around, float dist, boolean big) {
         for (int k = 0; k < n; k++) {
             double a = Math.random() * Math.PI * 2.0d;
             Vector2 p = new Vector2(around).add((float) (Math.cos(a) * dist), (float) (Math.sin(a) * dist));
-            place(foe(side(), big && k == 0), p, attack, true);
+            place(foe(side(), big && k == 0), p, null, true, false);
         }
     }
 
-    private static Vector2 away(Vector2 from, float min, float max) {
-        double a = Math.random() * Math.PI * 2.0d;
-        float d = min + (float) Math.random() * (max - min);
-        return new Vector2(from).add((float) (Math.cos(a) * d), (float) (Math.sin(a) * d));
+    /** R4 / Q19-Q20: reinforcements come in from 4,500 away (the side of a gate or hostile station) with a one-time boost. */
+    private void reinforce(int n, Element attack, boolean big) {
+        reinforce(n, attack, big, -1, false);
+    }
+
+    private void reinforce(int n, Element attack, boolean big, int lvl, boolean eliteLast) {
+        PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+        if (ps == null) return;
+        Vector2 at = ModPlace.ambushPoint(ps.position);
+        for (int k = 0; k < n; k++) {
+            Vector2 p = new Vector2(at).add((float) (Math.random() * 500 - 250), (float) (Math.random() * 500 - 250));
+            Ennemis e = place(lvl > 0 ? foe(side(), big && k == 0, lvl) : foe(side(), big && k == 0), p, attack, true, true);
+            if (e == null) continue;
+            if (eliteLast && k == n - 1) e.setElite(true);
+            ModPlace.boost(e);
+        }
     }
 
     private void scatter(int n, Vector2 around, float radius) {
@@ -446,6 +580,12 @@ public class ModFaction extends MissionListener {
         progress = 0;
     }
 
+    private static Vector2 away(Vector2 from, float min, float max) {
+        double a = Math.random() * Math.PI * 2.0d;
+        float d = min + (float) Math.random() * (max - min);
+        return new Vector2(from).add((float) (Math.cos(a) * d), (float) (Math.sin(a) * d));
+    }
+
     private CivilShip civil(Vector2 at, boolean transport) {
         int lvl = Math.max(1, minLevel(idx) - 2);
         CivilShip c = transport ? CivilFactory.newTrasnporteur(lvl) : CivilFactory.newRandomCivil(lvl, lvl);
@@ -456,16 +596,59 @@ public class ModFaction extends MissionListener {
         return c;
     }
 
-    private void setup() {
-        setupDone = true;
-        PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
-        if (ps == null) return;
-        center.setSameAs(away(ps.position, 2600, 3400));
-        ambushed = ambushed2 = false;
+    private CivilShip scanTarget(Vector2 at, Vector2 roam) {
+        CivilShip c = civil(at, false);
+        if (c == null) return null;
+        c.isMissionObjective = true;
+        c.missionObjectiveColor = MissionObjectiveColor.ORANGE;
+        c.setActivity(new CivilActivity[]{CivilActivity.newMooveRandom(roam.x, roam.y, 900), CivilActivity.newMooveRandom(roam.x, roam.y, 900)});
+        return c;
+    }
+
+    /** The gate of this sector that leads toward {@code dest}, or null. */
+    private static Portal gateTo(LevelId dest) {
+        try {
+            if (dest != null) return ObjectRegistry.INSTANCE.game.currentLevel.findPortalByName(PathFinder.getPortalNameToGoTo(dest));
+        } catch (Throwable t) {
+            // no route
+        }
+        return null;
+    }
+
+    /** The gate farthest from {@code from}: an escort's end point when the sector has no second station (Q8). */
+    private static Vector2 farGate(Vector2 from) {
+        Vector2 best = null;
+        float bd = -1;
+        try {
+            List<Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
+            for (int k = 0; k < els.size(); k++) {
+                Element e = els.get(k);
+                if (!(e instanceof Portal) || e.removed) continue;
+                float d = e.position.distance(from);
+                if (d > bd) { bd = d; best = e.position; }
+            }
+        } catch (Throwable t) {
+            best = null;
+        }
+        return best != null ? new Vector2(best) : ModPlace.farPoint(from, ModPlace.OBJECTIVE_MIN, Float.MAX_VALUE);
+    }
+
+    /** v37: the objective's layout, made once per run from where the player arrived (Q3, Q7a, Q4, Q8). */
+    private void plan(PlayerShip ps) {
+        planned = true;
+        phase = 0;
         progress = 0;
+        holdMs = 0;
+        waveNo = 0;
+        wavesLeft = 0;
+        courierMoving = false;
+        markers = null;
+        taken = null;
+        ref.setSameAs(ps.position);
+        if ("DEFEND_ZONE".equals(obj)) center.setSameAs(ModPlace.farPoint(ref, ModPlace.OUTPOST_MIN, ModPlace.OUTPOST_MAX));
+        else center.setSameAs(ModPlace.farPoint(ref, ModPlace.OBJECTIVE_MIN, Float.MAX_VALUE));
         if ("FIND_OBJECT".equals(obj) || "DELIVERY".equals(obj)) {
-            Vector2 p = away(ps.position, 4500, 6000);
-            markers = new float[]{p.x, p.y};
+            markers = new float[]{center.x, center.y};
             taken = new boolean[1];
             goal = 1;
         } else if ("GATHER_AND_SELL".equals(obj)) {
@@ -473,7 +656,43 @@ public class ModFaction extends MissionListener {
         } else if ("RESCUE".equals(obj)) {
             scatter(Math.max(1, num(idx, 7)), center, 3200);
         } else if ("DEFEND_CIVILIANS".equals(obj)) {
-            Vector2 dest = away(center, 4500, 5000);
+            wavesLeft = 4;
+        } else if ("DEFEND_ZONE".equals(obj)) {
+            goal = (contract(idx) ? 60 : 90) * 1000;   // Q7b
+        } else if ("KILL_ENEMY_TYPE".equals(obj) || "SCAN_CIVIL".equals(obj)) {
+            goal = Math.max(1, num(idx, 7));
+        } else if ("ESCORT".equals(obj)) {
+            // Q4 / S8: the courier waits at the station farthest from where the player came in
+            Station st = ModPlace.farthestStation(ref, null);
+            if (st != null) center.setSameAs(st.position);
+            lastCourier.setSameAs(center);
+            planEscortEnd(st);
+        }
+        save();
+    }
+
+    /** Q8: contracts end at another station of the sector, else its farthest gate; the story escort heads for its gate. */
+    private void planEscortEnd(Station start) {
+        LevelId dest = phase == 0 ? level(str(idx, 10)) : null;
+        Portal p = phase == 0 && !contract(idx) ? gateTo(dest) : null;
+        if (p != null) { endAt.setSameAs(p.position); return; }
+        Station end = ModPlace.farthestStation(start != null ? start.position : center, start);
+        if (end != null) endAt.setSameAs(end.position);
+        else endAt.setSameAs(farGate(center));
+    }
+
+    private void setup() {
+        setupDone = true;
+        PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+        if (ps == null) return;
+        if (!planned) plan(ps);
+        ambushed = ambushed2 = false;
+        wavesOn = false;
+        target = null;
+        if ("DELIVERY".equals(obj) || "GATHER_AND_SELL".equals(obj)) {
+            // phase 1 has nothing to spawn: the player docks at a station of the second sector
+        } else if ("DEFEND_CIVILIANS".equals(obj)) {
+            Vector2 dest = farFrom(center, 4500, 5000);
             for (int k = 0; k < 4; k++) {
                 CivilShip c = civil(away(center, 100, 450), true);
                 if (c == null) continue;
@@ -482,15 +701,11 @@ public class ModFaction extends MissionListener {
                 name(c, ModLang.tr("Evacuee transport"));
                 c.isMissionObjective = true;
                 c.missionObjectiveColor = MissionObjectiveColor.GREEN;
-                c.setActivity(new CivilActivity[]{CivilActivity.newMoove(dest.x + (k - 1.5f) * 250, dest.y)});
+                // the convoy waits for its escort (stock escort distance), then sets off
+                c.setActivity(new CivilActivity[]{CivilActivity.newWaitUntilPlayerClose(500, 4.0f), CivilActivity.newMoove(dest.x + (k - 1.5f) * 250, dest.y)});
             }
-            wavesLeft = 4;
             timer = 6000;
         } else if ("DEFEND_ZONE".equals(obj)) {
-            ally = ModCapitals.ensure(str(idx, 8), false);
-            if (ally != null) center.setSameAs(ally.position);
-            goal = Math.max(30, num(idx, 7)) * 1000;
-            holdMs = 0;
             timer = 4000;
         } else if ("BOUNTY".equals(obj)) {
             boolean varn = str(idx, 9).equals("Scoria") || side() == VARN;
@@ -502,12 +717,11 @@ public class ModFaction extends MissionListener {
                 b.life = b.maxLife;
                 b.lifeInPourc = 100;
                 if (b.lifeBar != null) b.lifeBar.setValue(100);
-                target = place(b, center, ps, true);
-                for (int k = 0; k < (hunt(idx) ? 4 : 2); k++) place(foe(varn ? VARN : REAVER, false), away(center, 150, 400), ps, false);
+                target = place(b, center, null, true, false);
+                for (int k = 0; k < (hunt(idx) ? 4 : 2); k++) place(foe(varn ? VARN : REAVER, false), away(center, 150, 400), null, false, false);
             }
         } else if ("KILL_ENEMY_TYPE".equals(obj)) {
-            goal = Math.max(1, num(idx, 7));
-            wave(Math.min(3, goal), center, 300, ps, false);
+            post(Math.min(3, goal - progress), center, 300, false);
         } else if ("DESTROY_STATION".equals(obj)) {
             Ennemis r = EnnemisFactory.newRocketTourelle(foeLevel() + 1);
             if (r != null) {
@@ -517,11 +731,19 @@ public class ModFaction extends MissionListener {
                 r.life = r.maxLife;
                 r.lifeInPourc = 100;
                 if (r.lifeBar != null) r.lifeBar.setValue(100);
-                target = place(r, center, ps, true);
-                for (int k = 0; k < 3; k++) place(foe(ModV35.finale(order(idx)) ? side() : WARDEN, false), away(center, 300, 600), ps, false);
+                target = place(r, center, null, true, false);
+                for (int k = 0; k < 3; k++) place(foe(ModV35.finale(order(idx)) ? side() : WARDEN, false), away(center, 300, 600), null, false, false);
             }
         } else if ("ESCORT".equals(obj)) {
-            CivilShip c = civil(away(ps.position, 250, 350), true);
+            Vector2 at = new Vector2(lastCourier);
+            if (phase == 1 && !courierMoving) {
+                // second leg (S8): the courier comes through the gate with the player, then heads for a station here
+                at.setSameAs(entry);
+                Station end = ModPlace.farthestStation(entry, null);
+                endAt.setSameAs(end != null ? end.position : farGate(entry));
+                courierMoving = true;
+            }
+            CivilShip c = civil(at, true);
             if (c != null) {
                 name(c, str(idx, 9));
                 c.maxLife *= 6;
@@ -529,29 +751,18 @@ public class ModFaction extends MissionListener {
                 c.isMissionObjective = true;
                 c.missionObjectiveColor = MissionObjectiveColor.GREEN;
                 target = c;
-                LevelId dest = level(str(idx, 10));
-                Portal p = null;
-                try {
-                    if (dest != null) p = ObjectRegistry.INSTANCE.game.currentLevel.findPortalByName(PathFinder.getPortalNameToGoTo(dest));
-                } catch (Throwable t) {
-                    p = null;
-                }
-                gate.setSameAs(p != null ? p.position : away(ps.position, 6000, 6500));
-                c.setActivity(new CivilActivity[]{CivilActivity.newMoove(gate.x, gate.y)});
-                startDist = Math.max(1, c.position.distance(gate));
+                gate.setSameAs(endAt);
+                if (courierMoving) c.setActivity(new CivilActivity[]{CivilActivity.newMoove(gate.x, gate.y)});
+                else c.setActivity(new CivilActivity[]{CivilActivity.newWaitUntilPlayerClose(500, 4.0f), CivilActivity.newMoove(gate.x, gate.y)});
+                startDist = Math.max(1, (phase == 0 ? center : entry).distance(gate));
                 lastCourier.setSameAs(c.position);
                 courierCheck = 10000;
             }
         } else if ("SCAN_CIVIL".equals(obj)) {
-            goal = Math.max(1, num(idx, 7));
             scanMs = new int[goal];
             for (int k = 0; k < goal; k++) {
-                Vector2 at = away(center, 300, 2600);
-                CivilShip c = civil(at, false);
-                if (c == null) continue;
-                c.isMissionObjective = true;
-                c.missionObjectiveColor = MissionObjectiveColor.ORANGE;
-                c.setActivity(new CivilActivity[]{CivilActivity.newMooveRandom(at.x, at.y, 900), CivilActivity.newMooveRandom(at.x, at.y, 900)});
+                if (k < progress) { scanMs[k] = -1; civs.add(null); continue; }   // already scanned (Q11)
+                scanTarget(away(center, 300, 2600), center);
             }
         } else if ("KILL_FLAGSHIP".equals(obj)) {
             GuardianCivilShip g = ModCapitals.ensure(str(idx, 8), true);
@@ -561,6 +772,11 @@ public class ModFaction extends MissionListener {
                 target = g;
             }
         }
+    }
+
+    /** A point {@code min}-{@code max} from {@code from}, inside the sector when possible. */
+    private static Vector2 farFrom(Vector2 from, float min, float max) {
+        return ModPlace.farPoint(from, min, max);
     }
 
     private void cleanup() {
@@ -574,10 +790,9 @@ public class ModFaction extends MissionListener {
         spawned.clear();
         civs.clear();
         target = null;
-        ally = null;
-        markers = null;
         setupDone = false;
         zoneMs = 0;
+        ModPlace.clearBoost();
     }
 
     // ------------------------------------------------------------------ per frame
@@ -587,10 +802,13 @@ public class ModFaction extends MissionListener {
         if (completed || !inZone || ps == null || ps.removed) return;
         if (!setupDone) {
             // wait for the sector (and its flagship) to be built before placing anything
+            if (zoneMs == 0) entry.setSameAs(ps.position);
             zoneMs += j;
             if (zoneMs > 1500 && !ps.isDocked) setup();
             return;
         }
+        ModPlace.tickBoost(ps);
+        if (phase == 1 && ("DELIVERY".equals(obj) || "GATHER_AND_SELL".equals(obj))) return;   // waiting for the dock (onBeforePlayerDock)
         if (markers != null) {
             for (int k = 0; k < taken.length; k++) {
                 if (taken[k]) continue;
@@ -598,52 +816,70 @@ public class ModFaction extends MissionListener {
                 float d = (float) Math.sqrt(dx * dx + dy * dy);
                 if (!ambushed && d < 1300 && ("FIND_OBJECT".equals(obj) || "DELIVERY".equals(obj))) {
                     ambushed = true;
-                    wave("DELIVERY".equals(obj) ? 3 : 2, ps.position, 1500, ps, false);
+                    reinforce("DELIVERY".equals(obj) ? 3 : 2, ps, false);
                     Mod.floatText(ps, ModLang.tr("CONTACTS INBOUND"), 1.0f, 0.4f, 0.3f);
                 }
                 if (d < 220) {
                     taken[k] = true;
                     progress++;
                     ObjectRegistry.INSTANCE.soundManager.playGateZap();
-                    String what = "RESCUE".equals(obj) ? ModLang.tr("PILOT RECOVERED") : "GATHER_AND_SELL".equals(obj) ? "SALVAGE" : "SECURED";
+                    String what = "RESCUE".equals(obj) ? ModLang.tr("PILOT RECOVERED") : "GATHER_AND_SELL".equals(obj) ? ModLang.tr("CARGO") : "DELIVERY".equals(obj) ? ModLang.tr("CRATE LOADED") : "SECURED";
                     Mod.floatText(ps, what + (goal > 1 ? " " + progress + "/" + goal : ""), 0.5f, 1.0f, 0.6f);
                     if (!ambushed && goal > 1 && progress == (goal + 1) / 2) {
                         ambushed = true;
-                        wave(2, ps.position, 1500, ps, false);
+                        reinforce(2, ps, false);
                     }
+                    save();
                 }
             }
-            if (progress >= goal) complete();
+            if (progress >= goal) {
+                if ("DELIVERY".equals(obj) || "GATHER_AND_SELL".equals(obj)) {
+                    // Q5 / Q6: carry it to a station of the second sector
+                    phase = 1;
+                    markers = null;
+                    save();
+                    inZone = sectorIs(activeSector());
+                    markGates(true);
+                } else {
+                    complete();
+                }
+            }
             return;
         }
         if ("DEFEND_CIVILIANS".equals(obj)) {
             int alive = 0;
             for (CivilShip c : civs) if (c != null && !c.removed && c.life > 0) alive++;
             if (alive < 2) { fail(); return; }
+            if (!wavesOn) {
+                // the raids start when the player reaches the convoy (the convoy sets off then)
+                for (CivilShip c : civs) if (c != null && !c.removed && c.position.distance(ps.position) < 500) wavesOn = true;
+                if (!wavesOn) return;
+            }
             timer -= j;
             if (wavesLeft > 0 && timer <= 0) {
                 wavesLeft--;
                 timer = 20000;
-                Vector2 at = civs.isEmpty() ? center : civs.get(0).position;
-                for (int k = 0; k < 3; k++) {
-                    Element victim = civs.get((int) (Math.random() * civs.size()));
-                    double a = Math.random() * Math.PI * 2.0d;
-                    place(foe(REAVER, k == 0), new Vector2(at).add((float) (Math.cos(a) * 1600), (float) (Math.sin(a) * 1600)), k == 0 ? ps : victim, true);
-                }
+                Element victim = civs.get((int) (Math.random() * civs.size()));
+                reinforce(1, ps, true);
+                reinforce(2, victim, false);
                 Mod.floatText(ps, ModLang.tr("RAIDERS INBOUND (") + (4 - wavesLeft) + "/4)", 1.0f, 0.4f, 0.3f);
+                save();
             }
             if (wavesLeft == 0 && liveFoes() == 0) complete();
         } else if ("DEFEND_ZONE".equals(obj)) {
-            if (ally != null && ally.removed && ally.life <= 0) { fail(); return; }
-            if (ally != null && !ally.removed) center.setSameAs(ally.position);
-            if (ps.position.distance(center) < 1800) holdMs += j;
-            timer -= j;
-            if (timer <= 0) {
-                timer = 15000;
-                wave(3, center, 2600, null, true);
-                for (int k = spawned.size() - 1, n = 0; k >= 0 && n < 2; k--) {
-                    Element e = spawned.get(k);
-                    if (e instanceof Ennemis && ally != null && !ally.removed) { ((Ennemis) e).initAttackTarget(ally); n++; }
+            boolean in = ps.position.distance(center) < 1800;
+            if (in) { holdMs += j; wavesOn = true; }
+            if (wavesOn) {
+                timer -= j;
+                int waves = goal / 15000;
+                if (timer <= 0 && waveNo < waves) {
+                    // Q7c/Q7d: 5 raiders, +1 per wave up to 8 (story starts at 6), at the pilot's or the sector's level; the last wave has an elite
+                    timer = 15000;
+                    waveNo++;
+                    int n = Math.min(8, (contract(idx) ? 5 : 6) + waveNo - 1);
+                    reinforce(n, ps, true, holdLevel(), waveNo == waves);
+                    Mod.floatText(ps, ModLang.tr("RAIDERS INBOUND (") + waveNo + "/" + waves + ")", 1.0f, 0.4f, 0.3f);
+                    save();
                 }
             }
             if (holdMs >= goal) complete();
@@ -656,35 +892,46 @@ public class ModFaction extends MissionListener {
             if (progress >= goal) { complete(); return; }
             // top up from what is still missing, so ships that wander off never leave the count short
             int alive = liveFoes();
-            if (alive < 2 && progress + alive < goal) wave(Math.min(2, goal - progress - alive), away(ps.position, 1800, 2400), 200, ps, false);
+            if (alive < 2 && progress + alive < goal) reinforce(Math.min(2, goal - progress - alive), ps, false);
         } else if ("ESCORT".equals(obj)) {
             if (target == null) return;
             if (target.removed || target.life <= 0) {
-                if (target.position.distance(gate) < 700) complete(); else fail();
+                if (target.position.distance(gate) < 700) escortArrived(); else fail();
                 return;
             }
+            if (!courierMoving && target.position.distance(lastCourier) > 60) { courierMoving = true; save(); }
             float prog = 1 - target.position.distance(gate) / startDist;
-            if (!ambushed && prog > 0.3f) { ambushed = true; wave(3, target.position, 1500, target, false); Mod.floatText(ps, "AMBUSH!", 1.0f, 0.4f, 0.3f); }
-            if (!ambushed2 && prog > 0.65f) { ambushed2 = true; wave(3, target.position, 1500, target, true); Mod.floatText(ps, "AMBUSH!", 1.0f, 0.4f, 0.3f); }
+            if (!ambushed && prog > 0.3f) { ambushed = true; reinforce(3, target, false); Mod.floatText(ps, "AMBUSH!", 1.0f, 0.4f, 0.3f); }
+            if (!ambushed2 && prog > 0.65f) { ambushed2 = true; reinforce(3, target, true); Mod.floatText(ps, "AMBUSH!", 1.0f, 0.4f, 0.3f); }
             if (target.position.distance(gate) < 450) {
                 target.remove();
-                complete();
+                escortArrived();
                 return;
             }
             courierCheck -= j;
             if (courierCheck <= 0) {
                 // keep the courier on its way if a fight knocked it off its route
                 courierCheck = 10000;
-                if (target.position.distance(lastCourier) < 60 && target instanceof CivilShip) {
+                if (courierMoving && target.position.distance(lastCourier) < 60 && target instanceof CivilShip) {
                     ((CivilShip) target).setActivity(new CivilActivity[]{CivilActivity.newMoove(gate.x, gate.y)});
                 }
                 lastCourier.setSameAs(target.position);
+                save();
             }
         } else if ("SCAN_CIVIL".equals(obj)) {
             for (int k = 0; k < civs.size() && k < scanMs.length; k++) {
                 CivilShip c = civs.get(k);
                 if (c == null || scanMs[k] < 0) continue;
-                if (c.removed) { scanMs[k] = -1; progress++; continue; }
+                if (c.removed || c.life <= 0) {
+                    // Q9: a lost target is replaced; the new one comes in from off-screen (R4)
+                    CivilShip n = scanTarget(ModPlace.ambushPoint(ps.position), center);
+                    if (n != null) {
+                        civs.remove(civs.size() - 1);   // scanTarget appended it; it takes the lost one's slot
+                        civs.set(k, n);
+                    }
+                    scanMs[k] = 0;
+                    continue;
+                }
                 if (c.position.distance(ps.position) < 450) {
                     scanMs[k] += j;
                     if (scanMs[k] > 1500) {
@@ -695,8 +942,9 @@ public class ModFaction extends MissionListener {
                         if (progress == goal - 1 && !ambushed) {
                             ambushed = true;
                             Mod.floatText(c, ModLang.tr("FALSE TRANSPONDER: RAIDERS!"), 1.0f, 0.4f, 0.3f);
-                            wave(2, c.position, 600, ps, false);
+                            reinforce(2, ps, false);
                         }
+                        save();
                     }
                 }
             }
@@ -712,6 +960,30 @@ public class ModFaction extends MissionListener {
                 ((GuardianCivilShip) target).attackPlayerIfItNotTheCaseAlready();
                 ObjectRegistry.INSTANCE.soundManager.playDanger();
             }
+        }
+    }
+
+    /** The courier reached its end point: done, or (story escort, S8) on to the second sector with the player. */
+    private void escortArrived() {
+        if (phase == 0 && secondSector() != null) {
+            phase = 1;
+            courierMoving = false;
+            target = null;
+            save();
+            inZone = sectorIs(activeSector());
+            Mod.floatText(ObjectRegistry.INSTANCE.playerShip, ModLang.tr("FOLLOW THE COURIER THROUGH THE GATE"), 0.5f, 1.0f, 0.6f);
+            markGates(true);
+            return;
+        }
+        complete();
+    }
+
+    private static boolean sectorIs(LevelId id) {
+        try {
+            String cur = ObjectRegistry.INSTANCE.game.currentLevel.name;
+            return id != null && cur != null && cur.equals(id.levelName);
+        } catch (Throwable t) {
+            return false;
         }
     }
 
@@ -735,7 +1007,14 @@ public class ModFaction extends MissionListener {
         ModCapitals.Faction fc = ModCapitals.FACTIONS[f.fi];
         float bestD = Float.MAX_VALUE, bx = 0, by = 0;
         String label = null;
-        if (f.markers != null) {
+        if (f.phase == 1 && ("DELIVERY".equals(f.obj) || "GATHER_AND_SELL".equals(f.obj))) {
+            Station st = ModPlace.nearestStation(ps.position);
+            if (st != null) {
+                bestD = st.position.distance(ps.position);
+                bx = st.position.x; by = st.position.y;
+                label = "DELIVERY".equals(f.obj) ? ModLang.tr("DELIVER") : ModLang.tr("SELL");
+            }
+        } else if (f.markers != null) {
             boolean signal = "FIND_OBJECT".equals(f.obj) || "DELIVERY".equals(f.obj);
             for (int k = 0; k < f.taken.length; k++) {
                 if (f.taken[k]) continue;
@@ -746,7 +1025,7 @@ public class ModFaction extends MissionListener {
                 float d = (float) Math.hypot(x - ps.position.x, y - ps.position.y);
                 if (d < bestD) { bestD = d; bx = x; by = y; }
             }
-            label = signal ? "SIGNAL" : "RESCUE".equals(f.obj) ? "PILOT" : "SALVAGE";
+            label = signal ? "SIGNAL" : "RESCUE".equals(f.obj) ? "PILOT" : ModLang.tr("CARGO");
         } else if ("DEFEND_ZONE".equals(f.obj)) {
             ModFx.spr("fx_ring", f.center.x, f.center.y, 3600, 3600, (t / 80.0f) % 360, fc.r, fc.g, fc.b, 0.35f, true);
             bestD = f.center.distance(ps.position);
@@ -757,6 +1036,13 @@ public class ModFaction extends MissionListener {
                 holdSec = sec;
             }
             label = holdLabel;
+        } else if ("DEFEND_CIVILIANS".equals(f.obj) && !f.wavesOn) {
+            for (CivilShip c : f.civs) {
+                if (c == null || c.removed) continue;
+                float d = c.position.distance(ps.position);
+                if (d < bestD) { bestD = d; bx = c.position.x; by = c.position.y; }
+            }
+            label = ModLang.tr("CONVOY");
         } else if ("ESCORT".equals(f.obj) && f.target != null && !f.target.removed) {
             ModFx.spr("fx_ring", f.gate.x, f.gate.y, 700 * pulse, 700 * pulse, 0, 0.5f, 1.0f, 0.6f, 0.6f, true);
             bestD = f.target.position.distance(ps.position);
@@ -800,9 +1086,9 @@ public class ModFaction extends MissionListener {
     // ------------------------------------------------------------------ gates
     private void markGates(boolean on) {
         try {
-            LevelId to = completed ? ModCapitals.FACTIONS[fi].hq : zone;
+            LevelId to = completed ? ModCapitals.FACTIONS[fi].hq : activeSector();
             if (to == null) return;
-            if (!completed && inZone) return;
+            if (!completed && inZone && !(phase == 1 && "ESCORT".equals(obj) && target == null && sectorIs(zone))) return;
             String cur = ObjectRegistry.INSTANCE.game.currentLevel.name;
             if (cur != null && cur.equals(to.levelName)) return;
             Portal p = ObjectRegistry.INSTANCE.game.currentLevel.findPortalByName(PathFinder.getPortalNameToGoTo(to));
@@ -818,33 +1104,63 @@ public class ModFaction extends MissionListener {
     // ------------------------------------------------------------------ MissionListener
     @Override
     public void onZoneChanged(String str, String str2) {
+        // the old sector's ships are gone with it; the plan and progress stay (Q11)
         spawned.clear();
         civs.clear();
         target = null;
-        ally = null;
-        markers = null;
         setupDone = false;
         zoneMs = 0;
-        inZone = testZone || (zone != null && str != null && str.equals(zone.levelName));
+        wavesOn = false;
+        ModPlace.clearBoost();
+        LevelId want = activeSector();
+        inZone = testZone || (want != null && str != null && str.equals(want.levelName));
         markGates(true);
     }
 
     @Override
     public void onElementDestroyed(Element e) {
+    }
+
+    /** Q10: only the player's kills (drone kills are credited to the player by Mod.creditKiller) count. */
+    @Override
+    public void onElementDestroyedByPlayer(Element e) {
         if ("KILL_ENEMY_TYPE".equals(obj) && e != null && spawned.contains(e)) {
             progress++;
+            save();
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             if (ps != null) Mod.floatText(ps, "TARGETS " + Math.min(progress, goal) + "/" + goal, 1.0f, 0.8f, 0.4f);
         }
     }
 
+    /** Q5 / Q6: docking at any station of the second sector hands the crate in / sells the cargo. */
     @Override
-    public void onElementDestroyedByPlayer(Element e) {
+    public void onBeforePlayerDock() {
+        try {
+            if (completed || phase != 1 || !("DELIVERY".equals(obj) || "GATHER_AND_SELL".equals(obj))) return;
+            if (!sectorIs(secondSector())) return;
+            complete();
+        } catch (Throwable t) {
+            // never break docking
+        }
     }
 
     @Override
     public void onPlayerDeath() {
         cleanup();
+        // Q5: the crate is lost with the ship; Q22: so is gathered cargo. The points come back where they were.
+        if (!completed && ("DELIVERY".equals(obj) || "GATHER_AND_SELL".equals(obj)) && planned && (phase == 1 || progress > 0)) {
+            if ("DELIVERY".equals(obj)) {
+                markers = new float[]{center.x, center.y};
+                taken = new boolean[1];
+            } else if (markers == null || phase == 1) {
+                scatter(6, center, 2200);   // the cargo was all aboard: new pods around the same spot
+            } else {
+                for (int k = 0; k < taken.length; k++) taken[k] = false;
+            }
+            progress = 0;
+            phase = 0;
+            save();
+        }
     }
 
     @Override
@@ -864,33 +1180,41 @@ public class ModFaction extends MissionListener {
         // when a shown value changes; the target is read once so it cannot turn null half-way
         ModCapitals.Faction f = ModCapitals.FACTIONS[fi];
         Element tg = target;
+        LevelId where = activeSector();
         int branch, val = 0;
         if (completed) branch = 0;
-        else if (zone == null) return str(idx, 12);
+        else if (where == null) return str(idx, 12);
         else if (!inZone) branch = 1;
+        else if (phase == 1 && "DELIVERY".equals(obj)) branch = 7;
+        else if (phase == 1 && "GATHER_AND_SELL".equals(obj)) branch = 8;
         else if (!setupDone) return str(idx, 12);
         else if ("DEFEND_ZONE".equals(obj)) { branch = 2; val = Math.max(0, (goal - holdMs) / 1000); }
-        else if ("DEFEND_CIVILIANS".equals(obj)) { branch = 3; val = wavesLeft; }
+        else if ("DEFEND_CIVILIANS".equals(obj)) { branch = wavesOn ? 3 : 9; val = wavesLeft; }
         else if ("ESCORT".equals(obj) && tg != null) { branch = 4; val = (int) tg.position.distance(gate); }
         else if ("KILL_FLAGSHIP".equals(obj) && tg != null && !tg.removed) { branch = 5; val = (int) Math.ceil(100.0f * tg.life / tg.maxLife); }
         else if (goal > 1) { branch = 6; val = Math.min(progress, goal); }
         else return str(idx, 12);
         String c = instrText;
-        if (c != null && branch == instrBranch && val == instrVal && tg == instrTarget && goal == instrGoal) return c;
+        if (c != null && branch == instrBranch && val == instrVal && tg == instrTarget && goal == instrGoal && where == instrWhere) return c;
         String out;
         switch (branch) {
             case 0: out = ModLang.tr("Return to ") + pretty(f.hq) + ModLang.tr(" and hail the ") + f.ship; break;
-            case 1: out = "Go to " + pretty(zone) + ": " + str(idx, 2); break;
-            case 2: out = ModLang.tr("Hold the zone beside the ") + f.ship + ": " + val + ModLang.tr(" s left"); break;
+            case 1: out = (phase == 1 && "DELIVERY".equals(obj) ? ModLang.tr("Deliver the crate to ") : phase == 1 && "GATHER_AND_SELL".equals(obj) ? ModLang.tr("Sell the cargo at ")
+                : "Go to ") + pretty(where) + ": " + str(idx, 2); break;
+            case 2: out = ModLang.tr("Hold the outpost zone: ") + val + ModLang.tr(" s left"); break;
             case 3: out = ModLang.tr("Protect the transports. Waves left: ") + val; break;
-            case 4: out = ModLang.tr("Escort ") + tg.specificName + ModLang.tr(" to the gate: ") + val + " m"; break;
+            case 4: out = ModLang.tr("Escort ") + tg.specificName + ": " + val + " m"; break;
             case 5: out = ModLang.tr("Destroy the ") + tg.specificName + ": " + val + ModLang.tr("% hull"); break;
+            case 7: out = ModLang.tr("Dock at a station in ") + pretty(where) + ModLang.tr(" to deliver the crate"); break;
+            case 8: out = ModLang.tr("Dock at a station in ") + pretty(where) + ModLang.tr(" to sell the cargo"); break;
+            case 9: out = ModLang.tr("Meet the convoy"); break;
             default: out = str(idx, 2) + ": " + val + "/" + goal; break;
         }
         instrBranch = branch;
         instrVal = val;
         instrTarget = tg;
         instrGoal = goal;
+        instrWhere = where;
         instrText = out;
         return out;
     }
@@ -898,13 +1222,19 @@ public class ModFaction extends MissionListener {
     private String instrText;
     private int instrBranch = -1, instrVal, instrGoal;
     private Element instrTarget;
+    private LevelId instrWhere;
 
     @Override
     public void init() {
         SharedPreferences p = prefs();
         completed = !contract(idx) && p != null && p.getBoolean("fm_done_" + id(idx), false);   // contracts start fresh every time
         cleanup();
-        ModComms.show(key(idx), str(idx, 11), 12000);
+        planned = false;
+        phase = 0;
+        zone = contract(idx) && !hunt(idx) ? ModPlace.contractSector(ModCapitals.FACTIONS[fi].hq, idx, System.currentTimeMillis() / 86400000L) : level(str(idx, 4));
+        save();
+        if (p != null) p.edit().putString(stateKey() + "_z", zone != null ? zone.name() : "").apply();
+        ModComms.brief(key(idx), str(idx, 11));   // v37 Q13: stays until tapped
         onZoneChanged(ObjectRegistry.INSTANCE.game.currentLevel.name, null);
     }
 
@@ -923,8 +1253,9 @@ public class ModFaction extends MissionListener {
     public void terminate() {
         markGates(false);
         completed = false;
+        planned = false;
         SharedPreferences p = prefs();
-        if (p != null) p.edit().remove("fm_done_" + id(idx)).commit();
+        if (p != null) p.edit().remove("fm_done_" + id(idx)).remove(stateKey()).remove(stateKey() + "_z").commit();
     }
 
     @Override
@@ -934,9 +1265,11 @@ public class ModFaction extends MissionListener {
         spawned.clear();
         civs.clear();
         target = null;
-        markers = null;
         setupDone = false;
         zoneMs = 0;
+        String z = p != null ? p.getString(stateKey() + "_z", null) : null;
+        if (z != null && level(z) != null) zone = level(z);
+        load();
     }
 
     @Override

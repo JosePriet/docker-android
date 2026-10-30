@@ -1,4 +1,19 @@
-# Current task: v36 (owner, 2026-10-28)
+# Current task: v37 missions + HAIL (owner, 2026-10-30)
+Owner: "the 'new' missions ... don't work as intended or they develop in such a short distance from the point of getting said mission ... The button to find these missions is also a bit bugged since if you click it the mission hud shows up so fast you can't read the text from the npc, also as a newbie its not really explained what the button at the center does."
+Audit: /mnt/project-files/space-corsair/missions-v37/missions-audit-v37.md. Owner answers (authoritative): /mnt/project-files/space-corsair/missions-v37/owner-answers.md (Q1-Q23, S1-S9). The wreck drift / UFO laser work (other thread) also lands in v37.
+Requirements (from the answers):
+1. Story missions that ran in the giver's HQ move to the sector picked in S1-S9 (src/genmissions.py EXTRA). Contracts go to a neighbour of the giver's HQ, rotating daily. Hunts and the finale stay in the HQ. (Q1, Q2)
+2. Objectives at least 8,000 from where the player arrives (Q3); hunts/finale: from where the mission is accepted (Q23).
+3. No ship pops in near the player: objective ships wait at the objective; ambushes/reinforcements spawn 4,500 away on the side of the nearest gate or hostile station and get a one-time x2 speed boost until within 2,000 (R4, Q19, Q20).
+4. Sealed Ledger: pick up in The Vault, hand in by docking at Omicron Prime; lost on death (Q5). Gather-and-sell: points give mission cargo, completed by docking in the sell sector (Pirate Bay, Ore Belt; contracts: the HQ); lost on death (Q6, Q22).
+5. Hold zone: separate outpost 12,000-15,000 from arrival (Q7a, Q21); 90 s story / 60 s contracts (Q7b); waves every 15 s of 5 (+1 per wave, cap 8; story starts at 6), level max(pilot, sector top), elite in the last wave (Q7c, Q7d).
+6. Escorts start at a station (farthest from arrival) (Q4); contracts end at another station, else a gate (Q8); Helion 1 runs Heliostat station -> gate -> Constellation station (S8).
+7. Scan targets lost before being scanned are replaced from off-screen (Q9). Kill counts: player and drone kills only (Q10). Progress is kept when leaving the sector and over restarts (Q11).
+8. HAIL: greeting first, mission screen only from OPEN MISSIONS (Q12); briefing stays until tapped; the panel no longer auto-hides behind the mission screen (Q13); one-time explanation pop-up + subtitle under the button (Q14); shown only within 6,000 of the flagship (Q15); "no missions" subtitle when nothing is offered (Q16). Boss missions unchanged (Q17).
+9. New text: EN placeholders now; GPT writes the final EN + ES (Q18).
+Acceptance: check.sh 37 PASS; emulator run of one mission per type with no crash; two-agent verification; /mnt/project-files/audits/v37-changes.md; directive audit; phone test by the owner.
+
+# Previous task: v36 (owner, 2026-10-28)
 Owner: "the game's BGM is mainly quiet... when you can hear it its volume is way lower than the sound effects... add a different bar to adjust BGM and sound effects; the asteroids on the minimap should have a brighter yellow colour since they can be confused for green if the phone has a filter."
 Requirements: (1) find why BGM is mostly silent / quieter than SFX and fix; (2) separate BGM and SFX bars; (3) minimap asteroids brighter yellow, not green under a colour filter.
 Status 2026-10-28: implemented (5915b16), check.sh 36 PASS, verifier + cross-check done, emulator sc-v36. Changes: /mnt/project-files/audits/v36-changes.md. Asteroid colour value: owner's pick (gold 1.0/0.82/0.0 by default; ModMap.ASTEROID_*).

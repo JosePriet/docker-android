@@ -32,6 +32,11 @@ def js(s):
 
 # objective details the game needs that the text leaves open (counts, extra sectors, targets)
 EXTRA = {('varn', 1): 'THE_VAULT'}   # the sealed crate is collected in The Vault, then handed in at Omicron Prime
+# v37 (owner 2026-10-30, S1-S9): story missions no longer run in the giver's HQ. The objective moves to this sector; the
+# data sector stays in the second column (gather-and-sell missions sell there, the escort starts there).
+EXTRA.update({('spartan', 3): 'THE_WAVE', ('reaver', 1): 'CONSTELLATION', ('kretari', 2): 'DELTA_NODE',
+              ('kretari', 3): 'GREEN_BORDER', ('ironclad', 1): 'HUGO_WISDOM', ('ironclad', 2): 'VENTOHIGH',
+              ('ironclad', 3): 'HERMES', ('warden', 1): 'LOST_PARADISE'})
 rows = []
 for k in ORDER:
     for m in sorted([x for x in missions if x['faction'] == k], key=lambda x: x['order']):

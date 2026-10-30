@@ -44,6 +44,11 @@ public final class ModComms {
     private static volatile int hailFaction = -1;   // faction whose HQ the player is in (game thread writes, UI reads)
     private static volatile long lastTick;
     private static volatile boolean hailOpen;   // the mission screen was opened by HAIL (in flight, not docked)
+    private static Button open;                     // v37 Q12: OPEN MISSIONS under the commander's greeting
+    private static volatile boolean hailHas = true; // v37 Q16: the faction has something to offer
+    private static long hasCheck;
+    /** v37 Q15: HAIL shows only this close to the faction's flagship. */
+    static final float HAIL_RANGE = 6000f;
 
     /** Hook: start of MissionUtils.isDockedToMission (the mission screen shows its list only when docked at a command center). */
     public static boolean hailing() {
@@ -84,6 +89,16 @@ public final class ModComms {
 
     /** Any thread: shows the commander of {@code key} with a message for {@code ms}. */
     public static void show(final String key, final String text, final int ms) {
+        show(key, text, ms, false);
+    }
+
+    /** v37 Q13: a mission briefing stays up until the player taps it. */
+    static void brief(String key, String text) {
+        show(key, text, -1, false);
+    }
+
+    /** {@code ms} < 0 keeps the panel until it is tapped; {@code withOpen} adds the OPEN MISSIONS button (HAIL, Q12). */
+    private static void show(final String key, final String text, final int ms, final boolean withOpen) {
         final Handler h = ui;
         if (h == null) return;
         h.post(new Runnable() {
@@ -106,8 +121,9 @@ public final class ModComms {
                     who.setText(ModFactionData.COMMANDER[ci] + "  ·  " + f.name);
                     who.setTextColor(col);
                     msg.setText(Html.fromHtml(text));
+                    if (open != null) open.setVisibility(withOpen ? View.VISIBLE : View.GONE);
                     panel.setVisibility(View.VISIBLE);
-                    hideAt = System.currentTimeMillis() + ms;
+                    hideAt = ms < 0 ? Long.MAX_VALUE : System.currentTimeMillis() + ms;
                 } catch (Throwable t) {
                     // comms are cosmetic
                 }
@@ -124,18 +140,40 @@ public final class ModComms {
             for (int i = 0; i < ModCapitals.FACTIONS.length; i++) {
                 if (ModCapitals.FACTIONS[i].hq == id) { fi = i; break; }
             }
-            if (fi >= 0 && !ModCapitals.caps.isEmpty()) {
+            if (fi >= 0) {
+                // v37 Q15: only within range of the faction's flagship (and not while it is hostile)
+                boolean near = false;
                 for (Map.Entry<GuardianCivilShip, ModCapitals.Cap> e : ModCapitals.caps.entrySet()) {
-                    if (e.getValue().f == ModCapitals.FACTIONS[fi] && e.getKey().chasseTarget != null) { fi = -1; break; }
+                    if (e.getValue().f != ModCapitals.FACTIONS[fi]) continue;
+                    GuardianCivilShip g = e.getKey();
+                    if (g.chasseTarget != null) { near = false; break; }
+                    if (!g.removed && ps != null && g.position.distance(ps.position) < HAIL_RANGE) near = true;
                 }
+                if (!near) fi = -1;
             }
             if (fi >= 0 && ModRep.rank(ModCapitals.FACTIONS[fi].key) <= ModRep.HOSTILE) fi = -1;
             if (fi < 0 && ModFaction.testHail) fi = 0;
             if (ps == null || ps.isDocked || ps.removed || ObjectRegistry.INSTANCE.game.mapMode) fi = -1;
+            long now = System.currentTimeMillis();
+            if (fi >= 0 && now - hasCheck > 1000) {
+                hasCheck = now;
+                hailHas = hasMissions(fi);
+            }
         } catch (Throwable t) {
             fi = -1;
         }
         hailFaction = fi;
+    }
+
+    /** v37 Q16: anything to take or hand in at this faction's HQ (its mission list, or its mission being flown). */
+    private static boolean hasMissions(int fi) {
+        try {
+            LevelId hq = ModCapitals.FACTIONS[fi].hq;
+            java.util.List<fr.testudo.spacecorsair.business.mission.Mission> l = ObjectRegistry.INSTANCE.missionRepository.getAvaillableMission(hq);
+            return l != null && !l.isEmpty();
+        } catch (Throwable t) {
+            return true;   // when unsure, do not say "no missions"
+        }
     }
 
     /** From ModScroll.attach (CommonActivity.onResume) for the game activity. */
@@ -168,6 +206,35 @@ public final class ModComms {
             t2.setMaxLines(6);
             col.addView(t1);
             col.addView(t2);
+            final Button ob = new Button(a);
+            ob.setAllCaps(false);
+            ob.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12.0f);
+            ob.setTextColor(Color.WHITE);
+            ob.setText(ModLang.tr("OPEN MISSIONS"));
+            ob.setPadding((int) (12 * d), (int) (4 * d), (int) (12 * d), (int) (4 * d));
+            ob.setMinHeight(0);
+            ob.setMinimumHeight(0);
+            GradientDrawable obg = new GradientDrawable();
+            obg.setCornerRadius(6 * d);
+            obg.setColor(0xC0203040);
+            obg.setStroke((int) (1 * d), 0xFFDDE4EE);
+            ob.setBackgroundDrawable(obg);
+            ob.setVisibility(View.GONE);
+            ob.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    try {
+                        ModSound.play("comms_click", 0.8f, 1.0f, 200);
+                        panel.setVisibility(View.GONE);
+                        hailOpen = true;
+                        ObjectRegistry.INSTANCE.game.gameThread.showMissionMenu();
+                    } catch (Throwable t) {
+                        // no mission screen this time
+                    }
+                }
+            });
+            LinearLayout.LayoutParams olp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            olp.topMargin = (int) (6 * d);
+            col.addView(ob, olp);
             p.addView(col, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
             p.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) { v.setVisibility(View.GONE); }
@@ -177,6 +244,7 @@ public final class ModComms {
             lp.topMargin = (int) (58 * d);
             a.addContentView(p, lp);
             panel = p;
+            open = ob;
             face = iv;
             who = t1;
             msg = t2;
@@ -196,13 +264,12 @@ public final class ModComms {
                     try {
                         int fi = hailFaction;
                         ModSound.play("comms_click", 0.8f, 1.0f, 200);
-                        hailOpen = true;
                         if (fi >= 0) {
+                            // v37 Q12: the commander speaks first; the mission screen opens from OPEN MISSIONS
                             String k = ModCapitals.FACTIONS[fi].key;
                             String greet = ModRep.rank(k) == ModRep.UNFRIENDLY ? ModLang.tr(ModRepData.RANK_DOWN[ModRep.index(k)][0]) : ModLang.tr(ModFactionData.COMMANDER_LINE[ModFaction.commander(k)]);
-                            show(k, "<b>" + ModRep.title(k) + "</b> \u00b7 " + greet, 6000);
+                            show(k, "<b>" + ModRep.title(k) + "</b> \u00b7 " + greet + (hailHas ? "" : "<br><i>" + ModLang.tr("No missions for you right now.") + "</i>"), -1, true);
                         }
-                        ObjectRegistry.INSTANCE.game.gameThread.showMissionMenu();
                     } catch (Throwable t) {
                         // no mission screen this time
                     }
@@ -216,6 +283,8 @@ public final class ModComms {
 
             ui.post(new Runnable() {
                 int shown = -2;
+                boolean shownHas = true;
+                long last = System.currentTimeMillis();
 
                 public void run() {
                     if (a.isFinishing() || act != a) {
@@ -231,11 +300,22 @@ public final class ModComms {
                         return;
                     }
                     try {
-                        boolean game = System.currentTimeMillis() - lastTick < 700 && ModTitan.inGame();
-                        if (panel.getVisibility() == View.VISIBLE && (System.currentTimeMillis() > hideAt || !game)) panel.setVisibility(View.GONE);
+                        long now = System.currentTimeMillis();
+                        boolean game = now - lastTick < 700 && ModTitan.inGame();
+                        // v37 Q13: the panel no longer vanishes while the game is paused or covered (mission screen,
+                        // loading); a timed message's clock just stops until play resumes
+                        if (!game && hideAt != Long.MAX_VALUE) hideAt += now - last;
+                        last = now;
+                        if (panel.getVisibility() == View.VISIBLE && game && now > hideAt) panel.setVisibility(View.GONE);
                         int fi = game ? hailFaction : -1;
-                        if (fi != shown) {
+                        if (fi < 0 && open != null && open.getVisibility() == View.VISIBLE && panel.getVisibility() == View.VISIBLE && game) {
+                            panel.setVisibility(View.GONE);   // flew out of hail range: the greeting closes with the button
+                        }
+                        boolean has = hailHas;
+                        if (fi != shown || (fi >= 0 && has != shownHas)) {
+                            boolean fresh = fi != shown;
                             shown = fi;
+                            shownHas = has;
                             if (fi < 0) {
                                 b.setVisibility(View.GONE);
                             } else {
@@ -246,7 +326,8 @@ public final class ModComms {
                                 g.setColor(0xC0101820);
                                 g.setStroke((int) (2 * d), c);
                                 b.setBackgroundDrawable(g);
-                                b.setText("HAIL " + f.ship.toUpperCase());
+                                // v37 Q14/Q16: a subtitle says what the button is for, or that there is nothing on offer
+                                b.setText(Html.fromHtml("HAIL " + f.ship.toUpperCase() + "<br><small>" + (has ? ModLang.tr("Missions") : ModLang.tr("no missions")) + "</small>"));
                                 Bitmap em = asset(a, "emblem_" + f.key);
                                 if (em != null) {
                                     android.graphics.drawable.BitmapDrawable bd = new android.graphics.drawable.BitmapDrawable(a.getResources(), em);
@@ -254,8 +335,9 @@ public final class ModComms {
                                     b.setCompoundDrawables(bd, null, null, null);
                                     b.setCompoundDrawablePadding((int) (6 * d));
                                 }
-                                ModSound.play("comms_click", 0.6f, 1.0f, 300);
+                                if (fresh) ModSound.play("comms_click", 0.6f, 1.0f, 300);
                                 b.setVisibility(View.VISIBLE);
+                                if (fresh) hailHelp(a);
                             }
                         }
                     } catch (Throwable t) {
@@ -266,6 +348,20 @@ public final class ModComms {
             });
         } catch (Throwable t) {
             // no comms: missions still work through the command centers
+        }
+    }
+
+    /** v37 Q14: the first time HAIL ever appears, a one-time explanation (placeholder text until GPT's EN/ES lands). */
+    private static void hailHelp(Activity a) {
+        try {
+            android.content.SharedPreferences p = ModQol.prefs();
+            if (p == null || p.getBoolean("v37_hail_help", false) || ModDev.noDialog(null)) return;
+            p.edit().putBoolean("v37_hail_help", true).apply();
+            new android.app.AlertDialog.Builder(a).setTitle(ModLang.tr("Faction flagship"))
+                .setMessage(ModLang.tr("You are near a faction flagship. Tap HAIL to talk to its commander: story missions, contracts and hand-ins are offered there. The line under the button says whether there is anything for you."))
+                .setPositiveButton("OK", null).show();
+        } catch (Throwable t) {
+            // help is a convenience
         }
     }
 

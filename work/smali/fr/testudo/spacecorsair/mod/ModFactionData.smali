@@ -444,7 +444,7 @@
 
     const/4 v2, 0x4
 
-    const-string v3, "SPARTAN_HQ"
+    const-string v3, "THE_WAVE"
 
     aput-object v3, v1, v2
 
@@ -557,7 +557,7 @@
 
     const/4 v2, 0x4
 
-    const-string v3, "PIRATE_BAY"
+    const-string v3, "CONSTELLATION"
 
     aput-object v3, v1, v2
 
@@ -1005,7 +1005,7 @@
 
     const/4 v3, 0x4
 
-    const-string v4, "THE_HIVE"
+    const-string v4, "DELTA_NODE"
 
     aput-object v4, v2, v3
 
@@ -1120,7 +1120,7 @@
 
     const/4 v3, 0x4
 
-    const-string v4, "THE_HIVE"
+    const-string v4, "GREEN_BORDER"
 
     aput-object v4, v2, v3
 
@@ -1570,7 +1570,7 @@
 
     const/4 v2, 0x4
 
-    const-string v3, "ORE_BELT"
+    const-string v3, "HUGO_WISDOM"
 
     aput-object v3, v1, v2
 
@@ -1681,7 +1681,7 @@
 
     const/4 v3, 0x4
 
-    const-string v4, "ORE_BELT"
+    const-string v4, "VENTOHIGH"
 
     aput-object v4, v2, v3
 
@@ -1794,7 +1794,7 @@
 
     const/4 v3, 0x4
 
-    const-string v4, "ORE_BELT"
+    const-string v4, "HERMES"
 
     aput-object v4, v2, v3
 
@@ -2248,7 +2248,7 @@
 
     const/4 v3, 0x4
 
-    const-string v4, "HIGHWAY"
+    const-string v4, "LOST_PARADISE"
 
     aput-object v4, v2, v3
 
