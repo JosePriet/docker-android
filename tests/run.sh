@@ -81,7 +81,7 @@ log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/i
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ]; then
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
-  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog && echo 34 > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
+  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog && echo $([ "$STAGE" = A ] && echo 10 || echo 34) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
@@ -121,7 +121,7 @@ elif [ $GAME = sc ]; then
   T=/data/local/tmp
   SHORT=1  # v37c: titan flights skipped so the V37 stage fits the 30 min limit; set to 1 to skip the Warlord/Harbinger stages
   HARB=    # set to 1 to run the Harbinger stage (v33: off)
-  V37=1    # v37: sector-by-sector stage after the Warlord flight
+  V37=     # v37: sector-by-sector stage after the Warlord flight
   QUICK=1  # v36: quick run (audio/settings/minimap change). v35b: full run at pilot level 34 after the owner decisions (cores, repeatable bosses, wreck loot, prices)
   if [ -z "$SHORT" ] && fly hullWarlord Warlord warlord; then
     sleep 4; shot warlord_living
@@ -158,7 +158,7 @@ elif [ $GAME = sc ]; then
   if fly hullLeviathan Leviathan leviathan; then
     sleep 5; shot leviathan_player_titan
     # v33: every flagship's batteries + skill callouts (logcat ModCapitals / ModTitanAI); the reaver harpoon goes last
-    CAPS="ironclad spartan helion warden kretari varn reaver"; [ -n "$QUICK" ] && CAPS="ironclad helion"
+    CAPS="ironclad spartan helion warden kretari varn reaver"; [ -n "$QUICK" ] && CAPS="ironclad helion"; [ -n "$STAGE" ] && CAPS=""
     for C in $CAPS; do
       a shell "echo $C > $T/corsair_capital && chmod 644 $T/corsair_capital"; sleep 5; shot cap_${C}_neutral
       a shell "touch $T/corsair_capfight; chmod 644 $T/corsair_*"; sleep 2; shot cap_${C}_fight_1; sleep 1.5; shot cap_${C}_fight_2; sleep 1.5; shot cap_${C}_fight_3
@@ -177,53 +177,105 @@ elif [ $GAME = sc ]; then
     a shell "touch $T/corsair_die; chmod 644 $T/corsair_*"; sleep 0.7; shot death_1; sleep 1.0; shot death_2; sleep 1.3; shot death_3; sleep 3; shot death_after
     fi
   fi
-  # ---- v37: run each feature where it lives (owner 2026-10-30: never only the tutorial region)
-  if [ -n "$V37" ]; then
+  # ---- v37 proof runs (owner 2026-10-31): STAGE A missions/economy/UI, B combat/wrecks, C bosses/Hive/death. Evidence: logcat "ModTest"
+  if [ -n "$STAGE" ]; then
     LG=$OUT/logcat_live.txt
     put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    flag() { a shell "touch $T/$1; chmod 644 $T/corsair_*"; }
+    unflag() { a shell "rm -f $T/$1"; }
     goto() { put corsair_goto $1; for i in $(seq 1 60); do sleep 4; need goto_$1; grep -q "goto arrived $1" $LG && break; done
       log "goto $1 arrived=$(grep -c "goto arrived $1" $LG)"; sleep 4; shot sector_$1; }
     near() { put corsair_near $1; sleep 3; shot near_$2; }
-    mission() { put corsair_mission $1; sleep 3; log "mission $1: $(grep "ModFaction.*$1" $LG | tail -1)"; }
-    a shell "touch $T/corsair_musiclog; chmod 644 $T/corsair_*"
+    mission() { put corsair_mission $1; sleep 3; }
+    ev() { log "EVIDENCE $1: $(grep -E "ModTest.*$2|ModFaction.*$2" $LG | tail -${3:-1} | sed 's/^.*): //' | tr '\n' ' ')"; }
+    zap() { flag corsair_kill; sleep 2; unflag corsair_kill; sleep 1; }
+    dock() { near station$1 st$1; unflag corsair_dock; sleep 1; flag corsair_dock; sleep 8; shot docked_$1; }
+    undock() { back 3; back 3; unflag corsair_dock; sleep 4; }
+    flag corsair_musiclog
     back 2; tap 1960 180; sleep 3; noexit
-    # normal sector: traffic and points of interest (minimap + map)
-    goto HUGO_WISDOM; sleep 20; shot traffic_1; tap 1960 180; sleep 4; shot map_hugo; back 3
-    # faction HQ (Ironclad, Ore Belt): HAIL range, greeting first, OPEN MISSIONS, help pop-up off (nodialog)
-    goto ORE_BELT; near flagship1 hq_flagship; dump hail; grep -o 'text="HAIL[^"]*"' $OUT/last.xml | head -2 | tee -a $OUT/progress.txt
-    tap_text "^HAIL" hail && { sleep 2; shot hail_greeting; sleep 6; shot hail_greeting_8s; tap_text "OPEN MISSIONS" openm && { sleep 4; shot mission_screen; back 3; }; }
-    # renegade hunt in the HQ (bounty): objective 8,000+ from where accepted, kill the captain -> completed + music after
-    mission FACTION_C_IRONCLAD_9; sleep 6; near objective1 hunt_target; sleep 3; shot hunt_target_2
-    a shell "touch $T/corsair_kill; chmod 644 $T/corsair_*"; sleep 2; shot hunt_kill; a shell "rm -f $T/corsair_kill"; sleep 5
-    log "hunt result: $(grep -E "ModFaction.*(completed|failed) FACTION_C_IRONCLAD_9" $LG | tail -1)"
-    # wrecks (Part B): a kill, then light shots on the pieces; logcat ModWreck "wreckshot moved="
-    put corsair_spawn frelon; sleep 4; a shell "touch $T/corsair_kill; chmod 644 $T/corsair_*"; sleep 2; a shell "rm -f $T/corsair_kill"; sleep 2; shot wrecks
-    a shell "touch $T/corsair_wreckshot; chmod 644 $T/corsair_*"; sleep 2; shot wreckshot_1; sleep 2; a shell "rm -f $T/corsair_wreckshot $T/corsair_spawn"; sleep 2
-    # flagship kill -> pursuit waves and rival cores
-    near flagship2 flag_before; a shell "touch $T/corsair_killflag; chmod 644 $T/corsair_*"; sleep 3; shot flag_killed
-    a shell "rm -f $T/corsair_killflag"; sleep 12; shot pursuit_1; sleep 35; shot pursuit_2; sleep 45; shot pursuit_3
-    # v37 missions in their own sectors: hold zone with outpost (The Wave), escort from a station (Heliostat)
-    mission FACTION_SPARTAN_3; goto THE_WAVE; sleep 4; log "plan: $(grep "plan FACTION_SPARTAN_3" $LG | tail -1)"; near objective2 outpost; sleep 20; shot outpost_wave1; sleep 20; shot outpost_wave2
-    mission FACTION_HELION_1; goto HELIOSTAT; sleep 4; log "plan: $(grep "plan FACTION_HELION_1" $LG | tail -1)"; near objective3 courier; sleep 8; shot courier_moving
-    # gather and sell: cargo in Hugo Wisdom, sold at Ore Belt (plan line only, objective distance)
-    mission FACTION_IRONCLAD_1; goto HUGO_WISDOM; sleep 4; log "plan: $(grep "plan FACTION_IRONCLAD_1" $LG | tail -1)"; near objective4 cargo
-    # final missions in The Hive
-    mission FACTION_KRETARI_4; goto THE_HIVE; sleep 4; log "plan: $(grep "plan FACTION_KRETARI_4" $LG | tail -1)"; near objective5 finale; sleep 6; shot finale_2
-    # boss kill for cores: Guardian in Solar Field (spawn 5500,1500)
-    put corsair_mission NONE; sleep 2; mission SPARTAN_MOD_BOSS_GUARDIAN; goto SOLAR_FIELD; sleep 6; near xy:5500,1500 boss; sleep 4; shot boss_2
-    a shell "touch $T/corsair_kill; chmod 644 $T/corsair_*"; sleep 3; shot boss_kill; a shell "rm -f $T/corsair_kill"; sleep 6; shot boss_loot
-    # death -> respawn -> music
-    a shell "touch $T/corsair_die; chmod 644 $T/corsair_*"; sleep 2; shot death_1; sleep 6; shot death_after; a shell "rm -f $T/corsair_die"
-    sleep 20; shot after_respawn
-    # last: docking (the station screen stays up afterwards)
-    goto ORE_BELT
-    # station: dock (music after), refit page
-    near station1 station; a shell "touch $T/corsair_dock; chmod 644 $T/corsair_*"; sleep 8; shot docked; dump docked
-    log "dock: $(grep "ModDev.*dock" $LG | tail -1)"
-    back 3; back 3; a shell "rm -f $T/corsair_dock"; sleep 4; shot undocked
-    grep -E "ModDev|ModFaction|ModSound|RARE SALVAGE|core|FATAL" $LG > $OUT/v37_events.txt
-    log "music log lines: $(grep -c "ModSound.*music" $LG); playing=false lines: $(grep -c "ModSound.*playing=false" $LG)"
-    a shell "rm -f $T/corsair_goto $T/corsair_near $T/corsair_mission $T/corsair_musiclog"
+    if [ "$STAGE" = A ]; then
+      # pilot stat row at L10, EN then ES (MyShip screen)
+      a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6
+      for i in 1 2 3 4; do a shell input swipe 1300 900 1300 300 400; sleep 1; done; shot pilot_l10_en; dump pilot_en
+      log "EVIDENCE pilot EN: $(python3 -c "import re,sys;t=re.findall(r'text=\"([^\"]+)\"',open('$OUT/last.xml').read());i=[k for k,x in enumerate(t) if 'PILOT' in x.upper()];print(t[i[0]:i[0]+9] if i else 'no PILOT STATS row')")"
+      back 3; put corsair_lang es; sleep 1
+      a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6
+      for i in 1 2 3 4; do a shell input swipe 1300 900 1300 300 400; sleep 1; done; shot pilot_l10_es; dump pilot_es
+      log "EVIDENCE pilot ES: $(python3 -c "import re;t=re.findall(r'text=\"([^\"]+)\"',open('$OUT/last.xml').read());i=[k for k,x in enumerate(t) if 'PILOT' in x.upper() or 'PILOTO' in x.upper()];print(t[i[0]:i[0]+9] if i else 'no pilot row')")"
+      back 3; put corsair_lang en; put corsair_level 34
+      # ship shop: no industrial hulls (Mule, Tortoise, Bulwark, Foundry) on any page
+      unflag corsair_page; a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; : > $OUT/shop_names.txt
+      for i in $(seq 1 45); do dump shop; grep -o 'text="[^"]*" resource-id="[^"]*id/shipName"' $OUT/last.xml >> $OUT/shop_names.txt; nx=$(python3 tests/tap.py $OUT/last.xml "id/imgNext"); [ -n "$nx" ] || break; a shell input tap $nx; sleep 0.8; done
+      log "EVIDENCE shop: pages=$(sort -u $OUT/shop_names.txt | wc -l) hulls; industrial names found=$(grep -cE 'Mule|Tortoise|Bulwark|Foundry' $OUT/shop_names.txt)"
+      back 3
+      # EFFECTS bar to 0 (settings), then effects in flight must be silent
+      a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 4; dump fxbar
+      xy=$(python3 -c "
+import re;s=open('$OUT/last.xml').read();n=re.findall(r'<node [^>]*>',s);seen=0
+for x in n:
+  if 'text=\"EFFECTS\"' in x: seen=1
+  if seen and 'SeekBar' in x:
+    b=list(map(int,re.findall(r'\d+',re.search(r'bounds=\"([^\"]+)\"',x).group(1))));print(b[2]-10,(b[1]+b[3])//2,b[0]-40,(b[1]+b[3])//2);break")
+      log "effects bar swipe: $xy"; [ -n "$xy" ] && swipe $xy 800; sleep 1; shot effects_0; back 3
+      # normal sector traffic and points of interest
+      goto HUGO_WISDOM; sleep 25; shot traffic_hugo; ev traffic traffic 3; ev poi "poi HUGO"
+      # hostile: red outline + name tag (screenshot)
+      put corsair_spawn frelon; sleep 3; shot hostile_tag; zap; unflag corsair_spawn
+      ev sfx sfx 2
+      # outpost destroyed -> mission failed (The Wave)
+      mission FACTION_SPARTAN_3; goto THE_WAVE; sleep 4; near objective1 outpost; sleep 6; shot outpost; put corsair_mdrive outpostkill; sleep 6; ev outpost "outpost|FACTION_SPARTAN_3" 3
+      # escort: Heliostat leg, then Constellation leg
+      mission FACTION_HELION_1; goto HELIOSTAT; sleep 4; near objective2 courier; sleep 8; put corsair_mdrive escort1; sleep 12; ev escort1 "escort|FACTION_HELION_1" 3
+      goto CONSTELLATION; sleep 8; near objective3 courier2; sleep 6; put corsair_mdrive escort2; sleep 12; ev escort2 "escort|FACTION_HELION_1" 4
+      # gather and sell: pods in Hugo Wisdom, sold on docking at Ore Belt
+      mission FACTION_IRONCLAD_1; goto HUGO_WISDOM; sleep 4; put corsair_mdrive pickup1; sleep 20; ev gather_pods "mdrive pickup"
+      goto ORE_BELT; dock 1; ev gather_sale "FACTION_IRONCLAD_1" 2; undock
+      # Sealed Ledger: crate in The Vault, delivered at Omicron Prime
+      mission FACTION_VARN_1; goto THE_VAULT; sleep 4; put corsair_mdrive pickup2; sleep 15; ev ledger_crate "mdrive pickup"
+      goto OMICRON_PRIME; dock 2; ev ledger "FACTION_VARN_1" 2
+      # refit bought from the station refit page (docked)
+      flag corsair_rich; sleep 2; ev rich rich
+      a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6
+      for i in 1 2 3 4; do a shell input swipe 1300 900 1300 300 400; sleep 1; done; shot refit_before
+      tap_text "^REFIT$" refit && { sleep 3; shot refit_after; }
+      ev refit "refit" 2; back 3; undock
+    elif [ "$STAGE" = B ]; then
+      goto ORE_BELT
+      # renegade hunt -> core
+      mission FACTION_C_IRONCLAD_9; sleep 6; near objective1 hunt; sleep 3; zap; sleep 4; ev hunt "completed FACTION_C_IRONCLAD_9|core" 3
+      # rival flagship kill -> core, kept wreck, pursuit waves
+      near flagship1 flag; flag corsair_killflag; sleep 3; shot flag_killed; unflag corsair_killflag; sleep 4
+      ev flagcore "flagcore|core" 3; ev persist "keptwreck persist"
+      # destroyer husk
+      put corsair_spawn defensor; sleep 3; zap; sleep 2; shot husk; ev husk husk
+      # big-ship shield: Albatros ahead, guns held 5 s
+      put corsair_spawn albatros; sleep 3; shot albatros_shield
+      a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1932 680; sleep 5; shot shield_hit; a shell input motionevent UP 1932 680
+      ev shield shield 4
+      # wrecks: UFO beam stops on a piece; missile blast motion stops within 2 s
+      zap; sleep 3; flag corsair_ufowreck; sleep 12; shot ufo_beam; unflag corsair_ufowreck; ev ufo "ufowreck|beamwreck" 3
+      zap; sleep 2; flag corsair_blastwreck; sleep 5; unflag corsair_blastwreck; ev blast "blastwreck|wreckrest" 4
+      unflag corsair_spawn
+      sleep 40; ev pursuit pursuit 3
+      # kept flagship wreck comes back on the next visit
+      goto HUGO_WISDOM; sleep 10; goto ORE_BELT; sleep 6; ev keptwreck "keptwreck restored" 3
+      ev pursuit_all pursuit 3
+    elif [ "$STAGE" = C ]; then
+      # stock bosses: kill outcome + core roll
+      for B in "SPARTAN_MOD_BOSS_GUARDIAN SOLAR_FIELD" "VENTOHIGH_MOD_BOSS_MATRIARCH HERMES" "OMICRON_MOD_BOSS_EMPRESS THE_HIVE"; do
+        set -- $B; put corsair_mission NONE; sleep 2; mission $1; goto $2; sleep 6; near boss boss_$1; sleep 3; shot boss_$1; zap; zap; sleep 5; shot boss_dead_$1
+        ev $1 "bossdead|bosscore|core" 4
+      done
+      # final missions in The Hive
+      put corsair_mission NONE; sleep 2; mission FACTION_KRETARI_4; sleep 6; near objective1 harvest; for i in $(seq 1 14); do zap; sleep 3; put corsair_near objective1x$i; sleep 1; grep -q "completed FACTION_KRETARI_4" $LG && break; done; ev hive4 "FACTION_KRETARI_4" 2
+      mission FACTION_KRETARI_5; sleep 6; near objective2 relay; sleep 2; zap; zap; sleep 4; ev hive5 "FACTION_KRETARI_5" 2
+      mission FACTION_KRETARI_6; sleep 6; near objective3 prime; sleep 2; zap; zap; sleep 4; ev hive6 "FACTION_KRETARI_6" 2
+      # death -> respawn -> music
+      flag corsair_die; sleep 2; shot death_1; sleep 8; shot death_after; unflag corsair_die; sleep 25; shot after_respawn
+      ev death death; log "EVIDENCE music after death: $(grep -A3 "ModTest.*death" $LG | grep "ModSound.*music" | tail -2 | sed 's/^.*): //' | tr '\n' ' ')"
+    fi
+    grep -E "ModTest|ModDev|ModFaction|ModSound|FATAL" $LG > $OUT/v37_events.txt
+    a shell "rm -f $T/corsair_goto $T/corsair_near $T/corsair_mission $T/corsair_musiclog $T/corsair_mdrive $T/corsair_rich $T/corsair_lang"
   fi
   a shell "rm -f $T/corsair_page $T/corsair_spawn $T/corsair_derelict $T/corsair_die $T/corsair_level $T/corsair_capital"
 else
