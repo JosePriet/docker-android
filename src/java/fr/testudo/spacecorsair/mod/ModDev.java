@@ -373,7 +373,7 @@ public final class ModDev {
     // ------------------------------------------------------------------ v37 emulator switches: go where each feature lives
     private static String t37Near, t37Music, t37Arrived;
     private static boolean t37Dock, t37KillFlag, t37Rich, t37Ufo, t37Blast;
-    private static String t37Drive;
+    private static String t37Drive, t37DriveSeen;
     private static Boolean evOn;
 
     /** v37 test evidence: logcat "ModTest <tag> <msg>" while the emulator test flag is present (never on a phone). */
@@ -466,7 +466,7 @@ public final class ModDev {
         t37Rich = rich;
         // corsair_mdrive=pickup|outpostkill|escort[N]: drives the running faction mission (ModFaction.testDrive)
         String md = testValue("corsair_mdrive");
-        if (md != null && !md.equals(t37Drive)) t37Drive = md;
+        if (md != null && !md.equals(t37DriveSeen)) { t37DriveSeen = md; t37Drive = md; }
         if (t37Drive != null && t37Drive.length() > 0) {
             if (!ModFaction.testDrive(t37Drive.replaceAll("[0-9]+$", ""), ps)) t37Drive = "";
         }

@@ -115,7 +115,7 @@ public final class ModWreck extends Element {
     static final long HIT_STOP = 2000;       // ... and is set to 0 once 2 s pass without a new push (owner: gone within 2 s)
     private long hitAge;                     // ms since the last push
     long restTest;                           // v37 test: blast time (ModDev corsair_blastwreck), logged when the hit motion is 0
-    private static int beamLogs;
+    private static int beamLogs, beamCalls;
 
     /** v33: whatever pushed the piece since the last frame (hits, rams, blasts) only moves it a little. */
     @Override
@@ -192,6 +192,7 @@ public final class ModWreck extends Element {
      * beam from the shooter to its target takes the beam instead; otherwise the target.
      */
     public static Element beamTarget(Element shooter, Element target) {
+        if (beamCalls < 3) { beamCalls++; ModDev.ev("beamwreck", "beam hook " + (shooter == null ? "null" : shooter.getClass().getSimpleName()) + " -> " + (target == null ? "null" : target.getClass().getSimpleName()) + " live pieces=" + live.size()); }
         if (shooter == null || target == null || target.removed || target instanceof ModWreck) return target;
         try {
             Element best = target;

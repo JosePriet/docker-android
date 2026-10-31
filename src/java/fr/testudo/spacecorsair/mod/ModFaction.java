@@ -343,6 +343,7 @@ public class ModFaction extends MissionListener {
     private final ArrayList<Element> spawned = new ArrayList<Element>();
     private final ArrayList<CivilShip> civs = new ArrayList<CivilShip>();
     private float[] markers;                  // x, y pairs
+    private int testTicks;                    // v37 emulator test drive
     private boolean[] taken;
     private int[] scanMs;
     private Element target;                   // bounty, relay, courier or flagship
@@ -432,9 +433,13 @@ public class ModFaction extends MissionListener {
                 return false;
             }
             if ("escort".equals(cmd)) {
-                ModDev.ev("mdrive", "escort courier " + (f.target == null ? "none" : "moved to gate, " + Math.round(f.target.position.distance(f.gate)) + " away"));
-                if (f.target != null) { f.target.position.setSameAs(f.gate); f.target.updateSapCoords(); }
-                return false;
+                ModDev.ev("mdrive", "escort phase=" + f.phase + " inZone=" + f.inZone + " courier " + (f.target == null ? "none" : Math.round(f.target.position.distance(f.gate)) + " from its gate"));
+                if (f.target == null || f.target.removed) return ++f.testTicks < 20;
+                ps.position.set(f.target.position.x + 300, f.target.position.y);   // the courier waits for the player (WaitUntilPlayerClose 500)
+                ps.speed.set(0, 0);
+                f.target.position.setSameAs(f.gate);
+                f.target.updateSapCoords();
+                return ++f.testTicks < 20;
             }
         } catch (Throwable t) {
             ModDev.ev("mdrive", cmd + " error " + t);
@@ -1223,6 +1228,7 @@ public class ModFaction extends MissionListener {
     /** Q10: only the player's kills (drone kills are credited to the player by Mod.creditKiller) count. */
     @Override
     public void onElementDestroyedByPlayer(Element e) {
+        if ("KILL_ENEMY_TYPE".equals(obj)) ModDev.ev("killtype", id(idx) + " kill " + (e == null ? "null" : e.getClass().getSimpleName()) + " counted=" + (e != null && spawned.contains(e)) + " progress=" + (progress + (e != null && spawned.contains(e) ? 1 : 0)) + "/" + goal);
         if ("KILL_ENEMY_TYPE".equals(obj) && e != null && spawned.contains(e)) {
             progress++;
             save();

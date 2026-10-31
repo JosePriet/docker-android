@@ -61,6 +61,8 @@
 
 .field private static t37Drive:Ljava/lang/String;
 
+.field private static t37DriveSeen:Ljava/lang/String;
+
 .field private static t37Hop:J
 
 .field private static t37KillFlag:Z
@@ -3165,7 +3167,7 @@
 
     move-result-object v0
 
-    if-eqz v0, :cond_530
+    if-eqz v0, :cond_532
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/business/world/station/Station;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -3285,11 +3287,11 @@
     check-cast v0, [Ljava/lang/Object;
 
     .line 434
-    if-eqz v0, :cond_52d
+    if-eqz v0, :cond_52f
 
     array-length v9, v0
 
-    if-lez v9, :cond_52d
+    if-lez v9, :cond_52f
 
     const/4 v1, 0x0
 
@@ -3688,23 +3690,25 @@
     move-result-object v0
 
     .line 469
-    if-eqz v0, :cond_34a
+    if-eqz v0, :cond_34c
 
-    sget-object v1, Lfr/testudo/spacecorsair/mod/ModDev;->t37Drive:Ljava/lang/String;
+    sget-object v1, Lfr/testudo/spacecorsair/mod/ModDev;->t37DriveSeen:Ljava/lang/String;
 
     invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-nez v1, :cond_34a
+    if-nez v1, :cond_34c
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModDev;->t37DriveSeen:Ljava/lang/String;
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModDev;->t37Drive:Ljava/lang/String;
 
     .line 470
-    :cond_34a
+    :cond_34c
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModDev;->t37Drive:Ljava/lang/String;
 
-    if-eqz v0, :cond_36a
+    if-eqz v0, :cond_36c
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModDev;->t37Drive:Ljava/lang/String;
 
@@ -3712,7 +3716,7 @@
 
     move-result v0
 
-    if-lez v0, :cond_36a
+    if-lez v0, :cond_36c
 
     .line 471
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModDev;->t37Drive:Ljava/lang/String;
@@ -3729,14 +3733,14 @@
 
     move-result v0
 
-    if-nez v0, :cond_36a
+    if-nez v0, :cond_36c
 
     const-string v0, ""
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModDev;->t37Drive:Ljava/lang/String;
 
     .line 474
-    :cond_36a
+    :cond_36c
     const-string v0, "corsair_ufowreck"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testFlag(Ljava/lang/String;)Z
@@ -3744,11 +3748,11 @@
     move-result v2
 
     .line 475
-    if-eqz v2, :cond_428
+    if-eqz v2, :cond_42a
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModDev;->t37Ufo:Z
 
-    if-nez v0, :cond_428
+    if-nez v0, :cond_42a
 
     .line 476
     const/4 v1, 0x0
@@ -3760,12 +3764,12 @@
 
     move-result-object v3
 
-    :goto_37d
+    :goto_37f
     invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v0
 
-    if-eqz v0, :cond_3a9
+    if-eqz v0, :cond_3ab
 
     invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
@@ -3775,13 +3779,13 @@
 
     iget-boolean v5, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->removed:Z
 
-    if-nez v5, :cond_52a
+    if-nez v5, :cond_52c
 
     iget-boolean v5, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->visualOnly:Z
 
-    if-nez v5, :cond_52a
+    if-nez v5, :cond_52c
 
-    if-eqz v1, :cond_3a7
+    if-eqz v1, :cond_3a9
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -3801,17 +3805,17 @@
 
     cmpg-float v5, v5, v6
 
-    if-gez v5, :cond_52a
+    if-gez v5, :cond_52c
 
-    :cond_3a7
-    :goto_3a7
+    :cond_3a9
+    :goto_3a9
     move-object v1, v0
 
-    goto :goto_37d
+    goto :goto_37f
 
     .line 478
-    :cond_3a9
-    if-eqz v1, :cond_49a
+    :cond_3ab
+    if-eqz v1, :cond_49c
 
     .line 479
     new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3952,8 +3956,8 @@
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 489
-    :cond_428
-    :goto_428
+    :cond_42a
+    :goto_42a
     sput-boolean v2, Lfr/testudo/spacecorsair/mod/ModDev;->t37Ufo:Z
 
     .line 491
@@ -3964,11 +3968,11 @@
     move-result v2
 
     .line 492
-    if-eqz v2, :cond_4ba
+    if-eqz v2, :cond_4bc
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModDev;->t37Blast:Z
 
-    if-nez v0, :cond_4ba
+    if-nez v0, :cond_4bc
 
     .line 493
     const/4 v0, 0x0
@@ -3986,13 +3990,13 @@
 
     move v1, v0
 
-    :cond_443
-    :goto_443
+    :cond_445
+    :goto_445
     invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v0
 
-    if-eqz v0, :cond_4a2
+    if-eqz v0, :cond_4a4
 
     invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
@@ -4003,7 +4007,7 @@
     .line 495
     iget-boolean v5, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->removed:Z
 
-    if-nez v5, :cond_443
+    if-nez v5, :cond_445
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -4017,7 +4021,7 @@
 
     cmpl-float v5, v5, v6
 
-    if-gtz v5, :cond_443
+    if-gtz v5, :cond_445
 
     .line 496
     new-instance v5, Lfr/testudo/spacecorsair/engine/Vector2;
@@ -4084,20 +4088,20 @@
     move v1, v0
 
     .line 502
-    goto :goto_443
+    goto :goto_445
 
     .line 487
-    :cond_49a
+    :cond_49c
     const-string v0, "ufowreck"
 
     const-string v1, "no wreck piece"
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    goto :goto_428
+    goto :goto_42a
 
     .line 503
-    :cond_4a2
+    :cond_4a4
     const-string v0, "blastwreck"
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -4121,7 +4125,7 @@
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 505
-    :cond_4ba
+    :cond_4bc
     sput-boolean v2, Lfr/testudo/spacecorsair/mod/ModDev;->t37Blast:Z
 
     .line 506
@@ -4131,7 +4135,7 @@
 
     move-result v0
 
-    if-eqz v0, :cond_523
+    if-eqz v0, :cond_525
 
     .line 507
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
@@ -4139,12 +4143,12 @@
     iget-object v1, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->musicManager:Lfr/testudo/spacecorsair/engine/MusicManager;
 
     .line 508
-    if-eqz v1, :cond_524
+    if-eqz v1, :cond_526
 
     iget-object v0, v1, Lfr/testudo/spacecorsair/engine/MusicManager;->curPlaying:Landroid/media/MediaPlayer;
 
     .line 509
-    :goto_4cc
+    :goto_4ce
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -4161,17 +4165,17 @@
 
     move-result-object v2
 
-    if-eqz v0, :cond_526
+    if-eqz v0, :cond_528
 
     invoke-virtual {v0}, Landroid/media/MediaPlayer;->isPlaying()Z
 
     move-result v0
 
-    if-eqz v0, :cond_526
+    if-eqz v0, :cond_528
 
     const/4 v0, 0x1
 
-    :goto_4e6
+    :goto_4e8
     invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
 
     move-result-object v0
@@ -4182,17 +4186,17 @@
 
     move-result-object v2
 
-    if-eqz v1, :cond_528
+    if-eqz v1, :cond_52a
 
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/engine/MusicManager;->getMusicEnabed()Z
 
     move-result v0
 
-    if-eqz v0, :cond_528
+    if-eqz v0, :cond_52a
 
     const/4 v0, 0x1
 
-    :goto_4f9
+    :goto_4fb
     invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
 
     move-result-object v0
@@ -4208,7 +4212,7 @@
 
     move-result v1
 
-    if-nez v1, :cond_523
+    if-nez v1, :cond_525
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModDev;->t37Music:Ljava/lang/String;
 
@@ -4235,37 +4239,37 @@
     invoke-static {v1, v0}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
 
     .line 512
-    :cond_523
+    :cond_525
     return-void
 
     .line 508
-    :cond_524
-    const/4 v0, 0x0
-
-    goto :goto_4cc
-
-    .line 509
     :cond_526
     const/4 v0, 0x0
 
-    goto :goto_4e6
+    goto :goto_4ce
 
+    .line 509
     :cond_528
     const/4 v0, 0x0
 
-    goto :goto_4f9
+    goto :goto_4e8
 
     :cond_52a
+    const/4 v0, 0x0
+
+    goto :goto_4fb
+
+    :cond_52c
     move-object v0, v1
 
-    goto/16 :goto_3a7
+    goto/16 :goto_3a9
 
-    :cond_52d
+    :cond_52f
     move-object v0, v1
 
     goto/16 :goto_db
 
-    :cond_530
+    :cond_532
     move-object v0, v1
 
     goto/16 :goto_176
