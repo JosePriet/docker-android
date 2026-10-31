@@ -434,12 +434,13 @@ public class ModFaction extends MissionListener {
             }
             if ("escort".equals(cmd)) {
                 ModDev.ev("mdrive", "escort phase=" + f.phase + " inZone=" + f.inZone + " courier " + (f.target == null ? "none" : Math.round(f.target.position.distance(f.gate)) + " from its gate"));
-                if (f.target == null || f.target.removed) return ++f.testTicks < 20;
+                if (f.target == null || f.target.removed) { if (f.testTicks > 0) { f.testTicks = 0; return false; } return true; }
                 ps.position.set(f.target.position.x + 300, f.target.position.y);   // the courier waits for the player (WaitUntilPlayerClose 500)
                 ps.speed.set(0, 0);
                 f.target.position.setSameAs(f.gate);
                 f.target.updateSapCoords();
-                return ++f.testTicks < 20;
+                f.testTicks++;
+                return true;
             }
         } catch (Throwable t) {
             ModDev.ev("mdrive", cmd + " error " + t);
