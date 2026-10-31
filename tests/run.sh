@@ -81,7 +81,7 @@ log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/i
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ]; then
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
-  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog && echo $([ "$STAGE" = A ] && echo 10 || echo 34) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
+  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog && echo $(case "$STAGE" in A|A2) echo 10;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
@@ -240,6 +240,42 @@ for x in n:
       for i in 1 2 3 4 5 6; do a shell input swipe 2050 950 2050 250 400; sleep 1; done; shot refit_before
       tap_text "^REFIT$" refit && { sleep 3; shot refit_after; }
       ev refit "refit" 2; back 3; undock
+    elif [ "$STAGE" = A2 ]; then
+      # pilot stat row (L10, EN then ES): dump after every scroll step of the stats panel
+      for L in en es; do
+        put corsair_lang $L; sleep 1; a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; : > $OUT/pilot_$L.txt
+        for i in 1 2 3 4 5 6 7 8; do dump p$L$i; grep -o 'text="[^"]*"' $OUT/last.xml >> $OUT/pilot_$L.txt; grep -qiE 'PILOT|PILOTO' $OUT/last.xml && { shot pilot_l10_$L; break; }; a shell input swipe 2050 700 2050 450 600; sleep 1; done
+        log "EVIDENCE pilot $L: $(grep -iA8 'PILOT' $OUT/pilot_$L.txt | head -9 | tr '\n' ' ')"
+        back 3
+      done
+      put corsair_lang en; put corsair_level 34
+      # ship tree: the IND column/tab
+      a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; dump tree; shot tree
+      tap_text "IND" ind && { sleep 3; shot tree_ind; dump tree_ind; log "EVIDENCE shop IND: $(grep -o 'text="[^"]*"' $OUT/last.xml | tr '\n' ' ' | cut -c1-1200)"; }
+      back 3
+      # escort: Heliostat leg, then the Constellation leg
+      mission FACTION_HELION_1; goto HELIOSTAT; sleep 4; put corsair_mdrive escort1; sleep 25; ev escort1 "escort|FACTION_HELION_1" 3; undock
+      goto CONSTELLATION; sleep 10; put corsair_mdrive escort2; sleep 30; ev escort2 "escort|FACTION_HELION_1" 4; undock
+      # Sealed Ledger: crate in The Vault, delivered at Omicron Prime
+      sleep 2; mission FACTION_VARN_1; sleep 4; goto THE_VAULT; sleep 6; ev ledger_plan "plan FACTION_VARN_1"; put corsair_mdrive pickup2; sleep 15; ev ledger_crate "mdrive pickup"
+      goto OMICRON_PRIME; dock 2; ev ledger "FACTION_VARN_1" 2
+      # refit bought from the fitting screen while docked
+      flag corsair_rich; sleep 2; ev rich rich
+      a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6
+      for i in 1 2 3 4 5 6 7 8; do dump rf$i; grep -q 'text="REFIT"' $OUT/last.xml && break; a shell input swipe 2050 700 2050 450 600; sleep 1; done
+      shot refit_before; tap_text "^REFIT$" refit && { sleep 3; shot refit_after; }
+      ev refit "refit" 2; back 3; undock
+    elif [ "$STAGE" = C2 ]; then
+      goto ORE_BELT; put corsair_spawn frelon; sleep 3; zap; sleep 2; unflag corsair_spawn
+      flag corsair_ufowreck; sleep 25; shot ufo_beam; unflag corsair_ufowreck; ev ufo "ufowreck|beamwreck" 6
+      put corsair_mission NONE; sleep 2; mission VENTOHIGH_MOD_BOSS_MATRIARCH; goto HERMES; sleep 10
+      for w in 1 2 3 4 5 6 7 8 9 10; do put corsair_near boss$w; sleep 4; grep -q "near boss$w ok" $LG && break; done; shot boss_matriarch; sleep 2; zap; zap; sleep 6; ev matriarch "bossdead|bosscore|core" 4
+      put corsair_mission NONE; sleep 2; mission FACTION_KRETARI_4; goto THE_HIVE; sleep 6; near objective1 harvest
+      for i in $(seq 1 40); do zap; sleep 3; put corsair_near objective1x$i; sleep 1; grep -q "completed FACTION_KRETARI_4" $LG && break; done; ev hive4 "FACTION_KRETARI_4|killtype" 3
+      flag corsair_die; sleep 2; shot death_1; sleep 10; shot death_after; dump death_after; unflag corsair_die
+      log "death screen: $(grep -o 'text="[^"]*"' $OUT/last.xml | tr '\n' ' ' | cut -c1-400)"
+      sleep 15; back 3; back 3; sleep 15; shot after_respawn
+      ev death death; log "EVIDENCE music after death: $(sed -n '/ModTest.*death/,$p' $LG | grep "ModSound.*music" | tail -3 | sed 's/^.*): //' | tr '\n' ' ')"
     elif [ "$STAGE" = B ]; then
       goto ORE_BELT
       # renegade hunt -> core
