@@ -187,12 +187,12 @@ elif [ $GAME = sc ]; then
       log "goto $1 arrived=$(grep -c "goto arrived $1" $LG)"; sleep 4; shot sector_$1; }
     near() { put corsair_near $1; sleep 3; shot near_$2; }
     mission() { put corsair_mission $1; sleep 3; }
-    ev() { log "EVIDENCE $1: $(grep -E "ModTest.*$2|ModFaction.*$2" $LG | tail -${3:-1} | sed 's/^.*): //' | tr '\n' ' ')"; }
+    ev() { log "EVIDENCE $1: $(grep -E "(ModTest|ModFaction).*($2)" $LG | tail -${3:-1} | sed 's/^.*): //' | tr '\n' ' ')"; }
     zap() { flag corsair_kill; sleep 2; unflag corsair_kill; sleep 1; }
     dock() { near station$1 st$1; unflag corsair_dock; sleep 1; flag corsair_dock; sleep 8; shot docked_$1; }
     undock() { back 3; back 3; unflag corsair_dock; sleep 4; }
     flag corsair_musiclog
-    back 2; tap 1960 180; sleep 3; noexit
+    back 2; noexit; sleep 3; shot stage_start   # no map-mode tap: test switches only run in flight (run 71 sat in MAP MODE)
     if [ "$STAGE" = A ]; then
       # pilot stat row at L10, EN then ES (MyShip screen)
       a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6
