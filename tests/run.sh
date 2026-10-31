@@ -181,7 +181,7 @@ elif [ $GAME = sc ]; then
   if [ -n "$V37" ]; then
     LG=$OUT/logcat_live.txt
     put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
-    goto() { put corsair_goto $1; for i in $(seq 1 30); do sleep 4; need goto_$1; grep -q "goto arrived $1" $LG && break; done
+    goto() { put corsair_goto $1; for i in $(seq 1 60); do sleep 4; need goto_$1; grep -q "goto arrived $1" $LG && break; done
       log "goto $1 arrived=$(grep -c "goto arrived $1" $LG)"; sleep 4; shot sector_$1; }
     near() { put corsair_near $1; sleep 3; shot near_$2; }
     mission() { put corsair_mission $1; sleep 3; log "mission $1: $(grep "ModFaction.*$1" $LG | tail -1)"; }
@@ -200,9 +200,12 @@ elif [ $GAME = sc ]; then
     near flagship2 flag_before; a shell "touch $T/corsair_killflag; chmod 644 $T/corsair_*"; sleep 3; shot flag_killed
     a shell "rm -f $T/corsair_killflag"; sleep 12; shot pursuit_1; sleep 35; shot pursuit_2; sleep 45; shot pursuit_3
     # station: dock (music after), refit page
-    near station1 station; a shell "touch $T/corsair_dock; chmod 644 $T/corsair_*"; sleep 5; shot docked; dump docked
-    tap_text "(?i)refit" refit && { sleep 4; shot refit_page; dump refit; back 3; }
-    back 3; a shell "rm -f $T/corsair_dock"; sleep 4; shot undocked
+    near station1 station; a shell "touch $T/corsair_dock; chmod 644 $T/corsair_*"; sleep 8; shot docked; dump docked
+    log "dock: $(grep "ModDev.*dock" $LG | tail -1)"
+    a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot myship
+    for i in 1 2 3; do a shell input swipe 1300 900 1300 300 400; sleep 1; done; shot myship_refit
+    tap_text "^REFIT$" refit && { sleep 3; shot refit_bought; dump refit; }
+    back 3; back 3; a shell "rm -f $T/corsair_dock"; sleep 4; shot undocked
     # v37 missions in their own sectors: hold zone with outpost (The Wave), escort from a station (Heliostat)
     mission FACTION_SPARTAN_3; goto THE_WAVE; sleep 4; log "plan: $(grep "plan FACTION_SPARTAN_3" $LG | tail -1)"; near objective2 outpost; sleep 20; shot outpost_wave1; sleep 20; shot outpost_wave2
     mission FACTION_HELION_1; goto HELIOSTAT; sleep 4; log "plan: $(grep "plan FACTION_HELION_1" $LG | tail -1)"; near objective3 courier; sleep 8; shot courier_moving
@@ -216,8 +219,8 @@ elif [ $GAME = sc ]; then
     # death -> respawn -> music
     a shell "touch $T/corsair_die; chmod 644 $T/corsair_*"; sleep 2; shot death_1; sleep 6; shot death_after; a shell "rm -f $T/corsair_die"
     sleep 20; shot after_respawn
-    grep -E "ModDev|ModFaction|ModSound music|RARE SALVAGE|core" $LG > $OUT/v37_events.txt
-    log "music log lines: $(grep -c "ModSound music" $LG); playing=false lines: $(grep -c "ModSound music.*playing=false" $LG)"
+    grep -E "ModDev|ModFaction|ModSound|RARE SALVAGE|core|FATAL" $LG > $OUT/v37_events.txt
+    log "music log lines: $(grep -c "ModSound.*music" $LG); playing=false lines: $(grep -c "ModSound.*playing=false" $LG)"
     a shell "rm -f $T/corsair_goto $T/corsair_near $T/corsair_mission $T/corsair_musiclog"
   fi
   a shell "rm -f $T/corsair_page $T/corsair_spawn $T/corsair_derelict $T/corsair_die $T/corsair_level $T/corsair_capital"
