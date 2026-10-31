@@ -196,6 +196,9 @@ elif [ $GAME = sc ]; then
     mission FACTION_C_IRONCLAD_9; sleep 6; near objective1 hunt_target; sleep 3; shot hunt_target_2
     a shell "touch $T/corsair_kill; chmod 644 $T/corsair_*"; sleep 2; shot hunt_kill; a shell "rm -f $T/corsair_kill"; sleep 5
     log "hunt result: $(grep -E "ModFaction.*(completed|failed) FACTION_C_IRONCLAD_9" $LG | tail -1)"
+    # wrecks (Part B): a kill, then light shots on the pieces; logcat ModWreck "wreckshot moved="
+    put corsair_spawn frelon; sleep 4; a shell "touch $T/corsair_kill; chmod 644 $T/corsair_*"; sleep 2; a shell "rm -f $T/corsair_kill"; sleep 2; shot wrecks
+    a shell "touch $T/corsair_wreckshot; chmod 644 $T/corsair_*"; sleep 2; shot wreckshot_1; sleep 2; a shell "rm -f $T/corsair_wreckshot $T/corsair_spawn"; sleep 2
     # flagship kill -> pursuit waves and rival cores
     near flagship2 flag_before; a shell "touch $T/corsair_killflag; chmod 644 $T/corsair_*"; sleep 3; shot flag_killed
     a shell "rm -f $T/corsair_killflag"; sleep 12; shot pursuit_1; sleep 35; shot pursuit_2; sleep 45; shot pursuit_3
