@@ -377,7 +377,7 @@ public final class ModDev {
 
     /**
      * corsair_goto=LEVELID: fly gate by gate (real jumps, one every 4 s) to that sector. corsair_near=objective|flagship|station|xy:X,Y[N]
-     * (a new value re-triggers): the ship moves 1,200 from it. corsair_dock: dock at the nearest station. corsair_killflag:
+     * (a new value re-triggers): the ship moves 1,200 from it. corsair_dock: the ship is put on the nearest dock point. corsair_killflag:
      * flagships within 4,000 die, credited to the player. corsair_musiclog: logcat "ModSound music" on every change.
      */
     private static void testV37(PlayerShip ps) {
@@ -408,9 +408,24 @@ public final class ModDev {
         }
         boolean dk = testFlag("corsair_dock");
         if (dk && !t37Dock) {
+            // the game docks by itself when the ship sits still on a free dock point (calling onPlayerDock directly
+            // opens the station screen without a docked point and crashes it)
             fr.testudo.spacecorsair.business.world.station.Station st = ModPlace.nearestStation(ps.position);
-            android.util.Log.i("ModDev", "dock " + (st != null ? st.name : "none"));
-            if (st != null) st.onPlayerDock();
+            fr.testudo.spacecorsair.business.world.station.DockPoint dp = null;
+            try {
+                for (Class<?> c = st != null ? st.getClass() : null; c != null && dp == null; c = c.getSuperclass()) {
+                    for (java.lang.reflect.Field f : c.getDeclaredFields()) {
+                        if (!f.getName().equals("docks")) continue;
+                        f.setAccessible(true);
+                        Object[] d = (Object[]) f.get(st);
+                        if (d != null && d.length > 0) dp = (fr.testudo.spacecorsair.business.world.station.DockPoint) d[0];
+                    }
+                }
+            } catch (Throwable t) {
+                dp = null;
+            }
+            android.util.Log.i("ModDev", "dock " + (st != null ? st.name : "none") + (dp != null ? " point" : " no point"));
+            if (dp != null) { ps.position.setSameAs(st.position).add(dp.positionRelative); ps.speed.set(0, 0); }
         }
         t37Dock = dk;
         boolean kf = testFlag("corsair_killflag");
