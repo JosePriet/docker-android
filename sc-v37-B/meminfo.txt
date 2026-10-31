@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 423898 Realtime: 423898
+
+** MEMINFO in pid 2494 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    38167    38100        0        0    40568    48504    40372     4384
+  Dalvik Heap    13797    13660        0        0    17932    21409    10705    10704
+ Dalvik Other     1450     1008        0        0     2780                           
+        Stack      880      880        0        0      896                           
+       Ashmem     8423     7584        0        0     9408                           
+    Other dev      132        0      132        0      336                           
+     .so mmap     4377      244      372        0    42552                           
+    .jar mmap     1744        0      100        0    23420                           
+    .apk mmap     1197        0      124        0    25020                           
+    .ttf mmap      358        0      124        0     1000                           
+    .dex mmap     2408       12     2384        0     2536                           
+    .oat mmap     1093        0        8        0    15920                           
+    .art mmap     1921     1292        0        0    19980                           
+   Other mmap      382       36       68        0     2748                           
+      Unknown      393      376        0        0      840                           
+        TOTAL    76722    63192     3312        0    76722    69913    51077    15088
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    14952                          37912
+         Native Heap:    38100                          40568
+                Code:     3368                         111352

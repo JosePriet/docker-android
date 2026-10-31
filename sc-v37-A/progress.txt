@@ -1,0 +1,70 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[24s] shot launch ok
+[30s] cancel exit prompt
+[38s] shot after_back ok
+[52s] shot steering ok
+[52s] direct: BuyInapp gift
+[69s] tap 'id/txtGift' at 620 926
+[78s] tap 'id/btnGift' at 1253 939
+[83s] shot gift_box_redeemed ok
+[89s] direct: Settings
+[93s] shot settings_v36 ok
+[95s] seekbars on settings: 3
+[109s] Leviathan page found=1
+[114s] tap '^(Use|USE)' at 1971 1008
+[135s] shot leviathan_player_titan ok
+[141s] cancel exit prompt
+[154s] shot stage_start ok
+[172s] shot pilot_l10_en ok
+[174s] EVIDENCE pilot EN: no PILOT STATS row
+[199s] shot pilot_l10_es ok
+[201s] EVIDENCE pilot ES: no pilot row
+[215s] EVIDENCE shop: pages=1 hulls; industrial names found=0
+[230s] no match for '^IND$'
+[241s] effects bar swipe: 2026 646 317 646
+[244s] shot effects_0 ok
+[274s] goto HUGO_WISDOM arrived=1
+[282s] shot sector_HUGO_WISDOM ok
+[311s] shot traffic_hugo ok
+[311s] EVIDENCE traffic: traffic HUGO_WISDOM traders=3/3 patrols=4/4 traffic HUGO_WISDOM traders=3/3 patrols=4/4 traffic HUGO_WISDOM traders=3/3 patrols=4/4 
+[311s] EVIDENCE poi: poi HUGO_WISDOM outpost=x:1968.2295 y:-6806.6343 mining=x:-916.558 y:5513.035 base=x:-5915.789 y:-1819.8467 wrecks=x:6809.995 y:2861.006 
+[318s] shot hostile_tag ok
+[321s] EVIDENCE sfx: sfx EFFECTS bar=0/10 sfx stock effect played at volume x0.0 
+[337s] goto THE_WAVE arrived=1
+[344s] shot sector_THE_WAVE ok
+[355s] shot near_outpost ok
+[364s] shot outpost ok
+[370s] EVIDENCE outpost: plan FACTION_SPARTAN_3 DEFEND_ZONE sector=the wave objective=13184 mdrive outpost none poi THE_WAVE outpost=x:-5294.776 y:-4735.012 mining=x:4920.7354 y:3450.509 base=x:-4924.6343 y:3564.1472 wrecks=x:2852.2854 y:-3900.742 
+[398s] goto HELIOSTAT arrived=1
+[406s] shot sector_HELIOSTAT ok
+[418s] shot near_courier ok
+[438s] EVIDENCE escort1: plan FACTION_HELION_1 ESCORT sector=heliostat objective=17898 mdrive escort phase=0 inZone=true courier 18046 from its gate escort arrived FACTION_HELION_1 phase=0 
+[679s] goto CONSTELLATION arrived=0
+[683s] shot sector_CONSTELLATION ok
+[695s] shot near_courier2 ok
+[713s] EVIDENCE escort2: plan FACTION_HELION_1 ESCORT sector=heliostat objective=17898 mdrive escort phase=0 inZone=true courier 18046 from its gate escort arrived FACTION_HELION_1 phase=0 
+[720s] goto HUGO_WISDOM arrived=1
+[724s] shot sector_HUGO_WISDOM ok
+[748s] EVIDENCE gather_pods: 
+[989s] goto ORE_BELT arrived=0
+[993s] shot sector_ORE_BELT ok
+[997s] shot near_st1 ok
+[1006s] shot docked_1 ok
+[1006s] EVIDENCE gather_sale: 
+[1032s] ledger current: 
+[1272s] goto THE_VAULT arrived=0
+[1277s] shot sector_THE_VAULT ok
+[1296s] EVIDENCE ledger_crate: 
+[1537s] goto OMICRON_PRIME arrived=0
+[1541s] shot sector_OMICRON_PRIME ok
+[1545s] shot near_st2 ok
+[1554s] shot docked_2 ok
+[1554s] EVIDENCE ledger: 
+[1556s] EVIDENCE rich: 
+[1575s] shot refit_before ok
+[1576s] no match for '^REFIT$'
+[1576s] EVIDENCE refit: 
+[1598s] cancel exit prompt
+[1608s] done; errors: 395 lines
+918 frames

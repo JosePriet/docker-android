@@ -1,0 +1,246 @@
+10-31 16:17:51.808 I/ModSound( 2560): music tutorial playing=true enabled=true
+10-31 16:18:15.430 I/ModDev  ( 2560): goto tutorial -> solar field via genesis
+10-31 16:18:16.439 I/ModSound( 2560): music genesis playing=true enabled=true
+10-31 16:18:16.615 I/ModTest ( 2560): poi GENESIS outpost=x:-6459.6304 y:1287.8037 mining=x:5161.956 y:-2195.9014 base=x:980.8512 y:4486.0986 wrecks=x:-2554.4702 y:-5760.1
+10-31 16:18:19.501 I/ModDev  ( 2560): goto genesis -> solar field via thor passing
+10-31 16:18:20.505 I/ModSound( 2560): music thor passing playing=true enabled=true
+10-31 16:18:20.791 I/ModTest ( 2560): poi THOR_PASSING outpost=x:-477.56082 y:-6174.3125 mining=x:-519.0911 y:5175.0737 base=x:-4591.359 y:2052.2415 wrecks=x:4706.546 y:-2678.4302
+10-31 16:18:23.674 I/ModDev  ( 2560): goto thor passing -> solar field via ventohigh
+10-31 16:18:26.469 I/ModSound( 2560): music ventohigh playing=true enabled=true
+10-31 16:18:26.981 I/ModTest ( 2560): poi VENTOHIGH outpost=x:5986.4756 y:-3748.3008 mining=x:-5529.8564 y:3408.519 base=x:-6209.7515 y:-3032.8083 wrecks=x:5919.2104 y:3573.2634
+10-31 16:18:28.468 I/ModDev  ( 2560): goto ventohigh -> solar field via ore belt
+10-31 16:18:31.363 I/ModSound( 2560): music ore belt playing=true enabled=true
+10-31 16:18:31.843 I/ModTest ( 2560): poi ORE_BELT outpost=x:-2396.7131 y:-5716.158 mining=x:1060.6421 y:4734.235 base=x:-6048.38 y:1758.3566 wrecks=x:6047.056 y:-2656.523
+10-31 16:18:32.930 I/ModDev  ( 2560): goto ore belt -> solar field via hugo wisdom
+10-31 16:18:33.951 I/ModSound( 2560): music hugo wisdom playing=true enabled=true
+10-31 16:18:34.147 I/ModTest ( 2560): poi HUGO_WISDOM outpost=x:1968.2295 y:-6806.6343 mining=x:-916.558 y:5513.035 base=x:-5915.789 y:-1819.8467 wrecks=x:6809.995 y:2861.006
+10-31 16:18:36.148 I/ModTest ( 2560): traffic HUGO_WISDOM traders=0/3 patrols=0/4
+10-31 16:18:36.972 I/ModDev  ( 2560): goto hugo wisdom -> solar field via spartan headquarters
+10-31 16:18:39.288 I/ModSound( 2560): music spartan headquarters playing=true enabled=true
+10-31 16:18:39.775 I/ModTest ( 2560): poi SPARTAN_HQ outpost=x:-5710.126 y:4069.0398 mining=x:3615.836 y:-3239.486 base=x:3193.1995 y:4167.6587 wrecks=x:-4164.162 y:-4329.899
+10-31 16:18:41.271 I/ModDev  ( 2560): goto spartan headquarters -> solar field via the wave
+10-31 16:18:42.296 I/ModSound( 2560): music the wave playing=true enabled=true
+10-31 16:18:42.482 I/ModTest ( 2560): poi THE_WAVE outpost=x:-5294.776 y:-4735.012 mining=x:4920.7354 y:3450.509 base=x:-4924.6343 y:3564.1472 wrecks=x:2852.2854 y:-3900.742
+10-31 16:18:44.750 I/ModTest ( 2560): traffic THE_WAVE traders=0/3 patrols=0/4
+10-31 16:18:45.587 I/ModDev  ( 2560): goto the wave -> solar field via solar field
+10-31 16:18:47.237 I/ModSound( 2560): music solar field playing=true enabled=true
+10-31 16:18:47.705 I/ModTest ( 2560): poi SOLAR_FIELD outpost=x:-4548.412 y:-286.37247 mining=x:6936.4834 y:469.54813 base=x:-1582.2692 y:7217.983 wrecks=x:-769.0084 y:-6325.6665
+10-31 16:18:49.950 I/ModTest ( 2560): traffic SOLAR_FIELD traders=0/3 patrols=0/4
+10-31 16:18:50.665 I/ModDev  ( 2560): goto arrived SOLAR_FIELD
+10-31 16:18:54.150 I/ModTest ( 2560): traffic SOLAR_FIELD traders=1/3 patrols=0/4
+10-31 16:18:58.285 I/ModTest ( 2560): traffic SOLAR_FIELD traders=2/3 patrols=0/4
+10-31 16:19:02.310 I/ModTest ( 2560): traffic SOLAR_FIELD traders=3/3 patrols=0/4
+10-31 16:19:04.977 I/ModDev  ( 2560): near boss1 ok
+10-31 16:19:08.016 I/ModTest ( 2560): traffic SOLAR_FIELD traders=3/3 patrols=1/4
+10-31 16:19:12.836 I/ModTest ( 2560): traffic SOLAR_FIELD traders=3/3 patrols=2/4
+10-31 16:19:17.067 I/ModTest ( 2560): husk made from DefensorShip
+10-31 16:19:17.075 I/ModTest ( 2560): bossdead Guardian Prime
+10-31 16:19:17.075 I/ModTest ( 2560): bosscore kind=1 faction core=ironclad
+10-31 16:19:17.086 I/ModTest ( 2560): core ironclad total=1
+10-31 16:19:17.319 I/ModTest ( 2560): traffic SOLAR_FIELD traders=3/3 patrols=3/4
+10-31 16:19:21.499 I/ModTest ( 2560): husk made from DefensorShip
+10-31 16:19:21.501 I/ModTest ( 2560): husk made from DefensorShip
+10-31 16:19:22.698 I/ModTest ( 2560): traffic SOLAR_FIELD traders=3/3 patrols=4/4
+10-31 16:19:26.811 I/ModTest ( 2560): traffic SOLAR_FIELD traders=3/3 patrols=4/4
+10-31 16:19:31.479 I/ModTest ( 2560): traffic SOLAR_FIELD traders=3/3 patrols=4/4
+10-31 16:19:35.490 I/ModTest ( 2560): traffic SOLAR_FIELD traders=3/3 patrols=4/4
+10-31 16:19:37.433 I/ModDev  ( 2560): goto solar field -> hermes via the wave
+10-31 16:19:38.644 I/ModSound( 2560): music the wave playing=true enabled=true
+10-31 16:19:38.973 I/ModTest ( 2560): poi THE_WAVE outpost=x:-5294.776 y:-4735.012 mining=x:4920.7354 y:3450.509 base=x:-4924.6343 y:3564.1472 wrecks=x:2852.2854 y:-3900.742
+10-31 16:19:41.097 I/ModTest ( 2560): traffic THE_WAVE traders=0/3 patrols=0/4
+10-31 16:19:41.697 I/ModDev  ( 2560): goto the wave -> hermes via spartan headquarters
+10-31 16:19:44.037 I/ModSound( 2560): music spartan headquarters playing=true enabled=true
+10-31 16:19:44.430 I/ModTest ( 2560): poi SPARTAN_HQ outpost=x:-5710.126 y:4069.0398 mining=x:3615.836 y:-3239.486 base=x:3193.1995 y:4167.6587 wrecks=x:-4164.162 y:-4329.899
+10-31 16:19:46.039 I/ModDev  ( 2560): goto spartan headquarters -> hermes via hugo wisdom
+10-31 16:19:47.102 I/ModSound( 2560): music hugo wisdom playing=true enabled=true
+10-31 16:19:47.677 I/ModTest ( 2560): poi HUGO_WISDOM outpost=x:1968.2295 y:-6806.6343 mining=x:-916.558 y:5513.035 base=x:-5915.789 y:-1819.8467 wrecks=x:6809.995 y:2861.006
+10-31 16:19:49.654 I/ModTest ( 2560): traffic HUGO_WISDOM traders=0/3 patrols=0/4
+10-31 16:19:50.174 I/ModDev  ( 2560): goto hugo wisdom -> hermes via ore belt
+10-31 16:19:51.236 I/ModSound( 2560): music ore belt playing=true enabled=true
+10-31 16:19:51.534 I/ModTest ( 2560): poi ORE_BELT outpost=x:-2396.7131 y:-5716.158 mining=x:1060.6421 y:4734.235 base=x:-6048.38 y:1758.3566 wrecks=x:6047.056 y:-2656.523
+10-31 16:19:53.491 I/ModTest ( 2560): traffic ORE_BELT traders=0/3 patrols=0/4
+10-31 16:19:54.200 I/ModDev  ( 2560): goto ore belt -> hermes via hermes
+10-31 16:19:55.490 I/ModSound( 2560): music hermes playing=true enabled=true
+10-31 16:19:55.957 I/ModTest ( 2560): poi HERMES outpost=x:-4116.8496 y:-5753.82 mining=x:4935.7026 y:3166.1526 base=x:-3729.7056 y:2647.9836 wrecks=x:5866.8184 y:-4148.09
+10-31 16:19:58.489 I/ModTest ( 2560): traffic HERMES traders=0/3 patrols=0/4
+10-31 16:19:59.224 I/ModDev  ( 2560): goto arrived HERMES
+10-31 16:20:02.578 I/ModTest ( 2560): traffic HERMES traders=1/3 patrols=0/4
+10-31 16:20:06.593 I/ModTest ( 2560): traffic HERMES traders=2/3 patrols=0/4
+10-31 16:20:10.638 I/ModTest ( 2560): traffic HERMES traders=3/3 patrols=0/4
+10-31 16:20:14.800 I/ModTest ( 2560): traffic HERMES traders=3/3 patrols=1/4
+10-31 16:20:18.833 I/ModTest ( 2560): traffic HERMES traders=3/3 patrols=2/4
+10-31 16:20:22.835 I/ModTest ( 2560): traffic HERMES traders=3/3 patrols=3/4
+10-31 16:20:27.471 I/ModTest ( 2560): traffic HERMES traders=3/3 patrols=4/4
+10-31 16:20:31.613 I/ModTest ( 2560): traffic HERMES traders=3/3 patrols=4/4
+10-31 16:20:35.672 I/ModTest ( 2560): traffic HERMES traders=3/3 patrols=4/4
+10-31 16:20:39.813 I/ModTest ( 2560): traffic HERMES traders=3/3 patrols=4/4
+10-31 16:20:43.817 I/ModTest ( 2560): traffic HERMES traders=3/3 patrols=4/4
+10-31 16:20:47.711 I/ModDev  ( 2560): goto hermes -> the hive via ore belt
+10-31 16:20:48.719 I/ModSound( 2560): music ore belt playing=true enabled=true
+10-31 16:20:49.047 I/ModTest ( 2560): poi ORE_BELT outpost=x:-2396.7131 y:-5716.158 mining=x:1060.6421 y:4734.235 base=x:-6048.38 y:1758.3566 wrecks=x:6047.056 y:-2656.523
+10-31 16:20:51.200 I/ModTest ( 2560): traffic ORE_BELT traders=0/3 patrols=0/4
+10-31 16:20:51.894 I/ModDev  ( 2560): goto ore belt -> the hive via hugo wisdom
+10-31 16:20:52.914 I/ModSound( 2560): music hugo wisdom playing=true enabled=true
+10-31 16:20:53.195 I/ModTest ( 2560): poi HUGO_WISDOM outpost=x:1968.2295 y:-6806.6343 mining=x:-916.558 y:5513.035 base=x:-5915.789 y:-1819.8467 wrecks=x:6809.995 y:2861.006
+10-31 16:20:55.215 I/ModTest ( 2560): traffic HUGO_WISDOM traders=0/3 patrols=0/4
+10-31 16:20:56.008 I/ModDev  ( 2560): goto hugo wisdom -> the hive via spartan headquarters
+10-31 16:20:57.028 I/ModSound( 2560): music spartan headquarters playing=true enabled=true
+10-31 16:20:57.244 I/ModTest ( 2560): poi SPARTAN_HQ outpost=x:-5710.126 y:4069.0398 mining=x:3615.836 y:-3239.486 base=x:3193.1995 y:4167.6587 wrecks=x:-4164.162 y:-4329.899
+10-31 16:20:59.487 I/ModTest ( 2560): traffic SPARTAN_HQ traders=0/3 patrols=0/4
+10-31 16:21:00.777 I/ModDev  ( 2560): goto spartan headquarters -> the hive via the wave
+10-31 16:21:01.786 I/ModSound( 2560): music the wave playing=true enabled=true
+10-31 16:21:01.946 I/ModTest ( 2560): poi THE_WAVE outpost=x:-5294.776 y:-4735.012 mining=x:4920.7354 y:3450.509 base=x:-4924.6343 y:3564.1472 wrecks=x:2852.2854 y:-3900.742
+10-31 16:21:03.983 I/ModTest ( 2560): traffic THE_WAVE traders=0/3 patrols=0/4
+10-31 16:21:04.832 I/ModDev  ( 2560): goto the wave -> the hive via solar field
+10-31 16:21:05.946 I/ModSound( 2560): music solar field playing=true enabled=true
+10-31 16:21:06.204 I/ModTest ( 2560): poi SOLAR_FIELD outpost=x:-4548.412 y:-286.37247 mining=x:6936.4834 y:469.54813 base=x:-1582.2692 y:7217.983 wrecks=x:-769.0084 y:-6325.6665
+10-31 16:21:08.205 I/ModTest ( 2560): traffic SOLAR_FIELD traders=0/3 patrols=0/4
+10-31 16:21:08.935 I/ModDev  ( 2560): goto solar field -> the hive via orion
+10-31 16:21:10.266 I/ModSound( 2560): music orion playing=true enabled=true
+10-31 16:21:10.944 I/ModTest ( 2560): poi ORION outpost=x:4483.18 y:-1361.8184 mining=x:-5184.301 y:979.2187 base=x:-3371.8801 y:-5219.644 wrecks=x:4453.0356 y:4412.883
+10-31 16:21:13.536 I/ModTest ( 2560): traffic ORION traders=0/3 patrols=0/4
+10-31 16:21:13.788 I/ModDev  ( 2560): goto orion -> the hive via omicron prime
+10-31 16:21:15.733 I/ModSound( 2560): music omicron prime playing=true enabled=true
+10-31 16:21:16.000 I/ModTest ( 2560): poi OMICRON_PRIME outpost=x:-2577.21 y:-6410.975 mining=x:-423.80173 y:5835.5366 base=x:-6397.635 y:-555.519 wrecks=x:7122.778 y:-85.75966
+10-31 16:21:18.017 I/ModTest ( 2560): traffic OMICRON_PRIME traders=0/10 patrols=0/4
+10-31 16:21:18.789 I/ModDev  ( 2560): goto omicron prime -> the hive via lost paradise
+10-31 16:21:19.812 I/ModSound( 2560): music lost paradise playing=true enabled=true
+10-31 16:21:19.994 I/ModTest ( 2560): poi LOST_PARADISE outpost=x:-5085.588 y:2098.513 mining=x:4517.698 y:-730.5362 base=x:-1287.0614 y:7286.109 wrecks=x:-1977.5288 y:-5840.7617
+10-31 16:21:21.999 I/ModTest ( 2560): traffic LOST_PARADISE traders=0/3 patrols=0/4
+10-31 16:21:22.834 I/ModDev  ( 2560): goto lost paradise -> the hive via green border
+10-31 16:21:23.835 I/ModSound( 2560): music green border playing=true enabled=true
+10-31 16:21:24.102 I/ModTest ( 2560): poi GREEN_BORDER outpost=x:4650.5854 y:3700.6904 mining=x:-5184.387 y:-4884.046 base=x:1468.8602 y:-4923.4683 wrecks=x:-4480.7197 y:4954.559
+10-31 16:21:26.458 I/ModTest ( 2560): traffic GREEN_BORDER traders=0/3 patrols=0/4
+10-31 16:21:27.197 I/ModDev  ( 2560): goto green border -> the hive via delta node
+10-31 16:21:28.359 I/ModSound( 2560): music delta node playing=true enabled=true
+10-31 16:21:28.620 I/ModTest ( 2560): poi DELTA_NODE outpost=x:-1848.0516 y:-5189.8364 mining=x:1423.9138 y:5664.844 base=x:-5794.8667 y:1410.9191 wrecks=x:4691.0884 y:-1713.2688
+10-31 16:21:30.634 I/ModTest ( 2560): traffic DELTA_NODE traders=0/3 patrols=0/4
+10-31 16:21:31.400 I/ModDev  ( 2560): goto delta node -> the hive via the hive
+10-31 16:21:33.210 I/ModSound( 2560): music the hive playing=true enabled=true
+10-31 16:21:33.834 I/ModTest ( 2560): poi THE_HIVE outpost=x:1113.3907 y:6123.187 mining=x:-3688.4182 y:-5393.182 base=x:7205.826 y:-1195.5597 wrecks=x:-6135.366 y:2042.536
+10-31 16:21:35.765 I/ModDev  ( 2560): goto arrived THE_HIVE
+10-31 16:21:36.377 I/ModTest ( 2560): traffic THE_HIVE traders=0/3 patrols=0/4
+10-31 16:21:38.857 I/ModTest ( 2560): death fee charged (respawn)
+10-31 16:21:42.857 I/ModTest ( 2560): death fee charged (respawn)
+10-31 16:21:44.236 I/ModTest ( 2560): poi THE_HIVE outpost=x:1113.3907 y:6123.187 mining=x:-3688.4182 y:-5393.182 base=x:7205.826 y:-1195.5597 wrecks=x:-6135.366 y:2042.536
+10-31 16:21:46.529 I/ModTest ( 2560): traffic THE_HIVE traders=0/3 patrols=0/4
+10-31 16:21:50.530 I/ModTest ( 2560): traffic THE_HIVE traders=1/3 patrols=0/4
+10-31 16:21:54.795 I/ModTest ( 2560): traffic THE_HIVE traders=2/3 patrols=0/4
+10-31 16:21:59.085 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=0/4
+10-31 16:22:02.543 I/ModTest ( 2560): bossdead Hive Empress
+10-31 16:22:02.544 I/ModTest ( 2560): bosscore kind=2 faction core=null
+10-31 16:22:02.568 I/ModTest ( 2560): core neutral total=1
+10-31 16:22:03.709 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=1/4
+10-31 16:22:07.841 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=2/4
+10-31 16:22:12.273 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=3/4
+10-31 16:22:16.655 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:22:20.802 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:22:21.756 I/ModFaction( 2560): plan FACTION_KRETARI_4 KILL_ENEMY_TYPE sector=the hive objective=47516
+10-31 16:22:24.809 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:22:28.883 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:22:29.453 I/ModDev  ( 2560): near objective1 ok
+10-31 16:22:32.894 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:22:36.562 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill DefensorShip counted=true progress=1/12
+10-31 16:22:36.575 I/ModTest ( 2560): husk made from DefensorShip
+10-31 16:22:36.899 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:22:41.083 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:22:42.747 I/ModDev  ( 2560): near objective1x1 ok
+10-31 16:22:43.755 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill FrelonShip counted=true progress=2/12
+10-31 16:22:43.890 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill FrelonShip counted=true progress=3/12
+10-31 16:22:45.262 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:22:49.792 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:22:50.467 I/ModDev  ( 2560): near objective1x2 ok
+10-31 16:22:53.614 I/ModTest ( 2560): death fee charged (respawn)
+10-31 16:22:57.614 I/ModTest ( 2560): death fee charged (respawn)
+10-31 16:22:58.708 I/ModDev  ( 2560): near objective1x3 ok
+10-31 16:22:59.319 I/ModTest ( 2560): poi THE_HIVE outpost=x:1113.3907 y:6123.187 mining=x:-3688.4182 y:-5393.182 base=x:7205.826 y:-1195.5597 wrecks=x:-6135.366 y:2042.536
+10-31 16:23:01.359 I/ModTest ( 2560): traffic THE_HIVE traders=0/3 patrols=0/4
+10-31 16:23:05.372 I/ModTest ( 2560): traffic THE_HIVE traders=1/3 patrols=0/4
+10-31 16:23:06.000 I/ModDev  ( 2560): near objective1x4 ok
+10-31 16:23:09.523 I/ModTest ( 2560): traffic THE_HIVE traders=2/3 patrols=0/4
+10-31 16:23:13.223 I/ModDev  ( 2560): near objective1x5 ok
+10-31 16:23:13.631 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=0/4
+10-31 16:23:14.206 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill FrelonShip counted=true progress=4/12
+10-31 16:23:14.485 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill FrelonShip counted=true progress=5/12
+10-31 16:23:14.521 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill AlienRat counted=false progress=5/12
+10-31 16:23:17.904 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=1/4
+10-31 16:23:20.613 I/ModDev  ( 2560): near objective1x6 ok
+10-31 16:23:21.900 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=2/4
+10-31 16:23:25.959 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=3/4
+10-31 16:23:28.847 I/ModDev  ( 2560): near objective1x7 ok
+10-31 16:23:29.965 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill FrelonShip counted=true progress=6/12
+10-31 16:23:29.971 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill Gunship counted=false progress=6/12
+10-31 16:23:29.973 I/ModTest ( 2560): husk made from Gunship
+10-31 16:23:30.184 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:23:34.401 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:23:36.276 I/ModDev  ( 2560): near objective1x8 ok
+10-31 16:23:37.285 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill AlienRat counted=false progress=6/12
+10-31 16:23:37.288 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill Fighter counted=false progress=6/12
+10-31 16:23:37.300 I/ModTest ( 2560): husk made from Fighter
+10-31 16:23:38.449 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:23:42.488 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:23:43.537 I/ModDev  ( 2560): near objective1x9 ok
+10-31 16:23:46.641 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:23:50.602 I/ModDev  ( 2560): near objective1x10 ok
+10-31 16:23:50.649 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:23:52.787 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill AlienBlatte counted=false progress=6/12
+10-31 16:23:52.787 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill Cruiser counted=false progress=6/12
+10-31 16:23:54.950 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:23:59.107 I/ModDev  ( 2560): near objective1x11 ok
+10-31 16:23:59.144 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:24:00.138 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill Fighter counted=false progress=6/12
+10-31 16:24:00.139 I/ModTest ( 2560): husk made from Fighter
+10-31 16:24:00.139 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill Fighter counted=false progress=6/12
+10-31 16:24:03.252 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:24:06.341 I/ModDev  ( 2560): near objective1x12 ok
+10-31 16:24:07.390 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:24:08.399 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill DefensorShip counted=true progress=7/12
+10-31 16:24:08.402 I/ModTest ( 2560): husk made from DefensorShip
+10-31 16:24:08.407 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill Raider counted=false progress=7/12
+10-31 16:24:08.408 I/ModTest ( 2560): husk made from Raider
+10-31 16:24:08.409 I/ModTest ( 2560): killtype FACTION_KRETARI_4 kill Cruiser counted=false progress=7/12
+10-31 16:24:11.649 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:24:13.892 I/ModDev  ( 2560): near objective1x13 ok
+10-31 16:24:15.810 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:24:20.022 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:24:21.459 I/ModDev  ( 2560): near objective1x14 ok
+10-31 16:24:24.226 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=3/4
+10-31 16:24:24.872 I/ModFaction( 2560): plan FACTION_KRETARI_5 DESTROY_STATION sector=the hive objective=24038
+10-31 16:24:28.250 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:24:32.336 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=3/4
+10-31 16:24:32.546 I/ModDev  ( 2560): near objective2 ok
+10-31 16:24:36.338 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:24:40.528 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:24:40.894 I/ModTest ( 2560): husk made from DefensorShip
+10-31 16:24:40.919 I/ModTest ( 2560): husk made from DefensorShip
+10-31 16:24:40.947 I/ModFaction( 2560): completed FACTION_KRETARI_5
+10-31 16:24:44.909 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:24:48.915 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=2/4
+10-31 16:24:52.954 I/ModFaction( 2560): plan FACTION_KRETARI_6 BOUNTY sector=the hive objective=29348
+10-31 16:24:53.076 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=3/4
+10-31 16:24:57.183 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:25:00.759 I/ModDev  ( 2560): near objective3 ok
+10-31 16:25:01.287 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:25:05.349 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:25:09.389 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:25:13.406 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:25:14.045 I/ModFaction( 2560): completed FACTION_KRETARI_6
+10-31 16:25:17.805 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:25:21.718 I/ModTest ( 2560): death fee charged (respawn)
+10-31 16:25:25.663 I/ModTest ( 2560): death fee charged (respawn)
+10-31 16:25:27.043 I/ModTest ( 2560): poi THE_HIVE outpost=x:1113.3907 y:6123.187 mining=x:-3688.4182 y:-5393.182 base=x:7205.826 y:-1195.5597 wrecks=x:-6135.366 y:2042.536
+10-31 16:25:29.163 I/ModTest ( 2560): traffic THE_HIVE traders=0/3 patrols=0/4
+10-31 16:25:33.176 I/ModTest ( 2560): traffic THE_HIVE traders=1/3 patrols=0/4
+10-31 16:25:37.475 I/ModTest ( 2560): traffic THE_HIVE traders=2/3 patrols=0/4
+10-31 16:25:41.499 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=0/4
+10-31 16:25:45.527 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=1/4
+10-31 16:25:49.805 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=2/4
+10-31 16:25:53.931 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=3/4
+10-31 16:25:58.033 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:26:02.315 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:26:06.387 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:26:16.758 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:26:27.223 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:26:31.327 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:26:35.398 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4
+10-31 16:26:39.640 I/ModTest ( 2560): traffic THE_HIVE traders=3/3 patrols=4/4

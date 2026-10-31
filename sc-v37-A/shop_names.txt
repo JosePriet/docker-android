@@ -1,0 +1,1 @@
+text="Leviathan" resource-id="fr.testudo.spacecorsair:id/shipName"

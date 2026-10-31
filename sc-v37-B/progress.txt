@@ -1,0 +1,43 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[28s] shot launch ok
+[34s] cancel exit prompt
+[41s] shot after_back ok
+[52s] shot steering ok
+[53s] direct: BuyInapp gift
+[70s] tap 'id/txtGift' at 620 926
+[79s] tap 'id/btnGift' at 1253 939
+[84s] shot gift_box_redeemed ok
+[90s] direct: Settings
+[95s] shot settings_v36 ok
+[96s] seekbars on settings: 3
+[111s] Leviathan page found=1
+[116s] tap '^(Use|USE)' at 1971 1008
+[137s] shot leviathan_player_titan ok
+[141s] cancel exit prompt
+[154s] shot stage_start ok
+[174s] goto ORE_BELT arrived=1
+[182s] shot sector_ORE_BELT ok
+[199s] shot near_hunt ok
+[209s] EVIDENCE hunt: completed FACTION_C_IRONCLAD_9 core ironclad total=1 
+[218s] shot near_flag ok
+[228s] shot flag_killed ok
+[232s] EVIDENCE flagcore: core ironclad total=1 flagcore ironclad eligible=[helion, varn] core helion total=1 
+[233s] EVIDENCE persist: keptwreck persist pieces=2 boss=false 
+[245s] shot husk ok
+[245s] EVIDENCE husk: husk made from DefensorShip 
+[253s] shot albatros_shield ok
+[264s] shot shield_hit ok
+[264s] EVIDENCE shield: shield Albatros absorbed 35 of 35, left 17378/17414 shield Albatros absorbed 35 of 35, left 17343/17414 shield Albatros absorbed 35 of 35, left 17379/17414 shield Albatros absorbed 35 of 35, left 17371/17414 
+[299s] shot ufo_beam ok
+[299s] EVIDENCE ufo: ufowreck ufo placed behind piece at 1016 
+[310s] EVIDENCE blast: blastwreck pieces=9 wreckrest blast motion stopped after 2002 ms wreckrest blast motion stopped after 2002 ms 
+[350s] EVIDENCE pursuit: pursuit ironclad wave 0 at play+10011 ms pursuit ironclad wave 1 at play+45023 ms pursuit ironclad wave 2 at play+90002 ms 
+[358s] goto HUGO_WISDOM arrived=1
+[366s] shot sector_HUGO_WISDOM ok
+[380s] goto ORE_BELT arrived=1
+[388s] shot sector_ORE_BELT ok
+[394s] EVIDENCE keptwreck: keptwreck restored piece 0 of ORE_BELT visit 1 keptwreck restored piece 1 of ORE_BELT visit 1 
+[394s] EVIDENCE pursuit_all: pursuit ironclad wave 0 at play+10011 ms pursuit ironclad wave 1 at play+45023 ms pursuit ironclad wave 2 at play+90002 ms 
+[396s] done; errors: 181 lines
+100 frames

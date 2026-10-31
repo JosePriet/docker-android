@@ -1,0 +1,103 @@
+10-31 16:17:30.878 I/ModSound( 2494): music tutorial playing=true enabled=true
+10-31 16:17:48.264 I/ModDev  ( 2494): goto tutorial -> ore belt via genesis
+10-31 16:17:49.244 I/ModSound( 2494): music genesis playing=true enabled=true
+10-31 16:17:49.528 I/ModTest ( 2494): poi GENESIS outpost=x:-6459.6304 y:1287.8037 mining=x:5161.956 y:-2195.9014 base=x:980.8512 y:4486.0986 wrecks=x:-2554.4702 y:-5760.1
+10-31 16:17:52.808 I/ModDev  ( 2494): goto genesis -> ore belt via thor passing
+10-31 16:17:53.822 I/ModSound( 2494): music thor passing playing=true enabled=true
+10-31 16:17:54.183 I/ModTest ( 2494): poi THOR_PASSING outpost=x:-477.56082 y:-6174.3125 mining=x:-519.0911 y:5175.0737 base=x:-4591.359 y:2052.2415 wrecks=x:4706.546 y:-2678.4302
+10-31 16:17:57.271 I/ModDev  ( 2494): goto thor passing -> ore belt via ventohigh
+10-31 16:17:58.285 I/ModSound( 2494): music ventohigh playing=true enabled=true
+10-31 16:17:58.406 I/ModTest ( 2494): poi VENTOHIGH outpost=x:5986.4756 y:-3748.3008 mining=x:-5529.8564 y:3408.519 base=x:-6209.7515 y:-3032.8083 wrecks=x:5919.2104 y:3573.2634
+10-31 16:18:01.585 I/ModDev  ( 2494): goto ventohigh -> ore belt via ore belt
+10-31 16:18:01.671 I/ModTest ( 2494): traffic VENTOHIGH traders=0/10 patrols=0/4
+10-31 16:18:06.044 I/ModDev  ( 2494): goto arrived ORE_BELT
+10-31 16:18:06.044 I/ModSound( 2494): music ore belt playing=true enabled=true
+10-31 16:18:07.224 I/ModTest ( 2494): poi ORE_BELT outpost=x:-2396.7131 y:-5716.158 mining=x:1060.6421 y:4734.235 base=x:-6048.38 y:1758.3566 wrecks=x:6047.056 y:-2656.523
+10-31 16:18:09.822 I/ModTest ( 2494): traffic ORE_BELT traders=0/5 patrols=0/4
+10-31 16:18:14.310 I/ModTest ( 2494): traffic ORE_BELT traders=1/5 patrols=0/4
+10-31 16:18:17.369 I/ModFaction( 2494): plan FACTION_C_IRONCLAD_9 BOUNTY sector=ore belt objective=12412
+10-31 16:18:19.392 I/ModTest ( 2494): traffic ORE_BELT traders=2/5 patrols=0/4
+10-31 16:18:24.269 I/ModTest ( 2494): traffic ORE_BELT traders=3/5 patrols=0/4
+10-31 16:18:24.650 I/ModDev  ( 2494): near objective1 ok
+10-31 16:18:28.514 I/ModTest ( 2494): traffic ORE_BELT traders=4/5 patrols=0/4
+10-31 16:18:32.574 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=0/4
+10-31 16:18:36.024 I/ModTest ( 2494): husk made from Gunship
+10-31 16:18:36.032 I/ModTest ( 2494): husk made from Gunship
+10-31 16:18:36.194 I/ModTest ( 2494): husk made from Gunship
+10-31 16:18:36.211 I/ModTest ( 2494): husk made from Gunship
+10-31 16:18:36.225 I/ModFaction( 2494): completed FACTION_C_IRONCLAD_9
+10-31 16:18:36.243 I/ModTest ( 2494): core ironclad total=1
+10-31 16:18:38.189 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=1/4
+10-31 16:18:42.572 I/ModDev  ( 2494): near flagship1 ok
+10-31 16:18:43.682 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=2/4
+10-31 16:18:48.880 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=3/4
+10-31 16:18:52.406 I/ModDev  ( 2494): killflag ironclad
+10-31 16:18:52.946 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:18:57.122 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:18:59.283 I/ModTest ( 2494): keptwreck persist pieces=2 boss=false
+10-31 16:18:59.351 I/ModTest ( 2494): flagcore ironclad eligible=[helion, varn]
+10-31 16:18:59.351 I/ModTest ( 2494): core helion total=1
+10-31 16:19:05.077 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:09.599 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:10.471 I/ModTest ( 2494): husk made from DefensorShip
+10-31 16:19:13.458 I/ModTest ( 2494): pursuit ironclad wave 0 at play+10011 ms
+10-31 16:19:14.005 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:18.560 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:22.582 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:26.685 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:27.635 I/ModTest ( 2494): shield Albatros absorbed 35 of 35, left 17379/17414
+10-31 16:19:27.646 I/ModTest ( 2494): shield Albatros absorbed 35 of 35, left 17349/17414
+10-31 16:19:27.728 I/ModTest ( 2494): shield Albatros absorbed 35 of 35, left 17354/17414
+10-31 16:19:27.801 I/ModTest ( 2494): shield Albatros absorbed 35 of 35, left 17355/17414
+10-31 16:19:27.917 I/ModTest ( 2494): shield Albatros absorbed 35 of 35, left 17378/17414
+10-31 16:19:27.917 I/ModTest ( 2494): shield Albatros absorbed 35 of 35, left 17343/17414
+10-31 16:19:28.151 I/ModTest ( 2494): shield Albatros absorbed 35 of 35, left 17379/17414
+10-31 16:19:28.206 I/ModTest ( 2494): shield Albatros absorbed 35 of 35, left 17371/17414
+10-31 16:19:30.925 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:35.159 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:39.362 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:43.445 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:44.614 I/ModTest ( 2494): ufowreck ufo placed behind piece at 1016
+10-31 16:19:47.500 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:19:49.810 I/ModTest ( 2494): pursuit ironclad wave 1 at play+45023 ms
+10-31 16:19:51.502 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=3/4
+10-31 16:19:55.548 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=3/4
+10-31 16:19:59.816 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=3/4
+10-31 16:20:03.885 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=3/4
+10-31 16:20:07.923 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:20:12.008 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:20:13.388 I/ModTest ( 2494): husk made from Fighter
+10-31 16:20:16.232 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:20:18.687 I/ModTest ( 2494): blastwreck pieces=9
+10-31 16:20:20.257 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:20:20.689 I/ModTest ( 2494): wreckrest blast motion stopped after 2002 ms
+10-31 16:20:20.689 I/ModTest ( 2494): wreckrest blast motion stopped after 2002 ms
+10-31 16:20:24.404 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:20:28.462 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:20:32.462 I/ModTest ( 2494): traffic ORE_BELT traders=4/5 patrols=4/4
+10-31 16:20:35.635 I/ModTest ( 2494): pursuit ironclad wave 2 at play+90002 ms
+10-31 16:20:36.508 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:20:40.628 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:20:44.630 I/ModTest ( 2494): traffic ORE_BELT traders=3/5 patrols=4/4
+10-31 16:20:48.779 I/ModTest ( 2494): traffic ORE_BELT traders=4/5 patrols=4/4
+10-31 16:20:52.953 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=4/4
+10-31 16:20:57.040 I/ModTest ( 2494): traffic ORE_BELT traders=4/5 patrols=4/4
+10-31 16:21:01.142 I/ModTest ( 2494): traffic ORE_BELT traders=5/5 patrols=2/4
+10-31 16:21:04.021 I/ModDev  ( 2494): goto ore belt -> hugo wisdom via hugo wisdom
+10-31 16:21:05.033 I/ModSound( 2494): music hugo wisdom playing=true enabled=true
+10-31 16:21:05.337 I/ModTest ( 2494): poi HUGO_WISDOM outpost=x:1968.2295 y:-6806.6343 mining=x:-916.558 y:5513.035 base=x:-5915.789 y:-1819.8467 wrecks=x:6809.995 y:2861.006
+10-31 16:21:07.341 I/ModTest ( 2494): traffic HUGO_WISDOM traders=0/3 patrols=0/4
+10-31 16:21:08.068 I/ModDev  ( 2494): goto arrived HUGO_WISDOM
+10-31 16:21:11.354 I/ModTest ( 2494): traffic HUGO_WISDOM traders=1/3 patrols=0/4
+10-31 16:21:15.370 I/ModTest ( 2494): traffic HUGO_WISDOM traders=2/3 patrols=0/4
+10-31 16:21:19.377 I/ModTest ( 2494): traffic HUGO_WISDOM traders=3/3 patrols=0/4
+10-31 16:21:23.381 I/ModTest ( 2494): traffic HUGO_WISDOM traders=3/3 patrols=1/4
+10-31 16:21:27.504 I/ModTest ( 2494): traffic HUGO_WISDOM traders=3/3 patrols=2/4
+10-31 16:21:30.366 I/ModDev  ( 2494): goto hugo wisdom -> ore belt via ore belt
+10-31 16:21:31.378 I/ModSound( 2494): music ore belt playing=true enabled=true
+10-31 16:21:31.728 I/ModTest ( 2494): poi ORE_BELT outpost=x:-2396.7131 y:-5716.158 mining=x:1060.6421 y:4734.235 base=x:-6048.38 y:1758.3566 wrecks=x:6047.056 y:-2656.523
+10-31 16:21:31.728 I/ModTest ( 2494): keptwreck restored piece 0 of ORE_BELT visit 1
+10-31 16:21:31.728 I/ModTest ( 2494): keptwreck restored piece 1 of ORE_BELT visit 1
+10-31 16:21:33.732 I/ModTest ( 2494): traffic ORE_BELT traders=0/3 patrols=0/4
+10-31 16:21:34.401 I/ModDev  ( 2494): goto arrived ORE_BELT
+10-31 16:21:37.739 I/ModTest ( 2494): traffic ORE_BELT traders=1/3 patrols=0/4

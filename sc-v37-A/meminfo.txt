@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 1635347 Realtime: 1635347
+
+** MEMINFO in pid 2509 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    82854    82784        0        0    85252    90644    82605     4512
+  Dalvik Heap    19877    19740        0        0    24012    28319    14160    14159
+ Dalvik Other     1630     1196        0        0     2952                           
+        Stack      876      876        0        0      888                           
+       Ashmem     8507     7768        0        0     9364                           
+    Other dev      128        0      128        0      332                           
+     .so mmap     4369      248      528        0    42612                           
+    .jar mmap     1845        0      176        0    23708                           
+    .apk mmap     1242        0      152        0    25088                           
+    .ttf mmap      460        0      224        0     1104                           
+    .dex mmap     2472       12     2448        0     2600                           
+    .oat mmap     1050        0       12        0    15808                           
+    .art mmap     1970     1340        0        0    19988                           
+   Other mmap      330       36       72        0     2552                           
+      Unknown      397      380        0        0      840                           
+        TOTAL   128007   114380     3740        0   128007   118963    96765    18671
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    21080                          44000
+         Native Heap:    82784                          85252
+                Code:     3800                         111808

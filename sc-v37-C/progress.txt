@@ -1,0 +1,53 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[25s] shot launch ok
+[32s] cancel exit prompt
+[39s] shot after_back ok
+[53s] shot steering ok
+[53s] direct: BuyInapp gift
+[73s] tap 'id/txtGift' at 620 926
+[83s] tap 'id/btnGift' at 1253 939
+[87s] shot gift_box_redeemed ok
+[94s] direct: Settings
+[99s] shot settings_v36 ok
+[101s] seekbars on settings: 3
+[117s] Leviathan page found=1
+[122s] tap '^(Use|USE)' at 1971 1008
+[145s] shot leviathan_player_titan ok
+[152s] cancel exit prompt
+[165s] shot stage_start ok
+[206s] goto SOLAR_FIELD arrived=1
+[213s] shot sector_SOLAR_FIELD ok
+[225s] shot boss_SPARTAN_MOD_BOSS_GUARDIAN ok
+[231s] shot boss_SPARTAN_MOD_BOSS_GUARDIAN ok
+[246s] shot boss_dead_SPARTAN_MOD_BOSS_GUARDIAN ok
+[246s] EVIDENCE SPARTAN_MOD_BOSS_GUARDIAN: bossdead Guardian Prime bosscore kind=1 faction core=ironclad core ironclad total=1 
+[276s] goto HERMES arrived=1
+[284s] shot sector_HERMES ok
+[296s] shot boss_VENTOHIGH_MOD_BOSS_MATRIARCH ok
+[300s] shot boss_VENTOHIGH_MOD_BOSS_MATRIARCH ok
+[316s] shot boss_dead_VENTOHIGH_MOD_BOSS_MATRIARCH ok
+[316s] EVIDENCE VENTOHIGH_MOD_BOSS_MATRIARCH: bossdead Guardian Prime bosscore kind=1 faction core=ironclad core ironclad total=1 
+[370s] goto THE_HIVE arrived=1
+[378s] shot sector_THE_HIVE ok
+[391s] shot boss_OMICRON_MOD_BOSS_EMPRESS ok
+[396s] shot boss_OMICRON_MOD_BOSS_EMPRESS ok
+[411s] shot boss_dead_OMICRON_MOD_BOSS_EMPRESS ok
+[412s] EVIDENCE OMICRON_MOD_BOSS_EMPRESS: core ironclad total=1 bossdead Hive Empress bosscore kind=2 faction core=null core neutral total=1 
+[430s] shot near_harvest ok
+[537s] EVIDENCE hive4: killtype FACTION_KRETARI_4 kill Fighter counted=false progress=6/12 killtype FACTION_KRETARI_4 kill DefensorShip counted=true progress=7/12 killtype FACTION_KRETARI_4 kill Raider counted=false progress=7/12 killtype FACTION_KRETARI_4 kill Cruiser counted=false progress=7/12 
+[553s] shot near_relay ok
+[566s] EVIDENCE hive5: plan FACTION_KRETARI_5 DESTROY_STATION sector=the hive objective=24038 completed FACTION_KRETARI_5 
+[582s] shot near_prime ok
+[595s] EVIDENCE hive6: plan FACTION_KRETARI_6 BOUNTY sector=the hive objective=29348 completed FACTION_KRETARI_6 
+[600s] shot death_1 ok
+[612s] shot death_after ok
+[629s] shot after_respawn ok
+[635s] no match for '(?i)^(respawn|continue|undock|launch)'
+[648s] cancel exit prompt
+[658s] cancel exit prompt
+[676s] shot after_respawn_2 ok
+[676s] EVIDENCE death: death fee charged (respawn) 
+[676s] EVIDENCE music after death: 
+[680s] done; errors: 206 lines
+188 frames

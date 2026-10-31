@@ -1,0 +1,119 @@
+10-31 16:17:42.225 I/ModSound( 2509): music tutorial playing=true enabled=true
+10-31 16:18:19.737 I/ModSound( 2509): music tutorial playing=false enabled=true
+10-31 16:18:22.754 I/ModSound( 2509): music tutorial playing=true enabled=true
+10-31 16:18:47.876 I/ModSound( 2509): music tutorial playing=false enabled=true
+10-31 16:18:48.864 I/ModSound( 2509): music tutorial playing=true enabled=true
+10-31 16:19:01.756 I/ModSound( 2509): music tutorial playing=false enabled=true
+10-31 16:19:03.773 I/ModSound( 2509): music tutorial playing=true enabled=true
+10-31 16:19:15.869 I/ModSound( 2509): music tutorial playing=false enabled=true
+10-31 16:19:17.899 I/ModSound( 2509): music tutorial playing=true enabled=true
+10-31 16:19:27.085 I/ModTest ( 2509): sfx EFFECTS bar=9/10
+10-31 16:19:27.167 I/ModTest ( 2509): sfx EFFECTS bar=8/10
+10-31 16:19:27.234 I/ModTest ( 2509): sfx EFFECTS bar=7/10
+10-31 16:19:27.317 I/ModTest ( 2509): sfx EFFECTS bar=6/10
+10-31 16:19:27.384 I/ModTest ( 2509): sfx EFFECTS bar=5/10
+10-31 16:19:27.468 I/ModTest ( 2509): sfx EFFECTS bar=4/10
+10-31 16:19:27.534 I/ModTest ( 2509): sfx EFFECTS bar=3/10
+10-31 16:19:27.617 I/ModTest ( 2509): sfx EFFECTS bar=2/10
+10-31 16:19:27.684 I/ModTest ( 2509): sfx EFFECTS bar=1/10
+10-31 16:19:27.751 I/ModTest ( 2509): sfx EFFECTS bar=0/10
+10-31 16:19:29.981 I/ModSound( 2509): music tutorial playing=false enabled=true
+10-31 16:19:33.003 I/ModSound( 2509): music tutorial playing=true enabled=true
+10-31 16:19:36.128 I/ModDev  ( 2509): goto tutorial -> hugo wisdom via genesis
+10-31 16:19:36.153 I/ModTest ( 2509): sfx stock effect played at volume x0.0
+10-31 16:19:37.068 I/ModSound( 2509): music genesis playing=true enabled=true
+10-31 16:19:37.368 I/ModTest ( 2509): poi GENESIS outpost=x:-6459.6304 y:1287.8037 mining=x:5161.956 y:-2195.9014 base=x:980.8512 y:4486.0986 wrecks=x:-2554.4702 y:-5760.1
+10-31 16:19:40.529 I/ModTest ( 2509): traffic GENESIS traders=0/3 patrols=0/4
+10-31 16:19:41.244 I/ModDev  ( 2509): goto genesis -> hugo wisdom via thor passing
+10-31 16:19:42.612 I/ModSound( 2509): music thor passing playing=true enabled=true
+10-31 16:19:43.084 I/ModTest ( 2509): poi THOR_PASSING outpost=x:-477.56082 y:-6174.3125 mining=x:-519.0911 y:5175.0737 base=x:-4591.359 y:2052.2415 wrecks=x:4706.546 y:-2678.4302
+10-31 16:19:46.212 I/ModDev  ( 2509): goto thor passing -> hugo wisdom via ventohigh
+10-31 16:19:47.217 I/ModSound( 2509): music ventohigh playing=true enabled=true
+10-31 16:19:48.696 I/ModTest ( 2509): poi VENTOHIGH outpost=x:5986.4756 y:-3748.3008 mining=x:-5529.8564 y:3408.519 base=x:-6209.7515 y:-3032.8083 wrecks=x:5919.2104 y:3573.2634
+10-31 16:19:50.894 I/ModDev  ( 2509): goto ventohigh -> hugo wisdom via twin stars
+10-31 16:19:51.910 I/ModSound( 2509): music twin stars playing=true enabled=true
+10-31 16:19:52.039 I/ModTest ( 2509): poi TWIN_STAR outpost=x:-2880.3083 y:6266.012 mining=x:3748.7666 y:-2807.5234 base=x:6744.467 y:3139.618 wrecks=x:-5939.067 y:-3352.5996
+10-31 16:19:54.618 I/ModTest ( 2509): traffic TWIN_STAR traders=0/3 patrols=0/4
+10-31 16:19:55.508 I/ModDev  ( 2509): goto twin stars -> hugo wisdom via hugo wisdom
+10-31 16:19:56.519 I/ModSound( 2509): music hugo wisdom playing=true enabled=true
+10-31 16:19:56.783 I/ModTest ( 2509): poi HUGO_WISDOM outpost=x:1968.2295 y:-6806.6343 mining=x:-916.558 y:5513.035 base=x:-5915.789 y:-1819.8467 wrecks=x:6809.995 y:2861.006
+10-31 16:19:58.806 I/ModTest ( 2509): traffic HUGO_WISDOM traders=0/3 patrols=0/4
+10-31 16:19:59.564 I/ModDev  ( 2509): goto arrived HUGO_WISDOM
+10-31 16:20:02.847 I/ModTest ( 2509): traffic HUGO_WISDOM traders=1/3 patrols=0/4
+10-31 16:20:06.973 I/ModTest ( 2509): traffic HUGO_WISDOM traders=2/3 patrols=0/4
+10-31 16:20:11.080 I/ModTest ( 2509): traffic HUGO_WISDOM traders=3/3 patrols=0/4
+10-31 16:20:15.079 I/ModTest ( 2509): traffic HUGO_WISDOM traders=3/3 patrols=1/4
+10-31 16:20:19.091 I/ModTest ( 2509): traffic HUGO_WISDOM traders=3/3 patrols=2/4
+10-31 16:20:23.102 I/ModTest ( 2509): traffic HUGO_WISDOM traders=3/3 patrols=3/4
+10-31 16:20:27.478 I/ModTest ( 2509): traffic HUGO_WISDOM traders=3/3 patrols=4/4
+10-31 16:20:31.751 I/ModTest ( 2509): traffic HUGO_WISDOM traders=3/3 patrols=4/4
+10-31 16:20:35.752 I/ModTest ( 2509): traffic HUGO_WISDOM traders=3/3 patrols=4/4
+10-31 16:20:41.049 I/ModTest ( 2509): traffic HUGO_WISDOM traders=3/3 patrols=4/4
+10-31 16:20:45.119 I/ModTest ( 2509): traffic HUGO_WISDOM traders=3/3 patrols=4/4
+10-31 16:20:49.165 I/ModTest ( 2509): traffic HUGO_WISDOM traders=3/3 patrols=4/4
+10-31 16:20:50.401 I/ModDev  ( 2509): goto hugo wisdom -> the wave via spartan headquarters
+10-31 16:20:53.593 I/ModSound( 2509): music spartan headquarters playing=true enabled=true
+10-31 16:20:54.111 I/ModTest ( 2509): poi SPARTAN_HQ outpost=x:-5710.126 y:4069.0398 mining=x:3615.836 y:-3239.486 base=x:3193.1995 y:4167.6587 wrecks=x:-4164.162 y:-4329.899
+10-31 16:20:55.292 I/ModDev  ( 2509): goto spartan headquarters -> the wave via the wave
+10-31 16:20:56.309 I/ModSound( 2509): music the wave playing=true enabled=true
+10-31 16:20:56.565 I/ModTest ( 2509): poi THE_WAVE outpost=x:-5294.776 y:-4735.012 mining=x:4920.7354 y:3450.509 base=x:-4924.6343 y:3564.1472 wrecks=x:2852.2854 y:-3900.742
+10-31 16:20:56.808 I/ModFaction( 2509): plan FACTION_SPARTAN_3 DEFEND_ZONE sector=the wave objective=13184
+10-31 16:20:59.079 I/ModTest ( 2509): traffic THE_WAVE traders=0/3 patrols=0/4
+10-31 16:20:59.843 I/ModDev  ( 2509): goto arrived THE_WAVE
+10-31 16:21:03.085 I/ModTest ( 2509): traffic THE_WAVE traders=1/3 patrols=0/4
+10-31 16:21:07.101 I/ModTest ( 2509): traffic THE_WAVE traders=2/3 patrols=0/4
+10-31 16:21:11.110 I/ModTest ( 2509): traffic THE_WAVE traders=3/3 patrols=0/4
+10-31 16:21:14.037 I/ModDev  ( 2509): near objective1 ok
+10-31 16:21:17.507 I/ModTest ( 2509): traffic THE_WAVE traders=3/3 patrols=1/4
+10-31 16:21:22.995 I/ModTest ( 2509): traffic THE_WAVE traders=3/3 patrols=2/4
+10-31 16:21:27.524 I/ModTest ( 2509): traffic THE_WAVE traders=3/3 patrols=3/4
+10-31 16:21:29.688 I/ModTest ( 2509): death fee charged (respawn)
+10-31 16:21:33.689 I/ModTest ( 2509): death fee charged (respawn)
+10-31 16:21:34.579 I/ModTest ( 2509): mdrive outpost none
+10-31 16:21:35.001 I/ModTest ( 2509): poi THE_WAVE outpost=x:-5294.776 y:-4735.012 mining=x:4920.7354 y:3450.509 base=x:-4924.6343 y:3564.1472 wrecks=x:2852.2854 y:-3900.742
+10-31 16:21:37.004 I/ModTest ( 2509): traffic THE_WAVE traders=0/3 patrols=0/4
+10-31 16:21:39.598 I/ModDev  ( 2509): goto the wave -> heliostat via spartan headquarters
+10-31 16:21:42.382 I/ModSound( 2509): music spartan headquarters playing=true enabled=true
+10-31 16:21:42.817 I/ModTest ( 2509): poi SPARTAN_HQ outpost=x:-5710.126 y:4069.0398 mining=x:3615.836 y:-3239.486 base=x:3193.1995 y:4167.6587 wrecks=x:-4164.162 y:-4329.899
+10-31 16:21:44.390 I/ModDev  ( 2509): goto spartan headquarters -> heliostat via hugo wisdom
+10-31 16:21:45.395 I/ModSound( 2509): music hugo wisdom playing=true enabled=true
+10-31 16:21:45.645 I/ModTest ( 2509): poi HUGO_WISDOM outpost=x:1968.2295 y:-6806.6343 mining=x:-916.558 y:5513.035 base=x:-5915.789 y:-1819.8467 wrecks=x:6809.995 y:2861.006
+10-31 16:21:47.666 I/ModTest ( 2509): traffic HUGO_WISDOM traders=0/3 patrols=0/4
+10-31 16:21:48.519 I/ModDev  ( 2509): goto hugo wisdom -> heliostat via ore belt
+10-31 16:21:52.772 I/ModDev  ( 2509): goto ore belt -> heliostat via hermes
+10-31 16:21:52.786 I/ModSound( 2509): music ore belt playing=true enabled=true
+10-31 16:21:54.143 I/ModSound( 2509): music hermes playing=true enabled=true
+10-31 16:21:54.455 I/ModTest ( 2509): poi HERMES outpost=x:-4116.8496 y:-5753.82 mining=x:4935.7026 y:3166.1526 base=x:-3729.7056 y:2647.9836 wrecks=x:5866.8184 y:-4148.09
+10-31 16:21:56.480 I/ModTest ( 2509): traffic HERMES traders=0/3 patrols=0/4
+10-31 16:21:57.162 I/ModDev  ( 2509): goto hermes -> heliostat via heliostat
+10-31 16:22:01.207 I/ModDev  ( 2509): goto arrived HELIOSTAT
+10-31 16:22:01.211 I/ModSound( 2509): music heliostat playing=true enabled=true
+10-31 16:22:01.675 I/ModTest ( 2509): poi HELIOSTAT outpost=x:-5739.4297 y:3632.084 mining=x:6654.7935 y:-1380.5564 base=x:2157.7156 y:6711.5737 wrecks=x:-3610.0146 y:-6564.348
+10-31 16:22:01.709 I/ModFaction( 2509): plan FACTION_HELION_1 ESCORT sector=heliostat objective=17898
+10-31 16:22:03.682 I/ModTest ( 2509): traffic HELIOSTAT traders=0/3 patrols=0/4
+10-31 16:22:07.691 I/ModTest ( 2509): traffic HELIOSTAT traders=1/3 patrols=0/4
+10-31 16:22:11.703 I/ModTest ( 2509): traffic HELIOSTAT traders=2/3 patrols=0/4
+10-31 16:22:16.067 I/ModTest ( 2509): traffic HELIOSTAT traders=3/3 patrols=0/4
+10-31 16:22:16.703 I/ModDev  ( 2509): near objective2 ok
+10-31 16:22:20.972 I/ModTest ( 2509): traffic HELIOSTAT traders=3/3 patrols=1/4
+10-31 16:22:25.020 I/ModTest ( 2509): traffic HELIOSTAT traders=3/3 patrols=2/4
+10-31 16:22:29.028 I/ModTest ( 2509): traffic HELIOSTAT traders=3/3 patrols=3/4
+10-31 16:22:32.593 I/ModTest ( 2509): mdrive escort phase=0 inZone=true courier 18046 from its gate
+10-31 16:22:32.597 I/ModTest ( 2509): escort arrived FACTION_HELION_1 phase=0
+10-31 16:41:48.049 I/ModDev  ( 2509): goto heliostat -> omicron prime via hermes
+10-31 16:41:48.055 I/ModDev  ( 2509): near station2 ok
+10-31 16:41:48.055 I/ModDev  ( 2509): dock Heliostat Outpost point
+10-31 16:41:48.522 I/ModTest ( 2509): rich credits=49949530 parts=200
+10-31 16:41:48.525 I/ModTest ( 2509): mdrive pickup done progress=0/0 phase=1
+10-31 16:41:48.526 I/ModSound( 2509): music heliostat playing=false enabled=true
+10-31 16:41:49.590 I/ModSound( 2509): music hermes playing=true enabled=true
+10-31 16:41:49.979 I/ModTest ( 2509): poi HERMES outpost=x:-4116.8496 y:-5753.82 mining=x:4935.7026 y:3166.1526 base=x:-3729.7056 y:2647.9836 wrecks=x:5866.8184 y:-4148.09
+10-31 16:41:52.582 I/ModDev  ( 2509): goto hermes -> omicron prime via ore belt
+10-31 16:41:53.631 I/ModSound( 2509): music ore belt playing=true enabled=true
+10-31 16:41:53.859 I/ModTest ( 2509): poi ORE_BELT outpost=x:-2396.7131 y:-5716.158 mining=x:1060.6421 y:4734.235 base=x:-6048.38 y:1758.3566 wrecks=x:6047.056 y:-2656.523
+10-31 16:41:56.629 I/ModDev  ( 2509): goto ore belt -> omicron prime via hugo wisdom
+10-31 16:42:05.367 I/ModDev  ( 2509): goto hugo wisdom -> omicron prime via spartan headquarters
+10-31 16:42:05.376 I/ModSound( 2509): music hugo wisdom playing=true enabled=true
+10-31 16:42:07.793 I/ModSound( 2509): music spartan headquarters playing=true enabled=true
+10-31 16:42:08.930 I/ModTest ( 2509): poi SPARTAN_HQ outpost=x:-5710.126 y:4069.0398 mining=x:3615.836 y:-3239.486 base=x:3193.1995 y:4167.6587 wrecks=x:-4164.162 y:-4329.899
+10-31 16:42:09.439 I/ModDev  ( 2509): goto spartan headquarters -> omicron prime via the wave
