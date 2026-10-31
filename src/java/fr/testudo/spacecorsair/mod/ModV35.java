@@ -195,6 +195,7 @@ public class ModV35 {
         SharedPreferences p = ModQol.prefs();
         if (p == null || key == null) return;
         p.edit().putInt("v35_core_" + key, cores(key) + 1).apply();
+        ModDev.ev("core", key + " total=" + cores(key));
         try {
             Element e = at != null && fr.testudo.spacecorsair.engine.GameThread.isElementVisible(at) ? at : ObjectRegistry.INSTANCE.playerShip;
             Mod.floatText(e, "+1 " + coreName(key).toUpperCase(), 1.0f, 0.75f, 0.3f);
@@ -215,6 +216,7 @@ public class ModV35 {
     public static void bossCores(int kind) {
         try {
             String k = bossCore(kind, Math.random(), Math.random());
+            ModDev.ev("bosscore", "kind=" + kind + " faction core=" + k);
             if (k != null) addCore(k, null);
             if (Math.random() < CORE_CHANCE) addCore("neutral", null);
             SpaceObjectType t = currentShip();
@@ -309,6 +311,7 @@ public class ModV35 {
             // owner 2026-10-22: the rival-flagship route is for pilots not on friendly terms with the core's faction (Friendly+ use the renegade hunt)
             java.util.ArrayList<String> r = new java.util.ArrayList<String>();
             for (String c : rivalCores(flagshipKey)) if (ModRep.rank(c) < ModRep.FRIENDLY) r.add(c);
+            ModDev.ev("flagcore", flagshipKey + " eligible=" + r);
             if (r.isEmpty()) return;
             SpaceObjectType t = currentShip();
             String mine = t == null ? null : coreKey(ModShips.hull(t));
@@ -466,6 +469,7 @@ public class ModV35 {
             if (core != null) ed.putInt("v35_core_" + core, cores(core) - 1);
             ed.commit();
             ps.applyGear();
+            ModDev.ev("refit", t.name() + " level " + (n + 1) + " paid " + c + " cr + " + need + " parts" + (core != null ? " + core " + core : ""));
             return ModLang.tr("Refit complete: level ") + (n + 1) + " / " + REFIT_MAX + ".";
         } catch (Throwable th) {
             return null;

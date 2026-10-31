@@ -409,6 +409,39 @@ public class ModFaction extends MissionListener {
     }
 
     /** Emulator tests (ModDev corsair_near=objective): the running faction mission's objective point, or null. */
+    /** v37 emulator test (ModDev corsair_mdrive): pickup = the ship sits on the next untaken marker; outpostkill = the
+     *  outpost's hull goes to 0; escort = the courier is put on its jump gate. True while there is more to do. */
+    static boolean testDrive(String cmd, PlayerShip ps) {
+        try {
+            Mission m = ObjectRegistry.INSTANCE.currentMission;
+            if (m == null || !(m.missionEngine instanceof ModFaction)) return false;
+            ModFaction f = (ModFaction) m.missionEngine;
+            if ("pickup".equals(cmd)) {
+                if (f.markers == null) { ModDev.ev("mdrive", "pickup done progress=" + f.progress + "/" + f.goal + " phase=" + f.phase); return false; }
+                for (int k = 0; k < f.taken.length; k++) {
+                    if (f.taken[k]) continue;
+                    ps.position.set(f.markers[k * 2], f.markers[k * 2 + 1]);
+                    ps.speed.set(0, 0);
+                    return true;
+                }
+                return true;
+            }
+            if ("outpostkill".equals(cmd)) {
+                ModDev.ev("mdrive", "outpost " + (f.outpost == null ? "none" : "hull " + Math.round(f.outpost.life) + " -> 0"));
+                if (f.outpost != null) f.outpost.life = 0;
+                return false;
+            }
+            if ("escort".equals(cmd)) {
+                ModDev.ev("mdrive", "escort courier " + (f.target == null ? "none" : "moved to gate, " + Math.round(f.target.position.distance(f.gate)) + " away"));
+                if (f.target != null) { f.target.position.setSameAs(f.gate); f.target.updateSapCoords(); }
+                return false;
+            }
+        } catch (Throwable t) {
+            ModDev.ev("mdrive", cmd + " error " + t);
+        }
+        return false;
+    }
+
     static Vector2 testObjective() {
         try {
             Mission m = ObjectRegistry.INSTANCE.currentMission;
@@ -1025,6 +1058,7 @@ public class ModFaction extends MissionListener {
 
     /** The courier reached its end point: done, or (story escort, S8) on to the second sector with the player. */
     private void escortArrived() {
+        ModDev.ev("escort", "arrived " + id(idx) + " phase=" + phase);
         if (phase == 0 && secondSector() != null) {
             phase = 1;
             courierMoving = false;

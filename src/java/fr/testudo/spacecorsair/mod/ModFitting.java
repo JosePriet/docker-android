@@ -907,6 +907,7 @@ public final class ModFitting {
                     rb.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             String msg = ModV35.buy();
+                            ModDev.ev("refitbtn", String.valueOf(msg));
                             if (msg != null) android.widget.Toast.makeText(act, msg, android.widget.Toast.LENGTH_SHORT).show();
                         }
                     });

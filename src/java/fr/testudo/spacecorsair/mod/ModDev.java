@@ -372,7 +372,19 @@ public final class ModDev {
 
     // ------------------------------------------------------------------ v37 emulator switches: go where each feature lives
     private static String t37Near, t37Music, t37Arrived;
-    private static boolean t37Dock, t37KillFlag;
+    private static boolean t37Dock, t37KillFlag, t37Rich, t37Ufo, t37Blast;
+    private static String t37Drive;
+    private static Boolean evOn;
+
+    /** v37 test evidence: logcat "ModTest <tag> <msg>" while the emulator test flag is present (never on a phone). */
+    static void ev(String tag, String msg) {
+        try {
+            if (evOn == null) evOn = testFlag("corsair_nodialog");
+            if (evOn) android.util.Log.i("ModTest", tag + " " + msg);
+        } catch (Throwable t) {
+            // test only
+        }
+    }
     private static long t37Hop;
 
     /**
@@ -438,6 +450,58 @@ public final class ModDev {
             }
         }
         t37KillFlag = kf;
+        // corsair_rich: 50M credits, 200 rare parts and one core of every faction (refit purchase test)
+        boolean rich = testFlag("corsair_rich");
+        if (rich && !t37Rich) {
+            ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(50000000);
+            android.content.SharedPreferences p = ModQol.prefs();
+            if (p != null) {
+                android.content.SharedPreferences.Editor ed = p.edit().putInt("v35_parts", ModV35.parts() + 200);
+                for (ModCapitals.Faction f : ModCapitals.FACTIONS) ed.putInt("v35_core_" + f.key, ModV35.cores(f.key) + 1);
+                ed.putInt("v35_core_neutral", ModV35.cores("neutral") + 1).commit();
+            }
+            ev("rich", "credits=" + ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.getCredit() + " parts=" + ModV35.parts());
+        }
+        t37Rich = rich;
+        // corsair_mdrive=pickup|outpostkill|escort[N]: drives the running faction mission (ModFaction.testDrive)
+        String md = testValue("corsair_mdrive");
+        if (md != null && !md.equals(t37Drive)) t37Drive = md;
+        if (t37Drive != null && t37Drive.length() > 0) {
+            if (!ModFaction.testDrive(t37Drive.replaceAll("[0-9]+$", ""), ps)) t37Drive = "";
+        }
+        // corsair_ufowreck: a UFO 700 beyond the nearest wreck piece, on the line from the ship (its beam must stop on the piece)
+        boolean uw = testFlag("corsair_ufowreck");
+        if (uw && !t37Ufo) {
+            ModWreck best = null;
+            for (ModWreck w : ModWreck.live) if (!w.removed && !w.visualOnly && (best == null || w.position.distance(ps.position) < best.position.distance(ps.position))) best = w;
+            if (best != null) {
+                Vector2 d = new Vector2(best.position).subtract(ps.position);
+                float l = Math.max(1, (float) Math.sqrt(d.x * d.x + d.y * d.y));
+                fr.testudo.spacecorsair.business.ennemis.Ennemis e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newUfo(Math.max(1, ObjectRegistry.INSTANCE.game.playerInfo.level));
+                e.position.set(best.position.x + d.x / l * 700, best.position.y + d.y / l * 700);
+                e.updateSapCoords();
+                e.addToCurrentLevel();
+                e.initChasePlayer();
+                ev("ufowreck", "ufo placed behind piece at " + Math.round(best.position.distance(ps.position)));
+            } else ev("ufowreck", "no wreck piece");
+        }
+        t37Ufo = uw;
+        // corsair_blastwreck: a missile-size blast push on every wreck piece within 3000 (the Missile hook's own call)
+        boolean bw = testFlag("corsair_blastwreck");
+        if (bw && !t37Blast) {
+            int nb = 0;
+            for (ModWreck w : new java.util.ArrayList<ModWreck>(ModWreck.live)) {
+                if (w.removed || w.position.distance(ps.position) > 3000) continue;
+                Vector2 v = new Vector2(w.position).subtract(ps.position);
+                float l = Math.max(1, (float) Math.sqrt(v.x * v.x + v.y * v.y));
+                v.multiply(8.0f / l);
+                ModWreck.blastPush(w, v);
+                w.restTest = System.currentTimeMillis();
+                nb++;
+            }
+            ev("blastwreck", "pieces=" + nb);
+        }
+        t37Blast = bw;
         if (testFlag("corsair_musiclog")) {
             fr.testudo.spacecorsair.engine.MusicManager mm = ObjectRegistry.INSTANCE.musicManager;
             android.media.MediaPlayer mp = mm != null ? mm.curPlaying : null;

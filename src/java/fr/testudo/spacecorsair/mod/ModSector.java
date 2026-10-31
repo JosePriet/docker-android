@@ -118,6 +118,7 @@ public final class ModSector {
         try {
             prune(traders);
             prune(patrols);
+            ModDev.ev("traffic", here.name() + " traders=" + traders.size() + "/" + traderTarget + " patrols=" + patrols.size() + "/" + PATROLS);
             if (traders.size() < traderTarget) trader(here);       // one at a time: traffic builds up instead of popping in
             else if (patrols.size() < PATROLS) patrol(here);
         } catch (Throwable t) {
@@ -155,6 +156,7 @@ public final class ModSector {
         wreckField(id);
         miningBelt(id);
         base(id);
+        ModDev.ev("poi", id.name() + " outpost=" + poi[OUTPOST] + " mining=" + poi[MINING] + " base=" + poi[BASE] + " wrecks=" + poi[WRECKS]);
         restoreWrecks(id);
     }
 
@@ -437,6 +439,7 @@ public final class ModSector {
             return;
         }
         p.edit().putInt("v35_pursuit_n", sent + 1).apply();
+        ModDev.ev("pursuit", key + " wave " + w + " at play+" + (play() - p.getLong("v35_pursuit_at", 0)) + " ms");
         wave(ps, key, w);
     }
 
@@ -474,6 +477,7 @@ public final class ModSector {
 
     /** ModWreck: a flagship or titan broke up; its pieces come back on the next visits of this sector. */
     static void persist(ModWreck[] made, int level, boolean boss) {
+        ModDev.ev("keptwreck", "persist pieces=" + (made == null ? 0 : made.length) + " boss=" + boss);
         try {
             LevelId id = ObjectRegistry.INSTANCE.game.currentLevel.id;
             if (excluded(id) || made == null) return;
@@ -609,6 +613,7 @@ public final class ModSector {
                 w.maxLife = w.life = 5000;
                 w.updateSapCoords();
                 ModWreck.add(w);
+                ModDev.ev("keptwreck", "restored piece " + pi + " of " + f[0] + " visit " + visits);
                 ModArt.ready(w.art);
             }
         }

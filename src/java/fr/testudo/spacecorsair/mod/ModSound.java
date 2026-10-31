@@ -121,7 +121,7 @@ public final class ModSound {
                 l[0] = now;
             }
             float v = volume() * sfx * gain;
-            if (v <= 0) return 0;
+            if (v <= 0) { if (sfx <= 0 && !sfxLogged) { sfxLogged = true; ModDev.ev("sfx", "mod effect " + name + " silenced"); } return 0; }
             return pool.play(id, v, v, 1, 0, rate);
         } catch (Throwable t) {
             return 0;
@@ -171,7 +171,12 @@ public final class ModSound {
     private static float clamp01(float v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
 
     /** Sound-effects bar for the stock SoundManager.playSound (hooks36). */
-    public static float sfx() { return sfx; }
+    public static float sfx() {
+        if (sfx <= 0 && !sfxLogged) { sfxLogged = true; ModDev.ev("sfx", "stock effect played at volume x" + sfx); }
+        return sfx;
+    }
+
+    private static boolean sfxLogged;
 
     /** MusicManager.resumeMusic (hooks36): re-apply the music bar before start, so a change in settings is heard on return. */
     public static void musicResume(MediaPlayer mp) {
@@ -213,6 +218,7 @@ public final class ModSound {
             bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 public void onProgressChanged(SeekBar b, int p, boolean user) {
                     sfx = clamp01(p / 10.0f);
+                    ModDev.ev("sfx", "EFFECTS bar=" + p + "/10");
                     try { a.getApplicationContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putFloat("sfx", sfx).commit(); } catch (Throwable t) { }
                 }
                 public void onStartTrackingTouch(SeekBar b) { }

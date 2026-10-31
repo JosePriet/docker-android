@@ -653,6 +653,7 @@ public class ModBoss extends MissionListener {
         illusions.clear();
         boss = null;
         WelcomeMessage.setText(ObjectRegistry.INSTANCE.getStringRessource(fr.testudo.spacecorsair.R.string.missionSuccess), NAMES[kind] + " destroyed");
+        ModDev.ev("bossdead", NAMES[kind]);
         ModLoot.bossBonus(kind);
         markGates(true);
     }

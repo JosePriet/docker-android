@@ -114,6 +114,8 @@ public final class ModWreck extends Element {
     static final float HIT_TAU = 2000.0f / 3; // v37: hit motion decays to 5% in 2 s ...
     static final long HIT_STOP = 2000;       // ... and is set to 0 once 2 s pass without a new push (owner: gone within 2 s)
     private long hitAge;                     // ms since the last push
+    long restTest;                           // v37 test: blast time (ModDev corsair_blastwreck), logged when the hit motion is 0
+    private static int beamLogs;
 
     /** v33: whatever pushed the piece since the last frame (hits, rams, blasts) only moves it a little. */
     @Override
@@ -134,6 +136,10 @@ public final class ModWreck extends Element {
         hit[1] = lastVy + cy - baseVy;
         blastVx = blastVy = 0;
         brake(hit, j, hitAge);
+        if (restTest > 0 && hit[0] == 0 && hit[1] == 0) {
+            ModDev.ev("wreckrest", "blast motion stopped after " + (System.currentTimeMillis() - restTest) + " ms");
+            restTest = 0;
+        }
         speed.set(baseVx + hit[0], baseVy + hit[1]);
         float v2 = speed.x * speed.x + speed.y * speed.y;
         if (v2 > MAX_DRIFT * MAX_DRIFT) {
@@ -197,6 +203,7 @@ public final class ModWreck extends Element {
                 float t = segHit(ax, ay, target.position.x, target.position.y, w.position.x, w.position.y, w.phys.x / 2);
                 if (t >= 0 && t < bt) { bt = t; best = w; }
             }
+            if (best != target && beamLogs < 5) { beamLogs++; ModDev.ev("beamwreck", shooter.getClass().getSimpleName() + " beam stopped on a wreck piece"); }
             return best;
         } catch (Throwable t) {
             return target;   // the stock beam always works
@@ -555,6 +562,7 @@ public final class ModWreck extends Element {
         ModWreck w = new ModWreck();
         w.group = new boolean[] {false};
         w.husk = true;
+        ModDev.ev("husk", "made from " + e.getClass().getSimpleName());
         w.srcClass = 1;
         w.srcElite = e instanceof Ennemis && ((Ennemis) e).elite;
         w.tex = t;

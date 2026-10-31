@@ -329,6 +329,7 @@ public class ModQol {
     // ================================================================== repair fee: Tech I hulls repair for free
     /** Hook: replaces XpBuilder.getDeathMoneyPenality(). */
     public static int deathFee() {
+        ModDev.ev("death", "fee charged (respawn)");
         try {
             PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
             SpaceObjectType ship = pi.playerGear.playerShip;

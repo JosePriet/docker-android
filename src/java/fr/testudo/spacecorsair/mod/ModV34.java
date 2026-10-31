@@ -466,6 +466,8 @@ public class ModV34 {
     }
 
     /** ModLive.hit: the shield takes the damage first. */
+    private static int shLogs;
+
     static float shieldAbsorb(Element target, float dmg, Projectile p) {
         if (dmg <= 0) return dmg;
         long now = System.currentTimeMillis();
@@ -474,6 +476,7 @@ public class ModV34 {
         if (p != null && p.sender != null && p.sender.isPlayer) h.hit = now;
         float a = Math.min(dmg, h.cur);
         h.cur -= a;
+        if (shLogs < 8 && p != null && p.sender != null && p.sender.isPlayer) { shLogs++; ModDev.ev("shield", target.getClass().getSimpleName() + " absorbed " + Math.round(a) + " of " + Math.round(dmg) + ", left " + Math.round(h.cur) + "/" + Math.round(h.cap)); }
         return dmg - a;
     }
 
