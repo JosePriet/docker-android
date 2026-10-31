@@ -414,6 +414,7 @@ public final class ModDev {
             if (n.startsWith("objective")) to = ModFaction.testObjective();
             else if (n.startsWith("xy:")) { String[] xy = n.substring(3).split(","); to = new fr.testudo.spacecorsair.engine.Vector2(Float.parseFloat(xy[0]), Float.parseFloat(xy[1])); }
             else if (n.startsWith("station")) { fr.testudo.spacecorsair.business.world.station.Station st = ModPlace.farthestStation(ps.position, null); if (st != null) to = st.position; }
+            else if (n.startsWith("boss")) { for (Element e : lvl.elements) if (!e.removed && ModBoss.isBoss(e)) { to = e.position; break; } }
             else if (n.startsWith("flagship")) for (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip c : ModCapitals.caps.keySet()) if (!c.removed) { to = c.position; break; }
             android.util.Log.i("ModDev", "near " + n + (to != null ? " ok" : " none"));
             if (to != null) { ps.position.set(to.x + 1200, to.y); ps.speed.set(0, 0); }

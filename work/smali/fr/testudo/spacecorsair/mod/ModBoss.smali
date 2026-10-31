@@ -3854,12 +3854,12 @@
 
     const/4 v2, 0x0
 
-    .line 705
+    .line 706
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->completed:Z
 
     if-eqz v0, :cond_4b
 
-    .line 706
+    .line 707
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->inHub:Z
 
     if-eqz v0, :cond_2f
@@ -3898,11 +3898,11 @@
 
     move-result-object v0
 
-    .line 735
+    .line 736
     :goto_2e
     return-object v0
 
-    .line 706
+    .line 707
     :cond_2f
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -3932,13 +3932,13 @@
 
     goto :goto_2e
 
-    .line 708
+    .line 709
     :cond_4b
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->inZone:Z
 
     if-nez v0, :cond_7b
 
-    .line 709
+    .line 710
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -3983,18 +3983,18 @@
 
     goto :goto_2e
 
-    .line 711
+    .line 712
     :cond_7b
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    .line 712
+    .line 713
     if-eqz v1, :cond_83
 
     iget-boolean v0, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->removed:Z
 
     if-eqz v0, :cond_a1
 
-    .line 713
+    .line 714
     :cond_83
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -4026,13 +4026,13 @@
 
     goto :goto_2e
 
-    .line 715
+    .line 716
     :cond_a1
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
-    .line 716
+    .line 717
     const/high16 v0, 0x42c80000    # 100.0f
 
     iget v4, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->life:F
@@ -4051,7 +4051,7 @@
 
     double-to-int v4, v4
 
-    .line 717
+    .line 718
     if-eqz v3, :cond_d3
 
     iget-object v0, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -4064,14 +4064,14 @@
 
     float-to-int v0, v0
 
-    .line 718
+    .line 719
     :goto_be
     iget-boolean v5, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->invincible:Z
 
-    .line 720
+    .line 721
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->instr:Ljava/lang/String;
 
-    .line 721
+    .line 722
     if-eqz v1, :cond_d6
 
     iget v6, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->instrPct:I
@@ -4090,19 +4090,19 @@
 
     goto/16 :goto_2e
 
-    .line 717
+    .line 718
     :cond_d3
     const/high16 v0, -0x80000000
 
     goto :goto_be
 
-    .line 722
+    .line 723
     :cond_d6
     new-instance v6, Ljava/lang/StringBuilder;
 
     invoke-direct {v6}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 723
+    .line 724
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModBoss;->NAMES:[Ljava/lang/String;
 
     iget v7, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->kind:I
@@ -4131,7 +4131,7 @@
 
     invoke-virtual {v1, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 724
+    .line 725
     div-int/lit8 v1, v4, 0xa
 
     invoke-static {v8, v1}, Ljava/lang/Math;->min(II)I
@@ -4142,7 +4142,7 @@
 
     move-result v7
 
-    .line 725
+    .line 726
     :goto_102
     if-ge v2, v8, :cond_112
 
@@ -4164,11 +4164,11 @@
 
     goto :goto_108
 
-    .line 726
+    .line 727
     :cond_112
     if-eqz v3, :cond_123
 
-    .line 727
+    .line 728
     const-string v1, "  "
 
     invoke-virtual {v6, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -4183,7 +4183,7 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 729
+    .line 730
     :cond_123
     if-eqz v5, :cond_12a
 
@@ -4191,27 +4191,27 @@
 
     invoke-virtual {v6, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 730
+    .line 731
     :cond_12a
     invoke-virtual {v6}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v1
 
-    .line 731
+    .line 732
     iput v4, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->instrPct:I
 
-    .line 732
+    .line 733
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->instrDist:I
 
-    .line 733
+    .line 734
     iput-boolean v5, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->instrInv:Z
 
-    .line 734
+    .line 735
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->instr:Ljava/lang/String;
 
     move-object v0, v1
 
-    .line 735
+    .line 736
     goto/16 :goto_2e
 .end method
 
@@ -4595,7 +4595,7 @@
 
     if-eqz v0, :cond_6
 
-    .line 658
+    .line 659
     :goto_5
     return-void
 
@@ -4691,11 +4691,22 @@
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/display/hud/WelcomeMessage;->setText(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 656
+    const-string v0, "bossdead"
+
+    sget-object v1, Lfr/testudo/spacecorsair/mod/ModBoss;->NAMES:[Ljava/lang/String;
+
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->kind:I
+
+    aget-object v1, v1, v2
+
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 657
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->kind:I
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLoot;->bossBonus(I)V
 
-    .line 657
+    .line 658
     invoke-direct {p0, v7}, Lfr/testudo/spacecorsair/mod/ModBoss;->markGates(Z)V
 
     goto :goto_5
@@ -5468,21 +5479,21 @@
     .registers 2
 
     .prologue
-    .line 696
+    .line 697
     :try_start_0
     invoke-direct {p0}, Lfr/testudo/spacecorsair/mod/ModBoss;->instruction()Ljava/lang/String;
 
     move-result-object v0
 
-    .line 697
+    .line 698
     if-eqz v0, :cond_7
 
-    .line 700
+    .line 701
     :cond_6
     :goto_6
     return-object v0
 
-    .line 697
+    .line 698
     :cond_7
     const-string v0, ""
     :try_end_9
@@ -5490,14 +5501,14 @@
 
     goto :goto_6
 
-    .line 698
+    .line 699
     :catch_a
     move-exception v0
 
-    .line 699
+    .line 700
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->instr:Ljava/lang/String;
 
-    .line 700
+    .line 701
     if-nez v0, :cond_6
 
     const-string v0, ""
@@ -5509,7 +5520,7 @@
     .registers 2
 
     .prologue
-    .line 764
+    .line 765
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     if-eqz v0, :cond_f
@@ -5520,16 +5531,16 @@
 
     if-nez v0, :cond_f
 
-    .line 765
+    .line 766
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->remove()V
 
-    .line 767
+    .line 768
     :cond_f
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModBoss;->terminate()V
 
-    .line 768
+    .line 769
     return-void
 .end method
 
@@ -5541,7 +5552,7 @@
 
     const/4 v2, 0x0
 
-    .line 746
+    .line 747
     :try_start_2
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->mission:Lfr/testudo/spacecorsair/business/mission/Mission;
 
@@ -5569,7 +5580,7 @@
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/business/mission/Mission;->missionId:Ljava/lang/String;
 
-    .line 747
+    .line 748
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/business/mission/MissionRepository;->hasDoneMission(Ljava/lang/String;)Z
 
     move-result v0
@@ -5586,18 +5597,18 @@
     :try_end_2b
     .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_2b} :catch_3d
 
-    .line 751
+    .line 752
     :cond_2b
     :goto_2b
     iput-boolean v2, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->completed:Z
 
-    .line 752
+    .line 753
     iput-object v3, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    .line 753
+    .line 754
     iput-boolean v2, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->introDone:Z
 
-    .line 754
+    .line 755
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -5608,10 +5619,10 @@
 
     invoke-virtual {p0, v0, v3}, Lfr/testudo/spacecorsair/mod/ModBoss;->onZoneChanged(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 755
+    .line 756
     return-void
 
-    .line 748
+    .line 749
     :catch_3d
     move-exception v0
 
@@ -5622,7 +5633,7 @@
     .registers 2
 
     .prologue
-    .line 759
+    .line 760
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->completed:Z
 
     return v0
@@ -5632,10 +5643,10 @@
     .registers 4
 
     .prologue
-    .line 684
+    .line 685
     invoke-direct {p0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModBoss;->bossPhysic(J)V
 
-    .line 685
+    .line 686
     return-void
 .end method
 
@@ -5643,7 +5654,7 @@
     .registers 3
 
     .prologue
-    .line 674
+    .line 675
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     if-eqz v0, :cond_b
@@ -5654,7 +5665,7 @@
 
     invoke-direct {p0}, Lfr/testudo/spacecorsair/mod/ModBoss;->onBossDead()V
 
-    .line 675
+    .line 676
     :cond_b
     return-void
 .end method
@@ -5663,7 +5674,7 @@
     .registers 3
 
     .prologue
-    .line 679
+    .line 680
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     if-eqz v0, :cond_b
@@ -5674,7 +5685,7 @@
 
     invoke-direct {p0}, Lfr/testudo/spacecorsair/mod/ModBoss;->onBossDead()V
 
-    .line 680
+    .line 681
     :cond_b
     return-void
 .end method
@@ -5683,7 +5694,7 @@
     .registers 1
 
     .prologue
-    .line 689
+    .line 690
     return-void
 .end method
 
@@ -5695,15 +5706,15 @@
 
     const/4 v2, 0x0
 
-    .line 662
+    .line 663
     const/4 v0, 0x0
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    .line 663
+    .line 664
     iput-boolean v2, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->introDone:Z
 
-    .line 664
+    .line 665
     if-eqz p1, :cond_34
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->zone:Lfr/testudo/spacecorsair/game/levels/LevelId;
@@ -5721,7 +5732,7 @@
     :goto_14
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->inZone:Z
 
-    .line 665
+    .line 666
     if-eqz p1, :cond_23
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->hub:Lfr/testudo/spacecorsair/game/levels/LevelId;
@@ -5739,7 +5750,7 @@
     :cond_23
     iput-boolean v2, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->inHub:Z
 
-    .line 666
+    .line 667
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->inZone:Z
 
     if-eqz v0, :cond_30
@@ -5748,20 +5759,20 @@
 
     if-nez v0, :cond_30
 
-    .line 667
+    .line 668
     invoke-direct {p0}, Lfr/testudo/spacecorsair/mod/ModBoss;->spawnBoss()V
 
-    .line 669
+    .line 670
     :cond_30
     invoke-direct {p0, v1}, Lfr/testudo/spacecorsair/mod/ModBoss;->markGates(Z)V
 
-    .line 670
+    .line 671
     return-void
 
     :cond_34
     move v0, v2
 
-    .line 664
+    .line 665
     goto :goto_14
 .end method
 
@@ -5771,18 +5782,18 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 779
+    .line 780
     iput-boolean v1, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->completed:Z
 
-    .line 780
+    .line 781
     const/4 v0, 0x0
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    .line 781
+    .line 782
     iput-boolean v1, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->introDone:Z
 
-    .line 782
+    .line 783
     return-void
 .end method
 
@@ -5790,7 +5801,7 @@
     .registers 1
 
     .prologue
-    .line 786
+    .line 787
     return-void
 .end method
 
@@ -5800,17 +5811,17 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 772
+    .line 773
     invoke-direct {p0, v0}, Lfr/testudo/spacecorsair/mod/ModBoss;->markGates(Z)V
 
-    .line 773
+    .line 774
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->completed:Z
 
-    .line 774
+    .line 775
     const/4 v0, 0x0
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModBoss;->boss:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    .line 775
+    .line 776
     return-void
 .end method

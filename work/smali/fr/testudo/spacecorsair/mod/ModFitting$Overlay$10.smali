@@ -46,7 +46,16 @@
     move-result-object v0
 
     .line 910
-    if-eqz v0, :cond_12
+    const-string v1, "refitbtn"
+
+    invoke-static {v0}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-static {v1, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 911
+    if-eqz v0, :cond_1b
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
@@ -60,7 +69,7 @@
 
     invoke-virtual {v0}, Landroid/widget/Toast;->show()V
 
-    .line 911
-    :cond_12
+    .line 912
+    :cond_1b
     return-void
 .end method

@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 213
+    .line 218
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModSound$1;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 7
 
     .prologue
-    .line 215
+    .line 220
     int-to-float v0, p2
 
     const/high16 v1, 0x41200000    # 10.0f
@@ -60,8 +60,37 @@
     # setter for: Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSound;->access$002(F)F
 
-    .line 216
-    :try_start_b
+    .line 221
+    const-string v0, "sfx"
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v2, "EFFECTS bar="
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1, p2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "/10"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 222
+    :try_start_29
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModSound$1;->val$a:Landroid/app/Activity;
 
     invoke-virtual {v0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
@@ -92,25 +121,25 @@
     move-result-object v0
 
     invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->commit()Z
-    :try_end_29
-    .catch Ljava/lang/Throwable; {:try_start_b .. :try_end_29} :catch_2a
+    :try_end_47
+    .catch Ljava/lang/Throwable; {:try_start_29 .. :try_end_47} :catch_48
 
-    .line 217
-    :goto_29
+    .line 223
+    :goto_47
     return-void
 
-    .line 216
-    :catch_2a
+    .line 222
+    :catch_48
     move-exception v0
 
-    goto :goto_29
+    goto :goto_47
 .end method
 
 .method public onStartTrackingTouch(Landroid/widget/SeekBar;)V
     .registers 2
 
     .prologue
-    .line 218
+    .line 224
     return-void
 .end method
 
@@ -118,6 +147,6 @@
     .registers 2
 
     .prologue
-    .line 219
+    .line 225
     return-void
 .end method

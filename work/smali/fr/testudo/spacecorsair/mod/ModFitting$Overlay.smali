@@ -1856,7 +1856,7 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 913
+    .line 914
     new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v3, -0x1
@@ -1865,7 +1865,7 @@
 
     invoke-direct {v2, v3, v4}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
-    .line 914
+    .line 915
     const/high16 v3, 0x40800000    # 4.0f
 
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -1876,12 +1876,12 @@
 
     iput v3, v2, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
 
-    .line 915
+    .line 916
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v3, v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 918
+    .line 919
     :cond_4f5
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
@@ -1897,7 +1897,7 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 919
+    .line 920
     const-string v0, "Hold"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1942,7 +1942,7 @@
 
     invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 920
+    .line 921
     if-eqz p5, :cond_54b
 
     iget v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
@@ -1967,16 +1967,16 @@
 
     invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 922
+    .line 923
     :cond_54b
     if-eqz p5, :cond_691
 
-    .line 923
+    .line 924
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 924
+    .line 925
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
     const/high16 v3, 0x3f800000    # 1.0f
@@ -2009,7 +2009,7 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 925
+    .line 926
     :cond_573
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
@@ -2043,7 +2043,7 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 926
+    .line 927
     :cond_594
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
@@ -2077,7 +2077,7 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 927
+    .line 928
     :cond_5b5
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
@@ -2111,7 +2111,7 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 928
+    .line 929
     :cond_5d6
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldDelay:F
 
@@ -2145,7 +2145,7 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 929
+    .line 930
     :cond_5f7
     iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
 
@@ -2179,7 +2179,7 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 930
+    .line 931
     :cond_618
     iget-object v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
@@ -2200,7 +2200,7 @@
 
     if-lez v2, :cond_691
 
-    .line 931
+    .line 932
     :cond_62a
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
@@ -2216,14 +2216,14 @@
 
     invoke-virtual {v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 932
+    .line 933
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
 
     move-result v2
 
     if-lez v2, :cond_661
 
-    .line 933
+    .line 934
     const/high16 v2, 0x41300000    # 11.0f
 
     const/4 v3, -0x1
@@ -2234,7 +2234,7 @@
 
     move-result-object v2
 
-    .line 934
+    .line 935
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v0
@@ -2245,7 +2245,7 @@
 
     invoke-virtual {v2, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 935
+    .line 936
     const/high16 v0, 0x40000000    # 2.0f
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -2256,12 +2256,12 @@
 
     invoke-virtual {v2, v0, v3}, Landroid/widget/TextView;->setLineSpacing(FF)V
 
-    .line 936
+    .line 937
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 938
+    .line 939
     :cond_661
     iget-object v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
@@ -2275,7 +2275,7 @@
 
     if-lez v0, :cond_691
 
-    .line 939
+    .line 940
     const/high16 v0, 0x41200000    # 10.0f
 
     const v2, -0x4f3b26
@@ -2286,7 +2286,7 @@
 
     move-result-object v0
 
-    .line 940
+    .line 941
     iget-object v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
     invoke-static {v1}, Landroid/text/Html;->fromHtml(Ljava/lang/String;)Landroid/text/Spanned;
@@ -2295,7 +2295,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 941
+    .line 942
     const/4 v1, 0x0
 
     const/high16 v2, 0x40800000    # 4.0f
@@ -2312,12 +2312,12 @@
 
     invoke-virtual {v0, v1, v2, v3, v4}, Landroid/widget/TextView;->setPadding(IIII)V
 
-    .line 942
+    .line 943
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 946
+    .line 947
     :cond_691
     return-void
 
@@ -3199,17 +3199,17 @@
 
     const/4 v5, 0x0
 
-    .line 949
+    .line 950
     new-instance v0, Landroid/widget/LinearLayout;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     invoke-direct {v0, v1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 950
+    .line 951
     invoke-virtual {v0, v5}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 951
+    .line 952
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
     mul-float/2addr v1, v3
@@ -3224,7 +3224,7 @@
 
     invoke-virtual {v0, v5, v1, v5, v2}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 952
+    .line 953
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     const v2, -0x4f3b26
@@ -3233,10 +3233,10 @@
 
     move-result-object v1
 
-    .line 953
+    .line 954
     invoke-virtual {v1, p1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 954
+    .line 955
     new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v3, -0x2
@@ -3247,7 +3247,7 @@
 
     invoke-virtual {v0, v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 955
+    .line 956
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     const/4 v2, -0x1
@@ -3258,23 +3258,23 @@
 
     move-result-object v1
 
-    .line 956
+    .line 957
     invoke-virtual {v1, p2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 957
+    .line 958
     const/4 v2, 0x5
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 958
+    .line 959
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 959
+    .line 960
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 960
+    .line 961
     return-void
 .end method
 
