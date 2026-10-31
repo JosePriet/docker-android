@@ -119,7 +119,7 @@ elif [ $GAME = sc ]; then
     back 3; return 1
   }
   T=/data/local/tmp
-  SHORT=   # set to 1 to skip the Warlord/Harbinger stages
+  SHORT=1  # v37c: titan flights skipped so the V37 stage fits the 30 min limit; set to 1 to skip the Warlord/Harbinger stages
   HARB=    # set to 1 to run the Harbinger stage (v33: off)
   V37=1    # v37: sector-by-sector stage after the Warlord flight
   QUICK=1  # v36: quick run (audio/settings/minimap change). v35b: full run at pilot level 34 after the owner decisions (cores, repeatable bosses, wreck loot, prices)
@@ -199,13 +199,6 @@ elif [ $GAME = sc ]; then
     # flagship kill -> pursuit waves and rival cores
     near flagship2 flag_before; a shell "touch $T/corsair_killflag; chmod 644 $T/corsair_*"; sleep 3; shot flag_killed
     a shell "rm -f $T/corsair_killflag"; sleep 12; shot pursuit_1; sleep 35; shot pursuit_2; sleep 45; shot pursuit_3
-    # station: dock (music after), refit page
-    near station1 station; a shell "touch $T/corsair_dock; chmod 644 $T/corsair_*"; sleep 8; shot docked; dump docked
-    log "dock: $(grep "ModDev.*dock" $LG | tail -1)"
-    a shell am start -n $PKG/.activity.MyShipActivity_ >/dev/null; sleep 6; shot myship
-    for i in 1 2 3; do a shell input swipe 1300 900 1300 300 400; sleep 1; done; shot myship_refit
-    tap_text "^REFIT$" refit && { sleep 3; shot refit_bought; dump refit; }
-    back 3; back 3; a shell "rm -f $T/corsair_dock"; sleep 4; shot undocked
     # v37 missions in their own sectors: hold zone with outpost (The Wave), escort from a station (Heliostat)
     mission FACTION_SPARTAN_3; goto THE_WAVE; sleep 4; log "plan: $(grep "plan FACTION_SPARTAN_3" $LG | tail -1)"; near objective2 outpost; sleep 20; shot outpost_wave1; sleep 20; shot outpost_wave2
     mission FACTION_HELION_1; goto HELIOSTAT; sleep 4; log "plan: $(grep "plan FACTION_HELION_1" $LG | tail -1)"; near objective3 courier; sleep 8; shot courier_moving
@@ -219,6 +212,12 @@ elif [ $GAME = sc ]; then
     # death -> respawn -> music
     a shell "touch $T/corsair_die; chmod 644 $T/corsair_*"; sleep 2; shot death_1; sleep 6; shot death_after; a shell "rm -f $T/corsair_die"
     sleep 20; shot after_respawn
+    # last: docking (the station screen stays up afterwards)
+    goto ORE_BELT
+    # station: dock (music after), refit page
+    near station1 station; a shell "touch $T/corsair_dock; chmod 644 $T/corsair_*"; sleep 8; shot docked; dump docked
+    log "dock: $(grep "ModDev.*dock" $LG | tail -1)"
+    back 3; back 3; a shell "rm -f $T/corsair_dock"; sleep 4; shot undocked
     grep -E "ModDev|ModFaction|ModSound|RARE SALVAGE|core|FATAL" $LG > $OUT/v37_events.txt
     log "music log lines: $(grep -c "ModSound.*music" $LG); playing=false lines: $(grep -c "ModSound.*playing=false" $LG)"
     a shell "rm -f $T/corsair_goto $T/corsair_near $T/corsair_mission $T/corsair_musiclog"
