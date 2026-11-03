@@ -202,6 +202,37 @@ elif [ $GAME = sc ]; then
       grep -E "ModTest|ModDev|v38|FATAL" $LG > $OUT/v38_events.txt
       a shell "rm -f $T/corsair_refit $T/corsair_v38log"
     fi
+    # ---- v39 (owner 2026-11-03 12:41): Leviathan anchor stance shield wall
+    if [ "$STAGE" = V39 ]; then
+      put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+      flag() { a shell "touch $T/$1; chmod 644 $T/corsair_*"; }
+      LG=$OUT/logcat_live.txt
+      stick() { a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE $1 $2; }
+      unstick() { a shell input motionevent UP 222 650; sleep 0.3; }
+      waitn() { for w in $(seq 1 $2); do [ $(grep -c "v39anchor plant" $LG) -ge $1 ] && return 0; sleep 1; done; return 1; }
+      put corsair_refit 10; sleep 1
+      waitn 1 25; log "plant1 seen=$?"
+      shot anchor_plant; shot anchor_deploy; sleep 1; shot anchor_up
+      put corsair_spawn albatros,elite; sleep 4; for k in 1 2 3 4; do shot anchor_fight_$k; done
+      put corsair_wallpct 20; sleep 1; shot anchor_low
+      stick 222 650; sleep 0.8; shot anchor_try; sleep 1.0; shot anchor_lift_1; sleep 1.0; shot anchor_lift_2; sleep 1.2; shot anchor_fold; unstick
+      flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn"
+      put corsair_wallpct 100
+      waitn 2 40; log "plant2 seen=$?"
+      sleep 2
+      # doomsday while planted, steer during the lance: lifts the anchor; thrust must come back after the overcharge
+      for w in $(seq 1 16); do dump doomwait; grep -q 'text="DOOMSDAY LANCE"' $OUT/last.xml && break; sleep 2; done
+      tap_text "DOOMSDAY LANCE" doombtn_anchor; sleep 6; shot anchor_doom_lance
+      stick 420 860; sleep 2.5; shot anchor_doom_steer; unstick
+      sleep 12; stick 222 650; sleep 3; shot anchor_after_doom_move; unstick
+      # break: wall at 1%, enemies shooting
+      put corsair_wallpct 99; waitn 3 40; log "plant3 seen=$?"
+      sleep 2; put corsair_wallpct 1; put corsair_spawn albatros,elite; sleep 3; for k in 1 2 3; do shot anchor_break_$k; done
+      flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn $T/corsair_wallpct"
+      log "EVIDENCE v39anchor: $(grep -E "v39anchor" $LG | sed 's/^.*): //' | tr '\n' ' ')"
+      grep -E "ModTest|v39|FATAL|AndroidRuntime" $LG > $OUT/v39_events.txt
+      a shell "rm -f $T/corsair_refit"
+    fi
     # v33: every flagship's batteries + skill callouts (logcat ModCapitals / ModTitanAI); the reaver harpoon goes last
     CAPS="ironclad spartan helion warden kretari varn reaver"; [ -n "$QUICK" ] && CAPS="ironclad helion"; [ -n "$STAGE" ] && CAPS=""
     for C in $CAPS; do
