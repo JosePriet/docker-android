@@ -81,7 +81,7 @@
     iput v0, p0, Lfr/testudo/spacecorsair/game/Config;->Zindex:F
 
     .line 32
-    const v0, 0x3ecccccd    # 0.4f
+    const v0, 0x3f800000    # 1.0f
 
     iput v0, p0, Lfr/testudo/spacecorsair/game/Config;->musicVolums:F
 
@@ -148,7 +148,7 @@
     iput-boolean v2, v0, Lfr/testudo/spacecorsair/game/Config;->vibrationEnabled:Z
 
     .line 61
-    const v1, 0x3ecccccd    # 0.4f
+    const v1, 0x3f800000    # 1.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/game/Config;->musicVolums:F
 

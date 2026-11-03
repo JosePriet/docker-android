@@ -50,6 +50,9 @@ public final class ModRefitPanel {
                         String msg = ModV35.buy();
                         ModDev.ev("refitpanel", String.valueOf(msg));
                         if (msg != null) Toast.makeText(a, msg, Toast.LENGTH_SHORT).show();
+                        try {   // v42 (owner): the station's credit counter shows the new balance at once
+                            if (a instanceof fr.testudo.spacecorsair.activity.StationActivity) ((fr.testudo.spacecorsair.activity.StationActivity) a).updateTexts();
+                        } catch (Throwable t) { /* counter refreshes on the next screen */ }
                         show(a);   // updated level, cost and parts
                     }
                 });

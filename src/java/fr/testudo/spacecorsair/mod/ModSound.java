@@ -43,7 +43,8 @@ public final class ModSound {
     private static float volCache;
     private static long volAt;
     private static final String PREFS = "corsair_audio";
-    private static float sfx = 1.0f;          // sound-effects bar, 0..1 (default 1 = stock loudness)
+    static final float SFX_DEFAULT = 0.7f, MUSIC_DEFAULT = 1.0f;
+    private static float sfx = SFX_DEFAULT;          // sound-effects bar, 0..1 (default 1 = stock loudness)
     private static boolean sfxLoaded;
 
     /** From ModArt.load (game start / GL context creation). Loads once. */
@@ -164,7 +165,22 @@ public final class ModSound {
     private static void loadSfx(Context c) {
         if (sfxLoaded || c == null) return;
         try {
-            sfx = clamp01(c.getApplicationContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE).getFloat("sfx", 1.0f));
+            android.content.SharedPreferences sp = c.getApplicationContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+            sfx = clamp01(sp.getFloat("sfx", SFX_DEFAULT));
+            // v42: music was still under the effects at default bars. One-time rebalance: a music bar left at the stock 0.4
+            // goes to 1.0 (+8 dB); an effects bar never moved (1.0) goes to SFX_DEFAULT (-3 dB). Bars the player moved are kept.
+            if (!sp.getBoolean("bal42", false)) {
+                if (sfx >= 0.99f) sfx = SFX_DEFAULT;
+                try {
+                    fr.testudo.spacecorsair.game.Config cf = ObjectRegistry.INSTANCE.config;
+                    if (cf != null && Math.abs(cf.musicVolums - 0.4f) < 0.01f) {
+                        cf.musicVolums = MUSIC_DEFAULT;
+                        try { ObjectRegistry.INSTANCE.storageManager.saveConfig(); } catch (Throwable t) { }
+                    }
+                } catch (Throwable t) { }
+                sp.edit().putFloat("sfx", sfx).putBoolean("bal42", true).commit();
+                ModDev.ev("audio", "bal42 music=" + MUSIC_DEFAULT + " sfx=" + sfx);
+            }
             sfxLoaded = true;
         } catch (Throwable t) { /* keep 1 */ }
     }

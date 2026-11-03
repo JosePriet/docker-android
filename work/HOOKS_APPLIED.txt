@@ -13,3 +13,4 @@ hooks42a applied Tue Nov  3 22:36:17 UTC 2026
 hooks42b applied Tue Nov  3 22:36:17 UTC 2026
 hooks42d applied Tue Nov  3 22:40:53 UTC 2026
 hooks42e applied Tue Nov  3 23:33:03 UTC 2026
+hooks42f.py: Config.musicVolums default 0.4 -> 1.0 (2 sites)

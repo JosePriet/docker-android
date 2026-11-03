@@ -72,12 +72,36 @@
 
     invoke-virtual {v0}, Landroid/widget/Toast;->show()V
 
-    .line 53
+    .line 54
     :cond_19
+    :try_start_19
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitPanel$1;->val$a:Landroid/app/Activity;
+
+    instance-of v0, v0, Lfr/testudo/spacecorsair/activity/StationActivity;
+
+    if-eqz v0, :cond_26
+
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitPanel$1;->val$a:Landroid/app/Activity;
+
+    check-cast v0, Lfr/testudo/spacecorsair/activity/StationActivity;
+
+    invoke-virtual {v0}, Lfr/testudo/spacecorsair/activity/StationActivity;->updateTexts()V
+    :try_end_26
+    .catch Ljava/lang/Throwable; {:try_start_19 .. :try_end_26} :catch_2c
+
+    .line 56
+    :cond_26
+    :goto_26
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitPanel$1;->val$a:Landroid/app/Activity;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModRefitPanel;->show(Landroid/app/Activity;)V
 
-    .line 54
+    .line 57
     return-void
+
+    .line 55
+    :catch_2c
+    move-exception v0
+
+    goto :goto_26
 .end method

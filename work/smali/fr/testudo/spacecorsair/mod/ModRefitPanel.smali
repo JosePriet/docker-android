@@ -56,7 +56,7 @@
 
     invoke-virtual {v0}, Landroid/widget/Toast;->show()V
 
-    .line 62
+    .line 65
     :goto_1e
     return-void
 
@@ -497,11 +497,11 @@
 
     invoke-virtual {v0, v3, v4}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
-    .line 57
+    .line 60
     :cond_1b1
     invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
 
-    .line 58
+    .line 61
     const-string v3, "refitpanel"
 
     new-instance v0, Ljava/lang/StringBuilder;
@@ -541,11 +541,11 @@
 
     goto/16 :goto_1e
 
-    .line 59
+    .line 62
     :catch_1d9
     move-exception v0
 
-    .line 60
+    .line 63
     const-string v1, "ModRefitPanel"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -597,7 +597,7 @@
 
     goto/16 :goto_169
 
-    .line 58
+    .line 61
     :cond_209
     new-instance v0, Ljava/lang/StringBuilder;
 
