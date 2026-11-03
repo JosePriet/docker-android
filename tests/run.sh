@@ -214,22 +214,22 @@ elif [ $GAME = sc ]; then
       waitn 1 25; log "plant1 seen=$?"
       shot anchor_plant; shot anchor_deploy; sleep 1; shot anchor_up
       put corsair_spawn albatros,elite; sleep 3
-      put corsair_volley 9,a; shot anchor_volley_1; shot anchor_volley_2; sleep 2; put corsair_volley 9,b; sleep 1; shot anchor_volley_3
+      # v39b2 (owner 8): 240-degree wall: a 13-shot fan across +-115 deg, then two quick volleys (agitation), hits + dents
+      put corsair_volley 13,a,115; shot anchor_fan_1; shot anchor_fan_2; sleep 1
+      put corsair_volley 9,b,60; sleep 0.6; put corsair_volley 9,b2,60; shot anchor_rapid_1; shot anchor_rapid_2
       put corsair_wallpct 20; sleep 1; shot anchor_low
-      stick 222 650; sleep 1.7; put corsair_volley 9,c; shot anchor_lift_volley; unstick; sleep 0.5; shot anchor_fold
+      stick 222 650; sleep 1.7; put corsair_volley 9,c; shot anchor_break_1; shot anchor_break_2; unstick
       flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn"
-      put corsair_wallpct 100
+      sleep 1; shot anchor_recharge_1; sleep 2; shot anchor_recharge_2
+      put corsair_wallpct 98; sleep 1.2; shot anchor_ready
       waitn 2 40; log "plant2 seen=$?"
       sleep 2
-      # doomsday while planted, steer during the lance: lifts the anchor; thrust must come back after the overcharge
+      # doomsday while planted: shots during the charge must cost the wall 50% instead of 65% of their damage
+      put corsair_spawn albatros,elite; sleep 2
       for w in $(seq 1 16); do dump doomwait; grep -q 'text="DOOMSDAY LANCE"' $OUT/last.xml && break; sleep 2; done
-      tap_text "DOOMSDAY LANCE" doombtn_anchor; sleep 6; shot anchor_doom_lance
+      tap_text "DOOMSDAY LANCE" doombtn_anchor; sleep 1; put corsair_volley 9,g; sleep 2; shot anchor_doom_charge_hit; sleep 3; shot anchor_doom_lance
       stick 420 860; sleep 2.5; shot anchor_doom_steer; unstick
       sleep 12; stick 222 650; sleep 3; shot anchor_after_doom_move; unstick
-      # break: wall at 1%, enemies shooting
-      put corsair_wallpct 99; waitn 3 40; log "plant3 seen=$?"
-      sleep 2; put corsair_wallpct 1; put corsair_spawn albatros,elite; sleep 3; put corsair_volley 9,d; shot anchor_break_1; shot anchor_break_2
-      sleep 3; put corsair_volley 9,e; sleep 3; put corsair_volley 1,f; sleep 1
       flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn $T/corsair_wallpct $T/corsair_volley"
       log "EVIDENCE v39anchor: $(grep -E "v39anchor" $LG | sed 's/^.*): //' | tr '\n' ' ')"
       grep -E "ModTest|v39|FATAL|AndroidRuntime" $LG > $OUT/v39_events.txt
