@@ -466,7 +466,7 @@
 
     const/4 v2, 0x7
 
-    const/16 v3, 0x3c
+    const/16 v3, 0x5a
 
     invoke-static {v3}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
@@ -494,23 +494,23 @@
 
     const/16 v2, 0xb
 
-    const-string v3, "Reaver pressure has reached Spartan HQ. Aegis will anchor the outer defense zone while the Republic fleet closes ranks. Hold the position beside the flagship until the line is secure."
+    const-string v3, "Raider waves are growing stronger at our outpost in The Wave. Hold its zone for 90 seconds and keep the outpost intact; lose it and the mission fails. The Republic\'s line holds where we stand."
 
     aput-object v3, v1, v2
 
-    const-string v2, "Hold the marked defense zone for 60 seconds with Srs Aegis as an ally."
+    const-string v2, "Hold the outpost zone in The Wave for 90 seconds. If the outpost is destroyed, the mission fails."
 
     aput-object v2, v1, v9
 
     const/16 v2, 0xd
 
-    const-string v3, "Aegis holds the line. The Republic will remember who stood beside it."
+    const-string v3, "The outpost holds. The Republic will remember who stood the watch."
 
     aput-object v3, v1, v2
 
     const/16 v2, 0xe
 
-    const-string v3, "The defense zone is lost. Aegis withdraws to regroup."
+    const-string v3, "The outpost is lost. The Republic must regroup."
 
     aput-object v3, v1, v2
 
@@ -603,11 +603,11 @@
 
     const/16 v2, 0xb
 
-    const-string v3, "The Reavers built their fleet from other people\'s wreckage. Prove you can work the old way: gather salvage in Pirate Bay and sell it at our market. Your cut buys a place in the next raid."
+    const-string v3, "Our fleet runs on other people\'s wreckage. Gather salvage cargo in Constellation, then dock at the Reaver market in Pirate Bay to sell it. Your cut buys a place in the next raid."
 
     aput-object v3, v1, v2
 
-    const-string v2, "Gather wreck salvage in Pirate Bay and sell it at the Reaver market."
+    const-string v2, "Collect salvage cargo in Constellation, then dock at the Reaver market in Pirate Bay to sell it."
 
     aput-object v2, v1, v9
 
@@ -1055,11 +1055,11 @@
 
     const/16 v3, 0xb
 
-    const-string v4, "Varn harvesters followed the beacon to the Hive and cut into the outer brood. Destroy five Syndicate ships in the Hive. The Brood will answer every mark they left."
+    const-string v4, "Varn harvesters followed the beacon to Delta Node, on the Hive\'s doorstep. Destroy 5 Syndicate ships there. The Brood will answer every mark they left."
 
     aput-object v4, v2, v3
 
-    const-string v3, "Destroy 5 Varn Syndicate ships threatening The Hive."
+    const-string v3, "Destroy 5 Varn Syndicate ships in Delta Node, on the Hive\'s doorstep."
 
     aput-object v3, v2, v9
 
@@ -1071,7 +1071,7 @@
 
     const/16 v3, 0xe
 
-    const-string v4, "The harvesters remain. The brood must retreat deeper into the Hive."
+    const-string v4, "The harvesters remain at our doorstep. The brood must retreat deeper into the Hive."
 
     aput-object v4, v2, v3
 
@@ -1142,7 +1142,7 @@
 
     const/4 v3, 0x7
 
-    const/16 v4, 0x3c
+    const/16 v4, 0x5a
 
     invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
@@ -1170,23 +1170,23 @@
 
     const/16 v3, 0xb
 
-    const-string v4, "The nest is exposed while the young move below the crust. Hold the marked zone beside the Brood-Mother until the brood is safe. The Hive has no second home."
+    const-string v4, "The nest in Green Border is exposed while the young move below the crust. Hold the outpost zone for 90 seconds. If the outpost is destroyed, the mission fails. The Brood cannot lose this nest."
 
     aput-object v4, v2, v3
 
-    const-string v3, "Hold the marked nest zone for 60 seconds with the Brood-Mother as an ally."
+    const-string v3, "Hold the outpost zone in Green Border for 90 seconds. If the outpost is destroyed, the mission fails."
 
     aput-object v3, v2, v9
 
     const/16 v3, 0xd
 
-    const-string v4, "The nest is sealed. The Brood-Mother withdraws with the young alive."
+    const-string v4, "The nest is secure. The young are safe below the crust."
 
     aput-object v4, v2, v3
 
     const/16 v3, 0xe
 
-    const-string v4, "The nest is overrun. The Brood-Mother carries the surviving young into hiding."
+    const-string v4, "The nest is overrun. The surviving young must seek shelter elsewhere."
 
     aput-object v4, v2, v3
 
@@ -1281,11 +1281,11 @@
 
     const/16 v3, 0xb
 
-    const-string v4, "A sealed account crate must reach Omicron Prime intact. It contains the original contract for the Reaver convoy losses, and therefore a useful kind of truth: one that can be audited."
+    const-string v4, "Collect the sealed account crate in The Vault, carry it to Omicron Prime and dock at a station to deliver it. It holds the original contract for the Reaver convoy losses. If your ship is destroyed, the crate is lost. An audit needs evidence."
 
     aput-object v4, v2, v3
 
-    const-string v3, "Deliver the sealed account crate to the station at Omicron Prime."
+    const-string v3, "Collect the crate in The Vault and dock at a station in Omicron Prime to deliver it."
 
     aput-object v3, v2, v9
 
@@ -1297,7 +1297,7 @@
 
     const/16 v3, 0xe
 
-    const-string v4, "The account crate did not arrive. The contract remains easy to deny."
+    const-string v4, "The crate was not delivered. The contract remains easy to deny."
 
     aput-object v4, v2, v3
 
@@ -1616,11 +1616,11 @@
 
     const/16 v2, 0xb
 
-    const-string v3, "The belt\'s claims are disputed again, and the miners cannot afford another shutdown. Gather ore and sell it at our refinery. The militia will put the proceeds into keeping the rigs and crews supplied."
+    const-string v3, "The claims are disputed again, and the miners cannot afford another shutdown. Gather ore cargo in Hugo Wisdom, then dock at the Ironclad refinery in Ore Belt to sell it. The proceeds will keep the rigs and crews supplied."
 
     aput-object v3, v1, v2
 
-    const-string v2, "Gather ore in Ore Belt and sell it at the Ironclad refinery."
+    const-string v2, "Collect ore cargo in Hugo Wisdom and dock at the Ironclad refinery in Ore Belt to sell it."
 
     aput-object v2, v1, v9
 
@@ -1703,7 +1703,9 @@
 
     const/4 v3, 0x7
 
-    invoke-static {v5}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+    const/4 v4, 0x4
+
+    invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
     move-result-object v4
 
@@ -1717,7 +1719,7 @@
 
     const/16 v3, 0x9
 
-    const-string v4, ""
+    const-string v4, "waves"
 
     aput-object v4, v2, v3
 
@@ -1729,23 +1731,23 @@
 
     const/16 v3, 0xb
 
-    const-string v4, "Ore prices mean nothing if the workers cannot reach the refinery. Keep the civilian mining traffic safe in the belt. Every ship that makes it home keeps the militia supplied and the settlement alive."
+    const-string v4, "Ore prices mean nothing if the workers cannot get through. Meet the mining convoy in Ventohigh and protect it through 4 raider waves. Every ship that survives keeps the militia supplied and the settlement alive."
 
     aput-object v4, v2, v3
 
-    const-string v3, "Protect civilian mining traffic in the Ore Belt lanes."
+    const-string v3, "Meet the mining convoy in Ventohigh and protect it through 4 raider waves."
 
     aput-object v3, v2, v9
 
     const/16 v3, 0xd
 
-    const-string v4, "The miners make it through. The belt stays in Ironclad hands."
+    const-string v4, "The convoy made it through. The militia has supplies, and the miners can work another shift."
 
     aput-object v4, v2, v3
 
     const/16 v3, 0xe
 
-    const-string v4, "The traffic breaks apart. The miners pull back behind the refinery shields."
+    const-string v4, "The convoy is scattered. The miners cannot risk another passage."
 
     aput-object v4, v2, v3
 
@@ -1816,7 +1818,7 @@
 
     const/4 v3, 0x7
 
-    const/16 v4, 0x3c
+    const/16 v4, 0x5a
 
     invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
@@ -1844,23 +1846,23 @@
 
     const/16 v3, 0xb
 
-    const-string v4, "The Crimson Reavers are pressing toward the refinery. IMS Bastion will hold the center. Stay beside the flagship and defend the marked zone until the miners can evacuate the exposed works."
+    const-string v4, "Crimson Reavers are pressing our outpost in Hermes. Hold its zone for 90 seconds and keep the outpost standing; if it is destroyed, the mission fails. Give the miners time to evacuate the exposed works."
 
     aput-object v4, v2, v3
 
-    const-string v3, "Hold the marked defense zone for 60 seconds with Ims Bastion as an ally."
+    const-string v3, "Hold the outpost zone in Hermes for 90 seconds. If the outpost is destroyed, the mission fails."
 
     aput-object v3, v2, v9
 
     const/16 v3, 0xd
 
-    const-string v4, "Bastion holds. The miners have time to get clear of the belt."
+    const-string v4, "The outpost holds. The miners have time to get clear."
 
     aput-object v4, v2, v3
 
     const/16 v3, 0xe
 
-    const-string v4, "The line gives way. Bastion covers the retreat from the refinery."
+    const-string v4, "The outpost is lost. Pull back and get the remaining miners clear."
 
     aput-object v4, v2, v3
 
@@ -1943,35 +1945,35 @@
 
     const/16 v3, 0x9
 
-    const-string v4, "Lumen"
+    const-string v4, ""
 
     aput-object v4, v2, v3
 
     const/16 v3, 0xa
 
-    const-string v4, "CONSTELLATION"
+    const-string v4, ""
 
     aput-object v4, v2, v3
 
     const/16 v3, 0xb
 
-    const-string v4, "The courier Lumen carries drive parts needed by three Helion convoys. Escort it from Heliostat to Constellation. A late delivery costs money; a lost one costs the crews their route home."
+    const-string v4, "Lumen carries drive parts for three Helion convoys. Meet the courier at a station in Heliostat, escort it through the gate, then on to a station in Constellation. A late delivery costs money; a lost one costs crews their route home."
 
     aput-object v4, v2, v3
 
-    const-string v3, "Escort the Helion courier Lumen from Heliostat to Constellation."
+    const-string v3, "Meet Lumen at a Heliostat station; escort it through the gate to a station in Constellation."
 
     aput-object v3, v2, v9
 
     const/16 v3, 0xd
 
-    const-string v4, "Lumen reaches Constellation. The convoys can keep to schedule."
+    const-string v4, "Lumen has reached the station in Constellation. The convoys can keep to schedule."
 
     aput-object v4, v2, v3
 
     const/16 v3, 0xe
 
-    const-string v4, "Lumen did not arrive. Helion has to reroute the parts and absorb the delay."
+    const-string v4, "Lumen did not arrive. Helion must reroute the parts and absorb the delay."
 
     aput-object v4, v2, v3
 
@@ -2294,11 +2296,11 @@
 
     const/16 v3, 0xb
 
-    const-string v4, "Raider Hex has been preying on unarmed traffic along the Highway. Bring the ship in under the Authority\'s posted bounty. Frontier law starts with making the lanes safe enough to use."
+    const-string v4, "Hex has been preying on unarmed traffic along the Highway. The raider now hides in Lost Paradise, next to the Highway. Claim the Authority\'s posted bounty. Frontier law begins with lanes safe enough to use."
 
     aput-object v4, v2, v3
 
-    const-string v3, "Hunt the Reaver raider Hex in Highway and claim the posted bounty."
+    const-string v3, "Hunt the Reaver raider Hex in Lost Paradise, next to the Highway, and claim the bounty."
 
     aput-object v3, v2, v9
 

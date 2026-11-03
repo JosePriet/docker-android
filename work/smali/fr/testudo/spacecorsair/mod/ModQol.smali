@@ -3796,7 +3796,7 @@
     invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->commit()Z
 
     .line 129
-    const-string v0, "Mod v21: the seven factions now have commanders and story chains (21 missions). Fly to a faction HQ and press HAIL to talk to its commander aboard the flagship: Spartan HQ, Pirate Bay, The Hive, Omicron Prime, Ore Belt, Heliostat, Highway. Chains open from level 10 and end in battles beside, or against, the flagships. The Leviathan and Crimson Throne have new hulls and turrets, and every faction flagship has new turrets."
+    const-string v0, "Mod v21: the seven factions now have commanders and story chains (21 missions). Fly to a faction HQ and press TALK TO COMMANDER to talk to its commander aboard the flagship: Spartan HQ, Pirate Bay, The Hive, Omicron Prime, Ore Belt, Heliostat, Highway. Chains open from level 10 and end in battles beside, or against, the flagships. The Leviathan and Crimson Throne have new hulls and turrets, and every faction flagship has new turrets."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
@@ -3832,7 +3832,7 @@
     invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->commit()Z
 
     .line 136
-    const-string v0, "Mod v22: faction STANDINGS (toolbar button). Missions (+15, finale +20) and contracts (+6) raise your standing; allies share half, enemies lose half. Friendly: +10% payouts, the flagship forgives 25% friendly fire. Trusted: +20%, the flagship gives fire support and its HQ sells a secret faction weapon. Honored: +35% and a secret ship (coming next). Each HQ now offers two daily contracts, or amends jobs if you are Unfriendly. New flagship, Nebula Moth and faction emblem art, weapon-family icons, and combat sounds (alerts, all clear, disengaging enemies, low hull alarm, shield collapse)."
+    const-string v0, "Mod v22: faction STANDINGS (toolbar button). Missions (+15, finale +20) and contracts (+8) raise your standing; allies share half, enemies lose half. Friendly: +10% payouts, the flagship forgives 25% friendly fire. Trusted: +20%, the flagship gives fire support and its HQ sells a secret faction weapon. Honored: +35% and a secret ship (coming next). Each HQ now offers two daily contracts, or amends jobs if you are Unfriendly. New flagship, Nebula Moth and faction emblem art, weapon-family icons, and combat sounds (alerts, all clear, disengaging enemies, low hull alarm, shield collapse)."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 

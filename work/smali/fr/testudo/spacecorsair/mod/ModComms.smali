@@ -1141,7 +1141,7 @@
 
     move-result-object v0
 
-    const-string v1, "You are near a faction flagship. Tap HAIL to talk to its commander: story missions, contracts and hand-ins are offered there. The line under the button says whether there is anything for you."
+    const-string v1, "You are near a faction flagship. Tap TALK TO COMMANDER to speak with its commander for story missions, contracts and turn-ins. The line below the button shows if anything is available for you."
 
     .line 361
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2080,7 +2080,7 @@
     invoke-virtual {v0, v1, v2}, Landroid/widget/TextView;->setTextSize(IF)V
 
     .line 435
-    const-string v1, "Gain standing with story missions (+15, finale +20), contracts (+6) and by defending a faction\'s home sector. Allies share half of every change, enemies the opposite. HAIL a faction\'s flagship in its home sector for missions."
+    const-string v1, "Gain standing with story missions (+15, finale +20), contracts (+8) and by defending a faction\'s home sector. Allies share half of every change, enemies the opposite. Talk to a faction\'s commander aboard its flagship in its home sector for missions."
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 

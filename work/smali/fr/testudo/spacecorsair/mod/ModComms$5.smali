@@ -332,7 +332,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/Button;->setVisibility(I)V
     :try_end_cd
-    .catch Ljava/lang/Throwable; {:try_start_31 .. :try_end_cd} :catch_1b4
+    .catch Ljava/lang/Throwable; {:try_start_31 .. :try_end_cd} :catch_1be
 
     .line 346
     :cond_cd
@@ -440,7 +440,17 @@
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v5, "HAIL "
+    const-string v5, "TALK TO COMMANDER"
+
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-virtual {v0, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v5, "<br><small>"
 
     invoke-virtual {v0, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -456,13 +466,13 @@
 
     move-result-object v0
 
-    const-string v5, "<br><small>"
+    const-string v5, " \u00b7 "
 
     invoke-virtual {v0, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v5
 
-    if-eqz v3, :cond_1b7
+    if-eqz v3, :cond_1c1
 
     const-string v0, "Missions"
 
@@ -470,7 +480,7 @@
 
     move-result-object v0
 
-    :goto_13a
+    :goto_144
     invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
@@ -519,7 +529,7 @@
     move-result-object v0
 
     .line 332
-    if-eqz v0, :cond_197
+    if-eqz v0, :cond_1a1
 
     .line 333
     new-instance v2, Landroid/graphics/drawable/BitmapDrawable;
@@ -576,8 +586,8 @@
     invoke-virtual {v0, v2}, Landroid/widget/Button;->setCompoundDrawablePadding(I)V
 
     .line 338
-    :cond_197
-    if-eqz v1, :cond_1a5
+    :cond_1a1
+    if-eqz v1, :cond_1af
 
     const-string v0, "comms_click"
 
@@ -590,7 +600,7 @@
     invoke-static {v0, v2, v3, v4, v5}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
     .line 339
-    :cond_1a5
+    :cond_1af
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$b:Landroid/widget/Button;
 
     const/4 v2, 0x0
@@ -608,20 +618,20 @@
     goto/16 :goto_cd
 
     .line 343
-    :catch_1b4
+    :catch_1be
     move-exception v0
 
     goto/16 :goto_cd
 
     .line 330
-    :cond_1b7
+    :cond_1c1
     const-string v0, "no missions"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-    :try_end_1bc
-    .catch Ljava/lang/Throwable; {:try_start_e0 .. :try_end_1bc} :catch_1b4
+    :try_end_1c6
+    .catch Ljava/lang/Throwable; {:try_start_e0 .. :try_end_1c6} :catch_1be
 
     move-result-object v0
 
-    goto/16 :goto_13a
+    goto/16 :goto_144
 .end method
