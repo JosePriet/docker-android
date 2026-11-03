@@ -175,6 +175,33 @@ elif [ $GAME = sc ]; then
     back 3; return 1
   }
   T=/data/local/tmp
+  # ---- v42 (owner 2026-11-03): police escalation class by class, police titan, police weapons, missile tracking logs
+  if [ "$STAGE" = V42 ]; then
+    LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    flag() { a shell "touch $T/$1; chmod 644 $T/corsair_*"; }
+    unflag() { a shell "rm -f $T/$1"; }
+    goto() { put corsair_goto $1; for i in $(seq 1 60); do sleep 4; need goto_$1; grep -q "goto arrived $1" $LG && break; done
+      log "goto $1 arrived=$(grep -c "goto arrived $1" $LG)"; sleep 4; shot sector_$1; }
+    if fly hullLeviathan Leviathan leviathan; then
+      flag corsair_policelog; flag corsair_misslog
+      put corsair_heat 50
+      goto SPARTAN_HQ
+      for w in 1 2 3 4 5 6 7; do
+        unflag corsair_policewave; sleep 1; flag corsair_policewave; sleep 6; shot wave_${w}_a; sleep 4; shot wave_${w}_b; need wave_$w
+        log "EVIDENCE wave $w: $(grep -iE "police" $LG | tail -3 | sed 's/^.*): //' | tr '\n' ' ')"
+      done
+      for k in 1 2 3 4 5 6; do sleep 5; shot fight_$k; need fight_$k; done
+      unflag corsair_heat; flag corsair_poltitan
+      goto THE_WAVE
+      for k in 1 2 3 4 5 6 7 8; do sleep 4; shot poltitan_$k; need poltitan_$k; done
+      log "EVIDENCE titan: $(grep -E "ModPoliceTitan|LOCKDOWN|SHIELD BREAKER" $LG | tail -8 | sed 's/^.*): //' | tr '\n' ' ')"
+      log "EVIDENCE missiles: $(grep -iE "missile|misslog" $LG | tail -6 | sed 's/^.*): //' | tr '\n' ' ')"
+      grep -iE "police|ModPoliceTitan|ModMissile|missile|v42calm|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v42_events.txt
+      a shell "rm -f $T/corsair_policelog $T/corsair_misslog $T/corsair_poltitan $T/corsair_policewave"
+    fi
+    finish; exit 0
+  fi
   # ---- v41 fix (owner 2026-11-03): Monolith s4/s5 aura + plasma wings rebaked from the preview; screen recordings for the side-by-side
   if [ "$STAGE" = V41M ]; then
     LG=$OUT/logcat_live.txt
