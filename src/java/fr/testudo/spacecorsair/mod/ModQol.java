@@ -739,6 +739,8 @@ public class ModQol {
             int lvl = requested;
             LevelId id = ObjectRegistry.INSTANCE.game.currentLevel != null ? ObjectRegistry.INSTANCE.game.currentLevel.id : null;
             if (id == LevelId.HIGHWAY) lvl = Math.max(lvl, ObjectRegistry.INSTANCE.game.playerInfo.level + 2);
+            if (id != null && id.levelMax > 0) lvl = Math.min(lvl, id.levelMax);   // v42 (owner): police never above the sector top level
+            if (lvl < p.level) p.level = lvl;   // v42: label never above the sector top
             if (lvl <= max) {
                 if (lvl != requested && lvl > p.level) {
                     p.level = lvl;

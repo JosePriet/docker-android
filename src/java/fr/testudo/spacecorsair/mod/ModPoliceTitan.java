@@ -48,6 +48,8 @@ public final class ModPoliceTitan {
 
     // ------------------------------------------------------------------ API (ModPolice)
     /** Police titan of faction factionKey (unknown key = Frontier Authority) at {@code at}; null if one is alive or it fails. */
+    static final int TITAN_OVER_PLAYER = 2;   // police titan level >= player level + 2
+
     public static Element spawn(String factionKey, int level, Vector2 at) {
         try {
             if (active() || at == null) return null;
@@ -56,7 +58,9 @@ public final class ModPoliceTitan {
             ModCapitals.Faction f = ModCapitals.FACTIONS[fi];
             if (POL[fi] == null) POL[fi] = new ModCapitals.Faction(f.key, f.name, ModLang.trf("%s Police Titan", f.name), f.hq, POLICE_R, POLICE_G, POLICE_B);
             // v42 fix (owner: police level capped at the sector's top level): the level ModPolice passes, never above it
-            int lvl = Math.max(0, Math.min(ModV34.CAP, level));
+            // owner 2026-11-03 22:22 (card pending, recommended option): titans always out-level the player -> max(sector top, player + 2)
+            int pl = ObjectRegistry.INSTANCE.game.playerInfo != null ? ObjectRegistry.INSTANCE.game.playerInfo.level : 0;
+            int lvl = Math.max(0, Math.min(ModV34.CAP, Math.max(level, pl + TITAN_OVER_PLAYER)));
             GuardianCivilShip g = ModCapitals.spawnPolice(fi, lvl, at, POL[fi], POLICE_TITAN_MULT);
             if (g == null) return null;
             float[] sh = ModV34.shieldStats(lvl, lvl, ModShips.TITAN);   // flagships carry none: a titan-class one, x1.2
