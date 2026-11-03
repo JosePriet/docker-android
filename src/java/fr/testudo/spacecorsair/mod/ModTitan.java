@@ -557,19 +557,23 @@ public final class ModTitan {
     /** v42 (owner 2026-11-03 23:33/23:34, Q1): doomsday damage. One whole shot takes at most 10% of a titan's hull and 15% of a
      *  capital's, flagship's or mission boss's, spread evenly over the lance ticks; this % damage ignores resistances and shields. Every other ship takes a fixed 100,000 damage per
      *  second (split per beam tick), which does go through its resistances and shields. */
-    static final float DOOM_TITAN_PCT = 0.10f, DOOM_BIG_PCT = 0.15f, DOOM_FIXED_PER_S = 100000f;
+    static final float DOOM_TITAN_PCT = 0.10f, DOOM_BIG_PCT = 0.15f, DOOM_FIXED_PER_S = 100000f;   // Spartan Leviathan (#1 human titan)
+    static final float DOOM_TITAN_PCT_OTHER = 0.07f, DOOM_BIG_PCT_OTHER = 0.10f;                   // every other titan (owner 23:35)
+    /** Owner 23:36: the alien (Kre'tari) titan's doomsday: 15% vs titans, 20% vs bosses. No flyable alien titan has a doomsday yet. */
+    static final float DOOM_TITAN_PCT_ALIEN = 0.15f, DOOM_BIG_PCT_ALIEN = 0.20f;
     /** % hull already taken from each target by the current shot (cleared when a new shot charges). */
     static final java.util.Map<Element, Float> doomDealt = new java.util.WeakHashMap<Element, Float>();
     static final int DOOM_LANCE_TICKS = 22;
 
     private static void doomHit(Element e, float base, int tickMs) {
         float pct = -1;
+        float tp = levSeq ? DOOM_TITAN_PCT : DOOM_TITAN_PCT_OTHER, bp = levSeq ? DOOM_BIG_PCT : DOOM_BIG_PCT_OTHER;
         boolean flagship = ModCapitals.cap(e) != null;
-        if (flagship && ModPoliceTitan.isPoliceTitan(e)) pct = DOOM_TITAN_PCT;                 // police titans are titans
-        else if (flagship || ModBoss.isBoss(e)) pct = DOOM_BIG_PCT;
-        else if (titanClass.containsKey(e)) pct = DOOM_TITAN_PCT;
+        if (flagship && ModPoliceTitan.isPoliceTitan(e)) pct = tp;                 // police titans are titans
+        else if (flagship || ModBoss.isBoss(e)) pct = bp;
+        else if (titanClass.containsKey(e)) pct = tp;
         else if (e instanceof fr.testudo.spacecorsair.business.ennemis.Ennemis
-                 && ModV35.enemyClass((fr.testudo.spacecorsair.business.ennemis.Ennemis) e) >= ModShips.CAPITAL) pct = DOOM_BIG_PCT;
+                 && ModV35.enemyClass((fr.testudo.spacecorsair.business.ennemis.Ennemis) e) >= ModShips.CAPITAL) pct = bp;
         if (pct > 0) {
             Float done = doomDealt.get(e);
             float d0 = done == null ? 0 : done, step = Math.min(pct / DOOM_LANCE_TICKS, pct - d0);
