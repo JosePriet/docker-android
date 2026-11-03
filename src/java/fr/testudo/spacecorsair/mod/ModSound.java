@@ -30,7 +30,8 @@ public final class ModSound {
 
     public static final String[] NAMES = {"wpn_rail", "wpn_auto", "wpn_arty", "wpn_blast", "wpn_disint", "wpn_arc", "gun_medium", "gun_heavy", "titan_leviathan", "titan_throne", "titan_dev", "doom_charge", "doom_lance", "doom_nova", "warp_in", "titan_missile",
         "titan_blast", "bay_launch", "repair", "hull_breach", "engine_rumble",
-        "combat_start", "all_clear", "disengage", "hull_alarm", "shield_down", "flagship_horn", "mission_ok", "mission_fail", "rank_up", "comms_click"};
+        "combat_start", "all_clear", "disengage", "hull_alarm", "shield_down", "flagship_horn", "mission_ok", "mission_fail", "rank_up", "comms_click",
+        "lev_doom_charge", "lev_doom_fire", "lev_doom_over"};   // v38: Spartan Leviathan doomsday (synth plan C, split at 5.4 s and 10.0 s)
 
     private static volatile SoundPool pool;   // published only after ids are filled (init runs on the GL thread)
     private static boolean initDone;

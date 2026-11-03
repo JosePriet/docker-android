@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 662
+    .line 713
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 3
 
     .prologue
-    .line 663
+    .line 714
     const/4 v0, 0x1
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->request:Z

@@ -351,6 +351,7 @@ public final class ModCaps {
             }
         }
         ModMonolith.under(ps);   // v38: Monolith s4/s5 aura, wings, plasma (under the hull)
+        ModLevDoom.drawUnder(ps);   // v38: Leviathan doomsday, space dims during the charge
         // engine plumes
         if (p.flames) {
             float[] e = ModFxData.ENGINES[p.data];
@@ -414,6 +415,7 @@ public final class ModCaps {
             if (hd != null) ModLive.living(ps, hd, false, thrust, true);
             ModShield.draw(ps);
             ModTitan.drawTurrets(ps, p);
+            ModLevDoom.drawOver(ps);   // v38: Leviathan doomsday overlays (spine gauge, ring cage, trims, core, overheat)
 
             if (p.top || p.titan) {
                 // pulsing hull lights

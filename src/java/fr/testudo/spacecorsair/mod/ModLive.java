@@ -278,9 +278,11 @@ public final class ModLive {
         if (before(s[2])) la = Math.min(1.0f, la + 0.35f);           // flinch flash
         float lr = 1, lg = 1, lb = 1;
         if (enemy) { lr = 1.0f; lg = 0.8f; lb = 0.75f; }
+        if (!enemy && e.isPlayer) la *= ModLevDoom.lightMul();   // v38: Leviathan doomsday power-down / reboot
         ModFx.sprR(nm[0], x, y, w, w, sp, lr, lg, lb, la, true);
         // engines follow thrust; enemies burn red-shifted
         float ea = 0.18f + 0.82f * Math.max(0, Math.min(1, thrust));
+        if (!enemy && e.isPlayer) ea *= ModLevDoom.engineMul();
         if (enemy) ModFx.sprR(nm[1], x, y, w, w, sp, 1.0f, 0.42f, 0.3f, ea, true);
         else ModFx.sprR(nm[1], x, y, w, w, sp, 1, 1, 1, ea, true);
         if (alien) {

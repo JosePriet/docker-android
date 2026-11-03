@@ -270,7 +270,7 @@ public final class ModTitan {
     }
 
     // ------------------------------------------------------------------ doomsday
-    static final int READY = 0, CHARGE = 1, FIRE = 2, COOL = 3;
+    static final int READY = 0, CHARGE = 1, FIRE = 2, COOL = 3, OVER = 4;   // OVER: v38 Leviathan overcharge (moves, no weapons)
     /** Emulator tests only (/data/local/tmp/corsair_doomhold): keep the beam firing so screenshots catch it. */
     static boolean holdFire;
     private static int state = COOL;
@@ -288,6 +288,9 @@ public final class ModTitan {
     private static float novaRadius;
     private static int coolSec = -1;
     private static String coolLabel;
+    private static boolean levSeq;          // v38: the running cycle is the Spartan Leviathan sequence (ModLevDoom)
+    private static float desiredSpin;       // v38: where the player steers while the lance fires (turns at 5 deg/s)
+    private static int coolTotal = 1;
 
     // per kind: charge ms, fire ms, cooldown ms, base damage per tick, per-level damage, tick ms, length/radius, width
     private static final int[] CHARGE_MS = {0, 2500, 2000, 1200};
@@ -304,7 +307,12 @@ public final class ModTitan {
 
     /** Hook (Mod.launchDrones prologue and missiles): nothing else fires while the doomsday runs. */
     public static boolean blocksMissiles() {
-        return busy();
+        return busy() || state == OVER;
+    }
+
+    /** v38: the player's Spartan Leviathan with its doomsday cycle (ModLevDoom overlays). */
+    static boolean isLeviathanSeq(PlayerShip ps) {
+        return kind(ps) == LEVIATHAN && ModLevDoom.is(ModCaps.profile(ps));
     }
 
     /** Per frame from ModShips.tick (replaces the old automatic lance). */
@@ -321,6 +329,9 @@ public final class ModTitan {
             ownerKind = k;
             state = COOL;
             timer = k == DEV ? 3000 : 20000;
+            coolTotal = timer;
+            levSeq = false;
+            ModLevDoom.stop();
         }
         uiKind = k;
         lastTick = System.currentTimeMillis();
@@ -330,7 +341,7 @@ public final class ModTitan {
             return;
         }
         if (map || ps.removed) {
-            if (busy()) { release(ps); state = COOL; timer = COOL_MS[k] / 3; }
+            if (busy() || state == OVER) { release(ps); state = COOL; timer = COOL_MS[k] / 3; coolTotal = timer; }
             label = "";
             request = false;
             return;
@@ -338,7 +349,8 @@ public final class ModTitan {
         switch (state) {
             case COOL:
                 timer -= j;
-                if (timer <= 0) { state = READY; ModSound.play("repair", 0.4f, 0.7f, 1000); }
+                if (levSeq) ModLevDoom.coolFrac = Math.max(0, Math.min(1, 1 - timer / (float) Math.max(1, coolTotal)));
+                if (timer <= 0) { state = READY; ModSound.play("repair", 0.4f, 0.7f, 1000); if (levSeq) ModLevDoom.gauge = false; }
                 int sec = Math.max(1, (timer + 999) / 1000);
                 if (sec != coolSec || coolLabel == null) {   // per frame: build the text once per second
                     coolSec = sec;
@@ -353,9 +365,12 @@ public final class ModTitan {
                     request = false;
                     if (ps.isDocked) break;
                     state = CHARGE;
-                    timer = CHARGE_MS[k];
+                    levSeq = k == LEVIATHAN && ModLevDoom.is(ModCaps.profile(ps));
+                    timer = levSeq ? ModLevDoom.CHARGE_MS : CHARGE_MS[k];
                     lockSpin = ps.spin;
-                    ModSound.play("doom_charge", 1.0f, 1.0f, 500);
+                    desiredSpin = lockSpin;
+                    if (levSeq) ModLevDoom.start(ps);
+                    else ModSound.play("doom_charge", 1.0f, 1.0f, 500);
                     Mod.floatText(ps, k == THRONE ? ModLang.tr("FURNACE NOVA CHARGING") : ModLang.tr("DOOMSDAY CHARGING"), COL[k][0], COL[k][1], COL[k][2]);
                 }
                 break;
@@ -363,20 +378,25 @@ public final class ModTitan {
                 lock(ps, j);
                 timer -= j;
                 label = ModLang.tr("CHARGING");
-                chargeFx(ps, k, 1 - timer / (float) CHARGE_MS[k]);
-                ModQol.addShake(j / 4000.0f);
+                if (levSeq) {
+                    ModLevDoom.chargeTick(ps, j, COL[k]);
+                } else {
+                    chargeFx(ps, k, 1 - timer / (float) CHARGE_MS[k]);
+                    ModQol.addShake(j / 4000.0f);
+                }
                 if (timer <= 0) {
                     state = FIRE;
-                    timer = FIRE_MS[k];
-                    tickAcc = 0;
+                    timer = levSeq ? ModLevDoom.FIRE_MS : FIRE_MS[k];
+                    tickAcc = levSeq ? -ModLevDoom.DAMAGE_DELAY_MS : 0;
                     novaRadius = 200;
-                    ModSound.play(k == THRONE ? "doom_nova" : "doom_lance", 1.0f, 1.0f, 500);
+                    ModSound.play(levSeq ? "lev_doom_fire" : k == THRONE ? "doom_nova" : "doom_lance", 1.0f, 1.0f, 500);
                     ModQol.addShake(0.7f);
                 }
                 break;
             case FIRE:
+                if (levSeq) turn(ps, j);
                 lock(ps, j);
-                if (!holdFire || timer > FIRE_MS[k] / 2) timer -= j;   // test switch freezes the lance mid-fire
+                if (!holdFire || timer > (levSeq ? ModLevDoom.FIRE_MS : FIRE_MS[k]) / 2) timer -= j;   // test switch freezes the lance mid-fire
                 label = ModLang.tr("FIRING");
                 tickAcc += j;
                 if (k == THRONE) novaRadius = Math.min(REACH[k], novaRadius + j * 1.6f);
@@ -388,8 +408,28 @@ public final class ModTitan {
                 ModQol.addShake(j / 900.0f);
                 if (timer <= 0) {
                     release(ps);
+                    if (levSeq) {
+                        ModLevDoom.endRecoil(ps, lockSpin);
+                        state = OVER;
+                        timer = ModLevDoom.OVER_MS;
+                    } else {
+                        state = COOL;
+                        timer = COOL_MS[k];
+                        coolTotal = timer;
+                    }
+                }
+                break;
+            case OVER:
+                // v38: the titan moves again; its guns and launchers stay offline until the overcharge vents
+                timer -= j;
+                label = ModLang.tr("OVERCHARGED");
+                ps.nextShootAlowed = Math.max(ps.nextShootAlowed, 300);
+                ps.nextShootMissileAlowed = Math.max(ps.nextShootMissileAlowed, 300);
+                if (ps.playerCannons != null) for (PlayerCanon c : ps.playerCannons) c.nextShootAllowed = Math.max(c.nextShootAllowed, 300);
+                if (timer <= 0) {
                     state = COOL;
                     timer = COOL_MS[k];
+                    coolTotal = timer;
                 }
                 break;
             default:
@@ -422,6 +462,16 @@ public final class ModTitan {
     }
 
     private static final ArrayList<Element> targets = new ArrayList<Element>();
+
+    /** v38: while the Leviathan lance fires, the hull follows the player's steering at up to 5 deg/s (no translation). */
+    private static void turn(PlayerShip ps, long j) {
+        if (Math.abs(ps.targetAngle - lockSpin) > 0.01f) desiredSpin = ps.targetAngle;   // new stick input (lock() resets it)
+        float d = desiredSpin - lockSpin;
+        while (d > 180) d -= 360;
+        while (d < -180) d += 360;
+        float step = 5.0f * j / 1000f;
+        lockSpin = Element.normalizeSpin(lockSpin + Math.max(-step, Math.min(step, d)));
+    }
 
     private static void damageTick(PlayerShip ps, int k) {
         if (doomShot == null) doomShot = new LaserBeam();
@@ -484,10 +534,10 @@ public final class ModTitan {
     private static void doomHit(Element e, float base) {
         if (titanClass.containsKey(e)) {
             // EVE scale: a titan takes 30-60 doomsdays. A full lance (~20 ticks) removes ~2.5% of a titan-class hull.
-            doomShot.damage = Math.min(base, e.maxLife * 0.00125f);
+            doomShot.damage = Math.min(base, e.maxLife * (levSeq ? ModLevDoom.TITAN_SLICE : 0.00125f));
         } else if (ModBoss.isBoss(e)) {
             // mission bosses: ~8% per full lance, so missions stay winnable but the doomsday never one-shots them
-            doomShot.damage = Math.min(base, e.maxLife * 0.004f);
+            doomShot.damage = Math.min(base, e.maxLife * (levSeq ? ModLevDoom.BOSS_SLICE : 0.004f));
         } else {
             // everything else in the beam is wiped within a few ticks
             doomShot.damage = Math.max(base, e.maxLife * 0.4f);
@@ -611,7 +661,8 @@ public final class ModTitan {
         }
         ModFx.local(ps.position, lockSpin, 0, -sz * 0.48f, a);
         b.set(0, -1).applyRotatation(Math.toRadians(lockSpin));
-        float fade = Math.min(1, timer / 400.0f) * Math.min(1, (FIRE_MS[k] - timer) / 150.0f);
+        float fade = levSeq ? Math.min(1, timer / 500.0f) * Math.min(1, (ModLevDoom.FIRE_MS - timer) / 150.0f)
+            : Math.min(1, timer / 400.0f) * Math.min(1, (FIRE_MS[k] - timer) / 150.0f);
         float len = REACH[k];
         float ex = a.x + b.x * len, ey = a.y + b.y * len;
         float wob = 0.9f + (float) Math.random() * 0.2f;
@@ -726,8 +777,9 @@ public final class ModTitan {
     public static String skillText(int k) {
         switch (k) {
             case LEVIATHAN:
-                return ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): 2.5 s charge, then a 4 s lance straight ahead (2800 range, 60% as wide as the hull) that wipes everything in its path; mission bosses lose ~8% of their hull per lance and titan-class capitals ~2.5% (they take dozens). "
-                    + "The titan cannot move, turn or fire while it charges and fires. 90 s cooldown.");
+                // v38 Spartan Leviathan sequence (EN placeholder: GPT polishes + translates)
+                return ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): the titan locks down and routes power for 5.4 s, then fires a 4.4 s lance (2800 range, 60% as wide as the hull) that wipes everything in its path; mission bosses lose ~12% of their hull per lance and titan-class capitals ~5%. "
+                        + "It cannot move or fire while it charges; while the lance fires it turns slowly (5 deg/s). After the shot it can move, but its weapons stay offline for 2.2 s while it vents. 90 s cooldown.");
             case THRONE:
                 return ModLang.tr("<b>Furnace Nova</b> (DOOMSDAY button): 2 s charge, then a 3.5 s ring of fire that grows to 1400 around the hull and burns everything inside. "
                     + "The titan cannot move, turn or fire while it charges and burns. 75 s cooldown.");
