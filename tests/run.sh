@@ -111,6 +111,21 @@ elif [ $GAME = sc ]; then
   log "direct: Settings"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 4; need settings; shot settings_v36; dump settings_v36
   log "seekbars on settings: $(grep -o 'class="android.widget.SeekBar"' $OUT/last.xml | wc -l)"
   back 3
+  # ---- v41 (owner 2026-11-03): Refit button on the docked station screen (My Ship cannot open while docked)
+  if [ "$STAGE" = V41 ]; then
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt
+    flag() { a shell "touch $T/$1; chmod 644 $T/corsair_*"; }
+    sleep 6; flag corsair_rich; sleep 3
+    flag corsair_dock; for w in $(seq 1 20); do sleep 2; dump dockwait; grep -q 'text="Refit"' $OUT/last.xml && break; done
+    shot station_toolbar; log "Refit on station screen: $(grep -c 'text="Refit"' $OUT/last.xml)"
+    tap_text "^Refit\s*$" refitbtn; sleep 2; shot refit_panel_0
+    for i in 1 2 3; do tap_text "android:id/button1" refitbuy_$i; sleep 2; shot refit_panel_$i; done
+    tap_text "android:id/button2" refitclose; sleep 1; shot refit_closed
+    log "EVIDENCE v41: $(grep -E "refitpanel|ModRefitPanel" $LG | sed 's/^.*): //' | tr '\n' ' ')"
+    grep -E "ModTest|ModRefitPanel|FATAL|AndroidRuntime" $LG > $OUT/v41_events.txt
+    a shell "rm -f $T/corsair_rich $T/corsair_dock"
+    finish; exit 0
+  fi
   # ---- v40 (owner 2026-11-03): hidden test mode. 10 taps on "Killed by the dev" -> LOGIN -> test profile -> LOG OUT
   if [ "$STAGE" = V40 ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
