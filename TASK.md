@@ -1,3 +1,6 @@
+# Current task: v41 Refit button at stations (owner, 2026-11-03 19:48)
+Refits needed docking but My Ship cannot open while docked. Owner card: Refit button on every station menu. Code: ModRefitPanel + ModUi toolbar (ce4b508, 0213423). Changes: /mnt/project-files/audits/v41-changes.md. Emulator sc-v41b passed. Pending: phone test, GPT Spanish.
+
 # Current task: v40 hidden test mode (owner, 2026-11-03 14:49)
 Owner: a hidden "login" for testing, separate from regular play: max level, everything unlocked, whole map visible, every mission repeatable (story too), instant free sector teleport; the login button shows only after tapping the "Killed by the dev" achievement 10 times within 10 s. Card 14:56: unlimited credits + rare parts too.
 Code: ModTestMode.java + src/patch/hooks40.py (7bc8e0a). Change list + phone checklist: /mnt/project-files/audits/v40-changes.md. Emulator sc-v40d passed (login, grants, jumps, missions, logout restores the normal save). Pending: phone test, GPT Spanish for the new strings.
