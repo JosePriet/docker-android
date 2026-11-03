@@ -44,6 +44,9 @@ public class ModPolice {
     /** Heat that unlocks each class FRIGATE..TITAN. */
     public static final int[] UNLOCK = {1, 5, 10, 16, 24, 34, 46};
     public static final float STANDING_TITAN_KILL = -15f;  // plan: -15 standing with the owner faction for a police titan kill
+    /** Owner 23:10: the Spartan wave before the titan brings 2 Monoliths (battleship hulls), plus one Verdant escort. */
+    static final int[] SPARTAN_CAPITAL_WAVE = {ModShips.BATTLESHIP, ModShips.BATTLESHIP, ModShips.BATTLECRUISER};
+    static final long LIGHT_CYCLE_MS = 1200;   // police light bar: red double blink, then blue double blink
     public static final long WAVE_MS = 35000;              // waves every 35 s while heat > 0 and police engaged or heat rose
     public static final int CAP = 8;                       // active police ships
     public static final float GATE_MIN = 2500f;            // a gate closer than this to the player: arrive from 4,500 off instead
@@ -453,6 +456,7 @@ public class ModPolice {
             top = CAPITAL;
         }
         int[] cls = waveClasses(top, 1 + (int) (Math.random() * 2));
+        if (top == CAPITAL && "spartan".equals(ModCapitals.FACTIONS[fi].key)) cls = SPARTAN_CAPITAL_WAVE;   // owner 23:10: 2 Monoliths before the titan
         int n = room(active.size(), cls.length);
         int made = 0;
         for (int k = 0; k < n; k++) {
@@ -510,8 +514,8 @@ public class ModPolice {
     /** "<Faction> Police <class>"; the Reavers and the Kre'tari fly militia. */
     static String name(int fi, int cls) {
         ModCapitals.Faction f = ModCapitals.FACTIONS[fi];
-        boolean militia = "reaver".equals(f.key) || "kretari".equals(f.key);
-        String word = militia ? ModLang.tr("Militia") : ModLang.tr("Police");
+        // owner 23:10: aliens have no police; the Kre'tari send their High Council
+        String word = "kretari".equals(f.key) ? ModLang.tr("High Council") : "reaver".equals(f.key) ? ModLang.tr("Militia") : ModLang.tr("Police");
         return ModLang.spanish() ? className(cls) + " " + word + " " + f.name : f.name + " " + word + " " + className(cls);
     }
 
@@ -563,11 +567,39 @@ public class ModPolice {
                 if (s != null) { s.cap *= SHIELD_BONUS; s.cur = s.cap; s.rate *= SHIELD_BONUS; }
             }
         }
+        try { e.setElite(); } catch (Throwable th) { /* stock stats */ }   // owner 23:10: police / council ships are always elite
         e.specificName = name(fi, cls);
         e.specificNameDecalX = -1;
         if (e.lifeBar != null) e.lifeBar.setValue(100.0f);
         police.put(e, new long[] {cls, cls == FRIGATE ? MISSILE_MS / 2 : MISSILE_MS_BIG, 0});
+        if (!ModPoliceTitan.council(ModCapitals.FACTIONS[fi].key)) lightBar.put(e, (float) h.size);
+        if ("monolith".equals(h.art)) monoAura.put(e, (float) h.size);   // owner 23:13: keep the s5 effect, adapted   // High Council: no police lights
         return e;
+    }
+
+    /** Police ship -> drawn size, for the flashing red/blue light bar (owner 23:10: lights that flash like police cars). */
+    private static final WeakHashMap<Element, Float> lightBar = new WeakHashMap<Element, Float>();
+    private static final Vector2 lb = new Vector2();
+    private static final WeakHashMap<Element, Float> monoAura = new WeakHashMap<Element, Float>();
+
+    /** Hook (ModLive.draw, before the hull): the police Monolith's s5 aura in police white/blue. */
+    static void under(Element e) {
+        Float sz = monoAura.get(e);
+        if (sz != null && !e.removed) ModMonolith.policeAura(e, sz);
+    }
+
+    /** Hook (ModLive.draw, after the hull): the red/blue light bar of a police ship, flashing in a double-blink pattern. */
+    static void lights(Element e) {
+        Float sz = lightBar.get(e);
+        if (sz == null || e.removed) return;
+        long t = System.currentTimeMillis() % LIGHT_CYCLE_MS;
+        boolean redHalf = t < LIGHT_CYCLE_MS / 2;
+        boolean on = (t % (LIGHT_CYCLE_MS / 4)) < LIGHT_CYCLE_MS / 6;   // two blinks per colour
+        float s = sz, w = Math.max(40f, s * 0.22f);
+        ModFx.local(e.position, e.spin, -s * 0.12f, -s * 0.05f, lb);
+        ModFx.spr("fx_core", lb.x, lb.y, w, w, 0, 1f, 0.1f, 0.08f, redHalf && on ? 1f : 0.12f, true);
+        ModFx.local(e.position, e.spin, s * 0.12f, -s * 0.05f, lb);
+        ModFx.spr("fx_core", lb.x, lb.y, w, w, 0, 0.12f, 0.35f, 1f, !redHalf && on ? 1f : 0.12f, true);
     }
 
     // ================================================================== test switches / log

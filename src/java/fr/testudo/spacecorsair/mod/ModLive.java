@@ -68,6 +68,7 @@ public final class ModLive {
             try {
                 frame();
                 under(e);
+                ModPolice.under(e);   // v42: police Monolith aura
             } catch (Throwable t) {
                 // visuals never break the frame
             }
@@ -76,6 +77,7 @@ public final class ModLive {
         if (on) {
             try {
                 over(e);
+                ModPolice.lights(e);   // v42: police light bar
             } catch (Throwable t) {
                 // visuals never break the frame
             }

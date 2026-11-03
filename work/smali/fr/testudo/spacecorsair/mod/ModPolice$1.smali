@@ -23,7 +23,7 @@
     .registers 3
 
     .prologue
-    .line 141
+    .line 144
     invoke-static {}, Lfr/testudo/spacecorsair/game/levels/LevelId;->values()[Lfr/testudo/spacecorsair/game/levels/LevelId;
 
     move-result-object v0

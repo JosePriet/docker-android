@@ -48,7 +48,13 @@ public final class ModPoliceTitan {
 
     // ------------------------------------------------------------------ API (ModPolice)
     /** Police titan of faction factionKey (unknown key = Frontier Authority) at {@code at}; null if one is alive or it fails. */
-    static final int TITAN_OVER_PLAYER = 2;   // police titan level >= player level + 2
+    static final int TITAN_OVER_PLAYER = 2;
+    static final float COUNCIL_R = 0.42f, COUNCIL_G = 0.18f, COUNCIL_B = 0.62f;   // High Council dark purple
+
+    /** Kre'tari (aliens): High Council ships, dark purple, no visible propulsion (owner 2026-11-03 23:10). */
+    static boolean council(String key) {
+        return "kretari".equals(key);
+    }   // police titan level >= player level + 2
 
     public static Element spawn(String factionKey, int level, Vector2 at) {
         try {
@@ -56,7 +62,9 @@ public final class ModPoliceTitan {
             int fi = ModCapitals.FACTIONS.length - 1;    // unowned / unknown: Frontier Authority (warden, last)
             for (int i = 0; i < ModCapitals.FACTIONS.length; i++) if (ModCapitals.FACTIONS[i].key.equals(factionKey)) fi = i;
             ModCapitals.Faction f = ModCapitals.FACTIONS[fi];
-            if (POL[fi] == null) POL[fi] = new ModCapitals.Faction(f.key, f.name, ModLang.trf("%s Police Titan", f.name), f.hq, POLICE_R, POLICE_G, POLICE_B);
+            if (POL[fi] == null) POL[fi] = council(f.key)   // owner 23:10: the Kre'tari send a High Council titan, not police
+                ? new ModCapitals.Faction(f.key, f.name, ModLang.trf("%s High Council Titan", f.name), f.hq, COUNCIL_R, COUNCIL_G, COUNCIL_B)
+                : new ModCapitals.Faction(f.key, f.name, ModLang.trf("%s Police Titan", f.name), f.hq, POLICE_R, POLICE_G, POLICE_B);
             // v42 fix (owner: police level capped at the sector's top level): the level ModPolice passes, never above it
             // owner 2026-11-03 22:22 (card pending, recommended option): titans always out-level the player -> max(sector top, player + 2)
             int pl = ObjectRegistry.INSTANCE.game.playerInfo != null ? ObjectRegistry.INSTANCE.game.playerInfo.level : 0;

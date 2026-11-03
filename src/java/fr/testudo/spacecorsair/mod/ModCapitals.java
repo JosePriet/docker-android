@@ -66,6 +66,7 @@ public final class ModCapitals {
         boolean fireLogged;
         boolean police;              // v42: a police titan (ModPoliceTitan), not the faction's real flagship
         float rate = 1.0f;           // v42: battery fire-rate multiplier (police titan x1.2)
+        int lvl;                     // v42: level it was built at (scales with the player)
     }
 
     // ------------------------------------------------------------------ v33 batteries
@@ -151,8 +152,17 @@ public final class ModCapitals {
         }
     }
 
+    /** v42 (owner 23:17): flagships scale with the player: level = max(sector top, player level + 2), capped. */
+    static final int FLAGSHIP_OVER_PLAYER = 2;
+
+    static int scaledLevel(int sectorTop) {
+        int pl = 0;
+        try { pl = ObjectRegistry.INSTANCE.game.playerInfo.level; } catch (Throwable t) { pl = 0; }
+        return Math.max(0, Math.min(ModV34.CAP, Math.max(sectorTop, pl + FLAGSHIP_OVER_PLAYER)));
+    }
+
     private static GuardianCivilShip spawn(int fi, LevelId id) {
-        return build(fi, Math.max(0, Math.min(ModV34.CAP, id.levelMax)), null, null);
+        return build(fi, scaledLevel(id.levelMax), null, null);
     }
 
     /** v42 (ModPoliceTitan): the faction's flagship rebuilt as a police titan of level lvl at {@code at}: a copy of the
@@ -209,7 +219,8 @@ public final class ModCapitals {
         g.canonProue.init(reload, dmg, 6, 15.0f, 0.8f, 4, 3);
         g.canonPoupe.init(reload, dmg, 6, 15.0f, 0.8f, 4, 3);
         silenceStock(g);                            // v33: the drawn turrets fire instead (guns)
-        c.shot = dmg;
+        c.shot = dmg * ModV34.curve(lvl);           // v42 (owner: flagships far too weak): batteries follow the v34 level curve
+        c.lvl = lvl;
         g.specificName = f.name + " flagship: " + f.ship;
         g.specificNameDecalX = -1;
         g.radarPointSize = 12.0f;
@@ -328,7 +339,7 @@ public final class ModCapitals {
             float sz = SIZE;
             long t = System.currentTimeMillis();
             // engines
-            if (c.data >= 0 && g.isPousee) {
+            if (c.data >= 0 && g.isPousee && !(c.police && ModPoliceTitan.council(c.f.key))) {   // v42: High Council ships show no propulsion
                 float[] e = ModFxData.ENGINES[c.data];
                 for (int k = 0; k + 2 < e.length; k += 3) {
                     float w = Math.max(e[k + 2] * sz * 1.3f, sz * 0.05f);
@@ -356,12 +367,20 @@ public final class ModCapitals {
             if (c.data >= 0) {
                 float[] nv = ModFxData.NAV[c.data];
                 float on = (t % 1600) < 180 ? 1 : 0.2f, on2 = on;
+                if (c.police && ModPoliceTitan.council(c.f.key)) {   // v42: High Council: a slow dim violet pulse, no police lights
+                    float pu = 0.35f + 0.25f * (float) Math.sin(t / 600.0);
+                    ModFx.local(g.position, g.spin, nv[0] * sz, nv[1] * sz, a);
+                    ModFx.spr("fx_core", a.x, a.y, 70, 70, 0, 0.5f, 0.2f, 0.8f, pu, true);
+                    ModFx.local(g.position, g.spin, nv[2] * sz, nv[3] * sz, a);
+                    ModFx.spr("fx_core", a.x, a.y, 70, 70, 0, 0.5f, 0.2f, 0.8f, pu, true);
+                } else {
                 if (c.police) { on = (t % 700) < 350 ? 1 : 0.15f; on2 = 1.15f - on; }   // v42: police red/blue strobe
                 ModFx.local(g.position, g.spin, nv[0] * sz, nv[1] * sz, a);
                 ModFx.spr("fx_core", a.x, a.y, 60 * (1 + on), 60 * (1 + on), 0, 1, 0.15f, 0.1f, on, true);
                 ModFx.local(g.position, g.spin, nv[2] * sz, nv[3] * sz, a);
                 if (c.police) ModFx.spr("fx_core", a.x, a.y, 70 * (1 + on2), 70 * (1 + on2), 0, 0.15f, 0.4f, 1, on2, true);
                 else ModFx.spr("fx_core", a.x, a.y, 60 * (1 + on), 60 * (1 + on), 0, 0.15f, 1, 0.3f, on, true);
+                }
                 // battle damage as the hull drops
                 float lp = g.maxLife <= 0 ? 1 : g.life / g.maxLife;
                 int stage = lp < 0.25f ? 3 : lp < 0.5f ? 2 : lp < 0.75f ? 1 : 0;

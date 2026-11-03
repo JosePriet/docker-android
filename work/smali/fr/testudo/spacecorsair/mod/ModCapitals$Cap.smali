@@ -25,6 +25,8 @@
 
 .field hostileAnnounced:Z
 
+.field lvl:I
+
 .field mounts:[F
 
 .field police:Z

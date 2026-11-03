@@ -14,7 +14,11 @@ from PIL import Image
 from multiprocessing import Pool
 
 POLICE_BLUE = (0.10, 0.30, 1.00)     # hue of the paint (deep police blue)
-SILVER_TINT = (0.80, 0.90, 1.00)     # faint cool tint on silver/white
+SILVER_TINT = (0.96, 0.98, 1.00)     # near-neutral white/black
+COUNCIL = (0.50, 0.22, 0.78)         # High Council dark purple
+COUNCIL_ARTS_PREFIX = ('kt_',)
+COUNCIL_ARTS = ('harbinger', 'secret_kretari', 'cap_kretari')
+STAGE5 = ('bastion', 'mantis', 'verdant', 'monolith')   # owner 23:10: police fly the max refit stage
 LIGHT_RED = (1.00, 0.12, 0.10)
 LIGHT_BLUE = (0.15, 0.42, 1.00)
 ENGINE = (0.55, 0.78, 1.00)
@@ -51,39 +55,43 @@ def smooth(x, a, b):
     return t * t * (3 - 2 * t)
 
 
-def hull(im):
+def hull(im, council=False):
+    """Police (owner 23:10): white/black like police cars: grey plating -> white (gamma lift keeps the shading),
+    painted faction colours -> black. Council (Kre'tari): dark purple, highlights (nozzle glow) flattened."""
     x = np.asarray(im.convert('RGBA')).astype(float)
     rgb = x[..., :3]
     L = rgb @ W601
     mx = rgb.max(-1); mn = rgb.min(-1)
     sat = (mx - mn) / np.maximum(mx, 1)
-    blue, silver = chroma_dir(POLICE_BLUE), chroma_dir(SILVER_TINT)
-    kb, ks = kmax(L, blue), kmax(L, silver)
-    paint = smooth(sat, 0.10, 0.24)                 # 0 grey .. 1 painted / coloured
-    bright = smooth(L, 115, 165)                    # bright coloured parts become white/silver trim
-    # chroma amplitude: paint gets as much blue as the gamut allows (capped); dark greys a gunmetal blue; light greys silver
-    k_paint = np.minimum(kb, 0.8 * L + 20)
-    k_grey = np.minimum(kb, 0.45 * L) * (1 - smooth(L, 90, 150))
-    k_silv = np.minimum(ks, 0.12 * L)
-    kB = paint * (1 - bright) * k_paint + (1 - paint) * k_grey
-    kS = paint * bright * k_silv + (1 - paint) * smooth(L, 90, 150) * k_silv
-    out = L[..., None] + kB[..., None] * blue + kS[..., None] * silver
-    # the two directions add up: rescale if a channel would leave the gamut (luminance stays exact)
-    over = np.maximum((out - 255).max(-1), (-out).max(-1))
-    dev = out - L[..., None]
-    room = np.where(dev.max(-1) > 0, (255 - L) / np.maximum(dev.max(-1), 1e-6), 1e9)
-    room = np.minimum(room, np.where(dev.min(-1) < 0, L / np.maximum(-dev.min(-1), 1e-6), 1e9))
-    out = np.where((over > 0)[..., None], L[..., None] + dev * np.minimum(room, 1)[..., None], out)
+    paint = smooth(sat, 0.12, 0.30)
+    if council:
+        Lc = np.minimum(L, 140.0)                      # bright engine/nozzle paint flattened: no visible propulsion
+        v = 0.85 * Lc + 6
+        col = np.array(COUNCIL)
+        out = v[..., None] * col[None, None, :] / col.max()
+    else:
+        # two-tone like a police car: the brighter half of the hull (by this sprite's median) goes white, the darker
+        # half black; shading kept inside each tone. Strong faction paint leans to black.
+        A = x[..., 3] > 32
+        med = float(np.median(L[A])) if A.any() else 128.0
+        white = 255.0 * (L / 255.0) ** 0.5
+        black = 0.30 * L + 8
+        tw = smooth(L, med - 18, med + 18) * (1 - 0.5 * paint)
+        v = tw * white + (1 - tw) * black
+        out = v[..., None] * np.array(SILVER_TINT)[None, None, :] / max(SILVER_TINT)
     y = x.copy()
     y[..., :3] = np.clip(np.round(out), 0, 255)
     return Image.fromarray(y.astype(np.uint8), 'RGBA')
 
 
-def glow(im, lights):
+def glow(im, lights, council=False):
     mode = im.mode
     x = np.asarray(im.convert('RGBA')).astype(float)
     V = x[..., :3].max(-1)
-    if lights:
+    if council:
+        col = np.broadcast_to(np.array(COUNCIL), V.shape + (3,))
+        V = V * 0.6
+    elif lights:
         h, w = V.shape
         X = np.arange(w)[None, :].repeat(h, 0)
         port = smooth(-(X - w / 2.0), -w * 0.01, w * 0.01)       # 1 on the left half, 0 on the right, soft seam
@@ -96,18 +104,28 @@ def glow(im, lights):
     return out.convert(mode) if mode != 'RGBA' else out
 
 
+def is_council(src):
+    return src.startswith(COUNCIL_ARTS_PREFIX) or src in COUNCIL_ARTS
+
+
 def one(art, src, dst):
     """src -> dst plus companions. Returns the names written."""
     done = []
+    c = is_council(src)
+    if src in STAGE5 and load(art, src + '_stage5') is not None:
+        src = src + '_stage5'
     im = load(art, src)
     if im is None:
         return done
-    save(hull(im), art, dst); done.append(dst)
-    for suf, fn in (('_glow_e', lambda i: glow(i, False)), ('_glow_l', lambda i: glow(i, True)), ('_veins', hull)) \
-            + tuple(('_anim_0%d' % k, hull) for k in range(1, 9)):
-        c = load(art, src + suf)
-        if c is not None:
-            save(fn(c), art, dst + suf); done.append(dst + suf)
+    save(hull(im, c), art, dst); done.append(dst)
+    comps = [('_glow_l', lambda i: glow(i, True, c)), ('_veins', lambda i: hull(i, c))] \
+        + [('_anim_0%d' % k, lambda i: hull(i, c)) for k in range(1, 9)]
+    if not c:
+        comps.append(('_glow_e', lambda i: glow(i, False)))   # the High Council shows no engines
+    for suf, fn in comps:
+        ci = load(art, src + suf)
+        if ci is not None:
+            save(fn(ci), art, dst + suf); done.append(dst + suf)
     return done
 
 
@@ -119,7 +137,7 @@ def job(t):
         for s in ('_a', '_b', '_c'):
             im = load(art, 'wreck_cap_' + k + s)
             if im is not None:
-                save(hull(im), art, 'pol_wreck_cap_' + k + s); w.append('pol_wreck_cap_' + k + s)
+                save(hull(im, k == 'kretari'), art, 'pol_wreck_cap_' + k + s); w.append('pol_wreck_cap_' + k + s)
     return w
 
 

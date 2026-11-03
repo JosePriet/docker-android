@@ -1,5 +1,6 @@
 package fr.testudo.spacecorsair.mod;
 
+import fr.testudo.spacecorsair.business.Element;
 import fr.testudo.spacecorsair.business.player.PlayerShip;
 import fr.testudo.spacecorsair.display.Drawable;
 import fr.testudo.spacecorsair.display.Texture;
@@ -180,6 +181,44 @@ public final class ModMonolith {
         out.set(local.x, local.y).applyRotatation(Math.toRadians(ps.spin));
         out.set(out.x + sc.x, out.y + sc.y);
         return out;
+    }
+
+    // ------------------------------------------------------------------ v42: police Monolith (owner 23:13: keep or adapt effects)
+    private static final float[] P_EDGE = {0.16f, 0.30f, 1.0f}, P_CORE = {0.92f, 0.96f, 1.0f};   // police white/blue aura
+    private static final Vector2 pa = new Vector2(), pb = new Vector2();
+
+    /**
+     * The s5 aura (same baked masks as the player's) around a police Monolith NPC, in police white/blue: hull shell plus
+     * both wing shells at the closed pose (the police hull is the single s5 sprite). World coordinates, its own phase.
+     */
+    static void policeAura(Element e, float size) {
+        if (e == null || size <= 0) return;
+        float saveD = D, savePhase = phase;
+        float[] sc = core.clone(), se = edge.clone();
+        try {
+            long t = System.currentTimeMillis();
+            D = size;
+            phase = (float) ((t % 6500) / 6500.0 * 2 * Math.PI);
+            System.arraycopy(P_CORE, 0, core, 0, 3);
+            System.arraycopy(P_EDGE, 0, edge, 0, 3);
+            float breathe = 1 + 0.02f * (float) Math.sin(2 * Math.PI * (t % 6500) / 6500.0);
+            float sz = size * (1 + 2 * ModMonoFx.A_PAD) * breathe;
+            float lv = 0.45f, al = 0.8f;
+            aura("mfx_mono_aura_hull", e.position.x, e.position.y, sz, e.spin, false, lv, al);
+            for (int w = 0; w < 2; w++) {
+                boolean left = w == 0;
+                wingPt(left, 512, 512, 0, pa);
+                ModFx.local(e.position, e.spin, pa.x, pa.y, pb);
+                aura("mfx_mono_aura_wing", pb.x, pb.y, sz, e.spin, !left, lv, al);
+            }
+        } catch (Throwable th) {
+            // no aura
+        } finally {
+            D = saveD;
+            phase = savePhase;
+            System.arraycopy(sc, 0, core, 0, 3);
+            System.arraycopy(se, 0, edge, 0, 3);
+        }
     }
 
     // ------------------------------------------------------------------ drawing
