@@ -1,0 +1,31 @@
+name: release
+# A change to release/VERSION on this branch publishes a GitHub Release named after it,
+# with apk/space-corsair-mod-signed-<VERSION>.apk attached (release assets download more reliably than raw links).
+on:
+  push:
+    branches: [releases]
+    paths: ['release/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          V=$(cat release/VERSION)
+          echo "VERSION=$V" >> $GITHUB_ENV
+          F=apk/space-corsair-mod-signed-$V.apk
+          test -f "$F"
+          cp "$F" space-corsair-mod.apk
+          sha256sum space-corsair-mod.apk > SHA256SUMS
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.VERSION }}
+          target_commitish: ${{ github.sha }}
+          name: Space Corsair mod ${{ env.VERSION }}
+          body_path: release/NOTES.md
+          files: |
+            space-corsair-mod.apk
+            SHA256SUMS
