@@ -366,6 +366,7 @@ public final class ModTitan {
                     request = false;
                     if (ps.isDocked) break;
                     state = CHARGE;
+                    doomDealt.clear();                   // v42: a new shot, a new % budget per target
                     levSeq = k == LEVIATHAN && ModLevDoom.is(ModCaps.profile(ps));
                     timer = levSeq ? ModLevDoom.CHARGE_MS : CHARGE_MS[k];
                     lockSpin = ps.spin;
@@ -512,7 +513,7 @@ public final class ModTitan {
                 Element e = targets.get(i);
                 if (e.removed) continue;
                 if (e.position.distance(ps.position) <= novaRadius + radiusOf(e)) {
-                    doomHit(e, DMG[k] + ps.level * DMG_LVL[k]);
+                    doomHit(e, DMG[k] + ps.level * DMG_LVL[k], TICK_MS[k]);
                     ModFx.part("fx_fire", e.position.x, e.position.y, 0, 0, 400, 40, 120, 1.0f, 0.5f, 0.15f, 0.9f, true, true);
                     if (e.removed || e.life <= 0) ModFx.boom(e.position.x, e.position.y, Math.max(160, radiusOf(e) * 4), 850, 1.0f, 0.8f, 0.6f);
                 }
@@ -529,7 +530,7 @@ public final class ModTitan {
                 if (along < -radiusOf(e) || along > REACH[k]) continue;
                 float perp = Math.abs(dx * b.y - dy * b.x);
                 if (perp <= half + radiusOf(e)) {
-                    doomHit(e, DMG[k] + ps.level * DMG_LVL[k]);
+                    doomHit(e, DMG[k] + ps.level * DMG_LVL[k], TICK_MS[k]);
                     float[] col = COL[k];
                     ModFx.part("fx_core", e.position.x, e.position.y, 0, 0, 260, 60, 180, col[0], col[1], col[2], 1.0f, true, true);
                     if (e.removed || e.life <= 0) ModFx.boom(e.position.x, e.position.y, Math.max(160, radiusOf(e) * 4), 850, 1.0f, 0.85f, 0.7f);
@@ -553,16 +554,38 @@ public final class ModTitan {
         return titanClass.containsKey(e) || ModBoss.isBoss(e);
     }
 
-    private static void doomHit(Element e, float base) {
-        if (titanClass.containsKey(e)) {
-            // EVE scale: a titan takes 30-60 doomsdays. A full lance (~20 ticks) removes ~2.5% of a titan-class hull.
-            doomShot.damage = Math.min(base, e.maxLife * (levSeq ? ModLevDoom.TITAN_SLICE : 0.00125f));
-        } else if (ModBoss.isBoss(e)) {
-            // mission bosses: ~8% per full lance, so missions stay winnable but the doomsday never one-shots them
-            doomShot.damage = Math.min(base, e.maxLife * (levSeq ? ModLevDoom.BOSS_SLICE : 0.004f));
+    /** v42 (owner 2026-11-03 23:33/23:34, Q1): doomsday damage. One whole shot takes at most 10% of a titan's hull and 15% of a
+     *  capital's, flagship's or mission boss's, spread evenly over the lance ticks; this % damage ignores resistances and shields. Every other ship takes a fixed 100,000 damage per
+     *  second (split per beam tick), which does go through its resistances and shields. */
+    static final float DOOM_TITAN_PCT = 0.10f, DOOM_BIG_PCT = 0.15f, DOOM_FIXED_PER_S = 100000f;
+    /** % hull already taken from each target by the current shot (cleared when a new shot charges). */
+    static final java.util.Map<Element, Float> doomDealt = new java.util.WeakHashMap<Element, Float>();
+    static final int DOOM_LANCE_TICKS = 22;
+
+    private static void doomHit(Element e, float base, int tickMs) {
+        float pct = -1;
+        boolean flagship = ModCapitals.cap(e) != null;
+        if (flagship && ModPoliceTitan.isPoliceTitan(e)) pct = DOOM_TITAN_PCT;                 // police titans are titans
+        else if (flagship || ModBoss.isBoss(e)) pct = DOOM_BIG_PCT;
+        else if (titanClass.containsKey(e)) pct = DOOM_TITAN_PCT;
+        else if (e instanceof fr.testudo.spacecorsair.business.ennemis.Ennemis
+                 && ModV35.enemyClass((fr.testudo.spacecorsair.business.ennemis.Ennemis) e) >= ModShips.CAPITAL) pct = DOOM_BIG_PCT;
+        if (pct > 0) {
+            Float done = doomDealt.get(e);
+            float d0 = done == null ? 0 : done, step = Math.min(pct / DOOM_LANCE_TICKS, pct - d0);
+            if (step <= 0) return;                       // this shot's share is used up
+            doomDealt.put(e, d0 + step);
+            float slice = e.maxLife * step;
+            if (e.life - slice > 1) {                    // straight off the hull: no resistances, no shield
+                e.life -= slice;
+                e.lifeInPourc = e.maxLife > 0 ? 100f * e.life / e.maxLife : 0;
+                if (e.lifeBar != null) e.lifeBar.setValue(e.lifeInPourc);
+                doomShot.damage = 0.001f;               // still a hit by the player (aggro, hostility, kill credit)
+            } else {
+                doomShot.damage = e.life + e.maxLife;    // the slice finishes it: the normal kill path
+            }
         } else {
-            // everything else in the beam is wiped within a few ticks
-            doomShot.damage = Math.max(base, e.maxLife * 0.4f);
+            doomShot.damage = DOOM_FIXED_PER_S * tickMs / 1000f;   // fixed, mitigated like any other hit
         }
         e.applyProjectileHit(doomShot);
     }
@@ -800,7 +823,7 @@ public final class ModTitan {
         switch (k) {
             case LEVIATHAN:
                 // v38 doomsday + v39 anchor stance (GPT EN/ES 2026-11-03; anchor from refit level 7 = stage 4)
-                return ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): immobilizes the titan and disables its weapons for a 5.4 s charge, then fires a 4.4 s lance (2800 range, 60% of hull width) that destroys everything in its path, dealing ~12% hull damage to mission bosses and ~5% to titan-class capitals per lance. While firing, turn speed is limited to 5 deg/s; afterward, movement resumes, but weapons stay offline for 2.2 s while the titan vents. Cooldown: 90 s.")
+                return ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): immobilizes the titan and disables its weapons for a 5.4 s charge, then fires a 4.4 s lance (2800 range, 60% of hull width) that destroys everything in its path, taking up to 10% of a titan's hull and 15% of a capital's, flagship's or mission boss's hull per shot (ignores resistances), and 100,000 damage per second to any other ship. While firing, turn speed is limited to 5 deg/s; afterward, movement resumes, but weapons stay offline for 2.2 s while the titan vents. Cooldown: 90 s.")
                     + "<br>" + ModLang.tr("<b>Anchor Stance</b> (passive): after 2.5 s at a complete stop, the titan anchors and raises a hex shield wall across its bow, blocking enemy shots and protecting ships behind it. The wall has a separate shield (150% of the equipped shield's capacity, takes 35% less damage) that recharges in 25 s only while the wall is down; hold the stick for 1.5 s to lift the anchor, and the wall folds 2.5 s later.") + " " + ModLang.tr("Needs refit level 7+.");
             case THRONE:
                 return ModLang.tr("<b>Furnace Nova</b> (DOOMSDAY button): 2 s charge, then a 3.5 s ring of fire that grows to 1400 around the hull and burns everything inside. "
