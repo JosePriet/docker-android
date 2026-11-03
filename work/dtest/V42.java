@@ -34,5 +34,5 @@ eq("police BS hull L20 = base x 3.0 x curve x 1.25",ModPolice.hull(1000,BS,20),1
 // safe sectors
 eq("tutorial safe",ModPolice.safe(LevelId.TUTORIAL)?1:0,1,0);eq("genesis safe",ModPolice.safe(LevelId.GENESIS)?1:0,1,0);eq("arena safe",ModPolice.safe(LevelId.GALACTIC_ARENA)?1:0,1,0);eq("ffa safe",ModPolice.safe(LevelId.FFA_THE_PLAYER_PAY)?1:0,1,0);eq("pirate bay policed",ModPolice.safe(LevelId.PIRATE_BAY)?1:0,0,0);
 // weapons
-eq("snare -35%",ModPolice.SNARE,0.65,1e-6);eq("snare 3 s",ModPolice.SNARE_MS,3000,0);eq("snare cd 6 s",ModPolice.SNARE_CD_MS,6000,0);eq("drain x1.5",ModPolice.DRAIN,1.5,1e-6);eq("standing -2 per kill",ModPolice.STANDING_PER_KILL,-2,0);
+eq("snare -35%",ModPolice.SNARE,0.65,1e-6);eq("snare 3 s",ModPolice.SNARE_MS,3000,0);eq("snare cd 6 s",ModPolice.SNARE_CD_MS,6000,0);eq("drain x1.5",ModPolice.DRAIN,1.5,1e-6);eq("credits per ship",ModPolice.CREDITS_PER_SHIP,1000,0);eq("credits per titan",ModPolice.CREDITS_PER_TITAN,10000,0);eq("kill cut floor",ModPolice.cutCountdown(9000,60000),8000,0);eq("kill cut 30%",ModPolice.cutCountdown(40000,40000),28000,0);eq("frigate base",ModPolice.waveBase(0),30000,0);
 System.out.println(bad==0?"V42 VALUES-OK":"V42 VALUES-FAIL "+bad);}}

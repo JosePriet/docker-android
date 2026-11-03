@@ -43,7 +43,13 @@ public class ModPolice {
     public static final int[] KILL_HEAT = {1, 2, 3, 4, 6, 8, 0};
     /** Heat that unlocks each class FRIGATE..TITAN. */
     public static final int[] UNLOCK = {1, 5, 10, 16, 24, 34, 46};
-    public static final float STANDING_TITAN_KILL = -15f;  // plan: -15 standing with the owner faction for a police titan kill
+    // owner 2026-11-03 23:20: police kills do not touch standing; each kill cuts the countdown to the next wave (floor 8 s),
+    // the wave interval scales with the wave's class, and police pay a flat bounty.
+    public static final int CREDITS_PER_SHIP = 1000, CREDITS_PER_TITAN = 10000;
+    /** Base seconds to the next wave by the last wave's class (frigate..capital) [D]. */
+    public static final long[] WAVE_BASE_MS = {30000, 35000, 40000, 45000, 50000, 60000};
+    public static final float KILL_CUT = 0.30f;          // each police kill takes 30% of that base off the countdown [D]
+    public static final long WAVE_FLOOR_MS = 8000;       // owner: lowest time between waves
     /** Owner 23:10: the Spartan wave before the titan brings 2 Monoliths (battleship hulls), plus one Verdant escort. */
     static final int[] SPARTAN_CAPITAL_WAVE = {ModShips.BATTLESHIP, ModShips.BATTLESHIP, ModShips.BATTLECRUISER};
     static final long LIGHT_CYCLE_MS = 1200;   // police light bar: red double blink, then blue double blink
@@ -55,7 +61,6 @@ public class ModPolice {
     public static final int TITAN_MIN_LEVEL = 16;          // police titans only in sectors topping out at L16+
     /** Police bonus over the v34 enemy curve. */
     public static final float HULL_BONUS = 1.25f, DMG_BONUS = 1.25f, SPEED_BONUS = 1.15f, SHIELD_BONUS = 1.25f;
-    public static final float STANDING_PER_KILL = -2f;
     /** Police-only weapons. */
     public static final float SNARE = 0.65f;               // destroyer snare: player max speed -35%
     public static final int SNARE_MS = 3000;
@@ -189,6 +194,16 @@ public class ModPolice {
         return e instanceof PoliceShip && ModCapitals.cap(e) == null && !ModSector.factionShip(e);   // v42 fix: wings/pursuers are not police
     }
 
+    /** Base countdown to the next wave after a wave of class top. */
+    public static long waveBase(int top) {
+        return WAVE_BASE_MS[Math.max(0, Math.min(WAVE_BASE_MS.length - 1, top))];
+    }
+
+    /** A police kill: the countdown drops by KILL_CUT of the base, never below the 8 s floor. */
+    public static long cutCountdown(long timer, long base) {
+        return Math.max(WAVE_FLOOR_MS, timer - (long) (KILL_CUT * base));
+    }
+
     static int classOf(Element e) {
         long[] s = police.get(e);
         return s != null ? (int) s[0] : STOCK_POLICE_CLASS;
@@ -264,7 +279,9 @@ public class ModPolice {
             if (isPolice(e)) {
                 int cls = classOf(e);
                 offence(killHeat(cls), "police kill class " + cls);
-                ModRep.change(ModCapitals.FACTIONS[factionIndex(here)].key, STANDING_PER_KILL, false);
+                long base = waveBase(lastTop);
+                waveTimer = cutCountdown(waveTimer, base);
+                log("police kill: countdown " + waveTimer + " ms");
                 return;
             }
             if (e instanceof CivilShip && ModCapitals.cap(e) == null && !Mod.isDrone(e)) offence(HEAT_CIVIL_KILL, "civilian kill");
@@ -275,7 +292,7 @@ public class ModPolice {
 
     /** Agent C: the police titan died. Heat back to 0, police stand down; ModPoliceTitan applies its own standing / XP. */
     public static void onTitanKilled() {
-        try { if (here != null) ModRep.change(ModCapitals.FACTIONS[factionIndex(here)].key, STANDING_TITAN_KILL, false); } catch (Throwable t) { /* no standing */ }
+        ModQol.addCredits(CREDITS_PER_TITAN, titan);
         titan = null;
         heat = 0;
         lastTop = NONE;
@@ -351,7 +368,7 @@ public class ModPolice {
             if (joinTimer <= 0) { joinTimer = 2000; if (!ModCalm.active()) join(); }   // v42 fix: no joining during a defend-zone mission
             waveTimer -= j;
             if (waveTimer <= 0) {
-                waveTimer = WAVE_MS;
+                waveTimer = waveBase(lastTop);
                 if (heatRose || !active.isEmpty() || (titan != null && !titan.removed)) wave(ps);
             }
         } catch (Throwable t) {

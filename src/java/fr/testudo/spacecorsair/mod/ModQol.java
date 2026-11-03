@@ -225,10 +225,23 @@ public class ModQol {
         return ModV35.missionCredits(stock, lv);
     }
 
+    /** v42: a flat credit reward with the gold "+N c" message at e (or the player). */
+    static void addCredits(int credits, Element e) {
+        try {
+            ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(credits);
+            Element at = e != null && fr.testudo.spacecorsair.engine.GameThread.isElementVisible(e) ? e : ObjectRegistry.INSTANCE.playerShip;
+            ObjectRegistry.INSTANCE.game.currentLevel.toAddDrawOnly.add(
+                fr.testudo.spacecorsair.business.factory.GamePools.newGoldMessage().init("+" + credits + " c", at));
+        } catch (Throwable t) {
+            // no reward shown
+        }
+    }
+
     /** Hook: Ennemis.onDestroyed after the XP grant. Credit bounty scaled by enemy level; xp is the mitigated XP. */
     public static void bounty(Ennemis e, int xp) {
         try {
             if (e == null || xp <= 0 || e.xp <= 0) return;
+            if (ModPolice.isPolice(e)) { addCredits(ModPolice.CREDITS_PER_SHIP, e); return; }   // v42 owner: flat 1,000 cr, nothing else
             float c = ModV34.bounty(e.getLevel());
             c *= Math.min(1.45f, xp / (float) e.xp);
             if (ModBoss.isBoss(e) || e.xp >= 500) c *= 8f;

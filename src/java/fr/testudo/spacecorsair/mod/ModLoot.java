@@ -184,7 +184,7 @@ public class ModLoot {
     public static void onEnemyKilled(Ennemis e) {
         ModRep.enemyKilled(e);
         try {
-            if (e == null || ModBoss.isBoss(e)) return;
+            if (e == null || ModBoss.isBoss(e) || ModPolice.isPolice(e)) return;   // v42 owner: police pay a flat bounty only
             // the old alien / Megatron family drops stay (their own rare table)
             double chance = 0.0d;
             int[] fam = ALIEN;
