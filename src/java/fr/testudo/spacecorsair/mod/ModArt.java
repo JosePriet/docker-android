@@ -409,7 +409,16 @@ public class ModArt {
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inPreferredConfig = Bitmap.Config.ARGB_8888;
             o.inScaled = false;
-            return BitmapFactory.decodeStream(in, null, o);
+            Bitmap b = BitmapFactory.decodeStream(in, null, o);
+            // v41: mfx_* are greyscale effect masks (mask in alpha): upload them as GL_ALPHA, a quarter of the memory
+            if (b != null && name.startsWith("mfx_")) {
+                Bitmap m = b.extractAlpha();
+                if (m != null) {
+                    b.recycle();
+                    b = m;
+                }
+            }
+            return b;
         } catch (Throwable e) {
             return null;   // missing asset or out of memory
         } finally {

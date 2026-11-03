@@ -2,6 +2,7 @@ package fr.testudo.spacecorsair.mod;
 
 import fr.testudo.spacecorsair.business.player.PlayerShip;
 import fr.testudo.spacecorsair.display.Drawable;
+import fr.testudo.spacecorsair.display.Texture;
 import fr.testudo.spacecorsair.engine.GameRenderer;
 import fr.testudo.spacecorsair.engine.Vector2;
 
@@ -16,6 +17,10 @@ import fr.testudo.spacecorsair.engine.Vector2;
  *   the whole aura, rapid hits agitate it (faster flicker, longer tongues, warmer colour, leaning toward the fire).
  * - Every effect follows the highest speed of the last 2.5 s (owner hold rule).
  * - s4: aura and heat at half strength, no wings or plasma (owner: s4 fainter than s5).
+ * v41 fix (owner: the phone fell far short of s5_plasma.mp4): the aura and the plasma wings are no longer rebuilt from
+ * thin glow strips; src/genmono41.py bakes them with the preview's own formulas (34 streaks per wing as an 18-frame
+ * flipbook with its fading trail; the aura's glow, rim and noisy flame shell per speed level and noise phase) and this
+ * class draws those masks in the preview's colours. Hit reactions (flare, ripple, heavy pulse, agitation, lean) stay.
  */
 public final class ModMonolith {
     private ModMonolith() {}
@@ -196,26 +201,29 @@ public final class ModMonolith {
             float wdeg = parts ? ang + 3.0f * (float) Math.sin(2 * Math.PI * flapT / 1.8) * Math.min(ang / MAX_ANG, 1) : 0;
             ModFx.relative = true;
             try {
-                // aura shell base (soft glow + rim), under everything
+                // v41: the preview's aura (baked masks, glow + rim + flame shell), under everything
                 float sh = shieldFrac(ps);
                 float agit = agitation(t);
                 if (sh > 0) {
-                    float v = held + 0.3f * Math.min(agit, 1.5f);
-                    ramp(AURA_EDGE, v, edge);
-                    float breathe = 0.92f + 0.08f * (float) Math.sin(2 * Math.PI * (t % 6500) / 6500.0);
-                    float al = str * (0.55f + 0.25f * Math.min(agit, 1.5f) + heavyPulse(t)) * breathe * (0.4f + 0.6f * sh);
+                    float vc = held + 0.3f * Math.min(agit, 1.5f);
+                    ramp(AURA_CORE, vc, core);
+                    ramp(AURA_EDGE, vc, edge);
+                    float breathe = 1 + 0.02f * (float) Math.sin(2 * Math.PI * (t % 6500) / 6500.0);
+                    float al = str * (1 + heavyPulse(t)) * (0.4f + 0.6f * sh);
+                    float sz = D * (1 + 2 * ModMonoFx.A_PAD) * breathe * (1 + 0.06f * Math.min(agit, 1.5f));
+                    float lv = Math.min(1, held + 0.25f * Math.min(agit, 1.5f));
+                    leanOffset(ps, t, c);
                     Vector2 sc = GameRenderer.screenCenter;
-                    float sz = D * ModMonoData.AURA_PAD * (1 + 0.04f * held);
                     if (parts) {
-                        ModFx.sprR("monolith_stage5_hull_aura", sc.x, sc.y, sz, sz, ps.spin, edge[0], edge[1], edge[2], al, true);
+                        aura("mfx_mono_aura_hull", sc.x + c.x, sc.y + c.y, sz, ps.spin, false, lv, al);
                         for (int w = 0; w < 2; w++) {
                             boolean left = w == 0;
                             wingPt(left, 512, 512, wdeg, a);
                             toScreen(ps, a, b);
-                            ModFx.sprR(left ? "monolith_stage5_wingL_aura" : "monolith_stage5_wingR_aura", b.x, b.y, sz, sz, ps.spin + (left ? wdeg : -wdeg), edge[0], edge[1], edge[2], al, true);
+                            aura("mfx_mono_aura_wing", b.x + c.x, b.y + c.y, sz, ps.spin + (left ? wdeg : -wdeg), !left, lv, al);
                         }
                     } else {
-                        ModFx.sprR(stage == 5 ? "monolith_stage5_hull_aura" : "monolith_stage4_aura", sc.x, sc.y, sz, sz, ps.spin, edge[0], edge[1], edge[2], al, true);
+                        aura(stage == 5 ? "mfx_mono_aura_hull" : "mfx_mono_aura_s4", sc.x + c.x, sc.y + c.y, sz, ps.spin, false, lv, al);
                     }
                 }
                 if (!parts) return;
@@ -230,7 +238,7 @@ public final class ModMonolith {
                     if (heat > 0.02f) ModFx.sprR(n + "_hot", b.x, b.y, D, D, rot, 1, 1, 1, heat * str, false);
                     ModFx.sprR(n + "_glow_l", b.x, b.y, D, D, rot, 1, 1, 1, 0.55f + 0.25f * (float) Math.sin(t / 700.0), true);
                 }
-                plasma(ps, t, wdeg);
+                plasma(ps, t, wdeg, true);
             } finally {
                 ModFx.relative = false;
             }
@@ -253,85 +261,114 @@ public final class ModMonolith {
         return s;
     }
 
-    // plasma streaks: 9 per wing, fixed jitter (preview: 34 streaks drawn into a texture; here fewer, wider strips)
-    private static final int NS = 9;
-    private static final float[] SU = new float[NS], SJ = new float[NS], SL = new float[NS], SP = new float[NS];
-    static {
-        java.util.Random r = new java.util.Random(11);
-        for (int j = 0; j < NS; j++) {
-            SU[j] = Math.max(0, Math.min(1, j / (float) (NS - 1) + (r.nextFloat() - 0.5f) * 0.04f));
-            SJ[j] = (r.nextFloat() - 0.5f) * 14;
-            SL[j] = 0.6f + r.nextFloat() * 0.45f;
-            SP[j] = r.nextFloat() * 6.283f;
+    // ------------------------------------------------------------------ v41 baked layers (src/genmono41.py)
+    private static final float HT = 0.5f / 2048f;   // half a texel: tiles never sample their neighbours
+
+    /** One flat-colour additive mask tile (texture alpha x a), w may be negative (mirrored). */
+    private static void mask(String tex, float x, float y, float w, float h, float rot, float r, float g, float bl, float al,
+                             float u0, float v0, float u1, float v1) {
+        if (al <= 0.004f) return;
+        Texture tx = ModArt.ready(tex);
+        if (tx == null) return;
+        ModFx.flatNext = true;
+        ModFx.sprTex(tx, x, y, w, h, rot, Math.min(1, r), Math.min(1, g), Math.min(1, bl), Math.min(1, al), true, u0 + HT, v0 + HT, u1 - HT, v1 - HT);
+    }
+
+    /**
+     * The preview's aura for one part: col x A with col = core x I + edge x (1 - I), drawn additively as
+     * edge x A + (core - edge) x A*I. Tiles blend between the two nearest speed levels and noise phases.
+     */
+    private static void aura(String base, float x, float y, float sz, float rot, boolean mirror, float lv, float al) {
+        float L = Math.max(0, Math.min(1, lv)) * (ModMonoFx.A_LEVELS - 1);
+        int l0 = Math.min((int) L, ModMonoFx.A_LEVELS - 2);
+        float fl = L - l0;
+        float P = (float) (phase / (2 * Math.PI) * ModMonoFx.A_NA);
+        P = P - (float) Math.floor(P / ModMonoFx.A_NA) * ModMonoFx.A_NA;
+        int k0 = Math.min((int) P, ModMonoFx.A_NA - 1);
+        float fk = P - k0;
+        float w = mirror ? -sz : sz;
+        for (int q = 0; q < 4; q++) {
+            int l = l0 + (q >> 1), k = (k0 + (q & 1)) % ModMonoFx.A_NA;
+            float wt = ((q >> 1) == 0 ? 1 - fl : fl) * ((q & 1) == 0 ? 1 - fk : fk);
+            if (wt <= 0.01f) continue;
+            int i = l * ModMonoFx.A_NA + k;
+            float u0 = (i % ModMonoFx.A_COLS) * ModMonoFx.A_TILE, v0 = (i / ModMonoFx.A_COLS) * ModMonoFx.A_TILE;
+            float u1 = u0 + ModMonoFx.A_TILE, v1 = v0 + ModMonoFx.A_TILE;
+            mask(base + "_a", x, y, w, sz, rot, edge[0], edge[1], edge[2], al * wt, u0, v0, u1, v1);
+            mask(base + "_ai", x, y, w, sz, rot, Math.max(0, core[0] - edge[0]), Math.max(0, core[1] - edge[1]), Math.max(0, core[2] - edge[2]), al * wt, u0, v0, u1, v1);
         }
     }
 
-    private static float interp(float[] arr, int stride, int off, float u) {
-        int n = arr.length / stride;
-        float x = u * (n - 1);
-        int k = Math.min((int) x, n - 2);
-        float f = x - k;
-        return arr[k * stride + off] * (1 - f) + arr[(k + 1) * stride + off] * f;
+    /** Agitated aura leans toward the side taking fire (preview: reach x (1 + 0.35 lean)); screen offset into out. */
+    private static void leanOffset(PlayerShip ps, long t, Vector2 out) {
+        float lx = 0, ly = 0;
+        for (int i = 0; i < HN; i++) {
+            float age = (t - hT[i]) / 1000f;
+            if (hT[i] == 0 || age >= 3) continue;
+            float e = hDmg[i] * (float) Math.exp(-age / 1.5);
+            lx += e * (float) Math.cos(hAng[i]);
+            ly += e * (float) Math.sin(hAng[i]);
+        }
+        float m = (float) Math.sqrt(lx * lx + ly * ly), cap = 0.35f * 30 * D / 1024f;
+        float k = m > 1 ? 1 / m : 1;
+        out.set(lx * k * cap, ly * k * cap).applyRotatation(Math.toRadians(ps.spin));
     }
 
-    private static long lastTrail;
+    // trail ghosts (preview: the plasma image smeared back, x0.78 per 1/12 s): age (s), weight
+    private static final float[] GHOST_AGE = {0.093f, 0.32f, 0.73f}, GHOST_W = {0.239f, 0.221f, 0.142f};
 
-    private static void plasma(PlayerShip ps, long t, float wdeg) {
+    /**
+     * Plasma wings: the preview's 34 streaks per wing as an 18-frame flipbook (core, white-hot core, glow + trailing-edge
+     * line), additive, colour blue -> gold -> red with speed. The preview shows it at 40% over the ship: 60% is drawn
+     * under the wings and hull (under = true, with the fading trail) and 40% over them (from over()).
+     */
+    private static void plasma(PlayerShip ps, long t, float wdeg, boolean under) {
         float g = Math.max(0, Math.min(1, (ang / MAX_ANG - 0.85f) / 0.15f));
         if (g <= 0) return;
         ramp(PLASMA_CORE, held, core);
         ramp(PLASMA_EDGE, held, edge);
-        float ts = t / 1000f;
-        boolean trail = t - lastTrail > 45;
-        if (trail) lastTrail = t;
+        float gi = Math.min(1, g * 1.4f), sc = 0.25f + 0.75f * g;
+        float F = (t % ModMonoFx.P_LOOP_MS) / (float) ModMonoFx.P_LOOP_MS * ModMonoFx.P_NF;
+        int f0 = Math.min((int) F, ModMonoFx.P_NF - 1);
+        float ff = F - f0;
         float px2w = D / 1024f;
+        float cxp = (ModMonoFx.P_X0 + ModMonoFx.P_X1) / 2, cyp = (ModMonoFx.P_Y0 + ModMonoFx.P_Y1) / 2;
+        float tw = (ModMonoFx.P_X1 - ModMonoFx.P_X0) * px2w * sc, th = (ModMonoFx.P_Y1 - ModMonoFx.P_Y0) * px2w * sc;
+        // growth: lengths scale from the trailing edge's middle (wing px 365, 600)
+        float gx = 365 + (cxp - 365) * sc, gy = 600 + (cyp - 600) * sc;
+        float wt = under ? 0.6f : 0.4f;
+        float shift = (2.4f + 4.8f * held) * 30;   // trail drift, sprite px per second (preview at 30 fps)
         for (int w = 0; w < 2; w++) {
             boolean left = w == 0;
-            // emission line along the trailing edge
-            for (int k = 0; k + 3 < ModMonoData.TE_L.length; k += 2) {
-                wingPt(left, ModMonoData.TE_L[k], ModMonoData.TE_L[k + 1], wdeg, a);
-                toScreen(ps, a, b);
-                wingPt(left, ModMonoData.TE_L[k + 2], ModMonoData.TE_L[k + 3], wdeg, a);
-                toScreen(ps, a, c);
-                ModFx.strip("fx_glow", b.x, b.y, c.x, c.y, 18 * px2w, edge[0], edge[1], edge[2], 0.8f * g, true);
+            wingPt(left, gx, gy, wdeg, a);
+            toScreen(ps, a, b);
+            float rot = ps.spin + (left ? wdeg : -wdeg), tww = left ? tw : -tw;
+            for (int q = 0; q < 2; q++) {
+                int fr = (f0 + q) % ModMonoFx.P_NF;
+                float fw = (q == 0 ? 1 - ff : ff) * wt * gi;
+                plasmaTile(fr, b.x, b.y, tww, th, rot, fw, true);
             }
-            for (int j = 0; j < NS; j++) {
-                float u = SU[j];
-                float bx = interp(ModMonoData.TE_L, 2, 0, u), by = interp(ModMonoData.TE_L, 2, 1, u);
-                float phi = (float) Math.toRadians(interp(ModMonoData.TE_ANG, 1, 0, u) + SJ[j]);
-                float len = interp(ModMonoData.TE_LEN, 1, 0, u) * SL[j] * g;
-                float dx = (float) Math.sin(phi), dy = (float) Math.cos(phi), nx = dy, ny = -dx;
-                float pulse = 0.78f + 0.22f * (float) Math.sin(2 * Math.PI * (0.3 - ts * 1.1) + SP[j]);
-                float qx = bx, qy = by;
-                wingPt(left, qx, qy, wdeg, a);
-                toScreen(ps, a, b);
-                float x0 = b.x, y0 = b.y;
-                // whole-streak glow, then 3 wobbling core segments fading out
-                wingPt(left, bx + dx * len, by + dy * len, wdeg, a);
-                toScreen(ps, a, c);
-                ModFx.strip("fx_glow", x0, y0, c.x, c.y, 26 * px2w, edge[0], edge[1], edge[2], 0.35f * g * pulse, true);
-                for (int k = 1; k <= 3; k++) {
-                    float s = len * k / 3f, f = k / 3f;
-                    float wob = 7 * (float) Math.sin(s / 38 - ts * 3.2f + SP[j]) * f;
-                    wingPt(left, bx + dx * s + nx * wob, by + dy * s + ny * wob, wdeg, a);
-                    toScreen(ps, a, c);
-                    float fade = (float) Math.pow(1 - (k - 1) / 3f, 0.8);
-                    ModFx.strip("fx_glow", x0, y0, c.x, c.y, 9 * px2w, core[0], core[1], core[2], 0.85f * g * pulse * fade, true);
-                    x0 = c.x;
-                    y0 = c.y;
-                }
-                // short fading trail: a spark left behind at the streak tip (world space, drifts back slowly)
-                if (trail && (j % 3) == (int) (t / 45 % 3)) {
-                    wingPt(left, bx + dx * len, by + dy * len, wdeg, a);
-                    ModFx.local(ps.position, ps.spin, a.x, a.y, c);
-                    ModFx.part("fx_glow", c.x, c.y, ModFx.rnd(-8, 8), ModFx.rnd(-8, 8), 420, 22 * px2w * 4, 6 * px2w * 4, edge[0], edge[1], edge[2], 0.6f * g, true, false);
-                    ModFx.lastDrag(3);
-                }
+            if (!under) continue;
+            for (int k = 0; k < GHOST_AGE.length; k++) {
+                float back = GHOST_AGE[k] * shift * px2w;
+                c.set(0, back).applyRotatation(Math.toRadians(ps.spin));
+                int fr = (int) (((t - (long) (GHOST_AGE[k] * 1000)) % ModMonoFx.P_LOOP_MS + ModMonoFx.P_LOOP_MS) % ModMonoFx.P_LOOP_MS
+                        / (float) ModMonoFx.P_LOOP_MS * ModMonoFx.P_NF) % ModMonoFx.P_NF;
+                plasmaTile(fr, b.x + c.x, b.y + c.y, tww, th, rot, GHOST_W[k] * gi, false);
             }
         }
     }
 
-    /** ModCaps.drawOver (after the hull): hull heat, flame tongues, hit flares and ripples. */
+    private static void plasmaTile(int fr, float x, float y, float w, float h, float rot, float al, boolean white) {
+        if (al <= 0.004f) return;
+        float u0 = (fr % ModMonoFx.P_COLS) * ModMonoFx.P_TU, v0 = (fr / ModMonoFx.P_COLS) * ModMonoFx.P_TV;
+        float u1 = u0 + ModMonoFx.P_TU, v1 = v0 + ModMonoFx.P_TV;
+        mask("mfx_mono_plasma_glow", x, y, w, h, rot, edge[0] * 1.2f, edge[1] * 1.2f, edge[2] * 1.2f, al, u0, v0, u1, v1);
+        mask("mfx_mono_plasma_core", x, y, w, h, rot, core[0], core[1], core[2], al, u0, v0, u1, v1);
+        if (white) mask("mfx_mono_plasma_white", x, y, w, h, rot, 1, 1, 1, al, u0, v0, u1, v1);
+    }
+
+    /** ModCaps.drawOver (after the hull): hull heat, the plasma's over-ship share, hit flares and ripples. */
     public static void over(PlayerShip ps) {
         try {
             if (stage == 0) return;
@@ -346,19 +383,16 @@ public final class ModMonolith {
             try {
                 String hot = parts ? "monolith_stage5_hull_hot" : stage == 4 ? "monolith_stage4_hot" : null;
                 if (hot != null && heat > 0.02f) ModFx.sprR(hot, sc.x, sc.y, D, D, ps.spin, 1, 1, 1, heat * str, false);
-                float sh = shieldFrac(ps);
-                if (sh <= 0) return;
+                if (parts) {
+                    float wdeg = ang + 3.0f * (float) Math.sin(2 * Math.PI * flapT / 1.8) * Math.min(ang / MAX_ANG, 1);
+                    plasma(ps, t, wdeg, false);
+                }
+                if (shieldFrac(ps) <= 0) return;
                 float agit = agitation(t);
                 float v = held + 0.3f * Math.min(agit, 1.5f);
                 ramp(AURA_CORE, v, core);
                 ramp(AURA_EDGE, v, edge);
-                float wdeg = parts ? ang : 0;
                 float[] o = parts || stage == 5 ? ModMonoData.HULL : ModMonoData.S4;
-                tongues(ps, t, o, false, false, 0, str, sh, agit);
-                if (parts) {
-                    tongues(ps, t, ModMonoData.WING_L, true, true, wdeg, str, sh, agit);
-                    tongues(ps, t, ModMonoData.WING_L, true, false, wdeg, str, sh, agit);
-                }
                 hits(ps, t, o, str);
             } finally {
                 ModFx.relative = false;
@@ -371,44 +405,6 @@ public final class ModMonolith {
     private static float angd(float a1, float a2) {
         double d = a1 - a2;
         return (float) Math.abs(Math.atan2(Math.sin(d), Math.cos(d)));
-    }
-
-    /** Calm flame tongues along the outline; length breathes with a slow travelling noise, reacts to hits. */
-    private static void tongues(PlayerShip ps, long t, float[] o, boolean wing, boolean left, float wdeg, float str, float sh, float agit) {
-        float px2w = D / 1024f;
-        float base = (14 + 8 * held) * px2w * 2.56f * (1 + 0.5f * Math.min(agit, 1.5f));
-        int n = o.length / 4;
-        for (int k = 0; k < n; k++) {
-            float px = o[4 * k], py = o[4 * k + 1], nx = o[4 * k + 2], ny = o[4 * k + 3];
-            float th = (float) Math.atan2(py - 512, (wing && !left ? 1023 - px : px) - 512);
-            float reach = base * (1 + 0.6f * ((py / 1024f) * (py / 1024f)) * held);
-            float lean = 0;
-            float dent = 1;
-            for (int i = 0; i < HN; i++) {
-                float age = (t - hT[i]) / 1000f;
-                if (hT[i] == 0 || age >= 3) continue;
-                float e = hDmg[i] * (float) Math.exp(-age / 1.5);
-                lean += e * (float) Math.cos(th - hAng[i]);
-                float dp = angd(th, hAng[i]);
-                dent *= 1 - 0.55f * hDmg[i] * (float) Math.exp(-dp * dp / 0.25f) * (float) Math.exp(-age / 0.5f) * (float) Math.cos(age * 10);
-            }
-            reach *= (1 + 0.35f * Math.max(-1, Math.min(1, lean))) * Math.max(0.15f, dent);
-            double nz = Math.sin(phase * 1.0 + k * 1.7) * Math.sin(phase * 0.6 + k * 0.9 + 1.3);
-            float len = reach * (0.55f + 0.9f * (float) (0.5 + 0.5 * nz));
-            float bx = px, by = py, ex = px + nx * len / px2w, ey = py + ny * len / px2w;
-            if (wing) {
-                wingPt(left, bx, by, wdeg, a);
-                wingPt(left, ex, ey, wdeg, c);
-            } else {
-                a.set(lx(bx), lx(by));
-                c.set(lx(ex), lx(ey));
-            }
-            toScreen(ps, a, b);
-            toScreen(ps, c, a);
-            float al = str * (0.30f + 0.25f * (float) (0.5 + 0.5 * nz)) * (0.5f + 0.5f * sh);
-            ModFx.strip("fx_glow", b.x, b.y, a.x, a.y, len * 0.9f, edge[0], edge[1], edge[2], al, true);
-            ModFx.strip("fx_glow", b.x, b.y, (a.x + b.x * 2) / 3, (a.y + b.y * 2) / 3, len * 0.35f, core[0], core[1], core[2], al * 0.9f, true);
-        }
     }
 
     /** Impact flare (white, local), ripple round the outline both ways, heavy-hit shock ring. */
