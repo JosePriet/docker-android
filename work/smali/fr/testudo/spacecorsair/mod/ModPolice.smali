@@ -1685,7 +1685,7 @@
 
     move-result v0
 
-    if-ge v1, v0, :cond_4e
+    if-ge v1, v0, :cond_54
 
     .line 421
     invoke-interface {v2, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
@@ -1697,11 +1697,11 @@
     .line 422
     instance-of v3, v0, Lfr/testudo/spacecorsair/business/world/civil/PoliceShip;
 
-    if-eqz v3, :cond_2c
+    if-eqz v3, :cond_32
 
     iget-boolean v3, v0, Lfr/testudo/spacecorsair/business/Element;->removed:Z
 
-    if-nez v3, :cond_2c
+    if-nez v3, :cond_32
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModPolice;->police:Ljava/util/WeakHashMap;
 
@@ -1709,17 +1709,23 @@
 
     move-result v3
 
-    if-nez v3, :cond_2c
+    if-nez v3, :cond_32
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSector;->sectorPolice(Lfr/testudo/spacecorsair/business/Element;)Z
 
     move-result v3
 
-    if-nez v3, :cond_30
+    if-eqz v3, :cond_32
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSector;->factionShip(Lfr/testudo/spacecorsair/business/Element;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_36
 
     .line 420
-    :cond_2c
-    :goto_2c
+    :cond_32
+    :goto_32
     add-int/lit8 v0, v1, 0x1
 
     move v1, v0
@@ -1727,7 +1733,7 @@
     goto :goto_a
 
     .line 423
-    :cond_30
+    :cond_36
     check-cast v0, Lfr/testudo/spacecorsair/business/world/civil/PoliceShip;
 
     .line 424
@@ -1737,7 +1743,7 @@
 
     new-array v4, v4, [J
 
-    fill-array-data v4, :array_54
+    fill-array-data v4, :array_5a
 
     invoke-virtual {v3, v0, v4}, Ljava/util/WeakHashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
@@ -1746,38 +1752,38 @@
 
     sget-object v4, Lfr/testudo/spacecorsair/business/world/civil/CivilState;->ATTACK_TARGET:Lfr/testudo/spacecorsair/business/world/civil/CivilState;
 
-    if-eq v3, v4, :cond_2c
+    if-eq v3, v4, :cond_32
 
     .line 426
     const/4 v3, 0x1
 
     sput-boolean v3, Lfr/testudo/spacecorsair/mod/ModPolice;->spawning:Z
-    :try_end_46
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_46} :catch_4d
+    :try_end_4c
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_4c} :catch_53
 
     .line 427
-    :try_start_46
+    :try_start_4c
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/world/civil/PoliceShip;->setAtackPlayerMode()V
-    :try_end_49
-    .catchall {:try_start_46 .. :try_end_49} :catchall_4f
+    :try_end_4f
+    .catchall {:try_start_4c .. :try_end_4f} :catchall_55
 
     const/4 v0, 0x0
 
-    :try_start_4a
+    :try_start_50
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModPolice;->spawning:Z
 
-    goto :goto_2c
+    goto :goto_32
 
     .line 429
-    :catch_4d
+    :catch_53
     move-exception v0
 
     .line 432
-    :cond_4e
+    :cond_54
     return-void
 
     .line 427
-    :catchall_4f
+    :catchall_55
     move-exception v0
 
     const/4 v1, 0x0
@@ -1785,11 +1791,11 @@
     sput-boolean v1, Lfr/testudo/spacecorsair/mod/ModPolice;->spawning:Z
 
     throw v0
-    :try_end_54
-    .catch Ljava/lang/Throwable; {:try_start_4a .. :try_end_54} :catch_4d
+    :try_end_5a
+    .catch Ljava/lang/Throwable; {:try_start_50 .. :try_end_5a} :catch_53
 
     .line 424
-    :array_54
+    :array_5a
     .array-data 8
         0x2
         0x1388
@@ -3605,16 +3611,22 @@
 
     cmp-long v0, v0, v4
 
-    if-gtz v0, :cond_ee
+    if-gtz v0, :cond_f4
 
     const-wide/16 v0, 0x7d0
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModPolice;->joinTimer:J
 
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModCalm;->active()Z
+
+    move-result v0
+
+    if-nez v0, :cond_f4
+
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModPolice;->join()V
 
     .line 349
-    :cond_ee
+    :cond_f4
     sget-wide v0, Lfr/testudo/spacecorsair/mod/ModPolice;->waveTimer:J
 
     sub-long/2addr v0, p1
@@ -3636,7 +3648,7 @@
     .line 352
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModPolice;->heatRose:Z
 
-    if-nez v0, :cond_114
+    if-nez v0, :cond_11a
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPolice;->active:Ljava/util/ArrayList;
 
@@ -3644,7 +3656,7 @@
 
     move-result v0
 
-    if-eqz v0, :cond_114
+    if-eqz v0, :cond_11a
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPolice;->titan:Lfr/testudo/spacecorsair/business/Element;
 
@@ -3656,10 +3668,10 @@
 
     if-nez v0, :cond_3f
 
-    :cond_114
+    :cond_11a
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModPolice;->wave(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
-    :try_end_117
-    .catch Ljava/lang/Throwable; {:try_start_6 .. :try_end_117} :catch_7a
+    :try_end_11d
+    .catch Ljava/lang/Throwable; {:try_start_6 .. :try_end_11d} :catch_7a
 
     goto/16 :goto_3f
 .end method

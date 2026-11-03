@@ -345,7 +345,7 @@ public class ModPolice {
                 if (heat <= 0) { standDown(ps); return; }
             }
             joinTimer -= j;
-            if (joinTimer <= 0) { joinTimer = 2000; join(); }
+            if (joinTimer <= 0) { joinTimer = 2000; if (!ModCalm.active()) join(); }   // v42 fix: no joining during a defend-zone mission
             waveTimer -= j;
             if (waveTimer <= 0) {
                 waveTimer = WAVE_MS;
@@ -419,7 +419,7 @@ public class ModPolice {
             List<Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
             for (int k = 0; k < els.size(); k++) {
                 Element e = els.get(k);
-                if (!(e instanceof PoliceShip) || e.removed || police.containsKey(e) || !ModSector.sectorPolice(e)) continue;
+                if (!(e instanceof PoliceShip) || e.removed || police.containsKey(e) || !ModSector.sectorPolice(e) || ModSector.factionShip(e)) continue;   // v42 fix: patrols only, never wings/pursuers
                 PoliceShip p = (PoliceShip) e;
                 police.put(p, new long[] {STOCK_POLICE_CLASS, MISSILE_MS, 0});
                 if (p.curState == CivilState.ATTACK_TARGET) continue;
