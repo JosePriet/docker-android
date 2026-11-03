@@ -213,9 +213,10 @@ elif [ $GAME = sc ]; then
       put corsair_refit 10; sleep 1
       waitn 1 25; log "plant1 seen=$?"
       shot anchor_plant; shot anchor_deploy; sleep 1; shot anchor_up
-      put corsair_spawn albatros,elite; sleep 4; for k in 1 2 3 4; do shot anchor_fight_$k; done
+      put corsair_spawn albatros,elite; sleep 3
+      put corsair_volley 9,a; shot anchor_volley_1; shot anchor_volley_2; sleep 2; put corsair_volley 9,b; sleep 1; shot anchor_volley_3
       put corsair_wallpct 20; sleep 1; shot anchor_low
-      stick 222 650; sleep 0.8; shot anchor_try; sleep 1.0; shot anchor_lift_1; sleep 1.0; shot anchor_lift_2; sleep 1.2; shot anchor_fold; unstick
+      stick 222 650; sleep 1.7; put corsair_volley 9,c; shot anchor_lift_volley; unstick; sleep 0.5; shot anchor_fold
       flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn"
       put corsair_wallpct 100
       waitn 2 40; log "plant2 seen=$?"
@@ -227,8 +228,9 @@ elif [ $GAME = sc ]; then
       sleep 12; stick 222 650; sleep 3; shot anchor_after_doom_move; unstick
       # break: wall at 1%, enemies shooting
       put corsair_wallpct 99; waitn 3 40; log "plant3 seen=$?"
-      sleep 2; put corsair_wallpct 1; put corsair_spawn albatros,elite; sleep 3; for k in 1 2 3; do shot anchor_break_$k; done
-      flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn $T/corsair_wallpct"
+      sleep 2; put corsair_wallpct 1; put corsair_spawn albatros,elite; sleep 3; put corsair_volley 9,d; shot anchor_break_1; shot anchor_break_2
+      sleep 3; put corsair_volley 9,e; sleep 3; put corsair_volley 1,f; sleep 1
+      flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn $T/corsair_wallpct $T/corsair_volley"
       log "EVIDENCE v39anchor: $(grep -E "v39anchor" $LG | sed 's/^.*): //' | tr '\n' ' ')"
       grep -E "ModTest|v39|FATAL|AndroidRuntime" $LG > $OUT/v39_events.txt
       a shell "rm -f $T/corsair_refit"
