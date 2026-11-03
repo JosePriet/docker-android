@@ -27,7 +27,7 @@ public final class ModLevDoom {
     /** Per-tick hull slices (200 ms ticks, ~22 per lance): titan-class 5% and mission bosses 12% per full lance (owner Q1 default). */
     static final float TITAN_SLICE = 0.05f / 22, BOSS_SLICE = 0.12f / 22;
 
-    private static long t0;
+    private static long seqMs;          // game time since the press (frame deltas from ModTitan.tick, so pauses freeze it)
     private static boolean on;         // sequence visuals running (press .. end of reboot)
     private static boolean s5;
     static float coolFrac = 1;         // ModTitan: 0 at the start of the cooldown .. 1 ready
@@ -40,7 +40,7 @@ public final class ModLevDoom {
     }
 
     static void start(PlayerShip ps) {
-        t0 = System.currentTimeMillis();
+        seqMs = 0;
         on = true;
         gauge = true;
         coolFrac = 0;
@@ -60,7 +60,17 @@ public final class ModLevDoom {
     }
 
     static float sec() {
-        return (System.currentTimeMillis() - t0) / 1000f;
+        return seqMs / 1000f;
+    }
+
+    /** ModTitan.tick, every frame: advances the sequence clock. */
+    static void advance(long j) {
+        if (on) seqMs += j;
+    }
+
+    /** Cycle aborted (map, ship removed): lights and engines back, no more sequence overlays; the cooldown gauge stays. */
+    static void abort() {
+        on = false;
     }
 
     static float sm(float t, float a0, float a1) {

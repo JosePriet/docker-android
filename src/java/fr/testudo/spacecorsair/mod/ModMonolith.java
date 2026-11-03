@@ -25,6 +25,7 @@ public final class ModMonolith {
     private static int stage;                 // 0 = not a Monolith s4/s5
     private static long lastT;
     private static float vmax = 1e-3f;        // self-calibrating top speed (world units per tick)
+    private static float vbest;
     private static final float[] hist = new float[26];   // speed samples every 100 ms (2.5 s)
     private static int histPos;
     private static long histT;
@@ -62,7 +63,12 @@ public final class ModMonolith {
         float dt = lastT == 0 ? 0.016f : Math.max(0, Math.min(0.1f, (t - lastT) / 1000f));
         lastT = t;
         float spd = (float) Math.sqrt(ps.speed.x * ps.speed.x + ps.speed.y * ps.speed.y);
-        if (!ps.isBoosterEnabled) vmax = Math.max(vmax * (1 - 0.02f * dt), spd);
+        // top speed: decays slowly only while cruising (parked time must not shrink it), never below half the session best
+        if (!ps.isBoosterEnabled) {
+            if (spd > 0.5f * vmax) vmax *= 1 - 0.02f * dt;
+            vmax = Math.max(Math.max(vmax, spd), 0.5f * vbest);
+            vbest = Math.max(vbest, spd);
+        }
         float v = Math.min(1, spd / Math.max(vmax, 1e-3f));
         if (t - histT >= 100) {
             histT = t;
@@ -94,6 +100,15 @@ public final class ModMonolith {
         float agit = agitation(t);
         phase += dt * (float) (2 * Math.PI / 6.5) * (1 + 3 * agit);
         flapT += dt;
+    }
+
+    /** Left the Monolith s4/s5: start the next flight cold (speed calibration kept). */
+    private static void reset() {
+        lastT = 0;
+        java.util.Arrays.fill(hist, 0);
+        java.util.Arrays.fill(hT, 0);
+        held = peak = ang = vel = heat = 0;
+        stoppedSince = -1;
     }
 
     private static float agitation(long t) {
@@ -163,7 +178,7 @@ public final class ModMonolith {
         try {
             stage = stageOf(ps);
             if (stage == 0) {
-                lastT = 0;
+                if (lastT != 0) reset();
                 return;
             }
             long t = System.currentTimeMillis();

@@ -335,13 +335,14 @@ public final class ModTitan {
         }
         uiKind = k;
         lastTick = System.currentTimeMillis();
+        ModLevDoom.advance(j);
         show = k != NONE && !map && !ps.isDocked && !ps.removed;
         if (k == NONE) {
             request = false;
             return;
         }
         if (map || ps.removed) {
-            if (busy() || state == OVER) { release(ps); state = COOL; timer = COOL_MS[k] / 3; coolTotal = timer; }
+            if (busy() || state == OVER) { release(ps); state = COOL; timer = COOL_MS[k] / 3; coolTotal = timer; ModLevDoom.abort(); }
             label = "";
             request = false;
             return;
@@ -425,9 +426,10 @@ public final class ModTitan {
                 // v38: the titan moves again; its guns and launchers stay offline until the overcharge vents
                 timer -= j;
                 label = ModLang.tr("OVERCHARGED");
-                ps.nextShootAlowed = Math.max(ps.nextShootAlowed, 300);
-                ps.nextShootMissileAlowed = Math.max(ps.nextShootMissileAlowed, 300);
-                if (ps.playerCannons != null) for (PlayerCanon c : ps.playerCannons) c.nextShootAllowed = Math.max(c.nextShootAllowed, 300);
+                int hold = Math.max(0, Math.min(300, timer));   // guns back exactly when the overcharge ends
+                ps.nextShootAlowed = Math.max(ps.nextShootAlowed, hold);
+                ps.nextShootMissileAlowed = Math.max(ps.nextShootMissileAlowed, hold);
+                if (ps.playerCannons != null) for (PlayerCanon c : ps.playerCannons) c.nextShootAllowed = Math.max(c.nextShootAllowed, hold);
                 if (timer <= 0) {
                     state = COOL;
                     timer = COOL_MS[k];
