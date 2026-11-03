@@ -127,7 +127,7 @@ elif [ $GAME = sc ]; then
     for i in 1 2 3 4 5 6 7 8 9; do a shell input tap $XY; sleep 0.3; done
     sleep 0.5; log "LOGIN before 10th tap (logcat): $(grep -c 'v40test button shown' $LG)"
     a shell input tap $XY; sleep 1.5; shot login_button; dump after10; log "LOGIN after 10th tap: $(grep -c 'text="LOGIN"' $OUT/last.xml)"
-    tap_text "^LOGIN\s*$" loginbtn; sleep 2; shot login_confirm; tap_text "^LOG IN\s*$" loginok
+    tap_text "^LOGIN\s*$" loginbtn; sleep 2; shot login_confirm; tap_text "android:id/button1" loginok
     for w in $(seq 1 30); do sleep 2; P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; done; log "test pid $P1 (was $P0)"
     [ -z "$P1" ] && { log "no auto restart: launching by hand"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 5; P1=$(pid); }
     sleep 15; need test_start; shot test_start_1; a shell input keyevent KEYCODE_BACK; sleep 3; noexit; sleep 8; shot test_flight
@@ -141,7 +141,7 @@ elif [ $GAME = sc ]; then
     a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; shot test_ships; back 3
     log "EVIDENCE v40 test: $(ev)"
     XY=$(devach 2); dump logout; log "LOG OUT shown at once: $(grep -c 'text="LOG OUT"' $OUT/last.xml)"; shot logout_button
-    tap_text "^LOG OUT\s*$" logoutbtn; sleep 2; shot logout_confirm; tap_text "^LOG OUT\s*$" logoutok
+    tap_text "^LOG OUT\s*$" logoutbtn; sleep 2; shot logout_confirm; tap_text "android:id/button1" logoutok
     for w in $(seq 1 30); do sleep 2; P2=$(pid); [ -n "$P2" ] && [ "$P2" != "$P1" ] && break; done; log "main pid $P2 (was $P1)"
     [ -z "$P2" ] && { log "no auto restart: launching by hand"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 5; P2=$(pid); }
     sleep 15; need main_back; shot main_back; a shell input keyevent KEYCODE_BACK; sleep 3; noexit; sleep 6
