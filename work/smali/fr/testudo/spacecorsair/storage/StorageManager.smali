@@ -201,6 +201,8 @@
     .registers 2
 
     .prologue
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTestMode;->beforeRestore()V
+
     .line 114
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/storage/StorageManager;->getInventoryStorage()Lfr/testudo/spacecorsair/storage/InventoryStorage;
 
@@ -259,6 +261,8 @@
 
     .line 124
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSave;->sanitize()V
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTestMode;->afterRestore()V
 
     return-void
 .end method

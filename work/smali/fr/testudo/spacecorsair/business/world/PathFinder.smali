@@ -62,6 +62,15 @@
     .registers 6
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->canJumpTo(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
+
+    move-result v0
+
+    if-ltz v0, :tm40_canJumpTo
+
+    return v0
+
+    :tm40_canJumpTo
     const/4 v2, 0x0
 
     .line 1096
@@ -171,6 +180,15 @@
     .registers 2
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->couldJump(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
+
+    move-result v0
+
+    if-ltz v0, :tm40_couldJump
+
+    return v0
+
+    :tm40_couldJump
     .line 1087
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -2339,6 +2357,15 @@
     .registers 4
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->jumpCost(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
+
+    move-result v0
+
+    if-ltz v0, :tm40_jumpCost
+
+    return v0
+
+    :tm40_jumpCost
     .line 1116
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 

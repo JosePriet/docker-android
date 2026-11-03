@@ -3344,7 +3344,9 @@
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->hyperDriveJumpRequested:Z
 
     .line 1050
-    const/16 v0, 0x1388
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTestMode;->jumpTime()I
+
+    move-result v0
 
     iput v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->remainingHyperDriveTime:I
 

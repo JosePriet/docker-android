@@ -29,6 +29,17 @@
     .registers 7
 
     .prologue
+    iget-object v0, p0, Lfr/testudo/spacecorsair/activity/AchievementActivity$1;->this$0:Lfr/testudo/spacecorsair/activity/AchievementActivity;
+
+    invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->achievementTap(Ljava/lang/Object;Lfr/testudo/spacecorsair/game/achievements/Achievement;)Z
+
+    move-result v0
+
+    if-eqz v0, :tm40_go
+
+    return-void
+
+    :tm40_go
     .line 59
     iget-boolean v0, p1, Lfr/testudo/spacecorsair/game/achievements/Achievement;->done:Z
 

@@ -112,6 +112,8 @@
 
     .line 43
     :cond_2a
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->achievementsScreen(Ljava/lang/Object;)V
+
     return-void
 .end method
 

@@ -202,6 +202,10 @@
 
     invoke-direct {v2}, Ljava/util/ArrayList;-><init>()V
 
+    sget-boolean v4, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
+
+    if-nez v4, :cond_7b
+
     .line 78
     invoke-interface {v1}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 

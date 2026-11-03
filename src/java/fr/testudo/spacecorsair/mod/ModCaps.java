@@ -162,6 +162,7 @@ public final class ModCaps {
                 } catch (Exception e) { /* test only */ }
             }
         }
+        ModTestMode.tick(ps, j);
         ModComms.tick(ps);
         ModDerelict.tick(ps, j);
         ModSector.tick(ps, j);

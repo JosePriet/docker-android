@@ -222,6 +222,17 @@ public class ModFaction extends MissionListener {
             Mission cur = ObjectRegistry.INSTANCE.currentMission;
             int plv = ObjectRegistry.INSTANCE.game.playerInfo.level;
             long day = System.currentTimeMillis() / 86400000L;
+            if (ModTestMode.on) {
+                // v40 test mode: every mission of the faction at its HQ (finales at The Hive), done or not, whatever the level or standing
+                int n0 = list.size();
+                for (int i = 0; i < ms.length; i++) {
+                    ModCapitals.Faction f = ModCapitals.FACTIONS[faction(key(i))];
+                    boolean here = !contract(i) && ModV35.finale(order(i)) ? at == LevelId.THE_HIVE : f.hq == at;
+                    if (here && !list.contains(ms[i])) list.add(ms[i]);
+                }
+                ModDev.ev("v40test", "missions at " + at + ": faction " + (list.size() - n0) + " total " + list.size());
+                return;
+            }
             for (int fi = 0; fi < ModCapitals.FACTIONS.length; fi++) {
                 if (ModCapitals.FACTIONS[fi].hq != at && !(testHail && fi == 0)) continue;
                 String k = ModCapitals.FACTIONS[fi].key;

@@ -328,7 +328,7 @@ public final class ModRep {
     private static final Map<Station, Boolean> stocked = new WeakHashMap<Station, Boolean>();
 
     private static void stockSecret(int fi, int r) {
-        if (r < TRUSTED) return;
+        if (r < TRUSTED && !ModTestMode.on) return;   // v40 test mode: secret weapons on sale whatever the standing
         try {
             int i = index(ModCapitals.FACTIONS[fi].key);
             List<Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;

@@ -2003,16 +2003,20 @@
     .line 331
     const/4 v1, 0x4
 
-    if-ge p1, v1, :cond_4
+    if-ge p1, v1, :cond_8
+
+    sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
+
+    if-nez v1, :cond_8
 
     .line 344
-    :cond_3
-    :goto_3
+    :cond_7
+    :goto_7
     return-void
 
     .line 333
-    :cond_4
-    :try_start_4
+    :cond_8
+    :try_start_8
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     aget-object v1, v1, p0
@@ -2037,12 +2041,12 @@
 
     move v3, v1
 
-    :goto_18
+    :goto_1c
     invoke-interface {v5}, Ljava/util/List;->size()I
 
     move-result v1
 
-    if-ge v3, v1, :cond_3
+    if-ge v3, v1, :cond_7
 
     .line 336
     invoke-interface {v5, v3}, Ljava/util/List;->get(I)Ljava/lang/Object;
@@ -2054,7 +2058,7 @@
     .line 337
     instance-of v2, v1, Lfr/testudo/spacecorsair/business/world/station/Station;
 
-    if-eqz v2, :cond_30
+    if-eqz v2, :cond_34
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModRep;->stocked:Ljava/util/Map;
 
@@ -2062,19 +2066,19 @@
 
     move-result v2
 
-    if-eqz v2, :cond_34
+    if-eqz v2, :cond_38
 
     .line 335
-    :cond_30
-    :goto_30
+    :cond_34
+    :goto_34
     add-int/lit8 v1, v3, 0x1
 
     move v3, v1
 
-    goto :goto_18
+    goto :goto_1c
 
     .line 338
-    :cond_34
+    :cond_38
     move-object v0, v1
 
     check-cast v0, Lfr/testudo/spacecorsair/business/world/station/Station;
@@ -2105,16 +2109,16 @@
     sget-object v6, Ljava/lang/Boolean;->TRUE:Ljava/lang/Boolean;
 
     invoke-interface {v2, v1, v6}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-    :try_end_52
-    .catch Ljava/lang/Throwable; {:try_start_4 .. :try_end_52} :catch_53
+    :try_end_56
+    .catch Ljava/lang/Throwable; {:try_start_8 .. :try_end_56} :catch_57
 
-    goto :goto_30
+    goto :goto_34
 
     .line 341
-    :catch_53
+    :catch_57
     move-exception v1
 
-    goto :goto_3
+    goto :goto_7
 .end method
 
 .method static testTick()V
