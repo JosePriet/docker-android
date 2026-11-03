@@ -125,7 +125,7 @@ elif [ $GAME = sc ]; then
     sleep 8; P0=$(pid); log "main pid $P0"
     XY=$(devach 1); log "dev achievement at '$XY'"; shot ach_dev
     for i in 1 2 3 4 5 6 7 8 9; do a shell input tap $XY; sleep 0.3; done
-    dump before10; log "LOGIN before 10th tap: $(grep -c 'text="LOGIN"' $OUT/last.xml)"
+    sleep 0.5; log "LOGIN before 10th tap (logcat): $(grep -c 'v40test button shown' $LG)"
     a shell input tap $XY; sleep 1.5; shot login_button; dump after10; log "LOGIN after 10th tap: $(grep -c 'text="LOGIN"' $OUT/last.xml)"
     tap_text "^LOGIN\s*$" loginbtn; sleep 2; shot login_confirm; tap_text "^LOG IN\s*$" loginok
     for w in $(seq 1 30); do sleep 2; P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; done; log "test pid $P1 (was $P0)"
