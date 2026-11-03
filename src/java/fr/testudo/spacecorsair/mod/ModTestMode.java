@@ -245,6 +245,7 @@ public final class ModTestMode {
     /** From ModCaps.tick (every frame in flight): top-ups twice a second. */
     public static void tick(PlayerShip ps, long j) {
         if (!on) return;
+        fullHull(ps);
         topMs -= j;
         if (topMs > 0) return;
         topMs = 500;
@@ -256,6 +257,25 @@ public final class ModTestMode {
             if (at != tAt) { tAt = at; ModDev.ev("v40test", "sector " + at + " cells " + ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.getQuantityOf(SpaceObjectType.energyCell) + " t=" + SystemClock.uptimeMillis()); }
         } catch (Throwable t) {
             // evidence only
+        }
+    }
+
+    private static Object hulledShip;
+    private static long hullUntil;
+
+    /** v42 (owner 23:26): in test mode a ship starts at full hull: on the first flight frame and after every ship switch. */
+    private static void fullHull(PlayerShip ps) {
+        try {
+            if (ps == null || ps.removed || ps.maxLife <= 0) return;
+            Object cur = ObjectRegistry.INSTANCE.game.playerInfo.playerGear.playerShip;
+            long now = SystemClock.uptimeMillis();
+            if (cur != hulledShip) { hulledShip = cur; hullUntil = now + 3000; }   // 3 s: the mod's hull refresh lands meanwhile
+            if (now > hullUntil || ps.life >= ps.maxLife) return;
+            ps.life = ps.maxLife;
+            ps.lifeInPourc = 100.0f;
+            ModDev.ev("v40test", "full hull " + Math.round(ps.maxLife));
+        } catch (Throwable t) {
+            // next frame
         }
     }
 

@@ -252,7 +252,7 @@ public class ModFaction extends MissionListener {
                     for (int i = 0; i < ms.length; i++) {
                         if (contract(i) || !key(i).equals(k) || !ModV35.finale(order(i))) continue;
                         if (ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(id(i))) continue;
-                        if (cur != ms[i] && plv < Math.max(34, minLevel(i) - 2) && !testHail) break;   // v39 owner 3A: the finale opens at L34 (was data level - 2 = L32)
+                        if (cur != ms[i] && plv < FINALE_LEVEL && !testHail) break;   // v42 owner final ruling 23:26: the finale opens at a flat L32
                         if (!list.contains(ms[i])) list.add(ms[i]);
                         break;
                     }
@@ -388,6 +388,8 @@ public class ModFaction extends MissionListener {
             return false;
         }
     }
+
+    static final int FINALE_LEVEL = 32;   // owner 2026-11-03 23:26: flat L32 finale gate
 
     private static ModFaction active() {
         Mission m = ObjectRegistry.INSTANCE.currentMission;
