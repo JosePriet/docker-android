@@ -693,12 +693,12 @@ public class ModV34 {
     }
 
     /** v39 anchor wall (ModAnchor): a shot's damage as it would reach the player, pilot formula and counters, no dodge roll. */
-    static float wallDamage(Element target, Projectile p) {
+    static float wallDamage(Element target, Projectile p, float raw) {
         try {
-            if (p == null || p.sender == null || target == null) return p == null ? 0 : p.damage;
-            return p.damage * pilot(stat(p.sender), stat(target)) * counter(factionOf(p.sender), factionOf(target), ModWeapons.familyOf(p));
+            if (p == null || p.sender == null || target == null) return raw;
+            return raw * pilot(stat(p.sender), stat(target)) * counter(factionOf(p.sender), factionOf(target), ModWeapons.familyOf(p));
         } catch (Throwable t) {
-            return p.damage;
+            return raw;
         }
     }
 

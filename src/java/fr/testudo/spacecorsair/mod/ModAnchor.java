@@ -27,19 +27,18 @@ public final class ModAnchor {
 
     static final long STILL_MS = 2500, TRY_MS = 1500, HOLD_MS = 2500, FOLD_MS = 800, PLANT_MS = 500, DEPLOY_MS = 1300, REGEN_MS = 25000;
     static final float TAKEN = 0.65f, CAP_MUL = 1.5f;
-    /** Lowest charge share that can plant (default: a quarter of the wall). */
-    static final float MIN_PLANT = 0.25f;
     /** Speed below this (units per 10 ms; a bullet does 5) counts as fully stopped. */
     static final float STOP_SPEED = 0.05f;
 
     static final int IDLE = 0, PLANTED = 1, HOLDING = 2, FOLDING = 3;
     static int state = IDLE;
     private static long stillMs, tryMs, t, lastJ = 16;
-    static float cap, cur = -1;            // wall capacity and charge (cur < 0 = not initialised: starts full)
+    static float cap, cur = -1, share = 1;            // wall capacity and charge (cur < 0 = not initialised: starts full)
     private static int stage;              // flown Leviathan stage (0 = not a Leviathan / stage < 4)
     private static long stageAt;
     private static float D = 1000;         // hull drawable size (sprite units -> world)
     private static int logs;
+    private static boolean logMove;
 
     // hits on the wall: local x on the wall (-1..1), time (ms since plant), strength
     private static final float[] hitU = new float[8], hitStr = new float[8], hitLX = new float[8], hitLY = new float[8];
@@ -67,9 +66,13 @@ public final class ModAnchor {
         }
         float newCap = ps.shield != null ? ps.shield.capacity * CAP_MUL : 0;
         if (newCap > 0) {
-            if (cur < 0 || cap <= 0) cur = newCap;
+            if (cur < 0) cur = newCap;                         // first flight: full
+            else if (cap <= 0) cur = share * newCap;            // shield re-equipped: the share it had (no free refill)
             else if (newCap != cap) cur = cur / cap * newCap;   // shield swapped: keep the charge share
             cap = newCap;
+        } else {
+            if (cap > 0) share = cur / cap;
+            cap = 0;   // no shield equipped: no wall
         }
         if (stage == 0 || map || ps.isDocked || ps.removed || cap <= 0) {
             if (state != IDLE) end(ps, "off");
@@ -81,8 +84,12 @@ public final class ModAnchor {
         switch (state) {
             case IDLE:
                 cur = Math.min(cap, cur + cap * j / REGEN_MS);   // recharges only while the wall is down
+                if (logMove && trying && !ModTitan.busy()) {   // test evidence: thrust is back
+                    logMove = false;
+                    ModDev.ev("v39anchor", "moving force " + Math.round(ps.maxPouseeForce) + " speed " + ps.speed.length());
+                }
                 if (!trying && ps.speed.length() < STOP_SPEED) stillMs += j; else stillMs = 0;
-                if (stillMs >= STILL_MS && cur >= cap * MIN_PLANT) plant(ps);
+                if (stillMs >= STILL_MS && cur > 0) plant(ps);
                 break;
             case PLANTED:
                 t += j;
@@ -132,6 +139,7 @@ public final class ModAnchor {
         ps.isPousee = ps.curPouseeForce > 0 || ps.isBoosterEnabled;
         state = HOLDING;
         tryMs = 0;
+        logMove = true;
         ModDev.ev("v39anchor", "lift t=" + t + " charge " + pct());
     }
 
@@ -170,8 +178,11 @@ public final class ModAnchor {
             if (ps == null) return;
             float dt = lastJ / 10f;
             if (cross(ps, p.position.x - p.speed.x * dt, p.position.y - p.speed.y * dt, p.position.x, p.position.y)) {
+                absorb(ps, p, p.damage);
+                // the game drops an expired shot on its next physics step: until then it carries no damage and no decal
                 p.lifeTimeInMilli = 0;
-                absorb(ps, p);
+                p.damage = 0;
+                p.ignoreImactDecalOnTarget = true;
             }
         } catch (Throwable th) {
             // the wall never breaks the frame
@@ -188,8 +199,8 @@ public final class ModAnchor {
             if (!target.isPlayer && ModV35.standing(target) != 1) return dmg;
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             if (ps == null) return dmg;
-            if (cross(ps, p.sender.position.x, p.sender.position.y, p.position.x, p.position.y)) {
-                absorb(ps, p);
+            if (cross(ps, p.sender.position.x, p.sender.position.y, target.position.x, target.position.y)) {
+                absorb(ps, p, dmg);   // the beam's own per-hit amount
                 return 0;
             }
         } catch (Throwable th) {
@@ -229,8 +240,8 @@ public final class ModAnchor {
         return true;
     }
 
-    private static void absorb(PlayerShip ps, Projectile p) {
-        float dmg = ModV34.wallDamage(ps, p) * TAKEN;
+    private static void absorb(PlayerShip ps, Projectile p, float raw) {
+        float dmg = ModV34.wallDamage(ps, p, raw) * TAKEN;
         cur -= dmg;
         float u = (float) (Math.toDegrees(Math.atan2(crossLX, -crossLY)) / ModAnchorData.SPAN_DEG);
         int i = hitN++ % 8;
