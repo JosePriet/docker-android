@@ -966,12 +966,12 @@
 
     :array_414
     .array-data 4
-        0x0
-        -0x3da46666    # -54.9f
-        -0x3dd93333    # -41.7f
-        0x40dccccd    # 6.9f
-        0x4226cccd    # 41.7f
-        0x40dccccd    # 6.9f
+        -0x41666666    # -0.3f
+        -0x3dcccccd    # -44.8f
+        -0x3ddd999a    # -40.6f
+        0x4121999a    # 10.1f
+        0x42226666    # 40.6f
+        0x4121999a    # 10.1f
     .end array-data
 
     :array_424
