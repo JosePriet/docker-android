@@ -315,6 +315,18 @@ public class ModV34 {
         }
     }
 
+    /** v42 (owner 2026-11-03 23:29, class split from the v37 sim): enemy damage gets 40% of the class step. */
+    public static final float DMG_SPLIT = 0.40f, SHIELD_SPLIT = 0.35f;
+
+    public static float dmgClass(int cls) {
+        return cls < 0 ? 1f : 1f + DMG_SPLIT * (classFactor(cls) - 1f);
+    }
+
+    /** ... and big-ship shields 35% of it (hull keeps the full class factor). */
+    public static float shieldClass(int cls) {
+        return cls < 0 ? 1f : 1f + SHIELD_SPLIT * (classFactor(cls) - 1f);
+    }
+
     /** Fallback class (x1) for enemies with no class of their own (turrets, unknown types). */
     static final int STOCK_CLASS = ModShips.DESTROYER;
 
@@ -396,6 +408,7 @@ public class ModV34 {
             e.life = e.maxLife;
             e.xp = Math.round(e.xp * curve(lv));   // XP keeps pace with the +5% per level XP table
             e.bulletDamage *= c;
+            try { e.bulletDamage *= dmgClass(ModV35.enemyClass(e)); } catch (Throwable th2) { /* class unknown: x1 */ }   // v42 class split
             if (e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) {
                 fr.testudo.spacecorsair.business.player.Shield sh = ((fr.testudo.spacecorsair.business.ennemis.FrelonShip) e).shield;
                 if (sh != null) { sh.capacity *= c; sh.currentValue = sh.capacity; }
@@ -439,7 +452,7 @@ public class ModV34 {
         try {
             fr.testudo.spacecorsair.business.loot.stuff.shield.ShieldSpec[] t = fr.testudo.spacecorsair.business.loot.stuff.shield.ShieldSpecBuilder.decentShieldSpecByLevel;
             fr.testudo.spacecorsair.business.loot.stuff.shield.ShieldSpec sp = t[Math.max(0, Math.min(t.length - 1, stockLv))];
-            float k = classFactor(cls) * curve(lv);
+            float k = shieldClass(cls) * curve(lv);   // v42 owner: shields take 35% of the class step
             return new float[]{sp.capacity * k, sp.reloadBySec * k};
         } catch (Throwable th) {
             return null;

@@ -16,6 +16,39 @@ public final class ModMap {
     /** v36: asteroid dots on the minimap radar in gold instead of the stock pure yellow, which reads green under phone colour filters (hooks36); dots 2 -> 3 px, big 3 -> 4.5 px (hooks36b, owner pick 2026-10-30). */
     public static final float ASTEROID_R = 1.0f, ASTEROID_G = 0.82f, ASTEROID_B = 0.0f;
 
+    /** v42 (owner 23:29): in-game GL text sizes (Roboto px): small HUD text x1.25 (14->18, 18->23, 22->28) [D]; titles unchanged. */
+    public static final float FONT_SCALE = 1.25f;
+
+    public static int fontPx(int px) {
+        return px <= 24 ? Math.round(px * FONT_SCALE) : px;
+    }
+
+    /**
+     * v42 (owner 23:29): hook in GameThread.drawOnRadarAndCalcNearby (hooks42e). Asteroids (the gold radar colour) are drawn
+     * as a small rock icon (dark outline, gold body, light highlight, dark crater) instead of one dot; everything else as before.
+     */
+    public static void radarPoint(fr.testudo.spacecorsair.engine.RenderQueue q, fr.testudo.spacecorsair.engine.Vector2 at, boolean b,
+                                  float r, float g, float bl, float a, float size) {
+        if (r != ASTEROID_R || g != ASTEROID_G || bl != ASTEROID_B) {
+            q.addToPointWaitingQueue(at, b, r, g, bl, a, size);
+            return;
+        }
+        try {
+            float s = size, d = Math.max(1f, s * 0.45f);
+            rp.setSameAs(at).add(d * 0.5f, d * 0.5f);
+            q.addToPointWaitingQueue(rp, b, 0.30f, 0.22f, 0.0f, a, s * 2.4f);          // shadow / outline
+            q.addToPointWaitingQueue(at, b, r, g, bl, a, s * 2.0f);                     // body
+            rp.setSameAs(at).add(-d, -d);
+            q.addToPointWaitingQueue(rp, b, 1.0f, 0.96f, 0.6f, a, s * 0.8f);            // highlight
+            rp.setSameAs(at).add(d, d * 0.4f);
+            q.addToPointWaitingQueue(rp, b, 0.55f, 0.38f, 0.0f, a, s * 0.8f);           // crater
+        } catch (Throwable t) {
+            q.addToPointWaitingQueue(at, b, r, g, bl, a, size);
+        }
+    }
+
+    private static final fr.testudo.spacecorsair.engine.Vector2 rp = new fr.testudo.spacecorsair.engine.Vector2();
+
     public static void asteroidRadar(fr.testudo.spacecorsair.business.Element e) {
         e.radarColorR = ASTEROID_R;
         e.radarColorG = ASTEROID_G;

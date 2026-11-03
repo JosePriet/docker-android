@@ -26,7 +26,7 @@ eq("slot frigate",ModV34.slotOf(0),0,0);eq("slot titan",ModV34.slotOf(6),3,0);
 eq("level shield L40 +23%",ModV34.levelShield(40),1.23,1e-4);eq("level shield L17",ModV34.levelShield(17),1.0,1e-4);
 for(int r=0;r<20;r++){fr.testudo.spacecorsair.business.ennemis.Ennemis e=new fr.testudo.spacecorsair.business.ennemis.BasicEnnemyShip();
  e.level=25;e.maxLife=1000;e.bulletDamage=10;e.milleSecBetweenShots=1200;e.xp=10;ModV34.scale(e);int t=ModV34.tier(e);float c=ModV34.curve(25);
- eq("enemy L25 hull = base x frigate 0.6 x curve",e.maxLife,ModV34.baseHull(25)*0.6*c,0.5);eq("enemy L25 damage = curve x tier",e.bulletDamage,10*c*ModV34.TIER_F[t],1e-2);eq("enemy L25 reload / tier",e.milleSecBetweenShots,(long)(1200/ModV34.TIER_F[t]),1);
+ eq("enemy L25 hull = base x frigate 0.6 x curve",e.maxLife,ModV34.baseHull(25)*0.6*c,0.5);eq("enemy L25 damage = curve x tier x v42 class split",e.bulletDamage,10*c*ModV34.TIER_F[t]*ModV34.dmgClass(fr.testudo.spacecorsair.mod.ModShips.FRIGATE),1e-2);eq("enemy L25 reload / tier",e.milleSecBetweenShots,(long)(1200/ModV34.TIER_F[t]),1);
  eq("enemy tier 1-4",(t>=1&&t<=4)?1:0,1,0);eq("normal enemy not REA-eligible",ModV34.difficult(e)?1:0,0,0);
  float l0=e.maxLife,d0=e.bulletDamage;e.elite=true;ModV34.elite(e);int t2=ModV34.tier(e);
  eq("elite hull x2.5 x class step frigate->destroyer",e.maxLife,l0*2.5*ModV34.classFactor(1)/ModV34.classFactor(0),0.5);eq("elite tier +1",t2,Math.min(4,t+1),0);eq("elite damage x1.5 x tier step",e.bulletDamage,d0*1.5*ModV34.TIER_F[t2]/ModV34.TIER_F[t],1e-2);eq("elite stat +150",ModV34.stat(e),ModV34.statBase(25)+150,0);
@@ -40,7 +40,7 @@ for(int r=0;r<20;r++){fr.testudo.spacecorsair.business.ennemis.Ennemis e=new fr.
  eq("mod fleet hull keeps its own rule",ModV34.stockClass((fr.testudo.spacecorsair.business.Element)mk(ModFleet.Fighter.class)),-1,0);
  eq("base hull L12 = mean of Rat and Ufo rows",ModV34.baseHull(12),(410+1010)/2.0,0.5);
  for(int i=0;i<8;i++){fr.testudo.spacecorsair.business.ennemis.Ennemis e=(fr.testudo.spacecorsair.business.ennemis.Ennemis)mk(Class.forName(P+n[i]));e.level=12;e.maxLife=999;e.bulletDamage=10;e.milleSecBetweenShots=1000;e.xp=1;ModV34.scale(e);
-  eq(n[i]+" L12 hull = base x class",e.maxLife,ModV34.baseHull(12)*ModV34.classFactor(w[i]),0.5);eq(n[i]+" L12 damage keeps stock x tier",e.bulletDamage,10*ModV34.TIER_F[ModV34.tier(e)],1e-3);}
+  eq(n[i]+" L12 hull = base x class",e.maxLife,ModV34.baseHull(12)*ModV34.classFactor(w[i]),0.5);eq(n[i]+" L12 damage = stock x tier x v42 class split",e.bulletDamage,10*ModV34.TIER_F[ModV34.tier(e)]*ModV34.dmgClass(w[i]),1e-3);}
  fr.testudo.spacecorsair.business.ennemis.Ennemis t=(fr.testudo.spacecorsair.business.ennemis.Ennemis)mk(Class.forName(P+"FixedTourelle"));t.level=12;t.maxLife=999;t.bulletDamage=1;t.milleSecBetweenShots=1000;t.xp=1;ModV34.scale(t);eq("turret keeps stock hull",t.maxLife,999,0.5);}
 {Object g=mk(fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip.class);eq("unclassed guardian not REA-eligible",ModV34.difficult((fr.testudo.spacecorsair.business.Element)g)?1:0,0,0);
  java.lang.reflect.Field f=ModCapitals.class.getDeclaredField("caps");f.setAccessible(true);((java.util.Map)f.get(null)).put(g,mk(Class.forName("fr.testudo.spacecorsair.mod.ModCapitals$Cap")));
@@ -52,5 +52,5 @@ eq("skill vs non-dodgeable: pilot only",ModV34.skillDamage(100,700,400,false,fal
  for(int s=3;s<d.length;s++){float dps=2*d[s].getDps();double fr=ModV34.baseHull(s)*0.6/dps,de=ModV34.baseHull(s)/dps;
   eq("model kill time stock L"+s+" frigate "+String.format("%.1f",fr)+" s, destroyer "+String.format("%.1f",de)+" s (C1 baseline 3-4 s, band 1-5 s)",fr>=1&&de<=5?1:0,1,0);}}
 eq("shield regen steady",ModV34.regen(10,2,99999),20,1e-4);eq("shield regen -15% under player fire",ModV34.regen(10,2,1000),17,1e-4);
-{float[] s1=ModV34.shieldStats(10,20,3),s2=ModV34.shieldStats(10,20,5);eq("shield capital = 5/2.2 x battlecruiser",s2[0]/s1[0],5/2.2,1e-3);}
+{float[] s1=ModV34.shieldStats(10,20,3),s2=ModV34.shieldStats(10,20,5);eq("shield capital vs battlecruiser = v42 35% class split",s2[0]/s1[0],(1+0.35*(5-1))/(1+0.35*(2.2-1)),1e-3);}
 System.out.println(bad==0?"V34 VALUES-OK":"V34 VALUES-FAIL "+bad);}}

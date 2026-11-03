@@ -704,6 +704,10 @@
 
     const/16 v3, 0xe
 
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModMap;->fontPx(I)I
+
+    move-result v3
+
     invoke-virtual {v0, v1, v3, v10, v10}, Lfr/testudo/spacecorsair/textengine/GLText;->load(Ljava/lang/String;III)Z
 
     .line 750
@@ -758,6 +762,10 @@
 
     const/16 v3, 0x12
 
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModMap;->fontPx(I)I
+
+    move-result v3
+
     invoke-virtual {v0, v1, v3, v10, v10}, Lfr/testudo/spacecorsair/textengine/GLText;->load(Ljava/lang/String;III)Z
 
     .line 756
@@ -800,6 +808,10 @@
     const-string v1, "fonts/Roboto-Regular.ttf"
 
     const/16 v3, 0x16
+
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModMap;->fontPx(I)I
+
+    move-result v3
 
     invoke-virtual {v0, v1, v3, v10, v10}, Lfr/testudo/spacecorsair/textengine/GLText;->load(Ljava/lang/String;III)Z
 
@@ -891,6 +903,10 @@
 
     const/16 v3, 0x3c
 
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModMap;->fontPx(I)I
+
+    move-result v3
+
     invoke-virtual {v0, v1, v3, v11, v11}, Lfr/testudo/spacecorsair/textengine/GLText;->load(Ljava/lang/String;III)Z
 
     .line 769
@@ -933,6 +949,10 @@
     const-string v1, "fonts/scoreboard.ttf"
 
     const/16 v3, 0x3c
+
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModMap;->fontPx(I)I
+
+    move-result v3
 
     invoke-virtual {v0, v1, v3, v11, v11}, Lfr/testudo/spacecorsair/textengine/GLText;->load(Ljava/lang/String;III)Z
 

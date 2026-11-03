@@ -3424,7 +3424,7 @@
 
     iget v7, p1, Lfr/testudo/spacecorsair/business/Element;->radarPointSize:F
 
-    invoke-virtual/range {v0 .. v7}, Lfr/testudo/spacecorsair/engine/RenderQueue;->addToPointWaitingQueue(Lfr/testudo/spacecorsair/engine/Vector2;ZFFFFF)V
+    invoke-static/range {v0 .. v7}, Lfr/testudo/spacecorsair/mod/ModMap;->radarPoint(Lfr/testudo/spacecorsair/engine/RenderQueue;Lfr/testudo/spacecorsair/engine/Vector2;ZFFFFF)V
 
     goto/16 :goto_5a
 
