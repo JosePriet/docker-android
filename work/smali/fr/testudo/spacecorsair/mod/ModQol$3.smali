@@ -37,7 +37,7 @@
     .end annotation
 
     .prologue
-    .line 876
+    .line 839
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModQol$3;->val$listener:Ljava/lang/Object;
 
     iput p2, p0, Lfr/testudo/spacecorsair/mod/ModQol$3;->val$qty:I
@@ -61,11 +61,11 @@
 
     const/4 v5, 0x0
 
-    .line 878
+    .line 841
     # setter for: Lfr/testudo/spacecorsair/mod/ModQol;->sellBypass:Z
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->access$602(Z)Z
 
-    .line 880
+    .line 843
     :try_start_5
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModQol$3;->val$listener:Ljava/lang/Object;
 
@@ -101,12 +101,12 @@
 
     move-result-object v0
 
-    .line 881
+    .line 844
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Ljava/lang/reflect/Method;->setAccessible(Z)V
 
-    .line 882
+    .line 845
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModQol$3;->val$listener:Ljava/lang/Object;
 
     const/4 v2, 0x3
@@ -140,19 +140,19 @@
     .catch Ljava/lang/Exception; {:try_start_5 .. :try_end_42} :catch_46
     .catchall {:try_start_5 .. :try_end_42} :catchall_4b
 
-    .line 886
+    .line 849
     # setter for: Lfr/testudo/spacecorsair/mod/ModQol;->sellBypass:Z
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModQol;->access$602(Z)Z
 
-    .line 888
+    .line 851
     :goto_45
     return-void
 
-    .line 883
+    .line 846
     :catch_46
     move-exception v0
 
-    .line 886
+    .line 849
     # setter for: Lfr/testudo/spacecorsair/mod/ModQol;->sellBypass:Z
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModQol;->access$602(Z)Z
 
@@ -164,6 +164,6 @@
     # setter for: Lfr/testudo/spacecorsair/mod/ModQol;->sellBypass:Z
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModQol;->access$602(Z)Z
 
-    .line 887
+    .line 850
     throw v0
 .end method

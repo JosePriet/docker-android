@@ -27,6 +27,10 @@
 
 .field mounts:[F
 
+.field police:Z
+
+.field rate:F
+
 .field shot:F
 
 .field tAng:[F
@@ -55,6 +59,11 @@
     invoke-direct {v0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->anchor:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    .line 68
+    const/high16 v0, 0x3f800000    # 1.0f
+
+    iput v0, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->rate:F
 
     return-void
 .end method

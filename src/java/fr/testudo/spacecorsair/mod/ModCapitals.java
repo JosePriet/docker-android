@@ -64,6 +64,8 @@ public final class ModCapitals {
         float[] tAng;                // v33 per mount: turret rotation (texture convention), reload left, recoil left
         int[] tReload, tKick;
         boolean fireLogged;
+        boolean police;              // v42: a police titan (ModPoliceTitan), not the faction's real flagship
+        float rate = 1.0f;           // v42: battery fire-rate multiplier (police titan x1.2)
     }
 
     // ------------------------------------------------------------------ v33 batteries
@@ -91,7 +93,7 @@ public final class ModCapitals {
     };
 
     static final Map<GuardianCivilShip, Cap> caps = new WeakHashMap<GuardianCivilShip, Cap>();
-    private static ModFx.Sprite[] hullSprites, hostileSprites;
+    private static ModFx.Sprite[] hullSprites, hostileSprites, polSprites;
     private static final Vector2 phys = new Vector2(SIZE * 0.55f, SIZE * 0.55f);
     private static final Vector2 a = new Vector2(), b = new Vector2();
 
@@ -108,6 +110,7 @@ public final class ModCapitals {
         // Guardian ships are pooled: forget the previous sector's flagships before the pool hands them out again
         for (GuardianCivilShip g : caps.keySet()) { ModTitan.titanClass.remove(g); ModTitanAI.forget(g); }
         caps.clear();
+        ModPoliceTitan.onLevel();
         try {
             LevelId id = ObjectRegistry.INSTANCE.game.currentLevel.id;
             for (int i = 0; i < FACTIONS.length; i++) {
@@ -149,8 +152,30 @@ public final class ModCapitals {
     }
 
     private static GuardianCivilShip spawn(int fi, LevelId id) {
-        Faction f = FACTIONS[fi];
-        int lvl = Math.max(0, Math.min(ModV34.CAP, id.levelMax));
+        return build(fi, Math.max(0, Math.min(ModV34.CAP, id.levelMax)), null, null);
+    }
+
+    /** v42 (ModPoliceTitan): the faction's flagship rebuilt as a police titan of level lvl at {@code at}: a copy of the
+     *  faction (so lookups of the real flagship by FACTIONS[i] never find it), every stat x mult, hostile at once. */
+    static GuardianCivilShip spawnPolice(int fi, int lvl, Vector2 at, Faction pf, float mult) {
+        GuardianCivilShip g = build(fi, lvl, pf, at);
+        Cap c = caps.get(g);
+        c.police = true;
+        c.rate = mult;
+        c.shot *= mult;
+        c.hostileAnnounced = true;                  // no flagship-provoked standing hit: ModPoliceTitan announces it
+        g.maxLife *= mult;
+        g.life = g.maxLife;
+        g.xp = (int) (g.xp * mult);
+        g.maxPouseeForce *= mult;
+        g.pouseeForce *= mult;
+        g.amountOfDamageAllowedInRatioByPlayerBeforeRebelion = 0;
+        g.specificName = ModLang.trf("%s Police Titan", FACTIONS[fi].name);
+        return g;
+    }
+
+    private static GuardianCivilShip build(int fi, int lvl, Faction police, Vector2 at) {
+        Faction f = police != null ? police : FACTIONS[fi];
         GuardianCivilShip g = CivilFactory.newGuardianCivilShip(lvl);
         ModTitanAI.forget(g);                       // pooled: no skill state from a previous life
         g.a = 1.0f;
@@ -164,7 +189,8 @@ public final class ModCapitals {
         for (int i = 0; i < els.size(); i++) {
             if (els.get(i) instanceof Station) { anchorAt.setSameAs(els.get(i).position); break; }
         }
-        c.anchor.setSameAs(anchorAt).add(2600, -1800);
+        if (at != null) c.anchor.setSameAs(at);
+        else c.anchor.setSameAs(anchorAt).add(2600, -1800);
         g.position.setSameAs(c.anchor);
         g.spin = 90;
         float life = (500000f + 30000f * lvl) * HULL_MULT[fi];   // v30 profiles: Bloodforge huge, Crown/Sunspire brittle
@@ -197,7 +223,7 @@ public final class ModCapitals {
             CivilActivity.newMoove(c.anchor.x, c.anchor.y - 1400),
         });
         caps.put(g, c);
-        ModArt.prefetch("cap_" + f.key);            // 1024 px hull: decoded in the background before it comes into view
+        ModArt.prefetch((police != null ? "pol_cap_" : "cap_") + f.key);   // 1024 px hull: decoded in the background before it comes into view
         ModArt.prefetch(f.turretTex);
         ModTitan.titanClass.put(g, Boolean.TRUE);
         ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(g);
@@ -210,7 +236,7 @@ public final class ModCapitals {
         try {
             GuardianCivilShip g = null;
             for (Map.Entry<GuardianCivilShip, Cap> e : caps.entrySet()) {
-                if (e.getValue().f.key.equals(key) && !e.getKey().removed) { g = e.getKey(); break; }
+                if (e.getValue().f.key.equals(key) && !e.getValue().police && !e.getKey().removed) { g = e.getKey(); break; }
             }
             if (g == null) {
                 for (int i = 0; i < FACTIONS.length; i++) {
@@ -235,9 +261,16 @@ public final class ModCapitals {
             if (c == null) return null;
             if (hullSprites == null) hullSprites = new ModFx.Sprite[FACTIONS.length];
             int i = indexOf(c.f);
+            if (c.police) {                             // v42: police livery, never the hostile faction art
+                if (polSprites == null) polSprites = new ModFx.Sprite[FACTIONS.length];
+                String pn = "pol_cap_" + c.f.key;
+                if (polSprites[i] == null) polSprites[i] = ModFx.fixed(pn, SIZE, SIZE, false);
+                if (polSprites[i].myTexture == null) ModFx.rebind(polSprites[i], pn);
+                if (polSprites[i].myTexture != null) return polSprites[i];
+            }
             if (hullSprites[i] == null) hullSprites[i] = ModFx.fixed("cap_" + c.f.key, SIZE, SIZE, false);
             if (hullSprites[i].myTexture == null) ModFx.rebind(hullSprites[i], "cap_" + c.f.key);
-            if (ModLive.titanHostile(g, c) && ModV35.hostileCap(c.f.key) != null) {   // v35 (v34 req 10): hostile art when it ships
+            if (!c.police && ModLive.titanHostile(g, c) && ModV35.hostileCap(c.f.key) != null) {   // v35 (v34 req 10): hostile art when it ships
                 if (hostileSprites == null) hostileSprites = new ModFx.Sprite[FACTIONS.length];
                 if (hostileSprites[i] == null) hostileSprites[i] = ModFx.fixed("enemy_cap_" + c.f.key, SIZE, SIZE, false);
                 if (hostileSprites[i].myTexture == null) ModFx.rebind(hostileSprites[i], "enemy_cap_" + c.f.key);
@@ -249,8 +282,10 @@ public final class ModCapitals {
         }
     }
 
-    private static int indexOf(Faction f) {
+    /** By key: a police titan's Faction is a copy of the real one (v42). */
+    static int indexOf(Faction f) {
         for (int i = 0; i < FACTIONS.length; i++) if (FACTIONS[i] == f) return i;
+        for (int i = 0; i < FACTIONS.length; i++) if (FACTIONS[i].key.equals(f.key)) return i;
         return 0;
     }
 
@@ -318,11 +353,13 @@ public final class ModCapitals {
             // running lights and faction aura
             if (c.data >= 0) {
                 float[] nv = ModFxData.NAV[c.data];
-                float on = (t % 1600) < 180 ? 1 : 0.2f;
+                float on = (t % 1600) < 180 ? 1 : 0.2f, on2 = on;
+                if (c.police) { on = (t % 700) < 350 ? 1 : 0.15f; on2 = 1.15f - on; }   // v42: police red/blue strobe
                 ModFx.local(g.position, g.spin, nv[0] * sz, nv[1] * sz, a);
                 ModFx.spr("fx_core", a.x, a.y, 60 * (1 + on), 60 * (1 + on), 0, 1, 0.15f, 0.1f, on, true);
                 ModFx.local(g.position, g.spin, nv[2] * sz, nv[3] * sz, a);
-                ModFx.spr("fx_core", a.x, a.y, 60 * (1 + on), 60 * (1 + on), 0, 0.15f, 1, 0.3f, on, true);
+                if (c.police) ModFx.spr("fx_core", a.x, a.y, 70 * (1 + on2), 70 * (1 + on2), 0, 0.15f, 0.4f, 1, on2, true);
+                else ModFx.spr("fx_core", a.x, a.y, 60 * (1 + on), 60 * (1 + on), 0, 0.15f, 1, 0.3f, on, true);
                 // battle damage as the hull drops
                 float lp = g.maxLife <= 0 ? 1 : g.life / g.maxLife;
                 int stage = lp < 0.25f ? 3 : lp < 0.5f ? 2 : lp < 0.75f ? 1 : 0;
@@ -405,7 +442,7 @@ public final class ModCapitals {
             float step = gun.turn * j / 1000.0f;
             c.tAng[k] = Element.normalizeSpin(c.tAng[k] + Math.max(-step, Math.min(step, d)));
             if (!engage || c.tReload[k] > 0 || Math.abs(d) > 8) continue;
-            c.tReload[k] = (int) (gun.reload * (0.9f + 0.2f * (float) Math.random()));
+            c.tReload[k] = (int) (gun.reload * (0.9f + 0.2f * (float) Math.random()) / c.rate);
             c.tKick[k] = 160;
             fire(g, c, gun, mz, c.tAng[k], dist);
             if (!c.fireLogged && ModDev.testFlag("corsair_nodialog")) {
@@ -493,6 +530,10 @@ public final class ModCapitals {
                 it.remove();                      // pooled: never treat the recycled ship as a flagship
                 ModTitan.titanClass.remove(g);
                 ModTitanAI.forget(g);
+                if (c.police) {                    // v42: no flagship bookkeeping (respawn timer, standing, pursuit, bounty)
+                    ModPoliceTitan.gone(g, g.life <= 0);
+                    continue;
+                }
                 if (g.life > 0) continue;          // left the sector, not destroyed
                 SharedPreferences p = prefs();
                 if (p != null) p.edit().putLong("cap_dead_" + c.f.key, System.currentTimeMillis()).commit();

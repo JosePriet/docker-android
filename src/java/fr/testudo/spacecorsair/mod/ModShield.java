@@ -89,6 +89,7 @@ public final class ModShield {
             float frac = s.currentValue / s.capacity;
             float k = curve(frac);
             if (s.isPlayerShield) {
+                if (ModPolice.regenStopped()) return 0;   // v42: police shield drain stops the regen 3 s
                 if (slow) k *= SLOW;
                 return f * k * ModV34.levelShield();
             }

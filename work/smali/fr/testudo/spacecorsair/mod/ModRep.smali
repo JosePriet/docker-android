@@ -834,21 +834,27 @@
     .line 191
     instance-of v0, p0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-nez v0, :cond_5
+    if-eqz v0, :cond_a
+
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModPolice;->isPolice(Lfr/testudo/spacecorsair/business/Element;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_b
 
     .line 197
-    :cond_4
-    :goto_4
+    :cond_a
+    :goto_a
     return-void
 
     .line 192
-    :cond_5
+    :cond_b
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModRep;->hqHere()I
 
     move-result v0
 
     .line 193
-    if-ltz v0, :cond_4
+    if-ltz v0, :cond_a
 
     .line 194
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
@@ -862,7 +868,7 @@
 
     move-result v1
 
-    if-lez v1, :cond_4
+    if-lez v1, :cond_a
 
     .line 196
     const/high16 v1, 0x3fc00000    # 1.5f
@@ -871,7 +877,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModRep;->change(Ljava/lang/String;FZ)V
 
-    goto :goto_4
+    goto :goto_a
 .end method
 
 .method static flagshipDestroyed(Ljava/lang/String;)V

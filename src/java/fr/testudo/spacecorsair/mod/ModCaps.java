@@ -166,6 +166,7 @@ public final class ModCaps {
         ModComms.tick(ps);
         ModDerelict.tick(ps, j);
         ModSector.tick(ps, j);
+        ModPolice.tick(ps, j);   // v42 police escalation
         ModRep.tick(ps, j);
         ModAlerts.tick(ps, j);
         ModShield.tick(ps, j);

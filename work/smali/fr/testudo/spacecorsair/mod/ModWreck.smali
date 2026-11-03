@@ -2668,7 +2668,7 @@
     :cond_c4
     instance-of v2, p0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-eqz v2, :cond_115
+    if-eqz v2, :cond_119
 
     move-object v0, p0
 
@@ -2678,7 +2678,7 @@
 
     iget-boolean v2, v2, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->elite:Z
 
-    if-eqz v2, :cond_115
+    if-eqz v2, :cond_119
 
     move v10, v6
 
@@ -2688,7 +2688,7 @@
 
     move-result v2
 
-    if-ltz v2, :cond_117
+    if-ltz v2, :cond_11b
 
     move v9, v6
 
@@ -2699,19 +2699,24 @@
     move-result-object v11
 
     .line 423
-    if-eqz v11, :cond_119
+    if-eqz v11, :cond_120
 
     iget-object v2, v11, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->f:Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
-    if-eqz v2, :cond_119
+    if-eqz v2, :cond_120
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v5, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v5, "wreck_cap_"
+    iget-boolean v2, v11, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
 
-    invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    if-eqz v2, :cond_11d
+
+    const-string v2, "pol_wreck_cap_"
+
+    :goto_ed
+    invoke-virtual {v5, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
@@ -2727,13 +2732,13 @@
 
     move-result-object v2
 
-    :goto_f9
+    :goto_fd
     invoke-static {p0, v3, v2}, Lfr/testudo/spacecorsair/mod/ModWreck;->breakUpArt(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/display/Drawable;Ljava/lang/String;)[Lfr/testudo/spacecorsair/mod/ModWreck;
 
     move-result-object v2
 
     .line 424
-    if-nez v2, :cond_151
+    if-nez v2, :cond_15e
 
     const/4 v5, 0x0
 
@@ -2748,7 +2753,7 @@
     move-object v3, v2
 
     .line 425
-    :goto_108
+    :goto_10c
     if-eqz v3, :cond_12
 
     .line 426
@@ -2756,41 +2761,46 @@
 
     move v2, v8
 
-    :goto_10c
-    if-ge v2, v5, :cond_142
+    :goto_110
+    if-ge v2, v5, :cond_149
 
     aget-object v6, v3, v2
 
     .line 427
-    if-nez v6, :cond_131
+    if-nez v6, :cond_138
 
     .line 426
-    :goto_112
+    :goto_116
     add-int/lit8 v2, v2, 0x1
 
-    goto :goto_10c
+    goto :goto_110
 
-    :cond_115
+    :cond_119
     move v10, v8
 
     .line 420
     goto :goto_d1
 
-    :cond_117
+    :cond_11b
     move v9, v8
 
     .line 421
     goto :goto_d8
 
     .line 423
-    :cond_119
-    if-nez v7, :cond_11d
+    :cond_11d
+    const-string v2, "wreck_cap_"
+
+    goto :goto_ed
+
+    :cond_120
+    if-nez v7, :cond_124
 
     move-object v2, v5
 
-    goto :goto_f9
+    goto :goto_fd
 
-    :cond_11d
+    :cond_124
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -2809,10 +2819,10 @@
 
     move-result-object v2
 
-    goto :goto_f9
+    goto :goto_fd
 
     .line 428
-    :cond_131
+    :cond_138
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModWreck;->lifeMs(I)J
 
     move-result-wide v12
@@ -2833,11 +2843,11 @@
     .line 432
     iput-boolean v9, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->srcBoss:Z
 
-    goto :goto_112
+    goto :goto_116
 
     .line 434
-    :cond_142
-    if-nez v11, :cond_14a
+    :cond_149
+    if-nez v11, :cond_151
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTitan;->isTitanClass(Lfr/testudo/spacecorsair/business/Element;)Z
 
@@ -2845,19 +2855,26 @@
 
     if-eqz v2, :cond_12
 
-    :cond_14a
+    :cond_151
+    if-eqz v11, :cond_157
+
+    iget-boolean v2, v11, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
+
+    if-nez v2, :cond_12
+
+    :cond_157
     iget v2, p0, Lfr/testudo/spacecorsair/business/Element;->level:I
 
     invoke-static {v3, v2, v9}, Lfr/testudo/spacecorsair/mod/ModSector;->persist([Lfr/testudo/spacecorsair/mod/ModWreck;IZ)V
-    :try_end_14f
-    .catch Ljava/lang/Throwable; {:try_start_13 .. :try_end_14f} :catch_3f
+    :try_end_15c
+    .catch Ljava/lang/Throwable; {:try_start_13 .. :try_end_15c} :catch_3f
 
     goto/16 :goto_12
 
-    :cond_151
+    :cond_15e
     move-object v3, v2
 
-    goto :goto_108
+    goto :goto_10c
 .end method
 
 .method static onLevel()V

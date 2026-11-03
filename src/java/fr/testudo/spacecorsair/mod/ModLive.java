@@ -188,7 +188,8 @@ public final class ModLive {
     // per element: 0 last life, 1 heal-until (ms, low bits), 2 hit-until, 3 last spin, 4 phase
     private static final java.util.HashMap<String, Boolean> ALIEN = new java.util.HashMap<String, Boolean>();
     static {
-        for (String a : new String[]{"harbinger", "secret_kretari", "cap_kretari", "orig_alien_blatte", "orig_alien_rat0"}) ALIEN.put(a, Boolean.TRUE);
+        for (String a : new String[]{"harbinger", "secret_kretari", "cap_kretari", "orig_alien_blatte", "orig_alien_rat0",
+            "pol_harbinger", "pol_secret_kretari", "pol_cap_kretari"}) ALIEN.put(a, Boolean.TRUE);
     }
 
     static boolean alienArt(String art) {
@@ -452,6 +453,7 @@ public final class ModLive {
             out = ModBoss.damageIn(target, out, p);
             out = ModTitanAI.damageIn(target, out, p);
             out = ModV34.shieldAbsorb(target, out, p);   // v37: big enemies' default shield
+            out = ModPolice.hit(target, out, p);   // v42: police heat from player hits, police-only weapons on the player
             onHit(target);
             if (target.isPlayer && p != null) {
                 PlayerShip ps = (PlayerShip) target;

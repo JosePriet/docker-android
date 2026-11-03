@@ -106,8 +106,7 @@ public final class ModTitanAI {
     }
 
     private static int fi(ModCapitals.Cap c) {
-        for (int i = 0; i < ModCapitals.FACTIONS.length; i++) if (ModCapitals.FACTIONS[i] == c.f) return i;
-        return 0;
+        return ModCapitals.indexOf(c.f);   // v42: by key (a police titan carries a copy of its faction)
     }
 
     private static T t(GuardianCivilShip g) {
@@ -116,7 +115,7 @@ public final class ModTitanAI {
         return s;
     }
 
-    private static void say(Element at, String s, float r, float g, float b) {
+    static void say(Element at, String s, float r, float g, float b) {
         Mod.floatText(at, s, r, g, b);
     }
 
@@ -137,7 +136,7 @@ public final class ModTitanAI {
     private static float cr, cg, cb;
     private static final Vector2 callAt = new Vector2();
 
-    private static void callout(String ship, String skill, float r, float g, float b, int ms) {
+    static void callout(String ship, String skill, float r, float g, float b, int ms) {
         callText = (ship + ": " + skill).toUpperCase();
         callMs = ms;
         callUntil = System.currentTimeMillis() + ms;
@@ -177,6 +176,7 @@ public final class ModTitanAI {
 
     /** Per frame from ModCaps.tick. */
     static void tick(PlayerShip ps, long j) {
+        ModPoliceTitan.tick(ps, j);          // v42: lockdown on the player, test spawn
         // player-side effects
         if (noBoostMs > 0) {
             noBoostMs -= j;
@@ -215,6 +215,7 @@ public final class ModTitanAI {
             if (!fighting) s.engaged = false;
             return;
         }
+        if (c.police) ModPoliceTitan.skills(g, c, ps, j, dist);   // v42: LOCKDOWN, SHIELD BREAKER on top of the faction kit
         if (!s.engaged && dist < 4500) {                // passive kits announce themselves when the fight starts
             s.engaged = true;
             String[] d0 = data(f);
@@ -438,6 +439,7 @@ public final class ModTitanAI {
 
     // ------------------------------------------------------------------ visuals (ModCapitals.draw, after the hull)
     static void draw(GuardianCivilShip g, ModCapitals.Cap c) {
+        if (c.police) ModPoliceTitan.draw(g);
         T s = st.get(g);
         if (s == null) return;
         PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;

@@ -420,7 +420,7 @@ public final class ModWreck extends Element {
             boolean elite = e instanceof Ennemis && ((Ennemis) e).elite;
             boolean boss = ModBoss.kindOf(e) >= 0;
             ModCapitals.Cap cap = ModCapitals.cap(e);
-            ModWreck[] made = breakUpArt(e, d, cap != null && cap.f != null ? "wreck_cap_" + cap.f.key : art == null ? null : "wreck_" + art);
+            ModWreck[] made = breakUpArt(e, d, cap != null && cap.f != null ? (cap.police ? "pol_wreck_cap_" : "wreck_cap_") + cap.f.key : art == null ? null : "wreck_" + art);
             if (made == null) made = breakUp(e, d, cls, false, 0);
             if (made != null) {
                 for (ModWreck w : made) {
@@ -431,7 +431,7 @@ public final class ModWreck extends Element {
                     w.srcElite = elite;
                     w.srcBoss = boss;
                 }
-                if (cap != null || ModTitan.isTitanClass(e)) ModSector.persist(made, e.level, boss);   // v35: kept for the next visits
+                if ((cap != null || ModTitan.isTitanClass(e)) && (cap == null || !cap.police)) ModSector.persist(made, e.level, boss);   // v35: kept for the next visits (v42: not police titans)
             }
         } catch (Throwable t) {
             // the stock death always happens

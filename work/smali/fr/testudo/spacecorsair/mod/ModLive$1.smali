@@ -23,7 +23,7 @@
     .registers 3
 
     .prologue
-    .line 372
+    .line 373
     invoke-static {}, Lfr/testudo/spacecorsair/business/loot/LootRarety;->values()[Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     move-result-object v0

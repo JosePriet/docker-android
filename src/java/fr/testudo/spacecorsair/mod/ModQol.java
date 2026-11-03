@@ -724,49 +724,12 @@ public class ModQol {
     }
 
     // ================================================================== police
-    private static boolean spawningPolice;
-    private static long lastResponse;
-    private static int responseWave;
-    private static Object responseLevel;
-
-    /** Hook: LevelAnimator.onCivilAttackedByPlayer (base class only; Highway and Ventohigh keep their own). */
+    /** Hook: LevelAnimator.onCivilAttackedByPlayer (base class only; Highway and Ventohigh keep their own). v42: ModPolice escalation. */
     public static void civilAttacked(CivilShip c) {
+        if (ModPolice.spawning) return;   // police joining the fight (setAtackPlayerMode) is not an offence
         ModCapitals.civilAttacked(c);
         try { ModRep.civilAttacked(c); } catch (Throwable t) { /* standing is a bonus system */ }
-        if (spawningPolice) return;
-        try {
-            LevelId id = ObjectRegistry.INSTANCE.game.currentLevel.id;
-            if (id == null || id == LevelId.TUTORIAL || id == LevelId.GENESIS || id == LevelId.GALACTIC_ARENA || id == LevelId.FFA_THE_PLAYER_PAY || id == LevelId.HIGHWAY) return;
-            Object lvlObj = ObjectRegistry.INSTANCE.game.currentLevel;
-            if (lvlObj != responseLevel) { responseLevel = lvlObj; responseWave = 0; }
-            long now = System.currentTimeMillis();
-            if (now - lastResponse < 40000 || responseWave >= 3) return;
-            lastResponse = now;
-            responseWave++;
-            PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
-            Portal portal = ObjectRegistry.INSTANCE.game.currentLevel.findClosestPortal(ps.position);
-            Vector2 at = portal != null ? portal.position : new Vector2(ps.position).add(2500.0f, 0.0f);
-            int n = 1 + responseWave + (id.levelMax >= ModV34.lvl(10) ? 1 : 0);
-            spawningPolice = true;
-            for (int i = 0; i < n; i++) {
-                int lvl = id.levelMin + (int) (Math.random() * (Math.max(0, id.levelMax - id.levelMin) + 1));
-                PoliceShip p = CivilFactory.newPolice(lvl);
-                if (id.levelMax <= ModV34.lvl(6)) {
-                    // early sectors: a light patrol, not the full pursuit cruiser
-                    p.maxLife *= 0.5f;
-                    p.life = p.maxLife;
-                    p.bulletDamage *= 0.55f;
-                }
-                p.applyPopPoint(at, 0.0f, new Vector2((float) (Math.random() * 400 - 200), (float) (Math.random() * 400 - 200)));
-                p.setAtackPlayerMode();
-                ObjectRegistry.INSTANCE.queueElementToBeAddToLevel(p);
-            }
-            Mod.floatText(ps, ModLang.tr("POLICE DISPATCHED (") + n + ")", 0.3f, 0.55f, 1.0f);
-        } catch (Exception e) {
-            // no response
-        } finally {
-            spawningPolice = false;
-        }
+        ModPolice.civilAttacked(c);
     }
 
     /** Hook: end of CivilFactory.newPolice(int). Highway police always out-level the pilot and keep scaling past the spec table. */

@@ -9,3 +9,5 @@ hooks36 applied Wed Oct 28 00:39:55 UTC 2026
 hooks36b applied Fri Oct 30 22:31:43 UTC 2026
 hooks37_wreck applied Fri Oct 30 22:57:52 UTC 2026
 hooks40 applied Tue Nov  3 15:01:30 UTC 2026
+hooks42a applied Tue Nov  3 22:36:17 UTC 2026
+hooks42b applied Tue Nov  3 22:36:17 UTC 2026

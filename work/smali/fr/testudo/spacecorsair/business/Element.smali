@@ -1168,6 +1168,8 @@
     .line 748
     invoke-static {p0}, Lfr/testudo/spacecorsair/game/achievements/AchievementEventListener;->onElementDestroyedByPlayer(Lfr/testudo/spacecorsair/business/Element;)V
 
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModPolice;->killedByPlayer(Lfr/testudo/spacecorsair/business/Element;)V
+
     .line 749
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 

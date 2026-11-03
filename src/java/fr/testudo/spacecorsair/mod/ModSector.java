@@ -50,6 +50,11 @@ public final class ModSector {
         return e == null ? null : faction.get(e);
     }
 
+    /** v42: a patrol police ship or a faction wing / pursuer spawned here (they join the police side while heat > 0). */
+    static boolean sectorPolice(Element e) {
+        return e != null && (patrols.contains(e) || faction.containsKey(e));
+    }
+
     static boolean excluded(LevelId id) {
         if (id == null || id.isMulti) return true;
         switch (id) {

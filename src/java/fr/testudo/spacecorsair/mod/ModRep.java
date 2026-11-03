@@ -188,7 +188,7 @@ public final class ModRep {
 
     /** Ennemis destroyed by the player: defending a faction's home sector earns a little standing. */
     public static void enemyKilled(Element e) {
-        if (!(e instanceof Ennemis)) return;
+        if (!(e instanceof Ennemis) || ModPolice.isPolice(e)) return;   // v42: police kills cost standing (ModPolice)
         int fi = hqHere();
         if (fi < 0) return;
         String k = ModCapitals.FACTIONS[fi].key;

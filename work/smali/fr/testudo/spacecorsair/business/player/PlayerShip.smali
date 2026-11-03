@@ -1249,6 +1249,17 @@
     .registers 14
 
     .prologue
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModMissile;->on:Z
+
+    if-eqz v0, :mm42_stock
+
+    invoke-static {p0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModMissile;->fetch(Lfr/testudo/spacecorsair/business/Element;J)Lfr/testudo/spacecorsair/business/Element;
+
+    move-result-object v0
+
+    return-object v0
+
+    :mm42_stock
     const/4 v4, 0x0
 
     .line 395

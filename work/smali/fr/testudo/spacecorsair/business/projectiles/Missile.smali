@@ -940,6 +940,8 @@
 
     .line 209
     :cond_2e
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModMissile;->track(Lfr/testudo/spacecorsair/business/projectiles/Missile;)V
+
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/projectiles/Missile;->target:Lfr/testudo/spacecorsair/business/Element;
 
     if-eqz v0, :cond_2d
