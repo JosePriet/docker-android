@@ -26,7 +26,9 @@ public final class ModRefitPanel {
             }
             boolean max = rf[2].length() == 0;
             StringBuilder m = new StringBuilder();
-            m.append(ModShips.label(t)).append("\n\n");
+            String name = ModShips.label(t);   // mod hulls; stock hulls use the game's own label
+            if (name == null) { try { name = t.getLocalizedLabel(); } catch (Throwable e) { name = null; } }
+            if (name != null && name.length() > 0) m.append(name).append("\n\n");
             m.append(ModLang.tr("Refit level")).append(": ").append(rf[0]).append(" / ").append(ModV35.REFIT_MAX)
                 .append("   ").append(ModLang.tr("Stage")).append(" ").append(rf[1]).append(" / ").append(ModV35.STAGES).append('\n');
             m.append(ModLang.tr("Rare parts")).append(": ").append(rf[4]).append('\n');

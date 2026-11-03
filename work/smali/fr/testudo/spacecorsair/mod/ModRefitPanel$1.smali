@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 46
+    .line 48
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModRefitPanel$1;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,12 +45,12 @@
     .registers 6
 
     .prologue
-    .line 48
+    .line 50
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->buy()Ljava/lang/String;
 
     move-result-object v0
 
-    .line 49
+    .line 51
     const-string v1, "refitpanel"
 
     invoke-static {v0}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
@@ -59,7 +59,7 @@
 
     invoke-static {v1, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 50
+    .line 52
     if-eqz v0, :cond_19
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitPanel$1;->val$a:Landroid/app/Activity;
@@ -72,12 +72,12 @@
 
     invoke-virtual {v0}, Landroid/widget/Toast;->show()V
 
-    .line 51
+    .line 53
     :cond_19
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitPanel$1;->val$a:Landroid/app/Activity;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModRefitPanel;->show(Landroid/app/Activity;)V
 
-    .line 52
+    .line 54
     return-void
 .end method
