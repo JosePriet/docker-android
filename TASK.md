@@ -1,3 +1,9 @@
+# Current task: v38 Spartan integration (owner, 2026-11-03)
+Owner: "other than the #2 and the things yet not finished, work on everything code wise that still needs coding".
+Plan + owner questions (Q1 doomsday damage, Q2 timing; defaults coded): /mnt/project-files/space-corsair/v38/v38-plan.md. Change list: /mnt/project-files/audits/v38-changes.md.
+Scope: Spartan refit stage art (Mantis new base, Verdant, Bastion, Leviathan, Monolith), per-stage turrets/counts (ModV38), Monolith s4/s5 effects (ModMonolith), Spartan Leviathan doomsday v4 + synth sound (ModLevDoom).
+Acceptance: check.sh 38 PASS; verifier + cross-check; emulator stage V38 (tests/run.sh, branch emulator-tests); directive audit; owner phone test (checklist in the change list).
+
 # Current task: v37 missions + HAIL (owner, 2026-10-30)
 Owner: "the 'new' missions ... don't work as intended or they develop in such a short distance from the point of getting said mission ... The button to find these missions is also a bit bugged since if you click it the mission hud shows up so fast you can't read the text from the npc, also as a newbie its not really explained what the button at the center does."
 Audit: /mnt/project-files/space-corsair/missions-v37/missions-audit-v37.md. Owner answers (authoritative): /mnt/project-files/space-corsair/missions-v37/owner-answers.md (Q1-Q23, S1-S9). The wreck drift / UFO laser work (other thread) also lands in v37.

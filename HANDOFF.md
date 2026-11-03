@@ -19,6 +19,8 @@
 
 - v36 (2026-10-28, 5915b16, not released): BGM fix (space1/2/3/voyager were -28 to -46 LUFS; raised to -16 LUFS in work/modmusic, swapped into res/raw by build.sh), music bar re-applied on resume, SFX bar in Settings (prefs corsair_audio/sfx, scales SoundManager + ModSound), minimap asteroids gold (ModMap.asteroidRadar). hooks36 applied. List: /mnt/project-files/audits/v36-changes.md. Needs the phone test for audibility (emulator runs -noaudio).
 
+- v38 (2026-11-03, sc-mod-workspace 6d4d10a..8d7ff5b, not released): Spartan stages + per-stage turrets (ModV38), Monolith s4/s5 effects (ModMonolith, src/genmono38.py), Leviathan doomsday v4 (ModLevDoom, src/genlev38.py, lev_doom_*.ogg). check.sh 38 PASS, verifier + cross-check done (fixes in 8d7ff5b). Emulator stage V38 pushed (emulator-tests 11e9e9d). Test switches: corsair_refit=<level>, corsair_v38log. Open: owner Q1/Q2, emulator result, directive audit, phone test, GPT text (doomsday description, "OVERCHARGED").
+
 ## Changed files (v30-v31)
 New: ModLive, ModWreck, ModTitanAI, ModDerelict, ModV30Data. Changed: ModShield, ModLoot, ModBoss, ModCapitals, ModCaps, ModArt, ModFx, ModDev, ModQol. Hooks: `src/patch/hooks30.py`, `hooks30b.py`, `hooks30c.py` (all applied).
 
