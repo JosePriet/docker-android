@@ -55,8 +55,8 @@ public final class ModPoliceTitan {
             for (int i = 0; i < ModCapitals.FACTIONS.length; i++) if (ModCapitals.FACTIONS[i].key.equals(factionKey)) fi = i;
             ModCapitals.Faction f = ModCapitals.FACTIONS[fi];
             if (POL[fi] == null) POL[fi] = new ModCapitals.Faction(f.key, f.name, ModLang.trf("%s Police Titan", f.name), f.hq, POLICE_R, POLICE_G, POLICE_B);
-            // at least the flagship's HQ level (its stats "when fought in its own HQ"), never above the level cap
-            int lvl = Math.max(0, Math.min(ModV34.CAP, Math.max(level, f.hq.levelMax)));
+            // v42 fix (owner: police level capped at the sector's top level): the level ModPolice passes, never above it
+            int lvl = Math.max(0, Math.min(ModV34.CAP, level));
             GuardianCivilShip g = ModCapitals.spawnPolice(fi, lvl, at, POL[fi], POLICE_TITAN_MULT);
             if (g == null) return null;
             float[] sh = ModV34.shieldStats(lvl, lvl, ModShips.TITAN);   // flagships carry none: a titan-class one, x1.2
@@ -66,6 +66,7 @@ public final class ModPoliceTitan {
                 h.rate = sh[1] * POLICE_TITAN_MULT;
                 ModV34.bigShield.put(g, h);
             }
+            ModArt.lazyTex("pol_cap_" + f.key);   // v42 fix: register before prefetch
             ModArt.prefetch("pol_cap_" + f.key);
             titan = g;
             name = g.specificName;

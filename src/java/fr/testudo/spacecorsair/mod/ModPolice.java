@@ -43,6 +43,7 @@ public class ModPolice {
     public static final int[] KILL_HEAT = {1, 2, 3, 4, 6, 8, 0};
     /** Heat that unlocks each class FRIGATE..TITAN. */
     public static final int[] UNLOCK = {1, 5, 10, 16, 24, 34, 46};
+    public static final float STANDING_TITAN_KILL = -15f;  // plan: -15 standing with the owner faction for a police titan kill
     public static final long WAVE_MS = 35000;              // waves every 35 s while heat > 0 and police engaged or heat rose
     public static final int CAP = 8;                       // active police ships
     public static final float GATE_MIN = 2500f;            // a gate closer than this to the player: arrive from 4,500 off instead
@@ -182,7 +183,7 @@ public class ModPolice {
     public static boolean isPolice(Element e) {
         if (e == null) return false;
         if (police.containsKey(e) || ModPoliceTitan.isPoliceTitan(e)) return true;
-        return e instanceof PoliceShip && ModCapitals.cap(e) == null;
+        return e instanceof PoliceShip && ModCapitals.cap(e) == null && !ModSector.factionShip(e);   // v42 fix: wings/pursuers are not police
     }
 
     static int classOf(Element e) {
@@ -244,9 +245,9 @@ public class ModPolice {
                 return dmg;
             }
             boolean byPlayer = p.sender.isPlayer || p.sender == ps || Mod.isDrone(p.sender);
-            if (!byPlayer || dmg <= 0) return dmg;
-            if (isPolice(target)) policeHit();
-            else if (target instanceof CivilShip && ModCapitals.cap(target) == null) civilHit(target, false);
+            if (!byPlayer) return dmg;
+            if (isPolice(target)) policeHit();   // v42 fix: shield-absorbed hits on police count as aggression too
+            else if (dmg > 0 && target instanceof CivilShip && ModCapitals.cap(target) == null) civilHit(target, false);
         } catch (Throwable t) {
             // stock hit
         }
@@ -271,6 +272,7 @@ public class ModPolice {
 
     /** Agent C: the police titan died. Heat back to 0, police stand down; ModPoliceTitan applies its own standing / XP. */
     public static void onTitanKilled() {
+        try { if (here != null) ModRep.change(ModCapitals.FACTIONS[factionIndex(here)].key, STANDING_TITAN_KILL, false); } catch (Throwable t) { /* no standing */ }
         titan = null;
         heat = 0;
         lastTop = NONE;
@@ -356,6 +358,9 @@ public class ModPolice {
 
     private static void enter(LevelId id) {
         if (here != null && heat > 0) left.put(here, new long[] {leaveHeat(heat), lastTop, ModSector.play()});
+        police.clear();        // v42 fix: pooled PoliceShips reused elsewhere must not keep police weapons / timers
+        snareReady.clear();
+        civilHit.clear();
         active.clear();
         boosted.clear();
         titan = null;
@@ -461,7 +466,7 @@ public class ModPolice {
             boosted.add(e);
             made++;
         }
-        lastTop = top;
+        if (made > 0) lastTop = top;   // v42 fix: an empty wave (cap full / art loading) does not climb a class
         log("wave " + ModCapitals.FACTIONS[fi].key + " top=" + top + " L" + lv + " ships=" + made + "/" + cls.length + " active=" + active.size() + " heat=" + heat);
         if (made > 0) {
             Mod.floatText(ps, ModLang.tr("POLICE WAVE: ") + className(top), 0.35f, 0.6f, 1.0f);

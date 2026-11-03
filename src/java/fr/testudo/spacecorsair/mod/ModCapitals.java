@@ -223,6 +223,7 @@ public final class ModCapitals {
             CivilActivity.newMoove(c.anchor.x, c.anchor.y - 1400),
         });
         caps.put(g, c);
+        if (police != null) ModArt.lazyTex("pol_cap_" + f.key);   // v42 fix
         ModArt.prefetch((police != null ? "pol_cap_" : "cap_") + f.key);   // 1024 px hull: decoded in the background before it comes into view
         ModArt.prefetch(f.turretTex);
         ModTitan.titanClass.put(g, Boolean.TRUE);
@@ -264,6 +265,7 @@ public final class ModCapitals {
             if (c.police) {                             // v42: police livery, never the hostile faction art
                 if (polSprites == null) polSprites = new ModFx.Sprite[FACTIONS.length];
                 String pn = "pol_cap_" + c.f.key;
+                ModArt.lazyTex(pn);   // v42 fix: register the police livery before binding
                 if (polSprites[i] == null) polSprites[i] = ModFx.fixed(pn, SIZE, SIZE, false);
                 if (polSprites[i].myTexture == null) ModFx.rebind(polSprites[i], pn);
                 if (polSprites[i].myTexture != null) return polSprites[i];

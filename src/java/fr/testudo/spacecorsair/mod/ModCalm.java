@@ -16,6 +16,7 @@ public final class ModCalm {
 
     /** True while a DefendZone mission is in its defend phase and the player is in its attack sector. */
     public static boolean active() {
+        if (ModFaction.holdingZone()) return true;   // v37 hold-the-outpost contracts too
         try {
             Object m = ObjectRegistry.INSTANCE.currentMission;
             if (m == null) return false;
@@ -31,7 +32,7 @@ public final class ModCalm {
 
     /** Hook: Level element merge (replaces elements.add(e) for each queued element). Drops arriving allied ships while active. */
     public static void add(List elements, Element e) {
-        if (e instanceof CivilShip && ModCapitals.cap(e) == null && active()) {
+        if (e instanceof CivilShip && ModCapitals.cap(e) == null && !((CivilShip) e).isMissionObjective && active()) {   // the outpost is kept
             e.removed = true;   // trackers (ModSector traffic lists) prune it
             ModDev.ev("v42calm", "blocked " + e.getClass().getSimpleName());
             return;

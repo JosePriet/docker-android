@@ -51,6 +51,11 @@ public final class ModSector {
     }
 
     /** v42: a patrol police ship or a faction wing / pursuer spawned here (they join the police side while heat > 0). */
+    /** v42: faction wing or pursuit ship (not police). */
+    static boolean factionShip(Element e) {
+        return e != null && faction.containsKey(e) && !patrols.contains(e);
+    }
+
     static boolean sectorPolice(Element e) {
         return e != null && (patrols.contains(e) || faction.containsKey(e));
     }

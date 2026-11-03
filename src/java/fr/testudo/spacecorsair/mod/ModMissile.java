@@ -63,7 +63,8 @@ public final class ModMissile {
             if (c.allowPlayerDamage) return false;                 // escorted civilians: friendly-fire tolerant, never a target
             if (e instanceof GuardianCivilShip) {
                 ModCapitals.Cap cap = ModCapitals.cap(e);
-                if (cap != null && ModLive.titanHostile((GuardianCivilShip) e, cap)) return true;
+                Element fct = ((CivilShip) e).chasseTarget;   // v42 fix: a flagship busy with pirates is not a target
+                if (cap != null && ModLive.titanHostile((GuardianCivilShip) e, cap) && (fct == null || fct.isPlayer)) return true;
             }
             Element ct = c.chasseTarget;
             boolean onPlayer = ct != null && ct.isPlayer;

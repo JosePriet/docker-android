@@ -122,8 +122,8 @@ final class ModPoliceData {
 
     /** Police livery drawable for a hull: pol_<art>, else the tinted plain art, else null (art not loaded). */
     static Drawable drawable(Hull h) {
-        Texture pol = ModArt.texture(PREFIX + h.art);
-        Texture tex = pol != null ? pol : ModArt.texture(h.art);
+        Texture pol = ModArt.lazyTex(PREFIX + h.art);   // v42 fix: registers pol_* on first request
+        Texture tex = pol != null ? pol : ModArt.lazyTex(h.art);
         if (tex == null) return null;
         String key = (pol != null ? PREFIX : "tint:") + h.art + ":" + h.size;
         Drawable d = drawables.get(key);

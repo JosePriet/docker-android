@@ -378,6 +378,17 @@ public class ModFaction extends MissionListener {
         this.fi = faction(key(idx));
     }
 
+    /** v42 (owner 2026-11-03 22:38): a DEFEND_ZONE contract is running in the sector the player is in. */
+    static boolean holdingZone() {
+        try {
+            ModFaction f = active();
+            return f != null && !f.completed && "DEFEND_ZONE".equals(f.obj) && ObjectRegistry.INSTANCE.game.currentLevel != null
+                && ObjectRegistry.INSTANCE.game.currentLevel.id == f.activeSector();
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
     private static ModFaction active() {
         Mission m = ObjectRegistry.INSTANCE.currentMission;
         return m != null && m.missionEngine instanceof ModFaction ? (ModFaction) m.missionEngine : null;
