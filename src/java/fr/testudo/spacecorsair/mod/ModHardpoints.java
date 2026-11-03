@@ -15,7 +15,7 @@ final class ModHardpoints {
         new float[]{-104.0f, -131.0f, 104.0f, -131.0f, -104.0f, 13.0f, 104.0f, 13.0f, -104.0f, 156.0f, 104.0f, 156.0f}, // leviathan
         new float[]{}, // raven
         new float[]{-24.7f, 11.4f, 24.7f, 11.4f}, // cobalt
-        new float[]{0.0f, -54.9f, -41.7f, 6.9f, 41.7f, 6.9f}, // mantis
+        new float[]{-0.3f, -44.8f, -40.6f, 10.1f, 40.6f, 10.1f}, // mantis (v38: new base pads (511,359)(373,546)(650,546))
         new float[]{-0.3f, -57.1f, -65.6f, 39.2f, 65.2f, 39.1f}, // hydra
         new float[]{0.0f, -96.2f, -79.3f, 6.8f, 79.3f, 6.8f}, // verdant
         new float[]{-62.0f, 18.2f, 61.3f, 18.0f, -0.5f, 78.4f}, // sovereign

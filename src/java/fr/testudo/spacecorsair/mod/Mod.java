@@ -809,6 +809,7 @@ public class Mod {
     }
 
     public static void applyShipBonuses(PlayerShip ps) {
+        if (ModV38.syncTurrets(ps)) return;   // v38: refit-stage turrets changed; applyGear ran again with them
         try {
             ModShips.apply(ps);
         } catch (Exception e) {

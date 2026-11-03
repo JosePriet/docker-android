@@ -406,6 +406,7 @@ public class ModShips {
                 }
             }
         }
+        ModV38.initSpecs(HULLS);   // v38: stage-0 turrets of the Spartan hulls (Monolith: 2 side turrets)
     }
 
     private static Hull hel(Hull h) {
