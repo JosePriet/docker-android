@@ -241,7 +241,7 @@ public class ModFaction extends MissionListener {
                     for (int i = 0; i < ms.length; i++) {
                         if (contract(i) || !key(i).equals(k) || !ModV35.finale(order(i))) continue;
                         if (ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(id(i))) continue;
-                        if (cur != ms[i] && plv < 34 && !testHail) break;   // v39 owner 3A: the finale opens at L34 (was data level - 2 = L32)
+                        if (cur != ms[i] && plv < Math.max(34, minLevel(i) - 2) && !testHail) break;   // v39 owner 3A: the finale opens at L34 (was data level - 2 = L32)
                         if (!list.contains(ms[i])) list.add(ms[i]);
                         break;
                     }
