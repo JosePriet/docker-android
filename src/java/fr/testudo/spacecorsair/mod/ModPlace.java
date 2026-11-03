@@ -45,7 +45,10 @@ final class ModPlace {
     static LevelId contractSector(LevelId hq, int idx, long day) {
         List<LevelId> n = neighbours(hq);
         if (n.isEmpty()) return hq;
-        return n.get((int) ((day * 7 + idx) % n.size()));
+        // v39 owner 5A: a random neighbour each day (seeded by the day, so it stays the same all day)
+        java.util.Random r = new java.util.Random(day * 1000003L + idx * 7919L + hq.ordinal() * 31L);
+        r.nextInt();   // the first draw of nearby seeds is correlated
+        return n.get(r.nextInt(n.size()));
     }
 
     static Level level() {

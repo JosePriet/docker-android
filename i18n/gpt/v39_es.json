@@ -4,5 +4,22 @@
  "Needs refit level 7+.": "Requiere nivel de mejora 7+.",
  "VENTING": "ENFRIANDO",
  "ANCHORED": "ANCLADO",
- "WALL DOWN": "BARRERA ROTA"
+ "WALL DOWN": "BARRERA ROTA",
+ "Gain standing with story missions (+15, finale +20), contracts (+8) and by defending a faction's home sector. Allies share half of every change, enemies the opposite. Talk to a faction's commander aboard its flagship in its home sector for missions.": "Gana reputación con misiones de historia (+15, final +20), contratos (+8) y defendiendo el sector natal de una facción. Los aliados reciben la mitad de cada cambio; los enemigos, lo opuesto. Habla con el comandante de una facción a bordo de su nave insignia, en su sector natal, para obtener misiones.",
+ "Mod v22: faction STANDINGS (toolbar button). Missions (+15, finale +20) and contracts (+8) raise your standing; allies share half, enemies lose half. Friendly: +10% payouts, the flagship forgives 25% friendly fire. Trusted: +20%, the flagship gives fire support and its HQ sells a secret faction weapon. Honored: +35% and a secret ship (coming next). Each HQ now offers two daily contracts, or amends jobs if you are Unfriendly. New flagship, Nebula Moth and faction emblem art, weapon-family icons, and combat sounds (alerts, all clear, disengaging enemies, low hull alarm, shield collapse).": "Mod v22: REPUTACIÓN de facciones (botón de la barra). Misiones (+15, final +20) y contratos (+8) suben tu reputación; aliados ganan la mitad, enemigos pierden la mitad. Amistoso: +10% de pagos, la nave insignia tolera 25% de fuego amigo. Confiable: +20%, apoyo de fuego y arma secreta en su sede. Honrado: +35% y nave secreta (próximamente). Cada sede ofrece dos contratos diarios o tareas de reparación si eres No amistoso. Arte nuevo de naves insignia, Nebula Moth y emblemas, iconos de familias de armas y sonidos de combate (alertas, zona despejada, retirada enemiga, casco bajo, caída de escudo).",
+ "Mod v21: the seven factions now have commanders and story chains (21 missions). Fly to a faction HQ and press TALK TO COMMANDER to talk to its commander aboard the flagship: Spartan HQ, Pirate Bay, The Hive, Omicron Prime, Ore Belt, Heliostat, Highway. Chains open from level 10 and end in battles beside, or against, the flagships. The Leviathan and Crimson Throne have new hulls and turrets, and every faction flagship has new turrets.": "Mod v21: las siete facciones tienen comandantes y cadenas de historia (21 misiones). Ve a una sede y pulsa HABLAR CON EL COMANDANTE; el comandante va a bordo de la nave insignia: Spartan HQ, Pirate Bay, The Hive, Omicron Prime, Ore Belt, Heliostat, Highway. Las cadenas se abren desde nivel 10 y terminan en batallas junto a las naves insignia o contra ellas. Leviathan y Crimson Throne tienen cascos y torretas nuevos; todas las naves insignia tienen torretas nuevas.",
+ "You are near a faction flagship. Tap TALK TO COMMANDER to speak with its commander for story missions, contracts and turn-ins. The line below the button shows if anything is available for you.": "Estás cerca de la nave insignia de una facción. Toca HABLAR CON EL COMANDANTE para hablar con su comandante: ofrece misiones de historia, contratos y entregas. La línea bajo el botón indica si hay algo para ti.",
+ "TALK TO COMMANDER": "HABLAR CON EL COMANDANTE",
+ " and talk to the commander of ": " y habla con el comandante de ",
+ "talk to the commander of ": "habla con el comandante de ",
+ "Missions of this chain are handed out and handed in at ": "Las misiones de esta cadena se aceptan y entregan en ",
+ "Objective": "Objetivo",
+ "Sector": "Sector",
+ "Reward": "Recompensa",
+ " credits": " créditos",
+ " standing": " de reputación",
+ "AMBUSH!": "¡EMBOSCADA!",
+ "SIGNAL": "SEÑAL",
+ "PILOT": "PILOTO",
+ "SECURED": "ASEGURADO"
 }

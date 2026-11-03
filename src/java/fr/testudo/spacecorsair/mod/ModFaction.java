@@ -241,7 +241,7 @@ public class ModFaction extends MissionListener {
                     for (int i = 0; i < ms.length; i++) {
                         if (contract(i) || !key(i).equals(k) || !ModV35.finale(order(i))) continue;
                         if (ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(id(i))) continue;
-                        if (cur != ms[i] && plv < minLevel(i) - 2 && !testHail) break;
+                        if (cur != ms[i] && plv < 34 && !testHail) break;   // v39 owner 3A: the finale opens at L34 (was data level - 2 = L32)
                         if (!list.contains(ms[i])) list.add(ms[i]);
                         break;
                     }
@@ -284,11 +284,11 @@ public class ModFaction extends MissionListener {
             int c = commander(key(i));
             LevelId where = zoneOf(i);
             return "<b>" + ModFactionData.COMMANDER[c] + "</b>, " + f.name + "<br><br>" + str(i, 11)
-                + "<br><br><b>Objective</b>: " + str(i, 12)
-                + (where != null ? "<br><b>Sector</b>: " + pretty(where) : "")
-                + "<br><b>Reward</b>: " + credits(ModQol.missionPay(num(i, 15) / 3)) + " credits" + (str(i, 16).length() > 0 ? " + " + itemLabel(str(i, 16)) : "")
-                + " (+" + Math.round(ModV35.missionStanding(contract(i), order(i))) + " standing" + (ModRep.payoutBonus(key(i)) > 0 ? ", +" + Math.round(ModRep.payoutBonus(key(i)) * 100) + ModLang.tr("% standing bonus") : "") + ModLang.tr(")"
-                + "<br><br>Missions of this chain are handed out and handed in at <b>") + pretty(f.hq) + ModLang.tr("</b>: hail the ") + f.ship + ".";
+                + "<br><br><b>" + ModLang.tr("Objective") + "</b>: " + str(i, 12)
+                + (where != null ? "<br><b>" + ModLang.tr("Sector") + "</b>: " + pretty(where) : "")
+                + "<br><b>" + ModLang.tr("Reward") + "</b>: " + credits(ModQol.missionPay(num(i, 15) / 3)) + ModLang.tr(" credits") + (str(i, 16).length() > 0 ? " + " + itemLabel(str(i, 16)) : "")
+                + " (+" + Math.round(ModV35.missionStanding(contract(i), order(i))) + ModLang.tr(" standing") + (ModRep.payoutBonus(key(i)) > 0 ? ", +" + Math.round(ModRep.payoutBonus(key(i)) * 100) + ModLang.tr("% standing bonus") : "") + ")"
+                + "<br><br>" + ModLang.tr("Missions of this chain are handed out and handed in at ") + "<b>" + pretty(f.hq) + "</b>: " + ModLang.tr("talk to the commander of ") + f.ship + ".";   // v39 owner 4A
         }
         i = id - TEXT_DONE;
         if (i >= 0 && i < count()) return str(i, 13) + ModLang.tr("<br><br>The reward has been transferred to your hold.");
@@ -910,7 +910,7 @@ public class ModFaction extends MissionListener {
                     taken[k] = true;
                     progress++;
                     ObjectRegistry.INSTANCE.soundManager.playGateZap();
-                    String what = "RESCUE".equals(obj) ? ModLang.tr("PILOT RECOVERED") : "GATHER_AND_SELL".equals(obj) ? ModLang.tr("CARGO") : "DELIVERY".equals(obj) ? ModLang.tr("CRATE LOADED") : "SECURED";
+                    String what = "RESCUE".equals(obj) ? ModLang.tr("PILOT RECOVERED") : "GATHER_AND_SELL".equals(obj) ? ModLang.tr("CARGO") : "DELIVERY".equals(obj) ? ModLang.tr("CRATE LOADED") : ModLang.tr("SECURED");
                     Mod.floatText(ps, what + (goal > 1 ? " " + progress + "/" + goal : ""), 0.5f, 1.0f, 0.6f);
                     if (!ambushed && goal > 1 && progress == (goal + 1) / 2) {
                         ambushed = true;
@@ -1000,8 +1000,8 @@ public class ModFaction extends MissionListener {
             }
             if (!courierMoving && target.position.distance(lastCourier) > 60) { courierMoving = true; save(); }
             float prog = 1 - target.position.distance(gate) / startDist;
-            if (!ambushed && prog > 0.3f) { ambushed = true; reinforce(3, target, false); Mod.floatText(ps, "AMBUSH!", 1.0f, 0.4f, 0.3f); }
-            if (!ambushed2 && prog > 0.65f) { ambushed2 = true; reinforce(3, target, true); Mod.floatText(ps, "AMBUSH!", 1.0f, 0.4f, 0.3f); }
+            if (!ambushed && prog > 0.3f) { ambushed = true; reinforce(3, target, false); Mod.floatText(ps, ModLang.tr("AMBUSH!"), 1.0f, 0.4f, 0.3f); }
+            if (!ambushed2 && prog > 0.65f) { ambushed2 = true; reinforce(3, target, true); Mod.floatText(ps, ModLang.tr("AMBUSH!"), 1.0f, 0.4f, 0.3f); }
             if (target.position.distance(gate) < 450) {
                 target.remove();
                 escortArrived();
@@ -1129,7 +1129,7 @@ public class ModFaction extends MissionListener {
                 float d = (float) Math.hypot(x - ps.position.x, y - ps.position.y);
                 if (d < bestD) { bestD = d; bx = x; by = y; }
             }
-            label = signal ? "SIGNAL" : "RESCUE".equals(f.obj) ? "PILOT" : ModLang.tr("CARGO");
+            label = signal ? ModLang.tr("SIGNAL") : "RESCUE".equals(f.obj) ? ModLang.tr("PILOT") : ModLang.tr("CARGO");
         } else if ("DEFEND_ZONE".equals(f.obj)) {
             ModFx.spr("fx_ring", f.center.x, f.center.y, 3600, 3600, (t / 80.0f) % 360, fc.r, fc.g, fc.b, 0.35f, true);
             bestD = f.center.distance(ps.position);
@@ -1304,7 +1304,7 @@ public class ModFaction extends MissionListener {
         if (c != null && branch == instrBranch && val == instrVal && tg == instrTarget && goal == instrGoal && where == instrWhere) return c;
         String out;
         switch (branch) {
-            case 0: out = ModLang.tr("Return to ") + pretty(f.hq) + ModLang.tr(" and hail the ") + f.ship; break;
+            case 0: out = ModLang.tr("Return to ") + pretty(f.hq) + ModLang.tr(" and talk to the commander of ") + f.ship; break;
             case 1: out = (phase == 1 && "DELIVERY".equals(obj) ? ModLang.tr("Deliver the crate to ") : phase == 1 && "GATHER_AND_SELL".equals(obj) ? ModLang.tr("Sell the cargo at ")
                 : "Go to ") + pretty(where) + ": " + str(idx, 2); break;
             case 2: out = ModLang.tr("Hold the outpost zone: ") + val + ModLang.tr(" s left"); break;

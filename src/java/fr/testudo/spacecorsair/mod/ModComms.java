@@ -327,7 +327,7 @@ public final class ModComms {
                                 g.setStroke((int) (2 * d), c);
                                 b.setBackgroundDrawable(g);
                                 // v37 Q14/Q16: a subtitle says what the button is for, or that there is nothing on offer
-                                b.setText(Html.fromHtml("HAIL " + f.ship.toUpperCase() + "<br><small>" + (has ? ModLang.tr("Missions") : ModLang.tr("no missions")) + "</small>"));
+                                b.setText(Html.fromHtml(ModLang.tr("TALK TO COMMANDER") + "<br><small>" + f.ship.toUpperCase() + " \u00b7 " + (has ? ModLang.tr("Missions") : ModLang.tr("no missions")) + "</small>"));   // v39 owner 1B (was HAIL)
                                 Bitmap em = asset(a, "emblem_" + f.key);
                                 if (em != null) {
                                     android.graphics.drawable.BitmapDrawable bd = new android.graphics.drawable.BitmapDrawable(a.getResources(), em);
@@ -358,7 +358,7 @@ public final class ModComms {
             if (p == null || p.getBoolean("v37_hail_help", false) || ModDev.noDialog(null)) return;
             p.edit().putBoolean("v37_hail_help", true).apply();
             new android.app.AlertDialog.Builder(a).setTitle(ModLang.tr("Faction flagship"))
-                .setMessage(ModLang.tr("You are near a faction flagship. Tap HAIL to speak with its commander for story missions, contracts and turn-ins. The line below the button shows if anything is available for you."))
+                .setMessage(ModLang.tr("You are near a faction flagship. Tap TALK TO COMMANDER to speak with its commander for story missions, contracts and turn-ins. The line below the button shows if anything is available for you."))
                 .setPositiveButton("OK", null).show();
         } catch (Throwable t) {
             // help is a convenience
@@ -432,8 +432,8 @@ public final class ModComms {
             TextView foot = new TextView(a);
             foot.setTextColor(0xFF8A96A6);
             foot.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
-            foot.setText(ModLang.tr("Gain standing with story missions (+15, finale +20), contracts (+6) and by defending a faction's home sector. "
-                + "Allies share half of every change, enemies the opposite. HAIL a faction's flagship in its home sector for missions."));
+            foot.setText(ModLang.tr("Gain standing with story missions (+15, finale +20), contracts (+8) and by defending a faction's home sector. "
+                + "Allies share half of every change, enemies the opposite. Talk to a faction's commander aboard its flagship in its home sector for missions."));
             list.addView(foot);
             android.widget.ScrollView sv = new android.widget.ScrollView(a);
             sv.addView(list);

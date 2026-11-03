@@ -126,14 +126,14 @@ public class ModQol {
         }
         if (p.getInt("modVersion", 0) < 23) {
             p.edit().putInt("modVersion", 23).commit();
-            post(ModLang.tr("Mod v21: the seven factions now have commanders and story chains (21 missions). Fly to a faction HQ and press HAIL "
+            post(ModLang.tr("Mod v21: the seven factions now have commanders and story chains (21 missions). Fly to a faction HQ and press TALK TO COMMANDER "
                 + "to talk to its commander aboard the flagship: Spartan HQ, Pirate Bay, The Hive, Omicron Prime, Ore Belt, Heliostat, Highway. "
                 + "Chains open from level 10 and end in battles beside, or against, the flagships. The Leviathan and Crimson Throne have new hulls "
                 + "and turrets, and every faction flagship has new turrets."));
         }
         if (p.getInt("modVersion", 0) < 24) {
             p.edit().putInt("modVersion", 24).commit();
-            post(ModLang.tr("Mod v22: faction STANDINGS (toolbar button). Missions (+15, finale +20) and contracts (+6) raise your standing; "
+            post(ModLang.tr("Mod v22: faction STANDINGS (toolbar button). Missions (+15, finale +20) and contracts (+8) raise your standing; "
                 + "allies share half, enemies lose half. Friendly: +10% payouts, the flagship forgives 25% friendly fire. Trusted: +20%, "
                 + "the flagship gives fire support and its HQ sells a secret faction weapon. Honored: +35% and a secret ship (coming next). "
                 + "Each HQ now offers two daily contracts, or amends jobs if you are Unfriendly. New flagship, Nebula Moth and faction emblem art, "
