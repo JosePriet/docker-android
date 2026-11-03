@@ -59,6 +59,7 @@ public final class ModLive {
     /** Smali hook (GameThread.doPhysic): queues an element with the v30 layers around it. */
     public static void draw(Element e) {
         if (e instanceof Projectile || e.isParticule) {
+            if (e instanceof Projectile) ModAnchor.projectile((Projectile) e);   // v39: Leviathan anchor wall stops enemy shots
             e.registerYourselfToDrawQueue();
             return;
         }
@@ -444,6 +445,8 @@ public final class ModLive {
     public static float hit(Element target, float dmg, Projectile p) {
         float out = dmg;
         try {
+            out = ModAnchor.beam(target, out, p);   // v39: enemy beams through the Leviathan anchor wall
+            if (out <= 0 && dmg > 0) return 0;
             out = ModV34.damage(target, out, p);
             out = ModV35.damage(target, out, p);   // v35 kill-time targets by advantage
             out = ModBoss.damageIn(target, out, p);

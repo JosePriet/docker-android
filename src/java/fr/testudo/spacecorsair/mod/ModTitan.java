@@ -459,7 +459,24 @@ public final class ModTitan {
         if (ps.playerCannons != null) for (PlayerCanon c : ps.playerCannons) c.nextShootAllowed = Math.max(c.nextShootAllowed, 300);
     }
 
+    /** v39 anchor stance (ModAnchor): the planted titan keeps no thrust; shares savedForce with the doomsday lock. */
+    static boolean anchorHold;
+
+    static void holdForce(PlayerShip ps) {
+        anchorHold = true;
+        if (savedForce < 0) savedForce = ps.maxPouseeForce;
+        ps.maxPouseeForce = 0;
+        ps.curPouseeForce = 0;
+    }
+
+    /** Anchor lifted: thrust comes back unless the doomsday still holds the hull. */
+    static void anchorRelease(PlayerShip ps) {
+        anchorHold = false;
+        if (!busy()) release(ps);
+    }
+
     private static void release(PlayerShip ps) {
+        if (anchorHold) return;   // v39: still planted, ModAnchor gives the thrust back
         if (savedForce >= 0 && ps != null) {
             ps.maxPouseeForce = savedForce;
         }

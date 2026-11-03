@@ -373,7 +373,7 @@ public final class ModDev {
     // ------------------------------------------------------------------ v37 emulator switches: go where each feature lives
     private static String t37Near, t37Music, t37Arrived;
     private static boolean t37Dock, t37KillFlag, t37Rich, t37Ufo, t37Blast;
-    private static String t38Refit;
+    private static String t38Refit, t39Wall;
     private static String t37Drive, t37DriveSeen;
     private static Boolean evOn;
 
@@ -480,6 +480,17 @@ public final class ModDev {
                 }
             } catch (Throwable t) {
                 ev("v38refit", "bad value " + rf);
+            }
+        }
+        // v39 corsair_wallpct=<0-100>: Leviathan anchor wall charge (break / low-charge look)
+        String wp = testValue("corsair_wallpct");
+        if (wp != null && !wp.equals(t39Wall)) {
+            t39Wall = wp;
+            try {
+                if (ModAnchor.cap > 0) ModAnchor.cur = ModAnchor.cap * Math.max(0, Math.min(100, Integer.parseInt(wp.trim()))) / 100f;
+                ev("v39anchor", "test charge " + Math.round(ModAnchor.charge() * 100) + " cap " + Math.round(ModAnchor.cap));
+            } catch (Throwable t) {
+                ev("v39anchor", "bad value " + wp);
             }
         }
         // corsair_mdrive=pickup|outpostkill|escort[N]: drives the running faction mission (ModFaction.testDrive)

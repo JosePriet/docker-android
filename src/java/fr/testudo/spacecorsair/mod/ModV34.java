@@ -692,6 +692,16 @@ public class ModV34 {
         return dmg * pilot(atk, def);
     }
 
+    /** v39 anchor wall (ModAnchor): a shot's damage as it would reach the player, pilot formula and counters, no dodge roll. */
+    static float wallDamage(Element target, Projectile p) {
+        try {
+            if (p == null || p.sender == null || target == null) return p == null ? 0 : p.damage;
+            return p.damage * pilot(stat(p.sender), stat(target)) * counter(factionOf(p.sender), factionOf(target), ModWeapons.familyOf(p));
+        } catch (Throwable t) {
+            return p.damage;
+        }
+    }
+
     /** Hook from ModLive.hit (before boss skills): dodge, pilot formula, counters, off-faction penalty. */
     public static float damage(Element target, float dmg, Projectile p) {
         try {

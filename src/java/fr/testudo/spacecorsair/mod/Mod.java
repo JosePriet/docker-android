@@ -380,6 +380,7 @@ public class Mod {
             ModFx.update(j);
             ModCaps.tick(ps, j);
             ModTitan.tick(ps, j);
+            ModAnchor.tick(ps, j);   // v39: Leviathan anchor stance
         } catch (Exception e) {
             // v17 visuals never break the frame
         }

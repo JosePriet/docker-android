@@ -415,7 +415,9 @@ public final class ModCaps {
             if (hd != null) ModLive.living(ps, hd, false, thrust, true);
             ModShield.draw(ps);
             ModTitan.drawTurrets(ps, p);
-            ModLevDoom.drawOver(ps);   // v38: Leviathan doomsday overlays (spine gauge, ring cage, trims, core, overheat)
+            ModLevDoom.drawOver(ps);
+            ModAnchor.drawOver(ps);   // v39: Leviathan anchor-stance shield wall
+            // v38: Leviathan doomsday overlays (spine gauge, ring cage, trims, core, overheat)
 
             if (p.top || p.titan) {
                 // pulsing hull lights
