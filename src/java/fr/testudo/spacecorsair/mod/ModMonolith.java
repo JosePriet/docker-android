@@ -227,6 +227,7 @@ public final class ModMonolith {
                     }
                 }
                 if (!parts) return;
+                plasma(ps, t, wdeg, true);   // 60% share + trail under the wings (preview: 40% / 10% over the ship)
                 // wings under the hull, heated with the plates, lights on
                 for (int w = 0; w < 2; w++) {
                     boolean left = w == 0;
@@ -238,7 +239,6 @@ public final class ModMonolith {
                     if (heat > 0.02f) ModFx.sprR(n + "_hot", b.x, b.y, D, D, rot, 1, 1, 1, heat * str, false);
                     ModFx.sprR(n + "_glow_l", b.x, b.y, D, D, rot, 1, 1, 1, 0.55f + 0.25f * (float) Math.sin(t / 700.0), true);
                 }
-                plasma(ps, t, wdeg, true);
             } finally {
                 ModFx.relative = false;
             }
@@ -263,6 +263,7 @@ public final class ModMonolith {
 
     // ------------------------------------------------------------------ v41 baked layers (src/genmono41.py)
     private static final float HT = 0.5f / 2048f;   // half a texel: tiles never sample their neighbours
+    private static float htv = HT;                   // v inset (the plasma atlas is 1024 high)
 
     /** One flat-colour additive mask tile (texture alpha x a), w may be negative (mirrored). */
     private static void mask(String tex, float x, float y, float w, float h, float rot, float r, float g, float bl, float al,
@@ -271,7 +272,7 @@ public final class ModMonolith {
         Texture tx = ModArt.ready(tex);
         if (tx == null) return;
         ModFx.flatNext = true;
-        ModFx.sprTex(tx, x, y, w, h, rot, Math.min(1, r), Math.min(1, g), Math.min(1, bl), Math.min(1, al), true, u0 + HT, v0 + HT, u1 - HT, v1 - HT);
+        ModFx.sprTex(tx, x, y, w, h, rot, Math.min(1, r), Math.min(1, g), Math.min(1, bl), Math.min(1, al), true, u0 + HT, v0 + htv, u1 - HT, v1 - htv);
     }
 
     /**
@@ -294,8 +295,12 @@ public final class ModMonolith {
             int i = l * ModMonoFx.A_NA + k;
             float u0 = (i % ModMonoFx.A_COLS) * ModMonoFx.A_TILE, v0 = (i / ModMonoFx.A_COLS) * ModMonoFx.A_TILE;
             float u1 = u0 + ModMonoFx.A_TILE, v1 = v0 + ModMonoFx.A_TILE;
-            mask(base + "_a", x, y, w, sz, rot, edge[0], edge[1], edge[2], al * wt, u0, v0, u1, v1);
-            mask(base + "_ai", x, y, w, sz, rot, Math.max(0, core[0] - edge[0]), Math.max(0, core[1] - edge[1]), Math.max(0, core[2] - edge[2]), al * wt, u0, v0, u1, v1);
+            // alpha above 1 (heavy-hit pulse at full shield) goes into a second pass instead of being clamped away
+            for (float rest = al * wt; rest > 0.004f; rest -= 1) {
+                float pa = Math.min(1, rest);
+                mask(base + "_a", x, y, w, sz, rot, edge[0], edge[1], edge[2], pa, u0, v0, u1, v1);
+                mask(base + "_ai", x, y, w, sz, rot, Math.max(0, core[0] - edge[0]), Math.max(0, core[1] - edge[1]), Math.max(0, core[2] - edge[2]), pa, u0, v0, u1, v1);
+            }
         }
     }
 
@@ -363,9 +368,12 @@ public final class ModMonolith {
         if (al <= 0.004f) return;
         float u0 = (fr % ModMonoFx.P_COLS) * ModMonoFx.P_TU, v0 = (fr / ModMonoFx.P_COLS) * ModMonoFx.P_TV;
         float u1 = u0 + ModMonoFx.P_TU, v1 = v0 + ModMonoFx.P_TV;
-        mask("mfx_mono_plasma_glow", x, y, w, h, rot, edge[0] * 1.2f, edge[1] * 1.2f, edge[2] * 1.2f, al, u0, v0, u1, v1);
+        htv = 0.5f / 1024f;
+        // preview: edge x 1.2 x glow, clipped only after the layers are summed: the 1.2 goes into alpha
+        mask("mfx_mono_plasma_glow", x, y, w, h, rot, edge[0], edge[1], edge[2], al * 1.2f, u0, v0, u1, v1);
         mask("mfx_mono_plasma_core", x, y, w, h, rot, core[0], core[1], core[2], al, u0, v0, u1, v1);
         if (white) mask("mfx_mono_plasma_white", x, y, w, h, rot, 1, 1, 1, al, u0, v0, u1, v1);
+        htv = HT;
     }
 
     /** ModCaps.drawOver (after the hull): hull heat, the plasma's over-ship share, hit flares and ripples. */

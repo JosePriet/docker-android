@@ -107,6 +107,9 @@ CAN, PAD, AT = 1280, 128, 400            # canvas = sprite + 128 px each side; t
 LEVELS = (0.0, 0.5, 1.0); NA = 6         # noise phases per 2 pi (one 6.5 s breathing loop in game)
 ACOLS = 5                                # 18 tiles in a 5 x 4 grid (2000 x 1600 inside a 2048 x 2048 atlas)
 ASZ = 2048
+# fade the last 16 texels of each aura tile to zero (no square edge where the far glow reaches the tile border)
+_e = np.clip(np.minimum(np.arange(AT), np.arange(AT)[::-1]) / 16.0, 0, 1)
+EDGEWIN = np.minimum.outer(_e, _e)
 
 def aura_part(spr, wing_open):
     a = np.zeros((CAN, CAN), bool); a[PAD:PAD + 1024, PAD:PAD + 1024] = spr[..., 3] > 40
@@ -132,7 +135,8 @@ def aura_part(spr, wing_open):
             I = np.clip(np.clip((shell * (0.45 + 0.9 * n) - 0.30) * 1.8, 0, 1) + np.exp(-d / (reach * 1.5)) * out_ * 0.28
                         + np.exp(-((d - 2) ** 2) / 3) * out_ * 0.8, 0, 1)
             A = np.clip(I * 1.15, 0, 1)
-            out.append((down(A, (AT, AT)), down(A * I, (AT, AT))))
+            ta, tai = down(A, (AT, AT)), down(A * I, (AT, AT))
+            out.append((ta * EDGEWIN, tai * EDGEWIN))
     return out
 
 def aura_atlas(spr, name, wing_open=False):

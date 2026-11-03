@@ -60,6 +60,8 @@
 
 .field private static histT:J
 
+.field private static htv:F
+
 .field private static lastT:J
 
 .field private static peak:F
@@ -147,19 +149,19 @@
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_b2
+    fill-array-data v1, :array_b6
 
     aput-object v1, v0, v3
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_bc
+    fill-array-data v1, :array_c0
 
     aput-object v1, v0, v4
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_c6
+    fill-array-data v1, :array_ca
 
     aput-object v1, v0, v5
 
@@ -170,19 +172,19 @@
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_d0
+    fill-array-data v1, :array_d4
 
     aput-object v1, v0, v3
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_da
+    fill-array-data v1, :array_de
 
     aput-object v1, v0, v4
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_e4
+    fill-array-data v1, :array_e8
 
     aput-object v1, v0, v5
 
@@ -193,19 +195,19 @@
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_ee
+    fill-array-data v1, :array_f2
 
     aput-object v1, v0, v3
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_f8
+    fill-array-data v1, :array_fc
 
     aput-object v1, v0, v4
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_102
+    fill-array-data v1, :array_106
 
     aput-object v1, v0, v5
 
@@ -216,19 +218,19 @@
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_10c
+    fill-array-data v1, :array_110
 
     aput-object v1, v0, v3
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_116
+    fill-array-data v1, :array_11a
 
     aput-object v1, v0, v4
 
     new-array v1, v2, [F
 
-    fill-array-data v1, :array_120
+    fill-array-data v1, :array_124
 
     aput-object v1, v0, v5
 
@@ -243,16 +245,21 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->edge:[F
 
-    .line 318
+    .line 266
+    const/high16 v0, 0x39800000
+
+    sput v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->htv:F
+
+    .line 323
     new-array v0, v2, [F
 
-    fill-array-data v0, :array_12a
+    fill-array-data v0, :array_12e
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->GHOST_AGE:[F
 
     new-array v0, v2, [F
 
-    fill-array-data v0, :array_134
+    fill-array-data v0, :array_138
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->GHOST_W:[F
 
@@ -261,21 +268,21 @@
     .line 160
     nop
 
-    :array_b2
+    :array_b6
     .array-data 4
         0x434d0000    # 205.0f
         0x436b0000    # 235.0f
         0x437f0000    # 255.0f
     .end array-data
 
-    :array_bc
+    :array_c0
     .array-data 4
         0x437f0000    # 255.0f
         0x43700000    # 240.0f
         0x43250000    # 165.0f
     .end array-data
 
-    :array_c6
+    :array_ca
     .array-data 4
         0x437f0000    # 255.0f
         0x43640000    # 228.0f
@@ -283,21 +290,21 @@
     .end array-data
 
     .line 161
-    :array_d0
+    :array_d4
     .array-data 4
         0x42a00000    # 80.0f
         0x43250000    # 165.0f
         0x437f0000    # 255.0f
     .end array-data
 
-    :array_da
+    :array_de
     .array-data 4
         0x437f0000    # 255.0f
         0x43390000    # 185.0f
         0x425c0000    # 55.0f
     .end array-data
 
-    :array_e4
+    :array_e8
     .array-data 4
         0x437f0000    # 255.0f
         0x42aa0000    # 85.0f
@@ -305,21 +312,21 @@
     .end array-data
 
     .line 162
-    :array_ee
+    :array_f2
     .array-data 4
         0x43160000    # 150.0f
         0x43570000    # 215.0f
         0x437f0000    # 255.0f
     .end array-data
 
-    :array_f8
+    :array_fc
     .array-data 4
         0x437f0000    # 255.0f
         0x43570000    # 215.0f
         0x42dc0000    # 110.0f
     .end array-data
 
-    :array_102
+    :array_106
     .array-data 4
         0x437f0000    # 255.0f
         0x433e0000    # 190.0f
@@ -327,36 +334,36 @@
     .end array-data
 
     .line 163
-    :array_10c
+    :array_110
     .array-data 4
         0x42200000    # 40.0f
         0x42f00000    # 120.0f
         0x437f0000    # 255.0f
     .end array-data
 
-    :array_116
+    :array_11a
     .array-data 4
         0x437f0000    # 255.0f
         0x43160000    # 150.0f
         0x41f00000    # 30.0f
     .end array-data
 
-    :array_120
+    :array_124
     .array-data 4
         0x437f0000    # 255.0f
         0x42340000    # 45.0f
         0x41c80000    # 25.0f
     .end array-data
 
-    .line 318
-    :array_12a
+    .line 323
+    :array_12e
     .array-data 4
         0x3dbe76c9    # 0.093f
         0x3ea3d70a    # 0.32f
         0x3f3ae148    # 0.73f
     .end array-data
 
-    :array_134
+    :array_138
     .array-data 4
         0x3e74bc6a    # 0.239f
         0x3e624dd3    # 0.221f
@@ -476,12 +483,12 @@
     .registers 6
 
     .prologue
-    .line 406
+    .line 414
     sub-float v0, p0, p1
 
     float-to-double v0, v0
 
-    .line 407
+    .line 415
     invoke-static {v0, v1}, Ljava/lang/Math;->sin(D)D
 
     move-result-wide v2
@@ -507,7 +514,7 @@
     .registers 30
 
     .prologue
-    .line 282
+    .line 283
     const/4 v2, 0x0
 
     const/high16 v3, 0x3f800000    # 1.0f
@@ -526,23 +533,23 @@
 
     mul-float/2addr v2, v3
 
-    .line 283
+    .line 284
     float-to-int v3, v2
 
     const/4 v4, 0x1
 
     invoke-static {v3, v4}, Ljava/lang/Math;->min(II)I
 
-    move-result v19
+    move-result v20
 
-    .line 284
-    move/from16 v0, v19
+    .line 285
+    move/from16 v0, v20
 
     int-to-float v3, v0
 
-    sub-float v17, v2, v3
+    sub-float v18, v2, v3
 
-    .line 285
+    .line 286
     sget v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->phase:F
 
     float-to-double v2, v2
@@ -557,7 +564,7 @@
 
     double-to-float v2, v2
 
-    .line 286
+    .line 287
     const/high16 v3, 0x40c00000    # 6.0f
 
     div-float v3, v2, v3
@@ -576,141 +583,162 @@
 
     sub-float/2addr v2, v3
 
-    .line 287
+    .line 288
     float-to-int v3, v2
 
     const/4 v4, 0x5
 
     invoke-static {v3, v4}, Ljava/lang/Math;->min(II)I
 
-    move-result v20
+    move-result v21
 
-    .line 288
-    move/from16 v0, v20
+    .line 289
+    move/from16 v0, v21
 
     int-to-float v3, v0
 
-    sub-float v16, v2, v3
+    sub-float v17, v2, v3
 
-    .line 289
-    if-eqz p5, :cond_77
+    .line 290
+    if-eqz p5, :cond_76
 
     move/from16 v0, p3
 
     neg-float v5, v0
 
-    .line 290
+    .line 291
     :goto_46
     const/4 v2, 0x0
 
-    move/from16 v18, v2
+    move/from16 v19, v2
 
     :goto_49
     const/4 v2, 0x4
 
-    move/from16 v0, v18
+    move/from16 v0, v19
 
-    if-ge v0, v2, :cond_11e
+    if-ge v0, v2, :cond_132
 
-    .line 291
-    shr-int/lit8 v2, v18, 0x1
+    .line 292
+    shr-int/lit8 v2, v19, 0x1
 
-    add-int v4, v19, v2
+    add-int v4, v20, v2
 
-    and-int/lit8 v2, v18, 0x1
+    and-int/lit8 v2, v19, 0x1
 
-    add-int v2, v2, v20
+    add-int v2, v2, v21
 
     rem-int/lit8 v6, v2, 0x6
 
-    .line 292
-    shr-int/lit8 v2, v18, 0x1
+    .line 293
+    shr-int/lit8 v2, v19, 0x1
 
-    if-nez v2, :cond_7a
+    if-nez v2, :cond_79
+
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    sub-float v2, v2, v18
+
+    move v3, v2
+
+    :goto_61
+    and-int/lit8 v2, v19, 0x1
+
+    if-nez v2, :cond_7c
 
     const/high16 v2, 0x3f800000    # 1.0f
 
     sub-float v2, v2, v17
 
-    move v3, v2
-
-    :goto_61
-    and-int/lit8 v2, v18, 0x1
-
-    if-nez v2, :cond_7d
-
-    const/high16 v2, 0x3f800000    # 1.0f
-
-    sub-float v2, v2, v16
-
     :goto_69
-    mul-float v21, v3, v2
+    mul-float/2addr v2, v3
 
-    .line 293
-    const v2, 0x3c23d70a    # 0.01f
+    .line 294
+    const v3, 0x3c23d70a    # 0.01f
 
-    cmpg-float v2, v21, v2
+    cmpg-float v3, v2, v3
 
-    if-gtz v2, :cond_80
+    if-gtz v3, :cond_7f
 
-    .line 290
-    :goto_72
-    add-int/lit8 v2, v18, 0x1
+    .line 291
+    :cond_71
+    add-int/lit8 v2, v19, 0x1
 
-    move/from16 v18, v2
+    move/from16 v19, v2
 
     goto :goto_49
 
-    :cond_77
+    :cond_76
     move/from16 v5, p3
 
-    .line 289
+    .line 290
     goto :goto_46
 
-    :cond_7a
-    move/from16 v3, v17
+    :cond_79
+    move/from16 v3, v18
 
-    .line 292
+    .line 293
     goto :goto_61
 
-    :cond_7d
-    move/from16 v2, v16
+    :cond_7c
+    move/from16 v2, v17
 
     goto :goto_69
 
-    .line 294
-    :cond_80
-    mul-int/lit8 v2, v4, 0x6
-
-    add-int/2addr v2, v6
-
     .line 295
-    rem-int/lit8 v3, v2, 0x5
+    :cond_7f
+    mul-int/lit8 v3, v4, 0x6
+
+    add-int/2addr v3, v6
+
+    .line 296
+    rem-int/lit8 v4, v3, 0x5
+
+    int-to-float v4, v4
+
+    const/high16 v6, 0x3e480000    # 0.1953125f
+
+    mul-float v12, v4, v6
+
+    div-int/lit8 v3, v3, 0x5
 
     int-to-float v3, v3
 
     const/high16 v4, 0x3e480000    # 0.1953125f
 
-    mul-float v12, v3, v4
+    mul-float v13, v3, v4
 
-    div-int/lit8 v2, v2, 0x5
+    .line 297
+    const/high16 v3, 0x3e480000    # 0.1953125f
 
-    int-to-float v2, v2
+    add-float v14, v12, v3
 
     const/high16 v3, 0x3e480000    # 0.1953125f
 
-    mul-float v13, v2, v3
+    add-float v15, v13, v3
 
-    .line 296
-    const/high16 v2, 0x3e480000    # 0.1953125f
+    .line 299
+    mul-float v2, v2, p7
 
-    add-float v14, v12, v2
+    move/from16 v16, v2
 
-    const/high16 v2, 0x3e480000    # 0.1953125f
+    :goto_9c
+    const v2, 0x3b83126f    # 0.004f
 
-    add-float v15, v13, v2
+    cmpl-float v2, v16, v2
 
-    .line 297
+    if-lez v2, :cond_71
+
+    .line 300
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    move/from16 v0, v16
+
+    invoke-static {v2, v0}, Ljava/lang/Math;->min(FF)F
+
+    move-result v11
+
+    .line 301
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -749,8 +777,6 @@
 
     aget v10, v3, v4
 
-    mul-float v11, p7, v21
-
     move/from16 v3, p1
 
     move/from16 v4, p2
@@ -761,7 +787,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModMonolith;->mask(Ljava/lang/String;FFFFFFFFFFFFF)V
 
-    .line 298
+    .line 302
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -842,8 +868,6 @@
 
     move-result v10
 
-    mul-float v11, p7, v21
-
     move/from16 v3, p1
 
     move/from16 v4, p2
@@ -854,10 +878,17 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModMonolith;->mask(Ljava/lang/String;FFFFFFFFFFFFF)V
 
-    goto/16 :goto_72
+    .line 299
+    const/high16 v2, 0x3f800000    # 1.0f
 
-    .line 300
-    :cond_11e
+    sub-float v2, v16, v2
+
+    move/from16 v16, v2
+
+    goto/16 :goto_9c
+
+    .line 305
+    :cond_132
     return-void
 .end method
 
@@ -1126,21 +1157,21 @@
     .registers 28
 
     .prologue
-    .line 412
+    .line 420
     sget v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->D:F
 
     const/high16 v3, 0x44800000    # 1024.0f
 
     div-float v19, v2, v3
 
-    .line 413
+    .line 421
     move-object/from16 v0, p3
 
     array-length v2, v0
 
     div-int/lit8 v20, v2, 0x4
 
-    .line 414
+    .line 422
     const/4 v2, 0x0
 
     move/from16 v18, v2
@@ -1152,7 +1183,7 @@
 
     if-ge v0, v2, :cond_1a1
 
-    .line 415
+    .line 423
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->hT:[J
 
     aget-wide v2, v2, v18
@@ -1165,7 +1196,7 @@
 
     div-float v21, v2, v3
 
-    .line 416
+    .line 424
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->hT:[J
 
     aget-wide v2, v2, v18
@@ -1182,7 +1213,7 @@
 
     if-ltz v2, :cond_35
 
-    .line 414
+    .line 422
     :cond_30
     :goto_30
     add-int/lit8 v2, v18, 0x1
@@ -1191,19 +1222,19 @@
 
     goto :goto_e
 
-    .line 417
+    .line 425
     :cond_35
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->hDmg:[F
 
     aget v22, v2, v18
 
-    .line 419
+    .line 427
     const/16 v17, 0x0
 
-    .line 420
+    .line 428
     const/high16 v3, 0x41100000    # 9.0f
 
-    .line 421
+    .line 429
     const/4 v5, 0x0
 
     :goto_3e
@@ -1211,7 +1242,7 @@
 
     if-ge v5, v0, :cond_6c
 
-    .line 422
+    .line 430
     mul-int/lit8 v2, v5, 0x4
 
     add-int/lit8 v2, v2, 0x1
@@ -1240,7 +1271,7 @@
 
     double-to-float v2, v6
 
-    .line 423
+    .line 431
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModMonolith;->hAng:[F
 
     aget v4, v4, v18
@@ -1249,14 +1280,14 @@
 
     move-result v2
 
-    .line 424
+    .line 432
     cmpg-float v4, v2, v3
 
     if-gez v4, :cond_1a2
 
     move v4, v5
 
-    .line 421
+    .line 429
     :goto_66
     add-int/lit8 v5, v5, 0x1
 
@@ -1266,7 +1297,7 @@
 
     goto :goto_3e
 
-    .line 426
+    .line 434
     :cond_6c
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->a:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -1290,7 +1321,7 @@
 
     invoke-virtual {v2, v3, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->set(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 427
+    .line 435
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->a:Lfr/testudo/spacecorsair/engine/Vector2;
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModMonolith;->b:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1299,7 +1330,7 @@
 
     invoke-static {v0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModMonolith;->toScreen(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 428
+    .line 436
     const/high16 v2, 0x3f000000    # 0.5f
 
     add-float v2, v2, v22
@@ -1322,7 +1353,7 @@
 
     mul-float v6, v2, v3
 
-    .line 429
+    .line 437
     const/high16 v2, 0x41600000    # 14.0f
 
     const/high16 v3, 0x41600000    # 14.0f
@@ -1341,7 +1372,7 @@
 
     mul-float v5, v2, v3
 
-    .line 430
+    .line 438
     const-string v2, "fx_glow"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModMonolith;->b:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1374,7 +1405,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 432
+    .line 440
     const v2, 0x40333333    # 2.8f
 
     mul-float v2, v2, v21
@@ -1389,7 +1420,7 @@
 
     mul-float/2addr v3, v2
 
-    .line 433
+    .line 441
     move/from16 v0, v21
 
     neg-float v2, v0
@@ -1410,7 +1441,7 @@
 
     mul-float v15, v2, p4
 
-    .line 434
+    .line 442
     const/4 v2, -0x1
 
     :goto_ed
@@ -1418,7 +1449,7 @@
 
     if-gt v2, v4, :cond_149
 
-    .line 435
+    .line 443
     invoke-static {v3}, Ljava/lang/Math;->round(F)I
 
     move-result v4
@@ -1433,7 +1464,7 @@
 
     rem-int v4, v4, v20
 
-    .line 436
+    .line 444
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModMonolith;->a:Lfr/testudo/spacecorsair/engine/Vector2;
 
     mul-int/lit8 v7, v4, 0x4
@@ -1456,7 +1487,7 @@
 
     invoke-virtual {v6, v7, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->set(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 437
+    .line 445
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModMonolith;->a:Lfr/testudo/spacecorsair/engine/Vector2;
 
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModMonolith;->c:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1465,7 +1496,7 @@
 
     invoke-static {v0, v4, v6}, Lfr/testudo/spacecorsair/mod/ModMonolith;->toScreen(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 438
+    .line 446
     const-string v6, "fx_glow"
 
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModMonolith;->c:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1508,12 +1539,12 @@
 
     invoke-static/range {v6 .. v16}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 434
+    .line 442
     add-int/lit8 v2, v2, 0x2
 
     goto :goto_ed
 
-    .line 440
+    .line 448
     :cond_149
     const v2, 0x3f4ccccd    # 0.8f
 
@@ -1527,10 +1558,10 @@
 
     if-gez v2, :cond_30
 
-    .line 441
+    .line 449
     sget-object v4, Lfr/testudo/spacecorsair/engine/GameRenderer;->screenCenter:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 442
+    .line 450
     sget v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->D:F
 
     const/high16 v3, 0x3f000000    # 0.5f
@@ -1555,7 +1586,7 @@
 
     mul-float v6, v2, v3
 
-    .line 443
+    .line 451
     const-string v2, "fx_shock"
 
     iget v3, v4, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -1618,7 +1649,7 @@
 
     goto/16 :goto_30
 
-    .line 446
+    .line 454
     :cond_1a1
     return-void
 
@@ -1638,8 +1669,8 @@
 
     const/high16 v2, 0x3f800000    # 1.0f
 
-    .line 304
-    .line 305
+    .line 309
+    .line 310
     const/4 v3, 0x0
 
     move v0, v4
@@ -1651,7 +1682,7 @@
 
     if-ge v3, v4, :cond_4f
 
-    .line 306
+    .line 311
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModMonolith;->hT:[J
 
     aget-wide v4, v4, v3
@@ -1664,7 +1695,7 @@
 
     div-float/2addr v4, v5
 
-    .line 307
+    .line 312
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->hT:[J
 
     aget-wide v6, v5, v3
@@ -1681,14 +1712,14 @@
 
     if-ltz v5, :cond_27
 
-    .line 305
+    .line 310
     :cond_24
     :goto_24
     add-int/lit8 v3, v3, 0x1
 
     goto :goto_6
 
-    .line 308
+    .line 313
     :cond_27
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->hDmg:[F
 
@@ -1710,7 +1741,7 @@
 
     mul-float/2addr v4, v5
 
-    .line 309
+    .line 314
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->hAng:[F
 
     aget v5, v5, v3
@@ -1727,7 +1758,7 @@
 
     add-float/2addr v1, v5
 
-    .line 310
+    .line 315
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->hAng:[F
 
     aget v5, v5, v3
@@ -1746,7 +1777,7 @@
 
     goto :goto_24
 
-    .line 312
+    .line 317
     :cond_4f
     mul-float v3, v1, v1
 
@@ -1772,14 +1803,14 @@
 
     div-float/2addr v4, v5
 
-    .line 313
+    .line 318
     cmpl-float v5, v3, v2
 
     if-lez v5, :cond_67
 
     div-float/2addr v2, v3
 
-    .line 314
+    .line 319
     :cond_67
     mul-float/2addr v1, v2
 
@@ -1803,7 +1834,7 @@
 
     invoke-virtual {v0, v2, v3}, Lfr/testudo/spacecorsair/engine/Vector2;->applyRotatation(D)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 315
+    .line 320
     return-void
 .end method
 
@@ -1833,33 +1864,33 @@
     .registers 30
 
     .prologue
-    .line 270
+    .line 271
     const v1, 0x3b83126f    # 0.004f
 
     cmpg-float v1, p9, v1
 
     if-gtz v1, :cond_8
 
-    .line 275
+    .line 276
     :cond_7
     :goto_7
     return-void
 
-    .line 271
+    .line 272
     :cond_8
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModArt;->ready(Ljava/lang/String;)Lfr/testudo/spacecorsair/display/Texture;
 
     move-result-object v1
 
-    .line 272
+    .line 273
     if-eqz v1, :cond_7
 
-    .line 273
+    .line 274
     const/4 v2, 0x1
 
     sput-boolean v2, Lfr/testudo/spacecorsair/mod/ModFx;->flatNext:Z
 
-    .line 274
+    .line 275
     const/high16 v2, 0x3f800000    # 1.0f
 
     move/from16 v0, p6
@@ -1898,7 +1929,7 @@
 
     add-float v12, p10, v2
 
-    const/high16 v2, 0x39800000
+    sget v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->htv:F
 
     add-float v13, p11, v2
 
@@ -1906,7 +1937,7 @@
 
     sub-float v14, p12, v2
 
-    const/high16 v2, 0x39800000
+    sget v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->htv:F
 
     sub-float v15, p13, v2
 
@@ -1929,43 +1960,43 @@
     .registers 16
 
     .prologue
-    .line 374
+    .line 382
     :try_start_0
     sget v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->stage:I
 
     if-nez v0, :cond_5
 
-    .line 403
+    .line 411
     :cond_4
     :goto_4
     return-void
 
-    .line 375
+    .line 383
     :cond_5
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->getDrawableObject()Lfr/testudo/spacecorsair/display/Drawable;
 
     move-result-object v0
 
-    .line 376
+    .line 384
     if-eqz v0, :cond_4
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
 
     if-eqz v1, :cond_4
 
-    .line 377
+    .line 385
     iget-object v0, v0, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v0, v0, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->D:F
 
-    .line 378
+    .line 386
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v12
 
-    .line 379
+    .line 387
     const-string v0, "monolith"
 
     sget v1, Lfr/testudo/spacecorsair/mod/ModMonolith;->stage:I
@@ -1974,7 +2005,7 @@
 
     move-result v14
 
-    .line 380
+    .line 388
     sget v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->stage:I
 
     const/4 v1, 0x5
@@ -1985,24 +2016,24 @@
 
     move v11, v0
 
-    .line 381
+    .line 389
     :goto_29
     sget-object v2, Lfr/testudo/spacecorsair/engine/GameRenderer;->screenCenter:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 382
+    .line 390
     const/4 v0, 0x1
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModFx;->relative:Z
     :try_end_2e
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_2e} :catch_8e
 
-    .line 384
+    .line 392
     if-eqz v14, :cond_98
 
     :try_start_30
     const-string v0, "monolith_stage5_hull_hot"
 
-    .line 385
+    .line 393
     :goto_32
     if-eqz v0, :cond_54
 
@@ -2038,11 +2069,11 @@
 
     invoke-static/range {v0 .. v10}, Lfr/testudo/spacecorsair/mod/ModFx;->sprR(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 386
+    .line 394
     :cond_54
     if-eqz v14, :cond_80
 
-    .line 387
+    .line 395
     sget v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->ang:F
 
     const/high16 v1, 0x40400000    # 3.0f
@@ -2083,12 +2114,12 @@
 
     add-float/2addr v0, v1
 
-    .line 388
+    .line 396
     const/4 v1, 0x0
 
     invoke-static {p0, v12, v13, v0, v1}, Lfr/testudo/spacecorsair/mod/ModMonolith;->plasma(Lfr/testudo/spacecorsair/business/player/PlayerShip;JFZ)V
 
-    .line 390
+    .line 398
     :cond_80
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModMonolith;->shieldFrac(Lfr/testudo/spacecorsair/business/player/PlayerShip;)F
     :try_end_83
@@ -2102,7 +2133,7 @@
 
     if-gtz v0, :cond_a2
 
-    .line 398
+    .line 406
     const/4 v0, 0x0
 
     :try_start_8a
@@ -2112,18 +2143,18 @@
 
     goto/16 :goto_4
 
-    .line 400
+    .line 408
     :catch_8e
     move-exception v0
 
-    .line 401
+    .line 409
     const/4 v0, 0x0
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModFx;->relative:Z
 
     goto/16 :goto_4
 
-    .line 380
+    .line 388
     :cond_94
     const/high16 v0, 0x3f000000    # 0.5f
 
@@ -2131,7 +2162,7 @@
 
     goto :goto_29
 
-    .line 384
+    .line 392
     :cond_98
     :try_start_98
     sget v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->stage:I
@@ -2149,13 +2180,13 @@
 
     goto :goto_32
 
-    .line 391
+    .line 399
     :cond_a2
     invoke-static {v12, v13}, Lfr/testudo/spacecorsair/mod/ModMonolith;->agitation(J)F
 
     move-result v0
 
-    .line 392
+    .line 400
     sget v1, Lfr/testudo/spacecorsair/mod/ModMonolith;->held:F
 
     const v2, 0x3e99999a    # 0.3f
@@ -2170,21 +2201,21 @@
 
     add-float/2addr v0, v1
 
-    .line 393
+    .line 401
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMonolith;->AURA_CORE:[[F
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->core:[F
 
     invoke-static {v1, v0, v2}, Lfr/testudo/spacecorsair/mod/ModMonolith;->ramp([[FF[F)[F
 
-    .line 394
+    .line 402
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMonolith;->AURA_EDGE:[[F
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModMonolith;->edge:[F
 
     invoke-static {v1, v0, v2}, Lfr/testudo/spacecorsair/mod/ModMonolith;->ramp([[FF[F)[F
 
-    .line 395
+    .line 403
     if-nez v14, :cond_c8
 
     sget v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->stage:I
@@ -2196,13 +2227,13 @@
     :cond_c8
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMonoData;->HULL:[F
 
-    .line 396
+    .line 404
     :goto_ca
     invoke-static {p0, v12, v13, v0, v11}, Lfr/testudo/spacecorsair/mod/ModMonolith;->hits(Lfr/testudo/spacecorsair/business/player/PlayerShip;J[FF)V
     :try_end_cd
     .catchall {:try_start_98 .. :try_end_cd} :catchall_d5
 
-    .line 398
+    .line 406
     const/4 v0, 0x0
 
     :try_start_ce
@@ -2212,7 +2243,7 @@
 
     goto/16 :goto_4
 
-    .line 395
+    .line 403
     :cond_d2
     :try_start_d2
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModMonoData;->S4:[F
@@ -2221,7 +2252,7 @@
 
     goto :goto_ca
 
-    .line 398
+    .line 406
     :catchall_d5
     move-exception v0
 
@@ -2230,7 +2261,7 @@
     :try_start_d7
     sput-boolean v1, Lfr/testudo/spacecorsair/mod/ModFx;->relative:Z
 
-    .line 399
+    .line 407
     throw v0
     :try_end_da
     .catch Ljava/lang/Throwable; {:try_start_d7 .. :try_end_da} :catch_8e
@@ -2240,7 +2271,7 @@
     .registers 28
 
     .prologue
-    .line 326
+    .line 331
     const/4 v4, 0x0
 
     const/high16 v5, 0x3f800000    # 1.0f
@@ -2267,18 +2298,18 @@
 
     move-result v4
 
-    .line 327
+    .line 332
     const/4 v5, 0x0
 
     cmpg-float v5, v4, v5
 
     if-gtz v5, :cond_1e
 
-    .line 360
+    .line 365
     :cond_1d
     return-void
 
-    .line 328
+    .line 333
     :cond_1e
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->PLASMA_CORE:[[F
 
@@ -2288,7 +2319,7 @@
 
     invoke-static {v5, v6, v7}, Lfr/testudo/spacecorsair/mod/ModMonolith;->ramp([[FF[F)[F
 
-    .line 329
+    .line 334
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->PLASMA_EDGE:[[F
 
     sget v6, Lfr/testudo/spacecorsair/mod/ModMonolith;->held:F
@@ -2297,7 +2328,7 @@
 
     invoke-static {v5, v6, v7}, Lfr/testudo/spacecorsair/mod/ModMonolith;->ramp([[FF[F)[F
 
-    .line 330
+    .line 335
     const/high16 v5, 0x3f800000    # 1.0f
 
     const v6, 0x3fb33333    # 1.4f
@@ -2316,7 +2347,7 @@
 
     add-float/2addr v4, v5
 
-    .line 331
+    .line 336
     const-wide/16 v6, 0x708
 
     rem-long v6, p1, v6
@@ -2331,7 +2362,7 @@
 
     mul-float/2addr v5, v6
 
-    .line 332
+    .line 337
     float-to-int v6, v5
 
     const/16 v7, 0x11
@@ -2340,26 +2371,26 @@
 
     move-result v18
 
-    .line 333
+    .line 338
     move/from16 v0, v18
 
     int-to-float v6, v0
 
     sub-float v14, v5, v6
 
-    .line 334
+    .line 339
     sget v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->D:F
 
     const/high16 v6, 0x44800000    # 1024.0f
 
     div-float v19, v5, v6
 
-    .line 335
+    .line 340
     const/high16 v5, 0x44160000    # 600.0f
 
     const v6, 0x44294000    # 677.0f
 
-    .line 336
+    .line 341
     const/high16 v7, 0x44480000    # 800.0f
 
     mul-float v7, v7, v19
@@ -2372,7 +2403,7 @@
 
     mul-float v8, v7, v4
 
-    .line 338
+    .line 343
     const v7, 0x43b68000    # 365.0f
 
     const v9, 0x43b68000    # 365.0f
@@ -2393,14 +2424,14 @@
 
     add-float v21, v5, v4
 
-    .line 339
+    .line 344
     if-eqz p4, :cond_e2
 
     const v4, 0x3f19999a    # 0.6f
 
     move v12, v4
 
-    .line 340
+    .line 345
     :goto_87
     const v4, 0x4019999a    # 2.4f
 
@@ -2416,7 +2447,7 @@
 
     mul-float v22, v4, v5
 
-    .line 341
+    .line 346
     const/4 v4, 0x0
 
     move/from16 v16, v4
@@ -2428,12 +2459,12 @@
 
     if-ge v0, v4, :cond_1d
 
-    .line 342
+    .line 347
     if-nez v16, :cond_e7
 
     const/4 v4, 0x1
 
-    .line 343
+    .line 348
     :goto_a0
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->a:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -2445,7 +2476,7 @@
 
     invoke-static {v4, v0, v1, v2, v5}, Lfr/testudo/spacecorsair/mod/ModMonolith;->wingPt(ZFFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 344
+    .line 349
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->a:Lfr/testudo/spacecorsair/engine/Vector2;
 
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModMonolith;->b:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2454,7 +2485,7 @@
 
     invoke-static {v0, v5, v6}, Lfr/testudo/spacecorsair/mod/ModMonolith;->toScreen(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 345
+    .line 350
     move-object/from16 v0, p0
 
     iget v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->spin:F
@@ -2470,7 +2501,7 @@
 
     move v7, v13
 
-    .line 346
+    .line 351
     :goto_c1
     const/4 v4, 0x0
 
@@ -2481,12 +2512,12 @@
 
     if-ge v15, v4, :cond_f1
 
-    .line 347
+    .line 352
     add-int v4, v18, v15
 
     rem-int/lit8 v4, v4, 0x12
 
-    .line 348
+    .line 353
     if-nez v15, :cond_ef
 
     const/high16 v5, 0x3f800000    # 1.0f
@@ -2498,7 +2529,7 @@
 
     mul-float v10, v5, v17
 
-    .line 349
+    .line 354
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->b:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v5, v5, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -2511,14 +2542,14 @@
 
     invoke-static/range {v4 .. v11}, Lfr/testudo/spacecorsair/mod/ModMonolith;->plasmaTile(IFFFFFFZ)V
 
-    .line 346
+    .line 351
     add-int/lit8 v4, v15, 0x1
 
     move v15, v4
 
     goto :goto_c3
 
-    .line 339
+    .line 344
     :cond_e2
     const v4, 0x3ecccccd    # 0.4f
 
@@ -2526,13 +2557,13 @@
 
     goto :goto_87
 
-    .line 342
+    .line 347
     :cond_e7
     const/4 v4, 0x0
 
     goto :goto_a0
 
-    .line 345
+    .line 350
     :cond_e9
     move/from16 v0, p3
 
@@ -2548,14 +2579,14 @@
     :cond_ef
     move v5, v14
 
-    .line 348
+    .line 353
     goto :goto_cf
 
-    .line 351
+    .line 356
     :cond_f1
     if-nez p4, :cond_f8
 
-    .line 341
+    .line 346
     :cond_f3
     add-int/lit8 v4, v16, 0x1
 
@@ -2563,7 +2594,7 @@
 
     goto :goto_98
 
-    .line 352
+    .line 357
     :cond_f8
     const/4 v4, 0x0
 
@@ -2576,7 +2607,7 @@
 
     if-ge v15, v4, :cond_f3
 
-    .line 353
+    .line 358
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModMonolith;->GHOST_AGE:[F
 
     aget v4, v4, v15
@@ -2585,7 +2616,7 @@
 
     mul-float v4, v4, v19
 
-    .line 354
+    .line 359
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->c:Lfr/testudo/spacecorsair/engine/Vector2;
 
     const/4 v6, 0x0
@@ -2606,7 +2637,7 @@
 
     invoke-virtual {v4, v10, v11}, Lfr/testudo/spacecorsair/engine/Vector2;->applyRotatation(D)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 355
+    .line 360
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModMonolith;->GHOST_AGE:[F
 
     aget v4, v4, v15
@@ -2645,7 +2676,7 @@
 
     rem-int/lit8 v4, v4, 0x12
 
-    .line 357
+    .line 362
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->b:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v5, v5, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -2676,7 +2707,7 @@
 
     invoke-static/range {v4 .. v11}, Lfr/testudo/spacecorsair/mod/ModMonolith;->plasmaTile(IFFFFFFZ)V
 
-    .line 352
+    .line 357
     add-int/lit8 v4, v15, 0x1
 
     move v15, v4
@@ -2688,19 +2719,18 @@
     .registers 22
 
     .prologue
-    .line 363
+    .line 368
     const v0, 0x3b83126f    # 0.004f
 
     cmpg-float v0, p6, v0
 
     if-gtz v0, :cond_8
 
-    .line 369
-    :cond_7
+    .line 377
     :goto_7
     return-void
 
-    .line 364
+    .line 369
     :cond_8
     rem-int/lit8 v0, p0, 0x6
 
@@ -2718,7 +2748,7 @@
 
     mul-float v11, v0, v1
 
-    .line 365
+    .line 370
     const/high16 v0, 0x3e160000
 
     add-float v12, v10, v0
@@ -2727,38 +2757,35 @@
 
     add-float v13, v11, v0
 
-    .line 366
+    .line 371
+    const/high16 v0, 0x3a000000
+
+    sput v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->htv:F
+
+    .line 373
     const-string v0, "mfx_mono_plasma_glow"
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMonolith;->edge:[F
 
     const/4 v2, 0x0
 
-    aget v1, v1, v2
-
-    const v2, 0x3f99999a    # 1.2f
-
-    mul-float v6, v1, v2
+    aget v6, v1, v2
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMonolith;->edge:[F
 
     const/4 v2, 0x1
 
-    aget v1, v1, v2
-
-    const v2, 0x3f99999a    # 1.2f
-
-    mul-float v7, v1, v2
+    aget v7, v1, v2
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMonolith;->edge:[F
 
     const/4 v2, 0x2
 
-    aget v1, v1, v2
+    aget v8, v1, v2
 
-    const v2, 0x3f99999a    # 1.2f
+    const v1, 0x3f99999a    # 1.2f
 
-    mul-float v8, v1, v2
+    mul-float v9, p6, v1
 
     move v1, p1
 
@@ -2770,11 +2797,9 @@
 
     move/from16 v5, p5
 
-    move/from16 v9, p6
-
     invoke-static/range {v0 .. v13}, Lfr/testudo/spacecorsair/mod/ModMonolith;->mask(Ljava/lang/String;FFFFFFFFFFFFF)V
 
-    .line 367
+    .line 374
     const-string v0, "mfx_mono_plasma_core"
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModMonolith;->core:[F
@@ -2809,8 +2834,8 @@
 
     invoke-static/range {v0 .. v13}, Lfr/testudo/spacecorsair/mod/ModMonolith;->mask(Ljava/lang/String;FFFFFFFFFFFFF)V
 
-    .line 368
-    if-eqz p7, :cond_7
+    .line 375
+    if-eqz p7, :cond_7b
 
     const-string v0, "mfx_mono_plasma_white"
 
@@ -2833,6 +2858,12 @@
     move/from16 v9, p6
 
     invoke-static/range {v0 .. v13}, Lfr/testudo/spacecorsair/mod/ModMonolith;->mask(Ljava/lang/String;FFFFFFFFFFFFF)V
+
+    .line 376
+    :cond_7b
+    const/high16 v0, 0x39800000
+
+    sput v0, Lfr/testudo/spacecorsair/mod/ModMonolith;->htv:F
 
     goto :goto_7
 .end method
@@ -3644,34 +3675,45 @@
 
     goto :goto_170
 
-    .line 231
+    .line 230
     :cond_196
+    const/4 v4, 0x1
+
+    move-object/from16 v0, p0
+
+    move-wide/from16 v1, v24
+
+    move/from16 v3, v21
+
+    invoke-static {v0, v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModMonolith;->plasma(Lfr/testudo/spacecorsair/business/player/PlayerShip;JFZ)V
+
+    .line 232
     const/4 v4, 0x0
 
     move/from16 v22, v4
 
-    :goto_199
+    :goto_1a3
     const/4 v4, 0x2
 
     move/from16 v0, v22
 
-    if-ge v0, v4, :cond_26a
+    if-ge v0, v4, :cond_274
 
-    .line 232
-    if-nez v22, :cond_25d
+    .line 233
+    if-nez v22, :cond_267
 
     const/4 v4, 0x1
 
     move v5, v4
 
-    .line 233
-    :goto_1a2
-    if-eqz v5, :cond_261
+    .line 234
+    :goto_1ac
+    if-eqz v5, :cond_26b
 
     const-string v4, "monolith_stage5_wingL"
 
-    .line 234
-    :goto_1a6
+    .line 235
+    :goto_1b0
     const/high16 v6, 0x44000000    # 512.0f
 
     const/high16 v7, 0x44000000    # 512.0f
@@ -3682,7 +3724,7 @@
 
     invoke-static {v5, v6, v7, v0, v8}, Lfr/testudo/spacecorsair/mod/ModMonolith;->wingPt(ZFFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 235
+    .line 236
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModMonolith;->a:Lfr/testudo/spacecorsair/engine/Vector2;
 
     sget-object v7, Lfr/testudo/spacecorsair/mod/ModMonolith;->b:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3691,19 +3733,19 @@
 
     invoke-static {v0, v6, v7}, Lfr/testudo/spacecorsair/mod/ModMonolith;->toScreen(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 236
+    .line 237
     move-object/from16 v0, p0
 
     iget v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->spin:F
 
-    if-eqz v5, :cond_265
+    if-eqz v5, :cond_26f
 
     move/from16 v5, v21
 
-    :goto_1c2
+    :goto_1cc
     add-float v9, v6, v5
 
-    .line 237
+    .line 238
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->b:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v5, v5, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -3728,14 +3770,14 @@
 
     invoke-static/range {v4 .. v14}, Lfr/testudo/spacecorsair/mod/ModFx;->sprR(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 238
+    .line 239
     sget v5, Lfr/testudo/spacecorsair/mod/ModMonolith;->heat:F
 
     const v6, 0x3ca3d70a    # 0.02f
 
     cmpl-float v5, v5, v6
 
-    if-lez v5, :cond_214
+    if-lez v5, :cond_21e
 
     new-instance v5, Ljava/lang/StringBuilder;
 
@@ -3783,8 +3825,8 @@
 
     invoke-static/range {v10 .. v20}, Lfr/testudo/spacecorsair/mod/ModFx;->sprR(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 239
-    :cond_214
+    .line 240
+    :cond_21e
     new-instance v5, Ljava/lang/StringBuilder;
 
     invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
@@ -3851,50 +3893,39 @@
 
     invoke-static/range {v4 .. v14}, Lfr/testudo/spacecorsair/mod/ModFx;->sprR(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 231
+    .line 232
     add-int/lit8 v4, v22, 0x1
 
     move/from16 v22, v4
 
-    goto/16 :goto_199
+    goto/16 :goto_1a3
 
-    .line 232
-    :cond_25d
+    .line 233
+    :cond_267
     const/4 v4, 0x0
 
     move v5, v4
 
-    goto/16 :goto_1a2
+    goto/16 :goto_1ac
 
-    .line 233
-    :cond_261
+    .line 234
+    :cond_26b
     const-string v4, "monolith_stage5_wingR"
+    :try_end_26d
+    .catchall {:try_start_193 .. :try_end_26d} :catchall_279
 
-    goto/16 :goto_1a6
+    goto/16 :goto_1b0
 
-    .line 236
-    :cond_265
+    .line 237
+    :cond_26f
     move/from16 v0, v21
 
     neg-float v5, v0
 
-    goto/16 :goto_1c2
-
-    .line 241
-    :cond_26a
-    const/4 v4, 0x1
-
-    move-object/from16 v0, p0
-
-    move-wide/from16 v1, v24
-
-    move/from16 v3, v21
-
-    invoke-static {v0, v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModMonolith;->plasma(Lfr/testudo/spacecorsair/business/player/PlayerShip;JFZ)V
-    :try_end_274
-    .catchall {:try_start_193 .. :try_end_274} :catchall_279
+    goto/16 :goto_1cc
 
     .line 243
+    :cond_274
     const/4 v4, 0x0
 
     :try_start_275
