@@ -1970,9 +1970,9 @@
     .line 451
     iget-boolean v2, p0, Lfr/testudo/spacecorsair/business/Element;->isPlayer:Z
 
-    if-eqz v2, :cond_58
+    if-eqz v2, :cond_5f
 
-    if-eqz p2, :cond_58
+    if-eqz p2, :cond_5f
 
     .line 452
     move-object v0, p0
@@ -1984,7 +1984,7 @@
     .line 453
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    if-eqz v3, :cond_52
+    if-eqz v3, :cond_59
 
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
@@ -1992,69 +1992,76 @@
 
     cmpl-float v3, v3, v4
 
-    if-lez v3, :cond_52
+    if-lez v3, :cond_59
 
     .line 454
-    iget-object v2, v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+    iget-object v3, v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
+    move-object/from16 v0, p2
+
+    iget-object v4, v0, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    invoke-virtual {v3, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->getAngularWithInRad(Lfr/testudo/spacecorsair/engine/Vector2;)D
+
+    move-result-wide v4
+
+    invoke-static {v4, v5}, Ljava/lang/Math;->toDegrees(D)D
+
+    move-result-wide v4
+
+    double-to-float v3, v4
+
+    const/high16 v4, 0x43b40000    # 360.0f
+
+    rem-float/2addr v3, v4
+
+    const/high16 v4, 0x42b40000    # 90.0f
+
+    add-float/2addr v3, v4
+
+    invoke-static {v3}, Lfr/testudo/spacecorsair/business/Element;->normalizeSpin(F)F
+
+    move-result v3
+
+    .line 455
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModShield;->impact(F)V
+
+    .line 456
     move-object/from16 v0, p2
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    invoke-virtual {v2, v3}, Lfr/testudo/spacecorsair/engine/Vector2;->getAngularWithInRad(Lfr/testudo/spacecorsair/engine/Vector2;)D
+    invoke-static {v2, v3, v14}, Lfr/testudo/spacecorsair/mod/ModMonolith;->hit(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;F)V
+    :try_end_59
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_59} :catch_b2
 
-    move-result-wide v2
-
-    invoke-static {v2, v3}, Ljava/lang/Math;->toDegrees(D)D
-
-    move-result-wide v2
-
-    double-to-float v2, v2
-
-    const/high16 v3, 0x43b40000    # 360.0f
-
-    rem-float/2addr v2, v3
-
-    const/high16 v3, 0x42b40000    # 90.0f
-
-    add-float/2addr v2, v3
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/business/Element;->normalizeSpin(F)F
-
-    move-result v2
-
-    .line 455
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModShield;->impact(F)V
-    :try_end_52
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_52} :catch_ab
-
-    :cond_52
-    :goto_52
+    :cond_59
+    :goto_59
     move/from16 p1, v14
 
-    .line 466
-    :goto_54
+    .line 467
+    :goto_5b
     invoke-static/range {p0 .. p2}, Lfr/testudo/spacecorsair/mod/ModQol;->onHit(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
 
-    .line 467
+    .line 468
     return p1
 
-    .line 457
-    :cond_58
-    if-eqz p2, :cond_52
+    .line 458
+    :cond_5f
+    if-eqz p2, :cond_59
 
     cmpl-float v2, p1, v4
 
-    if-lez v2, :cond_52
+    if-lez v2, :cond_59
 
-    .line 458
-    :try_start_5e
+    .line 459
+    :try_start_65
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/Element;->getDrawableObject()Lfr/testudo/spacecorsair/display/Drawable;
 
     move-result-object v7
 
-    .line 459
-    if-eqz v7, :cond_52
+    .line 460
+    if-eqz v7, :cond_59
 
     iget-object v2, v7, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
@@ -2066,7 +2073,7 @@
 
     move-result v2
 
-    if-eqz v2, :cond_52
+    if-eqz v2, :cond_59
 
     invoke-static {}, Ljava/lang/Math;->random()D
 
@@ -2076,9 +2083,9 @@
 
     cmpg-double v2, v2, v4
 
-    if-gez v2, :cond_52
+    if-gez v2, :cond_59
 
-    .line 460
+    .line 461
     const-string v2, "fx_ichor_sheet"
 
     const/4 v3, 0x4
@@ -2122,16 +2129,16 @@
     const/4 v13, 0x1
 
     invoke-static/range {v2 .. v13}, Lfr/testudo/spacecorsair/mod/ModLive;->fx(Ljava/lang/String;IIFFFJFFFZ)V
-    :try_end_aa
-    .catch Ljava/lang/Throwable; {:try_start_5e .. :try_end_aa} :catch_ab
+    :try_end_b1
+    .catch Ljava/lang/Throwable; {:try_start_65 .. :try_end_b1} :catch_b2
 
-    goto :goto_52
+    goto :goto_59
 
-    .line 463
-    :catch_ab
+    .line 464
+    :catch_b2
     move-exception v2
 
-    goto :goto_54
+    goto :goto_5b
 .end method
 
 .method private static hostileEnemy(Lfr/testudo/spacecorsair/business/Element;)Z

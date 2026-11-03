@@ -509,7 +509,7 @@ public class ModV35 {
             if (h == null) return null;
             int s = stage(level(currentShip()));
             if (s <= 0) return null;
-            String n = h.art + "_stage" + s;
+            String n = ModMonolith.useParts(h.art, s) ? "monolith_stage5_hull" : h.art + "_stage" + s;   // v38: s5 wings drawn apart
             return art(n) ? skin(n, PlayerShip.drawableDimension) : null;
         } catch (Throwable t) {
             return null;

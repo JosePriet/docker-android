@@ -4682,6 +4682,34 @@
     if-lez v2, :cond_9
 
     .line 512
+    iget-object v3, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->art:Ljava/lang/String;
+
+    invoke-static {v3, v2}, Lfr/testudo/spacecorsair/mod/ModMonolith;->useParts(Ljava/lang/String;I)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_2f
+
+    const-string v1, "monolith_stage5_hull"
+
+    .line 513
+    :goto_22
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModV35;->art(Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_9
+
+    sget-object v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->drawableDimension:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    invoke-static {v1, v2}, Lfr/testudo/spacecorsair/mod/ModV35;->skin(Ljava/lang/String;Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/display/Drawable;
+
+    move-result-object v0
+
+    goto :goto_9
+
+    .line 512
+    :cond_2f
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -4703,28 +4731,15 @@
     move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    :try_end_47
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_47} :catch_49
 
     move-result-object v1
 
-    .line 513
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModV35;->art(Ljava/lang/String;)Z
-
-    move-result v2
-
-    if-eqz v2, :cond_9
-
-    sget-object v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->drawableDimension:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    invoke-static {v1, v2}, Lfr/testudo/spacecorsair/mod/ModV35;->skin(Ljava/lang/String;Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/display/Drawable;
-    :try_end_3c
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_3c} :catch_3e
-
-    move-result-object v0
-
-    goto :goto_9
+    goto :goto_22
 
     .line 514
-    :catch_3e
+    :catch_49
     move-exception v1
 
     goto :goto_9

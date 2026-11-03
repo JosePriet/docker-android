@@ -453,6 +453,7 @@ public final class ModLive {
                 if (ps.shield != null && ps.shield.currentValue > 0) {
                     float deg = Element.normalizeSpin(((float) Math.toDegrees(ps.position.getAngularWithInRad(p.position))) % 360.0f + 90.0f);
                     ModShield.impact(deg);
+                    ModMonolith.hit(ps, p.position, out);   // v38: Monolith s4/s5 aura reacts to the hit
                 }
             } else if (p != null && dmg > 0) {
                 Drawable d = target.getDrawableObject();

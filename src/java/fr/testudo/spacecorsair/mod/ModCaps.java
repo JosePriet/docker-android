@@ -350,6 +350,7 @@ public final class ModCaps {
                 ModFx.relative = false;
             }
         }
+        ModMonolith.under(ps);   // v38: Monolith s4/s5 aura, wings, plasma (under the hull)
         // engine plumes
         if (p.flames) {
             float[] e = ModFxData.ENGINES[p.data];
@@ -408,6 +409,7 @@ public final class ModCaps {
                 }
             }
 
+            ModMonolith.over(ps);   // v38: Monolith s4/s5 heat, flame tongues, hit reactions
             fr.testudo.spacecorsair.display.Drawable hd = ps.getDrawableObject();
             if (hd != null) ModLive.living(ps, hd, false, thrust, true);
             ModShield.draw(ps);
