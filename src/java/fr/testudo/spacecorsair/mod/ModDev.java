@@ -373,7 +373,7 @@ public final class ModDev {
     // ------------------------------------------------------------------ v37 emulator switches: go where each feature lives
     private static String t37Near, t37Music, t37Arrived;
     private static boolean t37Dock, t37KillFlag, t37Rich, t37Ufo, t37Blast;
-    private static String t38Refit, t39Wall;
+    private static String t38Refit, t39Wall, t39Volley;
     private static String t37Drive, t37DriveSeen;
     private static Boolean evOn;
 
@@ -491,6 +491,39 @@ public final class ModDev {
                 ev("v39anchor", "test charge " + Math.round(ModAnchor.charge() * 100) + " cap " + Math.round(ModAnchor.cap));
             } catch (Throwable t) {
                 ev("v39anchor", "bad value " + wp);
+            }
+        }
+        // v39 corsair_volley=<count>[,tag]: count enemy shots (sender = nearest enemy) from 1400 ahead, +-40 deg of the bow, aimed at the ship
+        String vo = testValue("corsair_volley");
+        if (vo != null && !vo.equals(t39Volley)) {
+            t39Volley = vo;
+            try {
+                int vn = Integer.parseInt(vo.split(",")[0].trim());
+                fr.testudo.spacecorsair.business.Element src = null;
+                java.util.List<fr.testudo.spacecorsair.business.Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
+                for (int i = 0; i < els.size(); i++) {
+                    fr.testudo.spacecorsair.business.Element e = els.get(i);
+                    if (e instanceof fr.testudo.spacecorsair.business.ennemis.Ennemis && !e.removed && !Mod.isDrone(e)
+                        && (src == null || e.position.distance(ps.position) < src.position.distance(ps.position))) src = e;
+                }
+                if (src != null) {
+                    float dmg = ps.shield != null ? ps.shield.capacity * 0.08f : 20;
+                    for (int i = 0; i < vn; i++) {
+                        double an = Math.toRadians(ps.spin + (vn > 1 ? -40 + 80f * i / (vn - 1) : 0));
+                        float ux = (float) Math.sin(an), uy = -(float) Math.cos(an);   // bow direction at this angle
+                        fr.testudo.spacecorsair.business.projectiles.EnergyBullet b = fr.testudo.spacecorsair.business.factory.GamePools.newEnnergyBullet()
+                            .init(dmg, 6, src, 1.0f, 1.0f, 0.3f, 0.2f, fr.testudo.spacecorsair.business.loot.stuff.alteration.AlterationSpecs.DEFAULT);
+                        b.position.set(ps.position.x + ux * 1400, ps.position.y + uy * 1400);
+                        b.speed.set(-ux * 6, -uy * 6);
+                        b.spin = (float) Math.toDegrees(Math.atan2(b.speed.x, -b.speed.y));
+                        b.lifeTimeInMilli = 4000;
+                        ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(b);
+                    }
+                }
+                ev("v39anchor", "volley " + vn + " from " + (src == null ? "none" : src.getClass().getSimpleName()) + " state " + ModAnchor.state + " charge " + Math.round(ModAnchor.charge() * 100)
+                    + " hull " + Math.round(ps.life) + " shield " + (ps.shield == null ? -1 : Math.round(ps.shield.currentValue)));
+            } catch (Throwable t) {
+                ev("v39anchor", "bad volley " + vo + " " + t);
             }
         }
         // corsair_mdrive=pickup|outpostkill|escort[N]: drives the running faction mission (ModFaction.testDrive)
