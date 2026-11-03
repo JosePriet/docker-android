@@ -1,0 +1,182 @@
+{
+  "spartan_3": {
+    "briefing": {
+      "en": "Raider waves are growing stronger at our outpost in The Wave. Hold its zone for 90 seconds and keep the outpost intact; lose it and the mission fails. The Republic's line holds where we stand.",
+      "es": "Las oleadas de saqueadores se intensifican en nuestro puesto avanzado de The Wave. Defiende su zona durante 90 segundos. Si destruyen el puesto, la misión fracasa. La línea de la República se mantiene donde resistimos."
+    },
+    "objective": {
+      "en": "Hold the outpost zone in The Wave for 90 seconds. If the outpost is destroyed, the mission fails.",
+      "es": "Defiende la zona del puesto avanzado en The Wave durante 90 segundos. Si lo destruyen, la misión fracasa."
+    },
+    "success": {
+      "en": "The outpost holds. The Republic will remember who stood the watch.",
+      "es": "El puesto resiste. La República recordará a quienes lo defendieron."
+    },
+    "failure": {
+      "en": "The outpost is lost. The Republic must regroup.",
+      "es": "El puesto ha caído. La República debe reagruparse."
+    }
+  },
+  "reaver_1": {
+    "briefing": {
+      "en": "Our fleet runs on other people's wreckage. Gather salvage cargo in Constellation, then dock at the Reaver market in Pirate Bay to sell it. Your cut buys a place in the next raid.",
+      "es": "Nuestra flota vive de los restos de otros. Recoge carga de chatarra en Constellation y atraca en el mercado Reaver de Pirate Bay para venderla. Tu parte te gana un lugar en la próxima incursión."
+    },
+    "objective": {
+      "en": "Collect salvage cargo in Constellation, then dock at the Reaver market in Pirate Bay to sell it.",
+      "es": "Recoge carga de chatarra en Constellation; atraca en el mercado Reaver de Pirate Bay para venderla."
+    },
+    "success": {
+      "en": "The market paid out. Your name is worth remembering now.",
+      "es": "El mercado pagó. Ahora tu nombre merece ser recordado."
+    },
+    "failure": {
+      "en": "No sale, no share. The Reavers have little use for empty holds.",
+      "es": "Sin venta no hay parte. Las bodegas vacías les sirven de poco a los Reavers."
+    }
+  },
+  "kretari_2": {
+    "briefing": {
+      "en": "Varn harvesters followed the beacon to Delta Node, on the Hive's doorstep. Destroy 5 Syndicate ships there. The Brood will answer every mark they left.",
+      "es": "Los cosechadores Varn siguieron la baliza hasta Delta Node, a las puertas de la Colmena. Destruye 5 naves del Sindicato allí. La Prole cobrará cada herida que dejaron."
+    },
+    "objective": {
+      "en": "Destroy 5 Varn Syndicate ships in Delta Node, on the Hive's doorstep.",
+      "es": "Destruye 5 naves del Sindicato Varn en Delta Node, a las puertas de la Colmena."
+    },
+    "success": {
+      "en": "Five harvesters are gone. The outer brood can grow in peace.",
+      "es": "Cinco cosechadores han caído. La prole exterior puede crecer en paz."
+    },
+    "failure": {
+      "en": "The harvesters remain at our doorstep. The brood must retreat deeper into the Hive.",
+      "es": "Los cosechadores siguen a nuestras puertas. La prole debe replegarse al interior de la Colmena."
+    }
+  },
+  "kretari_3": {
+    "briefing": {
+      "en": "The nest in Green Border is exposed while the young move below the crust. Hold the outpost zone for 90 seconds. If the outpost is destroyed, the mission fails. The Brood cannot lose this nest.",
+      "es": "El nido de Green Border queda expuesto mientras las crías avanzan bajo la corteza. Defiende la zona del puesto avanzado durante 90 segundos. Si lo destruyen, la misión fracasa. La Prole no puede perder este nido."
+    },
+    "objective": {
+      "en": "Hold the outpost zone in Green Border for 90 seconds. If the outpost is destroyed, the mission fails.",
+      "es": "Defiende la zona del puesto avanzado en Green Border durante 90 segundos. Si lo destruyen, la misión fracasa."
+    },
+    "success": {
+      "en": "The nest is secure. The young are safe below the crust.",
+      "es": "El nido está a salvo. Las crías ya están seguras bajo la corteza."
+    },
+    "failure": {
+      "en": "The nest is overrun. The surviving young must seek shelter elsewhere.",
+      "es": "El nido ha caído. Las crías supervivientes deben buscar otro refugio."
+    }
+  },
+  "varn_1": {
+    "briefing": {
+      "en": "Collect the sealed account crate in The Vault, carry it to Omicron Prime and dock at a station to deliver it. It holds the original contract for the Reaver convoy losses. If your ship is destroyed, the crate is lost. An audit needs evidence.",
+      "es": "Recoge la caja sellada en The Vault y atraca en una estación de Omicron Prime para entregarla. Contiene el contrato original de las pérdidas del convoy Reaver. Si destruyen tu nave, pierdes la caja. Sin pruebas no hay auditoría."
+    },
+    "objective": {
+      "en": "Collect the crate in The Vault and dock at a station in Omicron Prime to deliver it.",
+      "es": "Recoge la caja en The Vault y atraca en una estación de Omicron Prime para entregarla."
+    },
+    "success": {
+      "en": "The crate is logged and accepted. The numbers now have witnesses.",
+      "es": "La caja quedó registrada y aceptada. Ahora las cifras tienen testigos."
+    },
+    "failure": {
+      "en": "The crate was not delivered. The contract remains easy to deny.",
+      "es": "La caja no llegó. Aún pueden negar que el contrato existe."
+    }
+  },
+  "ironclad_1": {
+    "briefing": {
+      "en": "The claims are disputed again, and the miners cannot afford another shutdown. Gather ore cargo in Hugo Wisdom, then dock at the Ironclad refinery in Ore Belt to sell it. The proceeds will keep the rigs and crews supplied.",
+      "es": "Vuelven las disputas por las concesiones, y los mineros no pueden parar otra vez. Recoge carga de mineral en Hugo Wisdom y atraca en la refinería Ironclad de Ore Belt para venderla. Lo recaudado mantendrá las máquinas en marcha y a las cuadrillas abastecidas."
+    },
+    "objective": {
+      "en": "Collect ore cargo in Hugo Wisdom and dock at the Ironclad refinery in Ore Belt to sell it.",
+      "es": "Recoge mineral en Hugo Wisdom y atraca en la refinería Ironclad de Ore Belt para venderlo."
+    },
+    "success": {
+      "en": "The refinery has stock. The miners can keep working another shift.",
+      "es": "La refinería tiene reservas. Los mineros podrán trabajar otro turno."
+    },
+    "failure": {
+      "en": "The ore did not arrive. The rigs will have to idle for now.",
+      "es": "El mineral no llegó. La maquinaria tendrá que parar por ahora."
+    }
+  },
+  "ironclad_2": {
+    "briefing": {
+      "en": "Ore prices mean nothing if the workers cannot get through. Meet the mining convoy in Ventohigh and protect it through 4 raider waves. Every ship that survives keeps the militia supplied and the settlement alive.",
+      "es": "El precio del mineral no importa si los trabajadores no logran pasar. Reúnete con el convoy minero en Ventohigh y protégelo de 4 oleadas de saqueadores. Cada nave que sobreviva mantiene abastecida a la milicia y vivo al asentamiento."
+    },
+    "objective": {
+      "en": "Meet the mining convoy in Ventohigh and protect it through 4 raider waves.",
+      "es": "Reúnete con el convoy minero en Ventohigh y protégelo de 4 oleadas de saqueadores."
+    },
+    "success": {
+      "en": "The convoy made it through. The militia has supplies, and the miners can work another shift.",
+      "es": "El convoy pasó a salvo. La milicia tiene suministros y los mineros podrán trabajar otro turno."
+    },
+    "failure": {
+      "en": "The convoy is scattered. The miners cannot risk another passage.",
+      "es": "El convoy se dispersó. Los mineros no pueden arriesgarse a otro paso."
+    }
+  },
+  "ironclad_3": {
+    "briefing": {
+      "en": "Crimson Reavers are pressing our outpost in Hermes. Hold its zone for 90 seconds and keep the outpost standing; if it is destroyed, the mission fails. Give the miners time to evacuate the exposed works.",
+      "es": "Los Crimson Reavers avanzan hacia nuestro puesto avanzado en Hermes. Defiende su zona durante 90 segundos. Si destruyen el puesto, la misión fracasa. Da tiempo a los mineros para evacuar las instalaciones expuestas."
+    },
+    "objective": {
+      "en": "Hold the outpost zone in Hermes for 90 seconds. If the outpost is destroyed, the mission fails.",
+      "es": "Defiende la zona del puesto avanzado en Hermes durante 90 segundos. Si lo destruyen, la misión fracasa."
+    },
+    "success": {
+      "en": "The outpost holds. The miners have time to get clear.",
+      "es": "El puesto resiste. Los mineros tienen tiempo para ponerse a salvo."
+    },
+    "failure": {
+      "en": "The outpost is lost. Pull back and get the remaining miners clear.",
+      "es": "El puesto ha caído. Repliégate y pon a salvo a los mineros que quedan."
+    }
+  },
+  "helion_1": {
+    "briefing": {
+      "en": "Lumen carries drive parts for three Helion convoys. Meet the courier at a station in Heliostat, escort it through the gate, then on to a station in Constellation. A late delivery costs money; a lost one costs crews their route home.",
+      "es": "Lumen lleva piezas de propulsión para tres convoyes Helion. Reúnete con la nave en una estación de Heliostat y escóltala por el portal hasta una estación de Constellation. Un retraso cuesta dinero; perderla les cuesta a las tripulaciones su ruta de regreso."
+    },
+    "objective": {
+      "en": "Meet Lumen at a Heliostat station; escort it through the gate to a station in Constellation.",
+      "es": "Reúnete con Lumen en una estación de Heliostat y escóltala por el portal a una estación de Constellation."
+    },
+    "success": {
+      "en": "Lumen has reached the station in Constellation. The convoys can keep to schedule.",
+      "es": "Lumen llegó a la estación de Constellation. Los convoyes pueden seguir su horario."
+    },
+    "failure": {
+      "en": "Lumen did not arrive. Helion must reroute the parts and absorb the delay.",
+      "es": "Lumen no llegó. Helion deberá enviar las piezas por otra ruta y asumir el retraso."
+    }
+  },
+  "warden_1": {
+    "briefing": {
+      "en": "Hex has been preying on unarmed traffic along the Highway. The raider now hides in Lost Paradise, next to the Highway. Claim the Authority's posted bounty. Frontier law begins with lanes safe enough to use.",
+      "es": "Hex lleva tiempo atacando naves sin armas en Highway. Ahora se esconde en Lost Paradise, junto a Highway. Cobra la recompensa de la Autoridad. La ley de la Frontera empieza por asegurar las rutas."
+    },
+    "objective": {
+      "en": "Hunt the Reaver raider Hex in Lost Paradise, next to the Highway, and claim the bounty.",
+      "es": "Caza al saqueador Reaver Hex en Lost Paradise, junto a Highway, y cobra la recompensa."
+    },
+    "success": {
+      "en": "Hex is down. The Highway is a little safer to travel.",
+      "es": "Hex ha caído. Viajar por Highway es un poco más seguro."
+    },
+    "failure": {
+      "en": "Hex escaped. The bounty remains open to the next ranger.",
+      "es": "Hex escapó. La recompensa sigue vigente para el próximo agente."
+    }
+  }
+}

@@ -1,4 +1,24 @@
 {
  "MUSIC": "MÚSICA",
- "EFFECTS": "EFECTOS"
+ "EFFECTS": "EFECTOS",
+ "Missions": "Misiones",
+ "no missions": "sin misiones",
+ "No missions for you right now.": "Por ahora no hay misiones para ti.",
+ "OPEN MISSIONS": "VER MISIONES",
+ "Faction flagship": "Nave insignia de facción",
+ "You are near a faction flagship. Tap HAIL to speak with its commander for story missions, contracts and turn-ins. The line below the button shows if anything is available for you.": "Estás cerca de la nave insignia de una facción. Toca HAIL para hablar con su comandante: ofrece misiones de historia, contratos y entregas. La línea bajo el botón indica si hay algo para ti.",
+ "CRATE LOADED": "CAJA CARGADA",
+ "DELIVER": "ENTREGAR",
+ "CONVOY": "CONVOY",
+ "Deliver the crate to ": "Lleva la caja a ",
+ "Sell the cargo at ": "Vende la carga en ",
+ "Dock at a station in ": "Atraca en una estación de ",
+ " to deliver the crate": " para entregar la caja",
+ " to sell the cargo": " para vender la carga",
+ "Meet the convoy": "Reúnete con el convoy",
+ "FOLLOW THE COURIER THROUGH THE GATE": "SIGUE AL MENSAJERO POR EL PORTAL",
+ "Hold the outpost zone: ": "Defiende el puesto: ",
+ "Hold the outpost zone for ": "Defiende la zona del puesto avanzado durante ",
+ " seconds. If the outpost is destroyed, the mission fails.": " segundos. Si lo destruyen, la misión fracasa.",
+ "Collect the 6 marked cargo pods and dock at headquarters to sell them.": "Recoge las 6 cápsulas de carga marcadas y atraca en la sede para venderlas."
 }

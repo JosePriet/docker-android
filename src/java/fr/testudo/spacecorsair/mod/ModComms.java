@@ -358,7 +358,7 @@ public final class ModComms {
             if (p == null || p.getBoolean("v37_hail_help", false) || ModDev.noDialog(null)) return;
             p.edit().putBoolean("v37_hail_help", true).apply();
             new android.app.AlertDialog.Builder(a).setTitle(ModLang.tr("Faction flagship"))
-                .setMessage(ModLang.tr("You are near a faction flagship. Tap HAIL to talk to its commander: story missions, contracts and hand-ins are offered there. The line under the button says whether there is anything for you."))
+                .setMessage(ModLang.tr("You are near a faction flagship. Tap HAIL to speak with its commander for story missions, contracts and turn-ins. The line below the button shows if anything is available for you."))
                 .setPositiveButton("OK", null).show();
         } catch (Throwable t) {
             // help is a convenience
