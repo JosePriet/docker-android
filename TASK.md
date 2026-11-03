@@ -1,3 +1,7 @@
+# Current task: v39 Leviathan anchor stance (owner, 2026-11-03 12:41)
+Passive stance after 2.5 s fully stopped; trying to move 1.5 s lifts it; the wall holds 2.5 s then folds. Separate wall shield: equipped shield capacity x1.5, takes 35% less damage, refills empty->full in 25 s only while down.
+Code: ModAnchor.java (+ ModAnchorData, src/genanchor39.py -> lev_anchor_wall.webp). Changes/defaults/owner questions: /mnt/project-files/audits/v39-changes.md. Emulator sc-v39/sc-v39b passed. Pending: owner answers on the defaults, phone test, GPT text (ANCHORED, WALL DOWN).
+
 # Current task: v38 Spartan integration (owner, 2026-11-03)
 Owner: "other than the #2 and the things yet not finished, work on everything code wise that still needs coding".
 Plan + owner questions (Q1 doomsday damage, Q2 timing; defaults coded): /mnt/project-files/space-corsair/v38/v38-plan.md. Change list: /mnt/project-files/audits/v38-changes.md.
