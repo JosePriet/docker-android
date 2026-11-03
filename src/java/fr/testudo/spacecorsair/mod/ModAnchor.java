@@ -169,7 +169,7 @@ public final class ModAnchor {
 
     /** Dents spring back (slightly underdamped), hit glows and agitation fade. */
     private static void springs(long j) {
-        float k = j / 16f;
+        float k = Math.min(j / 16f, 2f);   // a lag spike must not blow the explicit spring step up
         for (int i = 0; i < NS; i++) {
             dentV[i] += -dent[i] * 0.22f * k;
             dentV[i] *= (float) Math.pow(0.78, k);
