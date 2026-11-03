@@ -175,6 +175,38 @@ elif [ $GAME = sc ]; then
     back 3; return 1
   }
   T=/data/local/tmp
+  # ---- v41 fix (owner 2026-11-03): Monolith s4/s5 aura + plasma wings rebaked from the preview; screen recordings for the side-by-side
+  if [ "$STAGE" = V41M ]; then
+    LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    flag() { a shell "touch $T/$1; chmod 644 $T/corsair_*"; }
+    stick() { a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE $1 $2; }
+    unstick() { a shell input motionevent UP 222 650; sleep 0.3; }
+    rec() { timeout 200 adb shell screenrecord --time-limit $2 --bit-rate 12000000 /sdcard/$1.mp4 >/dev/null 2>&1 & }
+    if fly hullMonolith Monolith monolith; then
+      flag corsair_v38log
+      put corsair_refit 8; sleep 4; rec mono_s4 40; sleep 1
+      shot s4_idle; stick 222 650; for k in 1 2 3 4; do sleep 1; shot s4_thrust_$k; done
+      stick 330 700; sleep 2; shot s4_turn; unstick; sleep 1; shot s4_coast
+      put corsair_spawn albatros,elite; sleep 5; shot s4_hit_1; sleep 1; shot s4_hit_2
+      flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn"; sleep 14
+      put corsair_refit 10; sleep 4; rec mono_s5 75; sleep 1
+      shot s5_idle_1; sleep 2; shot s5_idle_2
+      stick 222 650; for k in 1 2 3 4 5 6 7 8; do sleep 0.8; shot s5_thrust_$k; done
+      stick 330 700; for k in 1 2 3; do sleep 1; shot s5_turn_$k; done
+      stick 222 650; sleep 2; shot s5_fast; unstick
+      for k in 1 2 3; do sleep 0.7; shot s5_coast_$k; done
+      put corsair_spawn albatros,elite; sleep 4; shot s5_hit_1; sleep 1; shot s5_hit_2; sleep 1; shot s5_hit_3
+      stick 222 650; sleep 3; shot s5_fight_fast; unstick
+      flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn"; sleep 10; shot s5_folded
+      sleep 25
+      for f in mono_s4 mono_s5; do timeout 60 adb pull /sdcard/$f.mp4 $OUT/$f.mp4 >/dev/null 2>&1; log "pulled $f: $(stat -c %s $OUT/$f.mp4 2>/dev/null)"; done
+      log "EVIDENCE v41mono: $(grep -E "v38 monolith|v38refit" $LG | tail -20 | sed 's/^.*): //' | tr '\n' ' ')"
+      grep -E "ModArt|ModMonolith|v38|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v41m_events.txt
+      a shell "rm -f $T/corsair_refit $T/corsair_v38log"
+    fi
+    finish; exit 0
+  fi
   SHORT=1  # v37c: titan flights skipped so the V37 stage fits the 30 min limit; set to 1 to skip the Warlord/Harbinger stages
   HARB=    # set to 1 to run the Harbinger stage (v33: off)
   V37=     # v37: sector-by-sector stage after the Warlord flight
