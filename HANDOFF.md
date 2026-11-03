@@ -21,6 +21,8 @@
 
 - v38 (2026-11-03, sc-mod-workspace 6d4d10a..8d7ff5b, not released): Spartan stages + per-stage turrets (ModV38), Monolith s4/s5 effects (ModMonolith, src/genmono38.py), Leviathan doomsday v4 (ModLevDoom, src/genlev38.py, lev_doom_*.ogg). check.sh 38 PASS, verifier + cross-check done (fixes in 8d7ff5b). Emulator stage V38 pushed (emulator-tests 11e9e9d). Test switches: corsair_refit=<level>, corsair_v38log. Open: owner Q1/Q2, emulator result, directive audit, phone test, GPT text (doomsday description, "OVERCHARGED").
 
+- v40 (2026-11-03, 7bc8e0a, not released): hidden test mode (ModTestMode, hooks40). Tap achievement "Cheater" (Killed by the dev in a multiplayer game) 10x in 10 s -> LOGIN; the save (files dir + spacecorsair/modqol prefs) is swapped at the next start into app_corsair_profiles/main|test; LOG OUT restores. Emulator sc-v40d passed. Test switches: corsair_tmjump, corsair_tmmiss=LEVELID[,done].
+
 ## Changed files (v30-v31)
 New: ModLive, ModWreck, ModTitanAI, ModDerelict, ModV30Data. Changed: ModShield, ModLoot, ModBoss, ModCapitals, ModCaps, ModArt, ModFx, ModDev, ModQol. Hooks: `src/patch/hooks30.py`, `hooks30b.py`, `hooks30c.py` (all applied).
 

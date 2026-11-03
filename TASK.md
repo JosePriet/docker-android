@@ -1,3 +1,7 @@
+# Current task: v40 hidden test mode (owner, 2026-11-03 14:49)
+Owner: a hidden "login" for testing, separate from regular play: max level, everything unlocked, whole map visible, every mission repeatable (story too), instant free sector teleport; the login button shows only after tapping the "Killed by the dev" achievement 10 times within 10 s. Card 14:56: unlimited credits + rare parts too.
+Code: ModTestMode.java + src/patch/hooks40.py (7bc8e0a). Change list + phone checklist: /mnt/project-files/audits/v40-changes.md. Emulator sc-v40d passed (login, grants, jumps, missions, logout restores the normal save). Pending: phone test, GPT Spanish for the new strings.
+
 # Current task: v39 Leviathan anchor stance (owner, 2026-11-03 12:41)
 Passive stance after 2.5 s fully stopped; trying to move 1.5 s lifts it; the wall holds 2.5 s then folds. Separate wall shield: equipped shield capacity x1.5, takes 35% less damage, refills empty->full in 25 s only while down.
 Code: ModAnchor.java (+ ModAnchorData, src/genanchor39.py -> lev_anchor_wall.webp). Changes/defaults/owner questions: /mnt/project-files/audits/v39-changes.md. Emulator sc-v39/sc-v39b passed. Pending: owner answers on the defaults, phone test, GPT text (ANCHORED, WALL DOWN).
