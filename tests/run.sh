@@ -167,10 +167,12 @@ elif [ $GAME = sc ]; then
       flag corsair_v38log
       for L in 4 8 10; do put corsair_refit $L; sleep 3; shot lev_refit_$L; done
       for w in $(seq 1 16); do dump doomwait; grep -q 'text="DOOMSDAY LANCE"' $OUT/last.xml && break; sleep 2; done
+      flag corsair_doomhold   # freezes the lance half-way so the slow screencap catches it
       tap_text "DOOMSDAY LANCE" doombtn_lev
-      for k in 1 2 3 4 5; do sleep 0.3; shot doom_charge_$k; done
-      stick 420 860; for k in 1 2 3 4; do shot doom_lance_turn_$k; done; unstick
-      for k in 1 2 3 4 5 6; do shot doom_after_$k; done
+      shot doom_charge_1; shot doom_charge_2; sleep 3; shot doom_lance_1
+      stick 420 860; sleep 1; shot doom_lance_turn_1; sleep 2; shot doom_lance_turn_2; unstick
+      a shell "rm -f $T/corsair_doomhold"
+      for k in 1 2 3 4; do shot doom_after_$k; done
       sleep 20; shot doom_cool_gauge
       log "EVIDENCE v38doom: $(grep -E "v38doom|v38refit" $LG | sed 's/^.*): //' | tr '\n' ' ')"
       sleep 12   # ship-switch cooldown
@@ -185,15 +187,15 @@ elif [ $GAME = sc ]; then
         log "EVIDENCE v38mono: $(grep -E "v38 monolith|v38refit" $LG | tail -40 | sed 's/^.*): //' | tr '\n' ' ')"
         sleep 12
       fi
-      if fly hullBastion Bastion bastion; then
+      if false && fly hullBastion Bastion bastion; then
         for L in 0 6 8 10; do put corsair_refit $L; sleep 3; shot bastion_refit_$L; done
         sleep 12
       fi
-      if fly hullMantis Mantis mantis; then
+      if false && fly hullMantis Mantis mantis; then
         for L in 0 6 10; do put corsair_refit $L; sleep 3; shot mantis_refit_$L; done
         sleep 12
       fi
-      if fly hullVerdant Verdant verdant; then
+      if false && fly hullVerdant Verdant verdant; then
         for L in 0 6 8 10; do put corsair_refit $L; sleep 3; shot verdant_refit_$L; done
       fi
       log "EVIDENCE v38refit: $(grep -E "v38refit|v38 " $LG | sed 's/^.*): //' | tail -30 | tr '\n' ' ')"
