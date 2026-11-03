@@ -27,6 +27,9 @@ public final class ModAnchor {
 
     static final long STILL_MS = 2500, TRY_MS = 1500, HOLD_MS = 2500, FOLD_MS = 800, PLANT_MS = 500, DEPLOY_MS = 1300, REGEN_MS = 25000;
     static final float TAKEN = 0.65f, CAP_MUL = 1.5f;
+    /** Owner 2026-11-03 14:35: while the doomsday charges and fires, the wall takes 50% less instead of 35%. */
+    static final float TAKEN_DOOM = 0.5f;
+    static final long BREAK_MS = 900;
     /** Speed below this (units per 10 ms; a bullet does 5) counts as fully stopped. */
     static final float STOP_SPEED = 0.05f;
 
@@ -43,11 +46,18 @@ public final class ModAnchor {
     // hits on the wall: local x on the wall (-1..1), time (ms since plant), strength
     private static final float[] hitU = new float[8], hitStr = new float[8], hitLX = new float[8], hitLY = new float[8];
     private static final long[] hitT = new long[8];
+    private static final boolean[] hitSparked = new boolean[8];
     private static int hitN;
     private static long brokeAt = -1;
     private static final float[] brokeFrac = {0};
 
     private static final Vector2 a = new Vector2(), b = new Vector2(), c = new Vector2();
+    // per-wedge dent spring (hull-sprite units, + = pushed in) and a hit glow that decays
+    private static final int NS = ModAnchorData.NSEG;
+    private static final float[] dent = new float[NS], dentV = new float[NS], glowSeg = new float[NS];
+    private static float agit;                 // rapid hits: faster shimmer, brighter rim (decays)
+    private static long fullAt = -1;           // the down wall finished recharging (ready flash)
+    private static long regenMs;               // time spent recharging (pulse clock)
 
     // ------------------------------------------------------------------ state (Mod tick, after ModTitan.tick)
     public static void tick(PlayerShip ps, long j) {
@@ -81,9 +91,14 @@ public final class ModAnchor {
             return;
         }
         boolean trying = trying(ps);
+        springs(j);
         switch (state) {
             case IDLE:
-                cur = Math.min(cap, cur + cap * j / REGEN_MS);   // recharges only while the wall is down
+                if (cur < cap) {
+                    regenMs += j;
+                    cur = Math.min(cap, cur + cap * j / REGEN_MS);   // recharges only while the wall is down
+                    if (cur >= cap) { fullAt = now; ModDev.ev("v39anchor", "recharged"); }
+                }
                 if (logMove && trying && !ModTitan.busy()) {   // test evidence: thrust is back
                     logMove = false;
                     ModDev.ev("v39anchor", "moving force " + Math.round(ps.maxPouseeForce) + " speed " + ps.speed.length());
@@ -150,6 +165,18 @@ public final class ModAnchor {
         stillMs = 0;
         tryMs = 0;
         ModDev.ev("v39anchor", "end " + why);
+    }
+
+    /** Dents spring back (slightly underdamped), hit glows and agitation fade. */
+    private static void springs(long j) {
+        float k = j / 16f;
+        for (int i = 0; i < NS; i++) {
+            dentV[i] += -dent[i] * 0.22f * k;
+            dentV[i] *= (float) Math.pow(0.78, k);
+            dent[i] += dentV[i] * k;
+            glowSeg[i] *= (float) Math.pow(0.9, k);
+        }
+        agit *= (float) Math.pow(0.97, k);
     }
 
     private static int pct() {
@@ -241,16 +268,28 @@ public final class ModAnchor {
     }
 
     private static void absorb(PlayerShip ps, Projectile p, float raw) {
-        float dmg = ModV34.wallDamage(ps, p, raw) * TAKEN;
+        float dmg = ModV34.wallDamage(ps, p, raw) * (ModTitan.busy() ? TAKEN_DOOM : TAKEN);
         cur -= dmg;
         float u = (float) (Math.toDegrees(Math.atan2(crossLX, -crossLY)) / ModAnchorData.SPAN_DEG);
+        // the struck wedge dents in and glows; its neighbours feel it less
+        float sev = Math.min(1, 0.3f + dmg / Math.max(1, cap) * 10);
+        int sg = Math.max(0, Math.min(NS - 1, (int) ((u + 1) / 2 * NS)));
+        for (int d = -2; d <= 2; d++) {
+            int q = sg + d;
+            if (q < 0 || q >= NS) continue;
+            float f = d == 0 ? 1 : Math.abs(d) == 1 ? 0.45f : 0.15f;
+            dentV[q] += 9 * sev * f;
+            glowSeg[q] = Math.min(1.5f, glowSeg[q] + sev * f);
+        }
+        agit = Math.min(1, agit + 0.12f + sev * 0.2f);
         int i = hitN++ % 8;
-        hitU[i] = u; hitT[i] = t; hitStr[i] = Math.min(1, 0.35f + dmg / Math.max(1, cap) * 12); hitLX[i] = crossLX; hitLY[i] = crossLY;
+        hitU[i] = u; hitT[i] = t; hitSparked[i] = false; hitStr[i] = Math.min(1, 0.35f + dmg / Math.max(1, cap) * 12); hitLX[i] = crossLX; hitLY[i] = crossLY;
         if (logs < 12) { logs++; ModDev.ev("v39anchor", "absorbed " + Math.round(dmg) + " left " + Math.round(Math.max(0, cur)) + "/" + Math.round(cap) + " u " + Math.round(u * 100)); }
         if (cur <= 0) {
             cur = 0;
             brokeAt = System.currentTimeMillis();
-            brokeFrac[0] = deployed();
+            brokeFrac[0] = Math.max(0.05f, deployed());
+            ModQol.addShake(0.25f);
             ModSound.play("shield_down", 0.8f, 0.8f, 1000);
             Mod.floatText(ps, ModLang.tr("WALL DOWN"), 1.0f, 0.5f, 0.3f);
             end(ps, "broken");
@@ -258,18 +297,24 @@ public final class ModAnchor {
     }
 
     // ------------------------------------------------------------------ drawing (ModCaps.drawOver, after the doomsday)
-    private static final float[] ICE = {0.72f, 0.9f, 1.0f}, LOW = {1.0f, 0.55f, 0.3f};
+    private static final float[] ICE = {0.72f, 0.9f, 1.0f}, LOW = {1.0f, 0.55f, 0.3f}, HOTW = {1.0f, 0.95f, 0.85f};
 
     public static void drawOver(PlayerShip ps) {
-        boolean shatter = brokeAt > 0 && System.currentTimeMillis() - brokeAt < 700;
-        if ((state == IDLE && !shatter) || stage == 0) return;
+        long now = System.currentTimeMillis();
+        boolean shatter = brokeAt > 0 && now - brokeAt < BREAK_MS;
+        boolean regen = state == IDLE && cap > 0 && (cur < cap || (fullAt > 0 && now - fullAt < 700));
+        if ((state == IDLE && !shatter && !regen) || stage == 0 || ObjectRegistry.INSTANCE.game.mapMode) return;
         Drawable hd = ps.getDrawableObject();
         if (hd == null || hd.dimensions == null) return;
         D = hd.dimensions.x;
         float str = stage >= 5 ? 1.0f : 0.5f;    // owner rule: s4 = a fainter s5
         ModFx.relative = true;
         try {
-            if (shatter) { shatter(ps, str, (System.currentTimeMillis() - brokeAt) / 700f); return; }
+            if (shatter) shatter(ps, str, (now - brokeAt) / (float) BREAK_MS);
+            if (state == IDLE) {
+                if (!shatter) recharge(ps, str, now);
+                return;
+            }
             float ts = t / 1000f;
             if (state == PLANTED && t < PLANT_MS + 300) plantFx(ps, str, ts);
             float dep = deployed();
@@ -290,6 +335,12 @@ public final class ModAnchor {
         out.set(lx * D / 1024f, ly * D / 1024f).applyRotatation(Math.toRadians(ps.spin));
         out.set(out.x + sc.x, out.y + sc.y);
         return out;
+    }
+
+    /** Point on the wall arc at angle deg (0 = prow, + = starboard), radius r (hull-sprite units). */
+    private static Vector2 arcAt(PlayerShip ps, float deg, float r, Vector2 out) {
+        double t_ = Math.toRadians(deg);
+        return scr(ps, (float) (r * Math.sin(t_)), (float) (-r * Math.cos(t_)), out);
     }
 
     private static float pad(int i) {   // forward pads, 1024 px sprite: s5 (375|647, 448), s4 (401|620, 335)
@@ -323,54 +374,62 @@ public final class ModAnchor {
         }
     }
 
-    /** Emitter pads glow and fan thin projector beams up to the wall. */
+    /** Emitter pads glow and fan thin projector beams to the standing wedges. */
     private static void emitters(PlayerShip ps, float str, float dep, float ts) {
         float py = padY() - 512, R = ModAnchorData.R;
         for (int i = 0; i < 2; i++) {
             float px = pad(i) - 512;
             scr(ps, px, py, a);
-            float pulse = 0.8f + 0.2f * (float) Math.sin(ts * 9 + i);
+            float pulse = 0.8f + 0.2f * (float) Math.sin(ts * (9 + 8 * agit) + i);
             ModFx.spr("fx_glow", a.x, a.y, D * 0.09f, D * 0.09f, 0, ICE[0], ICE[1], ICE[2], 0.9f * str * pulse, true);
             ModFx.spr("fx_core", a.x, a.y, D * 0.035f, D * 0.035f, 0, 1, 1, 1, 0.9f * str, true);
-            for (int n = 0; n < 7; n++) {   // each pad feeds its own half of the arc
-                float u = (i == 0 ? -1 : 1) * (n + 0.5f) / 7f * dep;
-                double th = Math.toRadians(u * ModAnchorData.SPAN_DEG);
-                scr(ps, (float) (R * Math.sin(th)), (float) (-R * Math.cos(th)) + ModAnchorData.TH / 2, b);
-                ModFx.strip("fx_glow", a.x, a.y, b.x, b.y, D * 0.004f, ICE[0], ICE[1], ICE[2], 0.22f * str, true);
+            for (int n = 0; n < NS / 2; n++) {   // each pad feeds its own half of the arc
+                int k = i == 0 ? NS / 2 - 1 - n : NS / 2 + n;
+                float deg = segDeg(k);
+                if (Math.abs(deg) > ModAnchorData.SPAN_DEG * dep) continue;
+                arcAt(ps, deg, R - ModAnchorData.TH / 2 - dent[k], b);
+                ModFx.strip("fx_glow", a.x, a.y, b.x, b.y, D * 0.004f, ICE[0], ICE[1], ICE[2], (0.16f + 0.3f * Math.min(1, glowSeg[k])) * str, true);
             }
         }
     }
 
-    private static final int SLICES = 14;
+    private static float segDeg(int k) {
+        return -ModAnchorData.SPAN_DEG + ModAnchorData.SEG_DEG * (k + 0.5f);
+    }
 
-    /** The arc in 14 vertical slices (centre-out deploy / fold, per-slice shimmer, flash ripples, dropouts while lifting). */
+    /**
+     * The 240-degree arc as 16 rotated wedges: centre-out deploy / fold, shimmer that quickens under fire, dents that spring
+     * back, hit glow + ripple, warmer and flickering when nearly empty, cell dropouts while it outlasts the anchor.
+     */
     private static void wall(PlayerShip ps, float str, float dep, float ts) {
-        Texture tex = ModArt.ready("lev_anchor_wall");
-        if (tex == null) return;
-        float W = ModAnchorData.W, H = ModAnchorData.H;
-        float cy = ModAnchorData.Y_TOP + H / 2;
+        Texture seg = ModArt.ready("lev_anchor_seg"), end = ModArt.ready("lev_anchor_end");
+        if (seg == null || end == null) return;
+        float W = ModAnchorData.W, H = ModAnchorData.H, cy = ModAnchorData.Y_TOP + H / 2;
         float frac = cap > 0 ? cur / cap : 0;
-        float low = Math.max(0, Math.min(1, (0.3f - frac) / 0.3f));   // nearly empty: warmer and flickering
+        float low = Math.max(0, Math.min(1, (0.3f - frac) / 0.3f));
         float lift = state == HOLDING ? Math.min(1, tryMs / (float) HOLD_MS) : state == FOLDING ? 1 : 0;
-        for (int k = 0; k < SLICES; k++) {
-            float u0 = k / (float) SLICES, u1 = (k + 1) / (float) SLICES;
-            float uc = (u0 + u1) - 1;                 // -1..1 across the texture
-            float need = Math.abs(uc);
+        float sp = 3.1f + 6 * agit;
+        for (int k = 0; k < NS; k++) {
+            float deg = segDeg(k);
+            float need = Math.abs(deg) / ModAnchorData.SPAN_DEG;
             if (need > dep + 0.07f) continue;
             float edge = Math.max(0, Math.min(1, (dep + 0.07f - need) / 0.14f));
-            float sh = 0.55f + 0.15f * (float) Math.sin(ts * 3.1f + k * 0.9f) + 0.1f * (float) Math.sin(ts * 7.3f - k * 1.7f);
-            float al = str * edge * sh * (0.6f + 0.4f * frac);
+            float sh = 0.55f + 0.15f * (float) Math.sin(ts * sp + k * 0.9f) + 0.1f * (float) Math.sin(ts * (7.3f + 4 * agit) - k * 1.7f);
+            float al = str * edge * sh * (0.6f + 0.4f * frac) * (1 + 0.35f * agit);
             if (low > 0 && Math.random() < 0.25f * low) al *= 0.3f;
-            if (lift > 0 && Math.random() < 0.06f + 0.3f * lift) al *= 0.15f;   // cell dropouts build while the wall outlasts the anchor
-            float fl = flash(uc, ts);
+            if (lift > 0 && Math.random() < 0.06f + 0.3f * lift) al *= 0.15f;
+            float fl = Math.min(1, flash(deg / ModAnchorData.SPAN_DEG, ts) + 0.7f * glowSeg[k]);
             float r = ICE[0] + (LOW[0] - ICE[0]) * low, g = ICE[1] + (LOW[1] - ICE[1]) * low, bb = ICE[2] + (LOW[2] - ICE[2]) * low;
-            scr(ps, (u0 + u1) / 2 * W - W / 2, cy, b);
-            float w = W / SLICES * D / 1024f * 1.002f;
-            ModFx.sprTex(tex, b.x, b.y, w, H * D / 1024f, ps.spin, r, g, bb, Math.min(1, al + 0.8f * fl * str), true, u0, 0, u1, 1);
+            r += (HOTW[0] - r) * fl; g += (HOTW[1] - g) * fl; bb += (HOTW[2] - bb) * fl;   // struck wedges flash white-hot
+            float rr = -cy - dent[k];                     // centre radius of the wedge texture, pushed in by the dent
+            arcAt(ps, deg, rr, b);
+            boolean isEnd = k == 0 || k == NS - 1;
+            float u0 = k == 0 ? 1 : 0, u1 = k == 0 ? 0 : 1;   // the left end is the right end mirrored
+            ModFx.sprTex(isEnd ? end : seg, b.x, b.y, W * D / 1024f, H * D / 1024f, ps.spin + deg, r, g, bb, Math.min(1, al + 0.8f * fl * str), true, u0, 0, u1, 1);
         }
     }
 
-    /** Ripples running both ways along the wall from each hit (1.6 wall-widths a second, fading in 0.7 s). */
+    /** Ripples running both ways along the wall from each hit (1.6 half-spans a second, fading in 0.7 s). */
     private static float flash(float uc, float ts) {
         float f = 0;
         int n = Math.min(hitN, 8);
@@ -378,12 +437,12 @@ public final class ModAnchor {
             float age = (t - hitT[i]) / 1000f;
             if (age < 0 || age > 0.7f) continue;
             float d = Math.abs(uc - hitU[i]) - age * 1.6f;
-            f += hitStr[i] * (1 - age / 0.7f) * (float) Math.exp(-d * d / 0.02f);
+            f += hitStr[i] * (1 - age / 0.7f) * (float) Math.exp(-d * d / 0.01f);
         }
         return Math.min(1, f);
     }
 
-    /** Impact: a bright hex cell and a small flare where the shot met the wall. */
+    /** Impact: a bright hex cell, a flare and sparks thrown back off the wall where the shot met it. */
     private static void hits(PlayerShip ps, float str) {
         int n = Math.min(hitN, 8);
         for (int i = 0; i < n; i++) {
@@ -394,19 +453,74 @@ public final class ModAnchor {
             float s = D * (0.05f + 0.04f * hitStr[i]);
             ModFx.spr("fx_hex", a.x, a.y, s, s, ps.spin, 1, 1, 1, f * str, true);
             ModFx.spr("fx_glow", a.x, a.y, s * 2.2f, s * 2.2f, 0, ICE[0], ICE[1], ICE[2], 0.7f * f * str, true);
+            if (!hitSparked[i]) {   // once per hit: sparks back out along the wall's outward normal
+                hitSparked[i] = true;
+                float L = (float) Math.hypot(hitLX[i], hitLY[i]);
+                float nx = hitLX[i] / L, ny = hitLY[i] / L;
+                ModFx.local(ps.position, ps.spin, hitLX[i] * D / 1024f, hitLY[i] * D / 1024f, c);
+                for (int q = 0; q < 4; q++) {
+                    b.set(nx * 260 + ModFx.rnd(-140, 140), ny * 260 + ModFx.rnd(-140, 140)).applyRotatation(Math.toRadians(ps.spin));
+                    ModFx.part("fx_glow", c.x, c.y, b.x, b.y, 320, D * 0.012f, D * 0.004f, HOTW[0], HOTW[1], ICE[2], 0.9f * str, true, false);
+                }
+            }
         }
     }
 
-    /** Wall broken: the arc bursts into fading shards. */
+    /**
+     * Wall down: the whole arc flashes white-hot for 0.15 s, cracks (wedges flicker out of step), then the wedges burst
+     * outward and fade with hex shards and a shock ring (0.9 s).
+     */
     private static void shatter(PlayerShip ps, float str, float f) {
-        float R = ModAnchorData.R;
-        for (int n = 0; n < 12; n++) {
-            float u = (n / 11f * 2 - 1) * brokeFrac[0];
-            double th = Math.toRadians(u * ModAnchorData.SPAN_DEG);
-            float rr = R + f * 120 * (0.6f + 0.4f * (float) Math.sin(n * 2.3f));
-            scr(ps, (float) (rr * Math.sin(th)), (float) (-rr * Math.cos(th)), a);
-            ModFx.spr("fx_hex", a.x, a.y, D * 0.05f, D * 0.05f, ps.spin + n * 37 + f * 90, LOW[0], LOW[1], LOW[2], (1 - f) * str, true);
-            ModFx.spr("fx_glow", a.x, a.y, D * 0.08f, D * 0.08f, 0, ICE[0], ICE[1], ICE[2], 0.5f * (1 - f) * str, true);
+        Texture seg = ModArt.ready("lev_anchor_seg");
+        float R = ModAnchorData.R, span = ModAnchorData.SPAN_DEG * brokeFrac[0];
+        float W = ModAnchorData.W, H = ModAnchorData.H, cy = ModAnchorData.Y_TOP + H / 2;
+        float flashF = Math.max(0, 1 - f / 0.17f);
+        float burst = Math.max(0, (f - 0.17f) / 0.83f);
+        for (int k = 0; k < NS; k++) {
+            float deg = segDeg(k);
+            if (Math.abs(deg) > span + 1) continue;
+            float out = burst * burst * (90 + 50 * (float) Math.sin(k * 2.3f));
+            float al = str * (flashF > 0 ? 0.9f : (1 - burst) * (Math.random() < 0.3f * (1 - burst) ? 0.2f : 0.75f));
+            arcAt(ps, deg, -cy + out, b);
+            if (seg != null) ModFx.sprTex(seg, b.x, b.y, W * D / 1024f * (1 - 0.4f * burst), H * D / 1024f, ps.spin + deg + burst * 25 * (float) Math.sin(k * 1.7f),
+                flashF > 0 ? 1 : LOW[0], flashF > 0 ? 1 : LOW[1], flashF > 0 ? 1 : LOW[2], al, true, 0, 0, 1, 1);
+            if (burst > 0 && k % 2 == 0) {
+                arcAt(ps, deg + 4, R + out * 1.6f, a);
+                ModFx.spr("fx_hex", a.x, a.y, D * 0.04f, D * 0.04f, ps.spin + k * 37 + burst * 140, 1, 0.8f, 0.6f, (1 - burst) * str, true);
+            }
+        }
+        if (burst > 0 && burst < 0.6f) {
+            Vector2 sc = GameRenderer.screenCenter;
+            float rr = D * (0.65f + 0.9f * burst);
+            ModFx.spr("fx_shock", sc.x, sc.y, rr * 2, rr * 2, 0, LOW[0], LOW[1], LOW[2], 0.5f * str * (1 - burst / 0.6f), true);
+        }
+    }
+
+    /**
+     * Wall down and recharging: the forward pads glow with the charge, a faint ghost of the arc fills centre-out with it
+     * (pulsing), and when it is full the ghost arc flashes once.
+     */
+    private static void recharge(PlayerShip ps, float str, long now) {
+        Texture seg = ModArt.ready("lev_anchor_seg"), end = ModArt.ready("lev_anchor_end");
+        float frac = cap > 0 ? cur / cap : 0;
+        boolean ready = fullAt > 0 && now - fullAt < 700 && frac >= 1;
+        float rf = ready ? 1 - (now - fullAt) / 700f : 0;
+        float pulse = 0.5f + 0.5f * (float) Math.sin(regenMs / 260.0);
+        for (int i = 0; i < 2; i++) {
+            scr(ps, pad(i) - 512, padY() - 512, a);
+            float s = D * (0.04f + 0.05f * frac);
+            ModFx.spr("fx_glow", a.x, a.y, s, s, 0, ICE[0], ICE[1], ICE[2], str * (0.25f + 0.35f * frac * pulse + 0.6f * rf), true);
+        }
+        if (seg == null || end == null) return;
+        float W = ModAnchorData.W, H = ModAnchorData.H, cy = ModAnchorData.Y_TOP + H / 2;
+        for (int k = 0; k < NS; k++) {
+            float deg = segDeg(k);
+            float need = Math.abs(deg) / ModAnchorData.SPAN_DEG;
+            if (!ready && need > frac) continue;
+            float al = str * (ready ? 0.55f * rf : 0.05f + 0.06f * pulse);
+            arcAt(ps, deg, -cy, b);
+            boolean isEnd = k == 0 || k == NS - 1;
+            ModFx.sprTex(isEnd ? end : seg, b.x, b.y, W * D / 1024f, H * D / 1024f, ps.spin + deg, ICE[0], ICE[1], ICE[2], al, true, k == 0 ? 1 : 0, 0, k == 0 ? 0 : 1, 1);
         }
     }
 
