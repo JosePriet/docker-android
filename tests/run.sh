@@ -111,6 +111,47 @@ elif [ $GAME = sc ]; then
   log "direct: Settings"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 4; need settings; shot settings_v36; dump settings_v36
   log "seekbars on settings: $(grep -o 'class="android.widget.SeekBar"' $OUT/last.xml | wc -l)"
   back 3
+  # ---- v40 (owner 2026-11-03): hidden test mode. 10 taps on "Killed by the dev" -> LOGIN -> test profile -> LOG OUT
+  if [ "$STAGE" = V40 ]; then
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    ev() { grep -E "ModTest.*v40test|ModTestMode" $LG | sed 's/^.*): //' | tr '\n' ' '; }
+    pid() { timeout 5 adb shell pidof $PKG; }
+    devach() { # open achievements, scroll to the dev achievement, print its tap point
+      a shell am start -n $PKG/.activity.AchievementActivity_ >/dev/null; sleep 5; need ach_$1
+      for i in $(seq 1 30); do dump ach_$1; xy=$(python3 tests/tap.py $OUT/last.xml "Killed by the dev"); [ -n "$xy" ] && break; a shell input swipe 1000 900 1000 300 400; sleep 1; done
+      echo "$xy"
+    }
+    sleep 8; P0=$(pid); log "main pid $P0"
+    XY=$(devach 1); log "dev achievement at '$XY'"; shot ach_dev
+    for i in 1 2 3 4 5 6 7 8 9; do a shell input tap $XY; sleep 0.3; done
+    dump before10; log "LOGIN before 10th tap: $(grep -c 'text="LOGIN"' $OUT/last.xml)"
+    a shell input tap $XY; sleep 1.5; shot login_button; dump after10; log "LOGIN after 10th tap: $(grep -c 'text="LOGIN"' $OUT/last.xml)"
+    tap_text "^LOGIN$" loginbtn; sleep 2; shot login_confirm; tap_text "^LOG IN$" loginok
+    for w in $(seq 1 30); do sleep 2; P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; done; log "test pid $P1 (was $P0)"
+    [ -z "$P1" ] && { log "no auto restart: launching by hand"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 5; P1=$(pid); }
+    sleep 15; need test_start; shot test_start_1; a shell input keyevent KEYCODE_BACK; sleep 3; noexit; sleep 8; shot test_flight
+    log "EVIDENCE v40 login: $(ev)"
+    put corsair_tmmiss SPARTAN_HQ,done; sleep 3; put corsair_tmmiss GENESIS,done; sleep 3; put corsair_tmmiss THE_HIVE; sleep 3
+    put corsair_tmjump HELIOSTAT; sleep 6; shot jump_heliostat; sleep 4; shot jump_heliostat_2
+    put corsair_tmjump THE_HIVE; sleep 10; shot jump_hive
+    tap 1960 180; sleep 4; shot test_radar; tap 164 905; sleep 8; shot test_galaxy_1
+    a shell input swipe 1100 300 1100 950 800; sleep 2; shot test_galaxy_2; a shell input swipe 1500 500 400 500 800; sleep 2; shot test_galaxy_3
+    back 3; tap 1960 180; sleep 3; noexit
+    a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7; shot test_ships; back 3
+    log "EVIDENCE v40 test: $(ev)"
+    XY=$(devach 2); dump logout; log "LOG OUT shown at once: $(grep -c 'text="LOG OUT"' $OUT/last.xml)"; shot logout_button
+    tap_text "^LOG OUT$" logoutbtn; sleep 2; shot logout_confirm; tap_text "^LOG OUT$" logoutok
+    for w in $(seq 1 30); do sleep 2; P2=$(pid); [ -n "$P2" ] && [ "$P2" != "$P1" ] && break; done; log "main pid $P2 (was $P1)"
+    [ -z "$P2" ] && { log "no auto restart: launching by hand"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 5; P2=$(pid); }
+    sleep 15; need main_back; shot main_back; a shell input keyevent KEYCODE_BACK; sleep 3; noexit; sleep 6
+    put corsair_tmmiss SPARTAN_HQ; sleep 3; shot main_flight
+    XY=$(devach 3); dump nologin; log "LOGIN hidden on main again: $(grep -c 'text="LOGIN"' $OUT/last.xml)"; back 3
+    log "EVIDENCE v40 all: $(ev)"
+    grep -E "ModTest|ModTestMode|FATAL|AndroidRuntime" $LG > $OUT/v40_events.txt
+    a shell "rm -f $T/corsair_tmmiss $T/corsair_tmjump"
+    finish; exit 0
+  fi
   fly() { # $1 hull id, $2 name, $3 tag
     a shell "echo $1 > /data/local/tmp/corsair_page && chmod 644 /data/local/tmp/corsair_page"
     a shell am start -n $PKG/.activity.ShipsActivity_ >/dev/null; sleep 7
