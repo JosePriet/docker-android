@@ -6241,13 +6241,13 @@
     :cond_b7
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->state:I
 
-    packed-switch v0, :pswitch_data_380
+    packed-switch v0, :pswitch_data_382
 
     goto :goto_84
 
     .line 364
     :pswitch_bd
-    if-ne v3, v10, :cond_1a5
+    if-ne v3, v10, :cond_1a8
 
     const-string v0, "FURNACE NOVA"
 
@@ -6275,7 +6275,7 @@
     sput v1, Lfr/testudo/spacecorsair/mod/ModTitan;->state:I
 
     .line 369
-    if-ne v3, v1, :cond_1ad
+    if-ne v3, v1, :cond_1b0
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModCaps;->profile(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Lfr/testudo/spacecorsair/mod/ModCaps$Profile;
 
@@ -6285,7 +6285,7 @@
 
     move-result v0
 
-    if-eqz v0, :cond_1ad
+    if-eqz v0, :cond_1b0
 
     move v0, v1
 
@@ -6295,7 +6295,7 @@
     .line 370
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_1b0
+    if-eqz v0, :cond_1b3
 
     const/16 v0, 0x1518
 
@@ -6315,7 +6315,9 @@
     .line 373
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_1b6
+    if-eqz v0, :cond_1b9
+
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModAnchor;->doomsdayClick(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLevDoom;->start(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
@@ -6346,8 +6348,8 @@
     invoke-static {v0, v4}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 375
-    :goto_114
-    if-ne v3, v10, :cond_1bf
+    :goto_117
+    if-ne v3, v10, :cond_1c2
 
     const-string v0, "FURNACE NOVA CHARGING"
 
@@ -6355,7 +6357,7 @@
 
     move-result-object v0
 
-    :goto_11c
+    :goto_11f
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModTitan;->COL:[[F
 
     aget-object v4, v4, v3
@@ -6379,7 +6381,7 @@
     goto/16 :goto_84
 
     .line 352
-    :pswitch_133
+    :pswitch_136
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
     int-to-long v4, v0
@@ -6393,7 +6395,7 @@
     .line 353
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_155
+    if-eqz v0, :cond_158
 
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
@@ -6422,10 +6424,10 @@
     sput v0, Lfr/testudo/spacecorsair/mod/ModLevDoom;->coolFrac:F
 
     .line 354
-    :cond_155
+    :cond_158
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
-    if-gtz v0, :cond_16e
+    if-gtz v0, :cond_171
 
     sput v2, Lfr/testudo/spacecorsair/mod/ModTitan;->state:I
 
@@ -6441,12 +6443,12 @@
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_16e
+    if-eqz v0, :cond_171
 
     sput-boolean v2, Lfr/testudo/spacecorsair/mod/ModLevDoom;->gauge:Z
 
     .line 355
-    :cond_16e
+    :cond_171
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
     add-int/lit16 v0, v0, 0x3e7
@@ -6460,14 +6462,14 @@
     .line 356
     sget v1, Lfr/testudo/spacecorsair/mod/ModTitan;->coolSec:I
 
-    if-ne v0, v1, :cond_180
+    if-ne v0, v1, :cond_183
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModTitan;->coolLabel:Ljava/lang/String;
 
-    if-nez v1, :cond_19d
+    if-nez v1, :cond_1a0
 
     .line 357
-    :cond_180
+    :cond_183
     sput v0, Lfr/testudo/spacecorsair/mod/ModTitan;->coolSec:I
 
     .line 358
@@ -6498,7 +6500,7 @@
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModTitan;->coolLabel:Ljava/lang/String;
 
     .line 360
-    :cond_19d
+    :cond_1a0
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTitan;->coolLabel:Ljava/lang/String;
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModTitan;->label:Ljava/lang/String;
@@ -6509,7 +6511,7 @@
     goto/16 :goto_84
 
     .line 364
-    :cond_1a5
+    :cond_1a8
     const-string v0, "DOOMSDAY LANCE"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -6518,14 +6520,14 @@
 
     goto/16 :goto_c5
 
-    :cond_1ad
+    :cond_1b0
     move v0, v2
 
     .line 369
     goto/16 :goto_e0
 
     .line 370
-    :cond_1b0
+    :cond_1b3
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTitan;->CHARGE_MS:[I
 
     aget v0, v0, v3
@@ -6533,27 +6535,27 @@
     goto/16 :goto_e8
 
     .line 374
-    :cond_1b6
+    :cond_1b9
     const-string v0, "doom_charge"
 
     const-wide/16 v4, 0x1f4
 
     invoke-static {v0, v9, v9, v4, v5}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    goto/16 :goto_114
+    goto/16 :goto_117
 
     .line 375
-    :cond_1bf
+    :cond_1c2
     const-string v0, "DOOMSDAY CHARGING"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    goto/16 :goto_11c
+    goto/16 :goto_11f
 
     .line 379
-    :pswitch_1c7
+    :pswitch_1ca
     invoke-static {p0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModTitan;->lock(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
 
     .line 380
@@ -6579,7 +6581,7 @@
     .line 382
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_231
+    if-eqz v0, :cond_234
 
     .line 383
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTitan;->COL:[[F
@@ -6589,7 +6591,7 @@
     invoke-static {p0, p1, p2, v0}, Lfr/testudo/spacecorsair/mod/ModLevDoom;->chargeTick(Lfr/testudo/spacecorsair/business/player/PlayerShip;J[F)V
 
     .line 388
-    :goto_1e4
+    :goto_1e7
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
     if-gtz v0, :cond_84
@@ -6600,21 +6602,21 @@
     .line 390
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_247
+    if-eqz v0, :cond_24a
 
     const/16 v0, 0x11f8
 
-    :goto_1f0
+    :goto_1f3
     sput v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
     .line 391
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_1f8
+    if-eqz v0, :cond_1fb
 
     const/16 v2, -0x96
 
-    :cond_1f8
+    :cond_1fb
     sput v2, Lfr/testudo/spacecorsair/mod/ModTitan;->tickAcc:I
 
     .line 392
@@ -6625,11 +6627,11 @@
     .line 393
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_24c
+    if-eqz v0, :cond_24f
 
     const-string v0, "lev_doom_fire"
 
-    :goto_204
+    :goto_207
     const-wide/16 v2, 0x1f4
 
     invoke-static {v0, v9, v9, v2, v3}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
@@ -6637,7 +6639,7 @@
     .line 394
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_229
+    if-eqz v0, :cond_22c
 
     const-string v0, "v38doom"
 
@@ -6666,7 +6668,7 @@
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 395
-    :cond_229
+    :cond_22c
     const v0, 0x3f333333    # 0.7f
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->addShake(F)V
@@ -6674,7 +6676,7 @@
     goto/16 :goto_84
 
     .line 385
-    :cond_231
+    :cond_234
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
     int-to-float v0, v0
@@ -6700,60 +6702,60 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->addShake(F)V
 
-    goto :goto_1e4
+    goto :goto_1e7
 
     .line 390
-    :cond_247
+    :cond_24a
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTitan;->FIRE_MS:[I
 
     aget v0, v0, v3
 
-    goto :goto_1f0
+    goto :goto_1f3
 
     .line 393
-    :cond_24c
-    if-ne v3, v10, :cond_251
+    :cond_24f
+    if-ne v3, v10, :cond_254
 
     const-string v0, "doom_nova"
 
-    goto :goto_204
+    goto :goto_207
 
-    :cond_251
+    :cond_254
     const-string v0, "doom_lance"
 
-    goto :goto_204
+    goto :goto_207
 
     .line 399
-    :pswitch_254
+    :pswitch_257
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_25b
+    if-eqz v0, :cond_25e
 
     invoke-static {p0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModTitan;->turn(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
 
     .line 400
-    :cond_25b
+    :cond_25e
     invoke-static {p0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModTitan;->lock(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
 
     .line 401
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->holdFire:Z
 
-    if-eqz v0, :cond_26e
+    if-eqz v0, :cond_271
 
     sget v1, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_2ad
+    if-eqz v0, :cond_2b0
 
     const/16 v0, 0x11f8
 
-    :goto_26a
+    :goto_26d
     div-int/lit8 v0, v0, 0x2
 
-    if-le v1, v0, :cond_275
+    if-le v1, v0, :cond_278
 
-    :cond_26e
+    :cond_271
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
     int-to-long v0, v0
@@ -6765,7 +6767,7 @@
     sput v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
     .line 402
-    :cond_275
+    :cond_278
     const-string v0, "FIRING"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -6786,7 +6788,7 @@
     sput v0, Lfr/testudo/spacecorsair/mod/ModTitan;->tickAcc:I
 
     .line 404
-    if-ne v3, v10, :cond_298
+    if-ne v3, v10, :cond_29b
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTitan;->REACH:[F
 
@@ -6809,15 +6811,15 @@
     sput v0, Lfr/testudo/spacecorsair/mod/ModTitan;->novaRadius:F
 
     .line 405
-    :cond_298
-    :goto_298
+    :cond_29b
+    :goto_29b
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->tickAcc:I
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModTitan;->TICK_MS:[I
 
     aget v1, v1, v3
 
-    if-lt v0, v1, :cond_2b2
+    if-lt v0, v1, :cond_2b5
 
     .line 406
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->tickAcc:I
@@ -6833,18 +6835,18 @@
     .line 407
     invoke-static {p0, v3}, Lfr/testudo/spacecorsair/mod/ModTitan;->damageTick(Lfr/testudo/spacecorsair/business/player/PlayerShip;I)V
 
-    goto :goto_298
+    goto :goto_29b
 
     .line 401
-    :cond_2ad
+    :cond_2b0
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTitan;->FIRE_MS:[I
 
     aget v0, v0, v3
 
-    goto :goto_26a
+    goto :goto_26d
 
     .line 409
-    :cond_2b2
+    :cond_2b5
     invoke-static {p0, v3}, Lfr/testudo/spacecorsair/mod/ModTitan;->fireFx(Lfr/testudo/spacecorsair/business/player/PlayerShip;I)V
 
     .line 410
@@ -6867,7 +6869,7 @@
     .line 413
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTitan;->levSeq:Z
 
-    if-eqz v0, :cond_2fe
+    if-eqz v0, :cond_301
 
     .line 414
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->lockSpin:F
@@ -6928,7 +6930,7 @@
     goto/16 :goto_84
 
     .line 419
-    :cond_2fe
+    :cond_301
     const/4 v0, 0x3
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModTitan;->state:I
@@ -6948,7 +6950,7 @@
     goto/16 :goto_84
 
     .line 427
-    :pswitch_30d
+    :pswitch_310
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
     int-to-long v0, v0
@@ -7006,14 +7008,14 @@
     .line 432
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
 
-    if-eqz v1, :cond_350
+    if-eqz v1, :cond_353
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
 
     array-length v4, v1
 
-    :goto_341
-    if-ge v2, v4, :cond_350
+    :goto_344
+    if-ge v2, v4, :cond_353
 
     aget-object v5, v1, v2
 
@@ -7027,10 +7029,10 @@
 
     add-int/lit8 v2, v2, 0x1
 
-    goto :goto_341
+    goto :goto_344
 
     .line 433
-    :cond_350
+    :cond_353
     sget v0, Lfr/testudo/spacecorsair/mod/ModTitan;->timer:I
 
     if-gtz v0, :cond_84
@@ -7082,15 +7084,13 @@
     goto/16 :goto_84
 
     .line 350
-    nop
-
-    :pswitch_data_380
+    :pswitch_data_382
     .packed-switch 0x0
         :pswitch_bd
-        :pswitch_1c7
-        :pswitch_254
-        :pswitch_133
-        :pswitch_30d
+        :pswitch_1ca
+        :pswitch_257
+        :pswitch_136
+        :pswitch_310
     .end packed-switch
 .end method
 

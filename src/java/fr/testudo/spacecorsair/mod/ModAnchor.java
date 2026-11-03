@@ -147,6 +147,21 @@ public final class ModAnchor {
         ModDev.ev("v39anchor", "plant stage " + stage + " charge " + pct() + " cap " + Math.round(cap));
     }
 
+    /**
+     * v42 (owner 2026-11-03 23:24): clicking the doomsday plants the anchor stance when it is not active, unless the wall
+     * is offline (no charge) or on cooldown (recharging after it broke).
+     */
+    static void doomsdayClick(PlayerShip ps) {
+        try {
+            if (stage < 4 || state != IDLE || cur <= 0) return;
+            if (brokeAt > 0 && cur < cap) return;
+            plant(ps);
+            ModDev.ev("v39anchor", "auto-plant on doomsday click");
+        } catch (Throwable t) {
+            // no stance
+        }
+    }
+
     /** 1.5 s of trying to move: thrust back now, the wall holds 2.5 s more. */
     private static void lift(PlayerShip ps) {
         ModTitan.anchorRelease(ps);

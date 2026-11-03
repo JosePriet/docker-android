@@ -370,7 +370,7 @@ public final class ModTitan {
                     timer = levSeq ? ModLevDoom.CHARGE_MS : CHARGE_MS[k];
                     lockSpin = ps.spin;
                     desiredSpin = lockSpin;
-                    if (levSeq) { ModLevDoom.start(ps); ModDev.ev("v38doom", "charge spin " + (int) lockSpin); }
+                    if (levSeq) { ModAnchor.doomsdayClick(ps); ModLevDoom.start(ps); ModDev.ev("v38doom", "charge spin " + (int) lockSpin); }
                     else ModSound.play("doom_charge", 1.0f, 1.0f, 500);
                     Mod.floatText(ps, k == THRONE ? ModLang.tr("FURNACE NOVA CHARGING") : ModLang.tr("DOOMSDAY CHARGING"), COL[k][0], COL[k][1], COL[k][2]);
                 }
