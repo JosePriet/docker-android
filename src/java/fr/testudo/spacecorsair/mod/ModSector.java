@@ -120,6 +120,7 @@ public final class ModSector {
         refill -= j;
         if (refill > 0) return;
         refill = 4000;
+        if (ModCalm.active()) return;   // v42: no traffic arrives during a defend-zone mission
         try {
             prune(traders);
             prune(patrols);

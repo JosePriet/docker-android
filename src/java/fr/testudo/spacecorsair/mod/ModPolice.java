@@ -428,6 +428,7 @@ public class ModPolice {
 
     // ================================================================== waves
     private static void wave(PlayerShip ps) {
+        if (ModCalm.active()) return;   // v42: no police arrive during a defend-zone mission
         LevelId id = here;
         int top = nextTop(heat, lastTop, id.levelMax, ModPoliceTitan.active() || titan != null);
         if (top < 0) return;

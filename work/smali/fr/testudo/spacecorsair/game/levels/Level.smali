@@ -1058,7 +1058,7 @@
     .line 146
     iget-object v4, p0, Lfr/testudo/spacecorsair/game/levels/Level;->elements:Ljava/util/List;
 
-    invoke-interface {v4, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+    invoke-static {v4, v0}, Lfr/testudo/spacecorsair/mod/ModCalm;->add(Ljava/util/List;Lfr/testudo/spacecorsair/business/Element;)V
 
     .line 144
     add-int/lit8 v0, v2, 0x1
