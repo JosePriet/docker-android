@@ -369,7 +369,7 @@ public final class ModTitan {
                     timer = levSeq ? ModLevDoom.CHARGE_MS : CHARGE_MS[k];
                     lockSpin = ps.spin;
                     desiredSpin = lockSpin;
-                    if (levSeq) ModLevDoom.start(ps);
+                    if (levSeq) { ModLevDoom.start(ps); ModDev.ev("v38doom", "charge spin " + (int) lockSpin); }
                     else ModSound.play("doom_charge", 1.0f, 1.0f, 500);
                     Mod.floatText(ps, k == THRONE ? ModLang.tr("FURNACE NOVA CHARGING") : ModLang.tr("DOOMSDAY CHARGING"), COL[k][0], COL[k][1], COL[k][2]);
                 }
@@ -390,6 +390,7 @@ public final class ModTitan {
                     tickAcc = levSeq ? -ModLevDoom.DAMAGE_DELAY_MS : 0;
                     novaRadius = 200;
                     ModSound.play(levSeq ? "lev_doom_fire" : k == THRONE ? "doom_nova" : "doom_lance", 1.0f, 1.0f, 500);
+                    if (levSeq) ModDev.ev("v38doom", "fire t=" + ModLevDoom.sec());
                     ModQol.addShake(0.7f);
                 }
                 break;
@@ -412,6 +413,7 @@ public final class ModTitan {
                         ModLevDoom.endRecoil(ps, lockSpin);
                         state = OVER;
                         timer = ModLevDoom.OVER_MS;
+                        ModDev.ev("v38doom", "over t=" + ModLevDoom.sec() + " spin " + (int) lockSpin);
                     } else {
                         state = COOL;
                         timer = COOL_MS[k];
@@ -430,6 +432,7 @@ public final class ModTitan {
                     state = COOL;
                     timer = COOL_MS[k];
                     coolTotal = timer;
+                    ModDev.ev("v38doom", "cool t=" + ModLevDoom.sec());
                 }
                 break;
             default:

@@ -373,6 +373,7 @@ public final class ModDev {
     // ------------------------------------------------------------------ v37 emulator switches: go where each feature lives
     private static String t37Near, t37Music, t37Arrived;
     private static boolean t37Dock, t37KillFlag, t37Rich, t37Ufo, t37Blast;
+    private static String t38Refit;
     private static String t37Drive, t37DriveSeen;
     private static Boolean evOn;
 
@@ -464,6 +465,23 @@ public final class ModDev {
             ev("rich", "credits=" + ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.getCredit() + " parts=" + ModV35.parts());
         }
         t37Rich = rich;
+        // v38 corsair_refit=<0-10>: refit level of the flown hull (stage art, turrets, Monolith/Leviathan effects)
+        String rf = testValue("corsair_refit");
+        if (rf != null && !rf.equals(t38Refit)) {
+            t38Refit = rf;
+            try {
+                int lv = Math.max(0, Math.min(10, Integer.parseInt(rf.trim())));
+                fr.testudo.spacecorsair.business.loot.SpaceObjectType cur = ModV35.currentShip();
+                android.content.SharedPreferences p = ModQol.prefs();
+                if (cur != null && p != null) {
+                    p.edit().putInt("v35_refit_" + cur.name(), lv).commit();
+                    ps.applyGear();
+                    ev("v38refit", cur.name() + " level " + lv + " stage " + ModV35.stage(lv) + " turrets " + (ps.playerCannons == null ? 0 : ps.playerCannons.length));
+                }
+            } catch (Throwable t) {
+                ev("v38refit", "bad value " + rf);
+            }
+        }
         // corsair_mdrive=pickup|outpostkill|escort[N]: drives the running faction mission (ModFaction.testDrive)
         String md = testValue("corsair_mdrive");
         if (md != null && !md.equals(t37DriveSeen)) { t37DriveSeen = md; t37Drive = md; }

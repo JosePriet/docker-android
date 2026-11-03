@@ -43,7 +43,7 @@
     .end annotation
 
     .prologue
-    .line 723
+    .line 726
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->val$act:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->val$bt:Landroid/widget/Button;
@@ -54,12 +54,12 @@
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 724
+    .line 727
     const/4 v0, 0x0
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->lastText:Ljava/lang/String;
 
-    .line 725
+    .line 728
     const/4 v0, -0x1
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->lastKind:I
@@ -81,7 +81,7 @@
 
     const/4 v1, 0x0
 
-    .line 729
+    .line 732
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->val$act:Landroid/app/Activity;
 
     invoke-virtual {v2}, Landroid/app/Activity;->isFinishing()Z
@@ -110,12 +110,12 @@
 
     if-eq v2, v3, :cond_21
 
-    .line 757
+    .line 760
     :cond_20
     :goto_20
     return-void
 
-    .line 732
+    .line 735
     :cond_21
     :try_start_21
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModTitan;->show:Z
@@ -144,7 +144,7 @@
 
     move v3, v0
 
-    .line 733
+    .line 736
     :goto_39
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->val$bt:Landroid/widget/Button;
 
@@ -168,11 +168,11 @@
     :goto_49
     invoke-virtual {v4, v2}, Landroid/widget/Button;->setVisibility(I)V
 
-    .line 734
+    .line 737
     :cond_4c
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModTitan;->label:Ljava/lang/String;
 
-    .line 735
+    .line 738
     if-eqz v3, :cond_61
 
     if-eqz v2, :cond_61
@@ -185,15 +185,15 @@
 
     if-nez v4, :cond_61
 
-    .line 736
+    .line 739
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->val$bt:Landroid/widget/Button;
 
     invoke-virtual {v4, v2}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
 
-    .line 737
+    .line 740
     iput-object v2, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->lastText:Ljava/lang/String;
 
-    .line 739
+    .line 742
     :cond_61
     # getter for: Lfr/testudo/spacecorsair/mod/ModTitan;->state:I
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTitan;->access$100()I
@@ -204,11 +204,11 @@
 
     move v2, v0
 
-    .line 740
+    .line 743
     :goto_68
     sget v4, Lfr/testudo/spacecorsair/mod/ModTitan;->uiKind:I
 
-    .line 741
+    .line 744
     if-eqz v3, :cond_da
 
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->lastKind:I
@@ -219,7 +219,7 @@
 
     if-eq v2, v0, :cond_da
 
-    .line 742
+    .line 745
     :cond_74
     # getter for: Lfr/testudo/spacecorsair/mod/ModTitan;->COL:[[F
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTitan;->access$200()[[F
@@ -240,7 +240,7 @@
 
     aget-object v1, v0, v1
 
-    .line 743
+    .line 746
     const/4 v0, 0x0
 
     aget v0, v1, v0
@@ -269,12 +269,12 @@
 
     move-result v0
 
-    .line 744
+    .line 747
     new-instance v3, Landroid/graphics/drawable/GradientDrawable;
 
     invoke-direct {v3}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
 
-    .line 745
+    .line 748
     const/high16 v5, 0x41000000    # 8.0f
 
     iget v6, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->val$d:F
@@ -283,7 +283,7 @@
 
     invoke-virtual {v3, v5}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
 
-    .line 746
+    .line 749
     if-eqz v2, :cond_f0
 
     const/16 v5, 0xd2
@@ -319,7 +319,7 @@
     :goto_bb
     invoke-virtual {v3, v1}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
 
-    .line 747
+    .line 750
     const/high16 v1, 0x40000000    # 2.0f
 
     iget v5, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->val$d:F
@@ -333,12 +333,12 @@
     :goto_c6
     invoke-virtual {v3, v1, v0}, Landroid/graphics/drawable/GradientDrawable;->setStroke(II)V
 
-    .line 748
+    .line 751
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->val$bt:Landroid/widget/Button;
 
     invoke-virtual {v0, v3}, Landroid/widget/Button;->setBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 749
+    .line 752
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->val$bt:Landroid/widget/Button;
 
     if-eqz v2, :cond_f8
@@ -348,15 +348,15 @@
     :goto_d3
     invoke-virtual {v1, v0}, Landroid/widget/Button;->setTextColor(I)V
 
-    .line 750
+    .line 753
     iput v4, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->lastKind:I
 
-    .line 751
+    .line 754
     iput-boolean v2, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->lastReady:Z
     :try_end_da
     .catch Ljava/lang/Throwable; {:try_start_21 .. :try_end_da} :catch_fc
 
-    .line 756
+    .line 759
     :cond_da
     :goto_da
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitan$2;->val$h:Landroid/os/Handler;
@@ -370,13 +370,13 @@
     :cond_e3
     move v3, v1
 
-    .line 732
+    .line 735
     goto/16 :goto_39
 
     :cond_e6
     move v2, v1
 
-    .line 733
+    .line 736
     goto/16 :goto_42
 
     :cond_e9
@@ -387,28 +387,28 @@
     :cond_ed
     move v2, v1
 
-    .line 739
+    .line 742
     goto/16 :goto_68
 
-    .line 746
+    .line 749
     :cond_f0
     const v1, -0x5fefe7e0
 
     goto :goto_bb
 
-    .line 747
+    .line 750
     :cond_f4
     const v0, -0xb5aaa0
 
     goto :goto_c6
 
-    .line 749
+    .line 752
     :cond_f8
     const v0, -0x554b42
 
     goto :goto_d3
 
-    .line 753
+    .line 756
     :catch_fc
     move-exception v0
 
