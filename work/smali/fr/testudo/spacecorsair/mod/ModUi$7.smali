@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 219
+    .line 221
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUi$7;->val$activity:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,15 +45,10 @@
     .registers 3
 
     .prologue
-    .line 220
+    .line 221
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$7;->val$activity:Landroid/app/Activity;
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->showInbox(Landroid/app/Activity;)V
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$7;->val$activity:Landroid/app/Activity;
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModUi;->update(Landroid/app/Activity;)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUi;->access$400(Landroid/app/Activity;)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModComms;->showStandings(Landroid/app/Activity;)V
 
     return-void
 .end method

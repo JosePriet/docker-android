@@ -48,7 +48,7 @@
     .line 216
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$6;->val$activity:Landroid/app/Activity;
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModComms;->showStandings(Landroid/app/Activity;)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModRefitPanel;->show(Landroid/app/Activity;)V
 
     return-void
 .end method

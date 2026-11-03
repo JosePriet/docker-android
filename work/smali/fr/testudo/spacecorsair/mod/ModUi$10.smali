@@ -3,12 +3,12 @@
 .source "ModUi.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Landroid/view/View$OnClickListener;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModUi;->sellJunk(Landroid/app/Activity;)V
+    value = Lfr/testudo/spacecorsair/mod/ModUi;->wireArrows(Landroid/app/Activity;Landroid/view/ViewGroup;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -20,14 +20,12 @@
 # instance fields
 .field final synthetic val$a:Landroid/app/Activity;
 
-.field final synthetic val$junk:Ljava/util/List;
-
-.field final synthetic val$station:Ljava/lang/Object;
+.field final synthetic val$step:I
 
 
 # direct methods
-.method constructor <init>(Ljava/lang/Object;Ljava/util/List;Landroid/app/Activity;)V
-    .registers 4
+.method constructor <init>(Landroid/app/Activity;I)V
+    .registers 3
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -35,12 +33,10 @@
     .end annotation
 
     .prologue
-    .line 438
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$station:Ljava/lang/Object;
+    .line 320
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$a:Landroid/app/Activity;
 
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$junk:Ljava/util/List;
-
-    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$a:Landroid/app/Activity;
+    iput p2, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$step:I
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -49,193 +45,83 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 10
+.method public onClick(Landroid/view/View;)V
+    .registers 5
 
     .prologue
+    .line 323
     const/4 v1, 0x0
 
-    .line 441
+    .line 324
     :try_start_1
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$station:Ljava/lang/Object;
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$a:Landroid/app/Activity;
 
     invoke-virtual {v0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v0
 
-    const-string v2, "inventory"
+    :goto_7
+    if-eqz v0, :cond_16
 
-    invoke-static {v0, v2}, Lfr/testudo/spacecorsair/mod/ModQol;->findField(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/reflect/Field;
+    if-nez v1, :cond_16
 
-    move-result-object v0
+    const-string v1, "shipsPager"
 
-    .line 442
-    const/4 v2, 0x1
-
-    invoke-virtual {v0, v2}, Ljava/lang/reflect/Field;->setAccessible(Z)V
-
-    .line 443
-    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$station:Ljava/lang/Object;
-
-    invoke-virtual {v0, v2}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
-
-    move-result-object v2
-
-    .line 444
-    invoke-virtual {v2}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
-
-    move-result-object v0
-
-    const-string v3, "addObject"
-
-    const/4 v4, 0x1
-
-    new-array v4, v4, [Ljava/lang/Class;
-
-    const/4 v5, 0x0
-
-    const-class v6, Lfr/testudo/spacecorsair/business/loot/SpaceObject;
-
-    aput-object v6, v4, v5
-
-    invoke-virtual {v0, v3, v4}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
-
-    move-result-object v3
-
-    .line 445
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$junk:Ljava/util/List;
-
-    invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
-
-    move-result-object v4
-
-    :goto_2f
-    invoke-interface {v4}, Ljava/util/Iterator;->hasNext()Z
-
-    move-result v0
-
-    if-eqz v0, :cond_5d
-
-    invoke-interface {v4}, Ljava/util/Iterator;->next()Ljava/lang/Object;
-
-    move-result-object v0
-
-    check-cast v0, Lfr/testudo/spacecorsair/business/loot/SpaceObject;
-
-    .line 446
-    new-instance v5, Lfr/testudo/spacecorsair/business/loot/SpaceObject;
-
-    invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/loot/SpaceObject;->getSpaceObjectType()Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
-
-    move-result-object v6
-
-    invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/loot/SpaceObject;->getQuantity()I
-
-    move-result v0
-
-    invoke-direct {v5, v6, v0}, Lfr/testudo/spacecorsair/business/loot/SpaceObject;-><init>(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;I)V
-
-    .line 447
-    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
-    iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
-
-    iget-object v0, v0, Lfr/testudo/spacecorsair/game/Game;->playerCurrentShipInventory:Lfr/testudo/spacecorsair/business/player/Inventory;
-
-    invoke-virtual {v0, v5}, Lfr/testudo/spacecorsair/business/player/Inventory;->sell(Lfr/testudo/spacecorsair/business/loot/SpaceObject;)V
-
-    .line 448
-    const/4 v0, 0x1
-
-    new-array v0, v0, [Ljava/lang/Object;
-
-    const/4 v6, 0x0
-
-    aput-object v5, v0, v6
-
-    invoke-virtual {v3, v2, v0}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
-
-    goto :goto_2f
-
-    .line 454
-    :catch_5b
-    move-exception v0
-
-    .line 457
-    :cond_5c
-    return-void
-
-    .line 450
-    :cond_5d
-    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
-    iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->soundManager:Lfr/testudo/spacecorsair/engine/SoundManager;
-
-    invoke-virtual {v0}, Lfr/testudo/spacecorsair/engine/SoundManager;->playCashTransactionSound()V
-
-    .line 451
-    const/4 v0, 0x2
-
-    new-array v2, v0, [Ljava/lang/String;
-
-    const/4 v0, 0x0
-
-    const-string v3, "updateTexts"
-
-    aput-object v3, v2, v0
-
-    const/4 v0, 0x1
-
-    const-string v3, "updateListviews"
-
-    aput-object v3, v2, v0
-
-    array-length v3, v2
-
-    move v0, v1
-
-    :goto_73
-    if-ge v0, v3, :cond_5c
-
-    aget-object v1, v2, v0
-    :try_end_77
-    .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_77} :catch_5b
-
-    .line 452
-    :try_start_77
-    iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$a:Landroid/app/Activity;
-
-    invoke-virtual {v4}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
-
-    move-result-object v4
-
-    const/4 v5, 0x0
-
-    new-array v5, v5, [Ljava/lang/Class;
-
-    invoke-virtual {v4, v1, v5}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+    # invokes: Lfr/testudo/spacecorsair/mod/ModUi;->hasField(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/reflect/Field;
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModUi;->access$800(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/reflect/Field;
 
     move-result-object v1
 
-    iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$a:Landroid/app/Activity;
+    invoke-virtual {v0}, Ljava/lang/Class;->getSuperclass()Ljava/lang/Class;
 
-    const/4 v5, 0x0
+    move-result-object v0
 
-    new-array v5, v5, [Ljava/lang/Object;
+    goto :goto_7
 
-    invoke-virtual {v1, v4, v5}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
-    :try_end_8c
-    .catch Ljava/lang/Exception; {:try_start_77 .. :try_end_8c} :catch_8f
+    .line 325
+    :cond_16
+    if-nez v1, :cond_19
 
-    .line 451
-    :goto_8c
-    add-int/lit8 v0, v0, 0x1
+    .line 332
+    :cond_18
+    :goto_18
+    return-void
 
-    goto :goto_73
+    .line 326
+    :cond_19
+    const/4 v0, 0x1
 
-    .line 452
-    :catch_8f
-    move-exception v1
+    invoke-virtual {v1, v0}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    goto :goto_8c
+    .line 327
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$a:Landroid/app/Activity;
+
+    invoke-virtual {v1, v0}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, Landroid/support/v4/view/ViewPager;
+
+    .line 328
+    if-eqz v0, :cond_18
+
+    invoke-virtual {v0}, Landroid/support/v4/view/ViewPager;->getCurrentItem()I
+
+    move-result v1
+
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModUi$10;->val$step:I
+
+    add-int/2addr v1, v2
+
+    invoke-virtual {v0, v1}, Landroid/support/v4/view/ViewPager;->setCurrentItem(I)V
+    :try_end_31
+    .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_31} :catch_32
+
+    goto :goto_18
+
+    .line 329
+    :catch_32
+    move-exception v0
+
+    goto :goto_18
 .end method

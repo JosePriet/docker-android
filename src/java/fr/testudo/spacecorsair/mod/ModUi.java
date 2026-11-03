@@ -210,6 +210,11 @@ public class ModUi {
                     gift.setText(ModLang.tr("Gift code"));
                     gift.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { ModDev.askCode(activity); } });
                     bar.addView(gift, bl);
+                    // v41: refits need the ship docked and My Ship cannot open while docked: the refit panel lives here
+                    Button refit = button(activity, "refit");
+                    refit.setText(ModLang.tr("Refit"));
+                    refit.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { ModRefitPanel.show(activity); } });
+                    bar.addView(refit, bl);
                 }
                 Button rep = button(activity, "rep");
                 rep.setText(ModLang.tr("Standings"));
