@@ -60,7 +60,7 @@ git -C "$WT" commit -q -F - <<EOF
 Release $VER
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_014C5K1N4Zqx5f8EQLspaED7
+Claude-Session: https://claude.ai/code/session_01N5CSf1235ska4mkrcdzBgg
 EOF
 
 for delay in 2 4 8 16 0; do
