@@ -157,6 +157,49 @@ elif [ $GAME = sc ]; then
   fi
   if fly hullLeviathan Leviathan leviathan; then
     sleep 5; shot leviathan_player_titan
+    # ---- v38 (owner 2026-11-03): Spartan refit stages, per-stage turrets, Leviathan doomsday sequence, Monolith s4/s5 effects
+    if [ "$STAGE" = V38 ]; then
+      put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+      flag() { a shell "touch $T/$1; chmod 644 $T/corsair_*"; }
+      LG=$OUT/logcat_live.txt
+      stick() { a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE $1 $2; }
+      unstick() { a shell input motionevent UP 222 650; sleep 0.3; }
+      flag corsair_v38log
+      for L in 4 8 10; do put corsair_refit $L; sleep 3; shot lev_refit_$L; done
+      for w in $(seq 1 16); do dump doomwait; grep -q 'text="DOOMSDAY LANCE"' $OUT/last.xml && break; sleep 2; done
+      tap_text "DOOMSDAY LANCE" doombtn_lev
+      for k in 1 2 3 4 5; do sleep 0.3; shot doom_charge_$k; done
+      stick 420 860; for k in 1 2 3 4; do shot doom_lance_turn_$k; done; unstick
+      for k in 1 2 3 4 5 6; do shot doom_after_$k; done
+      sleep 20; shot doom_cool_gauge
+      log "EVIDENCE v38doom: $(grep -E "v38doom|v38refit" $LG | sed 's/^.*): //' | tr '\n' ' ')"
+      sleep 12   # ship-switch cooldown
+      if fly hullMonolith Monolith monolith; then
+        for L in 0 6 8; do put corsair_refit $L; sleep 3; shot mono_refit_$L; done
+        stick 222 650; sleep 3; shot mono_s4_thrust; unstick; sleep 1
+        put corsair_refit 10; sleep 3; shot mono_s5_idle
+        stick 222 650; for k in 1 2 3 4 5; do sleep 0.6; shot mono_s5_thrust_$k; done; unstick
+        for k in 1 2 3 4 5 6; do shot mono_s5_coast_$k; done
+        put corsair_spawn albatros,elite; sleep 5; shot mono_s5_fight_1; sleep 1; shot mono_s5_fight_2; sleep 1; shot mono_s5_fight_3
+        flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn"; sleep 8; shot mono_s5_folded
+        log "EVIDENCE v38mono: $(grep -E "v38 monolith|v38refit" $LG | tail -40 | sed 's/^.*): //' | tr '\n' ' ')"
+        sleep 12
+      fi
+      if fly hullBastion Bastion bastion; then
+        for L in 0 6 8 10; do put corsair_refit $L; sleep 3; shot bastion_refit_$L; done
+        sleep 12
+      fi
+      if fly hullMantis Mantis mantis; then
+        for L in 0 6 10; do put corsair_refit $L; sleep 3; shot mantis_refit_$L; done
+        sleep 12
+      fi
+      if fly hullVerdant Verdant verdant; then
+        for L in 0 6 8 10; do put corsair_refit $L; sleep 3; shot verdant_refit_$L; done
+      fi
+      log "EVIDENCE v38refit: $(grep -E "v38refit|v38 " $LG | sed 's/^.*): //' | tail -30 | tr '\n' ' ')"
+      grep -E "ModTest|ModDev|v38|FATAL" $LG > $OUT/v38_events.txt
+      a shell "rm -f $T/corsair_refit $T/corsair_v38log"
+    fi
     # v33: every flagship's batteries + skill callouts (logcat ModCapitals / ModTitanAI); the reaver harpoon goes last
     CAPS="ironclad spartan helion warden kretari varn reaver"; [ -n "$QUICK" ] && CAPS="ironclad helion"; [ -n "$STAGE" ] && CAPS=""
     for C in $CAPS; do
