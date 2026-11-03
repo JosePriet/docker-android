@@ -352,8 +352,8 @@ public final class ModCaps {
         }
         ModMonolith.under(ps);   // v38: Monolith s4/s5 aura, wings, plasma (under the hull)
         ModLevDoom.drawUnder(ps);   // v38: Leviathan doomsday, space dims during the charge
-        // engine plumes
-        if (p.flames) {
+        // engine plumes (v38: none on Monolith s4/s5, whose art has no thrusters by owner decision)
+        if (p.flames && !ModMonolith.active()) {
             float[] e = ModFxData.ENGINES[p.data];
             float base = p.titan ? 0.24f : p.big ? 0.18f : 0.13f;
             for (int k = 0; k + 2 < e.length; k += 3) {

@@ -53,6 +53,11 @@ public final class ModMonolith {
         }
     }
 
+    /** Monolith s4/s5 being drawn this frame (set by under()). */
+    static boolean active() {
+        return stage != 0;
+    }
+
     /** s5 hull without the painted closed wings (ModV35.playerArt), when the parts ship. */
     static boolean useParts(String art, int s) {
         return "monolith".equals(art) && s == 5 && ModV35.art("monolith_stage5_hull") && ModV35.art("monolith_stage5_wingL") && ModV35.art("monolith_stage5_wingR");

@@ -63,7 +63,9 @@ def path(px, py):
 
 def save_l(m, n, size=SW):
     v = np.clip(m, 0, 1) * 255
-    Image.fromarray(v.astype(np.uint8), 'L').resize((size, size), Image.LANCZOS).convert('RGB').save(
+    # v38 emulator fix: white + alpha mask (RGBA), so a normal-blend dark tint only darkens the mask, never a black box
+    al = Image.fromarray(v.astype(np.uint8), 'L').resize((size, size), Image.LANCZOS)
+    Image.merge('RGBA', (Image.new('L', al.size, 255),) * 3 + (al,)).save(
         os.path.join(ART, n + '.webp'), 'WEBP', lossless=True, quality=100, method=6, exact=True)
 
 

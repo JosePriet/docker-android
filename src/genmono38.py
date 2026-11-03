@@ -24,11 +24,17 @@ def save(arr, n, mode='RGBA'):
     Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8), mode).save(os.path.join(ART, n + '.webp'), 'WEBP', lossless=True, quality=100, method=6, exact=True)
 
 
-def hot(x):
+def hot(x, pads=()):
     mx = x[..., :3].max(-1); mn = x[..., :3].min(-1); lm = x[..., :3].mean(-1)
     plat = (x[..., 3] > 0) & ((mx - mn) < 35) & (lm > 90)
     h = x.copy(); s = np.clip(lm / 200, 0, 1.3)
     h[plat, 0] = np.clip(255 * s[plat], 0, 255); h[plat, 1] = np.clip(196 * s[plat], 0, 255); h[plat, 2] = np.clip(92 * s[plat], 0, 255)
+    # v38 emulator fix: only the heated plates are opaque, so the overlay (drawn after the turrets) never hides them;
+    # the turret pads are cleared too (turret sprites sit there)
+    h[..., 3] = np.where(plat, x[..., 3], 0)
+    if pads:
+        Y, X = np.mgrid[:x.shape[0], :x.shape[1]]
+        for px, py in pads: h[..., 3][np.hypot(X - px, Y - py) < 80] = 0
     return h
 
 
@@ -70,8 +76,9 @@ def outline(x, count, step_from=None):
 
 
 hull = load('monolith_stage5_hull'); wl = load('monolith_stage5_wingL'); wr = load('monolith_stage5_wingR'); s4 = load('monolith_stage4')
+PADS45 = ((512, 294), (324, 299), (700, 299))
 for src, n in ((hull, 'monolith_stage5_hull'), (wl, 'monolith_stage5_wingL'), (wr, 'monolith_stage5_wingR'), (s4, 'monolith_stage4')):
-    save(hot(src), n + '_hot')
+    save(hot(src, PADS45 if n in ('monolith_stage5_hull', 'monolith_stage4') else ()), n + '_hot')
     save(aura(src), n + '_aura', 'RGB')
 
 # wing trailing edge (preview plasma_wings.py _TE): tip, then the inner edge at y 690/600/505/410
