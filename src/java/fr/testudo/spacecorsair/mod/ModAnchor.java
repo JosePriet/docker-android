@@ -284,7 +284,7 @@ public final class ModAnchor {
         agit = Math.min(1, agit + 0.12f + sev * 0.2f);
         int i = hitN++ % 8;
         hitU[i] = u; hitT[i] = t; hitSparked[i] = false; hitStr[i] = Math.min(1, 0.35f + dmg / Math.max(1, cap) * 12); hitLX[i] = crossLX; hitLY[i] = crossLY;
-        if (logs < 12) { logs++; ModDev.ev("v39anchor", "absorbed " + Math.round(dmg) + " left " + Math.round(Math.max(0, cur)) + "/" + Math.round(cap) + " u " + Math.round(u * 100)); }
+        if (logs < 80) { logs++; ModDev.ev("v39anchor", "absorbed " + Math.round(dmg) + " left " + Math.round(Math.max(0, cur)) + "/" + Math.round(cap) + " u " + Math.round(u * 100)); }
         if (cur <= 0) {
             cur = 0;
             brokeAt = System.currentTimeMillis();

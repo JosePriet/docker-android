@@ -493,12 +493,14 @@ public final class ModDev {
                 ev("v39anchor", "bad value " + wp);
             }
         }
-        // v39 corsair_volley=<count>[,tag]: count enemy shots (sender = nearest enemy) from 1400 ahead, +-40 deg of the bow, aimed at the ship
+        // v39 corsair_volley=<count>[,tag[,half-spread deg]]: count enemy shots (sender = nearest enemy) from 1400 ahead, +-40 deg of the bow, aimed at the ship
         String vo = testValue("corsair_volley");
         if (vo != null && !vo.equals(t39Volley)) {
             t39Volley = vo;
             try {
-                int vn = Integer.parseInt(vo.split(",")[0].trim());
+                String[] vp = vo.split(",");
+                int vn = Integer.parseInt(vp[0].trim());
+                float spread = vp.length > 2 ? Float.parseFloat(vp[2].trim()) : 40;   // v39: third field = half-spread in degrees
                 fr.testudo.spacecorsair.business.Element src = null;
                 java.util.List<fr.testudo.spacecorsair.business.Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
                 for (int i = 0; i < els.size(); i++) {
@@ -509,7 +511,7 @@ public final class ModDev {
                 if (src != null) {
                     float dmg = ps.shield != null ? ps.shield.capacity * 0.08f : 20;
                     for (int i = 0; i < vn; i++) {
-                        double an = Math.toRadians(ps.spin + (vn > 1 ? -40 + 80f * i / (vn - 1) : 0));
+                        double an = Math.toRadians(ps.spin + (vn > 1 ? -spread + 2 * spread * i / (vn - 1) : 0));
                         float ux = (float) Math.sin(an), uy = -(float) Math.cos(an);   // bow direction at this angle
                         fr.testudo.spacecorsair.business.projectiles.EnergyBullet b = fr.testudo.spacecorsair.business.factory.GamePools.newEnnergyBullet()
                             .init(dmg, 6, src, 1.0f, 1.0f, 0.3f, 0.2f, fr.testudo.spacecorsair.business.loot.stuff.alteration.AlterationSpecs.DEFAULT);
