@@ -425,7 +425,7 @@ public final class ModTitan {
             case OVER:
                 // v38: the titan moves again; its guns and launchers stay offline until the overcharge vents
                 timer -= j;
-                label = ModLang.tr("OVERCHARGED");
+                label = ModLang.tr("VENTING");
                 int hold = Math.max(0, Math.min(300, timer));   // guns back exactly when the overcharge ends
                 ps.nextShootAlowed = Math.max(ps.nextShootAlowed, hold);
                 ps.nextShootMissileAlowed = Math.max(ps.nextShootMissileAlowed, hold);
@@ -799,9 +799,9 @@ public final class ModTitan {
     public static String skillText(int k) {
         switch (k) {
             case LEVIATHAN:
-                // v38 Spartan Leviathan sequence (EN placeholder: GPT polishes + translates)
-                return ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): the titan locks down and routes power for 5.4 s, then fires a 4.4 s lance (2800 range, 60% as wide as the hull) that wipes everything in its path; mission bosses lose ~12% of their hull per lance and titan-class capitals ~5%. "
-                        + "It cannot move or fire while it charges; while the lance fires it turns slowly (5 deg/s). After the shot it can move, but its weapons stay offline for 2.2 s while it vents. 90 s cooldown.");
+                // v38 doomsday + v39 anchor stance (GPT EN/ES 2026-11-03; anchor from refit level 7 = stage 4)
+                return ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): immobilizes the titan and disables its weapons for a 5.4 s charge, then fires a 4.4 s lance (2800 range, 60% of hull width) that destroys everything in its path, dealing ~12% hull damage to mission bosses and ~5% to titan-class capitals per lance. While firing, turn speed is limited to 5 deg/s; afterward, movement resumes, but weapons stay offline for 2.2 s while the titan vents. Cooldown: 90 s.")
+                    + "<br>" + ModLang.tr("<b>Anchor Stance</b> (passive): after 2.5 s at a complete stop, the titan anchors and raises a hex shield wall across its bow, blocking enemy shots and protecting ships behind it. The wall has a separate shield (150% of the equipped shield's capacity, takes 35% less damage) that recharges in 25 s only while the wall is down; hold the stick for 1.5 s to lift the anchor, and the wall folds 2.5 s later.") + " " + ModLang.tr("Needs refit level 7+.");
             case THRONE:
                 return ModLang.tr("<b>Furnace Nova</b> (DOOMSDAY button): 2 s charge, then a 3.5 s ring of fire that grows to 1400 around the hull and burns everything inside. "
                     + "The titan cannot move, turn or fire while it charges and burns. 75 s cooldown.");
