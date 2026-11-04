@@ -242,6 +242,7 @@ public class ModArt {
                 int dot = f.lastIndexOf('.');
                 s.add(dot > 0 ? f.substring(0, dot) : f);
             }
+            try { s.addAll(ModPoliceGen.virtualNames(s)); } catch (Throwable t) { /* v43: no generated art */ }
             assetNames = s;
         } catch (Throwable t) {
             assetNames = null;
@@ -261,6 +262,7 @@ public class ModArt {
     }
 
     private static boolean assetExists(String name) {
+        if (assetNames == null && name != null && (name.startsWith("pol_") || name.startsWith("wreck_cap_"))) listAssets();   // v43: generated art
         if (assetNames != null) return assetNames.contains(name);
         Boolean b = exists.get(name);
         if (b != null) return b;
@@ -403,6 +405,7 @@ public class ModArt {
     private static Bitmap decodeFull(String name) {
         Context c = appCtx;
         if (c == null) return null;
+        if (name != null && (name.startsWith("pol_") || name.startsWith("wreck_cap_")) && !shipsFile(c, name)) return generated(name);   // v43
         InputStream in = null;
         try {
             in = open(c, name);
@@ -423,6 +426,92 @@ public class ModArt {
             return null;   // missing asset or out of memory
         } finally {
             try { if (in != null) in.close(); } catch (Exception e) { /* ignore */ }
+        }
+    }
+
+    // ------------------------------------------------------------------ v43 generated art (ModPoliceGen)
+    private static boolean shipsFile(Context c, String name) {
+        InputStream in = null;
+        try {
+            in = open(c, name);
+            return true;
+        } catch (Throwable t) {
+            return false;
+        } finally {
+            try { if (in != null) in.close(); } catch (Exception e) { /* ignore */ }
+        }
+    }
+
+    /** Shipped art as unpremultiplied ARGB for ModPoliceGen (exact pixels: wreck deltas rely on it). */
+    private static final ModPoliceGen.Loader GEN_LOADER = new ModPoliceGen.Loader() {
+        @Override
+        public ModPoliceGen.Img load(String name) {
+            Context c = appCtx;
+            if (c == null || name == null) return null;
+            InputStream in = null;
+            try {
+                in = open(c, name);
+                BitmapFactory.Options o = new BitmapFactory.Options();
+                o.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                o.inScaled = false;
+                try { BitmapFactory.Options.class.getField("inPremultiplied").setBoolean(o, false); } catch (Throwable t) { /* API < 19: premultiplied */ }
+                Bitmap b = BitmapFactory.decodeStream(in, null, o);
+                if (b == null) return null;
+                int w = b.getWidth(), h = b.getHeight();
+                int[] px = new int[w * h];
+                b.getPixels(px, 0, w, 0, 0, w, h);
+                boolean opaque = !b.hasAlpha();
+                b.recycle();
+                return new ModPoliceGen.Img(w, h, px, opaque);
+            } catch (Throwable t) {
+                return null;
+            } finally {
+                try { if (in != null) in.close(); } catch (Exception e) { /* ignore */ }
+            }
+        }
+    };
+
+    /** Generated art is cached as PNG per build (GEN_TAG), so only the first use of a hull pays the generation. */
+    static final String GEN_TAG = "g43";
+
+    private static Bitmap generated(String name) {
+        java.io.File f = null;
+        try {
+            Context c = appCtx;
+            java.io.File dir = new java.io.File(c.getCacheDir(), "artgen");
+            f = new java.io.File(dir, name + "_" + GEN_TAG + ".png");
+            if (f.isFile()) {
+                BitmapFactory.Options o = new BitmapFactory.Options();
+                o.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                o.inScaled = false;
+                Bitmap cb = BitmapFactory.decodeFile(f.getPath(), o);
+                if (cb != null) return cb;
+            }
+            long t0 = System.currentTimeMillis();
+            ModPoliceGen.Img im = ModPoliceGen.make(name, GEN_LOADER);
+            if (im == null) return null;
+            Bitmap b = Bitmap.createBitmap(im.px, im.w, im.h, Bitmap.Config.ARGB_8888);
+            long t1 = System.currentTimeMillis();
+            java.io.FileOutputStream out = null;
+            try {
+                dir.mkdirs();
+                java.io.File tmp = new java.io.File(dir, name + ".tmp");
+                out = new java.io.FileOutputStream(tmp);
+                if (b.compress(Bitmap.CompressFormat.PNG, 100, out)) {
+                    out.close();
+                    out = null;
+                    tmp.renameTo(f);
+                }
+            } catch (Throwable t) {
+                // no cache: generated again next launch
+            } finally {
+                try { if (out != null) out.close(); } catch (Exception e) { /* ignore */ }
+            }
+            ModDev.ev("artgen", name + " " + (t1 - t0) + " ms (+" + (System.currentTimeMillis() - t1) + " ms cache)");
+            return b;
+        } catch (Throwable t) {
+            ModDev.ev("artgen", name + " failed " + t);
+            return null;   // out of memory: the caller falls back as for a missing file
         }
     }
 

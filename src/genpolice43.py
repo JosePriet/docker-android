@@ -1,4 +1,6 @@
 # v43: per-faction police accents on top of the v42 white/black livery (owner 2026-11-04 03:14).
+# v43: pol_* no longer ship (ModPoliceGen makes them on the phone). This script stays the reference / preview tool:
+# run it into a scratch copy of work/modart (wreck sources: restore wreck_cap_* from git history first).
 #   python3 -I src/genpolice43.py work/modart src/police42_arts.txt [--preview out.png] [--only art,art]
 # spartan: gold trim kept from the original gold parts. reaver: dark-blood veins running from the core out to the
 # hull edges, plus a blood rim. kretari (High Council): the ORIGINAL colours under a dark violet mask (no exhausts).
