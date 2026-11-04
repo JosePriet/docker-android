@@ -21,6 +21,8 @@ DGREEN = np.array([40, 120, 58.0])
 LGOLD = np.array([255, 228, 150.0])
 AURA = np.array([110, 170, 255.0])
 VIOLET = np.array([70, 30, 110.0])
+BLUEF = np.array([110, 170, 255.0])
+GOLDF = np.array([255, 200, 95.0])
 MGREEN = np.array([64, 90, 48.0])
 
 
@@ -72,28 +74,17 @@ def accent(fac, orig, pol, name):
         k = g.smooth(sat, 0.35, 0.55) * gold * inside
         out = mix(out, GOLD, k * 0.95, 0.45 + 0.75 * (L / 255.0))
     elif fac == 'reaver':
-        ys, xs = np.nonzero(a > 32)
-        cy, cx = ys.mean(), xs.mean()
-        Y, X = np.mgrid[0:h, 0:w].astype(float)
-        dy, dx = Y - cy, X - cx
-        rr = np.hypot(dx, dy)
-        R = np.percentile(rr[a > 32], 99)
-        th = np.arctan2(dy, dx)
-        rng = np.random.RandomState(zlib.crc32(name.encode()) & 0xffff)
-        n = 12
-        v = np.zeros_like(rr)
-        for i in range(n):
-            t0 = (i + rng.uniform(-0.3, 0.3)) * 2 * np.pi / n
-            wob = 0.10 * np.sin(rr / R * rng.uniform(5, 9) + rng.uniform(0, 6.3))
-            d = np.angle(np.exp(1j * (th - t0 - wob)))
-            arc = np.abs(d) * np.maximum(rr, 1)                       # distance from the vein centre line, px
-            wid = (4.0 + 9.0 * (rr / R)) * S                          # veins widen as they flow outwards
-            v = np.maximum(v, g.smooth(-arc, -wid, -wid * 0.35))
-        v *= g.smooth(rr / R, 0.06, 0.30)                             # start at the core
-        rim = band(m, 10 * S)
-        drip = band(m, 26 * S) * np.clip(v * 3, 0, 1)                 # veins pool into the edge
-        k = np.clip(np.maximum(v, np.maximum(rim * 0.95, drip)), 0, 1) * inside
-        out = mix(out, BLOOD, k, 0.55 + 0.7 * (L / 255.0))
+        # owner 03:49: inverted pattern: the original red paint -> dark spots, everything else -> dark blood; blood rim
+        r, gg, b = orig[..., 0], orig[..., 1], orig[..., 2]
+        mx = orig[..., :3].max(-1); mn = orig[..., :3].min(-1)
+        sat = (mx - mn) / np.maximum(mx, 1)
+        red = g.smooth(sat, 0.18, 0.32) * g.smooth(r / np.maximum(np.maximum(gg, b), 1), 1.15, 1.35)
+        t = np.clip(L / 255.0, 0, 1)
+        blood = BLOOD[None, None, :] * (0.12 + 1.35 * t ** 1.2)[..., None]
+        dark = np.array([34, 26, 28.0])[None, None, :] * (0.35 + 1.4 * t)[..., None]
+        out = blood * (1 - red[..., None]) + dark * red[..., None]
+        rim = band(m, 10 * S) * inside
+        out = mix(out, BLOOD * 1.15, rim * 0.9, 0.6 + 0.6 * t)
     elif fac == 'kretari':
         o = orig[..., :3]
         mx = o.max(-1, keepdims=True)
@@ -124,15 +115,35 @@ def accent(fac, orig, pol, name):
         k = band(m, 7 * S) * inside
         out = mix(out, LGOLD, k * 0.65, 0.85 + 0.15 * (L / 255.0))
     res = np.concatenate([np.clip(out, 0, 255), a[..., None]], -1)
-    if fac in ('helion', 'warden'):
-        # soft halo outside the hull: helion a faint gold outline glow, warden a blue aura
-        rad, col, op = (8 * S, LGOLD, 0.45) if fac == 'helion' else (22 * S, AURA, 0.60)
-        hal = np.asarray(m.filter(ImageFilter.MaxFilter(2 * int(max(1, rad * 0.4)) + 1)).filter(ImageFilter.GaussianBlur(rad)), float) / 255.0
-        ha = np.clip(hal * op * 255, 0, 255)
-        ha = np.minimum(ha, 255)
+    if fac in ('helion', 'warden', 'reaver', 'spartan') and not name.endswith('wreck'):
+        Y, X = np.mgrid[0:h, 0:w].astype(float)
+        rng = np.random.RandomState(zlib.crc32(('aura' + name).encode()) & 0xffff)
+        def noise(cx, cy, blur):
+            n = Image.fromarray((rng.rand(cy, cx) * 255).astype(np.uint8), 'L').resize((w, h), Image.BICUBIC)
+            return np.asarray(n.filter(ImageFilter.GaussianBlur(blur)), float) / 255.0
+        def ring(rad):
+            return np.asarray(m.filter(ImageFilter.MaxFilter(2 * int(max(1, rad * 0.4)) + 1))
+                              .filter(ImageFilter.GaussianBlur(rad)), float) / 255.0
+        if fac == 'helion':        # faint gold outline glow
+            ha = ring(8 * S) * 0.45; col = np.broadcast_to(LGOLD, (h, w, 3))
+        elif fac == 'warden':      # soft blue aura
+            ha = ring(22 * S) * 0.60; col = np.broadcast_to(AURA, (h, w, 3))
+        elif fac == 'reaver':      # owner 03:49: blood floating around the ship: blotchy halo + loose droplets
+            near = ring(10 * S); far = ring(24 * S)
+            blot = g.smooth(noise(22, 22, max(h, w) / 22 * 0.3), 0.45, 0.62)
+            drops = g.smooth(noise(70, 70, max(h, w) / 70 * 0.25), 0.70, 0.75) * g.smooth(far, 0.04, 0.2)
+            ha = np.clip(near * (0.18 + 0.42 * blot) + drops * 0.6, 0, 1)
+            col = np.broadcast_to(BLOOD * 0.95, (h, w, 3))
+        else:                      # owner 03:49: thin gold/blue aura like the phoenix flame, less visible
+            near = ring(5 * S); far = ring(13 * S)
+            flick = 0.45 + 0.55 * noise(40, 10, max(h, w) / 40 * 0.3)          # streaks stretched along the hull
+            ha = np.clip(far * 0.40 * flick + near * 0.12, 0, 1)
+            tb = np.clip((near - 0.15) / 0.6, 0, 1)[..., None]                  # blue at the hull, gold outside
+            col = BLUEF[None, None, :] * tb + GOLDF[None, None, :] * (1 - tb)
+        ha = np.clip(ha * 255, 0, 255)
         fa = a / 255.0
         A = a + ha * (1 - fa)                                         # hull over halo
-        C = (res[..., :3] * fa[..., None] + col[None, None, :] * (ha * (1 - fa))[..., None] / 255.0 * 1.0) \
+        C = (res[..., :3] * fa[..., None] + col * (ha * (1 - fa))[..., None] / 255.0) \
             / np.maximum(A[..., None] / 255.0, 1e-6)
         res = np.concatenate([np.clip(C, 0, 255), np.clip(A, 0, 255)[..., None]], -1)
     return res
@@ -173,7 +184,7 @@ def one(art, src, dst, fac):
             if wi is not None:
                 o = np.asarray(wi.convert('RGBA')).astype(float)
                 p = np.asarray(g.hull(wi, council)).astype(float)
-                r = accent(fac if fac not in ('helion', 'warden') else 'none', o, p, src + sf)
+                r = accent(fac if fac not in ('helion', 'warden', 'spartan') else 'none', o, p, src + sf + 'wreck')
                 g.save(Image.fromarray(np.round(r).astype(np.uint8), 'RGBA'), art, 'pol_wreck_cap_' + k + sf)
                 done.append('pol_wreck_cap_' + k + sf)
     return done
