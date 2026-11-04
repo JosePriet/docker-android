@@ -1,0 +1,23 @@
+hull_id,name_en,name_es,flavour_en,flavour_es
+spartan_frigate_1,Sentry,,Protects the supply ships that keep Republic settlements alive.,Protege a los cargueros que sostienen los asentamientos de la República.
+spartan_capital_1,Citadel,,Republic convoys gather behind its armor when the lanes turn hostile.,Los convoyes de la República se refugian tras su blindaje en rutas hostiles.
+reaver_battleship_1,Reckoning,,,
+reaver_capital_1,Dreadbanner,,,
+kretari_frigate_1,Wisp,,,
+kretari_destroyer_1,Broodguard,,,
+kretari_cruiser_1,Pilgrim,,,
+kretari_battleship_1,Carapace,,,
+kretari_capital_1,Chrysalis,,,
+warden_cruiser_1,Outrider,,,
+warden_battlecruiser_1,Lodestar,,,
+warden_battleship_1,Gatekeeper,,,
+warden_capital_1,Haven,,,
+varn_frigate_1,Codicil,,,
+ironclad_frigate_1,Rivet,,,
+ironclad_destroyer_1,Anvil,,,
+ironclad_battlecruiser_1,Rampart,,,
+ironclad_capital_1,Crucible,,,
+helion_cruiser_1,Sundart,,,
+helion_battlecruiser_1,Peregrine,,,
+helion_battleship_1,Daybreak,,,
+helion_capital_1,Solstice,,,
