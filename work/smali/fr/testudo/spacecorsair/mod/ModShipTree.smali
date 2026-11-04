@@ -8690,7 +8690,7 @@
 
     .line 249
     :goto_7
-    if-eqz v0, :cond_1f
+    if-eqz v0, :cond_21
 
     invoke-virtual {p0, v0}, Landroid/widget/ImageView;->setImageBitmap(Landroid/graphics/Bitmap;)V
 
@@ -8710,7 +8710,9 @@
 
     move-result-object v1
 
-    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->art:Ljava/lang/String;
+    invoke-static {p1, v0}, Lfr/testudo/spacecorsair/mod/ModV35;->shownArt(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Ljava/lang/String;
+
+    move-result-object v0
 
     const/16 v2, 0xc0
 
@@ -8721,8 +8723,8 @@
     goto :goto_7
 
     .line 251
-    :cond_1f
-    :try_start_1f
+    :cond_21
+    :try_start_21
     invoke-virtual {p1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getDrawableId()I
 
     move-result v0
@@ -8740,12 +8742,12 @@
     move-result v0
 
     invoke-virtual {p0, v0}, Landroid/widget/ImageView;->setImageResource(I)V
-    :try_end_32
-    .catch Ljava/lang/Exception; {:try_start_1f .. :try_end_32} :catch_33
+    :try_end_34
+    .catch Ljava/lang/Exception; {:try_start_21 .. :try_end_34} :catch_35
 
     goto :goto_c
 
-    :catch_33
+    :catch_35
     move-exception v0
 
     goto :goto_c

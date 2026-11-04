@@ -245,7 +245,7 @@ public final class ModShipTree {
     /** Hull thumbnail (mod art subsampled to ~200 px) or the game's drawable for the original ships. */
     private static void thumb(ImageView iv, SpaceObjectType t) {
         ModShips.Hull h = ModShips.hull(t);
-        Bitmap b = h == null ? null : art(iv.getContext(), h.art, 192);
+        Bitmap b = h == null ? null : art(iv.getContext(), ModV35.shownArt(t, h), 192);   // v44: owned hulls at their refit form
         if (b != null) iv.setImageBitmap(b);
         else {
             try { if (!ModArt.origIcon(iv, t.getDrawableId(), 256)) iv.setImageResource(t.getDrawableId()); } catch (Exception e) { /* no icon */ }

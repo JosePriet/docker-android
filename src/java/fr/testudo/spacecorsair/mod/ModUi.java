@@ -213,7 +213,7 @@ public class ModUi {
                     // v41: refits need the ship docked and My Ship cannot open while docked: the refit panel lives here
                     Button refit = button(activity, "refit");
                     refit.setText(ModLang.tr("Refit"));
-                    refit.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { ModRefitPanel.show(activity); } });
+                    refit.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { ModRefitScreen.show(activity); } });
                     bar.addView(refit, bl);
                 }
                 Button rep = button(activity, "rep");

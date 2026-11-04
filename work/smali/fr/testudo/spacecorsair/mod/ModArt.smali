@@ -4989,7 +4989,7 @@
 
     invoke-static {p0, v0, p2}, Lfr/testudo/spacecorsair/mod/ModArt;->origIcon(Landroid/widget/ImageView;II)Z
     :try_end_11
-    .catch Ljava/lang/Throwable; {:try_start_a .. :try_end_11} :catch_4c
+    .catch Ljava/lang/Throwable; {:try_start_a .. :try_end_11} :catch_4e
 
     .line 845
     :cond_11
@@ -5012,7 +5012,7 @@
     move-result-object v0
 
     .line 836
-    if-nez v0, :cond_43
+    if-nez v0, :cond_45
 
     const/4 v0, 0x0
 
@@ -5046,7 +5046,9 @@
 
     move-result-object v0
 
-    iget-object v1, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->art:Ljava/lang/String;
+    invoke-static {p1, v1}, Lfr/testudo/spacecorsair/mod/ModV35;->shownArt(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-static {v0, v1, p2}, Lfr/testudo/spacecorsair/mod/ModArt;->decode(Landroid/content/Context;Ljava/lang/String;I)Landroid/graphics/Bitmap;
 
@@ -5060,27 +5062,27 @@
     goto :goto_11
 
     .line 842
-    :catch_41
+    :catch_43
     move-exception v0
 
     goto :goto_11
 
     .line 836
-    :cond_43
+    :cond_45
     iget v2, v0, Landroid/view/ViewGroup$LayoutParams;->width:I
 
     iget v0, v0, Landroid/view/ViewGroup$LayoutParams;->height:I
 
     invoke-static {v2, v0}, Ljava/lang/Math;->max(II)I
-    :try_end_4a
-    .catch Ljava/lang/Throwable; {:try_start_18 .. :try_end_4a} :catch_41
+    :try_end_4c
+    .catch Ljava/lang/Throwable; {:try_start_18 .. :try_end_4c} :catch_43
 
     move-result v0
 
     goto :goto_1f
 
     .line 828
-    :catch_4c
+    :catch_4e
     move-exception v0
 
     goto :goto_11

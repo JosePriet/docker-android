@@ -837,7 +837,7 @@ public class ModArt {
                 if (side <= 0) side = (int) (180 * iv.getResources().getDisplayMetrics().density);
                 px = side * 2;
             }
-            Bitmap b = decode(iv.getContext(), h.art, px);
+            Bitmap b = decode(iv.getContext(), ModV35.shownArt(t, h), px);   // v44: the hull's current refit form
             if (b != null) iv.setImageBitmap(b);
         } catch (Throwable e) {
             // keep the fallback icon

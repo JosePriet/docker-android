@@ -502,6 +502,23 @@ public class ModV35 {
         return d;
     }
 
+    /** v44: art name of a mod hull at refit stage s (the base art at stage 0 or when no stage file ships). */
+    public static String stageArt(ModShips.Hull h, int s) {
+        if (h == null) return null;
+        if (s <= 0) return h.art;
+        String n = h.art + "_stage" + s;
+        return art(n) ? n : h.art;
+    }
+
+    /** v44 (owner 13:57): the ship screens show the hull at its current refit form. */
+    public static String shownArt(SpaceObjectType t, ModShips.Hull h) {
+        try {
+            return stageArt(h, stage(level(t)));
+        } catch (Throwable e) {
+            return h == null ? null : h.art;
+        }
+    }
+
     /** Player hull at refit stage s: <art>_stage<s> when that file ships (Mod.frame). */
     public static Drawable playerArt(PlayerShip ps) {
         try {

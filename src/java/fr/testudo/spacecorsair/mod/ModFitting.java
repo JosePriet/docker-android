@@ -906,9 +906,7 @@ public final class ModFitting {
                     Button rb = button(c, ModLang.tr("REFIT"), Color.WHITE);
                     rb.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
-                            String msg = ModV35.buy();
-                            ModDev.ev("refitbtn", String.valueOf(msg));
-                            if (msg != null) android.widget.Toast.makeText(act, msg, android.widget.Toast.LENGTH_SHORT).show();
+                            ModRefitScreen.show(act);   // v44: the retrofit bay screen (buys there, docked only)
                         }
                     });
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1091,7 +1089,7 @@ public final class ModFitting {
             if (t != null && !e) {
                 try {
                     ModShips.Hull hh = slot == HULL ? ModShips.hull(t) : null;
-                    if (hh != null && shipArt != null && hh.art.equals(shipKey)) {
+                    if (hh != null && shipArt != null && ModV35.shownArt(t, hh).equals(shipKey)) {
                         icon.setImageBitmap(shipArt);   // decoded once for the ring (RingView.setShip runs first)
                     } else if (slot == HULL) {
                         icon.setImageResource(t.getDrawableId());
@@ -1165,9 +1163,10 @@ public final class ModFitting {
             shipBitmap = null;
             shipDrawable = null;
             if (h != null) {
-                if (!h.art.equals(shipKey)) {
-                    shipKey = h.art;
-                    shipArt = ModArt.decode(c, h.art, 512);
+                String sa = ModV35.shownArt(t, h);   // v44: current refit form
+                if (!sa.equals(shipKey)) {
+                    shipKey = sa;
+                    shipArt = ModArt.decode(c, sa, 512);
                 }
                 shipBitmap = shipArt;
             }

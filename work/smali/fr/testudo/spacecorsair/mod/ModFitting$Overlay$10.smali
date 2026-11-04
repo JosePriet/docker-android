@@ -37,39 +37,16 @@
 
 # virtual methods
 .method public onClick(Landroid/view/View;)V
-    .registers 5
+    .registers 3
 
     .prologue
     .line 909
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->buy()Ljava/lang/String;
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
-    move-result-object v0
+    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen;->show(Landroid/app/Activity;)V
 
     .line 910
-    const-string v1, "refitbtn"
-
-    invoke-static {v0}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-static {v1, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 911
-    if-eqz v0, :cond_1b
-
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
-
-    iget-object v1, v1, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
-
-    const/4 v2, 0x0
-
-    invoke-static {v1, v0, v2}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Landroid/widget/Toast;->show()V
-
-    .line 912
-    :cond_1b
     return-void
 .end method
