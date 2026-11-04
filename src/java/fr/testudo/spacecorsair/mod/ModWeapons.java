@@ -354,7 +354,9 @@ public final class ModWeapons {
                         if (e == target || e.removed) continue;
                         if (e.position.distance(target.position) < 180) e.applyDamage(b.damage * 0.5f, b.sender, b);
                     }
-                    if (!mine && ps != null && target != ps && ps.position.distance(target.position) < 220) ps.applyDamage(b.damage * 0.5f, b.sender, b);
+                    if (!mine && ps != null && target != ps && ps.position.distance(target.position) < 220
+                        && !(b.sender instanceof fr.testudo.spacecorsair.business.world.station.Station && !ModStationGuns.playerWanted()))   // v44: station splash spares a peaceful player
+                        ps.applyDamage(b.damage * 0.5f, b.sender, b);
                     ModFx.part("fx_core", target.position.x, target.position.y, 0, 0, 260, 40, 260, 1.0f, 0.75f, 0.4f, 1.0f, true, true);
                     ModFx.part("fx_shock", target.position.x, target.position.y, 0, 0, 380, 40, 380, 1.0f, 0.55f, 0.2f, 0.8f, true, true);
                     for (int i = 0; i < 4; i++) {
