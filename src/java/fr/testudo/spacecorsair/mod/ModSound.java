@@ -171,18 +171,35 @@ public final class ModSound {
             // goes to 1.0 (+8 dB); an effects bar never moved (1.0) goes to SFX_DEFAULT (-3 dB). Bars the player moved are kept.
             if (!sp.getBoolean("bal42", false)) {
                 if (sfx >= 0.99f) sfx = SFX_DEFAULT;
-                try {
-                    fr.testudo.spacecorsair.game.Config cf = ObjectRegistry.INSTANCE.config;
-                    if (cf != null && Math.abs(cf.musicVolums - 0.4f) < 0.01f) {
-                        cf.musicVolums = MUSIC_DEFAULT;
-                        try { ObjectRegistry.INSTANCE.storageManager.saveConfig(); } catch (Throwable t) { }
-                    }
-                } catch (Throwable t) { }
                 sp.edit().putFloat("sfx", sfx).putBoolean("bal42", true).commit();
-                ModDev.ev("audio", "bal42 music=" + MUSIC_DEFAULT + " sfx=" + sfx);
+                ModDev.ev("audio", "bal42 sfx=" + sfx);
             }
+            migrateMusic(c);
             sfxLoaded = true;
         } catch (Throwable t) { /* keep 1 */ }
+    }
+
+    private static boolean musDone;
+
+    /**
+     * v43 (verify-2): the music half of the one-time rebalance, flag "mus42". Runs once the game config exists (from
+     * loadSfx and again from every musicResume), so an install whose config was not loaded yet at mod init is not skipped.
+     */
+    private static void migrateMusic(Context c) {
+        if (musDone || c == null) return;
+        try {
+            android.content.SharedPreferences sp = c.getApplicationContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+            if (sp.getBoolean("mus42", false)) { musDone = true; return; }
+            fr.testudo.spacecorsair.game.Config cf = ObjectRegistry.INSTANCE == null ? null : ObjectRegistry.INSTANCE.config;
+            if (cf == null) return;                               // not loaded yet: retried later
+            if (Math.abs(cf.musicVolums - 0.4f) < 0.01f) {
+                cf.musicVolums = MUSIC_DEFAULT;
+                try { ObjectRegistry.INSTANCE.storageManager.saveConfig(); } catch (Throwable t) { }
+            }
+            sp.edit().putBoolean("mus42", true).commit();
+            musDone = true;
+            ModDev.ev("audio", "mus42 music=" + cf.musicVolums);
+        } catch (Throwable t) { /* retried later */ }
     }
 
     private static float clamp01(float v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
@@ -198,6 +215,7 @@ public final class ModSound {
     /** MusicManager.resumeMusic (hooks36): re-apply the music bar before start, so a change in settings is heard on return. */
     public static void musicResume(MediaPlayer mp) {
         try {
+            migrateMusic(ctx);
             float v = ObjectRegistry.INSTANCE.config.musicVolums;
             mp.setVolume(v, v);
         } catch (Throwable t) { /* stock start follows */ }

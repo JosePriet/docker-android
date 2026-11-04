@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 248
+    .line 266
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModSound$2;->val$r:Landroid/view/View;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 5
 
     .prologue
-    .line 249
+    .line 267
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModSound$2;->val$r:Landroid/view/View;
 
     if-eqz p2, :cond_9

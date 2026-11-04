@@ -45,6 +45,8 @@
 
 .field private static loopStream:I
 
+.field private static musDone:Z
+
 .field private static volatile pool:Landroid/media/SoundPool;
 
 .field private static sfx:F
@@ -351,7 +353,7 @@
 
     const/4 v0, 0x0
 
-    .line 188
+    .line 205
     cmpg-float v2, p0, v0
 
     if-gez v2, :cond_9
@@ -751,7 +753,7 @@
 .end method
 
 .method private static loadSfx(Landroid/content/Context;)V
-    .registers 5
+    .registers 4
 
     .prologue
     .line 166
@@ -761,7 +763,7 @@
 
     if-nez p0, :cond_7
 
-    .line 186
+    .line 180
     :cond_6
     :goto_6
     return-void
@@ -805,7 +807,7 @@
 
     move-result v1
 
-    if-nez v1, :cond_8a
+    if-nez v1, :cond_68
 
     .line 173
     sget v1, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
@@ -819,56 +821,9 @@
     const v1, 0x3f333333    # 0.7f
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
-    :try_end_38
-    .catch Ljava/lang/Throwable; {:try_start_7 .. :try_end_38} :catch_8f
 
-    .line 175
+    .line 174
     :cond_38
-    :try_start_38
-    sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
-    iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->config:Lfr/testudo/spacecorsair/game/Config;
-
-    .line 176
-    if-eqz v1, :cond_5a
-
-    iget v2, v1, Lfr/testudo/spacecorsair/game/Config;->musicVolums:F
-
-    const v3, 0x3ecccccd    # 0.4f
-
-    sub-float/2addr v2, v3
-
-    invoke-static {v2}, Ljava/lang/Math;->abs(F)F
-
-    move-result v2
-
-    const v3, 0x3c23d70a    # 0.01f
-
-    cmpg-float v2, v2, v3
-
-    if-gez v2, :cond_5a
-
-    .line 177
-    const/high16 v2, 0x3f800000    # 1.0f
-
-    iput v2, v1, Lfr/testudo/spacecorsair/game/Config;->musicVolums:F
-    :try_end_53
-    .catch Ljava/lang/Throwable; {:try_start_38 .. :try_end_53} :catch_92
-
-    .line 178
-    :try_start_53
-    sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
-    iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->storageManager:Lfr/testudo/spacecorsair/storage/StorageManager;
-
-    invoke-virtual {v1}, Lfr/testudo/spacecorsair/storage/StorageManager;->saveConfig()V
-    :try_end_5a
-    .catch Ljava/lang/Throwable; {:try_start_53 .. :try_end_5a} :catch_94
-
-    .line 181
-    :cond_5a
-    :goto_5a
-    :try_start_5a
     invoke-interface {v0}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
     move-result-object v0
@@ -891,14 +846,14 @@
 
     invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->commit()Z
 
-    .line 182
+    .line 175
     const-string v0, "audio"
 
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v2, "bal42 music=1.0 sfx="
+    const-string v2, "bal42 sfx="
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -916,61 +871,224 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 184
-    :cond_8a
+    .line 177
+    :cond_68
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModSound;->migrateMusic(Landroid/content/Context;)V
+
+    .line 178
     const/4 v0, 0x1
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModSound;->sfxLoaded:Z
-    :try_end_8d
-    .catch Ljava/lang/Throwable; {:try_start_5a .. :try_end_8d} :catch_8f
+    :try_end_6e
+    .catch Ljava/lang/Throwable; {:try_start_7 .. :try_end_6e} :catch_6f
 
-    goto/16 :goto_6
+    goto :goto_6
 
-    .line 185
-    :catch_8f
+    .line 179
+    :catch_6f
     move-exception v0
 
-    goto/16 :goto_6
+    goto :goto_6
+.end method
 
-    .line 180
-    :catch_92
-    move-exception v1
+.method private static migrateMusic(Landroid/content/Context;)V
+    .registers 5
 
-    goto :goto_5a
+    .prologue
+    .line 189
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSound;->musDone:Z
 
-    .line 178
-    :catch_94
-    move-exception v1
+    if-nez v0, :cond_6
 
-    goto :goto_5a
+    if-nez p0, :cond_7
+
+    .line 203
+    :cond_6
+    :goto_6
+    return-void
+
+    .line 191
+    :cond_7
+    :try_start_7
+    invoke-virtual {p0}, Landroid/content/Context;->getApplicationContext()Landroid/content/Context;
+
+    move-result-object v0
+
+    const-string v1, "corsair_audio"
+
+    const/4 v2, 0x0
+
+    invoke-virtual {v0, v1, v2}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object v1
+
+    .line 192
+    const-string v0, "mus42"
+
+    const/4 v2, 0x0
+
+    invoke-interface {v1, v0, v2}, Landroid/content/SharedPreferences;->getBoolean(Ljava/lang/String;Z)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_21
+
+    const/4 v0, 0x1
+
+    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModSound;->musDone:Z
+
+    goto :goto_6
+
+    .line 202
+    :catch_1f
+    move-exception v0
+
+    goto :goto_6
+
+    .line 193
+    :cond_21
+    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+
+    if-nez v0, :cond_70
+
+    const/4 v0, 0x0
+
+    .line 194
+    :goto_26
+    if-eqz v0, :cond_6
+
+    .line 195
+    iget v2, v0, Lfr/testudo/spacecorsair/game/Config;->musicVolums:F
+
+    const v3, 0x3ecccccd    # 0.4f
+
+    sub-float/2addr v2, v3
+
+    invoke-static {v2}, Ljava/lang/Math;->abs(F)F
+
+    move-result v2
+
+    const v3, 0x3c23d70a    # 0.01f
+
+    cmpg-float v2, v2, v3
+
+    if-gez v2, :cond_44
+
+    .line 196
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    iput v2, v0, Lfr/testudo/spacecorsair/game/Config;->musicVolums:F
+    :try_end_3d
+    .catch Ljava/lang/Throwable; {:try_start_7 .. :try_end_3d} :catch_1f
+
+    .line 197
+    :try_start_3d
+    sget-object v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+
+    iget-object v2, v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->storageManager:Lfr/testudo/spacecorsair/storage/StorageManager;
+
+    invoke-virtual {v2}, Lfr/testudo/spacecorsair/storage/StorageManager;->saveConfig()V
+    :try_end_44
+    .catch Ljava/lang/Throwable; {:try_start_3d .. :try_end_44} :catch_75
+
+    .line 199
+    :cond_44
+    :goto_44
+    :try_start_44
+    invoke-interface {v1}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
+
+    move-result-object v1
+
+    const-string v2, "mus42"
+
+    const/4 v3, 0x1
+
+    invoke-interface {v1, v2, v3}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
+
+    move-result-object v1
+
+    invoke-interface {v1}, Landroid/content/SharedPreferences$Editor;->commit()Z
+
+    .line 200
+    const/4 v1, 0x1
+
+    sput-boolean v1, Lfr/testudo/spacecorsair/mod/ModSound;->musDone:Z
+
+    .line 201
+    const-string v1, "audio"
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "mus42 music="
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    iget v0, v0, Lfr/testudo/spacecorsair/game/Config;->musicVolums:F
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(F)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+
+    goto :goto_6
+
+    .line 193
+    :cond_70
+    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+
+    iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->config:Lfr/testudo/spacecorsair/game/Config;
+    :try_end_74
+    .catch Ljava/lang/Throwable; {:try_start_44 .. :try_end_74} :catch_1f
+
+    goto :goto_26
+
+    .line 197
+    :catch_75
+    move-exception v2
+
+    goto :goto_44
 .end method
 
 .method public static musicResume(Landroid/media/MediaPlayer;)V
     .registers 2
 
     .prologue
-    .line 201
+    .line 218
     :try_start_0
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModSound;->ctx:Landroid/content/Context;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSound;->migrateMusic(Landroid/content/Context;)V
+
+    .line 219
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->config:Lfr/testudo/spacecorsair/game/Config;
 
     iget v0, v0, Lfr/testudo/spacecorsair/game/Config;->musicVolums:F
 
-    .line 202
+    .line 220
     invoke-virtual {p0, v0, v0}, Landroid/media/MediaPlayer;->setVolume(FF)V
-    :try_end_9
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_9} :catch_a
+    :try_end_e
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_e} :catch_f
 
-    .line 204
-    :goto_9
+    .line 222
+    :goto_e
     return-void
 
-    .line 203
-    :catch_a
+    .line 221
+    :catch_f
     move-exception v0
 
-    goto :goto_9
+    goto :goto_e
 .end method
 
 .method public static play(Ljava/lang/String;FFJ)I
@@ -1318,11 +1436,11 @@
     .prologue
     const/4 v2, 0x0
 
-    .line 212
+    .line 230
     :try_start_1
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModSound;->loadSfx(Landroid/content/Context;)V
 
-    .line 213
+    .line 231
     if-eqz p1, :cond_12
 
     if-eqz p2, :cond_12
@@ -1337,12 +1455,12 @@
 
     if-nez v0, :cond_13
 
-    .line 254
+    .line 272
     :cond_12
     :goto_12
     return-void
 
-    .line 214
+    .line 232
     :cond_13
     invoke-virtual {p1}, Landroid/widget/CheckBox;->getParent()Landroid/view/ViewParent;
 
@@ -1350,7 +1468,7 @@
 
     check-cast v0, Landroid/view/ViewGroup;
 
-    .line 215
+    .line 233
     const-string v1, "v36_sfx"
 
     invoke-virtual {v0, v1}, Landroid/view/ViewGroup;->findViewWithTag(Ljava/lang/Object;)Landroid/view/View;
@@ -1359,22 +1477,22 @@
 
     if-nez v1, :cond_12
 
-    .line 216
+    .line 234
     new-instance v3, Landroid/widget/LinearLayout;
 
     invoke-direct {v3, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 217
+    .line 235
     const-string v1, "v36_sfx"
 
     invoke-virtual {v3, v1}, Landroid/widget/LinearLayout;->setTag(Ljava/lang/Object;)V
 
-    .line 218
+    .line 236
     const/4 v1, 0x0
 
     invoke-virtual {v3, v1}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 219
+    .line 237
     new-instance v4, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-virtual {p2}, Landroid/view/View;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
@@ -1387,7 +1505,7 @@
 
     invoke-virtual {v3, v4}, Landroid/widget/LinearLayout;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 220
+    .line 238
     check-cast p2, Landroid/view/ViewGroup;
 
     const/4 v1, 0x0
@@ -1396,19 +1514,19 @@
 
     move-result-object v1
 
-    .line 221
+    .line 239
     instance-of v4, v1, Landroid/widget/TextView;
 
     if-eqz v4, :cond_88
 
-    .line 222
+    .line 240
     check-cast v1, Landroid/widget/TextView;
 
     new-instance v4, Landroid/widget/TextView;
 
     invoke-direct {v4, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    .line 223
+    .line 241
     const-string v5, "MUSIC"
 
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1417,7 +1535,7 @@
 
     invoke-virtual {v1, v5}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 224
+    .line 242
     const-string v5, "EFFECTS"
 
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1426,7 +1544,7 @@
 
     invoke-virtual {v4, v5}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 225
+    .line 243
     const/4 v5, 0x0
 
     invoke-virtual {v1}, Landroid/widget/TextView;->getTextSize()F
@@ -1435,21 +1553,21 @@
 
     invoke-virtual {v4, v5, v6}, Landroid/widget/TextView;->setTextSize(IF)V
 
-    .line 226
+    .line 244
     invoke-virtual {v1}, Landroid/widget/TextView;->getTextColors()Landroid/content/res/ColorStateList;
 
     move-result-object v5
 
     invoke-virtual {v4, v5}, Landroid/widget/TextView;->setTextColor(Landroid/content/res/ColorStateList;)V
 
-    .line 227
+    .line 245
     invoke-virtual {v1}, Landroid/widget/TextView;->getTypeface()Landroid/graphics/Typeface;
 
     move-result-object v5
 
     invoke-virtual {v4, v5}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
 
-    .line 228
+    .line 246
     new-instance v5, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-virtual {v1}, Landroid/widget/TextView;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
@@ -1462,16 +1580,16 @@
 
     invoke-virtual {v4, v5}, Landroid/widget/TextView;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 229
+    .line 247
     invoke-virtual {v3, v4}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 231
+    .line 249
     :cond_88
     new-instance v4, Landroid/widget/SeekBar;
 
     invoke-direct {v4, p0}, Landroid/widget/SeekBar;-><init>(Landroid/content/Context;)V
 
-    .line 232
+    .line 250
     new-instance v5, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-virtual {p3}, Landroid/widget/SeekBar;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
@@ -1484,12 +1602,12 @@
 
     invoke-virtual {v4, v5}, Landroid/widget/SeekBar;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 233
+    .line 251
     const/16 v1, 0xa
 
     invoke-virtual {v4, v1}, Landroid/widget/SeekBar;->setMax(I)V
 
-    .line 234
+    .line 252
     sget v1, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
 
     const/high16 v5, 0x41200000    # 10.0f
@@ -1502,17 +1620,17 @@
 
     invoke-virtual {v4, v1}, Landroid/widget/SeekBar;->setProgress(I)V
 
-    .line 235
+    .line 253
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModSound$1;
 
     invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModSound$1;-><init>(Landroid/app/Activity;)V
 
     invoke-virtual {v4, v1}, Landroid/widget/SeekBar;->setOnSeekBarChangeListener(Landroid/widget/SeekBar$OnSeekBarChangeListener;)V
 
-    .line 244
+    .line 262
     invoke-virtual {v3, v4}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 245
+    .line 263
     invoke-virtual {v0, p1}, Landroid/view/ViewGroup;->indexOfChild(Landroid/view/View;)I
 
     move-result v1
@@ -1521,7 +1639,7 @@
 
     invoke-virtual {v0, v3, v1}, Landroid/view/ViewGroup;->addView(Landroid/view/View;I)V
 
-    .line 247
+    .line 265
     invoke-virtual {p1}, Landroid/widget/CheckBox;->isChecked()Z
 
     move-result v0
@@ -1533,7 +1651,7 @@
     :goto_c7
     invoke-virtual {v3, v0}, Landroid/view/View;->setVisibility(I)V
 
-    .line 248
+    .line 266
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModSound$2;
 
     invoke-direct {v0, v3}, Lfr/testudo/spacecorsair/mod/ModSound$2;-><init>(Landroid/view/View;)V
@@ -1544,13 +1662,13 @@
 
     goto/16 :goto_12
 
-    .line 251
+    .line 269
     :catch_d4
     move-exception v0
 
     goto/16 :goto_12
 
-    .line 247
+    .line 265
     :cond_d7
     const/16 v0, 0x8
 
@@ -1561,7 +1679,7 @@
     .registers 3
 
     .prologue
-    .line 192
+    .line 209
     sget v0, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
 
     const/4 v1, 0x0
@@ -1602,7 +1720,7 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 193
+    .line 210
     :cond_28
     sget v0, Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
 
