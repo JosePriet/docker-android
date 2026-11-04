@@ -21,6 +21,7 @@ DGREEN = np.array([40, 120, 58.0])
 LGOLD = np.array([255, 228, 150.0])
 AURA = np.array([110, 170, 255.0])
 VIOLET = np.array([70, 30, 110.0])
+MGREEN = np.array([64, 90, 48.0])
 
 
 def roster():
@@ -99,13 +100,26 @@ def accent(fac, orig, pol, name):
         o = o * np.minimum(1.0, 150.0 / np.maximum(mx, 1))            # bright nozzles flattened: no propulsion
         out = o * 0.50 + VIOLET[None, None, :] * 0.30 * (L[..., None] / 255.0 + 0.15)
     elif fac == 'varn':
-        k = band(m, 3.5 * S) * inside
-        out = mix(out, CYAN, k * 0.95, 0.8 + 0.2 * (L / 255.0))
+        # owner 03:38: plain white/black, mostly black (~70/30): threshold at the 70th luminance percentile
+        mx = orig[..., :3].max(-1); mn = orig[..., :3].min(-1)
+        paint = g.smooth((mx - mn) / np.maximum(mx, 1), 0.12, 0.30)
+        thr = float(np.percentile(L[a > 32], 70)) if (a > 32).any() else 128.0
+        white = 255.0 * (L / 255.0) ** 0.5
+        black = 0.30 * L + 8
+        tw = g.smooth(L, thr - 18, thr + 18) * (1 - 0.5 * paint)
+        v = tw * white + (1 - tw) * black
+        out = np.repeat(v[..., None], 3, -1)
     elif fac == 'ironclad':
-        outer = band(m, 10 * S)
-        inner = np.clip(band(m, 22 * S) - outer, 0, 1)
-        out = mix(out, DGREEN, inner * 0.90 * inside, 0.75 + 0.5 * (L / 255.0))
-        out = mix(out, DGOLD, outer * inside, 0.8 + 0.5 * (L / 255.0))
+        # owner 03:38: military police: dark green hull with black camo blotches (light bar added in game)
+        lo, hi = np.percentile(L[a > 32], [3, 97]) if (a > 32).any() else (0, 255)
+        v = 0.10 + 1.30 * np.clip((L - lo) / max(hi - lo, 1), 0, 1) ** 1.15
+        out = np.clip(MGREEN[None, None, :] * v[..., None], 0, 255)
+        rng = np.random.RandomState(zlib.crc32(name.encode()) & 0xffff)
+        cells = 18
+        nz = Image.fromarray((rng.rand(cells, cells) * 255).astype(np.uint8), 'L').resize((w, h), Image.BICUBIC)
+        nz = np.asarray(nz.filter(ImageFilter.GaussianBlur(max(h, w) / cells * 0.35)), float) / 255.0
+        spot = g.smooth(nz, 0.60, 0.64) * inside
+        out = mix(out, np.array([18, 20, 16.0]), spot * 0.80, 0.5 + 1.0 * (L / 255.0))
     elif fac == 'helion':
         k = band(m, 7 * S) * inside
         out = mix(out, LGOLD, k * 0.65, 0.85 + 0.15 * (L / 255.0))
