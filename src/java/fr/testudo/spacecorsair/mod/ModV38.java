@@ -17,16 +17,18 @@ public final class ModV38 {
     static final String[] ARTS = {"mantis", "verdant", "leviathan", "bastion", "monolith"};
     /** [art][stage 0..5] = pads x,y in 1024 px; null = the ModHardpoints default of the hull. */
     static final int[][][] PADS = {
+        // v44 (owner 2026-11-04 14:18): the last two forms each unlock a turret. 3-turret hulls: 2 side turrets to form III,
+        // the front one from form IV. Leviathan: 4 to form III, 5 at form IV (rear centre pad), 6 at form V.
         {   // mantis (new base 2026-10-24, pads fixed across stages)
-            {511, 359, 373, 546, 650, 546}, {511, 359, 373, 546, 650, 546}, {511, 359, 373, 546, 650, 546},
-            {511, 359, 373, 546, 650, 546}, {511, 359, 373, 546, 650, 546}, {511, 359, 373, 546, 650, 546}},
+            {373, 546, 650, 546}, {373, 546, 650, 546}, {373, 546, 650, 546},
+            {373, 546, 650, 546}, {511, 359, 373, 546, 650, 546}, {511, 359, 373, 546, 650, 546}},
         {   // verdant
-            {511, 280, 318, 529, 704, 529}, {511, 280, 318, 529, 704, 529}, {511, 280, 318, 529, 704, 529},
-            {511, 260, 318, 529, 704, 529}, {512, 305, 362, 496, 661, 496}, {512, 305, 362, 496, 661, 496}},
+            {318, 529, 704, 529}, {318, 529, 704, 529}, {318, 529, 704, 529},
+            {318, 529, 704, 529}, {512, 305, 362, 496, 661, 496}, {512, 305, 362, 496, 661, 496}},
         {   // leviathan
-            null, null, null,
-            {409, 386, 613, 386, 396, 530, 626, 530, 405, 670, 617, 670},
-            {401, 335, 620, 335, 402, 505, 621, 505, 402, 644, 621, 644},
+            {405, 379, 617, 379, 404, 527, 618, 527}, {405, 379, 617, 379, 404, 527, 618, 527}, {405, 379, 617, 379, 404, 527, 618, 527},
+            {409, 386, 613, 386, 396, 530, 626, 530},
+            {401, 335, 620, 335, 402, 505, 621, 505, 511, 644},
             {375, 448, 647, 448, 375, 576, 647, 576, 375, 702, 647, 702}},
         {   // bastion: 1 turret to stage 3, 2 from stage 4
             null, {560, 263}, {560, 263}, {560, 263},
@@ -53,6 +55,32 @@ public final class ModV38 {
             v[i] = new Vector2(((p[2 * i] + 0.5f) / 1024f - 0.5f) * h.size, ((p[2 * i + 1] + 0.5f) / 1024f - 0.5f) * h.size);
         }
         return v;
+    }
+
+    /** v44: turrets of a hull at each form 0..5 (null when the hull keeps one count). */
+    public static int[] turretPlan(ModShips.Hull h) {
+        int a = h == null ? -1 : artIndex(h.art);
+        if (a < 0) return null;
+        int[] n = new int[6];
+        int def = h.spec == null ? 0 : (DEFAULTS.containsKey(h.spec) ? DEFAULTS.get(h.spec).length : h.spec.canonCount);
+        for (int s = 0; s <= 5; s++) n[s] = PADS[a][s] == null ? def : PADS[a][s].length / 2;
+        return n;
+    }
+
+    /** v44: "4 (5 at form IV, 6 at form V)" for the ship texts; the plain count for hulls without form turrets. */
+    public static String turretText(ModShips.Hull h, int fallback) {
+        int[] n = turretPlan(h);
+        if (n == null) return String.valueOf(fallback);
+        StringBuilder b = new StringBuilder().append(n[0]);
+        String sep = " (";
+        String[] rn = {"", "I", "II", "III", "IV", "V"};
+        for (int s = 1; s <= 5; s++) {
+            if (n[s] == n[s - 1]) continue;
+            b.append(sep).append(n[s]).append(' ').append(ModLang.tr("at form")).append(' ').append(rn[s]);
+            sep = ", ";
+        }
+        if (!" (".equals(sep)) b.append(')');
+        return b.toString();
     }
 
     private static final java.util.HashMap<PlayerShipSpec, Vector2[]> DEFAULTS = new java.util.HashMap<PlayerShipSpec, Vector2[]>();

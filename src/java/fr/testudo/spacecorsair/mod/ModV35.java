@@ -30,12 +30,12 @@ import java.util.WeakHashMap;
 public class ModV35 {
     // ------------------------------------------------------------------ refits (req 1)
     public static final int REFIT_MAX = 10, STAGES = 5;
-    public static final float PICK_STEP = 0.03f, TRAIT_STEP = 0.02f, COST_STEP = 0.08f;
+    public static final float PICK_STEP = 0.03f, TRAIT_STEP = 0.02f, COST_STEP = 0.02f;   // v44 (owner 14:19): refits cost 25% of before (full refit = 1.1x hull price)
 
     public static final int S_DMG = 0, S_RELOAD = 1, S_SHCAP = 2, S_SHREGEN = 3, S_MISSILE = 4, S_CARGO = 5, S_REPAIR = 6, S_HULL = 7, S_SPEED = 8, S_AGILITY = 9;
     static final String[] STAT_EN = {"Laser damage", "Laser reload", "Shield capacity", "Shield regeneration", "Missile reload", "Cargo hold", "Hull repair", "Hull points", "Speed", "Agility"};
 
-    /** Credits for refit level n (1-10): 8% x n of the hull price [P]. */
+    /** Credits for refit level n (1-10): 2% x n of the hull price (v44; was 8%). */
     public static int cost(int n, int hullPrice) {
         return Math.round(COST_STEP * n * hullPrice);
     }

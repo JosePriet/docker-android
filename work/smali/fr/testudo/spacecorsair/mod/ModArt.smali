@@ -543,7 +543,7 @@
     goto :goto_3
 .end method
 
-.method private static assetExists(Ljava/lang/String;)Z
+.method static assetExists(Ljava/lang/String;)Z
     .registers 4
 
     .prologue

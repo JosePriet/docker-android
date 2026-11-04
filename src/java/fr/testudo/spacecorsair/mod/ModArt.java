@@ -261,7 +261,7 @@ public class ModArt {
         return assetNames == null || assetExists(name);
     }
 
-    private static boolean assetExists(String name) {
+    static boolean assetExists(String name) {
         if (assetNames == null && name != null && (name.startsWith("pol_") || name.startsWith("wreck_cap_"))) listAssets();   // v43: generated art
         if (assetNames != null) return assetNames.contains(name);
         Boolean b = exists.get(name);

@@ -8605,7 +8605,7 @@
 
     move-result v0
 
-    if-nez v0, :cond_158
+    if-nez v0, :cond_15c
 
     :cond_66
     const-string v0, "Neutral"
@@ -8656,7 +8656,7 @@
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     .line 638
-    if-eqz v0, :cond_131
+    if-eqz v0, :cond_135
 
     .line 639
     const-string v2, "<br>"
@@ -8786,7 +8786,11 @@
 
     iget v3, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonCount:I
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-static {p0, v3}, Lfr/testudo/spacecorsair/mod/ModV38;->turretText(Lfr/testudo/spacecorsair/mod/ModShips$Hull;I)Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
@@ -8817,7 +8821,7 @@
     invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     .line 644
-    :cond_131
+    :cond_135
     const-string v0, "<br>"
 
     invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8862,7 +8866,7 @@
     return-object v0
 
     .line 635
-    :cond_158
+    :cond_15c
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;

@@ -66,6 +66,7 @@ public final class ModRefitScreen {
         String[] rf;
         Bitmap cur, old, next;            // current form, the form being replaced (anim), next form preview
         String curArt, nextArt;
+        Bitmap emblem, crest;             // v44 b (owner 14:19): faction emblem behind the hull, hull crest (crest_<art>, GPT art) in the bay
         int nextAt;                       // refit level of the next form, 0 = none
         // animation
         long animStart, animMs;
@@ -96,6 +97,11 @@ public final class ModRefitScreen {
             name = ModShips.label(ship);
             if (name == null) { try { name = ship.getLocalizedLabel(); } catch (Throwable e) { name = ""; } }
             int lv = level();
+            if (emblem == null) {
+                String fk = ModShips.factionKey(hull);
+                emblem = bitmap(fk.length() > 0 ? "emblem_" + fk : "emblem_independent");
+                if (hull != null && ModArt.assetExists("crest_" + hull.art)) crest = bitmap("crest_" + hull.art);
+            }
             String ca = hull == null ? null : ModV35.stageArt(hull, ModV35.stage(lv));
             if (ca == null || !ca.equals(curArt)) {
                 curArt = ca;
@@ -232,6 +238,34 @@ public final class ModRefitScreen {
             c.drawLine(r.left + m, r.bottom - m, r.left + m + L, r.bottom - m, p); c.drawLine(r.left + m, r.bottom - m, r.left + m, r.bottom - m - L, p);
             c.drawLine(r.right - m, r.bottom - m, r.right - m - L, r.bottom - m, p); c.drawLine(r.right - m, r.bottom - m, r.right - m, r.bottom - m - L, p);
             p.setStyle(Paint.Style.FILL);
+            // the faction emblem behind the hull and the hull's crest in the bay corner, slowly breathing
+            float br = 0.5f + 0.5f * (float) Math.sin((now - born) / 1800.0);
+            if (crest != null) {
+                float cs = r.height() * 0.42f;
+                p.setAlpha((int) (28 + 14 * br));
+                c.drawBitmap(crest, null, new RectF(r.left + 18 * dp, r.top + 18 * dp, r.left + 18 * dp + cs, r.top + 18 * dp + cs), p);
+                p.setAlpha(255);
+            }
+            if (emblem != null) {
+                float es = Math.min(r.width(), r.height()) * 0.78f;
+                RectF ed = new RectF(r.centerX() - es / 2, r.centerY() - es / 2, r.centerX() + es / 2, r.centerY() + es / 2);
+                c.save();
+                c.rotate((now - born) / 400f % 360, r.centerX(), r.centerY());   // a slow ring turn
+                p.setStyle(Paint.Style.STROKE);
+                p.setStrokeWidth(1.5f * dp);
+                p.setColor(0x306AD0FF);
+                c.drawCircle(r.centerX(), r.centerY(), es * 0.56f, p);
+                for (int i = 0; i < 24; i++) {
+                    double a = i * Math.PI / 12;
+                    float r1 = es * 0.56f, r2 = es * (i % 3 == 0 ? 0.6f : 0.58f);
+                    c.drawLine(r.centerX() + (float) Math.cos(a) * r1, r.centerY() + (float) Math.sin(a) * r1, r.centerX() + (float) Math.cos(a) * r2, r.centerY() + (float) Math.sin(a) * r2, p);
+                }
+                p.setStyle(Paint.Style.FILL);
+                c.restore();
+                p.setAlpha((int) (34 + 18 * br));
+                c.drawBitmap(emblem, null, ed, p);
+                p.setAlpha(255);
+            }
             if (cur == null) return;
 
             float t = animating() ? (now - animStart) / (float) animMs : -1;
@@ -422,112 +456,274 @@ public final class ModRefitScreen {
             p.setAlpha(255);
         }
 
+        // ------------------------------------------------------------------ right side (v44 b: owner 14:18 "more gimmicky")
+        int accent() {
+            try {
+                String k = ModShips.factionKey(hull);
+                for (ModCapitals.Faction f : ModCapitals.FACTIONS) if (f.key.equals(k)) return Color.rgb((int) (f.r * 255), (int) (f.g * 255), (int) (f.b * 255));
+            } catch (Throwable e) { /* neutral */ }
+            return CYAN;
+        }
+
+        /** A card: cut top-left corner, header strip with an accent tab and hatching, title in spaced caps. Returns the body top. */
+        float card(Canvas c, RectF b, String title, int acc) {
+            float cut = 10 * dp, hh = 18 * dp;
+            android.graphics.Path pa = new android.graphics.Path();
+            pa.moveTo(b.left + cut, b.top); pa.lineTo(b.right, b.top); pa.lineTo(b.right, b.bottom); pa.lineTo(b.left, b.bottom); pa.lineTo(b.left, b.top + cut); pa.close();
+            p.setStyle(Paint.Style.FILL);
+            p.setColor(0xE00B1A2E);
+            c.drawPath(pa, p);
+            c.save();
+            c.clipPath(pa);
+            p.setColor(0xFF10233A);
+            c.drawRect(b.left, b.top, b.right, b.top + hh, p);
+            p.setColor(0x146AD0FF);
+            p.setStrokeWidth(1);
+            for (float x = b.right - 70 * dp; x < b.right; x += 6 * dp) c.drawLine(x, b.top + hh, x + hh, b.top, p);
+            c.restore();
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(1.2f * dp);
+            p.setColor(EDGE);
+            c.drawPath(pa, p);
+            p.setStyle(Paint.Style.FILL);
+            p.setColor(acc);
+            c.drawRect(b.left + cut + 2 * dp, b.top + 5 * dp, b.left + cut + 6 * dp, b.top + hh - 5 * dp, p);
+            tp.setTextSize(9.5f * dp);
+            tp.setColor(acc);
+            c.drawText(title, b.left + cut + 11 * dp, b.top + hh - 5.5f * dp, tp);
+            return b.top + hh + 6 * dp;
+        }
+
         void drawInfo(Canvas c, RectF r, long now) {
             p.setShader(null);
             p.setColor(PANEL);
             c.drawRect(r, p);
+            // faint hex lattice behind the cards
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(1);
+            p.setColor(0x0E6AD0FF);
+            float hx = 22 * dp;
+            for (float yy = r.top; yy < r.bottom + hx; yy += hx * 0.866f) {
+                int row = (int) ((yy - r.top) / (hx * 0.866f));
+                for (float xx = r.left + (row % 2) * hx / 2; xx < r.right + hx; xx += hx) c.drawCircle(xx, yy, hx * 0.45f, p);
+            }
+            p.setStyle(Paint.Style.FILL);
             p.setColor(EDGE);
             c.drawRect(r.left, r.top, r.left + 2 * dp, r.bottom, p);
             if (rf == null) return;
-            float x = r.left + 20 * dp, y = r.top + 34 * dp, w = r.width() - 40 * dp;
+            int acc = accent();
+            float pad = 14 * dp, x = r.left + pad, w = r.width() - 2 * pad, y = r.top + pad;
             int n = Integer.parseInt(rf[0]), st = Integer.parseInt(rf[1]);
             boolean max = rf[2].length() == 0;
 
-            text(c, ModLang.tr("RETROFIT BAY"), x, y, 20, CYAN);
-            y += 24 * dp;
-            text(c, name == null ? "" : name, x, y, 15, WHITE);
-            y += 26 * dp;
-
-            // refit level: 10 segments
-            text(c, ModLang.tr("Refit level") + "  " + n + " / " + ModV35.REFIT_MAX, x, y, 12, TEXT);
-            y += 8 * dp;
-            float gap = 3 * dp, segW = (w - gap * (ModV35.REFIT_MAX - 1)) / ModV35.REFIT_MAX;
-            boolean blink = ((now / 450) & 1) == 0;
-            for (int i = 0; i < ModV35.REFIT_MAX; i++) {
-                float sx = x + i * (segW + gap);
-                p.setColor(i < n ? GOLD : i == n && !max && blink ? 0x806AD0FF : 0xFF1B2A3C);
-                c.drawRect(sx, y, sx + segW, y + 10 * dp, p);
-                if (i % 2 == 1) { p.setColor(0x60FFFFFF); c.drawRect(sx + segW - 2 * dp, y, sx + segW, y + 10 * dp, p); }   // a form every 2 levels
+            // header plate: emblem, bay title, hull name
+            RectF hb = new RectF(x, y, x + w, y + 46 * dp);
+            p.setShader(new LinearGradient(hb.left, 0, hb.right, 0, (acc & 0x00FFFFFF) | 0x50000000, 0x100B1A2E, Shader.TileMode.CLAMP));
+            c.drawRect(hb, p);
+            p.setShader(null);
+            p.setColor(acc);
+            c.drawRect(hb.left, hb.top, hb.left + 3 * dp, hb.bottom, p);
+            float ex = hb.left + 10 * dp;
+            if (emblem != null) {
+                float es = 38 * dp;
+                c.drawBitmap(emblem, null, new RectF(ex, hb.centerY() - es / 2, ex + es, hb.centerY() + es / 2), p);
+                ex += es + 8 * dp;
             }
-            y += 32 * dp;
+            text(c, ModLang.tr("RETROFIT BAY"), ex, hb.top + 16 * dp, 9, acc);
+            text(c, name == null ? "" : name.toUpperCase(), ex, hb.top + 37 * dp, 17, WHITE);
+            y = hb.bottom + 10 * dp;
 
-            // forms I..V
-            text(c, ModLang.tr("Form"), x, y, 12, TEXT);
-            y += 8 * dp;
-            float pw = w / ModV35.STAGES;
-            for (int s = 1; s <= ModV35.STAGES; s++) {
-                float cx = x + pw * (s - 0.5f), cy = y + 14 * dp;
-                p.setStyle(s <= st ? Paint.Style.FILL : Paint.Style.STROKE);
-                p.setStrokeWidth(2 * dp);
-                p.setColor(s <= st ? GOLD : s == st + 1 ? CYAN : EDGE);
-                Rect rr = new Rect((int) (cx - 13 * dp), (int) (cy - 13 * dp), (int) (cx + 13 * dp), (int) (cy + 13 * dp));
+            // progress to ELITE: chevron track, form waypoints every 2 levels, ELITE cap
+            text(c, ModLang.tr("PROGRESS TO ELITE"), x, y + 9 * dp, 9, DIM);
+            String pr = n + " / " + ModV35.REFIT_MAX;
+            tp.setTextSize(11 * dp);
+            c.drawText(pr, x + w - 58 * dp - tp.measureText(pr), y + 9 * dp, tp);
+            y += 16 * dp;
+            float capW = 52 * dp, tw = w - capW - 6 * dp, th = 14 * dp;
+            float seg = tw / ModV35.REFIT_MAX;
+            for (int i = 0; i < ModV35.REFIT_MAX; i++) {
+                float sx = x + i * seg;
+                android.graphics.Path ch = new android.graphics.Path();
+                ch.moveTo(sx, y); ch.lineTo(sx + seg - 3 * dp, y); ch.lineTo(sx + seg + 2 * dp, y + th / 2); ch.lineTo(sx + seg - 3 * dp, y + th);
+                ch.lineTo(sx, y + th); ch.lineTo(sx + 5 * dp, y + th / 2); ch.close();
+                boolean on = i < n, nx = i == n && !max;
+                p.setColor(on ? GOLD : nx && ((now / 450) & 1) == 0 ? 0xA06AD0FF : 0xFF1B2A3C);
+                c.drawPath(ch, p);
+            }
+            if (n > 0) {   // sheen running along the filled part
+                float fx = x + seg * n, u = ((now - born) % 2200) / 2200f;
+                float sx = x + (fx - x) * u;
+                c.save();
+                c.clipRect(x, y, fx, y + th);
+                p.setShader(new LinearGradient(sx - 30 * dp, 0, sx + 30 * dp, 0, new int[] {0x00FFFFFF, 0x90FFFFFF, 0x00FFFFFF}, null, Shader.TileMode.CLAMP));
+                c.drawRect(x, y, fx, y + th, p);
+                p.setShader(null);
+                c.restore();
+            }
+            for (int s = 1; s <= ModV35.STAGES; s++) {   // waypoint diamonds under the track
+                float cx = x + seg * (2 * s) - seg / 2, cy = y + th + 12 * dp;
                 c.save();
                 c.rotate(45, cx, cy);
-                c.drawRect(rr, p);
+                p.setStyle(s <= st ? Paint.Style.FILL : Paint.Style.STROKE);
+                p.setStrokeWidth(1.5f * dp);
+                p.setColor(s <= st ? GOLD : s == st + 1 ? CYAN : EDGE);
+                c.drawRect(cx - 7 * dp, cy - 7 * dp, cx + 7 * dp, cy + 7 * dp, p);
                 c.restore();
                 p.setStyle(Paint.Style.FILL);
-                tp.setTextSize(11 * dp);
+                tp.setTextSize(8 * dp);
                 tp.setColor(s <= st ? BG : TEXT);
-                String rn = ROMAN[s];
-                c.drawText(rn, cx - tp.measureText(rn) / 2, cy + 4 * dp, tp);
-                tp.setTextSize(9 * dp);
-                tp.setColor(DIM);
-                String lv = (2 * s - 1) + "-" + (2 * s);
-                c.drawText(lv, cx - tp.measureText(lv) / 2, cy + 28 * dp, tp);
+                c.drawText(ROMAN[s], cx - tp.measureText(ROMAN[s]) / 2, cy + 3 * dp, tp);
             }
-            y += 52 * dp;
+            RectF cap = new RectF(x + w - capW, y - 4 * dp, x + w, y + th + 4 * dp);   // ELITE badge
+            float glow = max ? 0.6f + 0.4f * (float) Math.sin((now - born) / 400.0) : 0;
+            if (max) {
+                p.setColor(GOLD);
+                p.setAlpha((int) (90 * glow));
+                c.drawRoundRect(grow(cap, 1.25f), 6 * dp, 6 * dp, p);
+                p.setAlpha(255);
+            }
+            p.setColor(max ? GOLD : 0xFF1B2A3C);
+            c.drawRoundRect(cap, 4 * dp, 4 * dp, p);
+            p.setStyle(Paint.Style.STROKE);
+            p.setColor(max ? WHITE : GOLD);
+            p.setStrokeWidth(1.2f * dp);
+            c.drawRoundRect(cap, 4 * dp, 4 * dp, p);
+            p.setStyle(Paint.Style.FILL);
+            tp.setTextSize(10 * dp);
+            tp.setColor(max ? BG : GOLD);
+            String el = ModLang.tr("ELITE");
+            c.drawText(el, cap.centerX() - tp.measureText(el) / 2, cap.centerY() + 3.5f * dp, tp);
+            y += th + 30 * dp;
 
-            // gains per level
-            y = para(c, ModLang.tr("Each level: ") + rf[5], x, y, w, 11, TEXT) + 6 * dp;
-            text(c, ModLang.tr("Rare parts") + ": " + rf[4] + "     " + rf[6] + ": " + rf[7], x, y, 11, DIM);
-            y += 16 * dp;
+            // cards: per level | turrets, then materials | next form
+            float gap = 8 * dp, cw = (w - gap) / 2;
+            float bh = 42 * dp, by = r.bottom - bh - pad;
+            float rowH = (by - 24 * dp - y - gap) / 2;
+            RectF c1 = new RectF(x, y, x + cw, y + rowH), c2 = new RectF(x + cw + gap, y, x + w, y + rowH);
+            RectF c3 = new RectF(x, y + rowH + gap, x + cw, y + 2 * rowH + gap), c4 = new RectF(x + cw + gap, y + rowH + gap, x + w, y + 2 * rowH + gap);
 
-            // next form preview
-            float box = Math.min(84 * dp, r.bottom - y - 80 * dp);
-            if (box > 40 * dp) {
-                RectF b = new RectF(x, y, x + box, y + box);
-                p.setColor(0xFF0B1A2E);
-                c.drawRect(b, p);
-                p.setStyle(Paint.Style.STROKE);
+            float yy = card(c, c1, ModLang.tr("EACH LEVEL"), acc);
+            for (String g : rf[5].split(", ")) {
+                if (yy > c1.bottom - 8 * dp) break;
+                String gs = g.trim();
+                int plus = gs.lastIndexOf(" +");
+                String stat = plus > 0 ? gs.substring(0, plus) : gs, val = plus > 0 ? gs.substring(plus + 1) : "";
+                boolean fac = val.contains("(");
+                if (fac) val = val.substring(0, val.indexOf(' ') > 0 ? val.indexOf(' ') : val.length());
+                RectF chip = new RectF(c1.left + 8 * dp, yy, c1.left + 44 * dp, yy + 14 * dp);
+                p.setColor(fac ? acc : 0xFF1F4A2A);
+                c.drawRoundRect(chip, 3 * dp, 3 * dp, p);
+                tp.setTextSize(9 * dp);
+                tp.setColor(fac ? BG : 0xFF8CFF8C);
+                c.drawText(val, chip.centerX() - tp.measureText(val) / 2, chip.bottom - 3.5f * dp, tp);
+                tp.setTextSize(10 * dp);
+                tp.setColor(fac ? acc : TEXT);
+                String sl = android.text.TextUtils.ellipsize(stat, tp, c1.right - chip.right - 14 * dp, android.text.TextUtils.TruncateAt.END).toString();
+                c.drawText(sl, chip.right + 6 * dp, chip.bottom - 3 * dp, tp);
+                yy += 18 * dp;
+            }
+
+            yy = card(c, c2, ModLang.tr("TURRETS"), acc);
+            int[] plan = ModV38.turretPlan(hull);
+            int nowT = plan != null ? plan[Math.min(5, st)] : guns();
+            int maxT = plan != null ? plan[5] : nowT;
+            float tr = Math.min(9 * dp, (c2.width() - 16 * dp) / Math.max(1, maxT) / 2 - 2 * dp);
+            for (int i = 0; i < maxT; i++) {
+                float cx = c2.left + 8 * dp + tr + i * (tr * 2 + 4 * dp), cy = yy + tr + 2 * dp;
+                boolean on = i < nowT;
+                p.setStyle(on ? Paint.Style.FILL : Paint.Style.STROKE);
                 p.setStrokeWidth(1.5f * dp);
-                p.setColor(EDGE);
-                c.drawRect(b, p);
+                p.setColor(on ? CYAN : DIM);
+                c.drawCircle(cx, cy, tr, p);
                 p.setStyle(Paint.Style.FILL);
-                String cap;
+                if (on) { p.setColor(BG); c.drawCircle(cx, cy, tr * 0.4f, p); }
+                else { p.setColor(DIM); c.drawRect(cx - tr * 0.35f, cy - tr * 0.05f, cx + tr * 0.35f, cy + tr * 0.45f, p); }   // lock
+            }
+            yy += tr * 2 + 14 * dp;
+            text(c, nowT + " / " + maxT + " " + ModLang.tr("active"), c2.left + 8 * dp, yy, 11, WHITE);
+            yy += 14 * dp;
+            if (plan != null && nowT < maxT) {
+                for (int s = st + 1; s <= 5; s++) {
+                    if (plan[s] > plan[s - 1] && yy < c2.bottom - 4 * dp) {
+                        text(c, "+" + (plan[s] - plan[s - 1]) + " " + ModLang.tr("at form") + " " + ROMAN[s], c2.left + 8 * dp, yy, 9, CYAN);
+                        yy += 12 * dp;
+                    }
+                }
+            } else if (yy < c2.bottom - 4 * dp) text(c, ModLang.tr("All turret slots unlocked"), c2.left + 8 * dp, yy, 9, GOLD);
+
+            yy = card(c, c3, ModLang.tr("MATERIALS"), acc);
+            long credits = 0;
+            try { credits = fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.getCredit(); } catch (Throwable e) { /* unknown */ }
+            NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
+            long needCr = max ? 0 : Long.parseLong(rf[2]);
+            int needP = Integer.parseInt(rf[3]), haveP = Integer.parseInt(rf[4]), needC = !max && n + 1 == ModV35.REFIT_MAX ? 1 : 0, haveC = Integer.parseInt(rf[7]);
+            yy = matRow(c, c3, yy, "cr", nf.format(credits), max ? "-" : nf.format(needCr), credits >= needCr, GOLD);
+            yy = matRow(c, c3, yy, "⬡", String.valueOf(haveP), needP > 0 ? String.valueOf(needP) : "-", haveP >= needP, CYAN);
+            if (yy < c3.bottom - 6 * dp) matRow(c, c3, yy, "◆", haveC + "  " + rf[6], needC > 0 ? "1" : "-", haveC >= needC, acc);
+
+            yy = card(c, c4, ModLang.tr("NEXT FORM"), acc);
+            float box = Math.min(c4.height() - (yy - c4.top) - 6 * dp, c4.width() * 0.45f);
+            if (box > 20 * dp) {
+                RectF b = new RectF(c4.left + 8 * dp, yy, c4.left + 8 * dp + box, yy + box);
+                p.setColor(0xFF07101C);
+                c.drawRect(b, p);
+                p.setColor(0x206AD0FF);   // holo scan lines
+                for (float sy = b.top; sy < b.bottom; sy += 3 * dp) c.drawRect(b.left, sy, b.right, sy + 1, p);
+                String cap2;
+                int col = DIM;
                 if (next != null) {
-                    float k = Math.min(box * 0.88f / next.getWidth(), box * 0.88f / next.getHeight());
+                    float k = Math.min(box * 0.9f / next.getWidth(), box * 0.9f / next.getHeight());
                     float nw = next.getWidth() * k, nh = next.getHeight() * k;
                     RectF nd = new RectF(b.centerX() - nw / 2, b.centerY() - nh / 2, b.centerX() + nw / 2, b.centerY() + nh / 2);
                     drawTinted(c, next, grow(nd, 1.06f), CYAN, (int) (90 + 60 * Math.sin(now / 500.0)));
                     drawTinted(c, next, nd, 0xFF14324A, 255);
-                    cap = ModLang.tr("Next form at refit ") + nextAt;
+                    cap2 = ModLang.tr("Form") + " " + ROMAN[Math.min(5, (nextAt + 1) / 2)] + "\n" + ModLang.tr("at refit") + " " + nextAt;
+                    col = CYAN;
                 } else if (st >= ModV35.STAGES || (hull != null && ModV35.stageArt(hull, ModV35.STAGES) != hull.art)) {
-                    cap = ModLang.tr("Final form reached");
+                    cap2 = ModLang.tr("Final form reached");
+                    col = GOLD;
                 } else {
-                    cap = ModLang.tr("This hull keeps its shape (no new form art yet)");
+                    cap2 = ModLang.tr("This hull keeps its shape (no new form art yet)");
                 }
-                para(c, cap, b.right + 12 * dp, b.top + 16 * dp, w - box - 12 * dp, 11, next != null ? CYAN : DIM);
-                y += box + 12 * dp;
+                para(c, cap2, b.right + 8 * dp, b.top + 11 * dp, c4.right - b.right - 14 * dp, 10, col);
             }
 
-            // cost + buttons
-            float bh = 44 * dp, by = r.bottom - bh - 18 * dp;
-            String cost;
-            if (max) cost = ModLang.tr("This hull is fully refitted.");
-            else {
-                cost = NumberFormat.getNumberInstance(Locale.getDefault()).format(Long.parseLong(rf[2])) + " cr";
-                if (!"0".equals(rf[3])) cost += " + " + rf[3] + " " + ModLang.tr("parts");
-                if (n + 1 == ModV35.REFIT_MAX) cost += " + 1 " + rf[6];
-                cost = ModLang.tr("Next level") + ": " + cost;
-            }
-            if (status != null && now < statusUntil) para(c, status, x, by - 30 * dp, w, 11, RED);
-            else text(c, cost, x, by - 14 * dp, 12, max ? GOLD : WHITE);
-            float half = (w - 12 * dp) / 2;
+            // status / buttons
+            if (status != null && now < statusUntil) para(c, status, x, by - 8 * dp, w, 10, RED);
+            float half = (w - gap) / 2;
             closeBtn.set(x, by, x + half, by + bh);
-            refitBtn.set(x + half + 12 * dp, by, x + w, by + bh);
+            refitBtn.set(x + half + gap, by, x + w, by + bh);
             button(c, closeBtn, ModLang.tr("Close"), EDGE, TEXT);
             boolean can = !max && !animating();
-            button(c, refitBtn, animating() ? ModLang.tr("Refitting...") : ModLang.tr("REFIT"), can ? GOLD : 0xFF3A4656, can ? BG : DIM);
+            button(c, refitBtn, max ? ModLang.tr("ELITE") : animating() ? ModLang.tr("Refitting...") : ModLang.tr("REFIT"), can ? GOLD : 0xFF3A4656, can ? BG : DIM);
+        }
+
+        int guns() {
+            try {
+                return hull != null && hull.spec != null ? hull.spec.canonCount : 2;
+            } catch (Throwable e) {
+                return 2;
+            }
+        }
+
+        /** Materials row: icon, what you have, what the next level needs (green when enough, red when short). */
+        float matRow(Canvas c, RectF b, float y, String icon, String have, String need, boolean ok, int col) {
+            tp.setTextSize(11 * dp);
+            tp.setColor(col);
+            c.drawText(icon, b.left + 8 * dp, y + 10 * dp, tp);
+            float nw = 0;
+            if (!"-".equals(need)) {   // what the next level takes, right-aligned; the stock left of it, cut to fit
+                tp.setTextSize(10 * dp);
+                tp.setColor(ok ? 0xFF8CFF8C : RED);
+                String nd = "-" + need;
+                nw = tp.measureText(nd) + 8 * dp;
+                c.drawText(nd, b.right - 8 * dp - tp.measureText(nd), y + 10 * dp, tp);
+                tp.setTextSize(11 * dp);
+            }
+            tp.setColor(WHITE);
+            CharSequence h = android.text.TextUtils.ellipsize(have, tp, Math.max(10 * dp, b.width() - 36 * dp - nw), android.text.TextUtils.TruncateAt.END);
+            c.drawText(h.toString(), b.left + 28 * dp, y + 10 * dp, tp);
+            return y + 17 * dp;
         }
 
         void text(Canvas c, String s, float x, float y, int sp, int color) {
@@ -548,9 +744,12 @@ public final class ModRefitScreen {
         }
 
         void button(Canvas c, RectF b, String s, int fill, int ink) {
+            float cut = 10 * dp;
+            android.graphics.Path pa = new android.graphics.Path();
+            pa.moveTo(b.left + cut, b.top); pa.lineTo(b.right, b.top); pa.lineTo(b.right - cut, b.bottom); pa.lineTo(b.left, b.bottom); pa.close();
             p.setColor(fill);
-            c.drawRoundRect(b, 6 * dp, 6 * dp, p);
-            tp.setTextSize(15 * dp);
+            c.drawPath(pa, p);
+            tp.setTextSize(14 * dp);
             tp.setColor(ink);
             c.drawText(s, b.centerX() - tp.measureText(s) / 2, b.centerY() + 5 * dp, tp);
         }

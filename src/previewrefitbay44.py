@@ -31,6 +31,8 @@ def tint(img, col, a):
 
 
 old, new = load(S0), load(S0 + 1)
+EMB = Image.open(os.path.join(MOD, "emblem_spartan.webp")).convert("RGBA")
+CREST = Image.open(sys.argv[5]).convert("RGBA") if len(sys.argv) > 5 else None
 nxt = load(min(5, S0 + 2)) if S0 + 2 <= 5 else None
 BAY = (0, 0, int(W * 0.56), H)
 
@@ -41,58 +43,126 @@ def fit(img):
     return img.resize((w, h), Image.LANCZOS), ((BAY[2] - w) // 2, (H - h) // 2)
 
 
+def card(d, b, title, acc):
+    cut, hh = 10 * DP, 18 * DP
+    poly = [(b[0] + cut, b[1]), (b[2], b[1]), (b[2], b[3]), (b[0], b[3]), (b[0], b[1] + cut)]
+    d.polygon(poly, fill=(11, 26, 46))
+    d.rectangle([b[0] + cut, b[1], b[2], b[1] + hh], fill=(16, 35, 58))
+    for xx in range(int(b[2] - 70 * DP), int(b[2]), int(6 * DP)):
+        d.line([xx, b[1] + hh, min(b[2], xx + hh), b[1]], fill=(22, 50, 70))
+    d.polygon(poly, outline=EDGE)
+    d.rectangle([b[0] + cut + 2 * DP, b[1] + 5 * DP, b[0] + cut + 6 * DP, b[1] + hh - 5 * DP], fill=acc)
+    d.text((b[0] + cut + 11 * DP, b[1] + 3 * DP), " ".join(title), font=font(8.5 * DP), fill=acc)
+    return b[1] + hh + 6 * DP
+
+
 def panel(d, lv, st, now, busy):
+    acc = (128, 204, 255)
     x0 = int(W * 0.56)
     d.rectangle([x0, 0, W, H], fill=(10, 22, 38))
+    hx = 22 * DP
+    yy, row = 0, 0
+    while yy < H + hx:
+        xx = x0 + (row % 2) * hx / 2
+        while xx < W + hx:
+            d.ellipse([xx - hx * .45, yy - hx * .45, xx + hx * .45, yy + hx * .45], outline=(16, 32, 50)); xx += hx
+        yy += hx * .866; row += 1
     d.rectangle([x0, 0, x0 + 3, H], fill=EDGE)
-    x, y, w = x0 + 32, 50, W - x0 - 64
-    d.text((x, y - 28), "RETROFIT BAY", font=font(20 * DP), fill=CYAN)
-    d.text((x, y + 8), ART.replace("_", " ").title(), font=font(15 * DP), fill=(255, 255, 255))
-    y += 50
-    d.text((x, y), f"Refit level  {lv} / 10", font=font(12 * DP), fill=TEXT)
-    y += 26
-    gap, sw = 5, (w - 5 * 9) / 10
+    pad = 14 * DP
+    x, w, y = x0 + pad, W - x0 - 2 * pad, pad
+    hb = (x, y, x + w, y + 46 * DP)
+    for i in range(int(w)):
+        a = 1 - i / w
+        d.line([x + i, hb[1], x + i, hb[3]], fill=(int(11 + (acc[0] - 11) * .31 * a), int(26 + (acc[1] - 26) * .31 * a), int(46 + (acc[2] - 46) * .31 * a)))
+    d.rectangle([x, hb[1], x + 3 * DP, hb[3]], fill=acc)
+    es = 38 * DP
+    if EMB is not None:
+        e = EMB.resize((int(es), int(es)), Image.LANCZOS); im.alpha_composite(e, (int(x + 10 * DP), int(hb[1] + 4 * DP)))
+    ex = x + 10 * DP + es + 8 * DP
+    d.text((ex, hb[1] + 6 * DP), "R E T R O F I T   B A Y", font=font(8 * DP), fill=acc)
+    d.text((ex, hb[1] + 20 * DP), ART.upper(), font=font(17 * DP), fill=(255, 255, 255))
+    y = hb[3] + 10 * DP
+    d.text((x, y), "P R O G R E S S   T O   E L I T E", font=font(8 * DP), fill=DIM)
+    d.text((x + w - 58 * DP - 40, y), f"{lv} / 10", font=font(10 * DP), fill=DIM)
+    y += 16 * DP
+    capW, th = 52 * DP, 14 * DP
+    tw = w - capW - 6 * DP
+    seg = tw / 10
     for i in range(10):
-        sx = x + i * (sw + gap)
+        sx = x + i * seg
         col = GOLD if i < lv else ((53, 104, 128) if i == lv and (now // 450) % 2 == 0 else (27, 42, 60))
-        d.rectangle([sx, y, sx + sw, y + 16], fill=col)
-    y += 46
-    d.text((x, y), "Form", font=font(12 * DP), fill=TEXT)
-    y += 34
-    pw = w / 5
+        d.polygon([(sx, y), (sx + seg - 3 * DP, y), (sx + seg + 2 * DP, y + th / 2), (sx + seg - 3 * DP, y + th), (sx, y + th), (sx + 5 * DP, y + th / 2)], fill=col)
     for s in range(1, 6):
-        cx, cy, r = x + pw * (s - 0.5), y, 20
+        cx, cy, r = x + seg * 2 * s - seg / 2, y + th + 12 * DP, 9.5 * DP
         pts = [(cx, cy - r), (cx + r, cy), (cx, cy + r), (cx - r, cy)]
         if s <= st: d.polygon(pts, fill=GOLD)
-        else: d.polygon(pts, outline=CYAN if s == st + 1 else EDGE, width=3)
+        else: d.polygon(pts, outline=CYAN if s == st + 1 else EDGE, width=2)
         rn = ["", "I", "II", "III", "IV", "V"][s]
+        f = font(8 * DP)
+        d.text((cx - d.textlength(rn, font=f) / 2, cy - 7), rn, font=f, fill=BG if s <= st else TEXT)
+    cap = (x + w - capW, y - 4 * DP, x + w, y + th + 4 * DP)
+    d.rounded_rectangle(cap, 6, fill=(27, 42, 60), outline=GOLD, width=2)
+    f = font(10 * DP)
+    d.text(((cap[0] + cap[2]) / 2 - d.textlength("ELITE", font=f) / 2, cap[1] + 7), "ELITE", font=f, fill=GOLD)
+    y += th + 30 * DP
+    gap = 8 * DP
+    cw = (w - gap) / 2
+    bh = 42 * DP
+    by = H - bh - pad
+    rh = (by - 24 * DP - y - gap) / 2
+    c1, c2 = (x, y, x + cw, y + rh), (x + cw + gap, y, x + w, y + rh)
+    c3, c4 = (x, y + rh + gap, x + cw, y + 2 * rh + gap), (x + cw + gap, y + rh + gap, x + w, y + 2 * rh + gap)
+    yy = card(d, c1, "EACH LEVEL", acc)
+    for val, stat, fac in (("+3%", "Shield capacity", False), ("+3%", "Hull points", False), ("+2%", "Shield capacity", True)):
+        d.rounded_rectangle([c1[0] + 8 * DP, yy, c1[0] + 44 * DP, yy + 14 * DP], 4, fill=acc if fac else (31, 74, 42))
+        f = font(9 * DP)
+        d.text((c1[0] + 26 * DP - d.textlength(val, font=f) / 2, yy + 2), val, font=f, fill=BG if fac else (140, 255, 140))
+        d.text((c1[0] + 50 * DP, yy + 1), stat, font=font(10 * DP), fill=acc if fac else TEXT)
+        yy += 18 * DP
+    yy = card(d, c2, "TURRETS", acc)
+    plan = [4, 4, 4, 4, 5, 6]
+    nt, mt, tr = plan[min(5, st)], 6, 9 * DP
+    for i in range(mt):
+        cx, cy = c2[0] + 8 * DP + tr + i * (tr * 2 + 4 * DP), yy + tr + 2 * DP
+        if i < nt:
+            d.ellipse([cx - tr, cy - tr, cx + tr, cy + tr], fill=CYAN); d.ellipse([cx - tr * .4, cy - tr * .4, cx + tr * .4, cy + tr * .4], fill=BG)
+        else:
+            d.ellipse([cx - tr, cy - tr, cx + tr, cy + tr], outline=DIM, width=2); d.rectangle([cx - tr * .35, cy, cx + tr * .35, cy + tr * .45], fill=DIM)
+    yy += tr * 2 + 6 * DP
+    d.text((c2[0] + 8 * DP, yy), f"{nt} / {mt} active", font=font(11 * DP), fill=(255, 255, 255))
+    yy += 16 * DP
+    for s in range(st + 1, 6):
+        if plan[s] > plan[s - 1]:
+            d.text((c2[0] + 8 * DP, yy), f"+{plan[s]-plan[s-1]} at form {['','I','II','III','IV','V'][s]}", font=font(9 * DP), fill=CYAN); yy += 12 * DP
+    yy = card(d, c3, "MATERIALS", acc)
+    for ic, have, need, ok, col in (("cr", "964,40...", "-770,000", True, GOLD), ("⬡", "12", "", True, CYAN), ("◆", "1  Spartan core", "", True, acc)):
         f = font(11 * DP)
-        d.text((cx - d.textlength(rn, font=f) / 2, cy - 9), rn, font=f, fill=BG if s <= st else TEXT)
-        lt = f"{2*s-1}-{2*s}"
-        f2 = font(9 * DP)
-        d.text((cx - d.textlength(lt, font=f2) / 2, cy + 26), lt, font=f2, fill=DIM)
-    y += 60
-    d.text((x, y), "Each level: Shield capacity +3%, Hull points +3%,", font=font(11 * DP), fill=TEXT)
-    d.text((x, y + 22), "Shield capacity +2% (faction)", font=font(11 * DP), fill=TEXT)
-    d.text((x, y + 50), "Rare parts: 12     Spartan core: 1", font=font(11 * DP), fill=DIM)
-    y += 84
-    box = 120
-    d.rectangle([x, y, x + box, y + box], fill=(11, 26, 46), outline=EDGE, width=2)
+        d.text((c3[0] + 8 * DP, yy), ic, font=f, fill=col)
+        d.text((c3[0] + 28 * DP, yy), have, font=f, fill=(255, 255, 255))
+        if need: d.text((c3[2] - 8 * DP - d.textlength(need, font=font(10 * DP)), yy + 1), need, font=font(10 * DP), fill=(140, 255, 140))
+        yy += 17 * DP
+    yy = card(d, c4, "NEXT FORM", acc)
+    box = min(c4[3] - yy - 6 * DP, (c4[2] - c4[0]) * .45)
+    b = (c4[0] + 8 * DP, yy, c4[0] + 8 * DP + box, yy + box)
+    d.rectangle(b, fill=(7, 16, 28))
+    sy = b[1]
+    while sy < b[3]:
+        d.line([b[0], sy, b[2], sy], fill=(14, 40, 58)); sy += 3 * DP
     if nxt is not None and st < 5:
-        k = min(box * 0.88 / nxt.width, box * 0.88 / nxt.height)
-        s = nxt.resize((int(nxt.width * k), int(nxt.height * k)), Image.LANCZOS)
-        halo = tint(s, CYAN, 140).filter(ImageFilter.GaussianBlur(3))
-        im.alpha_composite(halo, (int(x + (box - s.width) / 2), int(y + (box - s.height) / 2)))
-        im.alpha_composite(tint(s, (20, 50, 74), 255), (int(x + (box - s.width) / 2), int(y + (box - s.height) / 2)))
-        d.text((x + box + 18, y + 10), f"Next form at refit {2*(st+1)+1}", font=font(11 * DP), fill=CYAN)
-    bh, by = 70, H - 70 - 28
-    d.text((x, by - 34), "Next level: 2,184,000 cr + 1 parts", font=font(12 * DP), fill=(255, 255, 255))
-    half = (w - 18) / 2
-    d.rounded_rectangle([x, by, x + half, by + bh], 10, fill=EDGE)
-    d.rounded_rectangle([x + half + 18, by, x + w, by + bh], 10, fill=(58, 70, 86) if busy else GOLD)
-    f = font(15 * DP)
-    for txt, cx, col in (("Close", x + half / 2, TEXT), ("Refitting..." if busy else "REFIT", x + half + 18 + half / 2, DIM if busy else BG)):
-        d.text((cx - d.textlength(txt, font=f) / 2, by + bh / 2 - 13), txt, font=f, fill=col)
+        k = min(box * 0.9 / nxt.width, box * 0.9 / nxt.height)
+        s2 = nxt.resize((int(nxt.width * k), int(nxt.height * k)), Image.LANCZOS)
+        px, py = int(b[0] + (box - s2.width) / 2), int(b[1] + (box - s2.height) / 2)
+        im.alpha_composite(tint(s2, CYAN, 140).filter(ImageFilter.GaussianBlur(3)), (px, py))
+        im.alpha_composite(tint(s2, (20, 50, 74), 255), (px, py))
+        f = font(10 * DP)
+        d.text((b[2] + 8 * DP, b[1] + 2), f"Form {['','I','II','III','IV','V'][st+1]}", font=f, fill=CYAN)
+        d.text((b[2] + 8 * DP, b[1] + 18 * DP), f"at refit {2*(st+1)-1}", font=f, fill=CYAN)
+    half = (w - gap) / 2
+    for bx, txt, fill, ink in ((x, "CLOSE", EDGE, TEXT), (x + half + gap, "REFITTING..." if busy else "REFIT", (58, 70, 86) if busy else GOLD, DIM if busy else BG)):
+        cut = 10 * DP
+        d.polygon([(bx + cut, by), (bx + half, by), (bx + half - cut, by + bh), (bx, by + bh)], fill=fill)
+        f = font(14 * DP)
+        d.text((bx + half / 2 - d.textlength(txt, font=f) / 2, by + bh / 2 - 11), txt, font=f, fill=ink)
 
 
 sparks = []
@@ -136,6 +206,21 @@ for fi in range(total):
     yy = -step + off
     while yy < H:
         d.line([0, yy, BAY[2], yy], fill=(18, 40, 58)); yy += step
+    br = 0.5 + 0.5 * math.sin(now / 1800)
+    if CREST is not None:
+        cs = int(H * 0.42); cr = CREST.resize((cs, cs), Image.LANCZOS); cr.putalpha(cr.getchannel("A").point(lambda v: v * int(28 + 14 * br) // 255)); im.alpha_composite(cr, (int(18 * DP), int(18 * DP)))
+    es = int(min(BAY[2], H) * 0.78)
+    cx, cy = BAY[2] / 2, H / 2
+    ring = Image.new("RGBA", (W, H)); rd = ImageDraw.Draw(ring)
+    rr = es * 0.56
+    rd.ellipse([cx - rr, cy - rr, cx + rr, cy + rr], outline=(106, 208, 255, 48), width=2)
+    rot = (now / 400) % 360
+    for i in range(24):
+        a = math.radians(rot) + i * math.pi / 12
+        r2 = es * (0.6 if i % 3 == 0 else 0.58)
+        rd.line([cx + math.cos(a) * rr, cy + math.sin(a) * rr, cx + math.cos(a) * r2, cy + math.sin(a) * r2], fill=(106, 208, 255, 48), width=2)
+    im.alpha_composite(ring)
+    e = EMB.resize((es, es), Image.LANCZOS); e.putalpha(e.getchannel("A").point(lambda v: v * int(34 + 18 * br) // 255)); im.alpha_composite(e, (int(cx - es / 2), int(cy - es / 2)))
     bob = math.sin(now / 900) * 3 * DP
     cur, cp = (newf, newp) if t >= 0.72 or t >= 1 else (oldf, oldp)
     if t < 0: cur, cp = oldf, oldp

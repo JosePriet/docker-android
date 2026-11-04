@@ -849,7 +849,12 @@ public final class ModFitting {
                 String mount = "";
                 try { mount = spec.laserType.getLocalizedLabel(); } catch (Throwable t) { mount = ""; }
                 if (ModSpecs.isBeam(ps.laserSpec)) mount = ModLang.tr("Beam");
-                row(ModLang.tr("Guns"), guns(ps) + (mount.length() > 0 ? " · " + mount : ""));
+                // v44 (owner): turret count on its own row (out of the hull's maximum), the mount type on another
+                int tu = guns(ps), tmax = tu;
+                int[] plan = ModV38.turretPlan(hull);
+                if (plan != null) tmax = plan[5];
+                row(ModLang.tr("Turrets"), tu + (tmax > tu ? " / " + tmax + "  (" + ModLang.tr("more at form IV-V") + ")" : ""));
+                if (mount.length() > 0) row(ModLang.tr("Mount"), mount);
                 row(ModLang.tr("Damage / shot"), String.valueOf((int) ps.bulletDamage));
                 row(ModLang.tr("Cycle time"), ps.milleSecBetweenShots + " ms");
                 row(ModLang.tr("Laser DPS (item)"), String.valueOf((int) ps.laserSpec.getDps()));

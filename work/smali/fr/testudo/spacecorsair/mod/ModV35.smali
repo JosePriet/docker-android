@@ -33,7 +33,7 @@
 
 .field static final CORE_POOL:[[Ljava/lang/String;
 
-.field public static final COST_STEP:F = 0.08f
+.field public static final COST_STEP:F = 0.02f
 
 .field public static final EDGE:F = 0.15f
 
@@ -2801,7 +2801,7 @@
 
     .prologue
     .line 40
-    const v0, 0x3da3d70a    # 0.08f
+    const v0, 0x3ca3d70a    # 0.02f
 
     int-to-float v1, p0
 

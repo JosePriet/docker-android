@@ -87,10 +87,10 @@
 
     const/4 v2, 0x1
 
-    .line 1136
+    .line 1141
     invoke-direct {p0, p1}, Landroid/view/ViewGroup;-><init>(Landroid/content/Context;)V
 
-    .line 1119
+    .line 1124
     new-instance v0, Landroid/graphics/Paint;
 
     invoke-direct {v0, v2}, Landroid/graphics/Paint;-><init>(I)V
@@ -109,7 +109,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->faint:Landroid/graphics/Paint;
 
-    .line 1120
+    .line 1125
     new-instance v0, Landroid/graphics/Paint;
 
     invoke-direct {v0, v2}, Landroid/graphics/Paint;-><init>(I)V
@@ -130,7 +130,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->bmp:Landroid/graphics/Paint;
 
-    .line 1121
+    .line 1126
     new-instance v0, Landroid/graphics/Paint;
 
     invoke-direct {v0, v2}, Landroid/graphics/Paint;-><init>(I)V
@@ -149,7 +149,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->markerFill:Landroid/graphics/Paint;
 
-    .line 1122
+    .line 1127
     new-instance v0, Landroid/graphics/RectF;
 
     invoke-direct {v0}, Landroid/graphics/RectF;-><init>()V
@@ -174,24 +174,24 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->tmp:Landroid/graphics/RectF;
 
-    .line 1123
+    .line 1128
     new-instance v0, Landroid/graphics/Path;
 
     invoke-direct {v0}, Landroid/graphics/Path;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->hex:Landroid/graphics/Path;
 
-    .line 1124
+    .line 1129
     new-array v0, v3, [F
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->ticks:[F
 
-    .line 1129
+    .line 1134
     iput v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipW:F
 
     iput v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipH:F
 
-    .line 1130
+    .line 1135
     new-array v0, v3, [F
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turretsF:[F
@@ -200,7 +200,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesF:[F
 
-    .line 1132
+    .line 1137
     new-array v0, v3, [F
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turretsPx:[F
@@ -209,24 +209,24 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesPx:[F
 
-    .line 1137
+    .line 1142
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->dp(Landroid/content/Context;)F
 
     move-result v0
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->d:F
 
-    .line 1138
+    .line 1143
     invoke-virtual {p0, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->setWillNotDraw(Z)V
 
-    .line 1139
+    .line 1144
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->line:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 1140
+    .line 1145
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->line:Landroid/graphics/Paint;
 
     const/high16 v1, 0x3fc00000    # 1.5f
@@ -237,21 +237,21 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 1141
+    .line 1146
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->line:Landroid/graphics/Paint;
 
     const v1, -0x66952f01
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1142
+    .line 1147
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->faint:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 1143
+    .line 1148
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->faint:Landroid/graphics/Paint;
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->d:F
@@ -262,21 +262,21 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 1144
+    .line 1149
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->faint:Landroid/graphics/Paint;
 
     const v1, 0x406ad0ff
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1145
+    .line 1150
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->arc:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 1146
+    .line 1151
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->arc:Landroid/graphics/Paint;
 
     const/high16 v1, 0x40400000    # 3.0f
@@ -287,35 +287,35 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 1147
+    .line 1152
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->arc:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Cap;->ROUND:Landroid/graphics/Paint$Cap;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeCap(Landroid/graphics/Paint$Cap;)V
 
-    .line 1148
+    .line 1153
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->label:Landroid/graphics/Paint;
 
     const v1, -0x4f3b26
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1149
+    .line 1154
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->label:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Align;->CENTER:Landroid/graphics/Paint$Align;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setTextAlign(Landroid/graphics/Paint$Align;)V
 
-    .line 1150
+    .line 1155
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->label:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Typeface;->DEFAULT_BOLD:Landroid/graphics/Typeface;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setTypeface(Landroid/graphics/Typeface;)Landroid/graphics/Typeface;
 
-    .line 1151
+    .line 1156
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->label:Landroid/graphics/Paint;
 
     const/high16 v1, 0x41000000    # 8.0f
@@ -334,14 +334,14 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setTextSize(F)V
 
-    .line 1152
+    .line 1157
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turret:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 1153
+    .line 1158
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turret:Landroid/graphics/Paint;
 
     const v1, 0x3fe66666    # 1.8f
@@ -352,42 +352,42 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 1154
+    .line 1159
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turret:Landroid/graphics/Paint;
 
     const v1, -0x952f01
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1155
+    .line 1160
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missile:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->FILL:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 1156
+    .line 1161
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missile:Landroid/graphics/Paint;
 
     const/16 v1, -0x65c4
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1157
+    .line 1162
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->markerFill:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->FILL:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 1158
+    .line 1163
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->markerFill:Landroid/graphics/Paint;
 
     const v1, -0x7ffaf4ea
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1159
+    .line 1164
     return-void
 .end method
 
@@ -399,25 +399,25 @@
 
     const/high16 v8, 0x40000000    # 2.0f
 
-    .line 1232
+    .line 1237
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->radius:F
 
     const/high16 v2, 0x3f800000    # 1.0f
 
     mul-float/2addr v0, v2
 
-    .line 1233
+    .line 1238
     const/4 v2, 0x0
 
     cmpg-float v2, v0, v2
 
     if-gtz v2, :cond_e
 
-    .line 1248
+    .line 1253
     :cond_d
     return-void
 
-    .line 1234
+    .line 1239
     :cond_e
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipW:F
 
@@ -431,7 +431,7 @@
 
     move-result v0
 
-    .line 1235
+    .line 1240
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipW:F
 
     mul-float/2addr v2, v0
@@ -440,7 +440,7 @@
 
     mul-float/2addr v3, v0
 
-    .line 1236
+    .line 1241
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipDst:Landroid/graphics/RectF;
 
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cx:F
@@ -469,7 +469,7 @@
 
     invoke-virtual {v0, v4, v5, v6, v7}, Landroid/graphics/RectF;->set(FFFF)V
 
-    .line 1237
+    .line 1242
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipDrawable:Landroid/graphics/drawable/Drawable;
 
     if-eqz v0, :cond_55
@@ -502,7 +502,7 @@
 
     invoke-virtual {v0, v4, v5, v6, v7}, Landroid/graphics/drawable/Drawable;->setBounds(IIII)V
 
-    .line 1238
+    .line 1243
     :cond_55
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turretsPx:[F
 
@@ -525,13 +525,13 @@
     :cond_66
     move v0, v1
 
-    .line 1239
+    .line 1244
     :goto_67
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->nTurrets:I
 
     if-ge v0, v4, :cond_92
 
-    .line 1240
+    .line 1245
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turretsPx:[F
 
     mul-int/lit8 v5, v0, 0x2
@@ -550,7 +550,7 @@
 
     aput v6, v4, v5
 
-    .line 1241
+    .line 1246
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turretsPx:[F
 
     mul-int/lit8 v5, v0, 0x2
@@ -573,12 +573,12 @@
 
     aput v6, v4, v5
 
-    .line 1239
+    .line 1244
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_67
 
-    .line 1243
+    .line 1248
     :cond_92
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesPx:[F
 
@@ -598,14 +598,14 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesPx:[F
 
-    .line 1244
+    .line 1249
     :cond_a3
     :goto_a3
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->nMissiles:I
 
     if-ge v1, v0, :cond_d
 
-    .line 1245
+    .line 1250
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesPx:[F
 
     mul-int/lit8 v4, v1, 0x2
@@ -624,7 +624,7 @@
 
     aput v5, v0, v4
 
-    .line 1246
+    .line 1251
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesPx:[F
 
     mul-int/lit8 v4, v1, 0x2
@@ -647,7 +647,7 @@
 
     aput v5, v0, v4
 
-    .line 1244
+    .line 1249
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_a3
@@ -669,7 +669,7 @@
 
     const/4 v4, 0x0
 
-    .line 1311
+    .line 1316
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->radius:F
 
     const/4 v1, 0x0
@@ -678,11 +678,11 @@
 
     if-gtz v0, :cond_12
 
-    .line 1354
+    .line 1359
     :cond_11
     return-void
 
-    .line 1312
+    .line 1317
     :cond_12
     # getter for: Lfr/testudo/spacecorsair/mod/ModFitting;->artRing:Landroid/graphics/Bitmap;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$700()Landroid/graphics/Bitmap;
@@ -691,7 +691,7 @@
 
     if-eqz v0, :cond_19d
 
-    .line 1313
+    .line 1318
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->ringDst:Landroid/graphics/RectF;
 
     invoke-virtual {v0}, Landroid/graphics/RectF;->width()F
@@ -734,7 +734,7 @@
 
     move-result v0
 
-    .line 1314
+    .line 1319
     # getter for: Lfr/testudo/spacecorsair/mod/ModFitting;->artRing:Landroid/graphics/Bitmap;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$700()Landroid/graphics/Bitmap;
 
@@ -761,7 +761,7 @@
 
     mul-float/2addr v0, v2
 
-    .line 1315
+    .line 1320
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->tmp:Landroid/graphics/RectF;
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cx:F
@@ -790,7 +790,7 @@
 
     invoke-virtual {v2, v3, v5, v1, v0}, Landroid/graphics/RectF;->set(FFFF)V
 
-    .line 1316
+    .line 1321
     # getter for: Lfr/testudo/spacecorsair/mod/ModFitting;->artRing:Landroid/graphics/Bitmap;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$700()Landroid/graphics/Bitmap;
 
@@ -804,7 +804,7 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 1326
+    .line 1331
     :goto_73
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->arc:Landroid/graphics/Paint;
 
@@ -812,7 +812,7 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1327
+    .line 1332
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->oval:Landroid/graphics/RectF;
 
     const/high16 v2, -0x3cec0000    # -148.0f
@@ -825,14 +825,14 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawArc(Landroid/graphics/RectF;FFZLandroid/graphics/Paint;)V
 
-    .line 1328
+    .line 1333
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->arc:Landroid/graphics/Paint;
 
     const v1, -0x3f952f01
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1329
+    .line 1334
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->oval:Landroid/graphics/RectF;
 
     const/high16 v2, 0x43240000    # 164.0f
@@ -845,7 +845,7 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawArc(Landroid/graphics/RectF;FFZLandroid/graphics/Paint;)V
 
-    .line 1330
+    .line 1335
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->oval:Landroid/graphics/RectF;
 
     const/high16 v2, -0x3e800000    # -16.0f
@@ -858,14 +858,14 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawArc(Landroid/graphics/RectF;FFZLandroid/graphics/Paint;)V
 
-    .line 1331
+    .line 1336
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->arc:Landroid/graphics/Paint;
 
     const v1, -0x3f641ea3
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1332
+    .line 1337
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->oval:Landroid/graphics/RectF;
 
     const/high16 v2, 0x41e00000    # 28.0f
@@ -878,14 +878,14 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawArc(Landroid/graphics/RectF;FFZLandroid/graphics/Paint;)V
 
-    .line 1333
+    .line 1338
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->arc:Landroid/graphics/Paint;
 
     const v1, -0x6f4f3b26
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1334
+    .line 1339
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->oval:Landroid/graphics/RectF;
 
     const/high16 v2, 0x42ec0000    # 118.0f
@@ -898,14 +898,14 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawArc(Landroid/graphics/RectF;FFZLandroid/graphics/Paint;)V
 
-    .line 1335
+    .line 1340
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->label:Landroid/graphics/Paint;
 
     const/16 v1, -0x75a4
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1336
+    .line 1341
     const-string v0, "HIGH"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -942,14 +942,14 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 1337
+    .line 1342
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->label:Landroid/graphics/Paint;
 
     const v1, -0x641ea3
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1338
+    .line 1343
     const-string v0, "LOW"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -978,14 +978,14 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 1339
+    .line 1344
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->label:Landroid/graphics/Paint;
 
     const v1, -0x952f01
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1340
+    .line 1345
     const-string v0, "MID"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1018,7 +1018,7 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 1341
+    .line 1346
     const-string v0, "MID"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1051,7 +1051,7 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 1343
+    .line 1348
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipBitmap:Landroid/graphics/Bitmap;
 
     if-eqz v0, :cond_1e2
@@ -1066,7 +1066,7 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 1346
+    .line 1351
     :cond_163
     :goto_163
     const/high16 v0, 0x40900000    # 4.5f
@@ -1083,13 +1083,13 @@
 
     move v0, v4
 
-    .line 1347
+    .line 1352
     :goto_170
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->nTurrets:I
 
     if-ge v0, v2, :cond_1ed
 
-    .line 1348
+    .line 1353
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turretsPx:[F
 
     mul-int/lit8 v3, v0, 0x2
@@ -1108,7 +1108,7 @@
 
     invoke-virtual {p1, v2, v3, v1, v5}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 1349
+    .line 1354
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turretsPx:[F
 
     mul-int/lit8 v3, v0, 0x2
@@ -1127,12 +1127,12 @@
 
     invoke-virtual {p1, v2, v3, v1, v5}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 1347
+    .line 1352
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_170
 
-    .line 1318
+    .line 1323
     :cond_19d
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cx:F
 
@@ -1144,7 +1144,7 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 1319
+    .line 1324
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cx:F
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cy:F
@@ -1157,7 +1157,7 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 1320
+    .line 1325
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cx:F
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cy:F
@@ -1172,21 +1172,21 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 1321
+    .line 1326
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->ticks:[F
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->faint:Landroid/graphics/Paint;
 
     invoke-virtual {p1, v0, v1}, Landroid/graphics/Canvas;->drawLines([FLandroid/graphics/Paint;)V
 
-    .line 1322
+    .line 1327
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->hex:Landroid/graphics/Path;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->faint:Landroid/graphics/Paint;
 
     invoke-virtual {p1, v0, v1}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 1323
+    .line 1328
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cx:F
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cy:F
@@ -1203,7 +1203,7 @@
 
     goto/16 :goto_73
 
-    .line 1344
+    .line 1349
     :cond_1e2
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipDrawable:Landroid/graphics/drawable/Drawable;
 
@@ -1218,13 +1218,13 @@
     :cond_1ed
     move v6, v4
 
-    .line 1351
+    .line 1356
     :goto_1ee
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->nMissiles:I
 
     if-ge v6, v0, :cond_11
 
-    .line 1352
+    .line 1357
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesPx:[F
 
     mul-int/lit8 v1, v6, 0x2
@@ -1267,7 +1267,7 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 1351
+    .line 1356
     add-int/lit8 v4, v6, 0x1
 
     move v6, v4
@@ -1279,12 +1279,12 @@
     .registers 20
 
     .prologue
-    .line 1291
+    .line 1296
     sub-int v3, p4, p2
 
     sub-int v4, p5, p3
 
-    .line 1292
+    .line 1297
     int-to-float v0, v3
 
     const/high16 v1, 0x40000000    # 2.0f
@@ -1321,7 +1321,7 @@
 
     move-result v7
 
-    .line 1293
+    .line 1298
     const/4 v0, 0x0
 
     move v2, v0
@@ -1333,12 +1333,12 @@
 
     if-ge v2, v0, :cond_9a
 
-    .line 1294
+    .line 1299
     invoke-virtual {p0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->getChildAt(I)Landroid/view/View;
 
     move-result-object v1
 
-    .line 1295
+    .line 1300
     instance-of v0, v1, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;
 
     if-eqz v0, :cond_98
@@ -1349,7 +1349,7 @@
 
     iget v0, v0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->slot:I
 
-    .line 1296
+    .line 1301
     :goto_37
     invoke-virtual {v1}, Landroid/view/View;->getMeasuredWidth()I
 
@@ -1359,7 +1359,7 @@
 
     move-result v9
 
-    .line 1297
+    .line 1302
     sget-object v10, Lfr/testudo/spacecorsair/mod/ModFitting;->SLOT_ANGLE:[F
 
     rem-int/lit8 v0, v0, 0x6
@@ -1372,14 +1372,14 @@
 
     move-result-wide v10
 
-    .line 1299
+    .line 1304
     const/high16 v0, 0x42380000    # 46.0f
 
     iget v12, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->d:F
 
     mul-float/2addr v0, v12
 
-    .line 1300
+    .line 1305
     invoke-static {v10, v11}, Ljava/lang/Math;->sin(D)D
 
     move-result-wide v12
@@ -1394,7 +1394,7 @@
 
     add-float/2addr v12, v5
 
-    .line 1301
+    .line 1306
     invoke-static {v10, v11}, Ljava/lang/Math;->cos(D)D
 
     move-result-wide v10
@@ -1409,7 +1409,7 @@
 
     sub-float v10, v6, v10
 
-    .line 1302
+    .line 1307
     int-to-float v11, v8
 
     const/high16 v13, 0x40000000    # 2.0f
@@ -1432,7 +1432,7 @@
 
     move-result v0
 
-    .line 1303
+    .line 1308
     const/4 v10, 0x0
 
     sub-int v12, v3, v8
@@ -1445,7 +1445,7 @@
 
     move-result v10
 
-    .line 1304
+    .line 1309
     const/4 v11, 0x0
 
     sub-int v12, v4, v9
@@ -1458,14 +1458,14 @@
 
     move-result v0
 
-    .line 1305
+    .line 1310
     add-int/2addr v8, v10
 
     add-int/2addr v9, v0
 
     invoke-virtual {v1, v10, v0, v8, v9}, Landroid/view/View;->layout(IIII)V
 
-    .line 1293
+    .line 1298
     add-int/lit8 v0, v2, 0x1
 
     move v2, v0
@@ -1475,10 +1475,10 @@
     :cond_98
     move v0, v2
 
-    .line 1295
+    .line 1300
     goto :goto_37
 
-    .line 1307
+    .line 1312
     :cond_9a
     return-void
 .end method
@@ -1489,7 +1489,7 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 1283
+    .line 1288
     invoke-static {p1}, Landroid/view/View$MeasureSpec;->getSize(I)I
 
     move-result v1
@@ -1498,12 +1498,12 @@
 
     move-result v2
 
-    .line 1284
+    .line 1289
     invoke-static {v0, v0}, Landroid/view/View$MeasureSpec;->makeMeasureSpec(II)I
 
     move-result v3
 
-    .line 1285
+    .line 1290
     :goto_d
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->getChildCount()I
 
@@ -1535,11 +1535,11 @@
 
     goto :goto_d
 
-    .line 1286
+    .line 1291
     :cond_29
     invoke-virtual {p0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->setMeasuredDimension(II)V
 
-    .line 1287
+    .line 1292
     return-void
 .end method
 
@@ -1547,10 +1547,10 @@
     .registers 17
 
     .prologue
-    .line 1252
+    .line 1257
     invoke-super/range {p0 .. p4}, Landroid/view/ViewGroup;->onSizeChanged(IIII)V
 
-    .line 1253
+    .line 1258
     int-to-float v0, p1
 
     const/high16 v1, 0x40000000    # 2.0f
@@ -1559,7 +1559,7 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cx:F
 
-    .line 1254
+    .line 1259
     int-to-float v0, p2
 
     const/high16 v1, 0x40000000    # 2.0f
@@ -1568,7 +1568,7 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cy:F
 
-    .line 1255
+    .line 1260
     const/high16 v0, 0x41200000    # 10.0f
 
     invoke-static {p1, p2}, Ljava/lang/Math;->min(II)I
@@ -1595,7 +1595,7 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->radius:F
 
-    .line 1256
+    .line 1261
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->ringDst:Landroid/graphics/RectF;
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cx:F
@@ -1624,7 +1624,7 @@
 
     invoke-virtual {v0, v1, v2, v3, v4}, Landroid/graphics/RectF;->set(FFFF)V
 
-    .line 1257
+    .line 1262
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->glow:Landroid/graphics/Paint;
 
     new-instance v0, Landroid/graphics/RadialGradient;
@@ -1653,17 +1653,17 @@
 
     invoke-virtual {v7, v0}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 1259
+    .line 1264
     const/16 v2, 0x48
 
-    .line 1260
+    .line 1265
     const/16 v0, 0x120
 
     new-array v0, v0, [F
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->ticks:[F
 
-    .line 1261
+    .line 1266
     const/4 v0, 0x0
 
     move v1, v0
@@ -1671,7 +1671,7 @@
     :goto_66
     if-ge v1, v2, :cond_cb
 
-    .line 1262
+    .line 1267
     mul-int/lit8 v0, v1, 0x5
 
     int-to-double v4, v0
@@ -1680,7 +1680,7 @@
 
     move-result-wide v4
 
-    .line 1263
+    .line 1268
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->radius:F
 
     rem-int/lit8 v0, v1, 0x6
@@ -1698,7 +1698,7 @@
 
     mul-float/2addr v3, v6
 
-    .line 1264
+    .line 1269
     iget-object v6, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->ticks:[F
 
     mul-int/lit8 v7, v1, 0x4
@@ -1717,7 +1717,7 @@
 
     aput v8, v6, v7
 
-    .line 1265
+    .line 1270
     iget-object v6, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->ticks:[F
 
     mul-int/lit8 v7, v1, 0x4
@@ -1738,7 +1738,7 @@
 
     aput v0, v6, v7
 
-    .line 1266
+    .line 1271
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->ticks:[F
 
     mul-int/lit8 v6, v1, 0x4
@@ -1759,7 +1759,7 @@
 
     aput v7, v0, v6
 
-    .line 1267
+    .line 1272
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->ticks:[F
 
     mul-int/lit8 v6, v1, 0x4
@@ -1780,33 +1780,33 @@
 
     aput v3, v0, v6
 
-    .line 1261
+    .line 1266
     add-int/lit8 v0, v1, 0x1
 
     move v1, v0
 
     goto :goto_66
 
-    .line 1263
+    .line 1268
     :cond_c7
     const v0, 0x3f6e147b    # 0.93f
 
     goto :goto_78
 
-    .line 1269
+    .line 1274
     :cond_cb
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->hex:Landroid/graphics/Path;
 
     invoke-virtual {v0}, Landroid/graphics/Path;->reset()V
 
-    .line 1270
+    .line 1275
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->radius:F
 
     const v1, 0x3f28f5c3    # 0.66f
 
     mul-float/2addr v1, v0
 
-    .line 1271
+    .line 1276
     const/4 v0, 0x0
 
     :goto_d7
@@ -1814,7 +1814,7 @@
 
     if-ge v0, v2, :cond_105
 
-    .line 1272
+    .line 1277
     mul-int/lit8 v2, v0, 0x3c
 
     add-int/lit8 v2, v2, 0x1e
@@ -1825,7 +1825,7 @@
 
     move-result-wide v2
 
-    .line 1273
+    .line 1278
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cx:F
 
     invoke-static {v2, v3}, Ljava/lang/Math;->cos(D)D
@@ -1850,20 +1850,20 @@
 
     add-float/2addr v2, v5
 
-    .line 1274
+    .line 1279
     if-nez v0, :cond_ff
 
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->hex:Landroid/graphics/Path;
 
     invoke-virtual {v3, v4, v2}, Landroid/graphics/Path;->moveTo(FF)V
 
-    .line 1271
+    .line 1276
     :goto_fc
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_d7
 
-    .line 1274
+    .line 1279
     :cond_ff
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->hex:Landroid/graphics/Path;
 
@@ -1871,13 +1871,13 @@
 
     goto :goto_fc
 
-    .line 1276
+    .line 1281
     :cond_105
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->hex:Landroid/graphics/Path;
 
     invoke-virtual {v0}, Landroid/graphics/Path;->close()V
 
-    .line 1277
+    .line 1282
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->oval:Landroid/graphics/RectF;
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->cx:F
@@ -1922,13 +1922,13 @@
 
     invoke-virtual {v0, v1, v2, v3, v4}, Landroid/graphics/RectF;->set(FFFF)V
 
-    .line 1278
+    .line 1283
     invoke-direct {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->layoutShip()V
 
-    .line 1279
+    .line 1284
     return-void
 
-    .line 1257
+    .line 1262
     nop
 
     :array_138
@@ -1958,27 +1958,27 @@
 
     const/4 v1, 0x0
 
-    .line 1162
+    .line 1167
     if-eqz p4, :cond_b5
 
     move-object v0, p4
 
-    .line 1163
+    .line 1168
     :goto_8
     iput-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipBitmap:Landroid/graphics/Bitmap;
 
-    .line 1164
+    .line 1169
     iput-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipDrawable:Landroid/graphics/drawable/Drawable;
 
-    .line 1165
+    .line 1170
     if-eqz p3, :cond_2c
 
-    .line 1166
+    .line 1171
     invoke-static {p2, p3}, Lfr/testudo/spacecorsair/mod/ModV35;->shownArt(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Ljava/lang/String;
 
     move-result-object v2
 
-    .line 1167
+    .line 1172
     # getter for: Lfr/testudo/spacecorsair/mod/ModFitting;->shipKey:Ljava/lang/String;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$600()Ljava/lang/String;
 
@@ -1990,11 +1990,11 @@
 
     if-nez v4, :cond_26
 
-    .line 1168
+    .line 1173
     # setter for: Lfr/testudo/spacecorsair/mod/ModFitting;->shipKey:Ljava/lang/String;
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$602(Ljava/lang/String;)Ljava/lang/String;
 
-    .line 1169
+    .line 1174
     invoke-static {p1, v2, v5}, Lfr/testudo/spacecorsair/mod/ModArt;->decode(Landroid/content/Context;Ljava/lang/String;I)Landroid/graphics/Bitmap;
 
     move-result-object v2
@@ -2002,7 +2002,7 @@
     # setter for: Lfr/testudo/spacecorsair/mod/ModFitting;->shipArt:Landroid/graphics/Bitmap;
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$502(Landroid/graphics/Bitmap;)Landroid/graphics/Bitmap;
 
-    .line 1171
+    .line 1176
     :cond_26
     # getter for: Lfr/testudo/spacecorsair/mod/ModFitting;->shipArt:Landroid/graphics/Bitmap;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$500()Landroid/graphics/Bitmap;
@@ -2011,13 +2011,13 @@
 
     iput-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipBitmap:Landroid/graphics/Bitmap;
 
-    .line 1173
+    .line 1178
     :cond_2c
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipBitmap:Landroid/graphics/Bitmap;
 
     if-eqz v2, :cond_b8
 
-    .line 1174
+    .line 1179
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipBitmap:Landroid/graphics/Bitmap;
 
     invoke-virtual {v2}, Landroid/graphics/Bitmap;->getWidth()I
@@ -2028,7 +2028,7 @@
 
     iput v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipW:F
 
-    .line 1175
+    .line 1180
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipBitmap:Landroid/graphics/Bitmap;
 
     invoke-virtual {v2}, Landroid/graphics/Bitmap;->getHeight()I
@@ -2039,14 +2039,14 @@
 
     iput v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipH:F
 
-    .line 1186
+    .line 1191
     :cond_42
     :goto_42
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipBitmap:Landroid/graphics/Bitmap;
 
     if-nez v2, :cond_78
 
-    .line 1188
+    .line 1193
     if-eqz p4, :cond_106
 
     :try_start_48
@@ -2058,7 +2058,7 @@
 
     iget v2, v2, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;->drawable:I
 
-    .line 1189
+    .line 1194
     :goto_50
     invoke-virtual {p1}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
 
@@ -2072,13 +2072,13 @@
     :try_end_5a
     .catch Ljava/lang/Throwable; {:try_start_48 .. :try_end_5a} :catch_10c
 
-    .line 1193
+    .line 1198
     :goto_5a
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipDrawable:Landroid/graphics/drawable/Drawable;
 
     if-eqz v2, :cond_78
 
-    .line 1194
+    .line 1199
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipDrawable:Landroid/graphics/drawable/Drawable;
 
     invoke-virtual {v2}, Landroid/graphics/drawable/Drawable;->getIntrinsicWidth()I
@@ -2093,7 +2093,7 @@
 
     iput v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipW:F
 
-    .line 1195
+    .line 1200
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipDrawable:Landroid/graphics/drawable/Drawable;
 
     invoke-virtual {v2}, Landroid/graphics/drawable/Drawable;->getIntrinsicHeight()I
@@ -2108,26 +2108,26 @@
 
     iput v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->shipH:F
 
-    .line 1199
+    .line 1204
     :cond_78
     iput v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->nTurrets:I
 
-    .line 1200
+    .line 1205
     iput v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->nMissiles:I
 
-    .line 1201
+    .line 1206
     if-eqz p4, :cond_18a
 
     iget v2, p4, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->drawableSize:I
 
     if-lez v2, :cond_18a
 
-    .line 1202
+    .line 1207
     iget v2, p4, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->drawableSize:I
 
     int-to-float v3, v2
 
-    .line 1203
+    .line 1208
     iget-object v2, p4, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserType:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;
 
     if-eqz v2, :cond_142
@@ -2142,7 +2142,7 @@
 
     if-eqz v2, :cond_142
 
-    .line 1204
+    .line 1209
     iget v2, p4, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonCount:I
 
     iget-object v4, p4, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonPos:[Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2153,7 +2153,7 @@
 
     move-result v4
 
-    .line 1205
+    .line 1210
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turretsF:[F
 
     array-length v2, v2
@@ -2171,19 +2171,19 @@
     :cond_a9
     move v2, v1
 
-    .line 1206
+    .line 1211
     :goto_aa
     if-ge v2, v4, :cond_142
 
-    .line 1207
+    .line 1212
     iget-object v5, p4, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonPos:[Lfr/testudo/spacecorsair/engine/Vector2;
 
     aget-object v5, v5, v2
 
-    .line 1208
+    .line 1213
     if-nez v5, :cond_122
 
-    .line 1206
+    .line 1211
     :goto_b2
     add-int/lit8 v2, v2, 0x1
 
@@ -2192,10 +2192,10 @@
     :cond_b5
     move-object v0, p2
 
-    .line 1162
+    .line 1167
     goto/16 :goto_8
 
-    .line 1179
+    .line 1184
     :cond_b8
     if-eqz p4, :cond_ff
 
@@ -2208,7 +2208,7 @@
 
     iget v2, v2, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;->drawable:I
 
-    .line 1180
+    .line 1185
     :goto_c2
     invoke-virtual {p1}, Landroid/content/Context;->getApplicationContext()Landroid/content/Context;
 
@@ -2218,7 +2218,7 @@
 
     move-result-object v2
 
-    .line 1181
+    .line 1186
     if-eqz v2, :cond_e2
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModFitting;->shipKey:Ljava/lang/String;
@@ -2244,7 +2244,7 @@
     # setter for: Lfr/testudo/spacecorsair/mod/ModFitting;->shipArt:Landroid/graphics/Bitmap;
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$502(Landroid/graphics/Bitmap;)Landroid/graphics/Bitmap;
 
-    .line 1182
+    .line 1187
     :cond_e2
     if-eqz v2, :cond_104
 
@@ -2253,7 +2253,7 @@
 
     move-result-object v2
 
-    .line 1183
+    .line 1188
     :goto_e8
     if-eqz v2, :cond_42
 
@@ -2277,13 +2277,13 @@
 
     goto/16 :goto_42
 
-    .line 1184
+    .line 1189
     :catch_fc
     move-exception v2
 
     goto/16 :goto_42
 
-    .line 1179
+    .line 1184
     :cond_ff
     invoke-virtual {p2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getDrawableId()I
     :try_end_102
@@ -2296,10 +2296,10 @@
     :cond_104
     move-object v2, v3
 
-    .line 1182
+    .line 1187
     goto :goto_e8
 
-    .line 1188
+    .line 1193
     :cond_106
     :try_start_106
     invoke-virtual {p2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getDrawableId()I
@@ -2310,11 +2310,11 @@
 
     goto/16 :goto_50
 
-    .line 1190
+    .line 1195
     :catch_10c
     move-exception v2
 
-    .line 1191
+    .line 1196
     :try_start_10d
     invoke-virtual {p1}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
 
@@ -2341,7 +2341,7 @@
 
     goto/16 :goto_5a
 
-    .line 1209
+    .line 1214
     :cond_122
     iget-object v6, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turretsF:[F
 
@@ -2355,7 +2355,7 @@
 
     aput v8, v6, v7
 
-    .line 1210
+    .line 1215
     iget-object v6, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->turretsF:[F
 
     iget v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->nTurrets:I
@@ -2370,7 +2370,7 @@
 
     aput v5, v6, v7
 
-    .line 1211
+    .line 1216
     iget v5, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->nTurrets:I
 
     add-int/lit8 v5, v5, 0x1
@@ -2379,13 +2379,13 @@
 
     goto/16 :goto_b2
 
-    .line 1214
+    .line 1219
     :cond_142
     iget-object v2, p4, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileExitPoint:[Lfr/testudo/spacecorsair/engine/Vector2;
 
     if-eqz v2, :cond_18a
 
-    .line 1215
+    .line 1220
     iget v2, p4, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileCount:I
 
     invoke-static {v9, v2}, Ljava/lang/Math;->max(II)I
@@ -2400,7 +2400,7 @@
 
     move-result v2
 
-    .line 1216
+    .line 1221
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesF:[F
 
     array-length v4, v4
@@ -2415,26 +2415,26 @@
 
     iput-object v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesF:[F
 
-    .line 1217
+    .line 1222
     :cond_160
     :goto_160
     if-ge v1, v2, :cond_18a
 
-    .line 1218
+    .line 1223
     iget-object v4, p4, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileExitPoint:[Lfr/testudo/spacecorsair/engine/Vector2;
 
     aget-object v4, v4, v1
 
-    .line 1219
+    .line 1224
     if-nez v4, :cond_16b
 
-    .line 1217
+    .line 1222
     :goto_168
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_160
 
-    .line 1220
+    .line 1225
     :cond_16b
     iget-object v5, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesF:[F
 
@@ -2448,7 +2448,7 @@
 
     aput v7, v5, v6
 
-    .line 1221
+    .line 1226
     iget-object v5, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->missilesF:[F
 
     iget v6, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->nMissiles:I
@@ -2463,7 +2463,7 @@
 
     aput v4, v5, v6
 
-    .line 1222
+    .line 1227
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->nMissiles:I
 
     add-int/lit8 v4, v4, 0x1
@@ -2472,16 +2472,16 @@
 
     goto :goto_168
 
-    .line 1226
+    .line 1231
     :cond_18a
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->boundShip:Ljava/lang/Object;
 
-    .line 1227
+    .line 1232
     invoke-direct {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->layoutShip()V
 
-    .line 1228
+    .line 1233
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->invalidate()V
 
-    .line 1229
+    .line 1234
     return-void
 .end method

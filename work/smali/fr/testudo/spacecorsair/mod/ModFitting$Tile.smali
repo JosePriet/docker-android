@@ -47,50 +47,50 @@
 
     const/4 v5, 0x1
 
-    .line 1035
+    .line 1040
     invoke-direct {p0, p1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 1036
+    .line 1041
     iput p2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->slot:I
 
-    .line 1037
+    .line 1042
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->dp(Landroid/content/Context;)F
 
     move-result v0
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->d:F
 
-    .line 1038
+    .line 1043
     invoke-virtual {p0, v5}, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->setOrientation(I)V
 
-    .line 1039
+    .line 1044
     invoke-virtual {p0, v5}, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->setGravity(I)V
 
-    .line 1040
+    .line 1045
     invoke-virtual {p0, v5}, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->setClickable(Z)V
 
-    .line 1041
+    .line 1046
     new-instance v0, Landroid/widget/FrameLayout;
 
     invoke-direct {v0, p1}, Landroid/widget/FrameLayout;-><init>(Landroid/content/Context;)V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->iconBox:Landroid/widget/FrameLayout;
 
-    .line 1042
+    .line 1047
     new-instance v0, Landroid/widget/ImageView;
 
     invoke-direct {v0, p1}, Landroid/widget/ImageView;-><init>(Landroid/content/Context;)V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->icon:Landroid/widget/ImageView;
 
-    .line 1043
+    .line 1048
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->icon:Landroid/widget/ImageView;
 
     sget-object v1, Landroid/widget/ImageView$ScaleType;->FIT_CENTER:Landroid/widget/ImageView$ScaleType;
 
     invoke-virtual {v0, v1}, Landroid/widget/ImageView;->setScaleType(Landroid/widget/ImageView$ScaleType;)V
 
-    .line 1044
+    .line 1049
     const/high16 v0, 0x40e00000    # 7.0f
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->d:F
@@ -99,22 +99,22 @@
 
     float-to-int v0, v0
 
-    .line 1045
+    .line 1050
     new-instance v1, Landroid/widget/FrameLayout$LayoutParams;
 
     invoke-direct {v1, v8, v8}, Landroid/widget/FrameLayout$LayoutParams;-><init>(II)V
 
-    .line 1046
+    .line 1051
     invoke-virtual {v1, v0, v0, v0, v0}, Landroid/widget/FrameLayout$LayoutParams;->setMargins(IIII)V
 
-    .line 1047
+    .line 1052
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->iconBox:Landroid/widget/FrameLayout;
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->icon:Landroid/widget/ImageView;
 
     invoke-virtual {v0, v2, v1}, Landroid/widget/FrameLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1048
+    .line 1053
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->iconBox:Landroid/widget/FrameLayout;
 
     new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
@@ -139,7 +139,7 @@
 
     invoke-virtual {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1049
+    .line 1054
     const/high16 v0, 0x41100000    # 9.0f
 
     invoke-static {p1, v0, v8, v5}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
@@ -148,24 +148,24 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
-    .line 1050
+    .line 1055
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
     invoke-virtual {v0, v5}, Landroid/widget/TextView;->setSingleLine(Z)V
 
-    .line 1051
+    .line 1056
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
     sget-object v1, Landroid/text/TextUtils$TruncateAt;->END:Landroid/text/TextUtils$TruncateAt;
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setEllipsize(Landroid/text/TextUtils$TruncateAt;)V
 
-    .line 1052
+    .line 1057
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
     invoke-virtual {v0, v5}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 1053
+    .line 1058
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->d:F
@@ -196,7 +196,7 @@
 
     invoke-virtual {v0, v1, v2, v3, v4}, Landroid/widget/TextView;->setPadding(IIII)V
 
-    .line 1054
+    .line 1059
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
     const v1, -0x4ffaf4ea
@@ -213,7 +213,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 1055
+    .line 1060
     new-instance v0, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v1, -0x2
@@ -222,7 +222,7 @@
 
     invoke-direct {v0, v1, v2}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
-    .line 1056
+    .line 1061
     const/high16 v1, 0x40000000    # 2.0f
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->d:F
@@ -233,12 +233,12 @@
 
     iput v1, v0, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
 
-    .line 1057
+    .line 1062
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
     invoke-virtual {p0, v1, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1058
+    .line 1063
     const/high16 v0, 0x41000000    # 8.0f
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModFitting;->SLOT_COLOR:[I
@@ -251,7 +251,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->caption:Landroid/widget/TextView;
 
-    .line 1059
+    .line 1064
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->caption:Landroid/widget/TextView;
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModFitting;->SLOT_NAME:[Ljava/lang/String;
@@ -264,12 +264,12 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 1060
+    .line 1065
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->caption:Landroid/widget/TextView;
 
     invoke-virtual {v0, v5}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 1061
+    .line 1066
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->caption:Landroid/widget/TextView;
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->d:F
@@ -280,12 +280,12 @@
 
     invoke-virtual {v0, v6, v1, v6, v6}, Landroid/widget/TextView;->setPadding(IIII)V
 
-    .line 1062
+    .line 1067
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->caption:Landroid/widget/TextView;
 
     invoke-virtual {p0, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->addView(Landroid/view/View;)V
 
-    .line 1063
+    .line 1068
     return-void
 .end method
 
@@ -305,7 +305,7 @@
 
     const/4 v1, 0x1
 
-    .line 1066
+    .line 1071
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->slot:I
 
     if-eq v0, v8, :cond_1c
@@ -318,7 +318,7 @@
 
     move v0, v1
 
-    .line 1067
+    .line 1072
     :goto_13
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->shown:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
@@ -328,34 +328,34 @@
 
     if-ne v0, v3, :cond_1e
 
-    .line 1112
+    .line 1117
     :goto_1b
     return-void
 
-    .line 1066
+    .line 1071
     :cond_1c
     const/4 v0, 0x0
 
     goto :goto_13
 
-    .line 1068
+    .line 1073
     :cond_1e
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->shown:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 1069
+    .line 1074
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->shownEmpty:Z
 
-    .line 1070
+    .line 1075
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->getContext()Landroid/content/Context;
 
     move-result-object v6
 
-    .line 1071
+    .line 1076
     if-nez p1, :cond_88
 
     move v4, v5
 
-    .line 1072
+    .line 1077
     :goto_29
     if-eqz v0, :cond_8e
 
@@ -364,11 +364,11 @@
 
     move-result-object v3
 
-    .line 1073
+    .line 1078
     :goto_2f
     if-eqz v3, :cond_93
 
-    .line 1074
+    .line 1079
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->iconBox:Landroid/widget/FrameLayout;
 
     new-instance v7, Landroid/graphics/drawable/BitmapDrawable;
@@ -381,13 +381,13 @@
 
     invoke-virtual {v1, v7}, Landroid/widget/FrameLayout;->setBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 1089
+    .line 1094
     :goto_3f
     if-eqz p1, :cond_111
 
     if-nez v0, :cond_111
 
-    .line 1091
+    .line 1096
     :try_start_43
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->slot:I
 
@@ -397,7 +397,7 @@
 
     move-result-object v0
 
-    .line 1092
+    .line 1097
     :goto_4b
     if-eqz v0, :cond_e1
 
@@ -423,7 +423,7 @@
 
     if-eqz v0, :cond_e1
 
-    .line 1093
+    .line 1098
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->icon:Landroid/widget/ImageView;
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModFitting;->shipArt:Landroid/graphics/Bitmap;
@@ -435,7 +435,7 @@
     :try_end_6a
     .catch Ljava/lang/Throwable; {:try_start_43 .. :try_end_6a} :catch_f0
 
-    .line 1103
+    .line 1108
     :goto_6a
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->icon:Landroid/widget/ImageView;
 
@@ -443,7 +443,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/ImageView;->setAlpha(I)V
 
-    .line 1104
+    .line 1109
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->slot:I
 
     if-ne v0, v8, :cond_108
@@ -452,7 +452,7 @@
 
     move-result-object v0
 
-    .line 1105
+    .line 1110
     :goto_79
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
@@ -463,14 +463,14 @@
     :goto_7f
     invoke-virtual {v1, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 1106
+    .line 1111
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
     invoke-virtual {v0, v4}, Landroid/widget/TextView;->setTextColor(I)V
 
     goto :goto_1b
 
-    .line 1071
+    .line 1076
     :cond_88
     invoke-static {v6, p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->rarityColor(Landroid/content/Context;Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
 
@@ -480,7 +480,7 @@
 
     goto :goto_29
 
-    .line 1072
+    .line 1077
     :cond_8e
     # getter for: Lfr/testudo/spacecorsair/mod/ModFitting;->artSlot:Landroid/graphics/Bitmap;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$400()Landroid/graphics/Bitmap;
@@ -489,24 +489,24 @@
 
     goto :goto_2f
 
-    .line 1076
+    .line 1081
     :cond_93
     new-instance v3, Landroid/graphics/drawable/GradientDrawable;
 
     invoke-direct {v3}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
 
-    .line 1077
+    .line 1082
     invoke-virtual {v3, v1}, Landroid/graphics/drawable/GradientDrawable;->setShape(I)V
 
-    .line 1078
+    .line 1083
     if-eqz v0, :cond_bc
 
-    .line 1079
+    .line 1084
     const v6, -0x7ffaf4ea
 
     invoke-virtual {v3, v6}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
 
-    .line 1080
+    .line 1085
     const/high16 v6, 0x3fc00000    # 1.5f
 
     iget v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->d:F
@@ -529,7 +529,7 @@
 
     invoke-virtual {v3, v1, v5, v6, v7}, Landroid/graphics/drawable/GradientDrawable;->setStroke(IIFF)V
 
-    .line 1087
+    .line 1092
     :goto_b6
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->iconBox:Landroid/widget/FrameLayout;
 
@@ -537,11 +537,11 @@
 
     goto :goto_3f
 
-    .line 1082
+    .line 1087
     :cond_bc
     invoke-virtual {v3, v1}, Landroid/graphics/drawable/GradientDrawable;->setGradientType(I)V
 
-    .line 1083
+    .line 1088
     const/4 v6, 0x2
 
     new-array v6, v6, [I
@@ -550,7 +550,7 @@
 
     invoke-virtual {v3, v6}, Landroid/graphics/drawable/GradientDrawable;->setColors([I)V
 
-    .line 1084
+    .line 1089
     const/high16 v6, 0x41b80000    # 23.0f
 
     iget v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->d:F
@@ -559,7 +559,7 @@
 
     invoke-virtual {v3, v6}, Landroid/graphics/drawable/GradientDrawable;->setGradientRadius(F)V
 
-    .line 1085
+    .line 1090
     const/high16 v6, 0x40000000    # 2.0f
 
     iget v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->d:F
@@ -579,17 +579,17 @@
     :cond_de
     move-object v0, v2
 
-    .line 1091
+    .line 1096
     goto/16 :goto_4b
 
-    .line 1094
+    .line 1099
     :cond_e1
     :try_start_e1
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->slot:I
 
     if-ne v0, v8, :cond_f8
 
-    .line 1095
+    .line 1100
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->icon:Landroid/widget/ImageView;
 
     invoke-virtual {p1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getDrawableId()I
@@ -602,18 +602,18 @@
 
     goto/16 :goto_6a
 
-    .line 1100
+    .line 1105
     :catch_f0
     move-exception v0
 
-    .line 1101
+    .line 1106
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->icon:Landroid/widget/ImageView;
 
     invoke-virtual {v0, v2}, Landroid/widget/ImageView;->setImageDrawable(Landroid/graphics/drawable/Drawable;)V
 
     goto/16 :goto_6a
 
-    .line 1097
+    .line 1102
     :cond_f8
     :try_start_f8
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->icon:Landroid/widget/ImageView;
@@ -624,7 +624,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/ImageView;->setImageResource(I)V
 
-    .line 1098
+    .line 1103
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->icon:Landroid/widget/ImageView;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModIcons;->applyImage(Landroid/widget/ImageView;)V
@@ -636,10 +636,10 @@
     :cond_108
     move-object v0, v2
 
-    .line 1104
+    .line 1109
     goto/16 :goto_79
 
-    .line 1105
+    .line 1110
     :cond_10b
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->label(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
@@ -647,13 +647,13 @@
 
     goto/16 :goto_7f
 
-    .line 1108
+    .line 1113
     :cond_111
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->icon:Landroid/widget/ImageView;
 
     invoke-virtual {v0, v2}, Landroid/widget/ImageView;->setImageDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 1109
+    .line 1114
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
     const-string v1, "empty"
@@ -664,14 +664,14 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 1110
+    .line 1115
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->name:Landroid/widget/TextView;
 
     invoke-virtual {v0, v5}, Landroid/widget/TextView;->setTextColor(I)V
 
     goto/16 :goto_1b
 
-    .line 1083
+    .line 1088
     :array_128
     .array-data 4
         -0xe9cfb6

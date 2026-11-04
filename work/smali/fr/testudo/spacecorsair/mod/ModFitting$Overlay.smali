@@ -551,7 +551,7 @@
 .end method
 
 .method private buildStats(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/business/player/PlayerInfo;Lfr/testudo/spacecorsair/business/player/Inventory;Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;Lfr/testudo/spacecorsair/mod/ModShips$Hull;Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)V
-    .registers 13
+    .registers 14
 
     .prologue
     .line 833
@@ -560,22 +560,22 @@
     invoke-virtual {v0}, Landroid/widget/LinearLayout;->removeAllViews()V
 
     .line 834
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
+    iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     .line 835
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
-    const-string v2, "DEFENSE"
+    const-string v1, "DEFENSE"
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
+    invoke-direct {p0, v3, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+    invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
     .line 836
     if-eqz p1, :cond_bd
@@ -587,37 +587,37 @@
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    iget v3, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->life:F
+    iget v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->life:F
 
-    float-to-int v3, v3
+    float-to-int v2, v2
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    const-string v3, " / "
+    const-string v2, " / "
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    iget v3, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
+    iget v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
 
-    float-to-int v3, v3
+    float-to-int v2, v2
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 838
     iget-object v0, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
@@ -631,41 +631,41 @@
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    iget-object v3, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    iget-object v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    iget v3, v3, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
+    iget v2, v2, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
 
-    float-to-int v3, v3
+    float-to-int v2, v2
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    const-string v3, " / "
+    const-string v2, " / "
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    iget-object v3, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    iget-object v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    iget v3, v3, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
+    iget v2, v2, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
-    float-to-int v3, v3
+    float-to-int v2, v2
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 840
     const-string v0, "Shield regen"
@@ -674,39 +674,39 @@
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v3, "+"
+    const-string v2, "+"
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    iget-object v3, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    iget-object v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    iget v3, v3, Lfr/testudo/spacecorsair/business/player/Shield;->reloadUnitBySec:F
+    iget v2, v2, Lfr/testudo/spacecorsair/business/player/Shield;->reloadUnitBySec:F
 
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->f1(F)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->f1(F)Ljava/lang/String;
 
     move-result-object v2
 
-    const-string v3, " /s"
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v1
 
-    move-result-object v2
+    const-string v2, " /s"
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 841
     const-string v0, "Regen delay"
@@ -715,37 +715,37 @@
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    iget-object v3, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    iget-object v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    iget v3, v3, Lfr/testudo/spacecorsair/business/player/Shield;->reloadTime:F
+    iget v2, v2, Lfr/testudo/spacecorsair/business/player/Shield;->reloadTime:F
 
     const/high16 v4, 0x447a0000    # 1000.0f
 
-    div-float/2addr v3, v4
+    div-float/2addr v2, v4
 
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->f1(F)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->f1(F)Ljava/lang/String;
 
     move-result-object v2
 
-    const-string v3, " s"
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v1
 
-    move-result-object v2
+    const-string v2, " s"
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 844
     :cond_bd
@@ -757,27 +757,27 @@
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    iget v3, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->armorInformational:I
+    iget v2, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->armorInformational:I
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    const-string v3, " / 100"
+    const-string v2, " / 100"
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 845
     :cond_dd
@@ -785,9 +785,9 @@
 
     iget v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
-    const/4 v2, 0x0
+    const/4 v1, 0x0
 
-    cmpl-float v0, v0, v2
+    cmpl-float v0, v0, v1
 
     if-lez v0, :cond_10b
 
@@ -797,58 +797,58 @@
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    iget v3, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
+    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
     const/high16 v4, 0x42c80000    # 100.0f
 
-    mul-float/2addr v3, v4
+    mul-float/2addr v2, v4
 
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->f1(F)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->f1(F)Ljava/lang/String;
 
     move-result-object v2
 
-    const-string v3, "% /s"
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v1
 
-    move-result-object v2
+    const-string v2, "% /s"
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 847
     :cond_10b
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
-    const-string v2, "OFFENSE"
+    const-string v1, "OFFENSE"
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
+    invoke-direct {p0, v3, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+    invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
     .line 848
-    if-eqz p1, :cond_1c4
+    if-eqz p1, :cond_1ee
 
     iget-object v0, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->laserSpec:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    if-eqz v0, :cond_1c4
+    if-eqz v0, :cond_1ee
 
     .line 849
     const-string v0, ""
@@ -859,19 +859,19 @@
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;->getLocalizedLabel()Ljava/lang/String;
     :try_end_127
-    .catch Ljava/lang/Throwable; {:try_start_122 .. :try_end_127} :catch_692
+    .catch Ljava/lang/Throwable; {:try_start_122 .. :try_end_127} :catch_6bc
 
     move-result-object v0
 
     .line 851
     :goto_128
-    iget-object v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->laserSpec:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
+    iget-object v1, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->laserSpec:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModSpecs;->isBeam(Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;)Z
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModSpecs;->isBeam(Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;)Z
 
-    move-result v2
+    move-result v1
 
-    if-eqz v2, :cond_136
+    if-eqz v1, :cond_136
 
     const-string v0, "Beam"
 
@@ -879,129 +879,177 @@
 
     move-result-object v0
 
-    .line 852
+    .line 853
     :cond_136
-    const-string v2, "Guns"
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->guns(Lfr/testudo/spacecorsair/business/player/PlayerShip;)I
+
+    move-result v2
+
+    .line 854
+    invoke-static {p5}, Lfr/testudo/spacecorsair/mod/ModV38;->turretPlan(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)[I
+
+    move-result-object v1
+
+    .line 855
+    if-eqz v1, :cond_728
+
+    const/4 v4, 0x5
+
+    aget v1, v1, v4
+
+    .line 856
+    :goto_143
+    const-string v4, "Turrets"
+
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v4
+
+    new-instance v5, Ljava/lang/StringBuilder;
+
+    invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v5, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v5
+
+    if-le v1, v2, :cond_6c1
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v6, " / "
+
+    invoke-virtual {v2, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "  ("
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "more at form IV-V"
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v2
 
-    new-instance v3, Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+    move-result-object v1
 
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->guns(Lfr/testudo/spacecorsair/business/player/PlayerShip;)I
+    const-string v2, ")"
 
-    move-result v4
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    move-result-object v1
 
-    move-result-object v3
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
+    move-result-object v1
+
+    :goto_17d
+    invoke-virtual {v5, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {p0, v4, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 857
     invoke-virtual {v0}, Ljava/lang/String;->length()I
 
-    move-result v4
+    move-result v1
 
-    if-lez v4, :cond_697
+    if-lez v1, :cond_197
 
-    new-instance v4, Ljava/lang/StringBuilder;
+    const-string v1, "Mount"
 
-    invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    const-string v5, " \u00b7 "
+    move-result-object v1
 
-    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-direct {p0, v1, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    move-result-object v4
-
-    invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v0
-
-    :goto_162
-    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v0
-
-    invoke-direct {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 853
+    .line 858
+    :cond_197
     const-string v0, "Damage / shot"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    iget v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->bulletDamage:F
+    iget v1, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->bulletDamage:F
 
-    float-to-int v2, v2
+    float-to-int v1, v1
 
-    invoke-static {v2}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+    invoke-static {v1}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 854
+    .line 859
     const-string v0, "Cycle time"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
     iget-wide v4, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenShots:J
 
-    invoke-virtual {v2, v4, v5}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v4, v5}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    const-string v3, " ms"
+    const-string v2, " ms"
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 855
+    .line 860
     const-string v0, "Laser DPS (item)"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    iget-object v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->laserSpec:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
+    iget-object v1, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->laserSpec:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->getDps()F
+    invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->getDps()F
 
-    move-result v2
+    move-result v1
 
-    float-to-int v2, v2
+    float-to-int v1, v1
 
-    invoke-static {v2}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+    invoke-static {v1}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 856
+    .line 861
     const-string v0, "Fitted DPS (est.)"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1010,121 +1058,121 @@
 
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->fittedDps(Lfr/testudo/spacecorsair/business/player/PlayerShip;)F
 
-    move-result v2
+    move-result v1
 
-    invoke-static {v2}, Ljava/lang/Math;->round(F)I
+    invoke-static {v1}, Ljava/lang/Math;->round(F)I
 
-    move-result v2
+    move-result v1
 
-    invoke-static {v2}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+    invoke-static {v1}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 858
-    :cond_1c4
+    .line 863
+    :cond_1ee
     iget-object v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->missile:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 859
+    .line 864
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModFitting;->empty(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
 
     move-result v0
 
-    if-nez v0, :cond_69b
+    if-nez v0, :cond_6c5
 
-    if-eqz p1, :cond_69b
+    if-eqz p1, :cond_6c5
 
     iget-object v0, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->missileSpec:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    if-eqz v0, :cond_69b
+    if-eqz v0, :cond_6c5
 
-    .line 860
+    .line 865
     const-string v0, "Missile damage"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    iget-object v3, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->missileSpec:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
+    iget-object v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->missileSpec:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    iget v3, v3, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->damage:F
+    iget v2, v2, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->damage:F
 
-    float-to-int v3, v3
+    float-to-int v2, v2
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    const-string v3, " + "
+    const-string v2, " + "
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    iget-object v3, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->missileSpec:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
+    iget-object v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->missileSpec:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    iget v3, v3, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->radiusDamage:F
+    iget v2, v2, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->radiusDamage:F
 
-    float-to-int v3, v3
+    float-to-int v2, v2
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 861
+    .line 866
     const-string v0, "Missile reload"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
     iget-wide v4, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenMissileShots:J
 
-    long-to-float v3, v4
+    long-to-float v2, v4
 
     const/high16 v4, 0x447a0000    # 1000.0f
 
-    div-float/2addr v3, v4
+    div-float/2addr v2, v4
 
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->f1(F)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->f1(F)Ljava/lang/String;
 
     move-result-object v2
 
-    const-string v3, " s"
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v1
 
-    move-result-object v2
+    const-string v2, " s"
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    .line 862
-    if-eqz p6, :cond_235
+    move-result-object v1
+
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 867
+    if-eqz p6, :cond_25f
 
     const-string v0, "Launchers"
 
@@ -1132,122 +1180,294 @@
 
     move-result-object v0
 
-    iget v2, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileCount:I
+    iget v1, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileCount:I
 
-    invoke-static {v2}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+    invoke-static {v1}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 863
-    :cond_235
+    .line 868
+    :cond_25f
     const-string v0, "Missiles"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
     invoke-virtual {p3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getMissileCount()I
 
-    move-result v3
+    move-result v2
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    const-string v3, " / "
+    const-string v2, " / "
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    iget-object v3, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->missileSpec:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
+    iget-object v2, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->missileSpec:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    iget v3, v3, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->maxCountInventory:I
+    iget v2, v2, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->maxCountInventory:I
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 868
-    :goto_25d
+    .line 873
+    :goto_287
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
-    const-string v2, "NAVIGATION"
+    const-string v1, "NAVIGATION"
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
+    invoke-direct {p0, v3, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+    invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 869
-    if-eqz p6, :cond_2b9
+    .line 874
+    if-eqz p6, :cond_2e3
 
-    .line 870
+    .line 875
     const-string v0, "Top speed"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    new-instance v2, Ljava/lang/StringBuilder;
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    iget v3, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->maxSpeedInformational:I
+    iget v2, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->maxSpeedInformational:I
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    const-string v3, " / 100"
+    const-string v2, " / 100"
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 871
+    .line 876
     const-string v0, "Agility"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    iget v2, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->agilityInformational:I
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " / 100"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 877
+    const-string v0, "Mass"
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    iget v1, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->mass:I
+
+    invoke-static {v1}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 879
+    :cond_2e3
+    iget-object v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
+
+    iget-object v1, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->booster:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    .line 880
+    if-eqz v1, :cond_6d6
+
+    invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+
+    move-result-object v0
+
+    instance-of v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
+
+    if-eqz v0, :cond_6d6
+
+    invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+
+    move-result-object v0
+
+    check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
+
+    .line 881
+    :goto_2f7
+    const-string v2, "Booster"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModFitting;->empty(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_305
+
+    if-nez v0, :cond_6d9
+
+    :cond_305
+    const-string v0, "none"
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    :goto_30b
+    invoke-direct {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 882
+    iget-object v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
+
+    iget-object v1, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->hyperdriveEngine:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
+
+    .line 883
+    if-eqz v1, :cond_70a
+
+    invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+
+    move-result-object v0
+
+    instance-of v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
+
+    if-eqz v0, :cond_70a
+
+    invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+
+    move-result-object v0
+
+    check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
+
+    .line 884
+    :goto_322
+    const-string v2, "Hyperdrive"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModFitting;->empty(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_330
+
+    if-nez v0, :cond_70d
+
+    :cond_330
+    const-string v0, "none"
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    :goto_336
+    invoke-direct {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 886
+    iget v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+
+    const/16 v1, 0xa
+
+    if-lt v0, v1, :cond_3b8
+
+    .line 888
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->playerStat()I
+
+    move-result v0
+
+    .line 889
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
+
+    const-string v2, "PILOT STATS"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-direct {p0, v3, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+
+    .line 890
+    const-string v1, "Attack"
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
 
-    iget v3, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->agilityInformational:I
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
-    const-string v3, " / 100"
+    const-string v4, " / "
 
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const/16 v4, 0x3e8
+
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
@@ -1255,237 +1475,65 @@
 
     move-result-object v2
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 872
-    const-string v0, "Mass"
+    .line 891
+    const-string v1, "Defense"
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v0
+    move-result-object v1
 
-    iget v2, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->mass:I
+    new-instance v2, Ljava/lang/StringBuilder;
 
-    invoke-static {v2}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
 
-    move-result-object v2
-
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 874
-    :cond_2b9
-    iget-object v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
-
-    iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->booster:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
-
-    .line 875
-    if-eqz v2, :cond_6ac
-
-    invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
-
-    move-result-object v0
-
-    instance-of v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
-
-    if-eqz v0, :cond_6ac
-
-    invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
-
-    move-result-object v0
-
-    check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
-
-    .line 876
-    :goto_2cd
-    const-string v3, "Booster"
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->empty(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
-
-    move-result v2
-
-    if-nez v2, :cond_2db
-
-    if-nez v0, :cond_6af
-
-    :cond_2db
-    const-string v0, "none"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    :goto_2e1
-    invoke-direct {p0, v3, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 877
-    iget-object v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
-
-    iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->hyperdriveEngine:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
-
-    .line 878
-    if-eqz v2, :cond_6e0
-
-    invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
-
-    move-result-object v0
-
-    instance-of v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
-
-    if-eqz v0, :cond_6e0
-
-    invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
-
-    move-result-object v0
-
-    check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
-
-    .line 879
-    :goto_2f8
-    const-string v3, "Hyperdrive"
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->empty(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
-
-    move-result v2
-
-    if-nez v2, :cond_306
-
-    if-nez v0, :cond_6e3
-
-    :cond_306
-    const-string v0, "none"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    :goto_30c
-    invoke-direct {p0, v3, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 881
-    iget v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
-
-    const/16 v2, 0xa
-
-    if-lt v0, v2, :cond_38e
-
-    .line 883
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->playerStat()I
-
-    move-result v0
-
-    .line 884
-    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
-
-    const-string v3, "PILOT STATS"
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-direct {p0, v1, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
-
-    .line 885
-    const-string v2, "Attack"
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v2
-
-    new-instance v3, Ljava/lang/StringBuilder;
-
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v3
 
     const-string v4, " / "
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    const/16 v4, 0x3e8
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-direct {p0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 886
-    const-string v2, "Defense"
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
-    new-instance v3, Ljava/lang/StringBuilder;
-
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    const-string v4, " / "
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
     const/16 v4, 0x3e8
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-direct {p0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 887
-    const-string v2, "Reaction"
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
-    new-instance v3, Ljava/lang/StringBuilder;
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+    move-result-object v2
 
-    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-direct {p0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 892
+    const-string v1, "Reaction"
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    const-string v3, " / "
+    const-string v2, " / "
 
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    const/16 v3, 0x3e8
+    const/16 v2, 0x3e8
 
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -1493,68 +1541,68 @@
 
     move-result-object v0
 
-    invoke-direct {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v1, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 889
-    :cond_38e
+    .line 894
+    :cond_3b8
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->summary()[Ljava/lang/String;
+
+    move-result-object v1
+
+    .line 895
+    if-eqz v1, :cond_51f
+
+    .line 897
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
+
+    const-string v2, "REFIT"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v2
 
-    .line 890
-    if-eqz v2, :cond_4f5
+    invoke-direct {p0, v3, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
 
-    .line 892
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
+    move-result-object v2
 
-    const-string v3, "REFIT"
+    invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-direct {p0, v1, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
-
-    move-result-object v3
-
-    invoke-virtual {v0, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
-
-    .line 893
+    .line 898
     const-string v0, "Refit level"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    new-instance v3, Ljava/lang/StringBuilder;
+    new-instance v2, Ljava/lang/StringBuilder;
 
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
 
     const/4 v4, 0x0
 
-    aget-object v4, v2, v4
+    aget-object v4, v1, v4
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
     const-string v4, " / "
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
     const/16 v4, 0xa
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
     const-string v4, "  \u00b7  "
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
     const-string v4, "Stage"
 
@@ -1562,377 +1610,33 @@
 
     move-result-object v4
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
     const-string v4, " "
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
     const/4 v4, 0x1
 
-    aget-object v4, v2, v4
+    aget-object v4, v1, v4
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
     const-string v4, " / "
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
     const/4 v4, 0x5
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-direct {p0, v0, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 894
-    const-string v0, "Rare parts"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    const/4 v3, 0x4
-
-    aget-object v3, v2, v3
-
-    invoke-direct {p0, v0, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 895
-    const/4 v0, 0x6
-
-    aget-object v0, v2, v0
-
-    const/4 v3, 0x7
-
-    aget-object v3, v2, v3
-
-    invoke-direct {p0, v0, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 896
-    const/4 v0, 0x2
-
-    aget-object v0, v2, v0
-
-    invoke-virtual {v0}, Ljava/lang/String;->length()I
-
-    move-result v0
-
-    if-lez v0, :cond_499
-
-    .line 897
-    new-instance v0, Ljava/lang/StringBuilder;
-
-    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-static {}, Ljava/util/Locale;->getDefault()Ljava/util/Locale;
-
-    move-result-object v3
-
-    invoke-static {v3}, Ljava/text/NumberFormat;->getNumberInstance(Ljava/util/Locale;)Ljava/text/NumberFormat;
-
-    move-result-object v3
-
-    const/4 v4, 0x2
-
-    aget-object v4, v2, v4
-
-    invoke-static {v4}, Ljava/lang/Long;->parseLong(Ljava/lang/String;)J
-
-    move-result-wide v4
-
-    invoke-virtual {v3, v4, v5}, Ljava/text/NumberFormat;->format(J)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const-string v3, " cr"
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v0
-
-    .line 898
-    const-string v3, "0"
-
-    const/4 v4, 0x3
-
-    aget-object v4, v2, v4
-
-    invoke-virtual {v3, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v3
-
-    if-nez v3, :cond_469
-
-    new-instance v3, Ljava/lang/StringBuilder;
-
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const-string v3, " + "
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const/4 v3, 0x3
-
-    aget-object v3, v2, v3
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const-string v3, " "
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const-string v3, "parts"
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v0
-
-    .line 899
-    :cond_469
-    const/4 v3, 0x0
-
-    aget-object v3, v2, v3
-
-    invoke-static {v3}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
-
-    move-result v3
-
-    add-int/lit8 v3, v3, 0x1
-
-    const/16 v4, 0xa
-
-    if-ne v3, v4, :cond_490
-
-    new-instance v3, Ljava/lang/StringBuilder;
-
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const-string v3, " + 1 "
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const/4 v3, 0x6
-
-    aget-object v3, v2, v3
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v0
-
-    .line 900
-    :cond_490
-    const-string v3, "Next level"
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-direct {p0, v3, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 902
-    :cond_499
-    const/high16 v0, 0x41200000    # 10.0f
-
-    const v3, -0x4f3b26
-
-    const/4 v4, 0x0
-
-    invoke-static {v1, v0, v3, v4}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
-
-    move-result-object v0
-
-    .line 903
-    new-instance v3, Ljava/lang/StringBuilder;
-
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v4, "Each level: "
-
-    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v4
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    const/4 v4, 0x5
-
-    aget-object v4, v2, v4
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v0, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
-
-    .line 904
-    iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
-
-    invoke-virtual {v3, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
-
-    .line 905
-    const/4 v0, 0x2
-
-    aget-object v0, v2, v0
-
-    invoke-virtual {v0}, Ljava/lang/String;->length()I
-
-    move-result v0
-
-    if-lez v0, :cond_4f5
-
-    .line 906
-    const-string v0, "REFIT"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    const/4 v2, -0x1
-
-    invoke-static {v1, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->button(Landroid/content/Context;Ljava/lang/String;I)Landroid/widget/Button;
-
-    move-result-object v0
-
-    .line 907
-    new-instance v2, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;
-
-    invoke-direct {v2, p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;-><init>(Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;)V
-
-    invoke-virtual {v0, v2}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
-
-    .line 912
-    new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
-
-    const/4 v3, -0x1
-
-    const/4 v4, -0x2
-
-    invoke-direct {v2, v3, v4}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
-
-    .line 913
-    const/high16 v3, 0x40800000    # 4.0f
-
-    iget v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
-
-    mul-float/2addr v3, v4
-
-    float-to-int v3, v3
-
-    iput v3, v2, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
-
-    .line 914
-    iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
-
-    invoke-virtual {v3, v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
-
-    .line 917
-    :cond_4f5
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
-
-    const-string v2, "CARGO"
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-direct {p0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
-
-    move-result-object v2
-
-    invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
-
-    .line 918
-    const-string v0, "Hold"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    new-instance v2, Ljava/lang/StringBuilder;
-
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-virtual {p3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getTotalWeight()I
-
-    move-result v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    const-string v3, " / "
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {p3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCapacityInTon()I
-
-    move-result v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    const-string v3, " t"
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
@@ -1942,16 +1646,360 @@
 
     invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
+    .line 899
+    const-string v0, "Rare parts"
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    const/4 v2, 0x4
+
+    aget-object v2, v1, v2
+
+    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 900
+    const/4 v0, 0x6
+
+    aget-object v0, v1, v0
+
+    const/4 v2, 0x7
+
+    aget-object v2, v1, v2
+
+    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 901
+    const/4 v0, 0x2
+
+    aget-object v0, v1, v0
+
+    invoke-virtual {v0}, Ljava/lang/String;->length()I
+
+    move-result v0
+
+    if-lez v0, :cond_4c3
+
+    .line 902
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-static {}, Ljava/util/Locale;->getDefault()Ljava/util/Locale;
+
+    move-result-object v2
+
+    invoke-static {v2}, Ljava/text/NumberFormat;->getNumberInstance(Ljava/util/Locale;)Ljava/text/NumberFormat;
+
+    move-result-object v2
+
+    const/4 v4, 0x2
+
+    aget-object v4, v1, v4
+
+    invoke-static {v4}, Ljava/lang/Long;->parseLong(Ljava/lang/String;)J
+
+    move-result-wide v4
+
+    invoke-virtual {v2, v4, v5}, Ljava/text/NumberFormat;->format(J)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v2, " cr"
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 903
+    const-string v2, "0"
+
+    const/4 v4, 0x3
+
+    aget-object v4, v1, v4
+
+    invoke-virtual {v2, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_493
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v2, " + "
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const/4 v2, 0x3
+
+    aget-object v2, v1, v2
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v2, " "
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v2, "parts"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 904
+    :cond_493
+    const/4 v2, 0x0
+
+    aget-object v2, v1, v2
+
+    invoke-static {v2}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+
+    move-result v2
+
+    add-int/lit8 v2, v2, 0x1
+
+    const/16 v4, 0xa
+
+    if-ne v2, v4, :cond_4ba
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v2, " + 1 "
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const/4 v2, 0x6
+
+    aget-object v2, v1, v2
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 905
+    :cond_4ba
+    const-string v2, "Next level"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-direct {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 907
+    :cond_4c3
+    const/high16 v0, 0x41200000    # 10.0f
+
+    const v2, -0x4f3b26
+
+    const/4 v4, 0x0
+
+    invoke-static {v3, v0, v2, v4}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
+
+    move-result-object v0
+
+    .line 908
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "Each level: "
+
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const/4 v4, 0x5
+
+    aget-object v4, v1, v4
+
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v0, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 909
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
+
+    invoke-virtual {v2, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+
+    .line 910
+    const/4 v0, 0x2
+
+    aget-object v0, v1, v0
+
+    invoke-virtual {v0}, Ljava/lang/String;->length()I
+
+    move-result v0
+
+    if-lez v0, :cond_51f
+
+    .line 911
+    const-string v0, "REFIT"
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    const/4 v1, -0x1
+
+    invoke-static {v3, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting;->button(Landroid/content/Context;Ljava/lang/String;I)Landroid/widget/Button;
+
+    move-result-object v0
+
+    .line 912
+    new-instance v1, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;
+
+    invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;-><init>(Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;)V
+
+    invoke-virtual {v0, v1}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    .line 917
+    new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
+
+    const/4 v2, -0x1
+
+    const/4 v4, -0x2
+
+    invoke-direct {v1, v2, v4}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
+
+    .line 918
+    const/high16 v2, 0x40800000    # 4.0f
+
+    iget v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
+
+    mul-float/2addr v2, v4
+
+    float-to-int v2, v2
+
+    iput v2, v1, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
+
     .line 919
-    if-eqz p5, :cond_54b
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
+
+    invoke-virtual {v2, v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 922
+    :cond_51f
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
+
+    const-string v1, "CARGO"
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {p0, v3, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+
+    .line 923
+    const-string v0, "Hold"
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {p3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getTotalWeight()I
+
+    move-result v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " / "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {p3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCapacityInTon()I
+
+    move-result v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " t"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 924
+    if-eqz p5, :cond_575
 
     iget v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
-    const/high16 v2, 0x3f800000    # 1.0f
+    const/high16 v1, 0x3f800000    # 1.0f
 
-    cmpl-float v0, v0, v2
+    cmpl-float v0, v0, v1
 
-    if-eqz v0, :cond_54b
+    if-eqz v0, :cond_575
 
     const-string v0, "Hull cargo bonus"
 
@@ -1959,282 +2007,282 @@
 
     move-result-object v0
 
-    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
+    iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 926
+    :cond_575
+    if-eqz p5, :cond_6bb
+
+    .line 927
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+
+    .line 928
+    iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
+
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    cmpl-float v1, v1, v2
+
+    if-eqz v1, :cond_59d
+
+    const-string v1, "Laser damage "
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
 
     move-result-object v2
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 921
-    :cond_54b
-    if-eqz p5, :cond_691
+    move-result-object v1
 
-    .line 922
-    new-instance v0, Ljava/lang/StringBuilder;
+    const/16 v2, 0xa
 
-    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
-
-    .line 923
-    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
-
-    const/high16 v3, 0x3f800000    # 1.0f
-
-    cmpl-float v2, v2, v3
-
-    if-eqz v2, :cond_573
-
-    const-string v2, "Laser damage "
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    iget v3, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    const/16 v3, 0xa
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
-
-    .line 924
-    :cond_573
-    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
-
-    const/high16 v3, 0x3f800000    # 1.0f
-
-    cmpl-float v2, v2, v3
-
-    if-eqz v2, :cond_594
-
-    const-string v2, "Laser reload time "
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    iget v3, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    const/16 v3, 0xa
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
-
-    .line 925
-    :cond_594
-    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
-
-    const/high16 v3, 0x3f800000    # 1.0f
-
-    cmpl-float v2, v2, v3
-
-    if-eqz v2, :cond_5b5
-
-    const-string v2, "Shield capacity "
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    iget v3, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    const/16 v3, 0xa
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
-
-    .line 926
-    :cond_5b5
-    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
-
-    const/high16 v3, 0x3f800000    # 1.0f
-
-    cmpl-float v2, v2, v3
-
-    if-eqz v2, :cond_5d6
-
-    const-string v2, "Shield regeneration "
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    iget v3, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    const/16 v3, 0xa
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
-
-    .line 927
-    :cond_5d6
-    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldDelay:F
-
-    const/high16 v3, 0x3f800000    # 1.0f
-
-    cmpl-float v2, v2, v3
-
-    if-eqz v2, :cond_5f7
-
-    const-string v2, "Shield recovery delay "
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    iget v3, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldDelay:F
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    const/16 v3, 0xa
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
-
-    .line 928
-    :cond_5f7
-    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
-
-    const/high16 v3, 0x3f800000    # 1.0f
-
-    cmpl-float v2, v2, v3
-
-    if-eqz v2, :cond_618
-
-    const-string v2, "Missile reload time "
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    iget v3, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    const/16 v3, 0xa
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
     .line 929
-    :cond_618
-    iget-object v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
+    :cond_59d
+    iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    if-eqz v2, :cond_624
+    const/high16 v2, 0x3f800000    # 1.0f
 
-    iget-object v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
+    cmpl-float v1, v1, v2
 
-    invoke-virtual {v2}, Ljava/lang/String;->length()I
+    if-eqz v1, :cond_5be
 
-    move-result v2
+    const-string v1, "Laser reload time "
 
-    if-gtz v2, :cond_62a
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    :cond_624
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
+    move-result-object v1
 
-    move-result v2
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    if-lez v2, :cond_691
+    move-result-object v1
+
+    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const/16 v2, 0xa
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
     .line 930
-    :cond_62a
-    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
+    :cond_5be
+    iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    const-string v3, "HULL BONUSES"
+    const/high16 v2, 0x3f800000    # 1.0f
 
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    cmpl-float v1, v1, v2
 
-    move-result-object v3
+    if-eqz v1, :cond_5df
 
-    invoke-direct {p0, v1, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
+    const-string v1, "Shield capacity "
 
-    move-result-object v3
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    invoke-virtual {v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const/16 v2, 0xa
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
     .line 931
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
+    :cond_5df
+    iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
-    move-result v2
+    const/high16 v2, 0x3f800000    # 1.0f
 
-    if-lez v2, :cond_661
+    cmpl-float v1, v1, v2
+
+    if-eqz v1, :cond_600
+
+    const-string v1, "Shield regeneration "
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const/16 v2, 0xa
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
     .line 932
-    const/high16 v2, 0x41300000    # 11.0f
+    :cond_600
+    iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldDelay:F
 
-    const/4 v3, -0x1
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    cmpl-float v1, v1, v2
+
+    if-eqz v1, :cond_621
+
+    const-string v1, "Shield recovery delay "
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldDelay:F
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const/16 v2, 0xa
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+
+    .line 933
+    :cond_621
+    iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
+
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    cmpl-float v1, v1, v2
+
+    if-eqz v1, :cond_642
+
+    const-string v1, "Missile reload time "
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    iget v2, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->pct(F)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const/16 v2, 0xa
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+
+    .line 934
+    :cond_642
+    iget-object v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
+
+    if-eqz v1, :cond_64e
+
+    iget-object v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
+
+    invoke-virtual {v1}, Ljava/lang/String;->length()I
+
+    move-result v1
+
+    if-gtz v1, :cond_654
+
+    :cond_64e
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
+
+    move-result v1
+
+    if-lez v1, :cond_6bb
+
+    .line 935
+    :cond_654
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
+
+    const-string v2, "HULL BONUSES"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-direct {p0, v3, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->section(Landroid/content/Context;Ljava/lang/String;)Landroid/widget/TextView;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+
+    .line 936
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
+
+    move-result v1
+
+    if-lez v1, :cond_68b
+
+    .line 937
+    const/high16 v1, 0x41300000    # 11.0f
+
+    const/4 v2, -0x1
 
     const/4 v4, 0x0
 
-    invoke-static {v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
+    invoke-static {v3, v1, v2, v4}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
 
-    move-result-object v2
+    move-result-object v1
 
-    .line 933
+    .line 938
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v0
@@ -2243,29 +2291,29 @@
 
     move-result-object v0
 
-    invoke-virtual {v2, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+    invoke-virtual {v1, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 934
+    .line 939
     const/high16 v0, 0x40000000    # 2.0f
 
-    iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
-    mul-float/2addr v0, v3
+    mul-float/2addr v0, v2
 
-    const/high16 v3, 0x3f800000    # 1.0f
+    const/high16 v2, 0x3f800000    # 1.0f
 
-    invoke-virtual {v2, v0, v3}, Landroid/widget/TextView;->setLineSpacing(FF)V
+    invoke-virtual {v1, v0, v2}, Landroid/widget/TextView;->setLineSpacing(FF)V
 
-    .line 935
+    .line 940
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
-    invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
+    invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 937
-    :cond_661
+    .line 942
+    :cond_68b
     iget-object v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
-    if-eqz v0, :cond_691
+    if-eqz v0, :cond_6bb
 
     iget-object v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
@@ -2273,20 +2321,20 @@
 
     move-result v0
 
-    if-lez v0, :cond_691
+    if-lez v0, :cond_6bb
 
-    .line 938
+    .line 943
     const/high16 v0, 0x41200000    # 10.0f
 
-    const v2, -0x4f3b26
+    const v1, -0x4f3b26
 
-    const/4 v3, 0x0
+    const/4 v2, 0x0
 
-    invoke-static {v1, v0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
+    invoke-static {v3, v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
 
     move-result-object v0
 
-    .line 939
+    .line 944
     iget-object v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
     invoke-static {v1}, Landroid/text/Html;->fromHtml(Ljava/lang/String;)Landroid/text/Spanned;
@@ -2295,7 +2343,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 940
+    .line 945
     const/4 v1, 0x0
 
     const/high16 v2, 0x40800000    # 4.0f
@@ -2312,64 +2360,64 @@
 
     invoke-virtual {v0, v1, v2, v3, v4}, Landroid/widget/TextView;->setPadding(IIII)V
 
-    .line 941
+    .line 946
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 945
-    :cond_691
+    .line 950
+    :cond_6bb
     return-void
 
     .line 850
-    :catch_692
+    :catch_6bc
     move-exception v0
 
     const-string v0, ""
 
     goto/16 :goto_128
 
-    .line 852
-    :cond_697
-    const-string v0, ""
+    .line 856
+    :cond_6c1
+    const-string v1, ""
 
-    goto/16 :goto_162
+    goto/16 :goto_17d
 
-    .line 865
-    :cond_69b
+    .line 870
+    :cond_6c5
     const-string v0, "Missiles"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    const-string v2, "no launcher"
+    const-string v1, "no launcher"
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    goto/16 :goto_25d
+    goto/16 :goto_287
 
-    .line 875
-    :cond_6ac
+    .line 880
+    :cond_6d6
     const/4 v0, 0x0
 
-    goto/16 :goto_2cd
+    goto/16 :goto_2f7
 
-    .line 876
-    :cond_6af
-    new-instance v2, Ljava/lang/StringBuilder;
+    .line 881
+    :cond_6d9
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
     const-string v4, "x"
 
-    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
     iget v4, v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;->boostPower:F
 
@@ -2377,15 +2425,15 @@
 
     move-result-object v4
 
-    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
     const-string v4, " \u00b7 "
 
-    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
     iget v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;->shieldConsumeBySecInPourc:F
 
@@ -2393,13 +2441,13 @@
 
     move-result-object v0
 
-    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    const-string v2, "% sh/s"
+    const-string v1, "% sh/s"
 
-    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -2407,19 +2455,19 @@
 
     move-result-object v0
 
-    goto/16 :goto_2e1
+    goto/16 :goto_30b
 
-    .line 878
-    :cond_6e0
+    .line 883
+    :cond_70a
     const/4 v0, 0x0
 
-    goto/16 :goto_2f8
+    goto/16 :goto_322
 
-    .line 879
-    :cond_6e3
-    new-instance v2, Ljava/lang/StringBuilder;
+    .line 884
+    :cond_70d
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
     iget v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;->energyCellsPerUnit:F
 
@@ -2427,13 +2475,13 @@
 
     move-result-object v0
 
-    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    const-string v2, " cells/unit"
+    const-string v1, " cells/unit"
 
-    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -2441,7 +2489,12 @@
 
     move-result-object v0
 
-    goto/16 :goto_30c
+    goto/16 :goto_336
+
+    :cond_728
+    move v1, v2
+
+    goto/16 :goto_143
 .end method
 
 .method private header(Landroid/app/Activity;)Landroid/view/View;
@@ -3199,17 +3252,17 @@
 
     const/4 v5, 0x0
 
-    .line 948
+    .line 953
     new-instance v0, Landroid/widget/LinearLayout;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     invoke-direct {v0, v1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 949
+    .line 954
     invoke-virtual {v0, v5}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 950
+    .line 955
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
     mul-float/2addr v1, v3
@@ -3224,7 +3277,7 @@
 
     invoke-virtual {v0, v5, v1, v5, v2}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 951
+    .line 956
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     const v2, -0x4f3b26
@@ -3233,10 +3286,10 @@
 
     move-result-object v1
 
-    .line 952
+    .line 957
     invoke-virtual {v1, p1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 953
+    .line 958
     new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v3, -0x2
@@ -3247,7 +3300,7 @@
 
     invoke-virtual {v0, v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 954
+    .line 959
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     const/4 v2, -0x1
@@ -3258,23 +3311,23 @@
 
     move-result-object v1
 
-    .line 955
+    .line 960
     invoke-virtual {v1, p2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 956
+    .line 961
     const/4 v2, 0x5
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 957
+    .line 962
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 958
+    .line 963
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 959
+    .line 964
     return-void
 .end method
 

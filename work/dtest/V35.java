@@ -4,8 +4,8 @@ public class V35{static int bad=0;
 static void eq(String n,double got,double want,double tol){boolean ok=Math.abs(got-want)<=tol;if(!ok)bad++;System.out.println((ok?"ok V35 ":"FAIL V35 ")+n+" = "+got+(ok?"":" (want "+want+")"));}
 public static void main(String[] a) throws Exception{
 // refits
-eq("refit L1 cost 8% of hull",ModV35.cost(1,100000),8000,0);eq("refit L10 cost 80% of hull",ModV35.cost(10,100000),80000,0);
-long tot=0;for(int n=1;n<=10;n++)tot+=ModV35.cost(n,100000);eq("refit L1-10 total 4.4x hull",tot,440000,0);
+eq("v44 refit L1 cost 2% of hull",ModV35.cost(1,100000),2000,0);eq("v44 refit L10 cost 20% of hull",ModV35.cost(10,100000),20000,0);
+long tot=0;for(int n=1;n<=10;n++)tot+=ModV35.cost(n,100000);eq("v44 refit L1-10 total 1.1x hull",tot,110000,0);
 eq("parts L5",ModV35.partsFor(5),0,0);eq("parts L6",ModV35.partsFor(6),1,0);eq("parts L10",ModV35.partsFor(10),5,0);
 int pt=0;for(int n=1;n<=10;n++)pt+=ModV35.partsFor(n);eq("parts total",pt,15,0);
 eq("stage L0",ModV35.stage(0),0,0);eq("stage L1",ModV35.stage(1),1,0);eq("stage L2",ModV35.stage(2),1,0);eq("stage L3",ModV35.stage(3),2,0);eq("stage L9",ModV35.stage(9),5,0);eq("stage L10",ModV35.stage(10),5,0);

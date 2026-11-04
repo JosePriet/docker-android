@@ -639,7 +639,7 @@ public class ModShips {
             b.append("<br>").append(ModLang.tr("Hull")).append(": x").append(Math.round(s.lifeBooster * 100) / 100f);
             b.append("<br>").append(ModLang.tr("Speed")).append(": ").append(s.maxSpeedInformational).append(" / 100");
             b.append("<br>").append(ModLang.tr("Agility")).append(": ").append(s.agilityInformational).append(" / 100");
-            b.append("<br>").append(ModLang.tr("Turrets")).append(": ").append(s.canonCount).append(" · ").append(ModLang.tr("Missiles")).append(": ").append(s.missileCount);
+            b.append("<br>").append(ModLang.tr("Turrets")).append(": ").append(ModV38.turretText(h, s.canonCount)).append(" · ").append(ModLang.tr("Missiles")).append(": ").append(s.missileCount);
         }
         b.append("<br>").append(ModLang.tr("Cargo")).append(": x").append(Math.round(h.cargo * 100) / 100f);
         return b.toString();
