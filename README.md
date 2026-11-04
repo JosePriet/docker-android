@@ -16,6 +16,7 @@ The untouched Space Corsair release every mod build was made from, for side-by-s
 <!-- releases:start -->
 | Version | Date | Size | SHA-256 | Notes | Download |
 |---|---|---|---|---|---|
+| v42 | 2026-11-04 | 97.6 MB | `45771c57f889f41b0f1917fead78cfbdde13a068af39492c744f35eb49de3938` | v42: police/militia escalation, police titans, High Council, missile tracking fix, doomsday rework, audio rebalance | [space-corsair-mod-signed-v42.apk](https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-mod-signed-v42.apk) |
 | v41 | 2026-11-03 | 75.5 MB | `6ce6c363fa3d681c1ea940ee4a0a38fd265caae85527725586ccc0a6a160635f` | v41 + Monolith s4/s5 effects fix (preview plasma wings + aura), build 73fb672 | [space-corsair-mod-signed-v41.apk](https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-mod-signed-v41.apk) |
 | v32 | 2026-10-17 | 58.6 MB | `84e84d9c7172031c2b8effc48dae160077f699e5db7321c0738200da65d75d9c` | v32: glow masks on stock enemy/civil sprites, pre-drawn flagship wreck halves (5 caps), player titan signature | [space-corsair-mod-signed-v32.apk](https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-mod-signed-v32.apk) |
 | v31 | 2026-10-16 | 50.5 MB | `c15ad5f3ecb1cb2338f774fba2f9490b2637f57cececd1952eab720b7a1efc46` | v31: Matriarch illusions harmless, Empress keeps weak guns, boss secret loot can drop faction secrets, minor perf fix (no emulator run) | [space-corsair-mod-signed-v31.apk](https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-mod-signed-v31.apk) |
