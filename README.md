@@ -16,6 +16,7 @@ The untouched Space Corsair release every mod build was made from, for side-by-s
 <!-- releases:start -->
 | Version | Date | Size | SHA-256 | Notes | Download |
 |---|---|---|---|---|---|
+| v43 | 2026-11-04 | 68.3 MB | `ed46d4769807770a493fafe1d9ef1a3321509c3994fe87d2aecbbd0838611cf1` | v43: police liveries + animated auras, APK 72 MB | [space-corsair-mod-signed-v43.apk](https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-mod-signed-v43.apk) |
 | v42 | 2026-11-04 | 97.6 MB | `45771c57f889f41b0f1917fead78cfbdde13a068af39492c744f35eb49de3938` | v42: police/militia escalation, police titans, High Council, missile tracking fix, doomsday rework, audio rebalance | [space-corsair-mod-signed-v42.apk](https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-mod-signed-v42.apk) |
 | v41 | 2026-11-03 | 75.5 MB | `6ce6c363fa3d681c1ea940ee4a0a38fd265caae85527725586ccc0a6a160635f` | v41 + Monolith s4/s5 effects fix (preview plasma wings + aura), build 73fb672 | [space-corsair-mod-signed-v41.apk](https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-mod-signed-v41.apk) |
 | v32 | 2026-10-17 | 58.6 MB | `84e84d9c7172031c2b8effc48dae160077f699e5db7321c0738200da65d75d9c` | v32: glow masks on stock enemy/civil sprites, pre-drawn flagship wreck halves (5 caps), player titan signature | [space-corsair-mod-signed-v32.apk](https://github.com/JosePriet/docker-android/raw/releases/apk/space-corsair-mod-signed-v32.apk) |
