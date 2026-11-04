@@ -1,0 +1,286 @@
+11-04 14:44:06.940 D/AndroidRuntime( 2473): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:44:06.947 I/AndroidRuntime( 2473): Using default boot image
+11-04 14:44:06.947 I/AndroidRuntime( 2473): Leaving lock profiling enabled
+11-04 14:44:07.086 D/AndroidRuntime( 2473): Calling main entry com.android.commands.monkey.Monkey
+11-04 14:44:07.208 I/AndroidRuntime( 2473): VM exiting with result code 0.
+11-04 14:44:07.630 I/ModText ( 2495): early lookup 7f070315 -> of enemies missile damage
+11-04 14:44:07.630 I/ModText ( 2495): early lookup 7f07031a -> Missile reload time
+11-04 14:44:28.043 D/AndroidRuntime( 2677): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:44:28.089 I/AndroidRuntime( 2677): Using default boot image
+11-04 14:44:28.089 I/AndroidRuntime( 2677): Leaving lock profiling enabled
+11-04 14:44:28.698 D/AndroidRuntime( 2677): Calling main entry com.android.commands.input.Input
+11-04 14:44:29.198 D/AndroidRuntime( 2677): Shutting down VM
+11-04 14:44:32.960 D/AndroidRuntime( 2715): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:44:32.969 I/AndroidRuntime( 2715): Using default boot image
+11-04 14:44:32.969 I/AndroidRuntime( 2715): Leaving lock profiling enabled
+11-04 14:44:33.454 D/AndroidRuntime( 2715): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:44:34.996 D/AndroidRuntime( 2715): Shutting down VM
+11-04 14:44:35.940 D/AndroidRuntime( 2745): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:44:35.952 I/AndroidRuntime( 2745): Using default boot image
+11-04 14:44:35.952 I/AndroidRuntime( 2745): Leaving lock profiling enabled
+11-04 14:44:36.277 D/AndroidRuntime( 2745): Calling main entry com.android.commands.input.Input
+11-04 14:44:36.321 D/AndroidRuntime( 2745): Shutting down VM
+11-04 14:44:42.030 D/AndroidRuntime( 2784): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:44:42.045 I/AndroidRuntime( 2784): Using default boot image
+11-04 14:44:42.045 I/AndroidRuntime( 2784): Leaving lock profiling enabled
+11-04 14:44:42.376 D/AndroidRuntime( 2784): Calling main entry com.android.commands.input.Input
+11-04 14:44:44.412 D/AndroidRuntime( 2784): Shutting down VM
+11-04 14:44:45.389 D/AndroidRuntime( 2809): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:44:45.401 I/AndroidRuntime( 2809): Using default boot image
+11-04 14:44:45.401 I/AndroidRuntime( 2809): Leaving lock profiling enabled
+11-04 14:44:46.016 D/AndroidRuntime( 2809): Calling main entry com.android.commands.input.Input
+11-04 14:44:48.072 D/AndroidRuntime( 2809): Shutting down VM
+11-04 14:44:49.381 D/AndroidRuntime( 2834): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:44:49.413 I/AndroidRuntime( 2834): Using default boot image
+11-04 14:44:49.413 I/AndroidRuntime( 2834): Leaving lock profiling enabled
+11-04 14:44:50.126 D/AndroidRuntime( 2834): Calling main entry com.android.commands.input.Input
+11-04 14:44:52.161 D/AndroidRuntime( 2834): Shutting down VM
+11-04 14:45:03.202 D/AndroidRuntime( 2911): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:03.209 I/AndroidRuntime( 2911): Using default boot image
+11-04 14:45:03.209 I/AndroidRuntime( 2911): Leaving lock profiling enabled
+11-04 14:45:03.442 D/AndroidRuntime( 2911): Calling main entry com.android.commands.input.Input
+11-04 14:45:03.903 D/AndroidRuntime( 2911): Shutting down VM
+11-04 14:45:05.435 D/AndroidRuntime( 2931): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:05.436 I/AndroidRuntime( 2931): Using default boot image
+11-04 14:45:05.436 I/AndroidRuntime( 2931): Leaving lock profiling enabled
+11-04 14:45:05.859 D/AndroidRuntime( 2931): Calling main entry com.android.commands.input.Input
+11-04 14:45:06.171 D/AndroidRuntime( 2931): Shutting down VM
+11-04 14:45:07.756 D/AndroidRuntime( 2960): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:07.760 I/AndroidRuntime( 2960): Using default boot image
+11-04 14:45:07.760 I/AndroidRuntime( 2960): Leaving lock profiling enabled
+11-04 14:45:08.238 D/AndroidRuntime( 2960): Calling main entry com.android.commands.input.Input
+11-04 14:45:08.541 D/AndroidRuntime( 2960): Shutting down VM
+11-04 14:45:10.249 D/AndroidRuntime( 2985): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:10.255 I/AndroidRuntime( 2985): Using default boot image
+11-04 14:45:10.255 I/AndroidRuntime( 2985): Leaving lock profiling enabled
+11-04 14:45:10.715 D/AndroidRuntime( 2985): Calling main entry com.android.commands.input.Input
+11-04 14:45:11.033 D/AndroidRuntime( 2985): Shutting down VM
+11-04 14:45:12.621 D/AndroidRuntime( 3016): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:12.627 I/AndroidRuntime( 3016): Using default boot image
+11-04 14:45:12.627 I/AndroidRuntime( 3016): Leaving lock profiling enabled
+11-04 14:45:12.888 D/AndroidRuntime( 3016): Calling main entry com.android.commands.input.Input
+11-04 14:45:13.207 D/AndroidRuntime( 3016): Shutting down VM
+11-04 14:45:14.811 D/AndroidRuntime( 3047): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:14.818 I/AndroidRuntime( 3047): Using default boot image
+11-04 14:45:14.818 I/AndroidRuntime( 3047): Leaving lock profiling enabled
+11-04 14:45:15.073 D/AndroidRuntime( 3047): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:45:16.356 D/AndroidRuntime( 3047): Shutting down VM
+11-04 14:45:17.073 D/AndroidRuntime( 3077): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:17.078 I/AndroidRuntime( 3077): Using default boot image
+11-04 14:45:17.078 I/AndroidRuntime( 3077): Leaving lock profiling enabled
+11-04 14:45:17.251 D/AndroidRuntime( 3077): Calling main entry com.android.commands.input.Input
+11-04 14:45:17.315 D/AndroidRuntime( 3077): Shutting down VM
+11-04 14:45:20.081 D/AndroidRuntime( 3109): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:20.087 I/AndroidRuntime( 3109): Using default boot image
+11-04 14:45:20.087 I/AndroidRuntime( 3109): Leaving lock profiling enabled
+11-04 14:45:20.570 D/AndroidRuntime( 3109): Calling main entry com.android.commands.input.Input
+11-04 14:45:21.809 D/AndroidRuntime( 3109): Shutting down VM
+11-04 14:45:23.592 D/AndroidRuntime( 3135): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:23.598 I/AndroidRuntime( 3135): Using default boot image
+11-04 14:45:23.598 I/AndroidRuntime( 3135): Leaving lock profiling enabled
+11-04 14:45:24.053 D/AndroidRuntime( 3135): Calling main entry com.android.commands.input.Input
+11-04 14:45:24.093 D/AndroidRuntime( 3135): Shutting down VM
+11-04 14:45:25.781 D/AndroidRuntime( 3158): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:25.787 I/AndroidRuntime( 3158): Using default boot image
+11-04 14:45:25.787 I/AndroidRuntime( 3158): Leaving lock profiling enabled
+11-04 14:45:26.025 D/AndroidRuntime( 3158): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:45:27.349 D/AndroidRuntime( 3158): Shutting down VM
+11-04 14:45:28.061 D/AndroidRuntime( 3180): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:28.066 I/AndroidRuntime( 3180): Using default boot image
+11-04 14:45:28.066 I/AndroidRuntime( 3180): Leaving lock profiling enabled
+11-04 14:45:28.243 D/AndroidRuntime( 3180): Calling main entry com.android.commands.input.Input
+11-04 14:45:28.261 D/AndroidRuntime( 3180): Shutting down VM
+11-04 14:45:33.170 D/AndroidRuntime( 3213): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:33.176 I/AndroidRuntime( 3213): Using default boot image
+11-04 14:45:33.176 I/AndroidRuntime( 3213): Leaving lock profiling enabled
+11-04 14:45:33.471 D/AndroidRuntime( 3213): Calling main entry com.android.commands.input.Input
+11-04 14:45:33.614 D/AndroidRuntime( 3213): Shutting down VM
+11-04 14:45:37.218 D/AndroidRuntime( 3237): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:37.224 I/AndroidRuntime( 3237): Using default boot image
+11-04 14:45:37.224 I/AndroidRuntime( 3237): Leaving lock profiling enabled
+11-04 14:45:37.751 D/AndroidRuntime( 3237): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:45:42.139 D/AndroidRuntime( 3237): Shutting down VM
+11-04 14:45:47.521 D/AndroidRuntime( 3291): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:47.528 I/AndroidRuntime( 3291): Using default boot image
+11-04 14:45:47.528 I/AndroidRuntime( 3291): Leaving lock profiling enabled
+11-04 14:45:47.806 D/AndroidRuntime( 3291): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:45:48.897 D/AndroidRuntime( 3291): Shutting down VM
+11-04 14:45:49.539 D/AndroidRuntime( 3314): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:49.544 I/AndroidRuntime( 3314): Using default boot image
+11-04 14:45:49.544 I/AndroidRuntime( 3314): Leaving lock profiling enabled
+11-04 14:45:49.715 D/AndroidRuntime( 3314): Calling main entry com.android.commands.input.Input
+11-04 14:45:49.765 D/AndroidRuntime( 3314): Shutting down VM
+11-04 14:45:53.457 D/AndroidRuntime( 3338): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:45:53.463 I/AndroidRuntime( 3338): Using default boot image
+11-04 14:45:53.463 I/AndroidRuntime( 3338): Leaving lock profiling enabled
+11-04 14:45:53.832 D/AndroidRuntime( 3338): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:45:55.101 D/AndroidRuntime( 3338): Shutting down VM
+11-04 14:46:03.420 D/AndroidRuntime( 3387): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:46:03.425 I/AndroidRuntime( 3387): Using default boot image
+11-04 14:46:03.425 I/AndroidRuntime( 3387): Leaving lock profiling enabled
+11-04 14:46:03.597 D/AndroidRuntime( 3387): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:46:04.738 D/AndroidRuntime( 3387): Shutting down VM
+11-04 14:46:05.307 D/AndroidRuntime( 3410): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:46:05.312 I/AndroidRuntime( 3410): Using default boot image
+11-04 14:46:05.312 I/AndroidRuntime( 3410): Leaving lock profiling enabled
+11-04 14:46:05.572 D/AndroidRuntime( 3410): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:46:06.678 D/AndroidRuntime( 3410): Shutting down VM
+11-04 14:46:07.346 D/AndroidRuntime( 3437): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:46:07.350 I/AndroidRuntime( 3437): Using default boot image
+11-04 14:46:07.350 I/AndroidRuntime( 3437): Leaving lock profiling enabled
+11-04 14:46:07.527 D/AndroidRuntime( 3437): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:46:08.678 D/AndroidRuntime( 3437): Shutting down VM
+11-04 14:46:09.338 D/AndroidRuntime( 3460): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:46:09.342 I/AndroidRuntime( 3460): Using default boot image
+11-04 14:46:09.342 I/AndroidRuntime( 3460): Leaving lock profiling enabled
+11-04 14:46:09.482 D/AndroidRuntime( 3460): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:46:10.579 D/AndroidRuntime( 3460): Shutting down VM
+11-04 14:46:11.162 D/AndroidRuntime( 3483): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:46:11.165 I/AndroidRuntime( 3483): Using default boot image
+11-04 14:46:11.165 I/AndroidRuntime( 3483): Leaving lock profiling enabled
+11-04 14:46:11.293 D/AndroidRuntime( 3483): Calling main entry com.android.commands.input.Input
+11-04 14:46:11.302 D/AndroidRuntime( 3483): Shutting down VM
+11-04 14:46:20.307 D/AndroidRuntime( 3514): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-04 14:46:20.320 I/AndroidRuntime( 3514): Using default boot image
+11-04 14:46:20.320 I/AndroidRuntime( 3514): Leaving lock profiling enabled
+11-04 14:46:20.814 D/AndroidRuntime( 3514): Calling main entry com.android.commands.uiautomator.Launcher
+11-04 14:46:22.334 D/AndroidRuntime( 3514): Shutting down VM
+11-04 14:46:27.904 I/CorsairMod( 2495): police enter THOR_PASSING heat=50 lastTop=-1
+11-04 14:46:27.906 I/CorsairMod( 2495): police wave warden top=0 L3 ships=2/2 active=2 heat=50
+11-04 14:46:32.265 I/CorsairMod( 2495): police enter VENTOHIGH heat=50 lastTop=-1
+11-04 14:46:32.266 I/CorsairMod( 2495): police wave warden top=0 L16 ships=2/2 active=2 heat=50
+11-04 14:46:37.302 I/CorsairMod( 2495): police enter ORE_BELT heat=50 lastTop=-1
+11-04 14:46:37.303 I/CorsairMod( 2495): police wave ironclad top=0 L7 ships=2/2 active=2 heat=50
+11-04 14:46:40.220 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=176
+11-04 14:46:41.497 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=176
+11-04 14:46:44.718 I/CorsairMod( 2495): police enter HUGO_WISDOM heat=50 lastTop=-1
+11-04 14:46:44.719 I/CorsairMod( 2495): police wave spartan top=0 L13 ships=2/2 active=2 heat=50
+11-04 14:46:48.462 I/CorsairMod( 2495): police enter SPARTAN_HQ heat=50 lastTop=-1
+11-04 14:46:48.464 I/CorsairMod( 2495): police wave spartan top=0 L16 ships=2/2 active=2 heat=50
+11-04 14:46:55.438 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:46:57.889 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:01.547 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:03.191 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:04.667 I/CorsairMod( 2495): police forced wave
+11-04 14:47:04.670 I/CorsairMod( 2495): police wave spartan top=1 L16 ships=3/3 active=5 heat=50
+11-04 14:47:06.895 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:07.326 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:47:08.704 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:12.411 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:12.933 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:47:14.170 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:17.608 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:18.403 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:47:19.660 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:22.929 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:23.268 I/CorsairMod( 2495): police forced wave
+11-04 14:47:23.269 I/CorsairMod( 2495): police wave spartan top=2 L16 ships=3/4 active=8 heat=50
+11-04 14:47:23.491 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:47:24.811 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:28.320 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:28.884 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:47:30.584 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:34.175 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:34.749 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:47:36.006 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:39.272 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:39.840 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:47:40.769 I/CorsairMod( 2495): police forced wave
+11-04 14:47:40.769 I/CorsairMod( 2495): police wave spartan top=3 L16 ships=0/4 active=8 heat=50
+11-04 14:47:41.049 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:44.427 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:44.968 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:47:46.179 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:49.849 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:50.428 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:47:51.709 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:55.124 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:47:55.755 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:47:57.060 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:00.476 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:01.038 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:02.428 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:05.784 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:06.396 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:07.921 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:11.424 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:11.971 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:13.312 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:16.474 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:17.060 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:17.876 I/CorsairMod( 2495): police wave spartan top=3 L16 ships=0/4 active=8 heat=50
+11-04 14:48:18.397 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:21.599 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:21.679 I/CorsairMod( 2495): police forced wave
+11-04 14:48:21.679 I/CorsairMod( 2495): police wave spartan top=3 L16 ships=0/4 active=8 heat=50
+11-04 14:48:22.305 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:23.640 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:27.334 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:27.891 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:29.226 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:32.503 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:33.047 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:34.490 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:38.135 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:38.778 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:40.072 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:40.676 I/CorsairMod( 2495): police forced wave
+11-04 14:48:40.676 I/CorsairMod( 2495): police wave spartan top=3 L16 ships=0/3 active=8 heat=50
+11-04 14:48:43.465 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:44.086 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:45.435 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:48.768 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:49.352 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:50.734 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:53.992 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:54.699 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:48:56.044 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:58.997 I/CorsairMod( 2495): police forced wave
+11-04 14:48:58.998 I/CorsairMod( 2495): police wave spartan top=3 L16 ships=0/4 active=8 heat=50
+11-04 14:48:59.216 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:48:59.812 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:49:01.334 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:49:04.647 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:49:05.353 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=273
+11-04 14:49:06.789 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=242
+11-04 14:49:13.215 I/CorsairMod( 2495): police enter SPARTAN_HQ heat=50 lastTop=2
+11-04 14:49:13.217 I/CorsairMod( 2495): police wave spartan top=3 L16 ships=4/4 active=4 heat=50
+11-04 14:49:55.871 I/CorsairMod( 2495): police wave spartan top=4 L16 ships=3/3 active=7 heat=50
+11-04 14:50:09.490 I/CorsairMod( 2495): police offence police hit +1 heat=1
+11-04 14:50:09.548 I/ModPoliceTitan( 2495): spawn spartan L36 hull=1516800 shield=25713
+11-04 14:50:09.548 I/ModPoliceTitan( 2495): test spawn spartan in THE_WAVE
+11-04 14:50:09.576 I/CorsairMod( 2495): police wave spartan top=0 L19 ships=2/2 active=2 heat=1
+11-04 14:50:13.313 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=386
+11-04 14:50:14.307 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=296
+11-04 14:50:14.672 I/ModPoliceTitan( 2495): skill LOCKDOWN
+11-04 14:50:18.474 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=386
+11-04 14:50:18.823 I/ModPoliceTitan( 2495): skill SHIELD BREAKER
+11-04 14:50:19.537 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=296
+11-04 14:50:20.126 I/ModPoliceTitan( 2495): shield breaker drained 0
+11-04 14:50:23.806 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=386
+11-04 14:50:30.511 I/CorsairMod( 2495): police offence police hit +1 heat=1
+11-04 14:50:30.587 I/ModPoliceTitan( 2495): spawn spartan L36 hull=1516800 shield=25713
+11-04 14:50:30.587 I/ModPoliceTitan( 2495): test spawn spartan in THE_WAVE
+11-04 14:50:30.626 I/CorsairMod( 2495): police wave spartan top=0 L19 ships=2/2 active=2 heat=1
+11-04 14:50:36.143 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=335
+11-04 14:50:36.143 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=335
+11-04 14:50:36.973 I/ModPoliceTitan( 2495): skill LOCKDOWN
+11-04 14:50:41.080 I/ModPoliceTitan( 2495): skill SHIELD BREAKER
+11-04 14:50:41.308 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=335
+11-04 14:50:41.308 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=335
+11-04 14:50:42.313 I/ModPoliceTitan( 2495): shield breaker drained 0
+11-04 14:50:50.927 I/CorsairMod( 2495): police offence police hit +1 heat=1
+11-04 14:50:50.987 I/ModPoliceTitan( 2495): spawn spartan L36 hull=1516800 shield=25713
+11-04 14:50:50.987 I/ModPoliceTitan( 2495): test spawn spartan in THE_WAVE
+11-04 14:50:50.991 I/CorsairMod( 2495): police wave spartan top=0 L19 ships=2/2 active=2 heat=1
+11-04 14:50:54.840 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=335
+11-04 14:50:54.840 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=335
+11-04 14:50:56.290 I/ModPoliceTitan( 2495): skill LOCKDOWN
+11-04 14:50:59.925 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=335
+11-04 14:51:00.370 I/ModPoliceTitan( 2495): skill SHIELD BREAKER
+11-04 14:51:01.630 I/ModPoliceTitan( 2495): shield breaker drained 0
+11-04 14:51:05.181 I/CorsairMod( 2495): misslog police fast missile from Fighter dmg=335
+11-04 14:51:15.698 I/CorsairMod( 2495): police offence police hit +1 heat=1
+11-04 14:51:15.859 I/ModPoliceTitan( 2495): spawn spartan L36 hull=1516800 shield=25713
+11-04 14:51:15.859 I/ModPoliceTitan( 2495): test spawn spartan in THE_WAVE
+11-04 14:51:15.866 I/CorsairMod( 2495): police wave spartan top=0 L19 ships=2/2 active=2 heat=1

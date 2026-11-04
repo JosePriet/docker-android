@@ -1,0 +1,58 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[27s] shot launch ok
+[35s] cancel exit prompt
+[41s] shot after_back ok
+[57s] shot steering ok
+[57s] direct: BuyInapp gift
+[76s] tap 'id/txtGift' at 620 926
+[87s] tap 'id/btnGift' at 1253 939
+[92s] shot gift_box_redeemed ok
+[102s] direct: Settings
+[107s] shot settings_v36 ok
+[109s] seekbars on settings: 3
+[124s] Leviathan page found=1
+[130s] tap '^(Use|USE)' at 1971 1008
+[175s] goto SPARTAN_HQ arrived=1
+[182s] shot sector_SPARTAN_HQ ok
+[192s] shot wave_1_a ok
+[200s] shot wave_1_b ok
+[200s] EVIDENCE wave 1: misslog police fast missile from Fighter dmg=242 misslog police fast missile from Fighter dmg=273 misslog police fast missile from Fighter dmg=242 
+[211s] shot wave_2_a ok
+[218s] shot wave_2_b ok
+[218s] EVIDENCE wave 2: misslog police fast missile from Fighter dmg=242 misslog police fast missile from Fighter dmg=273 misslog police fast missile from Fighter dmg=242 
+[230s] shot wave_3_a ok
+[238s] shot wave_3_b ok
+[238s] EVIDENCE wave 3: misslog police fast missile from Fighter dmg=242 misslog police fast missile from Fighter dmg=273 misslog police fast missile from Fighter dmg=242 
+[250s] shot wave_4_a ok
+[259s] shot wave_4_b ok
+[259s] EVIDENCE wave 4: misslog police fast missile from Fighter dmg=273 police wave spartan top=3 L16 ships=0/4 active=8 heat=50 misslog police fast missile from Fighter dmg=242 
+[270s] shot wave_5_a ok
+[278s] shot wave_5_b ok
+[278s] EVIDENCE wave 5: misslog police fast missile from Fighter dmg=273 misslog police fast missile from Fighter dmg=242 misslog police fast missile from Fighter dmg=242 
+[289s] shot wave_6_a ok
+[296s] shot wave_6_b ok
+[296s] EVIDENCE wave 6: misslog police fast missile from Fighter dmg=242 misslog police fast missile from Fighter dmg=273 misslog police fast missile from Fighter dmg=242 
+[306s] shot wave_7_a ok
+[314s] shot wave_7_b ok
+[314s] EVIDENCE wave 7: misslog police fast missile from Fighter dmg=242 police enter SPARTAN_HQ heat=50 lastTop=2 police wave spartan top=3 L16 ships=4/4 active=4 heat=50 
+[324s] shot fight_1 ok
+[332s] shot fight_2 ok
+[340s] shot fight_3 ok
+[348s] shot fight_4 ok
+[357s] shot fight_5 ok
+[365s] shot fight_6 ok
+[374s] goto THE_WAVE arrived=1
+[381s] shot sector_THE_WAVE ok
+[387s] shot poltitan_1 ok
+[395s] shot poltitan_2 ok
+[403s] shot poltitan_3 ok
+[410s] shot poltitan_4 ok
+[417s] shot poltitan_5 ok
+[424s] shot poltitan_6 ok
+[430s] shot poltitan_7 ok
+[437s] shot poltitan_8 ok
+[437s] EVIDENCE titan: shield breaker drained 0 spawn spartan L36 hull=1516800 shield=25713 test spawn spartan in THE_WAVE skill LOCKDOWN skill SHIELD BREAKER shield breaker drained 0 spawn spartan L36 hull=1516800 shield=25713 test spawn spartan in THE_WAVE 
+[437s] EVIDENCE missiles: misslog police fast missile from Fighter dmg=335 misslog police fast missile from Fighter dmg=335 misslog police fast missile from Fighter dmg=335 misslog police fast missile from Fighter dmg=335 misslog police fast missile from Fighter dmg=335 misslog police fast missile from Fighter dmg=335 
+[440s] done; errors: 145 lines
+125 frames
