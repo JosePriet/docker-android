@@ -6,7 +6,7 @@ ART = 'work/modart'
 src = open('src/java/fr/testudo/spacecorsair/mod/ModStationGuns.java').read()
 mounts = {k: [float(x.rstrip('f')) for x in v.split(',')] for k, v in re.findall(r'"(poi_\w+)", new float\[\] ?\{([^}]*)\}', src)}
 TEX = {'poi_base_ironclad': 'ironclad', 'poi_base_kretari': 'kretari', 'poi_base_reaver': 'reaver', 'poi_base_spartan': 'spartan',
-       'poi_base_varn': 'varn', 'poi_base_warden': 'warden'}
+       'poi_base_varn': 'varn', 'poi_base_warden': 'warden', 'poi_base_helion': 'helion'}
 TS = float(re.search(r'TURRET = ([0-9.]+)f', src).group(1))
 W = 512
 keys = sorted(mounts)

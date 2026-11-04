@@ -68,6 +68,7 @@ public final class ModStationGuns {
     /** Turret pads on the poi_* art: fractions of the 1024 canvas from its centre, +y = image down (as ModCapitalData). */
     static final Map<String, float[]> MOUNTS = new HashMap<String, float[]>();
     static {
+        MOUNTS.put("poi_base_helion", new float[]{-0.1966f, -0.2363f, 0.1965f, -0.2365f, -0.2036f, 0.1746f, 0.2034f, 0.1747f});
         MOUNTS.put("poi_base_ironclad", new float[]{-0.3158f, -0.2942f, 0.3159f, -0.2943f, -0.3159f, 0.2898f, 0.3161f, 0.2899f});
         MOUNTS.put("poi_base_kretari", new float[]{-0.2693f, -0.1530f, 0.2708f, -0.1531f, -0.2729f, 0.1542f, 0.2720f, 0.1531f});
         MOUNTS.put("poi_base_reaver", new float[]{-0.2882f, -0.3260f, 0.2869f, -0.3260f, -0.2881f, 0.3230f, 0.2870f, 0.3228f});
