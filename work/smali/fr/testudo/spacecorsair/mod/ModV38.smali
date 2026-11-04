@@ -481,7 +481,7 @@
         0x1f9
         0x26d
         0x1f9
-        0x1ff
+        0x192
         0x284
     .end array-data
 
