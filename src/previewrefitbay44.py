@@ -33,6 +33,12 @@ def tint(img, col, a):
 old, new = load(S0), load(S0 + 1)
 EMB = Image.open(os.path.join(MOD, "emblem_spartan.webp")).convert("RGBA")
 CREST = Image.open(sys.argv[5]).convert("RGBA") if len(sys.argv) > 5 else None
+import zipfile, io
+_APK = zipfile.ZipFile(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "work", "unsigned43.apk"))
+def RES(n, crop=False):
+    a = Image.open(io.BytesIO(_APK.read(f"res/drawable-nodpi-v4/{n}.png"))).convert("RGBA")
+    return a.crop((a.width // 4, a.height // 4, a.width * 3 // 4, a.height * 3 // 4)) if crop else a
+IC_SHIELD, IC_CR, IC_PART = RES("ic_shield"), RES("ic_credits"), RES("loot_engine_block", True)
 nxt = load(min(5, S0 + 2)) if S0 + 2 <= 5 else None
 CURS = None
 BAY = (0, 0, int(W * 0.56), H)
@@ -120,6 +126,19 @@ def panel(d, lv, st, now, busy):
 
     def icon(yy, glyph, col, size=tile):
         d.rounded_rectangle([x, yy, x + size, yy + size], 5, fill=tuple(int(v * .25 + 10) for v in col))
+        if glyph == "SHIELD":
+            m = int(size * .16); sz = int(size - 2 * m)
+            im.alpha_composite(IC_SHIELD.resize((sz, sz), Image.LANCZOS), (int(x + m), int(yy + m))); return
+        if glyph == "HULL":
+            m, bv = size * .18, size * .16
+            l, t, r, bt = x + m, yy + m, x + size - m, yy + size - m
+            d.polygon([(l + bv, t), (r - bv, t), (r, t + bv), (r, bt - bv), (r - bv, bt), (l + bv, bt), (l, bt - bv), (l, t + bv)], fill=col)
+            my_ = (t + bt) / 2; dk = tuple(int(v * .6) for v in col)
+            d.rectangle([l, my_ - 1, r, my_ + 1], fill=dk)
+            rv, ri = size * .05, bv * .9
+            for cx_, cy_ in ((l + ri, t + ri), (r - ri, t + ri), (l + ri, bt - ri), (r - ri, bt - ri)):
+                d.ellipse([cx_ - rv, cy_ - rv, cx_ + rv, cy_ + rv], fill=dk)
+            d.rectangle([l + bv, t + 2, r - bv, t + 4], fill=tuple(min(255, int(v * .6 + 100)) for v in col)); return
         f = font(size * .55)
         d.text((x + size / 2 - d.textlength(glyph, font=f) / 2, yy + size * .12), glyph, font=f, fill=col)
 
@@ -142,8 +161,8 @@ def panel(d, lv, st, now, busy):
     k = (1 + .03 * (lv + 1)) / (1 + .03 * lv)
     kt = (1 + .02 * (lv + 1)) / (1 + .02 * lv)
     hull, sh = 446656, 4680
-    row(y, "◈", f"{hull:,}", "Hull points", f"+{int(hull * (k - 1)):,}", GREEN, acc); y += rh
-    row(y, "◉", f"{sh:,}", "Shield capacity", f"+{int(sh * (k * kt - 1)):,}", GREEN, acc); y += rh
+    row(y, "HULL", f"{hull:,}", "Hull points", f"+{int(hull * (k - 1)):,}", GREEN, acc); y += rh
+    row(y, "SHIELD", f"{sh:,}", "Shield capacity", f"+{int(sh * (k * kt - 1)):,}", GREEN, acc); y += rh
     plan = [4, 4, 4, 4, 5, 6]
     nt = plan[min(5, st)]
     stn = (lv + 2) // 2 if lv < 10 else st
@@ -178,7 +197,9 @@ def panel(d, lv, st, now, busy):
     d.text((x, my), "REQUIRED", font=f8, fill=DIM)
     mx = x + d.textlength("REQUIRED", font=f8) + 10 * DP
     for ic, txt, col in (("cr", f"964M / {cost // 1000}K", GOLD),) + ((("⬡", "12 / 1", CYAN),) if lv + 1 >= 6 else ()):
-        d.text((mx, my), ic, font=f9, fill=col); mx += d.textlength(ic, font=f9) + 4 * DP
+        isz = int(13 * DP)
+        im.alpha_composite((IC_CR if ic == "cr" else IC_PART).resize((isz, isz), Image.LANCZOS), (int(mx), int(my)))
+        mx += isz + 4 * DP
         d.text((mx, my), txt, font=f9, fill=(255, 255, 255)); mx += d.textlength(txt, font=f9) + 12 * DP
     bw = w * .7
     bx0 = x + (w - bw) / 2

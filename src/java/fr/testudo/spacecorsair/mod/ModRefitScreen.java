@@ -662,9 +662,9 @@ public final class ModRefitScreen {
                 text(c, ModLang.tr("REQUIRED"), mx, my, 8, DIM);
                 tp.setTextSize(8 * dp);
                 mx += tp.measureText(ModLang.tr("REQUIRED")) + 10 * dp;
-                mx = need(c, mx, my, "cr", compact(credits) + " / " + compact(needCr), credits >= needCr, GOLD);
-                if (needP > 0) mx = need(c, mx, my, "\u2B21", haveP + " / " + needP, haveP >= needP, CYAN);
-                if (needC > 0) need(c, mx, my, "\u25C6", haveC + " / 1 " + rf[6], haveC >= needC, acc);
+                mx = need(c, mx, my, 0, compact(credits) + " / " + compact(needCr), credits >= needCr, GOLD);
+                if (needP > 0) mx = need(c, mx, my, 1, haveP + " / " + needP, haveP >= needP, CYAN);
+                if (needC > 0) need(c, mx, my, 2, haveC + " / 1 " + rf[6], haveC >= needC, acc);
             }
             if (status != null && now < statusUntil) para(c, status, x, by - 26 * dp, w, 10, RED);
             float bw = w * 0.7f;
@@ -743,6 +743,16 @@ public final class ModRefitScreen {
         void statIcon(Canvas c, float x, float y, float s, int k, int col) {
             p.setColor((col & 0x00FFFFFF) | 0x40000000);
             c.drawRoundRect(new RectF(x, y, x + s, y + s), 3 * dp, 3 * dp, p);
+            if (k == ModV35.S_SHCAP || k == ModV35.S_SHREGEN) {   // the game's own shield icon
+                Bitmap sb = res("ic_shield");
+                if (sb != null) {
+                    float m = s * 0.16f;
+                    c.drawBitmap(sb, null, new RectF(x + m, y + m, x + s - m, y + s - m), bp);
+                    if (k == ModV35.S_SHREGEN) { tp.setTextSize(s * 0.42f); tp.setColor(WHITE); c.drawText("+", x + s / 2 - tp.measureText("+") / 2, y + s * 0.66f, tp); }
+                    return;
+                }
+            }
+            if (k == ModV35.S_HULL) { hullPlate(c, x, y, s, col); return; }
             String g;
             switch (k) {
                 case ModV35.S_DMG: g = "\u25B2"; break;
@@ -772,10 +782,64 @@ public final class ModRefitScreen {
             return l >= 1000000 ? compact(l) : NumberFormat.getNumberInstance(Locale.getDefault()).format(l);
         }
 
-        float need(Canvas c, float x, float y, String icon, String txt, boolean ok, int col) {
-            text(c, icon, x, y, 9, col);
-            tp.setTextSize(9 * dp);
-            float ix = x + tp.measureText(icon) + 4 * dp;
+        /** Armour plate: bevelled plate in the accent colour, a seam and four rivets. */
+        void hullPlate(Canvas c, float x, float y, float s, int col) {
+            float m = s * 0.18f, b = s * 0.16f, l = x + m, t = y + m, r = x + s - m, bt = y + s - m;
+            android.graphics.Path pl = new android.graphics.Path();
+            pl.moveTo(l + b, t); pl.lineTo(r - b, t); pl.lineTo(r, t + b); pl.lineTo(r, bt - b); pl.lineTo(r - b, bt);
+            pl.lineTo(l + b, bt); pl.lineTo(l, bt - b); pl.lineTo(l, t + b); pl.close();
+            p.setColor(col);
+            c.drawPath(pl, p);
+            p.setColor(0x66000000);
+            float my = (t + bt) / 2;
+            c.drawRect(l, my - 0.6f * dp, r, my + 0.6f * dp, p);
+            float rv = s * 0.05f, ri = b * 0.9f;
+            c.drawCircle(l + ri, t + ri, rv, p); c.drawCircle(r - ri, t + ri, rv, p);
+            c.drawCircle(l + ri, bt - ri, rv, p); c.drawCircle(r - ri, bt - ri, rv, p);
+            p.setColor(0x55FFFFFF);
+            c.drawRect(l + b, t + 1 * dp, r - b, t + 2 * dp, p);
+        }
+
+        /** Reactor core: glowing orb with a ring, in the faction colour. */
+        void coreIcon(Canvas c, float cx, float cy, float rad, int col) {
+            p.setColor((col & 0x00FFFFFF) | 0x50000000);
+            c.drawCircle(cx, cy, rad, p);
+            p.setColor(col);
+            c.drawCircle(cx, cy, rad * 0.55f, p);
+            p.setColor(0xFFFFFFFF);
+            c.drawCircle(cx - rad * 0.15f, cy - rad * 0.15f, rad * 0.2f, p);
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(1.2f * dp);
+            p.setColor(col);
+            c.drawCircle(cx, cy, rad * 0.85f, p);
+            p.setStyle(Paint.Style.FILL);
+        }
+
+        final Paint bp = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);
+        final java.util.HashMap<String, Bitmap> resCache = new java.util.HashMap<String, Bitmap>();
+        /** A drawable of the game by name (cached; null when missing). */
+        Bitmap res(String name) {
+            if (resCache.containsKey(name)) return resCache.get(name);
+            Bitmap bm = null;
+            try {
+                int id = getResources().getIdentifier(name, "drawable", getContext().getPackageName());
+                if (id != 0) bm = android.graphics.BitmapFactory.decodeResource(getResources(), id);
+            } catch (Throwable e) { /* missing */ }
+            resCache.put(name, bm);
+            return bm;
+        }
+
+        /** Material: icon (0 credits, 1 rare parts, 2 core), then have / need in white or red. */
+        float need(Canvas c, float x, float y, int kind, String txt, boolean ok, int col) {
+            float is = 13 * dp, iy = y - is * 0.78f;
+            Bitmap ib = kind == 0 ? res("ic_credits") : kind == 1 ? res("loot_engine_block") : null;
+            if (kind == 2) coreIcon(c, x + is / 2, iy + is / 2, is / 2, col);
+            else if (ib != null) {
+                // loot icons carry a wide glow: crop to the item in the middle
+                android.graphics.Rect src = kind == 1 ? new android.graphics.Rect(ib.getWidth() / 4, ib.getHeight() / 4, ib.getWidth() * 3 / 4, ib.getHeight() * 3 / 4) : null;
+                c.drawBitmap(ib, src, new RectF(x, iy, x + is, iy + is), bp);
+            } else text(c, kind == 0 ? "cr" : "\u2B21", x, y, 9, col);
+            float ix = x + is + 4 * dp;
             text(c, txt, ix, y, 9, ok ? WHITE : RED);
             tp.setTextSize(9 * dp);
             return ix + tp.measureText(txt) + 12 * dp;
