@@ -197,6 +197,10 @@
     .line 48
     sget-object v0, Lfr/testudo/spacecorsair/business/world/station/BasicTradeStation;->mainDrawable:Lfr/testudo/spacecorsair/display/Drawable;
 
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModPoi;->drawable(Lfr/testudo/spacecorsair/business/world/station/Station;Lfr/testudo/spacecorsair/display/Drawable;)Lfr/testudo/spacecorsair/display/Drawable;
+
+    move-result-object v0
+
     return-object v0
 .end method
 

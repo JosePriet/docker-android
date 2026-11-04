@@ -83,6 +83,12 @@ public final class ModMap {
         for (LevelId l : rest) owner[l.ordinal()] = f;
     }
 
+    /** v44: true for a faction's capital sector. */
+    static boolean isHome(LevelId id) {
+        if (owner == null) build();
+        return id != null && home[id.ordinal()];
+    }
+
     /** Faction index owning a sector, or -1. */
     public static int owner(LevelId id) {
         if (owner == null) build();
