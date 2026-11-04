@@ -209,6 +209,11 @@ public final class ModSector {
         station(poi[OUTPOST], ModLang.spanish() ? ModLang.tr("Outpost") + " " + sectorName(id) : sectorName(id) + " Outpost", 0.8f, 0.85f, 0.9f);
     }
 
+    /** v44 (ModStationGuns): where this sector's faction base stands, null before the POIs are built. */
+    static Vector2 basePoint(LevelId id) {
+        return id != null && id == here ? poi[BASE] : null;
+    }
+
     /** Faction of a sector's base: its HQ faction, else a fixed pick per sector. */
     static int baseFaction(LevelId id) {
         for (int i = 0; i < ModCapitals.FACTIONS.length; i++) if (ModCapitals.FACTIONS[i].hq == id) return i;

@@ -62,6 +62,8 @@ public class Mod {
 
     /** 0 = no drone involved (original rules), 1 = same side (no hit), 2 = opposite sides (hit). */
     public static int sideCheck(Element sender, Element target) {
+        int st = ModStationGuns.side(sender, target);   // v44: station turret shots hit only what the station may shoot
+        if (st != 0) return st;
         boolean ds = isDrone(sender);
         boolean dt = isDrone(target);
         if (!ds && !dt) {
@@ -76,6 +78,7 @@ public class Mod {
 
     /** Drones never bump into the ship that launched them or into each other. */
     public static boolean ignoreCollision(Element a, Element b) {
+        if (ModStationGuns.ignore(a, b)) return true;   // v44: station shots pass through friends and projectiles
         boolean da = isDrone(a), db = isDrone(b);
         if (!da && !db) return false;
         return (da && (b.isPlayer || db)) || (db && a.isPlayer);

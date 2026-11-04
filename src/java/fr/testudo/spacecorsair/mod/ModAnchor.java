@@ -255,6 +255,7 @@ public final class ModAnchor {
 
     private static boolean enemyShot(Projectile p) {
         Element s = p.sender;
+        if (s instanceof fr.testudo.spacecorsair.business.world.station.Station) return ModStationGuns.playerWanted();   // v44: station turrets
         return s != null && !s.isPlayer && !s.removed && ModV35.standing(s) != 1;
     }
 

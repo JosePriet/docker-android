@@ -25,6 +25,8 @@ java -cp "tools/d2j/*" com.googlecode.dex2jar.tools.Dex2jarCmd -f -o work/game_v
 (cd work/dtest && rm -f V37W.class && javac -nowarn -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V37W.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V37W 2>&1 | grep -v JAVA_TOOL | grep -v "^ok " ; java -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V37W 2>&1 | grep -q "V37W VALUES-OK")
 # v42 police escalation maths; must end with V42 VALUES-OK
 (cd work/dtest && rm -f V42.class && javac -nowarn -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V42.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V42 2>&1 | grep -v JAVA_TOOL | grep -v "^ok " ; java -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V42 2>&1 | grep -q "V42 VALUES-OK")
+# v44 station turret rules; must end with V44S VALUES-OK (checked by scripts/check.sh)
+(cd work/dtest && rm -f V44S.class && javac -nowarn -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V44S.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V44S 2>&1 | grep -v JAVA_TOOL | grep -v "^ok ")
 # v30: modart is lossless WebP (ModArt.open tries <name>.webp, then <name>.png); each name must ship once
 shopt -s nullglob
 dups=$(for f in work/modart/*.png work/modart/*.webp; do b=$(basename "$f"); echo "${b%.*}"; done | sort | uniq -d)

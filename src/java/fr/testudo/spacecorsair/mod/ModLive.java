@@ -78,6 +78,7 @@ public final class ModLive {
             try {
                 over(e);
                 ModPolice.lights(e);   // v42: police light bar
+                ModStationGuns.draw(e);   // v44: station turrets on the POI art
             } catch (Throwable t) {
                 // visuals never break the frame
             }
