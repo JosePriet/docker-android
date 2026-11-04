@@ -34,6 +34,7 @@ old, new = load(S0), load(S0 + 1)
 EMB = Image.open(os.path.join(MOD, "emblem_spartan.webp")).convert("RGBA")
 CREST = Image.open(sys.argv[5]).convert("RGBA") if len(sys.argv) > 5 else None
 nxt = load(min(5, S0 + 2)) if S0 + 2 <= 5 else None
+CURS = None
 BAY = (0, 0, int(W * 0.56), H)
 
 
@@ -52,7 +53,7 @@ def card(d, b, title, acc):
         d.line([xx, b[1] + hh, min(b[2], xx + hh), b[1]], fill=(22, 50, 70))
     d.polygon(poly, outline=EDGE)
     d.rectangle([b[0] + cut + 2 * DP, b[1] + 5 * DP, b[0] + cut + 6 * DP, b[1] + hh - 5 * DP], fill=acc)
-    d.text((b[0] + cut + 11 * DP, b[1] + 3 * DP), " ".join(title), font=font(8.5 * DP), fill=acc)
+    d.text((b[0] + cut + 11 * DP, b[1] + 3 * DP), title, font=font(9 * DP), fill=acc)
     return b[1] + hh + 6 * DP
 
 
@@ -106,57 +107,72 @@ def panel(d, lv, st, now, busy):
     d.text(((cap[0] + cap[2]) / 2 - d.textlength("ELITE", font=f) / 2, cap[1] + 7), "ELITE", font=f, fill=GOLD)
     y += th + 30 * DP
     gap = 8 * DP
-    cw = (w - gap) / 2
     bh = 34 * DP
     by = H - bh - pad
     rh = (by - 24 * DP - y - gap) / 2
-    c1, c2 = (x, y, x + cw, y + rh), (x + cw + gap, y, x + w, y + rh)
-    c3, c4 = (x, y + rh + gap, x + cw, y + 2 * rh + gap), (x + cw + gap, y + rh + gap, x + w, y + 2 * rh + gap)
-    yy = card(d, c1, "EACH LEVEL", acc)
-    for val, stat, fac in (("+3%", "Shield capacity", False), ("+3%", "Hull points", False), ("+2%", "Shield capacity", True)):
-        d.rounded_rectangle([c1[0] + 8 * DP, yy, c1[0] + 40 * DP, yy + 13 * DP], 4, fill=acc if fac else (31, 74, 42))
-        f = font(8 * DP)
-        d.text((c1[0] + 24 * DP - d.textlength(val, font=f) / 2, yy + 2), val, font=f, fill=BG if fac else (140, 255, 140))
-        d.text((c1[0] + 46 * DP, yy + 1), stat, font=font(9 * DP), fill=acc if fac else TEXT)
-        yy += 16 * DP
-    yy = card(d, c2, "TURRETS", acc)
     plan = [4, 4, 4, 4, 5, 6]
-    nt, tr = plan[min(5, st)], 8 * DP
-    rw = nt * (tr * 2 + 4 * DP) - 4 * DP
-    tx = (c2[0] + c2[2]) / 2 - rw / 2
-    for i in range(nt):
-        cx, cy = tx + tr + i * (tr * 2 + 4 * DP), yy + tr + 2 * DP
-        d.ellipse([cx - tr, cy - tr, cx + tr, cy + tr], fill=CYAN); d.ellipse([cx - tr * .4, cy - tr * .4, cx + tr * .4, cy + tr * .4], fill=BG)
-    yy += tr * 2 + 8 * DP
-    f = font(10 * DP)
-    tl = f"{nt} turrets online"
-    d.text(((c2[0] + c2[2]) / 2 - d.textlength(tl, font=f) / 2, yy), tl, font=f, fill=(255, 255, 255))
-    yy = card(d, c3, "MATERIALS", acc)
-    for ic, have, need, ok, col in (("cr", "964M", "-700,000", True, GOLD), ("⬡", "12", "", True, CYAN), ("◆", "1  Spartan core", "", True, acc)):
+    nt = plan[min(5, st)]
+    stn = (lv + 2) // 2 if lv < 10 else st
+    newt = lv < 10 and plan[min(5, stn)] > nt
+    cw = (w - gap) / 2
+    c1 = (x, y, x + cw, y + rh) if newt else (x, y, x + w, y + rh)
+    c2 = (x + cw + gap, y, x + w, y + rh)
+    mw = (w - gap) * .5
+    c3, c4 = (x, y + rh + gap, x + mw, y + 2 * rh + gap), (x + mw + gap, y + rh + gap, x + w, y + 2 * rh + gap)
+    yy = card(d, c1, "UPGRADE STATS", acc)
+    cols = 1 if newt else 2
+    colw = (c1[2] - c1[0] - 8 * DP) / cols
+    for gi, (val, stat, fac) in enumerate((("+3%", "Shield capacity", False), ("+3%", "Hull points", False), ("+2%", "Shield capacity", True))):
+        gx, gy = c1[0] + (gi % cols) * colw, yy + (gi // cols) * 16 * DP
+        d.rounded_rectangle([gx + 8 * DP, gy, gx + 40 * DP, gy + 13 * DP], 4, fill=acc if fac else (31, 74, 42))
+        f = font(8 * DP)
+        d.text((gx + 24 * DP - d.textlength(val, font=f) / 2, gy + 2), val, font=f, fill=BG if fac else (140, 255, 140))
+        d.text((gx + 46 * DP, gy + 1), stat, font=font(9 * DP), fill=acc if fac else TEXT)
+    if newt:
+        yy2 = card(d, c2, "NEW TURRET", GOLD)
+        tot, tr = plan[stn], 8 * DP
+        rw = tot * (tr * 2 + 4 * DP) - 4 * DP
+        tx = (c2[0] + c2[2]) / 2 - rw / 2
+        for i in range(tot):
+            cx, cy = tx + tr + i * (tr * 2 + 4 * DP), yy2 + tr + 2 * DP
+            if i >= nt:
+                gl = Image.new("RGBA", (W, H)); ImageDraw.Draw(gl).ellipse([cx - tr * 1.5, cy - tr * 1.5, cx + tr * 1.5, cy + tr * 1.5], fill=GOLD + (110,)); im.alpha_composite(gl)
+            d.ellipse([cx - tr, cy - tr, cx + tr, cy + tr], fill=CYAN if i < nt else GOLD); d.ellipse([cx - tr * .4, cy - tr * .4, cx + tr * .4, cy + tr * .4], fill=BG)
+        f = font(9 * DP)
+        tl = "+1 turret at the next refit"
+        d.text(((c2[0] + c2[2]) / 2 - d.textlength(tl, font=f) / 2, yy2 + tr * 2 + 8 * DP), tl, font=f, fill=GOLD)
+    yy = card(d, c3, "MATERIALS REQUIRED", acc)
+    cost = int(0.02 * (lv + 1) * 7000000)
+    for ic, have, need, col in (("cr", "964M", f"-{cost:,}", GOLD), ("⬡", "12", "-1" if lv + 1 >= 6 else "", CYAN), ("◆", "1  Spartan core", "", acc)):
         f = font(10 * DP)
         d.text((c3[0] + 8 * DP, yy), ic, font=f, fill=col)
         d.text((c3[0] + 28 * DP, yy), have, font=f, fill=(255, 255, 255))
         if need: d.text((c3[2] - 8 * DP - d.textlength(need, font=font(9 * DP)), yy + 1), need, font=font(9 * DP), fill=(140, 255, 140))
         yy += 16 * DP
     yy = card(d, c4, "NEXT FORM", acc)
-    box = min(c4[3] - yy - 6 * DP, (c4[2] - c4[0]) * .45)
-    b = (c4[0] + 8 * DP, yy, c4[0] + 8 * DP + box, yy + box)
-    d.rectangle(b, fill=(7, 16, 28))
-    sy = b[1]
-    while sy < b[3]:
-        d.line([b[0], sy, b[2], sy], fill=(14, 40, 58)); sy += 3 * DP
-    if nxt is not None and st < 5:
-        k = min(box * 0.9 / nxt.width, box * 0.9 / nxt.height)
-        s2 = nxt.resize((int(nxt.width * k), int(nxt.height * k)), Image.LANCZOS)
+    avail = c4[3] - yy - 4 * DP
+    caph = 13 * DP
+    box = min(avail - caph, (c4[2] - c4[0] - 34 * DP) / 2)
+    bx0 = (c4[0] + c4[2]) / 2 - box - 9 * DP
+    for img, bx, halo in ((CURS, bx0, DIM), (new if st == S0 else nxt, bx0 + box + 18 * DP, CYAN)):
+        b = (bx, yy, bx + box, yy + box)
+        d.rectangle(b, fill=(7, 16, 28))
+        sy = b[1]
+        while sy < b[3]:
+            d.line([b[0], sy, b[2], sy], fill=(14, 40, 58)); sy += 3 * DP
+        k = min(box * 0.9 / img.width, box * 0.9 / img.height)
+        s2 = img.resize((max(1, int(img.width * k)), max(1, int(img.height * k))), Image.LANCZOS)
         px, py = int(b[0] + (box - s2.width) / 2), int(b[1] + (box - s2.height) / 2)
-        im.alpha_composite(tint(s2, CYAN, 140).filter(ImageFilter.GaussianBlur(3)), (px, py))
+        im.alpha_composite(tint(s2, halo, 140).filter(ImageFilter.GaussianBlur(3)), (px, py))
         im.alpha_composite(tint(s2, (20, 50, 74), 255), (px, py))
-        f = font(9 * DP)
-        d.text((b[2] + 8 * DP, b[1] + 2), f"STAGE {['','I','II','III','IV','V'][st+1]}", font=f, fill=CYAN)
-        d.text((b[2] + 8 * DP, b[1] + 15 * DP), "Evolves at", font=f, fill=CYAN)
-        d.text((b[2] + 8 * DP, b[1] + 28 * DP), f"refit {2*(st+1)-1}", font=f, fill=CYAN)
+        d.rectangle(b, outline=EDGE)
+    ax, ay = bx0 + box + 9 * DP, yy + box / 2
+    d.polygon([(ax - 5 * DP, ay - 6 * DP), (ax + 5 * DP, ay), (ax - 5 * DP, ay + 6 * DP)], fill=CYAN)
+    f = font(8 * DP)
+    cp = f"STAGE {['','I','II','III','IV','V'][st+1]}  ·  Evolves at refit {2*(st+1)-1}"
+    d.text(((c4[0] + c4[2]) / 2 - d.textlength(cp, font=f) / 2, yy + box + 2 * DP), cp, font=f, fill=CYAN)
     half = (w - gap) / 2
-    for bx, txt, fill, ink in ((x, "CLOSE", EDGE, TEXT), (x + half + gap, "REFITTING..." if busy else "REFIT  700K cr", (58, 70, 86) if busy else GOLD, DIM if busy else BG)):
+    for bx, txt, fill, ink in ((x, "CLOSE", EDGE, TEXT), (x + half + gap, "REFITTING..." if busy else f"REFIT  {int(0.02*(lv+1)*7000):,}K cr".replace(",", ""), (58, 70, 86) if busy else GOLD, DIM if busy else BG)):
         cut = 10 * DP
         d.polygon([(bx + cut, by), (bx + half, by), (bx + half - cut, by + bh), (bx, by + bh)], fill=fill)
         f = font(12 * DP)
@@ -295,10 +311,17 @@ for fi in range(total):
         tw = d.textlength(txt, font=f)
         d.text((BAY[2] / 2 - tw / 2, H - 36 * DP - 40), txt, font=f, fill=GOLD + (int(255 * a),))
     lv = 2 * S0 if t < 0 else 2 * S0 + 1
+    CURS = old if t < 0.72 else new
     panel(d, lv, S0 if t < 0.72 else S0 + 1, now, anim)
     im.convert("RGB").save(os.path.join(fdir, f"f{fi:04d}.png"))
     if fi == int((1.0 + STAGE_MS / 1000 * 0.45) * FPS): im.convert("RGB").save(os.path.join(OUT, "PREVIEW_refit_bay_morph.png"))
     if fi == 10: im.convert("RGB").save(os.path.join(OUT, "PREVIEW_refit_bay_idle.png"))
+# extra still: level 6 (form III), the next refit unlocks the 5th turret
+im = Image.new("RGBA", (W, H), BG + (255,))
+d = ImageDraw.Draw(im)
+CURS = new
+panel(d, 2 * S0 + 2, S0 + 1, 0, False)
+im.crop((int(W * 0.56), 0, W, H)).convert("RGB").save(os.path.join(OUT, "PREVIEW_refit_bay_turret_unlock.png"))
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-framerate", str(FPS), "-i", os.path.join(fdir, "f%04d.png"), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "22",
                 os.path.join(OUT, "PREVIEW_refit_bay.mp4")], check=True)
 print("ok", total, "frames")
