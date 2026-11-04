@@ -836,11 +836,11 @@ public class Mod {
 
     public static String label(SpaceObjectType t) {
         String wpn = ModWeapons.label(t);
-        if (wpn != null) return wpn;
+        if (wpn != null) return withLevel(wpn, t);   // v44: mod gear gets the stock "Lev. N" suffix too
         String secret = ModRep.label(t);
-        if (secret != null) return secret;
+        if (secret != null) return withLevel(secret, t);
         String devName = ModDev.label(t);
-        if (devName != null) return devName;
+        if (devName != null) return withLevel(devName, t);
         String hullName = ModShips.label(t);
         if (hullName != null) {
             return hullName;
@@ -850,6 +850,16 @@ public class Mod {
             return base;
         }
         return base + " " + ObjectRegistry.INSTANCE.getLocalizedString(fr.testudo.spacecorsair.R.string.shortLevel) + " " + t.getGearSpec().level;
+    }
+
+    /** The stock getLocalizedLabel suffix: name + " Lev. " + gear level, for equipable gear that shows its level. */
+    static String withLevel(String name, SpaceObjectType t) {
+        try {
+            if (!t.isEquipable() || t.dontDisplayLevel || t.getGearSpec() == null) return name;
+            return name + " " + ObjectRegistry.INSTANCE.getLocalizedString(fr.testudo.spacecorsair.R.string.shortLevel) + " " + t.getGearSpec().level;
+        } catch (Throwable th) {
+            return name;
+        }
     }
 
     private static String family(String n) {

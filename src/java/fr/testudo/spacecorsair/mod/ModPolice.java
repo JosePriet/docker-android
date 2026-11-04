@@ -64,6 +64,8 @@ public class ModPolice {
     /** Police-only weapons. */
     public static final float SNARE = 0.65f;               // destroyer snare: player max speed -35%
     public static final int SNARE_MS = 3000;
+    public static final float PIN = 0.2f;                  // v44 battleship / capital pin: player max speed -80%
+    public static final int PIN_MS = 2500;
     public static final long SNARE_CD_MS = 6000;           // per ship, no stacking
     public static final float DRAIN = 1.5f;                // cruiser / BC hits take 1.5x from the player's shield
     public static final long DRAIN_STOP_MS = 3000;         // and stop its regen 3 s
@@ -83,15 +85,19 @@ public class ModPolice {
         return c;
     }
 
-    /** Titan wave allowed: sector top level >= 16, heat >= 46, previous wave capital, no police titan up. */
+    /** Titan wave allowed: sector top level >= 16, police engaged, previous wave capital, no police titan up. */
     public static boolean titanAllowed(int sectorTop, int heat, int lastTop, boolean titanUp) {
-        return sectorTop >= TITAN_MIN_LEVEL && heat >= UNLOCK[TITAN] && lastTop == CAPITAL && !titanUp;
+        return sectorTop >= TITAN_MIN_LEVEL && heat > 0 && lastTop == CAPITAL && !titanUp;
     }
 
-    /** Next wave's top class: what the heat unlocks, at most one class above the previous wave's top (-1 none). */
+    /**
+     * Next wave's top class. v44 (owner 2026-11-04 13:36, "each wave is a +1 class increase"): once the police are engaged
+     * (heat > 0) every wave climbs one class over the last, frigate first, up to capital, then the titan (sector top 16+).
+     * Heat no longer gates the class (kills could never reach the old thresholds, so escalation stalled at cruiser/BC).
+     */
     public static int nextTop(int heat, int lastTop, int sectorTop, boolean titanUp) {
-        int c = Math.min(unlockedClass(heat), lastTop + 1);
-        if (c < 0) return NONE;
+        if (heat <= 0) return NONE;
+        int c = Math.min(TITAN, Math.max(FRIGATE, lastTop + 1));
         if (c >= TITAN && !titanAllowed(sectorTop, heat, lastTop, titanUp)) c = CAPITAL;
         return c;
     }
@@ -302,28 +308,45 @@ public class ModPolice {
     }
 
     // ================================================================== police-only weapons
+    /** v44: ModAnchor, a police shot stopped by the Leviathan anchor wall: the police tech still reaches the player. */
+    public static void wallHit(Element shooter, float dmg) {
+        try {
+            PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+            if (ps != null && shooter != null && police.containsKey(shooter)) policeWeapon(ps, shooter, dmg);
+        } catch (Throwable t) {
+            // no police tech this shot
+        }
+    }
+
+    private static long drainTextAt;
+
     private static void policeWeapon(PlayerShip ps, Element shooter, float dmg) {
         long[] st = police.get(shooter);
         int cls = (int) st[0];
-        boolean snare, drain;
+        boolean snare, drain, pin = false;
         if (cls == ModShips.DESTROYER) { snare = true; drain = false; }
         else if (cls == ModShips.CRUISER || cls == ModShips.BATTLECRUISER) { snare = false; drain = true; }
-        else if (cls == BATTLESHIP || cls == CAPITAL) { snare = (st[2]++ & 1) == 0; drain = !snare; }
+        else if (cls == BATTLESHIP || cls == CAPITAL) { snare = pin = (st[2]++ & 1) == 0; drain = !snare; }   // v44: big hulls pin
         else return;
         long now = System.currentTimeMillis();
         if (snare) {
             Long ready = snareReady.get(shooter);
             if (ready == null || now >= ready) {
+                float v = pin ? PIN : SNARE;
                 snareReady.put(shooter, now + SNARE_CD_MS);
-                ps.alterationSnareValue = ps.alterationSnareDuree > 0 ? Math.min(ps.alterationSnareValue, SNARE) : SNARE;   // no stacking
-                ps.alterationSnareDuree = Math.max(ps.alterationSnareDuree, SNARE_MS);
-                Mod.floatText(ps, ModLang.tr("SNARED"), 0.4f, 0.7f, 1.0f);
+                ps.alterationSnareValue = ps.alterationSnareDuree > 0 ? Math.min(ps.alterationSnareValue, v) : v;   // no stacking
+                ps.alterationSnareDuree = Math.max(ps.alterationSnareDuree, pin ? PIN_MS : SNARE_MS);
+                Mod.floatText(ps, ModLang.tr(pin ? "PINNED" : "SNARED"), 0.4f, 0.7f, 1.0f);
             }
         }
         if (drain) {
             Shield s = ps.shield;
             if (s != null && s.currentValue > 0) s.currentValue = Math.max(0, s.currentValue - dmg * (DRAIN - 1.0f));
             regenStopUntil = now + DRAIN_STOP_MS;
+            if (now - drainTextAt >= DRAIN_STOP_MS) {   // v44: the drain shows (once per 3 s)
+                drainTextAt = now;
+                Mod.floatText(ps, ModLang.tr("Shield drained!"), 0.3f, 0.85f, 1.0f);
+            }
         }
     }
 
@@ -349,6 +372,7 @@ public class ModPolice {
             if (swTimer <= 0) { swTimer = 1000; switches(ps); }
             if (here == null || ps == null || ps.removed || ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode) return;
             boosts(ps);
+            boolean activeAtStart = !active.isEmpty();
             for (int i = active.size() - 1; i >= 0; i--) {
                 Ennemis e = active.get(i);
                 if (e.removed || e.life <= 0) { active.remove(i); unvisual(e); continue; }   // v43: pooled hulls lose police visuals
@@ -357,7 +381,12 @@ public class ModPolice {
             }
             if (titan != null && (titan.removed || titan.life <= 0)) { ModPoliceAura.remove(titan); titan = null; }
             if (sinceWave < Long.MAX_VALUE / 4) sinceWave += j;
+            if (activeAtStart && active.isEmpty() && (titan == null || titan.removed) && heat > 0 && waveTimer > WAVE_FLOOR_MS) {
+                waveTimer = WAVE_FLOOR_MS;   // v44: wave wiped out -> the next one in 8 s
+                log("wave cleared: next in " + WAVE_FLOOR_MS + " ms");
+            }
             if (heat <= 0) return;
+            if (!active.isEmpty() || (titan != null && !titan.removed)) quietMs = 0;   // v44: no decay while police are on the field
             quietMs += j;
             if (quietMs >= DECAY_MS) {
                 quietMs -= DECAY_MS;
@@ -370,7 +399,7 @@ public class ModPolice {
             waveTimer -= j;
             if (waveTimer <= 0) {
                 waveTimer = waveBase(lastTop);
-                if (heatRose || !active.isEmpty() || (titan != null && !titan.removed)) wave(ps);
+                wave(ps);   // v44: waves keep coming while heat > 0 (they stopped once heat stopped rising)
             }
         } catch (Throwable t) {
             // police skip this frame

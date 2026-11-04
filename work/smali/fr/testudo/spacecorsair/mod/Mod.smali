@@ -182,7 +182,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/Mod;->hud:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 876
+    .line 886
     const-string v0, "<br><br><font color=\'#d21aff\'><b>SPECIAL SKILL</b></font><br>"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -639,7 +639,7 @@
     .registers 3
 
     .prologue
-    .line 865
+    .line 875
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->name()Ljava/lang/String;
 
     move-result-object v0
@@ -648,7 +648,7 @@
 
     move-result-object v0
 
-    .line 866
+    .line 876
     const-string v1, "alienBeamLaser"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -659,11 +659,11 @@
 
     const-string v0, "Banshee Beam"
 
-    .line 873
+    .line 883
     :goto_12
     return-object v0
 
-    .line 867
+    .line 877
     :cond_13
     const-string v1, "regentBeamLaser"
 
@@ -677,7 +677,7 @@
 
     goto :goto_12
 
-    .line 868
+    .line 878
     :cond_1e
     const-string v1, "arwingBoltLaser"
 
@@ -691,7 +691,7 @@
 
     goto :goto_12
 
-    .line 869
+    .line 879
     :cond_29
     const-string v1, "megatronBattery"
 
@@ -705,7 +705,7 @@
 
     goto :goto_12
 
-    .line 870
+    .line 880
     :cond_34
     const-string v1, "megatronSalvo"
 
@@ -719,7 +719,7 @@
 
     goto :goto_12
 
-    .line 871
+    .line 881
     :cond_3f
     const-string v1, "regentHiveBay"
 
@@ -733,7 +733,7 @@
 
     goto :goto_12
 
-    .line 872
+    .line 882
     :cond_4a
     const-string v1, "megatronShip"
 
@@ -747,7 +747,7 @@
 
     goto :goto_12
 
-    .line 873
+    .line 883
     :cond_55
     const/4 v0, 0x0
 
@@ -1073,37 +1073,37 @@
     .registers 5
 
     .prologue
-    .line 890
+    .line 900
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModWeapons;->desc(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 891
+    .line 901
     if-eqz v1, :cond_7
 
-    .line 914
+    .line 924
     :cond_6
     :goto_6
     return-object v1
 
-    .line 892
+    .line 902
     :cond_7
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModRep;->desc(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 893
+    .line 903
     if-nez v1, :cond_6
 
-    .line 894
+    .line 904
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModDev;->desc(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 895
+    .line 905
     if-nez v1, :cond_6
 
-    .line 898
+    .line 908
     :try_start_13
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->classLine(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
     :try_end_16
@@ -1111,28 +1111,28 @@
 
     move-result-object v0
 
-    .line 902
+    .line 912
     :goto_17
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/Mod;->descBody(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 903
+    .line 913
     if-nez v0, :cond_44
 
-    .line 904
+    .line 914
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModQol;->source(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v2
 
-    .line 905
+    .line 915
     invoke-virtual {v2}, Ljava/lang/String;->length()I
 
     move-result v0
 
     if-eqz v0, :cond_6
 
-    .line 908
+    .line 918
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -1156,16 +1156,16 @@
 
     goto :goto_6
 
-    .line 899
+    .line 909
     :catch_3c
     move-exception v0
 
-    .line 900
+    .line 910
     const/4 v0, 0x0
 
     goto :goto_17
 
-    .line 908
+    .line 918
     :cond_3f
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/Mod;->original(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
@@ -1173,19 +1173,19 @@
 
     goto :goto_2f
 
-    .line 910
+    .line 920
     :cond_44
     if-nez v1, :cond_4c
 
-    .line 911
+    .line 921
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->desc(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 912
+    .line 922
     if-eqz v1, :cond_66
 
-    .line 914
+    .line 924
     :cond_4c
     :goto_4c
     new-instance v2, Ljava/lang/StringBuilder;
@@ -1214,7 +1214,7 @@
 
     goto :goto_6
 
-    .line 912
+    .line 922
     :cond_66
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/Mod;->original(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
@@ -1227,7 +1227,7 @@
     .registers 3
 
     .prologue
-    .line 918
+    .line 928
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->name()Ljava/lang/String;
 
     move-result-object v0
@@ -1236,7 +1236,7 @@
 
     move-result-object v0
 
-    .line 919
+    .line 929
     const-string v1, "alienRat"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -1245,7 +1245,7 @@
 
     if-eqz v1, :cond_32
 
-    .line 920
+    .line 930
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -1278,11 +1278,11 @@
 
     move-result-object v0
 
-    .line 980
+    .line 990
     :goto_31
     return-object v0
 
-    .line 922
+    .line 932
     :cond_32
     const-string v1, "alienUfo"
 
@@ -1292,7 +1292,7 @@
 
     if-eqz v1, :cond_5c
 
-    .line 923
+    .line 933
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -1327,7 +1327,7 @@
 
     goto :goto_31
 
-    .line 925
+    .line 935
     :cond_5c
     const-string v1, "alienBlatte"
 
@@ -1337,7 +1337,7 @@
 
     if-eqz v1, :cond_86
 
-    .line 926
+    .line 936
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -1372,7 +1372,7 @@
 
     goto :goto_31
 
-    .line 930
+    .line 940
     :cond_86
     const-string v1, "policeShip"
 
@@ -1382,7 +1382,7 @@
 
     if-eqz v1, :cond_b0
 
-    .line 931
+    .line 941
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -1417,7 +1417,7 @@
 
     goto :goto_31
 
-    .line 933
+    .line 943
     :cond_b0
     const-string v1, "hullBreaker"
 
@@ -1427,7 +1427,7 @@
 
     if-eqz v1, :cond_db
 
-    .line 934
+    .line 944
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -1462,7 +1462,7 @@
 
     goto/16 :goto_31
 
-    .line 936
+    .line 946
     :cond_db
     const-string v1, "corvette"
 
@@ -1472,7 +1472,7 @@
 
     if-eqz v1, :cond_106
 
-    .line 937
+    .line 947
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -1507,7 +1507,7 @@
 
     goto/16 :goto_31
 
-    .line 939
+    .line 949
     :cond_106
     const-string v1, "alienBeamLaser"
 
@@ -1517,7 +1517,7 @@
 
     if-eqz v1, :cond_116
 
-    .line 940
+    .line 950
     const-string v0, "Alien beam emitter salvaged from a Banshee UFO, the same weapon its pilots use against you.<br><br>It locks onto the closest enemy in front of your ship and fires short red beam pulses. Each pulse lands once per reload, never misses, but only reaches targets within short range (600).<br><br>Works on fixed-cannon and turret ships alike."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1526,7 +1526,7 @@
 
     goto/16 :goto_31
 
-    .line 945
+    .line 955
     :cond_116
     const-string v1, "regentBeamLaser"
 
@@ -1536,7 +1536,7 @@
 
     if-eqz v1, :cond_126
 
-    .line 946
+    .line 956
     const-string v0, "The purple venom beam of the Regent command ship.<br><br>Pulsed, auto-targeted and reaches twice as far as the Banshee Beam (1200). Each pulse can inject a long-lasting alien poison into the target.<br><br>Works on fixed-cannon and turret ships alike."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1545,7 +1545,7 @@
 
     goto/16 :goto_31
 
-    .line 951
+    .line 961
     :cond_126
     const-string v1, "arwingBoltLaser"
 
@@ -1555,7 +1555,7 @@
 
     if-eqz v1, :cond_136
 
-    .line 952
+    .line 962
     const-string v0, "The green plasma cannon of the Arwing interceptor.<br><br>Fires fast alien plasma bolts at a high rate. Lower damage per bolt than human lasers, but very quick reload."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1564,7 +1564,7 @@
 
     goto/16 :goto_31
 
-    .line 955
+    .line 965
     :cond_136
     const-string v1, "megatronBattery"
 
@@ -1574,7 +1574,7 @@
 
     if-eqz v1, :cond_146
 
-    .line 956
+    .line 966
     const-string v0, "Heavy turret battery taken from a SPARTAN Guardian-class cruiser.<br><br>Slow, hard-hitting and very fast shells. Best mounted on the three turrets of the Megatron."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1583,7 +1583,7 @@
 
     goto/16 :goto_31
 
-    .line 959
+    .line 969
     :cond_146
     const-string v1, "megatronSalvo"
 
@@ -1593,7 +1593,7 @@
 
     if-eqz v1, :cond_156
 
-    .line 960
+    .line 970
     const-string v0, "<b>A missile modification defines the characteristics of the missile you fire.</b><br><br>Heavy homing missile carried by Guardian-class cruisers. Huge payload and blast radius, slow to manoeuvre. Ships with two launch tubes fire a salvo of two."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1602,7 +1602,7 @@
 
     goto/16 :goto_31
 
-    .line 964
+    .line 974
     :cond_156
     const-string v1, "regentHiveBay"
 
@@ -1612,7 +1612,7 @@
 
     if-eqz v1, :cond_166
 
-    .line 965
+    .line 975
     const-string v0, "<b>Replaces your missiles with alien drones.</b><br><br>Each launch uses one missile from your hold and releases 1 Banshee UFO and 1 Arwing (at most one of each out at a time). Drones are always built at your current pilot level and kills made by drones count as yours.<br><br><b>Stance</b>: while drones are out and the bay is reloading (or full), tap the missile button to switch:<br><b>Defense</b> (default): drones stay within 900 of your ship and deal +25% damage.<br><b>Attack</b>: drones hunt anything within 2500 but deal 15% less damage.<br><br>Higher tiers make stronger, longer-lived drones and reload faster."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1621,7 +1621,7 @@
 
     goto/16 :goto_31
 
-    .line 973
+    .line 983
     :cond_166
     const-string v1, "megatronShip"
 
@@ -1631,7 +1631,7 @@
 
     if-eqz v0, :cond_193
 
-    .line 974
+    .line 984
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -1654,7 +1654,7 @@
 
     const-string v1, "<b>Spartan Aegis</b>: SPARTAN shield technology. Any equipped shield gets +50% capacity, twice the regeneration rate and half the recovery delay.<br><b>Point defence</b>: automatically shoots down a missile locked on you (every 2.5 s).<br><b>Repulsion wave</b>: every 1.5 s, pushes away any enemy within 350 of the hull."
 
-    .line 976
+    .line 986
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -1669,7 +1669,7 @@
 
     goto/16 :goto_31
 
-    .line 980
+    .line 990
     :cond_193
     const/4 v0, 0x0
 
@@ -2252,7 +2252,7 @@
     .registers 7
 
     .prologue
-    .line 856
+    .line 866
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModSpecs;->FAMILY_NAMES:[Ljava/lang/String;
 
     array-length v3, v2
@@ -2266,7 +2266,7 @@
 
     aget-object v0, v2, v1
 
-    .line 857
+    .line 867
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v4
@@ -2304,11 +2304,11 @@
     :cond_2b
     move-object p0, v0
 
-    .line 861
+    .line 871
     :cond_2c
     return-object p0
 
-    .line 856
+    .line 866
     :cond_2d
     add-int/lit8 v0, v1, 0x1
 
@@ -3038,37 +3038,55 @@
     move-result-object v0
 
     .line 839
-    if-eqz v0, :cond_7
+    if-eqz v0, :cond_b
+
+    invoke-static {v0, p0}, Lfr/testudo/spacecorsair/mod/Mod;->withLevel(Ljava/lang/String;Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
+
+    move-result-object v0
 
     .line 852
-    :cond_6
-    :goto_6
+    :cond_a
+    :goto_a
     return-object v0
 
     .line 840
-    :cond_7
+    :cond_b
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModRep;->label(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v0
 
     .line 841
-    if-nez v0, :cond_6
+    if-eqz v0, :cond_16
+
+    invoke-static {v0, p0}, Lfr/testudo/spacecorsair/mod/Mod;->withLevel(Ljava/lang/String;Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
+
+    move-result-object v0
+
+    goto :goto_a
 
     .line 842
+    :cond_16
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModDev;->label(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v0
 
     .line 843
-    if-nez v0, :cond_6
+    if-eqz v0, :cond_21
+
+    invoke-static {v0, p0}, Lfr/testudo/spacecorsair/mod/Mod;->withLevel(Ljava/lang/String;Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
+
+    move-result-object v0
+
+    goto :goto_a
 
     .line 844
+    :cond_21
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->label(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v0
 
     .line 845
-    if-nez v0, :cond_6
+    if-nez v0, :cond_a
 
     .line 848
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/Mod;->baseLabel(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
@@ -3076,7 +3094,7 @@
     move-result-object v0
 
     .line 849
-    if-eqz v0, :cond_6
+    if-eqz v0, :cond_a
 
     const-string v1, "megatronShip"
 
@@ -3088,7 +3106,7 @@
 
     move-result v1
 
-    if-nez v1, :cond_6
+    if-nez v1, :cond_a
 
     .line 852
     new-instance v1, Ljava/lang/StringBuilder;
@@ -3137,7 +3155,7 @@
 
     move-result-object v0
 
-    goto :goto_6
+    goto :goto_a
 .end method
 
 .method public static launchDrones(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Z
@@ -4138,7 +4156,7 @@
     .registers 3
 
     .prologue
-    .line 880
+    .line 890
     :try_start_0
     const-class v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
@@ -4148,17 +4166,17 @@
 
     move-result-object v0
 
-    .line 881
+    .line 891
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 882
+    .line 892
     invoke-virtual {v0, p0}, Ljava/lang/reflect/Field;->getInt(Ljava/lang/Object;)I
 
     move-result v0
 
-    .line 883
+    .line 893
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -4171,15 +4189,15 @@
 
     move-result-object v0
 
-    .line 885
+    .line 895
     :goto_1a
     return-object v0
 
-    .line 884
+    .line 894
     :catch_1b
     move-exception v0
 
-    .line 885
+    .line 895
     const-string v0, ""
 
     goto :goto_1a
@@ -5544,6 +5562,92 @@
     const/4 v0, -0x1
 
     goto :goto_f
+.end method
+
+.method static withLevel(Ljava/lang/String;Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
+    .registers 5
+
+    .prologue
+    .line 858
+    :try_start_0
+    invoke-virtual {p1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->isEquipable()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_10
+
+    iget-boolean v0, p1, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->dontDisplayLevel:Z
+
+    if-nez v0, :cond_10
+
+    invoke-virtual {p1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+
+    move-result-object v0
+
+    if-nez v0, :cond_11
+
+    .line 861
+    :cond_10
+    :goto_10
+    return-object p0
+
+    .line 859
+    :cond_11
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v0, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v1, " "
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+
+    const v2, 0x7f0702bd
+
+    invoke-virtual {v1, v2}, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->getLocalizedString(I)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v1, " "
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {p1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
+
+    move-result-object v1
+
+    iget v1, v1, Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;->level:I
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    :try_end_40
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_40} :catch_42
+
+    move-result-object p0
+
+    goto :goto_10
+
+    .line 860
+    :catch_42
+    move-exception v0
+
+    goto :goto_10
 .end method
 
 .method public static zoomBonus()F

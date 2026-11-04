@@ -221,6 +221,7 @@ public final class ModAnchor {
             float dt = lastJ / 10f;
             if (cross(ps, p.position.x - p.speed.x * dt, p.position.y - p.speed.y * dt, p.position.x, p.position.y)) {
                 absorb(ps, p, p.damage);
+                ModPolice.wallHit(p.sender, p.damage);   // v44: police tech is not stopped by the wall
                 // the game drops an expired shot on its next physics step: until then it carries no damage and no decal
                 p.lifeTimeInMilli = 0;
                 p.damage = 0;
@@ -243,6 +244,7 @@ public final class ModAnchor {
             if (ps == null) return dmg;
             if (cross(ps, p.sender.position.x, p.sender.position.y, target.position.x, target.position.y)) {
                 absorb(ps, p, dmg);   // the beam's own per-hit amount
+                if (target.isPlayer) ModPolice.wallHit(p.sender, dmg);   // v44: ModLive.hit returns early, police tech still lands
                 return 0;
             }
         } catch (Throwable th) {

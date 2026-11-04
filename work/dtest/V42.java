@@ -11,11 +11,11 @@ eq("heat 5 destroyer",ModPolice.unlockedClass(5),D,0);eq("heat 10 cruiser",ModPo
 eq("heat 24 battleship",ModPolice.unlockedClass(24),BS,0);eq("heat 33 battleship",ModPolice.unlockedClass(33),BS,0);eq("heat 34 capital",ModPolice.unlockedClass(34),CAP,0);eq("heat 46 titan",ModPolice.unlockedClass(46),T,0);eq("heat 999 titan",ModPolice.unlockedClass(999),T,0);
 // one class per wave: heat 100 still climbs F, D, C, BC, BS, CAP, titan
 int last=-1;int[] want={F,D,C,BC,BS,CAP,T};for(int w=0;w<want.length;w++){int top=ModPolice.nextTop(100,last,40,false);eq("heat 100 wave "+(w+1)+" top",top,want[w],0);last=top;}
-eq("no heat no wave",ModPolice.nextTop(0,-1,40,false),-1,0);eq("heat 5 first wave frigate",ModPolice.nextTop(5,-1,40,false),F,0);eq("heat 5 second wave destroyer",ModPolice.nextTop(5,F,40,false),D,0);eq("heat 5 third wave stays destroyer",ModPolice.nextTop(5,D,40,false),D,0);
-eq("heat fell: top follows heat",ModPolice.nextTop(6,BS,40,false),D,0);
-// titan: sector top >= 16, heat >= 46, previous wave capital, none up
+eq("no heat no wave",ModPolice.nextTop(0,-1,40,false),-1,0);eq("heat 1 first wave frigate",ModPolice.nextTop(1,-1,40,false),F,0);eq("heat 1 second wave destroyer",ModPolice.nextTop(1,F,40,false),D,0);eq("v44 heat 5 third wave cruiser (no heat gate)",ModPolice.nextTop(5,D,40,false),C,0);
+eq("v44 low heat still climbs",ModPolice.nextTop(2,BS,40,false),CAP,0);eq("v44 low heat titan after capital",ModPolice.nextTop(2,CAP,40,false),T,0);
+// titan: sector top >= 16, police engaged, previous wave capital, none up
 eq("titan after capital L40",ModPolice.nextTop(46,CAP,40,false),T,0);eq("titan at sector top 16",ModPolice.nextTop(46,CAP,16,false),T,0);eq("no titan sector top 15",ModPolice.nextTop(60,CAP,15,false),CAP,0);
-eq("no titan heat 45",ModPolice.nextTop(45,CAP,40,false),CAP,0);eq("no titan right after battleship",ModPolice.nextTop(60,BS,40,false),CAP,0);eq("one titan at a time",ModPolice.nextTop(60,CAP,40,true),CAP,0);eq("after a titan wave: capital",ModPolice.nextTop(60,T,40,true),CAP,0);
+eq("v44 titan at heat 45",ModPolice.nextTop(45,CAP,40,false),T,0);eq("no titan right after battleship",ModPolice.nextTop(60,BS,40,false),CAP,0);eq("one titan at a time",ModPolice.nextTop(60,CAP,40,true),CAP,0);eq("after a titan wave: capital",ModPolice.nextTop(60,T,40,true),CAP,0);
 // wave makeup
 eq("frigate wave 2 ships",ModPolice.waveClasses(F,2).length,2,0);int[] w=ModPolice.waveClasses(C,1);eq("cruiser wave 1 escort: 3 ships",w.length,3,0);eq("cruiser wave lead",w[0],C,0);eq("cruiser wave second",w[1],C,0);eq("cruiser wave escort destroyer",w[2],D,0);
 eq("2 escorts: 4 ships",ModPolice.waveClasses(BS,2).length,4,0);eq("escorts clamp 1-2",ModPolice.waveClasses(BC,5).length,4,0);w=ModPolice.waveClasses(CAP,2);eq("capital wave 3 ships",w.length,3,0);eq("capital lead",w[0],CAP,0);eq("capital escorts battleships",w[1]==BS&&w[2]==BS?1:0,1,0);
