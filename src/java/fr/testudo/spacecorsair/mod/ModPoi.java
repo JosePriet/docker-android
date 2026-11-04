@@ -73,7 +73,7 @@ public final class ModPoi {
         LevelId id = null;
         try { id = ObjectRegistry.INSTANCE.game.currentLevel.id; } catch (Throwable e) { /* no level yet */ }
         if (id == null) return null;
-        if (id != memoLevel) {
+        if (id != memoLevel || !ModArt.listed()) {
             memoLevel = id;
             memoBase = null;
             if (ModMap.isHome(id)) {
@@ -95,7 +95,9 @@ public final class ModPoi {
         return null;
     }
 
+    /** key when modart/<key> ships; null while the asset listing is not known yet (never caches a false miss). */
     private static String have(String key) {
-        return ModArt.assetExists(key) ? key : null;
+        if (!ModArt.hasArt(key) || !ModArt.listed()) return null;
+        return key;
     }
 }

@@ -141,9 +141,16 @@
     :cond_f
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModPoi;->memoLevel:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
-    if-eq v1, v2, :cond_42
+    if-ne v1, v2, :cond_19
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModArt;->listed()Z
+
+    move-result v2
+
+    if-nez v2, :cond_48
 
     .line 77
+    :cond_19
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModPoi;->memoLevel:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
     .line 78
@@ -154,7 +161,7 @@
 
     move-result v0
 
-    if-eqz v0, :cond_42
+    if-eqz v0, :cond_48
 
     .line 80
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModMap;->owner(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
@@ -162,7 +169,7 @@
     move-result v0
 
     .line 81
-    if-ltz v0, :cond_42
+    if-ltz v0, :cond_48
 
     new-instance v1, Ljava/lang/StringBuilder;
 
@@ -195,7 +202,7 @@
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoi;->memoBase:Ljava/lang/String;
 
     .line 84
-    :cond_42
+    :cond_48
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoi;->memoBase:Ljava/lang/String;
 
     goto :goto_b
@@ -349,20 +356,25 @@
     .registers 2
 
     .prologue
-    .line 99
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModArt;->assetExists(Ljava/lang/String;)Z
+    .line 100
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModArt;->hasArt(Ljava/lang/String;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_7
+    if-eqz v0, :cond_c
 
-    :goto_6
-    return-object p0
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModArt;->listed()Z
 
-    :cond_7
+    move-result v0
+
+    if-nez v0, :cond_d
+
+    :cond_c
     const/4 p0, 0x0
 
-    goto :goto_6
+    .line 101
+    :cond_d
+    return-object p0
 .end method
 
 .method private static variant(Ljava/lang/String;Lfr/testudo/spacecorsair/business/world/station/Station;)Ljava/lang/String;
