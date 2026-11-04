@@ -597,7 +597,7 @@ public final class ModRefitScreen {
 
             // cards: per level | turrets, then materials | next form
             float gap = 8 * dp, cw = (w - gap) / 2;
-            float bh = 42 * dp, by = r.bottom - bh - pad;
+            float bh = 34 * dp, by = r.bottom - bh - pad;
             float rowH = (by - 24 * dp - y - gap) / 2;
             RectF c1 = new RectF(x, y, x + cw, y + rowH), c2 = new RectF(x + cw + gap, y, x + w, y + rowH);
             RectF c3 = new RectF(x, y + rowH + gap, x + cw, y + 2 * rowH + gap), c4 = new RectF(x + cw + gap, y + rowH + gap, x + w, y + 2 * rowH + gap);
@@ -610,46 +610,36 @@ public final class ModRefitScreen {
                 String stat = plus > 0 ? gs.substring(0, plus) : gs, val = plus > 0 ? gs.substring(plus + 1) : "";
                 boolean fac = val.contains("(");
                 if (fac) val = val.substring(0, val.indexOf(' ') > 0 ? val.indexOf(' ') : val.length());
-                RectF chip = new RectF(c1.left + 8 * dp, yy, c1.left + 44 * dp, yy + 14 * dp);
+                RectF chip = new RectF(c1.left + 8 * dp, yy, c1.left + 40 * dp, yy + 13 * dp);
                 p.setColor(fac ? acc : 0xFF1F4A2A);
                 c.drawRoundRect(chip, 3 * dp, 3 * dp, p);
-                tp.setTextSize(9 * dp);
+                tp.setTextSize(8 * dp);
                 tp.setColor(fac ? BG : 0xFF8CFF8C);
                 c.drawText(val, chip.centerX() - tp.measureText(val) / 2, chip.bottom - 3.5f * dp, tp);
-                tp.setTextSize(10 * dp);
+                tp.setTextSize(9 * dp);
                 tp.setColor(fac ? acc : TEXT);
                 String sl = android.text.TextUtils.ellipsize(stat, tp, c1.right - chip.right - 14 * dp, android.text.TextUtils.TruncateAt.END).toString();
                 c.drawText(sl, chip.right + 6 * dp, chip.bottom - 3 * dp, tp);
-                yy += 18 * dp;
+                yy += 16 * dp;
             }
 
             yy = card(c, c2, ModLang.tr("TURRETS"), acc);
             int[] plan = ModV38.turretPlan(hull);
             int nowT = plan != null ? plan[Math.min(5, st)] : guns();
-            int maxT = plan != null ? plan[5] : nowT;
-            float tr = Math.min(9 * dp, (c2.width() - 16 * dp) / Math.max(1, maxT) / 2 - 2 * dp);
-            for (int i = 0; i < maxT; i++) {
-                float cx = c2.left + 8 * dp + tr + i * (tr * 2 + 4 * dp), cy = yy + tr + 2 * dp;
-                boolean on = i < nowT;
-                p.setStyle(on ? Paint.Style.FILL : Paint.Style.STROKE);
-                p.setStrokeWidth(1.5f * dp);
-                p.setColor(on ? CYAN : DIM);
+            // v44 c (owner 14:37): locked turret slots stay hidden until the form that unlocks them
+            float tr = Math.min(8 * dp, (c2.width() - 16 * dp) / Math.max(1, nowT) / 2 - 2 * dp);
+            float rowW = nowT * (tr * 2 + 4 * dp) - 4 * dp, tx = c2.centerX() - rowW / 2;
+            for (int i = 0; i < nowT; i++) {
+                float cx = tx + tr + i * (tr * 2 + 4 * dp), cy = yy + tr + 2 * dp;
+                p.setColor(CYAN);
                 c.drawCircle(cx, cy, tr, p);
-                p.setStyle(Paint.Style.FILL);
-                if (on) { p.setColor(BG); c.drawCircle(cx, cy, tr * 0.4f, p); }
-                else { p.setColor(DIM); c.drawRect(cx - tr * 0.35f, cy - tr * 0.05f, cx + tr * 0.35f, cy + tr * 0.45f, p); }   // lock
+                p.setColor(BG);
+                c.drawCircle(cx, cy, tr * 0.4f, p);
             }
-            yy += tr * 2 + 14 * dp;
-            text(c, nowT + " / " + maxT + " " + ModLang.tr("active"), c2.left + 8 * dp, yy, 11, WHITE);
-            yy += 14 * dp;
-            if (plan != null && nowT < maxT) {
-                for (int s = st + 1; s <= 5; s++) {
-                    if (plan[s] > plan[s - 1] && yy < c2.bottom - 4 * dp) {
-                        text(c, "+" + (plan[s] - plan[s - 1]) + " " + ModLang.tr("at form") + " " + ROMAN[s], c2.left + 8 * dp, yy, 9, CYAN);
-                        yy += 12 * dp;
-                    }
-                }
-            } else if (yy < c2.bottom - 4 * dp) text(c, ModLang.tr("All turret slots unlocked"), c2.left + 8 * dp, yy, 9, GOLD);
+            yy += tr * 2 + 16 * dp;
+            String tl = nowT + " " + ModLang.tr("turrets online");
+            tp.setTextSize(10 * dp);
+            if (yy < c2.bottom - 2 * dp) text(c, tl, c2.centerX() - tp.measureText(tl) / 2, yy, 10, WHITE);
 
             yy = card(c, c3, ModLang.tr("MATERIALS"), acc);
             long credits = 0;
@@ -657,9 +647,9 @@ public final class ModRefitScreen {
             NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
             long needCr = max ? 0 : Long.parseLong(rf[2]);
             int needP = Integer.parseInt(rf[3]), haveP = Integer.parseInt(rf[4]), needC = !max && n + 1 == ModV35.REFIT_MAX ? 1 : 0, haveC = Integer.parseInt(rf[7]);
-            yy = matRow(c, c3, yy, "cr", nf.format(credits), max ? "-" : nf.format(needCr), credits >= needCr, GOLD);
-            yy = matRow(c, c3, yy, "⬡", String.valueOf(haveP), needP > 0 ? String.valueOf(needP) : "-", haveP >= needP, CYAN);
-            if (yy < c3.bottom - 6 * dp) matRow(c, c3, yy, "◆", haveC + "  " + rf[6], needC > 0 ? "1" : "-", haveC >= needC, acc);
+            yy = matRow(c, c3, yy, "cr", credits, max ? -1 : needCr, credits >= needCr, GOLD);
+            yy = matRow(c, c3, yy, "⬡", haveP, needP > 0 ? needP : -1, haveP >= needP, CYAN);
+            if (yy < c3.bottom - 6 * dp) matRow(c, c3, yy, "◆", haveC, needC > 0 ? 1 : -1, haveC >= needC, acc, rf[6]);
 
             yy = card(c, c4, ModLang.tr("NEXT FORM"), acc);
             float box = Math.min(c4.height() - (yy - c4.top) - 6 * dp, c4.width() * 0.45f);
@@ -677,7 +667,7 @@ public final class ModRefitScreen {
                     RectF nd = new RectF(b.centerX() - nw / 2, b.centerY() - nh / 2, b.centerX() + nw / 2, b.centerY() + nh / 2);
                     drawTinted(c, next, grow(nd, 1.06f), CYAN, (int) (90 + 60 * Math.sin(now / 500.0)));
                     drawTinted(c, next, nd, 0xFF14324A, 255);
-                    cap2 = ModLang.tr("Form") + " " + ROMAN[Math.min(5, (nextAt + 1) / 2)] + "\n" + ModLang.tr("at refit") + " " + nextAt;
+                    cap2 = ModLang.tr("STAGE ") + ROMAN[Math.min(5, (nextAt + 1) / 2)] + "\n" + ModLang.tr("Evolves at refit ") + nextAt;
                     col = CYAN;
                 } else if (st >= ModV35.STAGES || (hull != null && ModV35.stageArt(hull, ModV35.STAGES) != hull.art)) {
                     cap2 = ModLang.tr("Final form reached");
@@ -685,7 +675,7 @@ public final class ModRefitScreen {
                 } else {
                     cap2 = ModLang.tr("This hull keeps its shape (no new form art yet)");
                 }
-                para(c, cap2, b.right + 8 * dp, b.top + 11 * dp, c4.right - b.right - 14 * dp, 10, col);
+                para(c, cap2, b.right + 8 * dp, b.top + 11 * dp, c4.right - b.right - 14 * dp, 9, col);
             }
 
             // status / buttons
@@ -695,7 +685,7 @@ public final class ModRefitScreen {
             refitBtn.set(x + half + gap, by, x + w, by + bh);
             button(c, closeBtn, ModLang.tr("Close"), EDGE, TEXT);
             boolean can = !max && !animating();
-            button(c, refitBtn, max ? ModLang.tr("ELITE") : animating() ? ModLang.tr("Refitting...") : ModLang.tr("REFIT"), can ? GOLD : 0xFF3A4656, can ? BG : DIM);
+            button(c, refitBtn, max ? ModLang.tr("ELITE") : animating() ? ModLang.tr("Refitting...") : ModLang.tr("REFIT") + "  " + compact(Long.parseLong(rf[2])) + " cr", can ? GOLD : 0xFF3A4656, can ? BG : DIM);
         }
 
         int guns() {
@@ -706,24 +696,46 @@ public final class ModRefitScreen {
             }
         }
 
-        /** Materials row: icon, what you have, what the next level needs (green when enough, red when short). */
-        float matRow(Canvas c, RectF b, float y, String icon, String have, String need, boolean ok, int col) {
-            tp.setTextSize(11 * dp);
+        /** 964,405,949 -> 964M (1 decimal under 10: 7.7M); K, M, B. */
+        static String compact(long v) {
+            String[] u = {"", "K", "M", "B", "T"};
+            double d = v;
+            int i = 0;
+            while (Math.abs(d) >= 1000 && i < u.length - 1) { d /= 1000; i++; }
+            if (i == 0) return String.valueOf(v);
+            return (Math.abs(d) < 10 ? String.format(Locale.US, "%.1f", d).replace(".0", "") : String.valueOf((long) d)) + u[i];
+        }
+
+        /** The full number when it fits the width, else the short form (owner 14:37). */
+        String fit(long v, float w) {
+            String full = NumberFormat.getNumberInstance(Locale.getDefault()).format(v);
+            return tp.measureText(full) <= w ? full : compact(v);
+        }
+
+        /** Materials row: icon, what you have, what the next level needs (green when enough, red when short); need < 0 = none. */
+        float matRow(Canvas c, RectF b, float y, String icon, long have, long need, boolean ok, int col) {
+            return matRow(c, b, y, icon, have, need, ok, col, "");
+        }
+
+        float matRow(Canvas c, RectF b, float y, String icon, long have, long need, boolean ok, int col, String label) {
+            float fs = 10 * dp, inner = b.width() - 36 * dp;
+            tp.setTextSize(fs);
             tp.setColor(col);
             c.drawText(icon, b.left + 8 * dp, y + 10 * dp, tp);
             float nw = 0;
-            if (!"-".equals(need)) {   // what the next level takes, right-aligned; the stock left of it, cut to fit
-                tp.setTextSize(10 * dp);
+            if (need >= 0) {
+                tp.setTextSize(9 * dp);
+                String nd = "-" + fit(need, inner * 0.42f);
                 tp.setColor(ok ? 0xFF8CFF8C : RED);
-                String nd = "-" + need;
                 nw = tp.measureText(nd) + 8 * dp;
                 c.drawText(nd, b.right - 8 * dp - tp.measureText(nd), y + 10 * dp, tp);
-                tp.setTextSize(11 * dp);
+                tp.setTextSize(fs);
             }
             tp.setColor(WHITE);
-            CharSequence h = android.text.TextUtils.ellipsize(have, tp, Math.max(10 * dp, b.width() - 36 * dp - nw), android.text.TextUtils.TruncateAt.END);
-            c.drawText(h.toString(), b.left + 28 * dp, y + 10 * dp, tp);
-            return y + 17 * dp;
+            String hv = fit(have, inner - nw);
+            if (label.length() > 0) hv = android.text.TextUtils.ellipsize(hv + "  " + label, tp, inner - nw, android.text.TextUtils.TruncateAt.END).toString();
+            c.drawText(hv, b.left + 28 * dp, y + 10 * dp, tp);
+            return y + 16 * dp;
         }
 
         void text(Canvas c, String s, float x, float y, int sp, int color) {
@@ -749,7 +761,7 @@ public final class ModRefitScreen {
             pa.moveTo(b.left + cut, b.top); pa.lineTo(b.right, b.top); pa.lineTo(b.right - cut, b.bottom); pa.lineTo(b.left, b.bottom); pa.close();
             p.setColor(fill);
             c.drawPath(pa, p);
-            tp.setTextSize(14 * dp);
+            tp.setTextSize(12 * dp);
             tp.setColor(ink);
             c.drawText(s, b.centerX() - tp.measureText(s) / 2, b.centerY() + 5 * dp, tp);
         }

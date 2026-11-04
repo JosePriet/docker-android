@@ -107,40 +107,37 @@ def panel(d, lv, st, now, busy):
     y += th + 30 * DP
     gap = 8 * DP
     cw = (w - gap) / 2
-    bh = 42 * DP
+    bh = 34 * DP
     by = H - bh - pad
     rh = (by - 24 * DP - y - gap) / 2
     c1, c2 = (x, y, x + cw, y + rh), (x + cw + gap, y, x + w, y + rh)
     c3, c4 = (x, y + rh + gap, x + cw, y + 2 * rh + gap), (x + cw + gap, y + rh + gap, x + w, y + 2 * rh + gap)
     yy = card(d, c1, "EACH LEVEL", acc)
     for val, stat, fac in (("+3%", "Shield capacity", False), ("+3%", "Hull points", False), ("+2%", "Shield capacity", True)):
-        d.rounded_rectangle([c1[0] + 8 * DP, yy, c1[0] + 44 * DP, yy + 14 * DP], 4, fill=acc if fac else (31, 74, 42))
-        f = font(9 * DP)
-        d.text((c1[0] + 26 * DP - d.textlength(val, font=f) / 2, yy + 2), val, font=f, fill=BG if fac else (140, 255, 140))
-        d.text((c1[0] + 50 * DP, yy + 1), stat, font=font(10 * DP), fill=acc if fac else TEXT)
-        yy += 18 * DP
+        d.rounded_rectangle([c1[0] + 8 * DP, yy, c1[0] + 40 * DP, yy + 13 * DP], 4, fill=acc if fac else (31, 74, 42))
+        f = font(8 * DP)
+        d.text((c1[0] + 24 * DP - d.textlength(val, font=f) / 2, yy + 2), val, font=f, fill=BG if fac else (140, 255, 140))
+        d.text((c1[0] + 46 * DP, yy + 1), stat, font=font(9 * DP), fill=acc if fac else TEXT)
+        yy += 16 * DP
     yy = card(d, c2, "TURRETS", acc)
     plan = [4, 4, 4, 4, 5, 6]
-    nt, mt, tr = plan[min(5, st)], 6, 9 * DP
-    for i in range(mt):
-        cx, cy = c2[0] + 8 * DP + tr + i * (tr * 2 + 4 * DP), yy + tr + 2 * DP
-        if i < nt:
-            d.ellipse([cx - tr, cy - tr, cx + tr, cy + tr], fill=CYAN); d.ellipse([cx - tr * .4, cy - tr * .4, cx + tr * .4, cy + tr * .4], fill=BG)
-        else:
-            d.ellipse([cx - tr, cy - tr, cx + tr, cy + tr], outline=DIM, width=2); d.rectangle([cx - tr * .35, cy, cx + tr * .35, cy + tr * .45], fill=DIM)
-    yy += tr * 2 + 6 * DP
-    d.text((c2[0] + 8 * DP, yy), f"{nt} / {mt} active", font=font(11 * DP), fill=(255, 255, 255))
-    yy += 16 * DP
-    for s in range(st + 1, 6):
-        if plan[s] > plan[s - 1]:
-            d.text((c2[0] + 8 * DP, yy), f"+{plan[s]-plan[s-1]} at form {['','I','II','III','IV','V'][s]}", font=font(9 * DP), fill=CYAN); yy += 12 * DP
+    nt, tr = plan[min(5, st)], 8 * DP
+    rw = nt * (tr * 2 + 4 * DP) - 4 * DP
+    tx = (c2[0] + c2[2]) / 2 - rw / 2
+    for i in range(nt):
+        cx, cy = tx + tr + i * (tr * 2 + 4 * DP), yy + tr + 2 * DP
+        d.ellipse([cx - tr, cy - tr, cx + tr, cy + tr], fill=CYAN); d.ellipse([cx - tr * .4, cy - tr * .4, cx + tr * .4, cy + tr * .4], fill=BG)
+    yy += tr * 2 + 8 * DP
+    f = font(10 * DP)
+    tl = f"{nt} turrets online"
+    d.text(((c2[0] + c2[2]) / 2 - d.textlength(tl, font=f) / 2, yy), tl, font=f, fill=(255, 255, 255))
     yy = card(d, c3, "MATERIALS", acc)
-    for ic, have, need, ok, col in (("cr", "964,40...", "-770,000", True, GOLD), ("⬡", "12", "", True, CYAN), ("◆", "1  Spartan core", "", True, acc)):
-        f = font(11 * DP)
+    for ic, have, need, ok, col in (("cr", "964M", "-700,000", True, GOLD), ("⬡", "12", "", True, CYAN), ("◆", "1  Spartan core", "", True, acc)):
+        f = font(10 * DP)
         d.text((c3[0] + 8 * DP, yy), ic, font=f, fill=col)
         d.text((c3[0] + 28 * DP, yy), have, font=f, fill=(255, 255, 255))
-        if need: d.text((c3[2] - 8 * DP - d.textlength(need, font=font(10 * DP)), yy + 1), need, font=font(10 * DP), fill=(140, 255, 140))
-        yy += 17 * DP
+        if need: d.text((c3[2] - 8 * DP - d.textlength(need, font=font(9 * DP)), yy + 1), need, font=font(9 * DP), fill=(140, 255, 140))
+        yy += 16 * DP
     yy = card(d, c4, "NEXT FORM", acc)
     box = min(c4[3] - yy - 6 * DP, (c4[2] - c4[0]) * .45)
     b = (c4[0] + 8 * DP, yy, c4[0] + 8 * DP + box, yy + box)
@@ -154,15 +151,16 @@ def panel(d, lv, st, now, busy):
         px, py = int(b[0] + (box - s2.width) / 2), int(b[1] + (box - s2.height) / 2)
         im.alpha_composite(tint(s2, CYAN, 140).filter(ImageFilter.GaussianBlur(3)), (px, py))
         im.alpha_composite(tint(s2, (20, 50, 74), 255), (px, py))
-        f = font(10 * DP)
-        d.text((b[2] + 8 * DP, b[1] + 2), f"Form {['','I','II','III','IV','V'][st+1]}", font=f, fill=CYAN)
-        d.text((b[2] + 8 * DP, b[1] + 18 * DP), f"at refit {2*(st+1)-1}", font=f, fill=CYAN)
+        f = font(9 * DP)
+        d.text((b[2] + 8 * DP, b[1] + 2), f"STAGE {['','I','II','III','IV','V'][st+1]}", font=f, fill=CYAN)
+        d.text((b[2] + 8 * DP, b[1] + 15 * DP), "Evolves at", font=f, fill=CYAN)
+        d.text((b[2] + 8 * DP, b[1] + 28 * DP), f"refit {2*(st+1)-1}", font=f, fill=CYAN)
     half = (w - gap) / 2
-    for bx, txt, fill, ink in ((x, "CLOSE", EDGE, TEXT), (x + half + gap, "REFITTING..." if busy else "REFIT", (58, 70, 86) if busy else GOLD, DIM if busy else BG)):
+    for bx, txt, fill, ink in ((x, "CLOSE", EDGE, TEXT), (x + half + gap, "REFITTING..." if busy else "REFIT  700K cr", (58, 70, 86) if busy else GOLD, DIM if busy else BG)):
         cut = 10 * DP
         d.polygon([(bx + cut, by), (bx + half, by), (bx + half - cut, by + bh), (bx, by + bh)], fill=fill)
-        f = font(14 * DP)
-        d.text((bx + half / 2 - d.textlength(txt, font=f) / 2, by + bh / 2 - 11), txt, font=f, fill=ink)
+        f = font(12 * DP)
+        d.text((bx + half / 2 - d.textlength(txt, font=f) / 2, by + bh / 2 - 10), txt, font=f, fill=ink)
 
 
 sparks = []
