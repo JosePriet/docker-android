@@ -19,5 +19,6 @@ for k, v in json.load(open(S + '/i18n/gpt/v34_es.json', encoding='utf-8')).items
 for k, v in json.load(open(S + '/i18n/gpt/v35_es.json', encoding='utf-8')).items(): d[k] = v   # v35 strings (Claude draft, GPT to review)
 for k, v in json.load(open(S + '/i18n/gpt/v37_es.json', encoding='utf-8')).items(): d[k] = v   # v37 strings (Claude draft, GPT to review)
 for k, v in json.load(open(S + '/i18n/gpt/v39_es.json', encoding='utf-8')).items(): d[k] = v   # v38/v39 Leviathan texts (GPT EN/ES, Claude final touches)
+for k, v in json.load(open(S + '/i18n/gpt/v43_es.json', encoding='utf-8')).items(): d[k] = v   # v40-v43 strings (GPT ES 2026-11-04; Claude added ¿ ¡)
 json.dump(d, open(S + '/i18n/lang/es_full.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=0, sort_keys=True)
 print('entries', len(d))
