@@ -267,6 +267,7 @@ public final class ModRefitScreen {
                 p.setAlpha(255);
             }
             if (cur == null) return;
+            hexPad(c, r, now);
 
             float t = animating() ? (now - animStart) / (float) animMs : -1;
             float k = Math.min(r.width() * 0.78f / cur.getWidth(), r.height() * 0.86f / cur.getHeight());
@@ -595,121 +596,189 @@ public final class ModRefitScreen {
             c.drawText(el, cap.centerX() - tp.measureText(el) / 2, cap.centerY() + 3.5f * dp, tp);
             y += th + 30 * dp;
 
-            // cards (owner 14:53): UPGRADE STATS (+ NEW TURRET only when the next refit unlocks one), MATERIALS REQUIRED | NEXT FORM
-            float gap = 8 * dp;
-            float bh = 34 * dp, by = r.bottom - bh - pad;
-            float rowH = (by - 24 * dp - y - gap) / 2;
+            // v44 d (owner 15:13, War Robots upgrade screen as the reference): one comparison table, now vs after the
+            // refit, real numbers, two colours (white now, green after), zebra rows instead of boxed cards, one CTA.
             int[] plan = ModV38.turretPlan(hull);
             int nowT = plan != null ? plan[Math.min(5, st)] : guns();
             int stNext = max ? st : ModV35.stage(n + 1);
             boolean newTurret = plan != null && !max && plan[Math.min(5, stNext)] > nowT;
-            float cw = (w - gap) / 2;
-            RectF c1 = newTurret ? new RectF(x, y, x + cw, y + rowH) : new RectF(x, y, x + w, y + rowH);
-            RectF c2 = new RectF(x + cw + gap, y, x + w, y + rowH);
-            float mw = (w - gap) * 0.5f;
-            RectF c3 = new RectF(x, y + rowH + gap, x + mw, y + 2 * rowH + gap), c4 = new RectF(x + mw + gap, y + rowH + gap, x + w, y + 2 * rowH + gap);
+            boolean evolves = !max && stNext > st && next != null && nextAt == n + 1;
+            final int GREEN = 0xFF7CFF8C;
 
-            float yy = card(c, c1, ModLang.tr("UPGRADE STATS"), acc);
-            String[] gains = rf[5].split(", ");
-            int cols = newTurret ? 1 : 2;
-            float colW = (c1.width() - 8 * dp) / cols, y0 = yy;
-            for (int gi = 0; gi < gains.length; gi++) {
-                int col = gi % cols;
-                float gx = c1.left + col * colW;
-                float gy = y0 + (gi / cols) * 16 * dp;
-                if (gy > c1.bottom - 8 * dp) break;
-                String gs = gains[gi].trim();
-                int plus = gs.lastIndexOf(" +");
-                String stat = plus > 0 ? gs.substring(0, plus) : gs, val = plus > 0 ? gs.substring(plus + 1) : "";
-                boolean fac = val.contains("(");
-                if (fac) val = val.substring(0, val.indexOf(' ') > 0 ? val.indexOf(' ') : val.length());
-                RectF chip = new RectF(gx + 8 * dp, gy, gx + 40 * dp, gy + 13 * dp);
-                p.setColor(fac ? acc : 0xFF1F4A2A);
-                c.drawRoundRect(chip, 3 * dp, 3 * dp, p);
-                tp.setTextSize(8 * dp);
-                tp.setColor(fac ? BG : 0xFF8CFF8C);
-                c.drawText(val, chip.centerX() - tp.measureText(val) / 2, chip.bottom - 3.5f * dp, tp);
-                tp.setTextSize(9 * dp);
-                tp.setColor(fac ? acc : TEXT);
-                String sl = android.text.TextUtils.ellipsize(stat, tp, gx + colW - chip.right - 10 * dp, android.text.TextUtils.TruncateAt.END).toString();
-                c.drawText(sl, chip.right + 6 * dp, chip.bottom - 3 * dp, tp);
+            String intro = max ? ModLang.tr("This hull has reached ELITE: every refit and form is unlocked.")
+                : ModLang.tr("Each refit strengthens this hull. Every second refit evolves it into a new form.");
+            // fit: rows + form must end above the REQUIRED line; drop the intro, then tighten rows, when space is short
+            float[][] rows = ModV35.preview();
+            int nr = rows.length + (newTurret ? 1 : 0);
+            float formH = cur != null && (next != null || max) ? 44 * dp : 0;
+            float limit = r.bottom - pad - 38 * dp - 24 * dp;
+            if (y + 34 * dp + nr * 34 * dp + formH <= limit) y = para(c, intro, x, y + 2 * dp, w, 9, DIM) + 8 * dp;
+            // rows like the reference: icon tile, big value, small label, green delta on the right, thin level bar
+            float rh = Math.max(28 * dp, Math.min(34 * dp, (limit - y - formH) / Math.max(1, nr))), tile = 24 * dp;
+            for (float[] row : rows) {
+                int k = (int) row[0], kind = (int) row[3];
+                String delta = kind == 1 ? "-" + String.format(Locale.US, "%.2f s", (row[1] - row[2]) / 1000f)
+                    : kind == 2 ? "+" + Math.round(row[2] - row[1]) + "%" : "+" + value(row[2] - row[1], 0);
+                statRow(c, x, y, w, rh, tile, k, value(row[1], kind), ModLang.tr(ModV35.statName(k)), max ? "" : delta, GREEN, acc, n, max);
+                y += rh;
             }
-
-            if (newTurret) {   // the next refit adds a turret: the ones you have, plus the new one glowing
-                yy = card(c, c2, ModLang.tr("NEW TURRET"), GOLD);
-                int add = plan[Math.min(5, stNext)] - nowT, tot = nowT + add;
-                float tr = Math.min(8 * dp, (c2.width() - 16 * dp) / Math.max(1, tot) / 2 - 2 * dp);
-                float rowW = tot * (tr * 2 + 4 * dp) - 4 * dp, tx = c2.centerX() - rowW / 2;
-                float pulse = 0.5f + 0.5f * (float) Math.sin((now - born) / 300.0);
-                for (int i = 0; i < tot; i++) {
-                    float cx = tx + tr + i * (tr * 2 + 4 * dp), cy = yy + tr + 2 * dp;
-                    if (i < nowT) {
-                        p.setColor(CYAN);
-                        c.drawCircle(cx, cy, tr, p);
-                        p.setColor(BG);
-                        c.drawCircle(cx, cy, tr * 0.4f, p);
-                    } else {
-                        p.setColor(GOLD);
-                        p.setAlpha((int) (60 + 80 * pulse));
-                        c.drawCircle(cx, cy, tr * 1.5f, p);
-                        p.setAlpha(255);
-                        c.drawCircle(cx, cy, tr, p);
-                        p.setColor(BG);
-                        c.drawCircle(cx, cy, tr * 0.4f, p);
-                    }
-                }
-                yy += tr * 2 + 16 * dp;
-                String tl = "+" + add + " " + ModLang.tr("turret at the next refit");
-                tp.setTextSize(9 * dp);
-                if (yy < c2.bottom - 2 * dp) text(c, android.text.TextUtils.ellipsize(tl, tp, c2.width() - 12 * dp, android.text.TextUtils.TruncateAt.END).toString(),
-                    c2.centerX() - Math.min(tp.measureText(tl), c2.width() - 12 * dp) / 2, yy, 9, GOLD);
+            if (newTurret) {
+                float pulse = 0.6f + 0.4f * (float) Math.sin((now - born) / 300.0);
+                int gold = Color.argb((int) (255 * pulse), Color.red(GOLD), Color.green(GOLD), Color.blue(GOLD));
+                statRow(c, x, y, w, rh, tile, -1, String.valueOf(nowT), ModLang.tr("Turrets"), "+" + (plan[Math.min(5, stNext)] - nowT) + " " + ModLang.tr("NEW"), gold, GOLD, -1, max);
+                y += rh;
             }
-
-            yy = card(c, c3, ModLang.tr("MATERIALS REQUIRED"), acc);
-            long credits = 0;
-            try { credits = fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.getCredit(); } catch (Throwable e) { /* unknown */ }
-            long needCr = max ? 0 : Long.parseLong(rf[2]);
-            int needP = Integer.parseInt(rf[3]), haveP = Integer.parseInt(rf[4]), needC = !max && n + 1 == ModV35.REFIT_MAX ? 1 : 0, haveC = Integer.parseInt(rf[7]);
-            yy = matRow(c, c3, yy, "cr", credits, max ? -1 : needCr, credits >= needCr, GOLD);
-            yy = matRow(c, c3, yy, "\u2B21", haveP, needP > 0 ? needP : -1, haveP >= needP, CYAN);
-            if (yy < c3.bottom - 6 * dp) matRow(c, c3, yy, "\u25C6", haveC, needC > 0 ? 1 : -1, haveC >= needC, acc, rf[6]);
-
-            // NEXT FORM: the current form and the next one, both as hidden holo silhouettes, an arrow between
-            yy = card(c, c4, ModLang.tr("NEXT FORM"), acc);
-            float avail = c4.height() - (yy - c4.top) - 4 * dp;
-            if (next != null && cur != null) {
-                float capH = 13 * dp;
-                float box = Math.min(avail - capH, (c4.width() - 16 * dp - 18 * dp) / 2);
-                if (box > 16 * dp) {
-                    float bx0 = c4.centerX() - box - 9 * dp;
-                    holo(c, cur, new RectF(bx0, yy, bx0 + box, yy + box), DIM, now, false);
-                    holo(c, next, new RectF(bx0 + box + 18 * dp, yy, bx0 + 2 * box + 18 * dp, yy + box), CYAN, now, true);
-                    float ay = yy + box / 2, ax = bx0 + box + 9 * dp;   // arrow
+            if (cur != null && (next != null || max)) {   // form: current and next silhouettes, hidden
+                float fh = 44 * dp, bx = fh - 8 * dp;
+                statIcon(c, x, y + (fh - tile) / 2, tile, -2, evolves ? GOLD : acc);
+                text(c, ModLang.tr("Form") + " " + (st > 0 ? ROMAN[st] : "0"), x + tile + 8 * dp, y + fh / 2 + 4 * dp, 12, WHITE);
+                float hox = x + w - (next != null ? 2 * bx + 16 * dp : bx);
+                holo(c, cur, new RectF(hox, y + 4 * dp, hox + bx, y + 4 * dp + bx), DIM, now, false);
+                if (next != null) {
+                    float ax = hox + bx + 8 * dp, ay = y + 4 * dp + bx / 2;
                     android.graphics.Path ar = new android.graphics.Path();
-                    ar.moveTo(ax - 5 * dp, ay - 6 * dp); ar.lineTo(ax + 5 * dp, ay); ar.lineTo(ax - 5 * dp, ay + 6 * dp); ar.close();
-                    p.setColor(CYAN);
+                    ar.moveTo(ax - 4 * dp, ay - 5 * dp); ar.lineTo(ax + 4 * dp, ay); ar.lineTo(ax - 4 * dp, ay + 5 * dp); ar.close();
+                    p.setColor(evolves ? GOLD : CYAN);
                     c.drawPath(ar, p);
-                    tp.setTextSize(8.5f * dp);
-                    String cp = ModLang.tr("STAGE ") + ROMAN[Math.min(5, (nextAt + 1) / 2)] + "  \u00B7  " + ModLang.tr("Evolves at refit ") + nextAt;
-                    cp = android.text.TextUtils.ellipsize(cp, tp, c4.width() - 12 * dp, android.text.TextUtils.TruncateAt.END).toString();
-                    text(c, cp, c4.centerX() - tp.measureText(cp) / 2, yy + box + 11 * dp, 8, CYAN);
+                    holo(c, next, new RectF(hox + bx + 16 * dp, y + 4 * dp, hox + 2 * bx + 16 * dp, y + 4 * dp + bx), evolves ? GOLD : CYAN, now, true);
+                    String nl = evolves ? ModLang.tr("Evolves at the next refit") : ModLang.tr("Evolves at refit ") + nextAt;
+                    text(c, nl, x + tile + 8 * dp, y + fh / 2 + 16 * dp, 8, evolves ? GOLD : CYAN);
+                } else {
+                    text(c, ModLang.tr("Final form reached"), x + tile + 8 * dp, y + fh / 2 + 16 * dp, 8, GOLD);
                 }
-            } else {
-                boolean fin = st >= ModV35.STAGES || (hull != null && ModV35.stageArt(hull, ModV35.STAGES) != hull.art);
-                float box = Math.min(avail, c4.width() * 0.4f);
-                if (cur != null && box > 16 * dp) holo(c, cur, new RectF(c4.left + 8 * dp, yy, c4.left + 8 * dp + box, yy + box), fin ? GOLD : DIM, now, fin);
-                para(c, fin ? ModLang.tr("Final form reached") : ModLang.tr("This hull keeps its shape (no new form art yet)"),
-                    c4.left + 16 * dp + box, yy + 10 * dp, c4.right - (c4.left + 16 * dp + box) - 6 * dp, 9, fin ? GOLD : DIM);
+                y += fh;
+            } else if (y < r.bottom - 120 * dp) {
+                y = para(c, ModLang.tr("This hull keeps its shape (no new form art yet)"), x, y + 14 * dp, w, 9, DIM);
             }
 
-            // status / buttons
-            if (status != null && now < statusUntil) para(c, status, x, by - 8 * dp, w, 10, RED);
-            float half = (w - gap) / 2;
-            closeBtn.set(x, by, x + half, by + bh);
-            refitBtn.set(x + half + gap, by, x + w, by + bh);
-            button(c, closeBtn, ModLang.tr("Close"), EDGE, TEXT);
+            // materials: what the refit takes, red when short
+            float bh = 38 * dp, by = r.bottom - bh - pad;
+            if (!max) {
+                long credits = 0;
+                try { credits = fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.getCredit(); } catch (Throwable e) { /* unknown */ }
+                long needCr = Long.parseLong(rf[2]);
+                int needP = Integer.parseInt(rf[3]), haveP = Integer.parseInt(rf[4]), needC = n + 1 == ModV35.REFIT_MAX ? 1 : 0, haveC = Integer.parseInt(rf[7]);
+                float my = by - 12 * dp, mx = x;
+                text(c, ModLang.tr("REQUIRED"), mx, my, 8, DIM);
+                tp.setTextSize(8 * dp);
+                mx += tp.measureText(ModLang.tr("REQUIRED")) + 10 * dp;
+                mx = need(c, mx, my, "cr", compact(credits) + " / " + compact(needCr), credits >= needCr, GOLD);
+                if (needP > 0) mx = need(c, mx, my, "\u2B21", haveP + " / " + needP, haveP >= needP, CYAN);
+                if (needC > 0) need(c, mx, my, "\u25C6", haveC + " / 1 " + rf[6], haveC >= needC, acc);
+            }
+            if (status != null && now < statusUntil) para(c, status, x, by - 26 * dp, w, 10, RED);
+            float bw = w * 0.7f;
+            refitBtn.set(x + (w - bw) / 2, by, x + (w + bw) / 2, by + bh);
             boolean can = !max && !animating();
-            button(c, refitBtn, max ? ModLang.tr("ELITE") : animating() ? ModLang.tr("Refitting...") : ModLang.tr("REFIT") + "  " + compact(Long.parseLong(rf[2])) + " cr", can ? GOLD : 0xFF3A4656, can ? BG : DIM);
+            button(c, refitBtn, max ? ModLang.tr("ELITE") : animating() ? ModLang.tr("Refitting...") : ModLang.tr("REFIT") + "   " + compact(Long.parseLong(rf[2])) + " cr", can ? GOLD : 0xFF3A4656, can ? BG : DIM);
+            // close: a small X in the header corner
+            float cs = 26 * dp;
+            closeBtn.set(r.right - pad - cs, r.top + pad, r.right - pad, r.top + pad + cs);
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(2 * dp);
+            p.setColor(TEXT);
+            float ci = 8 * dp;
+            c.drawLine(closeBtn.left + ci, closeBtn.top + ci, closeBtn.right - ci, closeBtn.bottom - ci, p);
+            c.drawLine(closeBtn.right - ci, closeBtn.top + ci, closeBtn.left + ci, closeBtn.bottom - ci, p);
+            p.setStyle(Paint.Style.FILL);
+        }
+
+        /** Icon tile, value (big) over its label (small), delta right-aligned, a thin refit-level bar along the bottom. */
+        void statRow(Canvas c, float x, float y, float w, float h, float tile, int k, String val, String label, String delta, int dcol, int icol, int lv, boolean max) {
+            statIcon(c, x, y + (h - tile) / 2 - 2 * dp, tile, k, icol);
+            float tx = x + tile + 8 * dp;
+            text(c, val, tx, y + 14 * dp, 13, WHITE);
+            text(c, label, tx, y + 25 * dp, 8, DIM);
+            if (delta.length() > 0) {
+                tp.setTextSize(11 * dp);
+                text(c, delta, x + w - tp.measureText(delta), y + 14 * dp, 11, dcol);
+            }
+            if (lv < 0) return;   // turret row: no refit bar
+            float by = y + h - 5 * dp, bw = x + w - tx;
+            p.setColor(0xFF1B2A3C);
+            c.drawRect(tx, by, x + w, by + 2 * dp, p);
+            p.setColor(max ? GOLD : CYAN);
+            c.drawRect(tx, by, tx + bw * lv / ModV35.REFIT_MAX, by + 2 * dp, p);
+            if (!max) {
+                p.setColor(0xFF7CFF8C);
+                c.drawRect(tx + bw * lv / ModV35.REFIT_MAX, by, tx + bw * (lv + 1) / ModV35.REFIT_MAX, by + 2 * dp, p);
+            }
+        }
+
+        /** The docking pad under the hull: two hex rings in the faction colour, a soft glow, a slow pulse. */
+        void hexPad(Canvas c, RectF r, long now) {
+            int acc = accent();
+            float cx = r.centerX(), cy = r.centerY(), R = Math.min(r.width(), r.height()) * 0.40f;
+            float pu = 0.5f + 0.5f * (float) Math.sin((now - born) / 1100.0);
+            p.setShader(new RadialGradient(cx, cy, R, (acc & 0x00FFFFFF) | 0x30000000, acc & 0x00FFFFFF, Shader.TileMode.CLAMP));
+            c.drawPath(hex(cx, cy, R), p);
+            p.setShader(null);
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(3 * dp);
+            p.setColor((acc & 0x00FFFFFF) | ((int) (120 + 80 * pu) << 24));
+            c.drawPath(hex(cx, cy, R), p);
+            p.setStrokeWidth(1.5f * dp);
+            p.setColor((acc & 0x00FFFFFF) | 0x50000000);
+            c.drawPath(hex(cx, cy, R * 0.82f), p);
+            p.setStyle(Paint.Style.FILL);
+        }
+
+        android.graphics.Path hex(float cx, float cy, float R) {
+            android.graphics.Path h = new android.graphics.Path();
+            for (int i = 0; i < 6; i++) {
+                double a = Math.PI / 6 + i * Math.PI / 3;
+                float px = cx + (float) Math.cos(a) * R, py = cy + (float) Math.sin(a) * R;
+                if (i == 0) h.moveTo(px, py); else h.lineTo(px, py);
+            }
+            h.close();
+            return h;
+        }
+
+        void stripe(Canvas c, float x, float y, float w, float h, int i) {
+            p.setColor(i % 2 == 0 ? 0x14FFFFFF : 0x06FFFFFF);
+            c.drawRect(x, y, x + w, y + h, p);
+        }
+
+        /** Small rounded tile with a glyph per stat (k < 0: -1 turret, -2 form). */
+        void statIcon(Canvas c, float x, float y, float s, int k, int col) {
+            p.setColor((col & 0x00FFFFFF) | 0x40000000);
+            c.drawRoundRect(new RectF(x, y, x + s, y + s), 3 * dp, 3 * dp, p);
+            String g;
+            switch (k) {
+                case ModV35.S_DMG: g = "\u25B2"; break;
+                case ModV35.S_RELOAD: g = "\u21BB"; break;
+                case ModV35.S_SHCAP: g = "\u25C9"; break;
+                case ModV35.S_SHREGEN: g = "+"; break;
+                case ModV35.S_MISSILE: g = "\u25BA"; break;
+                case ModV35.S_CARGO: g = "\u25A3"; break;
+                case ModV35.S_REPAIR: g = "\u271A"; break;
+                case ModV35.S_HULL: g = "\u25C8"; break;
+                case ModV35.S_SPEED: g = "\u00BB"; break;
+                case ModV35.S_AGILITY: g = "\u21BA"; break;
+                case -1: g = "\u25CE"; break;
+                default: g = "\u25C6"; break;
+            }
+            tp.setTextSize(s * 0.62f);
+            tp.setColor(col);
+            c.drawText(g, x + s / 2 - tp.measureText(g) / 2, y + s * 0.72f, tp);
+        }
+
+        /** 73,000 / 1.25 s / +9% */
+        String value(float v, int kind) {
+            if (kind == 1) return String.format(Locale.US, "%.2f s", v / 1000f);
+            if (kind == 2) return "+" + Math.round(v) + "%";
+            if (v < 100) return String.format(Locale.US, "%.1f", v);
+            long l = Math.round(v);
+            return l >= 1000000 ? compact(l) : NumberFormat.getNumberInstance(Locale.getDefault()).format(l);
+        }
+
+        float need(Canvas c, float x, float y, String icon, String txt, boolean ok, int col) {
+            text(c, icon, x, y, 9, col);
+            tp.setTextSize(9 * dp);
+            float ix = x + tp.measureText(icon) + 4 * dp;
+            text(c, txt, ix, y, 9, ok ? WHITE : RED);
+            tp.setTextSize(9 * dp);
+            return ix + tp.measureText(txt) + 12 * dp;
         }
 
         /** A hidden-form hologram: dark box with scan lines, the silhouette filled dark with a coloured halo. */

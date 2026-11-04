@@ -355,6 +355,56 @@ public class ModV35 {
         return m;
     }
 
+    /**
+     * v44 (refit bay, owner 15:13): the stats the next refit raises, as {stat, now, next, kind} rows; kind 0 = value
+     * (higher is better), 1 = time in ms (lower is better), 2 = bonus percent (now/next are the total refit bonus).
+     */
+    public static float[][] preview() {
+        SpaceObjectType t = currentShip();
+        if (t == null) return new float[0][];
+        ModShips.Hull h = ModShips.hull(t);
+        PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+        int n = level(t);
+        if (n >= REFIT_MAX) return new float[0][];
+        float[] r = new float[10], tot = new float[10];
+        java.util.Arrays.fill(r, 1.0f);
+        java.util.Arrays.fill(tot, 1.0f);
+        int[] pk = picks(scores(h, ps == null ? null : ps.shipSpec, ModShips.cls(t)));
+        int tr = trait(ModShips.factionKey(h));
+        java.util.ArrayList<Integer> order = new java.util.ArrayList<Integer>();
+        for (int k : pk) if (k >= 0) { r[k] *= pickMult(n + 1) / pickMult(n); tot[k] *= pickMult(n); if (!order.contains(k)) order.add(k); }
+        r[tr] *= traitMult(n + 1) / traitMult(n);
+        tot[tr] *= traitMult(n);
+        if (!order.contains(tr)) order.add(tr);
+        float[][] out = new float[order.size()][];
+        for (int i = 0; i < out.length; i++) {
+            int k = order.get(i);
+            float now = -1;
+            int kind = 0;
+            try {
+                switch (k) {
+                    case S_DMG: now = ps.bulletDamage; break;
+                    case S_RELOAD: now = ps.milleSecBetweenShots; kind = 1; break;
+                    case S_SHCAP: now = ps.shield.capacity; break;
+                    case S_SHREGEN: now = ps.shield.reloadUnitBySec; break;
+                    case S_MISSILE: now = ps.milleSecBetweenMissileShots; kind = 1; break;
+                    case S_HULL: now = ps.maxLife; break;
+                    default: break;
+                }
+            } catch (Throwable e) {
+                now = -1;
+            }
+            if (now < 0) out[i] = new float[] {k, (tot[k] - 1) * 100, (tot[k] * r[k] - 1) * 100, 2};
+            else out[i] = new float[] {k, now, kind == 1 ? now / r[k] : now * r[k], kind};
+        }
+        return out;
+    }
+
+    /** English name of a refit stat (translate with ModLang.tr). */
+    public static String statName(int k) {
+        return STAT_EN[Math.max(0, Math.min(STAT_EN.length - 1, k))];
+    }
+
     /** From ModShips.apply after the hull bonuses: the refit multipliers on the fitted ship. */
     public static void apply(PlayerShip ps, ModShips.Hull h, boolean offFaction) {
         try {
