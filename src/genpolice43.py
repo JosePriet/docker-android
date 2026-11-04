@@ -23,6 +23,7 @@ AURA = np.array([110, 170, 255.0])
 VIOLET = np.array([70, 30, 110.0])
 BLUEF = np.array([110, 170, 255.0])
 GOLDF = np.array([255, 200, 95.0])
+BAKED_HALO = False   # v43 04:03: auras are animated in code (ModPoliceAura); sprites carry the hull accents only
 MGREEN = np.array([64, 90, 48.0])
 
 
@@ -115,7 +116,7 @@ def accent(fac, orig, pol, name):
         k = band(m, 7 * S) * inside
         out = mix(out, LGOLD, k * 0.65, 0.85 + 0.15 * (L / 255.0))
     res = np.concatenate([np.clip(out, 0, 255), a[..., None]], -1)
-    if fac in ('helion', 'warden', 'reaver', 'spartan') and not name.endswith('wreck'):
+    if BAKED_HALO and fac in ('helion', 'warden', 'reaver', 'spartan') and not name.endswith('wreck'):
         Y, X = np.mgrid[0:h, 0:w].astype(float)
         rng = np.random.RandomState(zlib.crc32(('aura' + name).encode()) & 0xffff)
         def noise(cx, cy, blur):

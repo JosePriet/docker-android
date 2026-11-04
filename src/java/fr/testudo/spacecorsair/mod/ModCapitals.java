@@ -181,6 +181,7 @@ public final class ModCapitals {
         g.pouseeForce *= mult;
         g.amountOfDamageAllowedInRatioByPlayerBeforeRebelion = 0;
         g.specificName = ModLang.trf("%s Police Titan", FACTIONS[fi].name);
+        ModPoliceAura.put(g, "cap_" + FACTIONS[fi].key, fi, SIZE);   // v43: titan gets its faction aura
         return g;
     }
 

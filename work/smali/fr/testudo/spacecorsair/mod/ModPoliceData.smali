@@ -64,28 +64,28 @@
     .line 23
     new-array v0, v10, [I
 
-    fill-array-data v0, :array_1e4
+    fill-array-data v0, :array_1ec
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->CLASS_SIZE:[I
 
     .line 25
     new-array v0, v10, [I
 
-    fill-array-data v0, :array_1f4
+    fill-array-data v0, :array_1fc
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->CLASS_MIN:[I
 
     .line 26
     new-array v0, v10, [I
 
-    fill-array-data v0, :array_204
+    fill-array-data v0, :array_20c
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->CLASS_MAX:[I
 
     .line 28
     new-array v0, v10, [I
 
-    fill-array-data v0, :array_214
+    fill-array-data v0, :array_21c
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->AI:[I
 
@@ -144,7 +144,11 @@
 
     const/4 v2, 0x5
 
-    new-array v3, v6, [Ljava/lang/String;
+    new-array v3, v7, [Ljava/lang/String;
+
+    const-string v4, "leviathan:880"
+
+    aput-object v4, v3, v6
 
     aput-object v3, v1, v2
 
@@ -234,7 +238,11 @@
 
     const/4 v2, 0x5
 
-    new-array v3, v6, [Ljava/lang/String;
+    new-array v3, v7, [Ljava/lang/String;
+
+    const-string v4, "crimson_throne:880"
+
+    aput-object v4, v3, v6
 
     aput-object v3, v1, v2
 
@@ -562,7 +570,7 @@
     .line 23
     nop
 
-    :array_1e4
+    :array_1ec
     .array-data 4
         0x5f
         0xa0
@@ -573,7 +581,7 @@
     .end array-data
 
     .line 25
-    :array_1f4
+    :array_1fc
     .array-data 4
         0x3c
         0x6e
@@ -584,7 +592,7 @@
     .end array-data
 
     .line 26
-    :array_204
+    :array_20c
     .array-data 4
         0x64
         0xc8
@@ -595,7 +603,7 @@
     .end array-data
 
     .line 28
-    :array_214
+    :array_21c
     .array-data 4
         0x0
         0x2

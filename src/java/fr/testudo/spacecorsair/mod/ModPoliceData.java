@@ -34,11 +34,11 @@ final class ModPoliceData {
     /** FACTIONS order (spartan, reaver, kretari, varn, ironclad, helion, warden); per class "art:size" entries. */
     static final String[][][] ROSTER = {
         {   // spartan
-            {}, {"bastion:130", "hornet:200"}, {"mantis:300"}, {"verdant:420", "secret_spartan:460"}, {"monolith:600"}, {}},
+            {}, {"bastion:130", "hornet:200"}, {"mantis:300"}, {"verdant:420", "secret_spartan:460"}, {"monolith:600"}, {"leviathan:880"}},   // v43: Leviathan (stage 5) as the Spartan capital
         {   // reaver
             {"viper:80", "rv_raider:90", "rv_gunship:100"}, {"bulldog:150", "rv_hunter:120", "rv_marauder:150"},
             {"albatros:300", "raptor:300", "rv_corsair:160", "rv_lancer:190"}, {"warlord:400", "rv_warlord:300"},
-            {"secret_reaver:640", "rv_dreadnought:420"}, {}},
+            {"secret_reaver:640", "rv_dreadnought:420"}, {"crimson_throne:880"}},   // v43: Crimson Throne as the Reaver capital
         {   // kretari
             {"kt_scout:90", "kt_bomber:100", "kt_frigate:150"}, {"kt_destroyer:180"}, {"secret_kretari:330", "kt_cruiser:260", "kt_heavycruiser:300"},
             {"harbinger:420", "kt_battlecruiser:380"}, {"kt_battleship:450"}, {"kt_mothership:700"}},

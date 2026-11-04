@@ -54,3 +54,5 @@ kite
 seraph
 tidewarden
 secret_warden
+leviathan
+crimson_throne

@@ -292,6 +292,7 @@ public class ModPolice {
 
     /** Agent C: the police titan died. Heat back to 0, police stand down; ModPoliceTitan applies its own standing / XP. */
     public static void onTitanKilled() {
+        ModPoliceAura.remove(titan);   // v43
         ModQol.addCredits(CREDITS_PER_TITAN, titan);
         titan = null;
         heat = 0;
@@ -350,11 +351,11 @@ public class ModPolice {
             boosts(ps);
             for (int i = active.size() - 1; i >= 0; i--) {
                 Ennemis e = active.get(i);
-                if (e.removed || e.life <= 0) { active.remove(i); continue; }
+                if (e.removed || e.life <= 0) { active.remove(i); unvisual(e); continue; }   // v43: pooled hulls lose police visuals
                 long[] st = police.get(e);
                 if (st != null) missiles(ps, e, st, j);
             }
-            if (titan != null && (titan.removed || titan.life <= 0)) titan = null;
+            if (titan != null && (titan.removed || titan.life <= 0)) { ModPoliceAura.remove(titan); titan = null; }
             if (sinceWave < Long.MAX_VALUE / 4) sinceWave += j;
             if (heat <= 0) return;
             quietMs += j;
@@ -378,6 +379,7 @@ public class ModPolice {
 
     private static void enter(LevelId id) {
         if (here != null && heat > 0) left.put(here, new long[] {leaveHeat(heat), lastTop, ModSector.play()});
+        visualsClear();        // v43
         police.clear();        // v42 fix: pooled PoliceShips reused elsewhere must not keep police weapons / timers
         snareReady.clear();
         civilHit.clear();
@@ -416,6 +418,7 @@ public class ModPolice {
                 if (lvl != null) lvl.toDelete.add(e);
                 n++;
             }
+            visualsClear();   // v43
             police.clear();
             active.clear();
             ModPoliceTitan.standDown();
@@ -590,8 +593,22 @@ public class ModPolice {
         if (e.lifeBar != null) e.lifeBar.setValue(100.0f);
         police.put(e, new long[] {cls, cls == FRIGATE ? MISSILE_MS / 2 : MISSILE_MS_BIG, 0});
         if (!ModPoliceTitan.council(ModCapitals.FACTIONS[fi].key)) lightBar.put(e, (float) h.size);
+        ModPoliceAura.put(e, h.art, fi, h.size);   // v43: animated faction aura
         if ("monolith".equals(h.art)) monoAura.put(e, (float) h.size);   // owner 23:13: keep the s5 effect, adapted   // High Council: no police lights
         return e;
+    }
+
+    /** v43: a dead / removed police hull (pooled, reused later) drops its lights and aura. */
+    private static void unvisual(Element e) {
+        lightBar.remove(e);
+        monoAura.remove(e);
+        ModPoliceAura.remove(e);
+    }
+
+    private static void visualsClear() {
+        lightBar.clear();
+        monoAura.clear();
+        ModPoliceAura.clearAll();
     }
 
     /** Police ship -> drawn size, for the flashing red/blue light bar (owner 23:10: lights that flash like police cars). */
@@ -601,6 +618,7 @@ public class ModPolice {
 
     /** Hook (ModLive.draw, before the hull): the police Monolith's s5 aura in police white/blue. */
     static void under(Element e) {
+        ModPoliceAura.under(e);   // v43: animated faction auras (police ships and titans)
         Float sz = monoAura.get(e);
         if (sz != null && !e.removed) ModMonolith.policeAura(e, sz);
     }
