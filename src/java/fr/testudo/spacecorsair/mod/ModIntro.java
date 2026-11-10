@@ -40,6 +40,8 @@ public final class ModIntro {
     static final int SKIP_WINDOW = 2500, SKIP_TO_BLACK = 350, SKIP_REVEAL = 700;
     /** A pending intro holds dialogs for at most this long: if the game never draws a playable frame, nothing is lost. */
     static final int PENDING_HOLD_MS = 25000;
+    /** Opening hold while the hull textures upload: the scene clock stops at HOLD_AT for at most WAIT_MS. */
+    static final int WAIT_MS = 12000, HOLD_AT = 1500;
 
     // ------------------------------------------------------------------ scene geometry (design px, 1080 high, origin centre, y up)
     static final float C_CR = 600, C_BF = 1250;                 // sprite canvas sizes of the cruiser and the flagship
@@ -261,16 +263,19 @@ public final class ModIntro {
     // ------------------------------------------------------------------ frame
     private static void frame(GL10 gl) {
         long now = clock();
-        long d = lastFrame == 0 ? 16 : Math.min(50, Math.max(1, now - lastFrame));
-        lastFrame = now;
         if (!ready) {
             int n = 0;
             for (String a : ART) if (ModArt.ready(a) != null) n++;
             ready = n == ART.length;
-            if (ready) ModDev.ev("intro", "art ready at " + (now - startedAt) + " ms");
-            if (!ready && t < 2000) d = Math.min(d, 8);   // the black opening waits a little for the hull uploads
+            if (ready) ModDev.ev("intro", "art ready after " + (now - startedAt - t) + " ms of waiting");
+            // the black opening waits for the hull uploads (slow emulators take ~8 s): hold the clock, at most WAIT_MS
+            if (!ready && now - startedAt - t < WAIT_MS) startedAt = now - Math.min(t, HOLD_AT);
         }
-        t += d;
+        // scene time is wall time, so the cinematic always takes the same ~48 s whatever the frame rate
+        long prev = t;
+        t = now - startedAt;
+        long d = lastFrame == 0 ? 16 : Math.max(1, Math.min(120, t - prev));
+        lastFrame = now;
         if (skipReq && skipFromT < 0 && t < T_REVEAL) {
             skipFromT = (int) t;
             ModDev.ev("intro", "skip at " + t);
