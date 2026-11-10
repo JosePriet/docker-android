@@ -99,6 +99,46 @@ if [ $GAME = ga ] || [ $GAME = gaorig ] || [ $GAME = gaarm ]; then
   P=$(timeout 5 adb shell pidof $PKG); log "pid $P"
   grep -E "GALocal|Exception|Unity  " $OUT/logcat_live.txt | head -3000 > $OUT/trace.txt
 elif [ $GAME = sc ]; then
+  # v46 playable prologue: a fresh install drops into the player bay (L25 Corvette vs the L40 Bloodforge) for 120 s,
+  # then restarts into the tutorial. Evidence: logcat "ModTest prologue ...", the pilot state after the restart
+  # (must be the untouched fresh save), shots along the fight and the end beat.
+  if [ "$STAGE" = V46 ]; then
+    LG=$OUT/logcat_live.txt; T=/data/local/tmp
+    pid() { timeout 5 adb shell pidof $PKG; }
+    pro() { grep "ModTest prologue" $LG | sed 's/.*ModTest //' | tr '\n' ';'; }
+    P0=$(pid); log "first pid $P0"
+    sleep 12; need enter; shot prologue_entry
+    log "entry: $(pro)"
+    # the fight: shots across the two minutes, the clock and the boss plate are top of screen
+    for i in 1 2 3 4 5 6 7 8; do
+      a shell input tap 1700 700; sleep 1; a shell input tap 1700 700   # fire at whatever is ahead
+      sleep 13; shot fight_$i
+    done
+    log "mid fight: $(pro)"
+    # end beat + the restart into the tutorial (new pid, then the tutorial sector)
+    for w in $(seq 1 40); do grep -q "prologue end played" $LG && break; sleep 3; done
+    shot end_beat
+    for w in $(seq 1 40); do P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; sleep 3; done
+    log "pid after prologue: $P1 (was $P0)"
+    [ -z "$P1" ] && { log "no auto restart: launching by hand"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 6; P1=$(pid); }
+    sleep 18; need tutorial; shot tutorial_1
+    a shell input keyevent KEYCODE_BACK; sleep 3; noexit; sleep 8; shot tutorial_flight
+    # the save must be untouched: ModTestMode.logState prints the loaded profile's level / ships / credits
+    log "SAVE AFTER PROLOGUE: $(grep "v40test loaded" $LG | tail -1 | sed 's/^.*): //')"
+    log "prologue lines: $(pro)"
+    # replay from the hidden test screen (the flag lets it run again on a save that already played it)
+    a shell "touch $T/corsair_prologue; chmod 644 $T/corsair_*"
+    a shell am start -n $PKG/.activity.AchievementActivity_ >/dev/null; sleep 5; need ach
+    for i in $(seq 1 30); do dump ach; XY=$(python3 tests/tap.py $OUT/last.xml "Killed by the dev"); [ -n "$XY" ] && break; a shell input swipe 1000 900 1000 300 400; sleep 1; done
+    log "dev achievement at '$XY'"
+    for i in $(seq 1 10); do a shell input tap $XY; sleep 0.3; done
+    sleep 1.5; shot replay_button; dump replay; log "REPLAY PROLOGUE shown: $(grep -c 'text="REPLAY PROLOGUE"' $OUT/last.xml)"
+    tap_text "^REPLAY PROLOGUE" replaybtn; sleep 10; shot replay_1; sleep 10; shot replay_2
+    log "after replay: $(pro)"
+    grep -E "ModTest prologue|ModTest v40test loaded|FATAL|AndroidRuntime" $LG > $OUT/v46_events.txt
+    a shell "rm -f $T/corsair_prologue"
+    finish; exit 0
+  fi
   # v45 intro cinematic: plays on the first start (fresh install). Evidence: logcat "ModTest intro ..."; shots along the timeline.
   if [ "$STAGE" = V45 ]; then
     LG=$OUT/logcat_live.txt; T=/data/local/tmp
