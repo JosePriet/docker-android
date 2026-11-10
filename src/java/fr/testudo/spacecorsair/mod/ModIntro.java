@@ -103,14 +103,14 @@ public final class ModIntro {
     /** Main.onFirstStart (hooks45): a fresh save plays the intro once the tutorial level is up. */
     public static void firstStart() {
         pending = true;
-        pendingAt = SystemClock.uptimeMillis();
+        pendingAt = clock();
         ModDev.ev("intro", "pending (first start)");
     }
 
     /** Hidden test-mode screen: play it again at the next frame of the game view. */
     public static void replay() {
         pending = true;
-        pendingAt = SystemClock.uptimeMillis();
+        pendingAt = clock();
         ModDev.ev("intro", "pending (replay)");
     }
 
