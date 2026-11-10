@@ -2602,6 +2602,10 @@
     .registers 8
 
     .prologue
+    invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModPrologue;->damage(Lfr/testudo/spacecorsair/business/player/PlayerShip;F)F
+
+    move-result p1
+
     const/4 v0, 0x0
 
     .line 824

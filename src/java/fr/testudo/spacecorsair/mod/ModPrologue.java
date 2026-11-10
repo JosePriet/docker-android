@@ -57,6 +57,7 @@ public final class ModPrologue {
     static final int BRIEF_MS = 7000;            // bounty brief on screen from the first frame
     static final int END_MS = 6000;              // destruction beat + salvage caption before the restart
     static final int WARN_MS = 20000;            // the clock turns red
+    static final int FLASH_MS = 4500;            // how long an on-screen line stays up
     static final String DONE = "v46_prologue_done";
     static final String TEST_FLAG = "corsair_prologue";   // emulator only: replay it on a save that already played it
 
@@ -69,6 +70,8 @@ public final class ModPrologue {
     private static GuardianCivilShip boss;
     private static float bossMax;
     private static boolean floorSaid, lastStand;
+    private static String flashText;
+    private static int flashMs;
     private static String sBrief1, sBrief2, sTimer, sBossName, sFloor, sOut, sDown, sSalvage1, sSalvage2, sRestart;
 
     // ------------------------------------------------------------------ triggers
@@ -111,6 +114,21 @@ public final class ModPrologue {
 
     // ------------------------------------------------------------------ the fight
 
+    /** PlayerShip.applyDamage (hooks46b): the damage the hull is allowed to take this hit.
+     *  The engine kills synchronously when life reaches 0, so clamping once per frame in {@link #tick} is not enough:
+     *  one Bloodforge salvo between two frames would run the stock death screen, credit penalty and achievements.
+     *  While the prologue runs the hull can never be driven below the floor, and the end beat is fully immune. */
+    public static float damage(PlayerShip ps, float amount) {
+        if (!active || ps == null || amount <= 0) return amount;
+        if (ending) return 0f;
+        try {
+            float room = ps.life - ps.maxLife * HULL_FLOOR;
+            return room <= 0 ? 0f : Math.min(amount, room);
+        } catch (Throwable t) {
+            return amount;
+        }
+    }
+
     /** From ModCaps.tick, every frame in flight. */
     public static void tick(PlayerShip ps, long j) {
         if (finished) return;
@@ -123,6 +141,7 @@ public final class ModPrologue {
         try {
             boolean paused = ObjectRegistry.INSTANCE.game.mapMode || ps.isDocked;
             if (briefMs > 0) briefMs -= j;
+            if (flashMs > 0) flashMs -= j;
             if (ending) {
                 endBeat(ps, j);
                 return;
@@ -163,12 +182,14 @@ public final class ModPrologue {
             floorSaid = false;
             lastStand = false;
             ModSound.play("flagship_horn", 1.0f, 0.9f, 3000);
-            ModQol.post(sBrief1);
             ModDev.ev("prologue", "entered, hull " + Math.round(ps.maxLife) + " boss " + (boss == null ? "none" : Math.round(boss.maxLife)));
         } catch (Throwable t) {
-            ModDev.ev("prologue", "enter failed " + t);
-            active = false;
+            // The live PlayerInfo may already carry the prologue's level 25 Corvette. Clearing `active` here would
+            // unblock saves and write that over the player's real save, so keep it blocked and restart on the
+            // pristine save that was written at the top of this method.
+            ModDev.ev("prologue", "enter failed " + t + ", restarting on the saved state");
             finished = true;
+            restart();
         }
     }
 
@@ -207,7 +228,9 @@ public final class ModPrologue {
         if (boss != null) {
             bossMax = boss.maxLife;
             els.add(boss);
-            sBossName = boss.specificName;
+            // spawnBoss queues it into the level we are still standing in (currentLevel is the old one in here)
+            try { ObjectRegistry.INSTANCE.game.currentLevel.toAdd.remove(boss); } catch (Throwable t) { /* new level owns it */ }
+            boss.specificName = sBossName;
         }
         Level l = new Level(LevelId.FFA_THE_PLAYER_PAY, els, LevelAnimator.NOP);
         l.musicResourceId = 0x7f06002d;                           // the arena combat track
@@ -228,7 +251,7 @@ public final class ModPrologue {
         g.lifeInPourc = 100f * BOSS_FLOOR;
         if (!floorSaid) {
             floorSaid = true;
-            ModQol.post(sFloor);
+            flash(sFloor);
             ModDev.ev("prologue", "boss floor reached at " + (FIGHT_MS - left) + " ms");
         }
     }
@@ -238,15 +261,15 @@ public final class ModPrologue {
         ending = true;
         endMs = END_MS;
         lastStand = clock;
-        ps.life = ps.maxLife * HULL_FLOOR;                        // the engine never gets to run its own death flow
-        ModQol.post(clock ? sOut : sDown);
+        ps.life = ps.maxLife;                                     // damage() is immune from here: nothing may finish the ship but the beat
+        flash(clock ? sOut : sDown);
         ModSound.play("warp_in", 0.9f, 0.6f, 500);
     }
 
     /** Destruction, then the salvage caption, then the restart into the tutorial. */
     private static void endBeat(PlayerShip ps, long j) {
         endMs -= j;
-        ps.life = ps.maxLife * HULL_FLOOR;                        // held until the restart: no stock death, no save
+        ps.life = ps.maxLife;                                     // held until the restart: no stock death, no save
         int el = END_MS - endMs;
         if (el < 2600 && (el / 320) != ((el - (int) j) / 320)) {
             float a = 1f - el / 2600f;
@@ -310,6 +333,7 @@ public final class ModPrologue {
                 center(gl, sBrief1, mx, my + 40, TextSize.NORMALPLUS, 1.0f, 0.85f, 0.4f, a);
                 center(gl, sBrief2, mx, my - 20, TextSize.NORMAL, 0.85f, 0.92f, 1.0f, a);
             }
+            if (flashMs > 0) center(gl, flashText, mx, 150, TextSize.NORMALPLUS, 1.0f, 0.75f, 0.45f, Math.min(1f, flashMs / 700f));
         } catch (Throwable t) {
             // the HUD is cosmetic: never take the frame down with it
         }
@@ -334,6 +358,13 @@ public final class ModPrologue {
             case LARGE: return GameRenderer.glTextLarge;
             default: return GameRenderer.glTextScore;
         }
+    }
+
+    /** An on-screen line for a few seconds. ModQol.post would write it to the player's saved inbox, which must stay
+     *  as clean as the rest of the save. */
+    private static void flash(String s) {
+        flashText = s;
+        flashMs = FLASH_MS;
     }
 
     private static void strings() {

@@ -4682,11 +4682,11 @@
     :cond_5
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->removed:Z
 
-    if-nez v0, :cond_57
+    if-nez v0, :cond_5b
 
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->isDocked:Z
 
-    if-nez v0, :cond_57
+    if-nez v0, :cond_5b
 
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -4694,13 +4694,13 @@
 
     iget-boolean v0, v0, Lfr/testudo/spacecorsair/game/Game;->mapMode:Z
 
-    if-nez v0, :cond_57
+    if-nez v0, :cond_5b
 
     const/4 v0, 0x1
 
     .line 104
     :goto_16
-    if-eqz v0, :cond_43
+    if-eqz v0, :cond_47
 
     .line 105
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->play()J
@@ -4727,7 +4727,7 @@
 
     const/16 v3, 0x2710
 
-    if-le v2, v3, :cond_43
+    if-le v2, v3, :cond_47
 
     .line 108
     sput v1, Lfr/testudo/spacecorsair/mod/ModSector;->saveMs:I
@@ -4738,7 +4738,11 @@
     move-result-object v1
 
     .line 110
-    if-eqz v1, :cond_43
+    if-eqz v1, :cond_47
+
+    sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModPrologue;->active:Z
+
+    if-nez v2, :cond_47
 
     invoke-interface {v1}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
@@ -4755,10 +4759,10 @@
     invoke-interface {v1}, Landroid/content/SharedPreferences$Editor;->apply()V
 
     .line 113
-    :cond_43
+    :cond_47
     sget v1, Lfr/testudo/spacecorsair/mod/ModSector;->pending:I
 
-    if-lez v1, :cond_59
+    if-lez v1, :cond_5d
 
     .line 114
     sget v0, Lfr/testudo/spacecorsair/mod/ModSector;->pending:I
@@ -4770,29 +4774,29 @@
     if-nez v0, :cond_4
 
     .line 116
-    :try_start_4f
+    :try_start_53
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSector;->here:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSector;->build(Lfr/testudo/spacecorsair/game/levels/LevelId;)V
-    :try_end_54
-    .catch Ljava/lang/Throwable; {:try_start_4f .. :try_end_54} :catch_55
+    :try_end_58
+    .catch Ljava/lang/Throwable; {:try_start_53 .. :try_end_58} :catch_59
 
     goto :goto_4
 
     .line 117
-    :catch_55
+    :catch_59
     move-exception v0
 
     goto :goto_4
 
-    :cond_57
+    :cond_5b
     move v0, v1
 
     .line 103
     goto :goto_16
 
     .line 123
-    :cond_59
+    :cond_5d
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSector;->here:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
     if-eqz v1, :cond_4
@@ -4831,7 +4835,7 @@
     if-nez v0, :cond_4
 
     .line 130
-    :try_start_77
+    :try_start_7b
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSector;->traders:Ljava/util/ArrayList;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSector;->prune(Ljava/util/ArrayList;)V
@@ -4929,7 +4933,7 @@
 
     sget v1, Lfr/testudo/spacecorsair/mod/ModSector;->traderTarget:I
 
-    if-ge v0, v1, :cond_e4
+    if-ge v0, v1, :cond_e8
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSector;->here:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
@@ -4938,13 +4942,13 @@
     goto/16 :goto_4
 
     .line 135
-    :catch_e1
+    :catch_e5
     move-exception v0
 
     goto/16 :goto_4
 
     .line 134
-    :cond_e4
+    :cond_e8
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSector;->patrols:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->size()I
@@ -4956,8 +4960,8 @@
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSector;->here:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSector;->patrol(Lfr/testudo/spacecorsair/game/levels/LevelId;)V
-    :try_end_f1
-    .catch Ljava/lang/Throwable; {:try_start_77 .. :try_end_f1} :catch_e1
+    :try_end_f5
+    .catch Ljava/lang/Throwable; {:try_start_7b .. :try_end_f5} :catch_e5
 
     goto/16 :goto_4
 .end method

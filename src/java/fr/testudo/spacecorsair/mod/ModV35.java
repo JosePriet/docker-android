@@ -153,6 +153,7 @@ public class ModV35 {
     }
 
     static void addParts(int n, Element at) {
+        if (ModPrologue.active) return;   // v46: nothing picked up in the prologue is kept
         SharedPreferences p = ModQol.prefs();
         if (p == null || n <= 0) return;
         p.edit().putInt("v35_parts", parts() + n).apply();

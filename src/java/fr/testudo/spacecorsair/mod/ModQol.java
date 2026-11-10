@@ -519,6 +519,7 @@ public class ModQol {
     }
 
     private static synchronized void saveInbox() {
+        if (ModPrologue.active) return;   // v46: nothing the prologue says may reach the player's saved inbox
         SharedPreferences p = prefs();
         if (p == null) return;
         StringBuilder sb = new StringBuilder();

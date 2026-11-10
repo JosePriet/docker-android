@@ -554,6 +554,7 @@ public final class ModCapitals {
 
     /** From Ennemis/civil kill handling (ModCaps.tick): rewards and the respawn timer when a flagship goes down. */
     static void checkDestroyed() {
+        if (ModPrologue.active) return;   // v46: the prologue's Bloodforge is not a flagship kill (no bounty, standing or respawn timer)
         if (caps.isEmpty()) return;   // per frame: no iterator in sectors without a flagship
         try {
             java.util.Iterator<Map.Entry<GuardianCivilShip, Cap>> it = caps.entrySet().iterator();

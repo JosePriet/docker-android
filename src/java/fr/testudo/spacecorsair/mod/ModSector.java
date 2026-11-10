@@ -107,7 +107,7 @@ public final class ModSector {
             if (saveMs > 10000) {
                 saveMs = 0;
                 SharedPreferences p = ModQol.prefs();
-                if (p != null) p.edit().putLong("v35_play_ms", playMs).apply();
+                if (p != null && !ModPrologue.active) p.edit().putLong("v35_play_ms", playMs).apply();   // v46: the prologue is not play time
             }
         }
         if (pending > 0) {
