@@ -914,30 +914,30 @@
     .registers 4
 
     .prologue
-    .line 409
+    .line 427
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-eqz v0, :cond_35
 
-    .line 410
+    .line 428
     const-string v0, "Log out of test mode? The game restarts on your normal save, as it was when you logged in."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 412
+    .line 430
     :goto_a
     new-instance v1, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {v1, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
 
-    .line 413
+    .line 431
     invoke-virtual {v1, v0}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
 
     move-result-object v1
 
-    .line 414
+    .line 432
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-eqz v0, :cond_3c
@@ -949,9 +949,9 @@
     move-result-object v0
 
     :goto_1d
-    new-instance v2, Lfr/testudo/spacecorsair/mod/ModTestMode$2;
+    new-instance v2, Lfr/testudo/spacecorsair/mod/ModTestMode$3;
 
-    invoke-direct {v2, p0}, Lfr/testudo/spacecorsair/mod/ModTestMode$2;-><init>(Landroid/app/Activity;)V
+    invoke-direct {v2, p0}, Lfr/testudo/spacecorsair/mod/ModTestMode$3;-><init>(Landroid/app/Activity;)V
 
     invoke-virtual {v1, v0, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
@@ -959,7 +959,7 @@
 
     const-string v1, "Cancel"
 
-    .line 417
+    .line 435
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -970,13 +970,13 @@
 
     move-result-object v0
 
-    .line 418
+    .line 436
     invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
 
-    .line 419
+    .line 437
     return-void
 
-    .line 411
+    .line 429
     :cond_35
     const-string v0, "Log in to test mode? The game saves and restarts on a separate test profile: max level, everything unlocked, whole map visible, every mission repeatable, free instant jumps. Your normal save is kept apart and comes back when you log out."
 
@@ -986,7 +986,7 @@
 
     goto :goto_a
 
-    .line 414
+    .line 432
     :cond_3c
     const-string v0, "LOG IN"
 
@@ -1947,14 +1947,14 @@
 .end method
 
 .method static showButton(Landroid/app/Activity;)V
-    .registers 9
+    .registers 12
 
     .prologue
-    const/high16 v5, 0x41200000    # 10.0f
+    const/high16 v10, 0x40c00000    # 6.0f
 
-    const/high16 v7, 0x40c00000    # 6.0f
+    const/high16 v9, 0x41200000    # 10.0f
 
-    const/high16 v6, 0x40800000    # 4.0f
+    const/high16 v8, 0x40800000    # 4.0f
 
     .line 382
     const v0, 0x1020002
@@ -1977,7 +1977,7 @@
 
     if-eqz v1, :cond_1a
 
-    .line 406
+    .line 424
     :cond_19
     :goto_19
     return-void
@@ -1996,7 +1996,7 @@
     .line 386
     sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
-    if-eqz v1, :cond_c5
+    if-eqz v1, :cond_129
 
     const-string v1, "LOG OUT"
 
@@ -2022,7 +2022,7 @@
     .line 389
     sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
-    if-eqz v1, :cond_cd
+    if-eqz v1, :cond_131
 
     const v1, -0x3375d5d6
 
@@ -2041,19 +2041,19 @@
     iget v1, v1, Landroid/util/DisplayMetrics;->density:F
 
     .line 391
-    mul-float v3, v5, v1
+    mul-float v3, v9, v1
 
     float-to-int v3, v3
 
-    mul-float v4, v6, v1
+    mul-float v4, v8, v1
 
     float-to-int v4, v4
 
-    mul-float/2addr v5, v1
+    mul-float v5, v9, v1
 
     float-to-int v5, v5
 
-    mul-float/2addr v6, v1
+    mul-float v6, v8, v1
 
     float-to-int v6, v6
 
@@ -2093,11 +2093,124 @@
     .line 397
     const/4 v4, 0x0
 
-    mul-float v5, v7, v1
+    mul-float v5, v10, v1
 
     float-to-int v5, v5
 
-    mul-float/2addr v1, v7
+    mul-float v6, v10, v1
+
+    float-to-int v6, v6
+
+    const/4 v7, 0x0
+
+    invoke-virtual {v3, v4, v5, v6, v7}, Landroid/widget/FrameLayout$LayoutParams;->setMargins(IIII)V
+
+    .line 398
+    new-instance v4, Lfr/testudo/spacecorsair/mod/ModTestMode$1;
+
+    invoke-direct {v4, p0}, Lfr/testudo/spacecorsair/mod/ModTestMode$1;-><init>(Landroid/app/Activity;)V
+
+    invoke-virtual {v2, v4}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    .line 401
+    invoke-virtual {v0, v2, v3}, Landroid/view/ViewGroup;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 403
+    new-instance v2, Landroid/widget/Button;
+
+    invoke-direct {v2, p0}, Landroid/widget/Button;-><init>(Landroid/content/Context;)V
+
+    .line 404
+    const-string v3, "corsair_testmode_btnintro"
+
+    invoke-virtual {v2, v3}, Landroid/widget/Button;->setTag(Ljava/lang/Object;)V
+
+    .line 405
+    const-string v3, "REPLAY INTRO"
+
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
+
+    .line 406
+    const/4 v3, 0x2
+
+    const/high16 v4, 0x41300000    # 11.0f
+
+    invoke-virtual {v2, v3, v4}, Landroid/widget/Button;->setTextSize(IF)V
+
+    .line 407
+    const/4 v3, -0x1
+
+    invoke-virtual {v2, v3}, Landroid/widget/Button;->setTextColor(I)V
+
+    .line 408
+    const v3, -0x33b5c596    # -5.3012904E7f
+
+    invoke-virtual {v2, v3}, Landroid/widget/Button;->setBackgroundColor(I)V
+
+    .line 409
+    mul-float v3, v9, v1
+
+    float-to-int v3, v3
+
+    mul-float v4, v8, v1
+
+    float-to-int v4, v4
+
+    mul-float v5, v9, v1
+
+    float-to-int v5, v5
+
+    mul-float v6, v8, v1
+
+    float-to-int v6, v6
+
+    invoke-virtual {v2, v3, v4, v5, v6}, Landroid/widget/Button;->setPadding(IIII)V
+
+    .line 410
+    const/4 v3, 0x0
+
+    invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinHeight(I)V
+
+    .line 411
+    const/4 v3, 0x0
+
+    invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinimumHeight(I)V
+
+    .line 412
+    const/4 v3, 0x0
+
+    invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinWidth(I)V
+
+    .line 413
+    const/4 v3, 0x0
+
+    invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinimumWidth(I)V
+
+    .line 414
+    new-instance v3, Landroid/widget/FrameLayout$LayoutParams;
+
+    const/4 v4, -0x2
+
+    const/4 v5, -0x2
+
+    const/16 v6, 0x35
+
+    invoke-direct {v3, v4, v5, v6}, Landroid/widget/FrameLayout$LayoutParams;-><init>(III)V
+
+    .line 415
+    const/4 v4, 0x0
+
+    const/high16 v5, 0x42200000    # 40.0f
+
+    mul-float/2addr v5, v1
+
+    float-to-int v5, v5
+
+    mul-float/2addr v1, v10
 
     float-to-int v1, v1
 
@@ -2105,17 +2218,17 @@
 
     invoke-virtual {v3, v4, v5, v1, v6}, Landroid/widget/FrameLayout$LayoutParams;->setMargins(IIII)V
 
-    .line 398
-    new-instance v1, Lfr/testudo/spacecorsair/mod/ModTestMode$1;
+    .line 416
+    new-instance v1, Lfr/testudo/spacecorsair/mod/ModTestMode$2;
 
-    invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModTestMode$1;-><init>(Landroid/app/Activity;)V
+    invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModTestMode$2;-><init>(Landroid/app/Activity;)V
 
     invoke-virtual {v2, v1}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 401
+    .line 419
     invoke-virtual {v0, v2, v3}, Landroid/view/ViewGroup;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 402
+    .line 420
     const-string v1, "v40test"
 
     new-instance v0, Ljava/lang/StringBuilder;
@@ -2130,11 +2243,11 @@
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
-    if-eqz v0, :cond_d2
+    if-eqz v0, :cond_136
 
     const-string v0, "logout"
 
-    :goto_9d
+    :goto_101
     invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
@@ -2144,16 +2257,16 @@
     move-result-object v0
 
     invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
-    :try_end_a8
-    .catch Ljava/lang/Throwable; {:try_start_9 .. :try_end_a8} :catch_aa
+    :try_end_10c
+    .catch Ljava/lang/Throwable; {:try_start_9 .. :try_end_10c} :catch_10e
 
     goto/16 :goto_19
 
-    .line 403
-    :catch_aa
+    .line 421
+    :catch_10e
     move-exception v0
 
-    .line 404
+    .line 422
     const-string v1, "ModTestMode"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -2179,8 +2292,8 @@
     goto/16 :goto_19
 
     .line 386
-    :cond_c5
-    :try_start_c5
+    :cond_129
+    :try_start_129
     const-string v1, "LOGIN"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2190,18 +2303,18 @@
     goto/16 :goto_2e
 
     .line 389
-    :cond_cd
+    :cond_131
     const v1, -0x33d5b596    # -4.464068E7f
 
     goto/16 :goto_42
 
-    .line 402
-    :cond_d2
+    .line 420
+    :cond_136
     const-string v0, "login"
-    :try_end_d4
-    .catch Ljava/lang/Throwable; {:try_start_c5 .. :try_end_d4} :catch_aa
+    :try_end_138
+    .catch Ljava/lang/Throwable; {:try_start_129 .. :try_end_138} :catch_10e
 
-    goto :goto_9d
+    goto :goto_101
 .end method
 
 .method static store(Landroid/content/Context;Ljava/io/File;)V
@@ -2340,7 +2453,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 424
+    .line 442
     :try_start_1
     const-string v0, "v40test"
 
@@ -2364,19 +2477,19 @@
 
     invoke-static {v0, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 425
+    .line 443
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->storageManager:Lfr/testudo/spacecorsair/storage/StorageManager;
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/storage/StorageManager;->save()V
 
-    .line 426
+    .line 444
     invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v2
 
-    .line 427
+    .line 445
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModTestMode;->PREFS:[Ljava/lang/String;
 
     array-length v4, v3
@@ -2414,7 +2527,7 @@
 
     goto :goto_28
 
-    .line 428
+    .line 446
     :cond_45
     new-instance v0, Ljava/io/File;
 
@@ -2428,7 +2541,7 @@
 
     invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->write(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 429
+    .line 447
     invoke-virtual {v2}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
 
     move-result-object v0
@@ -2441,20 +2554,20 @@
 
     move-result-object v0
 
-    .line 430
+    .line 448
     if-eqz v0, :cond_6a
 
-    .line 431
+    .line 449
     const v2, 0x10008000
 
     invoke-virtual {v0, v2}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
 
-    .line 432
+    .line 450
     invoke-virtual {p0, v0}, Landroid/app/Activity;->startActivity(Landroid/content/Intent;)V
     :try_end_6a
     .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_6a} :catch_75
 
-    .line 439
+    .line 457
     :cond_6a
     invoke-static {}, Landroid/os/Process;->myPid()I
 
@@ -2462,18 +2575,18 @@
 
     invoke-static {v0}, Landroid/os/Process;->killProcess(I)V
 
-    .line 440
+    .line 458
     invoke-static {v1}, Ljava/lang/System;->exit(I)V
 
-    .line 441
+    .line 459
     :goto_74
     return-void
 
-    .line 434
+    .line 452
     :catch_75
     move-exception v0
 
-    .line 435
+    .line 453
     const-string v1, "ModTestMode"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -2496,7 +2609,7 @@
 
     invoke-static {v1, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 436
+    .line 454
     const-string v0, "Could not switch profiles."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;

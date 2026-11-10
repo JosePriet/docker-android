@@ -38,6 +38,8 @@ public final class ModIntro {
     static final int T_ALARM = 24000, T_LANE = 27000, T_CHARGE = 30000, T_IMPACT = 30400, T_FADE = 33500;
     static final int T_CAP = 35000, CAP_MS = 2500, T_END_TITLE = 45000, T_REVEAL = 46200, T_END = 47700;
     static final int SKIP_WINDOW = 2500, SKIP_TO_BLACK = 350, SKIP_REVEAL = 700;
+    /** A pending intro holds dialogs for at most this long: if the game never draws a playable frame, nothing is lost. */
+    static final int PENDING_HOLD_MS = 25000;
 
     // ------------------------------------------------------------------ scene geometry (design px, 1080 high, origin centre, y up)
     static final float C_CR = 600, C_BF = 1250;                 // sprite canvas sizes of the cruiser and the flagship
@@ -52,7 +54,9 @@ public final class ModIntro {
 
     // ------------------------------------------------------------------ state
     private static volatile boolean active, pending, flagChecked;
-    private static long t, lastFrame, startedAt;
+    private static volatile long t;            // scene time; read by the input thread for the double-tap window
+    private static long lastFrame, startedAt;
+    private static volatile long pendingAt;       // when pending was set: dialogs are only held for PENDING_HOLD_MS before it starts
     private static boolean ready;                 // all textures resident at least once
     private static volatile long lastTapT = -1;
     private static volatile boolean skipHint, skipReq;
@@ -97,12 +101,14 @@ public final class ModIntro {
     /** Main.onFirstStart (hooks45): a fresh save plays the intro once the tutorial level is up. */
     public static void firstStart() {
         pending = true;
+        pendingAt = SystemClock.uptimeMillis();
         ModDev.ev("intro", "pending (first start)");
     }
 
     /** Hidden test-mode screen: play it again at the next frame of the game view. */
     public static void replay() {
         pending = true;
+        pendingAt = SystemClock.uptimeMillis();
         ModDev.ev("intro", "pending (replay)");
     }
 
@@ -130,14 +136,24 @@ public final class ModIntro {
 
     /** GameThread.showDialog (hooks45, after the ModDev.noDialog check): dialogs asked during the intro are posted when it ends. */
     public static boolean holdDialog(GameThread gt, int image, int charName, int text, int delay, boolean force, String post) {
-        if (!active && !pending) return false;
+        if (!active) {
+            if (!pending) return false;
+            if (clock() - pendingAt > PENDING_HOLD_MS) {   // the intro never started: give up holding and let the game speak
+                pending = false;
+                ModDev.ev("intro", "pending timed out; dialogs released");
+                release();
+                return false;
+            }
+        }
         synchronized (held) {
+            if (!active && !pending) return false;   // finish() ran between the check above and here: let the dialog through
             held.add(new Object[]{gt, image, charName, text, delay, force, post});
         }
         ModDev.ev("intro", "dialog held " + text);
         return true;
     }
 
+    /** Posts every held dialog. Callers clear active/pending first, so holdDialog cannot add after this drains. */
     private static void release() {
         ArrayList<Object[]> l;
         synchronized (held) {
@@ -233,8 +249,10 @@ public final class ModIntro {
     }
 
     private static void finish(String why) {
-        active = false;
-        pending = false;
+        synchronized (held) {       // holdDialog re-checks these inside the lock, so nothing is added after this point
+            active = false;
+            pending = false;
+        }
         live = 0; shots = 0; booms = 0;
         ModDev.ev("intro", "end " + why + " t=" + t);
         release();

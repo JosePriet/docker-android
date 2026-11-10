@@ -3,12 +3,12 @@
 .source "ModTestMode.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Landroid/view/View$OnClickListener;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModTestMode;->confirm(Landroid/app/Activity;)V
+    value = Lfr/testudo/spacecorsair/mod/ModTestMode;->showButton(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 414
+    .line 416
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModTestMode$2;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -41,26 +41,16 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 5
+.method public onClick(Landroid/view/View;)V
+    .registers 3
 
     .prologue
-    .line 415
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModTestMode$2;->val$a:Landroid/app/Activity;
+    .line 417
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModIntro;->replay()V
 
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTestMode$2;->val$a:Landroid/app/Activity;
 
-    if-eqz v0, :cond_c
-
-    const-string v0, "main"
-
-    :goto_8
-    invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->switchTo(Landroid/app/Activity;Ljava/lang/String;)V
+    invoke-virtual {v0}, Landroid/app/Activity;->finish()V
 
     return-void
-
-    :cond_c
-    const-string v0, "test"
-
-    goto :goto_8
 .end method
