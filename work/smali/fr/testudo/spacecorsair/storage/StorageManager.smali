@@ -271,6 +271,15 @@
     .registers 2
 
     .prologue
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModPrologue;->blockSave()Z
+
+    move-result v0
+
+    if-eqz v0, :pro46_save
+
+    return-void
+
+    :pro46_save
     .line 98
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/storage/StorageManager;->getInventoryStorage()Lfr/testudo/spacecorsair/storage/InventoryStorage;
 
@@ -352,6 +361,15 @@
     .registers 2
 
     .prologue
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModPrologue;->blockSave()Z
+
+    move-result v0
+
+    if-eqz v0, :pro46_save
+
+    return-void
+
+    :pro46_save
     .line 91
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/storage/StorageManager;->getConfigStorage()Lfr/testudo/spacecorsair/storage/ConfigStorage;
 
@@ -367,6 +385,15 @@
     .registers 2
 
     .prologue
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModPrologue;->blockSave()Z
+
+    move-result v0
+
+    if-eqz v0, :pro46_save
+
+    return-void
+
+    :pro46_save
     .line 87
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/storage/StorageManager;->getInventoryStorage()Lfr/testudo/spacecorsair/storage/InventoryStorage;
 

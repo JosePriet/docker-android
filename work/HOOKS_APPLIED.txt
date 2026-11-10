@@ -16,3 +16,4 @@ hooks42e applied Tue Nov  3 23:33:03 UTC 2026
 hooks42f.py: Config.musicVolums default 0.4 -> 1.0 (2 sites)
 hooks44_poi applied Wed Nov  4 20:30:29 UTC 2026
 hooks45_intro applied Tue Nov 10 14:30:27 UTC 2026
+hooks46_prologue 2026-11-10: LevelBuilder.getLevelByName, StorageManager.save/saveConfig/saveInventory (v46 playable prologue)

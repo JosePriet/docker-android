@@ -102,9 +102,9 @@ public final class ModIntro {
     // ------------------------------------------------------------------ triggers
     /** Main.onFirstStart (hooks45): a fresh save plays the intro once the tutorial level is up. */
     public static void firstStart() {
-        pending = true;
-        pendingAt = clock();
-        ModDev.ev("intro", "pending (first start)");
+        // v46 (owner 2026-11-10): a fresh save opens on the playable prologue, not the cinematic. The cinematic stays
+        // on REPLAY INTRO in test mode.
+        ModPrologue.firstStart();
     }
 
     /** Hidden test-mode screen: play it again at the next frame of the game view. */
@@ -174,6 +174,7 @@ public final class ModIntro {
     // ------------------------------------------------------------------ GL hook
     /** GameRenderer.drawHud, last (hooks45). Never throws. */
     public static void draw(GL10 gl) {
+        if (!harness) ModPrologue.draw(gl);   // v46: the prologue HUD shares this draw point (last thing in the frame)
         try {
             if (!active) {
                 if (!flagChecked) {

@@ -109,6 +109,15 @@
     .registers 4
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModPrologue;->level(Ljava/lang/String;)Lfr/testudo/spacecorsair/game/levels/Level;
+
+    move-result-object v0
+
+    if-eqz v0, :pro46_go
+
+    return-object v0
+
+    :pro46_go
     .line 148
     const-string v0, "planck Pride"
 

@@ -108,6 +108,9 @@ public final class ModCapitals {
 
     /** On every sector change (from ModCaps.tick). */
     public static void onLevel() {
+        // v46: the prologue built this sector's capital itself (the Bloodforge); clearing caps would strip its hull,
+        // turrets and batteries, so the prologue keeps ownership of the sector.
+        if (ModPrologue.active) { ModPoliceTitan.onLevel(); return; }
         // Guardian ships are pooled: forget the previous sector's flagships before the pool hands them out again
         for (GuardianCivilShip g : caps.keySet()) { ModTitan.titanClass.remove(g); ModTitanAI.forget(g); }
         caps.clear();
@@ -182,6 +185,17 @@ public final class ModCapitals {
         g.amountOfDamageAllowedInRatioByPlayerBeforeRebelion = 0;
         g.specificName = ModLang.trf("%s Police Titan", FACTIONS[fi].name);
         ModPoliceAura.put(g, "cap_" + FACTIONS[fi].key, fi, SIZE);   // v43: titan gets its faction aura
+        return g;
+    }
+
+    /** v46 prologue: the faction's flagship as a standalone boss of level lvl at {@code at}, hostile from the first frame. */
+    static GuardianCivilShip spawnBoss(int fi, int lvl, Vector2 at) {
+        GuardianCivilShip g = build(fi, lvl, null, at);
+        if (g == null) return null;
+        Cap c = caps.get(g);
+        if (c != null) c.hostileAnnounced = true;
+        g.amountOfDamageAllowedInRatioByPlayerBeforeRebelion = 0;
+        try { g.attackPlayerIfItNotTheCaseAlready(); } catch (Throwable t) { /* re-armed by the AI tick */ }
         return g;
     }
 

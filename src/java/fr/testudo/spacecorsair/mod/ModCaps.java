@@ -163,6 +163,7 @@ public final class ModCaps {
             }
         }
         ModTestMode.tick(ps, j);
+        ModPrologue.tick(ps, j);   // v46 playable prologue
         ModComms.tick(ps);
         ModDerelict.tick(ps, j);
         ModSector.tick(ps, j);

@@ -312,6 +312,7 @@ public final class ModTestMode {
 
     /** Start of PathFinder.canJumpTo: 1/0 in test mode (any other sector), -1 = stock rule. */
     public static int canJumpTo(LevelId to) {
+        if (ModPrologue.active) return 0;   // v46: the player bay has no way out
         if (!on) return -1;
         try {
             return sector(to) && ObjectRegistry.INSTANCE.game.currentLevel.id != to ? 1 : 0;
@@ -321,7 +322,7 @@ public final class ModTestMode {
     }
 
     /** Start of PathFinder.couldJump: 1 in test mode (no hyperdrive engine needed), -1 = stock rule. */
-    public static int couldJump(LevelId to) { return on ? 1 : -1; }
+    public static int couldJump(LevelId to) { return ModPrologue.active ? 0 : on ? 1 : -1; }
 
     /** Start of PathFinder.jumpCost: 0 energy cells in test mode, -1 = stock cost. */
     public static int jumpCost(LevelId to) { return on ? 0 : -1; }
@@ -417,6 +418,24 @@ public final class ModTestMode {
                 public void onClick(View v) { ModIntro.replay(); a.finish(); }
             });
             content.addView(r, rl);
+            // v46: replay the playable prologue (fresh-save boss fight) from the same hidden screen
+            Button q = new Button(a);
+            q.setTag(TAG + "prologue");
+            q.setText(ModLang.tr("REPLAY PROLOGUE"));
+            q.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+            q.setTextColor(Color.WHITE);
+            q.setBackgroundColor(0xCC6A3A3A);
+            q.setPadding((int) (10 * dp), (int) (4 * dp), (int) (10 * dp), (int) (4 * dp));
+            q.setMinHeight(0);
+            q.setMinimumHeight(0);
+            q.setMinWidth(0);
+            q.setMinimumWidth(0);
+            FrameLayout.LayoutParams ql = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.TOP | Gravity.RIGHT);
+            ql.setMargins(0, (int) (74 * dp), (int) (6 * dp), 0);
+            q.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) { ModPrologue.replay(); a.finish(); }
+            });
+            content.addView(q, ql);
             ModDev.ev("v40test", "button shown " + (on ? "logout" : "login"));
         } catch (Throwable t) {
             android.util.Log.w("ModTestMode", "button " + t);
