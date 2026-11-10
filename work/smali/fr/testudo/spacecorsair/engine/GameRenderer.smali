@@ -2439,6 +2439,8 @@
     :goto_111
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModQol;->drawHud(Ljavax/microedition/khronos/opengles/GL10;)V
 
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModIntro;->draw(Ljavax/microedition/khronos/opengles/GL10;)V
+
     return-void
 
     .line 403

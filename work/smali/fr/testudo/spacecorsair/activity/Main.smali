@@ -243,6 +243,8 @@
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/game/Config;->unSetFirstStart()V
 
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModIntro;->firstStart()V
+
     .line 153
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 

@@ -1,3 +1,7 @@
+# Current task: v45 intro cinematic (owner, 2026-11-10 14:11)
+Owner: an introductory cinematic connecting the "beginning" to the tutorial; suggestion (not mandatory): level-25 player in the strongest non-faction cruiser (3 cannons) vs a level-40 boss bounty, forced death, start in the tutorial zone. In-game animation from game assets preferred, skippable. Full creative authority to Claude.
+Code: ModIntro.java + src/patch/hooks45_intro.py (applied). Change list: /mnt/project-files/audits/v45-changes.md. Preview: space-corsair/v45/PREVIEW_intro.mp4. Pending: GPT Spanish (space-corsair/v45/PASTE-v45-es.md), emulator run, phone test (fresh install, or hidden test screen > REPLAY INTRO).
+
 # Current task: v41 Refit button at stations (owner, 2026-11-03 19:48)
 Refits needed docking but My Ship cannot open while docked. Owner card: Refit button on every station menu. Code: ModRefitPanel + ModUi toolbar (ce4b508, 0213423). Changes: /mnt/project-files/audits/v41-changes.md. Emulator sc-v41b passed. Pending: phone test, GPT Spanish.
 

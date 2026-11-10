@@ -4871,6 +4871,15 @@
     .registers 13
 
     .prologue
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModIntro;->touch(Landroid/view/MotionEvent;)Z
+
+    move-result v0
+
+    if-eqz v0, :intro45_go
+
+    return-void
+
+    :intro45_go
     .line 1868
     :try_start_0
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
@@ -7867,6 +7876,10 @@
     :cond_3a
     iput-wide v2, p0, Lfr/testudo/spacecorsair/engine/GameThread;->lastTime:J
 
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModIntro;->dt(J)J
+
+    move-result-wide v0
+
     .line 211
     invoke-direct {p0}, Lfr/testudo/spacecorsair/engine/GameThread;->processInput()V
 
@@ -8285,6 +8298,15 @@
     return-void
 
     :mod_dialog_go
+    invoke-static/range {p0 .. p6}, Lfr/testudo/spacecorsair/mod/ModIntro;->holdDialog(Lfr/testudo/spacecorsair/engine/GameThread;IIIIZLjava/lang/String;)Z
+
+    move-result v0
+
+    if-eqz v0, :intro45_dialog
+
+    return-void
+
+    :intro45_dialog
     .line 2194
     iget-object v0, p0, Lfr/testudo/spacecorsair/engine/GameThread;->msgHandler:Landroid/os/Handler;
 

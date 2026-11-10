@@ -399,6 +399,24 @@ public final class ModTestMode {
                 public void onClick(View v) { confirm(a); }
             });
             content.addView(b, lp);
+            // v45: replay the intro cinematic from the same hidden screen (plays at the next frame of the game view)
+            Button r = new Button(a);
+            r.setTag(TAG + "intro");
+            r.setText(ModLang.tr("REPLAY INTRO"));
+            r.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+            r.setTextColor(Color.WHITE);
+            r.setBackgroundColor(0xCC4A3A6A);
+            r.setPadding((int) (10 * dp), (int) (4 * dp), (int) (10 * dp), (int) (4 * dp));
+            r.setMinHeight(0);
+            r.setMinimumHeight(0);
+            r.setMinWidth(0);
+            r.setMinimumWidth(0);
+            FrameLayout.LayoutParams rl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.TOP | Gravity.RIGHT);
+            rl.setMargins(0, (int) (40 * dp), (int) (6 * dp), 0);
+            r.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) { ModIntro.replay(); a.finish(); }
+            });
+            content.addView(r, rl);
             ModDev.ev("v40test", "button shown " + (on ? "logout" : "login"));
         } catch (Throwable t) {
             android.util.Log.w("ModTestMode", "button " + t);
