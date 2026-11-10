@@ -24,6 +24,7 @@ public final class ModPoliceTitan {
 
     // [D] v42 plan, police titan
     static final float POLICE_TITAN_MULT = 1.2f;         // every stat over the faction flagship in its own HQ
+    static final float POLICE_TITAN_SHIELD_MULT = 1.5f;  // v43a-4 (open owner call, picked): shield x1.5 instead of x1.2
     static final int LOCKDOWN_MS = 6000;
     static final int LOCKDOWN_COOLDOWN_MS = 25000;
     static final float LOCKDOWN_SPEED = 0.5f;            // player speed x0.5 (game snare multiplier)
@@ -74,8 +75,8 @@ public final class ModPoliceTitan {
             float[] sh = ModV34.shieldStats(lvl, lvl, ModShips.TITAN);   // flagships carry none: a titan-class one, x1.2
             if (sh != null) {
                 ModV34.Sh h = new ModV34.Sh();
-                h.cap = h.cur = sh[0] * POLICE_TITAN_MULT;
-                h.rate = sh[1] * POLICE_TITAN_MULT;
+                h.cap = h.cur = sh[0] * POLICE_TITAN_SHIELD_MULT;
+                h.rate = sh[1] * POLICE_TITAN_SHIELD_MULT;
                 ModV34.bigShield.put(g, h);
             }
             ModArt.lazyTex("pol_cap_" + f.key);   // v42 fix: register before prefetch
@@ -90,7 +91,7 @@ public final class ModPoliceTitan {
             ModSound.play("flagship_horn", 1.0f, 0.85f, 3000);
             ModSound.play("warp_in", 0.9f, 0.7f, 1000);
             ModQol.post(ModLang.trf("%s has arrived. It will not stop until you are destroyed.", name));
-            log("spawn " + f.key + " L" + lvl + " hull=" + Math.round(g.maxLife) + " shield=" + (sh == null ? 0 : Math.round(sh[0] * POLICE_TITAN_MULT)));
+            log("spawn " + f.key + " L" + lvl + " hull=" + Math.round(g.maxLife) + " shield=" + (sh == null ? 0 : Math.round(sh[0] * POLICE_TITAN_SHIELD_MULT)));
             return g;
         } catch (Throwable t) {
             return null;

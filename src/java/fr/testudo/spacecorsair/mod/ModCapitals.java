@@ -51,6 +51,9 @@ public final class ModCapitals {
     /** v30 flagship profiles (FACTIONS order): hull and speed multipliers. */
     static final float[] HULL_MULT = {0.8f, 1.5f, 1.1f, 0.7f, 1.2f, 0.75f, 1.0f};
     static final float[] SPEED_MULT = {1.0f, 0.9f, 1.0f, 2.0f, 0.6f, 1.8f, 1.0f};
+    /** v43a-4: every flagship carries a visible titan-class shield (ModV34.bigShield, drawn as the shell): capacity and
+     *  regen x this over ModV34.shieldStats(lvl, lvl, TITAN). Aegis sturdy, Bloodforge nearly none, Crown/Sunspire light. */
+    static final float[] SHIELD_MULT = {1.6f, 0.4f, 0.9f, 0.7f, 1.0f, 0.8f, 1.0f};
     static final int SIZE = 1500;                 // drawable size in world units (titans are 1000)
     static final long RESPAWN_MS = 3L * 3600 * 1000;
 
@@ -83,7 +86,7 @@ public final class ModCapitals {
 
     /** FACTIONS order; a faction with two types alternates them over its mounts. Totals stay near the old 3 canons. */
     static final Gun[][] GUNS = {
-        {new Gun(ModWeapons.RAIL, 3.0f, 2600, 26, 4200, 1, 1, 60, 0.55f, 0.95f, 1.0f)},                 // spartan rails
+        {new Gun(ModWeapons.RAIL, 3.0f, 2600, 26, 2800, 1, 1, 60, 0.55f, 0.95f, 1.0f)},                 // spartan rails (v43a-4: 4.2 s -> 2.8 s, the Aegis looked unarmed)
         {new Gun(ModWeapons.AUTO, 0.3f, 220, 13, 2400, 7, 1, 120, 1.0f, 0.6f, 0.25f)},                  // reaver autocannon flak
         {new Gun(ModWeapons.AUTO, 0.55f, 750, 12, 2600, 10, 3, 90, 0.7f, 1.0f, 0.45f)},                 // kretari bio-spines
         {new Gun(ModWeapons.DISINT, 0.35f, 300, 10, 2400, 2, 1, 90, 1.0f, 0.3f, 0.35f)},                // varn disintegrators
@@ -199,6 +202,18 @@ public final class ModCapitals {
         return g;
     }
 
+    /** v43a-4: the flagship's shield: titan-class stats at its level x SHIELD_MULT; absorbed by ModV34.shieldAbsorb
+     *  before the faction kit (Aegis wall, Bastion plates) and drawn by ModV34.shieldDraw. */
+    static void giveShield(GuardianCivilShip g, int fi, int lvl) {
+        ModV34.bigShield.remove(g);
+        float[] sh = ModV34.shieldStats(lvl, lvl, ModShips.TITAN);
+        if (sh == null) return;
+        ModV34.Sh h = new ModV34.Sh();
+        h.cap = h.cur = sh[0] * SHIELD_MULT[fi];
+        h.rate = sh[1] * SHIELD_MULT[fi];
+        ModV34.bigShield.put(g, h);
+    }
+
     private static GuardianCivilShip build(int fi, int lvl, Faction police, Vector2 at) {
         Faction f = police != null ? police : FACTIONS[fi];
         GuardianCivilShip g = CivilFactory.newGuardianCivilShip(lvl);
@@ -253,6 +268,7 @@ public final class ModCapitals {
         ModArt.prefetch((police != null ? "pol_cap_" : "cap_") + f.key);   // 1024 px hull: decoded in the background before it comes into view
         ModArt.prefetch(f.turretTex);
         ModTitan.titanClass.put(g, Boolean.TRUE);
+        giveShield(g, fi, lvl);                     // v43a-4: visible shield (a police titan replaces it with its own)
         ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(g);
         return g;
     }
@@ -565,6 +581,7 @@ public final class ModCapitals {
                 if (g == null || c == null) { it.remove(); continue; }
                 if (!g.removed) continue;
                 it.remove();                      // pooled: never treat the recycled ship as a flagship
+                ModV34.bigShield.remove(g);        // v43a-4
                 ModTitan.titanClass.remove(g);
                 ModTitanAI.forget(g);
                 if (c.police) {                    // v42: no flagship bookkeeping (respawn timer, standing, pursuit, bounty)

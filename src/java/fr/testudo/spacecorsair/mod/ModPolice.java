@@ -53,7 +53,7 @@ public class ModPolice {
     /** Owner 23:10: the Spartan wave before the titan brings 2 Monoliths (battleship hulls), plus one Verdant escort. */
     static final int[] SPARTAN_CAPITAL_WAVE = {ModShips.BATTLESHIP, ModShips.BATTLESHIP, ModShips.BATTLECRUISER};
     static final long LIGHT_CYCLE_MS = 1200;   // police light bar: red double blink, then blue double blink
-    public static final long WAVE_MS = 35000;              // waves every 35 s while heat > 0 and police engaged or heat rose
+    public static final long WAVE_MS = 28000;              // v43a-4: 35 s -> 28 s; waves every 28 s while heat > 0 and police engaged or heat rose
     public static final int CAP = 8;                       // active police ships
     public static final float GATE_MIN = 2500f;            // a gate closer than this to the player: arrive from 4,500 off instead
     public static final long DECAY_MS = 20000;             // heat -1 per 20 s with no new offence
@@ -309,7 +309,9 @@ public class ModPolice {
 
     // ================================================================== police-only weapons
     /** v44: ModAnchor, a police shot stopped by the Leviathan anchor wall: the police tech still reaches the player. */
+    public static final boolean TECH_THROUGH_WALL = false;   // v43a-4 (open owner call, picked): the wall stops the tech too
     public static void wallHit(Element shooter, float dmg) {
+        if (!TECH_THROUGH_WALL) return;
         try {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             if (ps != null && shooter != null && police.containsKey(shooter)) policeWeapon(ps, shooter, dmg);
