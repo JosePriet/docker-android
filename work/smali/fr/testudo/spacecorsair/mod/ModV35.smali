@@ -4729,6 +4729,37 @@
 
     .line 580
     :cond_2f
+    iget-object v3, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->art:Ljava/lang/String;
+
+    invoke-static {v3, v2}, Lfr/testudo/spacecorsair/mod/ModWings;->useParts(Ljava/lang/String;I)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_4d
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    iget-object v1, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->art:Ljava/lang/String;
+
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "_stage5_hull"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    goto :goto_22
+
+    :cond_4d
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -4750,15 +4781,15 @@
     move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-    :try_end_47
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_47} :catch_49
+    :try_end_65
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_65} :catch_67
 
     move-result-object v1
 
     goto :goto_22
 
     .line 582
-    :catch_49
+    :catch_67
     move-exception v1
 
     goto :goto_9
