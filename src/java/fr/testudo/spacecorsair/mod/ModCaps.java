@@ -355,6 +355,7 @@ public final class ModCaps {
             }
         }
         ModMonolith.under(ps);   // v38: Monolith s4/s5 aura, wings, plasma (under the hull)
+        ModWings.under(ps);   // v43a-2: Mantis/Verdant s5 rear wings (under the hull)
         ModLevDoom.drawUnder(ps);   // v38: Leviathan doomsday, space dims during the charge
         ModLevFx.under(ps);   // v43a-3: Leviathan heavy wake
         // engine plumes (v38: none on Monolith s4/s5, whose art has no thrusters by owner decision)
