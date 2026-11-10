@@ -1,3 +1,24 @@
+# v46 playable prologue (owner 2026-11-10 15:22, supersedes the v45 cinematic task below)
+
+Owner: "recreate this as a playable encounter vs a boss, rather than a cinematic ... It has to happen in a sector
+separate from all available through the game and it has to have a timer where after 2 minutes of fighting or when your
+HP reaches zero you're sent to the tutorial. also the ship the player has is ... the one thats red and dark mostly"
+(+ 15:27: "the one that says 'corvette' thats the one I meant").
+
+Acceptance criteria
+- The encounter is playable, not a cutscene, and runs in a sector unreachable from the normal game.
+- 120 s clock, or hull zero, then the player lands in the tutorial with an untouched fresh save.
+- The player flies the stock `corvette` hull at level 25; the boss is the L40 Reaver flagship Bloodforge.
+
+Code: `src/java/fr/testudo/spacecorsair/mod/ModPrologue.java`, `src/patch/hooks46_prologue.py` (applied once),
+`ModCapitals.spawnBoss` / `onLevel`, `ModCaps.tick`, `ModIntro.firstStart`, `ModTestMode` (REPLAY PROLOGUE, jump block).
+Changes list: `/mnt/project-files/audits/v46-changes.md`.
+
+Pending: emulator run sc-v46; GPT Spanish (`/mnt/project-files/space-corsair/v46/PASTE-v46-es.md`, 11 strings ->
+`i18n/gpt/v46_es.json` + one line in `i18n/lang/build_es_json.py`); owner phone test; release on owner "publish".
+
+---
+
 # Current task: v45 intro cinematic (owner, 2026-11-10 14:11)
 Owner: an introductory cinematic connecting the "beginning" to the tutorial; suggestion (not mandatory): level-25 player in the strongest non-faction cruiser (3 cannons) vs a level-40 boss bounty, forced death, start in the tutorial zone. In-game animation from game assets preferred, skippable. Full creative authority to Claude.
 Code: ModIntro.java + src/patch/hooks45_intro.py (applied). Change list: /mnt/project-files/audits/v45-changes.md. Preview: space-corsair/v45/PREVIEW_intro.mp4. Pending: GPT Spanish (space-corsair/v45/PASTE-v45-es.md), emulator run, phone test (fresh install, or hidden test screen > REPLAY INTRO).
