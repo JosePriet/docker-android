@@ -39,8 +39,11 @@ shopt -u nullglob
 test -f i18n/values-es/strings.xml && test -f i18n/lang/es_full.json
 # v30: the phone's app info shows the mod version (versionName = app_version string) and versionCode climbs per release
 MODVER=$V
-SET_STRINGS="app_version=mod v$MODVER (base 1.5.1)" python3 -I es/add_locale.py base/space-corsair-mod-signed-v12.apk i18n/values-es work/resources_v${V}.arsc es fr
-python3 -I src/set_version_code.py base/space-corsair-mod-signed-v12.apk $((1000 + MODVER)) "mod v$MODVER (base 1.5.1)" work/AndroidManifest_v${V}.xml
+# v43a: the release tag can differ from the build number (the owner keeps the number small).
+# MODVER_NAME overrides only what the phone shows; versionCode still climbs with the build number.
+MODNAME=${MODVER_NAME:-v$MODVER}
+SET_STRINGS="app_version=mod $MODNAME (base 1.5.1)" python3 -I es/add_locale.py base/space-corsair-mod-signed-v12.apk i18n/values-es work/resources_v${V}.arsc es fr
+python3 -I src/set_version_code.py base/space-corsair-mod-signed-v12.apk $((1000 + MODVER)) "mod $MODNAME (base 1.5.1)" work/AndroidManifest_v${V}.xml
 python3 -I -c "import json,sys; json.load(open(sys.argv[1],encoding='utf-8'))" i18n/lang/es_full.json
 python3 -I src/rebuild.py base/space-corsair-mod-signed-v12.apk work/unsigned${V}.apk classes.dex=work/classes_v${V}.dex resources.arsc=work/resources_v${V}.arsc AndroidManifest.xml=work/AndroidManifest_v${V}.xml +assets/lang/es.json=i18n/lang/es_full.json $MUSIC $ADDS | tail -1
 unzip -tq work/unsigned${V}.apk
