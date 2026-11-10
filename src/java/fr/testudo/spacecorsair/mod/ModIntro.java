@@ -118,6 +118,7 @@ public final class ModIntro {
 
     /** GameThread.run (hooks45): the frame's elapsed time; 1 ms while the intro runs so the world stands still but keeps drawing. */
     public static long dt(long elapsed) {
+        if (!harness) ModPrologue.preFrame();   // v46: the top of the frame, outside GameThread.doPhysic
         return active ? 1 : elapsed;
     }
 

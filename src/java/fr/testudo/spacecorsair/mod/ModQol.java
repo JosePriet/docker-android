@@ -436,7 +436,7 @@ public class ModQol {
                         GameRenderer.screenWidthY - (int) GameRenderer.shieldBar.centerPosition.y - 7, 1.0f, 0.55f, 0.85f, 1.0f, true, TextSize.LITTLE);
                 }
             }
-            int unread = unread();
+            int unread = ModPrologue.active ? 0 : unread();   // v46: no inbox banner during the prologue
             if (unread > 0) {
                 if (inboxText == null || unread != inboxN || GameRenderer.glTextLittle != inboxFont) {
                     inboxText = "INBOX: " + unread + ModLang.tr(" new  (open from the Ships or Station screen)");

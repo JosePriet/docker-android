@@ -61,7 +61,7 @@ public final class ModPrologue {
     static final String DONE = "v46_prologue_done";
     static final String TEST_FLAG = "corsair_prologue";   // emulator only: replay it on a save that already played it
 
-    private static boolean pending, started;
+    private static boolean pending, started, armed;
     /** True from the first frame of the prologue until the process restarts: saves are blocked and jumps refused. */
     public static boolean active;
     private static boolean ending, finished;
@@ -85,6 +85,9 @@ public final class ModPrologue {
 
     /** Hidden test-mode screen: REPLAY PROLOGUE. */
     public static void replay() {
+        ending = false;
+        finished = false;
+        started = false;
         pending = true;
         ModDev.ev("prologue", "pending (replay)");
     }
@@ -114,6 +117,17 @@ public final class ModPrologue {
 
     // ------------------------------------------------------------------ the fight
 
+    /** GameThread.run, at the top of the frame (through ModIntro.dt): the one safe point to swap the level.
+     *  GameThread.doPhysic walks the current level's element list by index, so replacing the level from inside it
+     *  (which is where ModCaps.tick runs) threw IndexOutOfBounds whenever the old level was the longer of the two. */
+    public static void preFrame() {
+        if (!armed || started) return;
+        armed = false;
+        PlayerShip ps = null;
+        try { ps = PlayerShip.instance(); } catch (Throwable t) { /* enter() reports it */ }
+        enter(ps);
+    }
+
     /** PlayerShip.applyDamage (hooks46b): the damage the hull is allowed to take this hit.
      *  The engine kills synchronously when life reaches 0, so clamping once per frame in {@link #tick} is not enough:
      *  one Bloodforge salvo between two frames would run the stock death screen, credit penalty and achievements.
@@ -134,7 +148,7 @@ public final class ModPrologue {
         if (finished) return;
         if (pending && !started) {
             if (ps == null || ps.removed || ObjectRegistry.INSTANCE.game == null || !ObjectRegistry.INSTANCE.game.started) return;
-            enter(ps);
+            armed = true;      // the swap itself runs from preFrame(), outside the physics loop
             return;
         }
         if (!active || ps == null) return;
@@ -172,9 +186,14 @@ public final class ModPrologue {
             SharedPreferences p = ModQol.prefs();
             if (p != null) p.edit().putBoolean(DONE, true).commit();   // before anything that can throw: never replay it
             ObjectRegistry.INSTANCE.storageManager.save();       // the fresh save, exactly as the tutorial wants it
+            backup();                                            // and a byte copy of it, restored before the restart
             active = true;
             strings();
             outfit();
+            // the tutorial mission is already set up for after the restart; it must not narrate over the prologue
+            // ("Follow the yellow mark toward the red asteroid" was drawn through the whole fight). The save is put
+            // back from the byte copy before the restart, so clearing it here costs nothing.
+            try { ObjectRegistry.INSTANCE.currentMission = null; } catch (Throwable t) { /* nothing to clear */ }
             LevelBuilder.jumpToLevel(LevelId.FFA_THE_PLAYER_PAY.levelName, "VECTOR00_GATE");
             left = FIGHT_MS;
             briefMs = BRIEF_MS;
@@ -182,7 +201,7 @@ public final class ModPrologue {
             floorSaid = false;
             lastStand = false;
             ModSound.play("flagship_horn", 1.0f, 0.9f, 3000);
-            ModDev.ev("prologue", "entered, hull " + Math.round(ps.maxLife) + " boss " + (boss == null ? "none" : Math.round(boss.maxLife)));
+            ModDev.ev("prologue", "entered, hull " + (ps == null ? 0 : Math.round(ps.maxLife)) + " boss " + (boss == null ? "none" : Math.round(boss.maxLife)));
         } catch (Throwable t) {
             // The live PlayerInfo may already carry the prologue's level 25 Corvette. Clearing `active` here would
             // unblock saves and write that over the player's real save, so keep it blocked and restart on the
@@ -282,8 +301,40 @@ public final class ModPrologue {
         restart();
     }
 
-    /** Relaunches the process. Nothing of the prologue was saved, so the game comes back on the fresh save: tutorial. */
+    /** The save files and preferences as they were before the prologue, kept beside the test-mode profiles. */
+    private static java.io.File backupDir(Context c) {
+        return new java.io.File(c.getDir("corsair_profiles", Context.MODE_PRIVATE), "prologue_backup");
+    }
+
+    /** Copies the pristine save (files + preferences) aside, with the same code the test-mode profile swap uses. */
+    private static void backup() {
+        try {
+            Context c = ObjectRegistry.INSTANCE.mainActivity.getApplicationContext();
+            ModTestMode.store(c, backupDir(c));
+            ModDev.ev("prologue", "pristine save copied aside");
+        } catch (Throwable t) {
+            ModDev.ev("prologue", "backup failed " + t);
+        }
+    }
+
+    /** Puts the pristine save back. Blocking StorageManager is not enough on its own: the pilot level and the visited
+     *  sector list still came back changed from the first emulator run, so the prologue restores the files it copied
+     *  rather than trusting that nothing wrote. */
+    private static void restore() {
+        try {
+            Context c = ObjectRegistry.INSTANCE.mainActivity.getApplicationContext();
+            java.io.File d = backupDir(c);
+            if (!new java.io.File(d, "complete").exists()) { ModDev.ev("prologue", "no backup to restore"); return; }
+            ModTestMode.load(c, d);
+            ModDev.ev("prologue", "pristine save restored");
+        } catch (Throwable t) {
+            ModDev.ev("prologue", "restore failed " + t);
+        }
+    }
+
+    /** Puts the pristine save back, then relaunches the process: the game comes back in the tutorial. */
     private static void restart() {
+        restore();
         try {
             android.app.Activity a = ObjectRegistry.INSTANCE.mainActivity;
             Context c = a.getApplicationContext();

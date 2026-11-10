@@ -1708,20 +1708,22 @@
 .end method
 
 .method public static drawHud(Ljavax/microedition/khronos/opengles/GL10;)V
-    .registers 12
+    .registers 13
 
     .prologue
+    const/4 v10, 0x0
+
     .line 414
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModArt;->frameEnd(Ljavax/microedition/khronos/opengles/GL10;)V
 
     .line 416
-    :try_start_3
+    :try_start_4
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    iget-object v10, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
+    iget-object v11, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
     .line 417
-    if-eqz v10, :cond_19
+    if-eqz v11, :cond_1a
 
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -1729,7 +1731,7 @@
 
     iget-boolean v0, v0, Lfr/testudo/spacecorsair/game/Game;->mapMode:Z
 
-    if-nez v0, :cond_19
+    if-nez v0, :cond_1a
 
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -1737,28 +1739,28 @@
 
     iget-boolean v0, v0, Lfr/testudo/spacecorsair/game/Config;->hideHud:Z
 
-    if-eqz v0, :cond_1a
+    if-eqz v0, :cond_1b
 
     .line 456
-    :cond_19
-    :goto_19
+    :cond_1a
+    :goto_1a
     return-void
 
     .line 418
-    :cond_1a
+    :cond_1b
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModQol;->barNumbers()Z
 
     move-result v0
 
-    if-eqz v0, :cond_fd
+    if-eqz v0, :cond_fe
 
     sget-object v0, Lfr/testudo/spacecorsair/engine/GameRenderer;->lifeBar:Lfr/testudo/spacecorsair/display/hud/InfoBar;
 
-    if-eqz v0, :cond_fd
+    if-eqz v0, :cond_fe
 
     sget-object v0, Lfr/testudo/spacecorsair/engine/GameRenderer;->shieldBar:Lfr/testudo/spacecorsair/display/hud/InfoBar;
 
-    if-eqz v0, :cond_fd
+    if-eqz v0, :cond_fe
 
     .line 419
     sget-object v0, Lfr/testudo/spacecorsair/engine/GameRenderer;->lifeBar:Lfr/testudo/spacecorsair/display/hud/InfoBar;
@@ -1786,7 +1788,7 @@
     .line 420
     const/4 v0, 0x0
 
-    iget v1, v10, Lfr/testudo/spacecorsair/business/player/PlayerShip;->life:F
+    iget v1, v11, Lfr/testudo/spacecorsair/business/player/PlayerShip;->life:F
 
     invoke-static {v1}, Ljava/lang/Math;->round(F)I
 
@@ -1796,7 +1798,7 @@
 
     move-result v0
 
-    iget v1, v10, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
+    iget v1, v11, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
 
     invoke-static {v1}, Ljava/lang/Math;->round(F)I
 
@@ -1805,18 +1807,18 @@
     .line 421
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModQol;->lifeText:Ljava/lang/String;
 
-    if-eqz v3, :cond_57
+    if-eqz v3, :cond_58
 
     sget v3, Lfr/testudo/spacecorsair/mod/ModQol;->lifeA:I
 
-    if-ne v0, v3, :cond_57
+    if-ne v0, v3, :cond_58
 
     sget v3, Lfr/testudo/spacecorsair/mod/ModQol;->lifeB:I
 
-    if-eq v1, v3, :cond_74
+    if-eq v1, v3, :cond_75
 
     .line 422
-    :cond_57
+    :cond_58
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -1848,7 +1850,7 @@
     sput v1, Lfr/testudo/spacecorsair/mod/ModQol;->lifeB:I
 
     .line 426
-    :cond_74
+    :cond_75
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModQol;->lifeText:Ljava/lang/String;
 
     sget v0, Lfr/testudo/spacecorsair/engine/GameRenderer;->screenWidthY:I
@@ -1882,11 +1884,11 @@
     invoke-static/range {v0 .. v9}, Lfr/testudo/spacecorsair/engine/GameRenderer;->drawText(Ljavax/microedition/khronos/opengles/GL10;Ljava/lang/String;IIFFFFZLfr/testudo/spacecorsair/textengine/TextSize;)V
 
     .line 428
-    iget-object v0, v10, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    iget-object v0, v11, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    if-eqz v0, :cond_fd
+    if-eqz v0, :cond_fe
 
-    iget-object v0, v10, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    iget-object v0, v11, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     iget v0, v0, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
@@ -1894,12 +1896,12 @@
 
     cmpl-float v0, v0, v1
 
-    if-lez v0, :cond_fd
+    if-lez v0, :cond_fe
 
     .line 429
     const/4 v0, 0x0
 
-    iget-object v1, v10, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    iget-object v1, v11, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     iget v1, v1, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
 
@@ -1911,7 +1913,7 @@
 
     move-result v0
 
-    iget-object v1, v10, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
+    iget-object v1, v11, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     iget v1, v1, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
@@ -1922,18 +1924,18 @@
     .line 430
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModQol;->shieldText:Ljava/lang/String;
 
-    if-eqz v3, :cond_c1
+    if-eqz v3, :cond_c2
 
     sget v3, Lfr/testudo/spacecorsair/mod/ModQol;->shieldA:I
 
-    if-ne v0, v3, :cond_c1
+    if-ne v0, v3, :cond_c2
 
     sget v3, Lfr/testudo/spacecorsair/mod/ModQol;->shieldB:I
 
-    if-eq v1, v3, :cond_de
+    if-eq v1, v3, :cond_df
 
     .line 431
-    :cond_c1
+    :cond_c2
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -1965,7 +1967,7 @@
     sput v1, Lfr/testudo/spacecorsair/mod/ModQol;->shieldB:I
 
     .line 435
-    :cond_de
+    :cond_df
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModQol;->shieldText:Ljava/lang/String;
 
     sget v0, Lfr/testudo/spacecorsair/engine/GameRenderer;->screenWidthY:I
@@ -1999,31 +2001,34 @@
     invoke-static/range {v0 .. v9}, Lfr/testudo/spacecorsair/engine/GameRenderer;->drawText(Ljavax/microedition/khronos/opengles/GL10;Ljava/lang/String;IIFFFFZLfr/testudo/spacecorsair/textengine/TextSize;)V
 
     .line 439
-    :cond_fd
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModQol;->unread()I
+    :cond_fe
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModPrologue;->active:Z
 
-    move-result v0
+    if-eqz v0, :cond_18c
+
+    move v0, v10
 
     .line 440
-    if-lez v0, :cond_17b
+    :goto_103
+    if-lez v0, :cond_17d
 
     .line 441
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModQol;->inboxText:Ljava/lang/String;
 
-    if-eqz v1, :cond_111
+    if-eqz v1, :cond_113
 
     sget v1, Lfr/testudo/spacecorsair/mod/ModQol;->inboxN:I
 
-    if-ne v0, v1, :cond_111
+    if-ne v0, v1, :cond_113
 
     sget-object v1, Lfr/testudo/spacecorsair/engine/GameRenderer;->glTextLittle:Lfr/testudo/spacecorsair/textengine/GLText;
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModQol;->inboxFont:Ljava/lang/Object;
 
-    if-eq v1, v2, :cond_143
+    if-eq v1, v2, :cond_145
 
     .line 442
-    :cond_111
+    :cond_113
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
@@ -2078,7 +2083,7 @@
     sput v0, Lfr/testudo/spacecorsair/mod/ModQol;->inboxHalf:F
 
     .line 447
-    :cond_143
+    :cond_145
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModQol;->inboxText:Ljava/lang/String;
 
     .line 448
@@ -2141,26 +2146,34 @@
     invoke-static/range {v0 .. v9}, Lfr/testudo/spacecorsair/engine/GameRenderer;->drawText(Ljavax/microedition/khronos/opengles/GL10;Ljava/lang/String;IIFFFFZLfr/testudo/spacecorsair/textengine/TextSize;)V
 
     .line 452
-    :cond_17b
+    :cond_17d
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModQol;->buttonsDirty:Z
 
-    if-eqz v0, :cond_19
+    if-eqz v0, :cond_1a
 
     const/4 v0, 0x0
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModQol;->buttonsDirty:Z
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModQol;->buttons()V
-    :try_end_185
-    .catch Ljava/lang/Exception; {:try_start_3 .. :try_end_185} :catch_187
 
-    goto/16 :goto_19
+    goto/16 :goto_1a
 
     .line 453
-    :catch_187
+    :catch_189
     move-exception v0
 
-    goto/16 :goto_19
+    goto/16 :goto_1a
+
+    .line 439
+    :cond_18c
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModQol;->unread()I
+    :try_end_18f
+    .catch Ljava/lang/Exception; {:try_start_4 .. :try_end_18f} :catch_189
+
+    move-result v0
+
+    goto/16 :goto_103
 .end method
 
 .method static findField(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/reflect/Field;
