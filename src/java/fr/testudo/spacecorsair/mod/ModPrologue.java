@@ -70,6 +70,8 @@ public final class ModPrologue {
     private static GuardianCivilShip boss;
     private static float bossMax;
     private static boolean floorSaid, lastStand;
+    private static int preLevel;
+    private static long preXp;
     private static String flashText;
     private static int flashMs;
     private static String sBrief1, sBrief2, sTimer, sBossName, sFloor, sOut, sDown, sSalvage1, sSalvage2, sRestart;
@@ -156,6 +158,7 @@ public final class ModPrologue {
             boolean paused = ObjectRegistry.INSTANCE.game.mapMode || ps.isDocked;
             if (briefMs > 0) briefMs -= j;
             if (flashMs > 0) flashMs -= j;
+            holdLevel(ps);
             holdBoss();                       // also through the end beat: a kill mid-beat would make a real boss death
             if (ending) {
                 endBeat(ps, j);
@@ -215,6 +218,8 @@ public final class ModPrologue {
     /** The pilot as they were before the bounty: level 25 Corvette, elite kit, full hull. */
     private static void outfit() {
         PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
+        preLevel = pi.level;
+        preXp = pi.curXp;
         pi.level = PLAYER_LEVEL;
         pi.curXp = 0;
         pi.init();
@@ -258,6 +263,23 @@ public final class ModPrologue {
         l.recommandedMaxLevel = BOSS_LEVEL;
         ModDev.ev("prologue", "level built, elements " + els.size());
         return l;
+    }
+
+    /** The prologue pilot never actually progresses: XP from the Bloodforge is wiped every frame, so no level-up can
+     *  run and nothing downstream of a level-up can persist. Run 103 and 104 both restarted on a level 34 pilot. */
+    private static void holdLevel(PlayerShip ps) {
+        try {
+            PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
+            if (pi == null) return;
+            if (pi.curXp != 0) pi.curXp = 0;
+            if (pi.level != PLAYER_LEVEL) {
+                ModDev.ev("prologue", "level crept to " + pi.level + ", held at " + PLAYER_LEVEL);
+                pi.level = PLAYER_LEVEL;
+                pi.init();
+            }
+        } catch (Throwable t) {
+            // next frame
+        }
     }
 
     /** The Bloodforge cannot be killed inside two minutes: its hull holds at the floor. */
@@ -334,6 +356,14 @@ public final class ModPrologue {
 
     /** Puts the pristine save back, then relaunches the process: the game comes back in the tutorial. */
     private static void restart() {
+        try {
+            PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
+            ModDev.ev("prologue", "pilot at restart: level " + (pi == null ? -1 : pi.level) + " (was " + preLevel + ")");
+            if (pi != null) { pi.level = preLevel; pi.curXp = preXp; pi.init(); }
+            ObjectRegistry.INSTANCE.levelProperties.visitedLevels.remove(LevelId.FFA_THE_PLAYER_PAY);
+        } catch (Throwable t) {
+            ModDev.ev("prologue", "pilot reset " + t);
+        }
         restore();
         try {
             android.app.Activity a = ObjectRegistry.INSTANCE.mainActivity;
