@@ -131,7 +131,8 @@ public final class ModRep {
         SharedPreferences p = prefs();
         // apply(): written to memory now and to disk in the background (flushed by Android when the activity pauses);
         // commit() wrote the whole preferences file on the game thread for every kill in an HQ sector
-        if (p != null) p.edit().putFloat(prefKey(key), after).apply();
+        // v46: the prologue fight never moves standing (it happens before the player has any)
+        if (p != null && !ModPrologue.active) p.edit().putFloat(prefKey(key), after).apply();
         if (i < cacheAt.length) {
             cacheVal[i] = p != null ? after : before;
             cacheAt[i] = System.currentTimeMillis();

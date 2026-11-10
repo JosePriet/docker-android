@@ -142,12 +142,12 @@ public final class ModPrologue {
             boolean paused = ObjectRegistry.INSTANCE.game.mapMode || ps.isDocked;
             if (briefMs > 0) briefMs -= j;
             if (flashMs > 0) flashMs -= j;
+            holdBoss();                       // also through the end beat: a kill mid-beat would make a real boss death
             if (ending) {
                 endBeat(ps, j);
                 return;
             }
             if (!paused) left -= j;
-            holdBoss();
             if (ps.life < ps.maxLife * HULL_FLOOR) {   // a Bloodforge salvo must never reach the engine's own death flow
                 ps.life = ps.maxLife * HULL_FLOOR;
                 ps.lifeInPourc = 100f * HULL_FLOOR;
@@ -169,9 +169,9 @@ public final class ModPrologue {
         started = true;
         pending = false;
         try {
-            ObjectRegistry.INSTANCE.storageManager.save();       // the fresh save, exactly as the tutorial wants it
             SharedPreferences p = ModQol.prefs();
-            if (p != null) p.edit().putBoolean(DONE, true).commit();   // a crash mid-fight must not replay it
+            if (p != null) p.edit().putBoolean(DONE, true).commit();   // before anything that can throw: never replay it
+            ObjectRegistry.INSTANCE.storageManager.save();       // the fresh save, exactly as the tutorial wants it
             active = true;
             strings();
             outfit();
@@ -261,7 +261,7 @@ public final class ModPrologue {
         ending = true;
         endMs = END_MS;
         lastStand = clock;
-        ps.life = ps.maxLife;                                     // damage() is immune from here: nothing may finish the ship but the beat
+        // the hull stays where it fell: damage() returns 0 from here, so nothing can finish the ship but the beat
         flash(clock ? sOut : sDown);
         ModSound.play("warp_in", 0.9f, 0.6f, 500);
     }
@@ -269,7 +269,6 @@ public final class ModPrologue {
     /** Destruction, then the salvage caption, then the restart into the tutorial. */
     private static void endBeat(PlayerShip ps, long j) {
         endMs -= j;
-        ps.life = ps.maxLife;                                     // held until the restart: no stock death, no save
         int el = END_MS - endMs;
         if (el < 2600 && (el / 320) != ((el - (int) j) / 320)) {
             float a = 1f - el / 2600f;

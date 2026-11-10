@@ -23,7 +23,7 @@
     .registers 3
 
     .prologue
-    .line 353
+    .line 352
     invoke-static {}, Lfr/testudo/spacecorsair/textengine/TextSize;->values()[Lfr/testudo/spacecorsair/textengine/TextSize;
 
     move-result-object v0
