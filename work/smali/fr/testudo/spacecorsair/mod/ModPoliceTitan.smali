@@ -30,7 +30,7 @@
 
 .field static final POLICE_TITAN_MULT:F = 1.2f
 
-.field static final POLICE_TITAN_SHIELD_MULT:F = 1.5f
+.field static final POLICE_TITAN_SHIELD_MULT:F = 1.2f
 
 .field static final SHIELD_BREAK_CHARGE_MS:I = 0x4b0
 
@@ -1086,7 +1086,7 @@
 
     move-result v0
 
-    if-eqz v0, :cond_199
+    if-eqz v0, :cond_19c
 
     move v0, v1
 
@@ -1273,7 +1273,7 @@
     move-result-object v2
 
     .line 76
-    if-eqz v2, :cond_da
+    if-eqz v2, :cond_dc
 
     .line 77
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModV34$Sh;
@@ -1285,7 +1285,7 @@
 
     aget v4, v2, v4
 
-    const/high16 v5, 0x3fc00000    # 1.5f
+    const v5, 0x3f99999a    # 1.2f
 
     mul-float/2addr v4, v5
 
@@ -1298,7 +1298,7 @@
 
     aget v4, v2, v4
 
-    const/high16 v5, 0x3fc00000    # 1.5f
+    const v5, 0x3f99999a    # 1.2f
 
     mul-float/2addr v4, v5
 
@@ -1310,7 +1310,7 @@
     invoke-virtual {v4, v0, v3}, Ljava/util/WeakHashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
     .line 82
-    :cond_da
+    :cond_dc
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -1383,18 +1383,18 @@
     const/4 v3, 0x0
 
     sput v3, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
-    :try_end_11e
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_11e} :catch_b1
+    :try_end_120
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_120} :catch_b1
 
     .line 90
-    :try_start_11e
+    :try_start_120
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->attackPlayerIfItNotTheCaseAlready()V
-    :try_end_121
-    .catch Ljava/lang/Throwable; {:try_start_11e .. :try_end_121} :catch_197
+    :try_end_123
+    .catch Ljava/lang/Throwable; {:try_start_120 .. :try_end_123} :catch_19a
 
     .line 91
-    :goto_121
-    :try_start_121
+    :goto_123
+    :try_start_123
     const-string v3, "flagship_horn"
 
     const/high16 v4, 0x3f800000    # 1.0f
@@ -1484,11 +1484,11 @@
 
     move-result-object v3
 
-    if-nez v2, :cond_18c
+    if-nez v2, :cond_18e
 
     const/4 v1, 0x0
 
-    :goto_17f
+    :goto_181
     invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v1
@@ -1501,30 +1501,30 @@
 
     goto/16 :goto_9
 
-    :cond_18c
+    :cond_18e
     const/4 v1, 0x0
 
     aget v1, v2, v1
 
-    const/high16 v2, 0x3fc00000    # 1.5f
+    const v2, 0x3f99999a    # 1.2f
 
     mul-float/2addr v1, v2
 
     invoke-static {v1}, Ljava/lang/Math;->round(F)I
-    :try_end_195
-    .catch Ljava/lang/Throwable; {:try_start_121 .. :try_end_195} :catch_b1
+    :try_end_198
+    .catch Ljava/lang/Throwable; {:try_start_123 .. :try_end_198} :catch_b1
 
     move-result v1
 
-    goto :goto_17f
+    goto :goto_181
 
     .line 90
-    :catch_197
+    :catch_19a
     move-exception v3
 
-    goto :goto_121
+    goto :goto_123
 
-    :cond_199
+    :cond_19c
     move v0, v8
 
     goto/16 :goto_22

@@ -24,7 +24,7 @@ public final class ModPoliceTitan {
 
     // [D] v42 plan, police titan
     static final float POLICE_TITAN_MULT = 1.2f;         // every stat over the faction flagship in its own HQ
-    static final float POLICE_TITAN_SHIELD_MULT = 1.5f;  // v43a-4 (open owner call, picked): shield x1.5 instead of x1.2
+    static final float POLICE_TITAN_SHIELD_MULT = 1.2f;  // v43a-4: kept at x1.2 (owner rule: +20% on everything)
     static final int LOCKDOWN_MS = 6000;
     static final int LOCKDOWN_COOLDOWN_MS = 25000;
     static final float LOCKDOWN_SPEED = 0.5f;            // player speed x0.5 (game snare multiplier)
