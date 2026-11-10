@@ -50,8 +50,8 @@ public class ModFleet {
         new Type("rv_marauder", "Reaver Marauder", DEFENSOR, 150, 6, 1.6f, 1.1f, false),
         new Type("rv_corsair", "Reaver Corsair", FRELON, 160, 7, 1.4f, 1.2f, false),
         new Type("rv_lancer", "Reaver Lancer", DEFENSOR, 190, 8, 1.8f, 1.3f, false),
-        new Type("rv_warlord", "Reaver Warlord", ALBATROS, 300, 10, 1.2f, 1.1f, false),
-        new Type("rv_dreadnought", "Reaver Dreadnought", ALBATROS, 420, 12, 2.0f, 1.3f, false),
+        new Type("rv_warlord", "Reaver Warlord", ALBATROS, 300, 10, 1.0f, 1.1f, false),
+        new Type("rv_dreadnought", "Reaver Dreadnought", ALBATROS, 420, 12, 1.0f, 1.3f, false),
         new Type("kt_scout", "Kre'tari Scout", RAT, 90, 10, 1.0f, 1.0f, true),
         new Type("kt_bomber", "Kre'tari Bomber", RAT, 100, 10, 1.3f, 1.4f, true),
         new Type("kt_frigate", "Kre'tari Frigate", UFO, 150, 10, 1.3f, 1.0f, true),
@@ -138,6 +138,19 @@ public class ModFleet {
         return Math.max(0, Math.min(arr.length - 1, lvl));
     }
 
+    /** v43a-3 (v37 left-over): explicit classes for the two Reaver heavies; hull, damage (+40%/step) and shield (+35%/step) follow them. */
+    static int classOf(String art) {
+        if ("rv_warlord".equals(art)) return ModShips.BATTLECRUISER;
+        if ("rv_dreadnought".equals(art)) return ModShips.BATTLESHIP;
+        return -1;
+    }
+
+    static int classOfName(String name) {
+        if (name == null) return -1;
+        for (Type t : TYPES) if (t.name.equals(name)) return classOf(t.art);
+        return -1;
+    }
+
     /** Builds one ship of the given type at the given level (null if its art is not loaded yet). */
     public static Ennemis build(Type t, int lvl) {
         Drawable d = drawable(t);
@@ -155,12 +168,27 @@ public class ModFleet {
             case UFO: { BeamShip f = new BeamShip(); f.d = d; f.phys = phys; f.initLevelConfig(spec(EnnemisSpecByLevel.UfoSpec, lvl), clampLvl(EnnemisSpecByLevel.UfoSpec, lvl)); e = f; break; }
             default: { Mothership f = new Mothership(); f.d = d; f.phys = phys; f.initLevelConfig(spec(EnnemisSpecByLevel.alienBlatteSpec, lvl), clampLvl(EnnemisSpecByLevel.alienBlatteSpec, lvl)); e = f; break; }
         }
+        int cls = classOf(t.art);   // v43a-3: Reaver Warlord/Dreadnought get the class hull instead of the raw Albatros row
+        if (cls >= 0) {
+            try {
+                float base = ModV34.baseHull(clampLvl(EnnemisSpecByLevel.albatrosSpec, lvl));
+                if (base > 0) e.maxLife = base * ModV34.classFactor(cls) * ModV34.curve(e.getLevel());
+            } catch (Throwable th) { /* raw row */ }
+        }
         e.maxLife = e.maxLife * t.hp;
         e.life = e.maxLife;
         e.lifeInPourc = 100.0f;
         e.bulletDamage *= t.dmg;
         e.xp = (int) (e.xp * t.hp);
         e.specificName = t.name;
+        if (cls >= 0) {   // v43a-3: scale() ran before the name was set: redo the class damage split and the big-ship shield
+            try {
+                float sz = e.getPhysicDimension().x / 0.7f;
+                int sc = sz <= 100 ? ModShips.FRIGATE : sz <= 200 ? ModShips.DESTROYER : sz <= 320 ? ModShips.CRUISER : sz <= 420 ? ModShips.BATTLECRUISER : sz <= 600 ? ModShips.BATTLESHIP : ModShips.CAPITAL;
+                e.bulletDamage *= ModV34.dmgClass(cls) / ModV34.dmgClass(sc);
+                ModV34.giveShield(e, clampLvl(EnnemisSpecByLevel.albatrosSpec, lvl), e.getLevel());
+            } catch (Throwable th) { /* keep */ }
+        }
         e.specificNameDecalX = -1;
         if (e.lifeBar != null) e.lifeBar.setValue(100.0f);
         return e;

@@ -460,6 +460,7 @@ public final class ModLive {
             onHit(target);
             if (target.isPlayer && p != null) {
                 PlayerShip ps = (PlayerShip) target;
+                ModLevFx.hit(ps, out);   // v43a-3: Leviathan war drum speeds up under fire
                 if (ps.shield != null && ps.shield.currentValue > 0) {
                     float deg = Element.normalizeSpin(((float) Math.toDegrees(ps.position.getAngularWithInRad(p.position))) % 360.0f + 90.0f);
                     ModShield.impact(deg);

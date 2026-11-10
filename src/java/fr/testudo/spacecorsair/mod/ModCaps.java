@@ -356,6 +356,7 @@ public final class ModCaps {
         }
         ModMonolith.under(ps);   // v38: Monolith s4/s5 aura, wings, plasma (under the hull)
         ModLevDoom.drawUnder(ps);   // v38: Leviathan doomsday, space dims during the charge
+        ModLevFx.under(ps);   // v43a-3: Leviathan heavy wake
         // engine plumes (v38: none on Monolith s4/s5, whose art has no thrusters by owner decision)
         if (p.flames && !ModMonolith.active()) {
             float[] e = ModFxData.ENGINES[p.data];
@@ -421,6 +422,7 @@ public final class ModCaps {
             ModTitan.drawTurrets(ps, p);
             ModLevDoom.drawOver(ps);
             ModAnchor.drawOver(ps);   // v39: Leviathan anchor-stance shield wall
+            ModLevFx.over(ps);   // v43a-3: Leviathan war-drum spine
             // v38: Leviathan doomsday overlays (spine gauge, ring cage, trims, core, overheat)
 
             if (p.top || p.titan) {

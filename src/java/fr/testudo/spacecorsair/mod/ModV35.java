@@ -719,6 +719,8 @@ public class ModV35 {
         try {
             if (e instanceof ModFleet.Fighter || e instanceof ModFleet.Raider || e instanceof ModFleet.Gunship || e instanceof ModFleet.Cruiser
                 || e instanceof ModFleet.Skirmisher || e instanceof ModFleet.BeamShip || e instanceof ModFleet.Mothership) {
+                int oc = ModFleet.classOfName(e.specificName);   // v43a-3: Reaver Warlord BC / Dreadnought BS
+                if (oc >= 0) return oc;
                 float sz = e.getPhysicDimension().x / 0.7f;
                 return sz <= 100 ? ModShips.FRIGATE : sz <= 200 ? ModShips.DESTROYER : sz <= 320 ? ModShips.CRUISER : sz <= 420 ? ModShips.BATTLECRUISER : sz <= 600 ? ModShips.BATTLESHIP : ModShips.CAPITAL;
             }
