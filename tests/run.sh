@@ -99,6 +99,27 @@ if [ $GAME = ga ] || [ $GAME = gaorig ] || [ $GAME = gaarm ]; then
   P=$(timeout 5 adb shell pidof $PKG); log "pid $P"
   grep -E "GALocal|Exception|Unity  " $OUT/logcat_live.txt | head -3000 > $OUT/trace.txt
 elif [ $GAME = sc ]; then
+  # v45 intro cinematic: plays on the first start (fresh install). Evidence: logcat "ModTest intro ..."; shots along the timeline.
+  if [ "$STAGE" = V45 ]; then
+    LG=$OUT/logcat_live.txt; T=/data/local/tmp
+    ev() { grep -c "ModTest intro" $LG; }
+    for s in 3 5 5 5 6 6 5 4 5; do sleep $s; need intro; shot intro_$s; done
+    for w in $(seq 1 30); do grep -q "ModTest intro end" $LG && break; sleep 2; done
+    log "intro lines: $(grep "ModTest intro" $LG | sed 's/.*ModTest //' | tr '\n' ';')"
+    sleep 3; shot after_intro
+    # replay from the hidden test screen, then skip with two taps
+    a shell am start -n $PKG/.activity.AchievementActivity_ >/dev/null; sleep 5; need ach
+    for i in $(seq 1 30); do dump ach; XY=$(python3 tests/tap.py $OUT/last.xml "Killed by the dev"); [ -n "$XY" ] && break; a shell input swipe 1000 900 1000 300 400; sleep 1; done
+    log "dev achievement at '$XY'"
+    for i in $(seq 1 10); do a shell input tap $XY; sleep 0.3; done
+    sleep 1.5; shot replay_button; dump replay; log "REPLAY INTRO shown: $(grep -c 'text="REPLAY INTRO"' $OUT/last.xml)"
+    tap_text "^REPLAY INTRO" replaybtn; sleep 6; need replay; shot replay_1; sleep 6; shot replay_2
+    tap 1170 540; sleep 1; shot skip_hint; tap 1170 540; sleep 2; shot skipped
+    log "intro lines after replay: $(grep "ModTest intro" $LG | sed 's/.*ModTest //' | tr '\n' ';')"
+    sleep 20; shot after_skip; a shell input keyevent KEYCODE_BACK; sleep 3; noexit; shot flight
+    grep -E "ModTest intro|FATAL|AndroidRuntime" $LG > $OUT/v45_events.txt
+    finish; exit 0
+  fi
   # v30 run: character dialogs off (corsair_nodialog), pilot level 20, gift unlocks every hull
   sleep 15; need launch; shot launch
   a shell input keyevent KEYCODE_BACK; sleep 3; noexit; shot after_back
