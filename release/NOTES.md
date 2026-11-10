@@ -21,3 +21,5 @@ Nothing the prologue does touches your save. It plays once, on a fresh save only
 - The v44 points-of-interest work.
 
 Verified on an emulator: both endings, the save untouched before and after, no crashes.
+
+_Asset rebuilt 2026-11-10 20:13 UTC: in-game version stamp now reads mod v43a (versionCode 1044)._
