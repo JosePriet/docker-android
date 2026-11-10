@@ -1,8 +1,23 @@
-Signed Space Corsair mod build. Download space-corsair-mod.apk below and open it on the phone; it updates earlier mod installs (same signing key).
+# Space Corsair mod v43a
 
-v43: police liveries per faction (Spartan gold trim, Reaver dark blood, Kretari High Council dark mask, Varn black/white, Ironclad military-police camo, Helion gold outline, Frontier blue) with animated auras on police ships and titans (Spartan gold flame, Reaver blood flame + droplets, Helion shimmer, Frontier pulse, High Council haze). Leviathan and Crimson Throne join the police capitals. Music volume fix now also applies to existing installs. APK down from 103 MB to 72 MB: police art and flagship wrecks are made on the phone on first use (a short pause the first time a police hull appears) and cached.
-v42: police and militia escalation. Attacking civilians brings police; fighting them escalates one class per wave up to a police titan (sectors with top level 16+, one at a time, out-levels the player, LOCKDOWN and SHIELD BREAKER skills). Police are elite, maxed, white/black with flashing red/blue lights, and use shield drain, slow and fast tracking missiles. Aliens get the High Council (dark purple, no exhausts). Police kills pay 1,000 cr (titans 10,000) and shorten the next wave's countdown (8 s floor); no standing change. Missiles track enemies again. No allied spawns during defend-zone missions. Flagships and titans scale to the player's level; flagship damage scales with level. Enemy damage/shield class split coded (40%/35%). Leviathan doomsday: % hull damage vs titans/bosses (Spartan 10%/15%, others 7%/10%), 100k/s vs other classes; clicking it plants the anchor stance when available. Finale gate L32. Test mode starts at full hull. Asteroid icon on the map, bigger HUD text. Station credits refresh after a refit. Music louder (default 1.0), effects default 0.7.
-v41: Refit button on every docked station menu (refits were unreachable while docked).
-v41 fix (2026-11-03, same version): Monolith s4/s5 effects rebuilt from the approved preview: full plasma wings (34 streaks per wing with a fading trail) and the preview's glowing aura (rim, glow, flame shell; blue -> gold -> red with speed). s4 keeps a half-strength aura and heat.
-v40: hidden test mode. Tap the "Cheater" achievement 10 times within 10 s, then LOGIN. Separate profile: level 40, all hulls, whole map, every mission repeatable, free instant jumps, unlimited credits and parts. LOG OUT returns to the normal save.
-v33-v39: see the mod changelog (Spartan retrofit stages, Monolith effects, Leviathan doomsday and shield wall, and earlier fixes).
+## New: a playable prologue
+
+A fresh save no longer starts in the tutorial. It starts in a fight you cannot win.
+
+You are a level 25 Corsair flying the Corvette battlecruiser, and you have taken a 2,000,000 credit bounty on the
+**Bloodforge**, the Crimson Reaver flagship, in the derelict player bay — a sector that is not on the galaxy map and
+cannot be reached from anywhere in the game. You have two minutes before Reaver reinforcements arrive. Its armour
+holds against anything you carry.
+
+When the clock runs out, or your hull gives, the Bloodforge finishes you, Genesis salvage recovers your pod, and the
+game begins properly: licence revoked, savings seized, one loaner hull, the tutorial sector.
+
+Nothing the prologue does touches your save. It plays once, on a fresh save only.
+
+## Also in this build
+
+- The v45 intro cinematic, kept on the hidden test-mode screen as REPLAY INTRO.
+- REPLAY PROLOGUE on the same screen.
+- The v44 points-of-interest work.
+
+Verified on an emulator: both endings, the save untouched before and after, no crashes.
