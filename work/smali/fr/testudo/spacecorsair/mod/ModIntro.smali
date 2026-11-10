@@ -5203,7 +5203,7 @@
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModIntro;->pending:Z
 
     .line 106
-    invoke-static {}, Landroid/os/SystemClock;->uptimeMillis()J
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModIntro;->clock()J
 
     move-result-wide v0
 
@@ -7030,7 +7030,7 @@
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModIntro;->pending:Z
 
     .line 113
-    invoke-static {}, Landroid/os/SystemClock;->uptimeMillis()J
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModIntro;->clock()J
 
     move-result-wide v0
 
