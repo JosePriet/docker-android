@@ -81,7 +81,7 @@ log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/i
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ]; then
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
-  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog && echo $(case "$STAGE" in A|A2) echo 10;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
+  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
@@ -104,6 +104,7 @@ elif [ $GAME = sc ]; then
   # (must be the untouched fresh save), shots along the fight and the end beat.
   if [ "$STAGE" = V46 ]; then
     LG=$OUT/logcat_live.txt; T=/data/local/tmp
+    a shell "rm -f $T/corsair_level"   # the pilot level after the prologue is the assertion: no debug level flag
     pid() { timeout 5 adb shell pidof $PKG; }
     pro() { grep "ModTest prologue" $LG | sed 's/.*ModTest //' | tr '\n' ';'; }
     P0=$(pid); log "first pid $P0"
