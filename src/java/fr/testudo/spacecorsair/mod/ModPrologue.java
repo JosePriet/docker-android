@@ -70,6 +70,7 @@ public final class ModPrologue {
     private static GuardianCivilShip boss;
     private static float bossMax;
     private static boolean floorSaid, lastStand;
+    private static boolean creptSaid;
     private static int preLevel;
     private static long preXp;
     private static String flashText;
@@ -202,6 +203,7 @@ public final class ModPrologue {
             briefMs = BRIEF_MS;
             enteredAt = SystemClock.uptimeMillis();
             floorSaid = false;
+            creptSaid = false;
             lastStand = false;
             ModSound.play("flagship_horn", 1.0f, 0.9f, 3000);
             ModDev.ev("prologue", "entered, hull " + (ps == null ? 0 : Math.round(ps.maxLife)) + " boss " + (boss == null ? "none" : Math.round(boss.maxLife)));
@@ -273,7 +275,7 @@ public final class ModPrologue {
             if (pi == null) return;
             if (pi.curXp != 0) pi.curXp = 0;
             if (pi.level != PLAYER_LEVEL) {
-                ModDev.ev("prologue", "level crept to " + pi.level + ", held at " + PLAYER_LEVEL);
+                if (!creptSaid) { creptSaid = true; ModDev.ev("prologue", "level crept to " + pi.level + ", held at " + PLAYER_LEVEL + " (logged once)"); }
                 pi.level = PLAYER_LEVEL;
                 pi.init();
             }
