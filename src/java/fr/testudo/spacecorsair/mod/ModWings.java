@@ -142,4 +142,69 @@ public final class ModWings {
             ModFx.relative = false;
         }
     }
+    // ------------------------------------------------------------------ v43a-2 audit: enemies too (every Mantis/Verdant s5)
+    /** Enemy -> ARTS index, set by enemySkin when the hull part replaces the s5 sprite. */
+    private static final java.util.WeakHashMap<fr.testudo.spacecorsair.business.Element, Integer> ENEMY = new java.util.WeakHashMap<fr.testudo.spacecorsair.business.Element, Integer>();
+    /** Per enemy: 0 vmax, 1 ang, 2 vel, 3 peak, 4 last ms, 5 stopped-since ms (-1 moving). */
+    private static final java.util.WeakHashMap<fr.testudo.spacecorsair.business.Element, double[]> EST = new java.util.WeakHashMap<fr.testudo.spacecorsair.business.Element, double[]>();
+
+    /** ModV35.skin: <art>_stage5 -> <art>_stage5_hull when the wing parts ship, and remembers the enemy for underEnemy. */
+    static String enemySkin(fr.testudo.spacecorsair.business.Element e, String n) {
+        for (int i = 0; i < ARTS.length; i++) {
+            if (n.equals(ARTS[i] + "_stage5") && useParts(ARTS[i], 5)) {
+                ENEMY.put(e, i);
+                return ARTS[i] + "_stage5_hull";
+            }
+        }
+        ENEMY.remove(e);
+        return n;
+    }
+
+    /** ModLive.draw (before the enemy hull is queued): the two rear wings, opened by the enemy's own speed. */
+    public static void underEnemy(fr.testudo.spacecorsair.business.Element e) {
+        try {
+            Integer idx = ENEMY.get(e);
+            if (idx == null || e.removed || e.speed == null) return;
+            Drawable hd = e.getDrawableObject();
+            if (hd == null || hd.dimensions == null) return;
+            double[] st = EST.get(e);
+            if (st == null) { st = new double[]{1e-3, 0, 0, 0, 0, -1}; EST.put(e, st); }
+            long t = System.currentTimeMillis();
+            double dt = st[4] == 0 ? 0.016 : Math.max(0, Math.min(0.1, (t - st[4]) / 1000.0));
+            st[4] = t;
+            double spd = Math.sqrt(e.speed.x * e.speed.x + e.speed.y * e.speed.y);
+            if (spd > 0.5 * st[0]) st[0] *= 1 - 0.02 * dt;
+            st[0] = Math.max(st[0], spd);
+            double v = Math.min(1, spd / Math.max(st[0], 1e-3));
+            if (v < 0.02) { if (st[5] < 0) st[5] = t; } else st[5] = -1;
+            st[3] = st[5] >= 0 && t - st[5] >= HOLD_MS ? 0 : Math.max(st[3] * Math.pow(0.5, dt / 2.5), v);
+            double kf = dt * 12;
+            double target = MAX_ANG * Math.pow(Math.min(st[3] / X_OPEN, 1), 0.7);
+            st[2] += (target - st[1]) * 0.18 * kf * kf;
+            st[2] *= Math.pow(0.72, kf);
+            st[1] = Math.max(-1, Math.min(MAX_ANG + 2, st[1] + st[2]));
+            int keep = cur;
+            float keepD = D;
+            cur = idx;
+            D = hd.dimensions.x;
+            float wdeg = (float) st[1];
+            try {
+                for (int w = 0; w < 2; w++) {
+                    boolean left = w == 0;
+                    String n = ARTS[cur] + (left ? "_stage5_wingL" : "_stage5_wingR");
+                    wingPt(left, wdeg, a);
+                    b.set(a.x, a.y).applyRotatation(Math.toRadians(e.spin));
+                    float x = b.x + e.position.x, y = b.y + e.position.y;
+                    float rot = e.spin + (left ? wdeg : -wdeg);
+                    ModFx.sprR(n, x, y, D, D, rot, 1, 1, 1, 1, false);
+                    if (ModV35.art(n + "_glow_l")) ModFx.sprR(n + "_glow_l", x, y, D, D, rot, 1, 1, 1, 0.6f, true);
+                }
+            } finally {
+                cur = keep;
+                D = keepD;
+            }
+        } catch (Throwable th) {
+            // visuals never break the frame
+        }
+    }
 }

@@ -633,6 +633,7 @@ public class ModV35 {
             }
             String n = by[Math.max(1, Math.min(STAGES, enemyStage(e)))];
             if (n == null) return d;
+            n = ModWings.enemySkin(e, n);   // v43a-2: Mantis/Verdant s5 enemies draw the hull part; wings from ModWings.underEnemy
             Drawable o = skin(n, d.dimensions);
             return o == null ? d : o;
         } catch (Throwable t) {
