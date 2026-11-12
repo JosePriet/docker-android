@@ -82,10 +82,12 @@ public final class ModPoliceTitan {
             GuardianCivilShip g = ModCapitals.spawnPolice(fi, lvl, at, POL[fi], POLICE_TITAN_MULT);
             if (g == null) return null;
             float[] sh = ModV34.shieldStats(lvl, lvl, ModShips.TITAN);   // flagships carry none: a titan-class one, x1.2
+            // audit 2026-11-12: x1.2 over its own faction flagship's shield (ModCapitals.SHIELD_MULT), owner "+20% on everything"
+            float fm = fi < ModCapitals.SHIELD_MULT.length ? ModCapitals.SHIELD_MULT[fi] : 1.0f;
             if (sh != null) {
                 ModV34.Sh h = new ModV34.Sh();
-                h.cap = h.cur = sh[0] * POLICE_TITAN_SHIELD_MULT;
-                h.rate = sh[1] * POLICE_TITAN_SHIELD_MULT;
+                h.cap = h.cur = sh[0] * fm * POLICE_TITAN_SHIELD_MULT;
+                h.rate = sh[1] * fm * POLICE_TITAN_SHIELD_MULT;
                 ModV34.bigShield.put(g, h);
             }
             ModArt.lazyTex("pol_cap_" + f.key);   // v42 fix: register before prefetch
@@ -104,7 +106,7 @@ public final class ModPoliceTitan {
             ModSound.play("flagship_horn", 1.0f, 0.85f, 3000);
             ModSound.play("warp_in", 0.9f, 0.7f, 1000);
             ModQol.post(ModLang.trf("%s has arrived. It will not stop until you are destroyed.", name));
-            log("spawn " + f.key + " L" + lvl + " hull=" + Math.round(g.maxLife) + " shield=" + (sh == null ? 0 : Math.round(sh[0] * POLICE_TITAN_SHIELD_MULT)));
+            log("spawn " + f.key + " L" + lvl + " hull=" + Math.round(g.maxLife) + " shield=" + (sh == null ? 0 : Math.round(sh[0] * fm * POLICE_TITAN_SHIELD_MULT)));
             return g;
         } catch (Throwable t) {
             return null;
