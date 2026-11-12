@@ -2787,7 +2787,7 @@
 
     iget-boolean v3, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
 
-    if-eqz v3, :cond_505
+    if-eqz v3, :cond_50b
 
     const-wide/16 v2, 0x2bc
 
@@ -3135,7 +3135,7 @@
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->chasseTarget:Lfr/testudo/spacecorsair/business/Element;
 
-    if-eqz v2, :cond_4ed
+    if-eqz v2, :cond_4f3
 
     const/high16 v6, 0x3f800000    # 1.0f
 
@@ -3144,7 +3144,7 @@
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->chasseTarget:Lfr/testudo/spacecorsair/business/Element;
 
-    if-eqz v2, :cond_4f5
+    if-eqz v2, :cond_4fb
 
     const v7, 0x3e99999a    # 0.3f
 
@@ -3153,7 +3153,7 @@
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->chasseTarget:Lfr/testudo/spacecorsair/business/Element;
 
-    if-eqz v2, :cond_4fd
+    if-eqz v2, :cond_503
 
     const/high16 v8, 0x3e800000    # 0.25f
 
@@ -3299,7 +3299,13 @@
 
     move-result-object v2
 
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
+    move-object/from16 v0, v18
+
+    iget-object v3, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->f:Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
+
+    iget-object v3, v3, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->key:Ljava/lang/String;
+
+    invoke-static {v2, v3}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 448
     const-string v2, "warp_in"
@@ -3315,7 +3321,7 @@
     goto/16 :goto_3a6
 
     .line 438
-    :cond_4ed
+    :cond_4f3
     move-object/from16 v0, v18
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->f:Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
@@ -3324,7 +3330,7 @@
 
     goto/16 :goto_442
 
-    :cond_4f5
+    :cond_4fb
     move-object/from16 v0, v18
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->f:Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
@@ -3333,18 +3339,18 @@
 
     goto/16 :goto_44b
 
-    :cond_4fd
+    :cond_503
     move-object/from16 v0, v18
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->f:Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     iget v8, v2, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->b:F
-    :try_end_503
-    .catch Ljava/lang/Throwable; {:try_start_8 .. :try_end_503} :catch_3a5
+    :try_end_509
+    .catch Ljava/lang/Throwable; {:try_start_8 .. :try_end_509} :catch_3a5
 
     goto/16 :goto_453
 
-    :cond_505
+    :cond_50b
     move v13, v2
 
     move v11, v2

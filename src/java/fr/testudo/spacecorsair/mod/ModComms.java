@@ -134,6 +134,7 @@ public final class ModComms {
     /** Game thread, every frame (ModCaps.tick): which HQ the player is in, if its flagship is not hostile. */
     static void tick(PlayerShip ps) {
         lastTick = System.currentTimeMillis();
+        try { ModNotify.tick(ps); } catch (Throwable t) { /* pop-ups are cosmetic */ }   // v43a-5: queued inbox pop-ups
         int fi = -1;
         try {
             LevelId id = ObjectRegistry.INSTANCE.game.currentLevel.id;

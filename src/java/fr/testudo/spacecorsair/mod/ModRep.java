@@ -146,8 +146,8 @@ public final class ModRep {
         String head = f.name + ModLang.tr(": you are now ") + ModLang.tr(ModRepData.RANKS[i][r1]) + " (" + ModLang.tr(RANK_NAMES[r1]) + ").";
         ModQol.post(head + (msg != null ? " " + ModFactionData.COMMANDER[ModFaction.commander(key)] + ": \"" + msg + "\"" : "")
             + (r1 == TRUSTED && r0 < TRUSTED ? " The " + ModRepData.SECRET_WEAPON[i][0] + ModLang.tr(" is now sold at ") + ModFaction.pretty(f.hq) + "." : "")
-            + (r1 == HONORED && r0 < HONORED ? " The " + ModRepData.SECRET_SHIP[i][0] + ModLang.tr(" is now offered to you on the Ships screen.") : ""));
-        if (msg != null) ModComms.show(key, msg, 9000);
+            + (r1 == HONORED && r0 < HONORED ? " The " + ModRepData.SECRET_SHIP[i][0] + ModLang.tr(" is now offered to you on the Ships screen.") : ""), key);
+        // v43a-5: the commander's pop-up dialog (ModNotify via ModQol.post) replaces the small 9 s comms panel
         if (r1 > r0) ModSound.play("rank_up", 0.8f, 1.0f, 500);
         stocked.clear();     // re-check the HQ shop for the secret weapon
     }
