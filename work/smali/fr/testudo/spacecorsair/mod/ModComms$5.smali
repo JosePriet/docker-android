@@ -41,7 +41,7 @@
     .end annotation
 
     .prologue
-    .line 284
+    .line 285
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$b:Landroid/widget/Button;
@@ -50,17 +50,17 @@
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 285
+    .line 286
     const/4 v0, -0x2
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->shown:I
 
-    .line 286
+    .line 287
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->shownHas:Z
 
-    .line 287
+    .line 288
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
@@ -84,7 +84,7 @@
 
     const/4 v3, 0x0
 
-    .line 290
+    .line 291
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$a:Landroid/app/Activity;
 
     invoke-virtual {v1}, Landroid/app/Activity;->isFinishing()Z
@@ -102,7 +102,7 @@
 
     if-eq v1, v2, :cond_31
 
-    .line 291
+    .line 292
     :cond_16
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->act:Landroid/app/Activity;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$100()Landroid/app/Activity;
@@ -113,43 +113,43 @@
 
     if-ne v0, v1, :cond_30
 
-    .line 293
+    .line 294
     # setter for: Lfr/testudo/spacecorsair/mod/ModComms;->act:Landroid/app/Activity;
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModComms;->access$102(Landroid/app/Activity;)Landroid/app/Activity;
 
-    .line 294
+    .line 295
     # setter for: Lfr/testudo/spacecorsair/mod/ModComms;->panel:Landroid/widget/LinearLayout;
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModComms;->access$002(Landroid/widget/LinearLayout;)Landroid/widget/LinearLayout;
 
-    .line 295
+    .line 296
     # setter for: Lfr/testudo/spacecorsair/mod/ModComms;->face:Landroid/widget/ImageView;
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModComms;->access$302(Landroid/widget/ImageView;)Landroid/widget/ImageView;
 
-    .line 296
+    .line 297
     # setter for: Lfr/testudo/spacecorsair/mod/ModComms;->who:Landroid/widget/TextView;
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModComms;->access$402(Landroid/widget/TextView;)Landroid/widget/TextView;
 
-    .line 297
+    .line 298
     # setter for: Lfr/testudo/spacecorsair/mod/ModComms;->msg:Landroid/widget/TextView;
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModComms;->access$502(Landroid/widget/TextView;)Landroid/widget/TextView;
 
-    .line 298
+    .line 299
     # setter for: Lfr/testudo/spacecorsair/mod/ModComms;->hail:Landroid/widget/Button;
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModComms;->access$1202(Landroid/widget/Button;)Landroid/widget/Button;
 
-    .line 347
+    .line 348
     :cond_30
     :goto_30
     return-void
 
-    .line 303
+    .line 304
     :cond_31
     :try_start_31
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v4
 
-    .line 304
+    .line 305
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->lastTick:J
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$1300()J
 
@@ -173,7 +173,7 @@
 
     move v3, v1
 
-    .line 307
+    .line 308
     :goto_49
     if-nez v3, :cond_5f
 
@@ -195,11 +195,11 @@
     # += operator for: Lfr/testudo/spacecorsair/mod/ModComms;->hideAt:J
     invoke-static {v6, v7}, Lfr/testudo/spacecorsair/mod/ModComms;->access$714(J)J
 
-    .line 308
+    .line 309
     :cond_5f
     iput-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->last:J
 
-    .line 309
+    .line 310
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->panel:Landroid/widget/LinearLayout;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$000()Landroid/widget/LinearLayout;
 
@@ -231,7 +231,7 @@
 
     invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->setVisibility(I)V
 
-    .line 310
+    .line 311
     :cond_7e
     if-eqz v3, :cond_db
 
@@ -242,7 +242,7 @@
 
     move v2, v1
 
-    .line 311
+    .line 312
     :goto_85
     if-gez v2, :cond_ac
 
@@ -277,7 +277,7 @@
 
     if-eqz v3, :cond_ac
 
-    .line 312
+    .line 313
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->panel:Landroid/widget/LinearLayout;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$000()Landroid/widget/LinearLayout;
 
@@ -287,14 +287,14 @@
 
     invoke-virtual {v1, v3}, Landroid/widget/LinearLayout;->setVisibility(I)V
 
-    .line 314
+    .line 315
     :cond_ac
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->hailHas:Z
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$1000()Z
 
     move-result v3
 
-    .line 315
+    .line 316
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->shown:I
 
     if-ne v2, v1, :cond_ba
@@ -305,7 +305,7 @@
 
     if-eq v3, v1, :cond_cd
 
-    .line 316
+    .line 317
     :cond_ba
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->shown:I
 
@@ -315,17 +315,17 @@
 
     move v1, v0
 
-    .line 317
+    .line 318
     :goto_c0
     iput v2, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->shown:I
 
-    .line 318
+    .line 319
     iput-boolean v3, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->shownHas:Z
 
-    .line 319
+    .line 320
     if-gez v2, :cond_e0
 
-    .line 320
+    .line 321
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$b:Landroid/widget/Button;
 
     const/16 v1, 0x8
@@ -334,7 +334,7 @@
     :try_end_cd
     .catch Ljava/lang/Throwable; {:try_start_31 .. :try_end_cd} :catch_1be
 
-    .line 346
+    .line 347
     :cond_cd
     :goto_cd
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->ui:Landroid/os/Handler;
@@ -351,10 +351,10 @@
     :cond_d8
     move v3, v0
 
-    .line 304
+    .line 305
     goto/16 :goto_49
 
-    .line 310
+    .line 311
     :cond_db
     const/4 v1, -0x1
 
@@ -365,17 +365,17 @@
     :cond_de
     move v1, v0
 
-    .line 316
+    .line 317
     goto :goto_c0
 
-    .line 322
+    .line 323
     :cond_e0
     :try_start_e0
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     aget-object v2, v0, v2
 
-    .line 323
+    .line 324
     iget v0, v2, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->r:F
 
     mul-float/2addr v0, v10
@@ -398,12 +398,12 @@
 
     move-result v0
 
-    .line 324
+    .line 325
     new-instance v4, Landroid/graphics/drawable/GradientDrawable;
 
     invoke-direct {v4}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
 
-    .line 325
+    .line 326
     const/high16 v5, 0x41000000    # 8.0f
 
     iget v6, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$d:F
@@ -412,12 +412,12 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
 
-    .line 326
+    .line 327
     const v5, -0x3fefe7e0
 
     invoke-virtual {v4, v5}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
 
-    .line 327
+    .line 328
     const/high16 v5, 0x40000000    # 2.0f
 
     iget v6, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$d:F
@@ -428,12 +428,12 @@
 
     invoke-virtual {v4, v5, v0}, Landroid/graphics/drawable/GradientDrawable;->setStroke(II)V
 
-    .line 328
+    .line 329
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$b:Landroid/widget/Button;
 
     invoke-virtual {v0, v4}, Landroid/widget/Button;->setBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 330
+    .line 331
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$b:Landroid/widget/Button;
 
     new-instance v0, Ljava/lang/StringBuilder;
@@ -501,7 +501,7 @@
 
     invoke-virtual {v4, v0}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
 
-    .line 331
+    .line 332
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$a:Landroid/app/Activity;
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -528,10 +528,10 @@
 
     move-result-object v0
 
-    .line 332
+    .line 333
     if-eqz v0, :cond_1a1
 
-    .line 333
+    .line 334
     new-instance v2, Landroid/graphics/drawable/BitmapDrawable;
 
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$a:Landroid/app/Activity;
@@ -542,7 +542,7 @@
 
     invoke-direct {v2, v3, v0}, Landroid/graphics/drawable/BitmapDrawable;-><init>(Landroid/content/res/Resources;Landroid/graphics/Bitmap;)V
 
-    .line 334
+    .line 335
     const/4 v0, 0x0
 
     const/4 v3, 0x0
@@ -561,7 +561,7 @@
 
     invoke-virtual {v2, v0, v3, v4, v5}, Landroid/graphics/drawable/BitmapDrawable;->setBounds(IIII)V
 
-    .line 335
+    .line 336
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$b:Landroid/widget/Button;
 
     const/4 v3, 0x0
@@ -572,7 +572,7 @@
 
     invoke-virtual {v0, v2, v3, v4, v5}, Landroid/widget/Button;->setCompoundDrawables(Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
 
-    .line 336
+    .line 337
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$b:Landroid/widget/Button;
 
     const/high16 v2, 0x40c00000    # 6.0f
@@ -585,7 +585,7 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/Button;->setCompoundDrawablePadding(I)V
 
-    .line 338
+    .line 339
     :cond_1a1
     if-eqz v1, :cond_1af
 
@@ -599,7 +599,7 @@
 
     invoke-static {v0, v2, v3, v4, v5}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    .line 339
+    .line 340
     :cond_1af
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$b:Landroid/widget/Button;
 
@@ -607,7 +607,7 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/Button;->setVisibility(I)V
 
-    .line 340
+    .line 341
     if-eqz v1, :cond_cd
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$5;->val$a:Landroid/app/Activity;
@@ -617,13 +617,13 @@
 
     goto/16 :goto_cd
 
-    .line 343
+    .line 344
     :catch_1be
     move-exception v0
 
     goto/16 :goto_cd
 
-    .line 330
+    .line 331
     :cond_1c1
     const-string v0, "no missions"
 
