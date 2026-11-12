@@ -23,3 +23,10 @@ Nothing the prologue does touches your save. It plays once, on a fresh save only
 Verified on an emulator: both endings, the save untouched before and after, no crashes.
 
 _Asset rebuilt 2026-11-10 20:13 UTC: in-game version stamp now reads mod v43a (versionCode 1044)._
+
+## Update (2026-11-12)
+
+- Every faction flagship now carries a visible shield; the SRS Aegis rail batteries fire faster.
+- Police waves come every 28 s (was 35 s); police tech no longer passes through the Leviathan anchor wall.
+- Spartan Mantis/Verdant form V: rear wings open with speed.
+- Leviathan: war-drum spine and heavy wake (form IV fainter). Reaver Warlord/Dreadnought reclassed.
