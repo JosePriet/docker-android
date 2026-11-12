@@ -116,10 +116,13 @@ public final class ModNotify {
     }
 
     private static void open(Activity a, String speaker, String text) {
+        Dialog d = null;
         try {
             Game g = ObjectRegistry.INSTANCE.game;
             Main m = (Main) a;
-            if (g.gameThread.paused || (m.currentDialog != null && m.currentDialog.isShowing())) {
+            PlayerShip ps0 = ObjectRegistry.INSTANCE.playerShip;
+            if (g.gameThread.paused || g.mapMode || ps0 == null || ps0.isDocked
+                || (m.currentDialog != null && m.currentDialog.isShowing())) {
                 synchronized (queue) { queue.add(0, new String[] {speaker, text}); }   // try again later
                 done(false);
                 return;
@@ -136,7 +139,7 @@ public final class ModNotify {
             String html = TextUtils.htmlEncode(text).replace("\n", "<br>");
             g.gameThread.waitCommitPhysicEnded();
             g.pause();
-            Dialog d = InGameDialog.show(a, name, DROID_IMAGE, html, new Runnable() {
+            d = InGameDialog.show(a, name, DROID_IMAGE, html, new Runnable() {
                 public void run() {
                     try {
                         ObjectRegistry.INSTANCE.game.gameThread.shootEventIndex = -1;
@@ -152,13 +155,19 @@ public final class ModNotify {
                     done(true);
                 }
             });
-            if (face != null) {
-                View iv = d.findViewById(0x7f0a0030);   // the dialog's portrait ImageView
-                if (iv != null) iv.setBackgroundDrawable(new BitmapDrawable(a.getResources(), face));
-            }
             m.currentDialog = d;
+            if (face != null) {
+                try {
+                    View iv = d.findViewById(0x7f0a0030);   // the dialog's portrait ImageView
+                    if (iv != null) iv.setBackgroundDrawable(new BitmapDrawable(a.getResources(), face));
+                } catch (Throwable t) {
+                    // the astrodroid face stays
+                }
+            }
             log("shown " + speaker + " portrait=" + (face != null));
         } catch (Throwable t) {
+            if (d != null && d.isShowing()) return;   // the dialog is up: its OK/back resumes the game
+            // not shown: dropped (it stays in the inbox); a re-queue could loop on a persistent failure
             try { ObjectRegistry.resume(); } catch (Throwable t2) { /* ignore */ }
             done(true);
         }
