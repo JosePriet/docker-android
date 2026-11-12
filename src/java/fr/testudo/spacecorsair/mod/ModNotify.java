@@ -123,7 +123,10 @@ public final class ModNotify {
             PlayerShip ps0 = ObjectRegistry.INSTANCE.playerShip;
             if (g.gameThread.paused || g.mapMode || ps0 == null || ps0.isDocked
                 || (m.currentDialog != null && m.currentDialog.isShowing())) {
-                synchronized (queue) { queue.add(0, new String[] {speaker, text}); }   // try again later
+                synchronized (queue) {   // try again later; keep the 12 cap (drop the newest)
+                    if (queue.size() >= MAX_QUEUE) queue.remove(queue.size() - 1);
+                    queue.add(0, new String[] {speaker, text});
+                }
                 done(false);
                 return;
             }

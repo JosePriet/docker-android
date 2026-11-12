@@ -99,7 +99,7 @@
     .registers 5
 
     .prologue
-    .line 177
+    .line 180
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v2
@@ -113,15 +113,15 @@
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModNotify;->nextAt:J
 
-    .line 178
+    .line 181
     const/4 v0, 0x0
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModNotify;->showing:Z
 
-    .line 179
+    .line 182
     return-void
 
-    .line 177
+    .line 180
     :cond_f
     const-wide/16 v0, 0x3e8
 
@@ -212,7 +212,7 @@
 
     iget-object v5, v1, Lfr/testudo/spacecorsair/activity/Main;->currentDialog:Landroid/app/Dialog;
 
-    if-eqz v5, :cond_57
+    if-eqz v5, :cond_6e
 
     iget-object v5, v1, Lfr/testudo/spacecorsair/activity/Main;->currentDialog:Landroid/app/Dialog;
 
@@ -221,7 +221,7 @@
 
     move-result v5
 
-    if-eqz v5, :cond_57
+    if-eqz v5, :cond_6e
 
     .line 126
     :cond_2b
@@ -229,9 +229,34 @@
 
     monitor-enter v4
     :try_end_2e
-    .catch Ljava/lang/Throwable; {:try_start_3 .. :try_end_2e} :catch_46
+    .catch Ljava/lang/Throwable; {:try_start_3 .. :try_end_2e} :catch_5d
 
+    .line 127
     :try_start_2e
+    sget-object v1, Lfr/testudo/spacecorsair/mod/ModNotify;->queue:Ljava/util/ArrayList;
+
+    invoke-virtual {v1}, Ljava/util/ArrayList;->size()I
+
+    move-result v1
+
+    const/16 v5, 0xc
+
+    if-lt v1, v5, :cond_45
+
+    sget-object v1, Lfr/testudo/spacecorsair/mod/ModNotify;->queue:Ljava/util/ArrayList;
+
+    sget-object v5, Lfr/testudo/spacecorsair/mod/ModNotify;->queue:Ljava/util/ArrayList;
+
+    invoke-virtual {v5}, Ljava/util/ArrayList;->size()I
+
+    move-result v5
+
+    add-int/lit8 v5, v5, -0x1
+
+    invoke-virtual {v1, v5}, Ljava/util/ArrayList;->remove(I)Ljava/lang/Object;
+
+    .line 128
+    :cond_45
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModNotify;->queue:Ljava/util/ArrayList;
 
     const/4 v5, 0x0
@@ -250,78 +275,79 @@
 
     invoke-virtual {v1, v5, v6}, Ljava/util/ArrayList;->add(ILjava/lang/Object;)V
 
+    .line 129
     monitor-exit v4
-    :try_end_3e
-    .catchall {:try_start_2e .. :try_end_3e} :catchall_43
+    :try_end_55
+    .catchall {:try_start_2e .. :try_end_55} :catchall_5a
 
-    .line 127
+    .line 130
     const/4 v1, 0x0
 
-    :try_start_3f
+    :try_start_56
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModNotify;->done(Z)V
-    :try_end_42
-    .catch Ljava/lang/Throwable; {:try_start_3f .. :try_end_42} :catch_46
+    :try_end_59
+    .catch Ljava/lang/Throwable; {:try_start_56 .. :try_end_59} :catch_5d
 
-    .line 174
-    :cond_42
-    :goto_42
+    .line 177
+    :cond_59
+    :goto_59
     return-void
 
-    .line 126
-    :catchall_43
+    .line 129
+    :catchall_5a
     move-exception v1
 
-    :try_start_44
+    :try_start_5b
     monitor-exit v4
-    :try_end_45
-    .catchall {:try_start_44 .. :try_end_45} :catchall_43
+    :try_end_5c
+    .catchall {:try_start_5b .. :try_end_5c} :catchall_5a
 
-    :try_start_45
+    :try_start_5c
     throw v1
-    :try_end_46
-    .catch Ljava/lang/Throwable; {:try_start_45 .. :try_end_46} :catch_46
+    :try_end_5d
+    .catch Ljava/lang/Throwable; {:try_start_5c .. :try_end_5d} :catch_5d
 
-    .line 168
-    :catch_46
+    .line 171
+    :catch_5d
     move-exception v1
 
     move-object v1, v2
 
-    .line 169
-    :goto_48
-    if-eqz v1, :cond_50
+    .line 172
+    :goto_5f
+    if-eqz v1, :cond_67
 
     invoke-virtual {v1}, Landroid/app/Dialog;->isShowing()Z
 
     move-result v1
 
-    if-nez v1, :cond_42
+    if-nez v1, :cond_59
 
-    .line 171
-    :cond_50
-    :try_start_50
+    .line 174
+    :cond_67
+    :try_start_67
     invoke-static {}, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->resume()V
-    :try_end_53
-    .catch Ljava/lang/Throwable; {:try_start_50 .. :try_end_53} :catch_10e
+    :try_end_6a
+    .catch Ljava/lang/Throwable; {:try_start_67 .. :try_end_6a} :catch_125
 
-    .line 172
-    :goto_53
+    .line 175
+    :goto_6a
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModNotify;->done(Z)V
 
-    goto :goto_42
+    goto :goto_59
 
-    .line 132
-    :cond_57
-    :try_start_57
+    .line 135
+    :cond_6e
+    :try_start_6e
     const-string v5, "ai"
 
     invoke-virtual {v5, p1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v5
 
-    if-eqz v5, :cond_c8
+    if-eqz v5, :cond_df
 
-    .line 133
+    .line 136
     const v5, 0x7f070187
 
     invoke-virtual {p0, v5}, Landroid/app/Activity;->getString(I)Ljava/lang/String;
@@ -330,8 +356,8 @@
 
     move-object v5, v2
 
-    .line 139
-    :goto_67
+    .line 142
+    :goto_7e
     invoke-static {p2}, Landroid/text/TextUtils;->htmlEncode(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v8
@@ -344,15 +370,15 @@
 
     move-result-object v8
 
-    .line 140
+    .line 143
     iget-object v9, v7, Lfr/testudo/spacecorsair/game/Game;->gameThread:Lfr/testudo/spacecorsair/engine/GameThread;
 
     invoke-virtual {v9}, Lfr/testudo/spacecorsair/engine/GameThread;->waitCommitPhysicEnded()V
 
-    .line 141
+    .line 144
     invoke-virtual {v7}, Lfr/testudo/spacecorsair/game/Game;->pause()V
 
-    .line 142
+    .line 145
     const v7, 0x7f020054
 
     new-instance v9, Lfr/testudo/spacecorsair/mod/ModNotify$2;
@@ -360,30 +386,30 @@
     invoke-direct {v9}, Lfr/testudo/spacecorsair/mod/ModNotify$2;-><init>()V
 
     invoke-static {p0, v6, v7, v8, v9}, Lfr/testudo/spacecorsair/utils/InGameDialog;->show(Landroid/content/Context;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Runnable;)Landroid/app/Dialog;
-    :try_end_86
-    .catch Ljava/lang/Throwable; {:try_start_57 .. :try_end_86} :catch_46
+    :try_end_9d
+    .catch Ljava/lang/Throwable; {:try_start_6e .. :try_end_9d} :catch_5d
 
     move-result-object v2
 
-    .line 158
-    :try_start_87
-    iput-object v2, v1, Lfr/testudo/spacecorsair/activity/Main;->currentDialog:Landroid/app/Dialog;
-    :try_end_89
-    .catch Ljava/lang/Throwable; {:try_start_87 .. :try_end_89} :catch_c5
-
-    .line 159
-    if-eqz v5, :cond_a0
-
     .line 161
+    :try_start_9e
+    iput-object v2, v1, Lfr/testudo/spacecorsair/activity/Main;->currentDialog:Landroid/app/Dialog;
+    :try_end_a0
+    .catch Ljava/lang/Throwable; {:try_start_9e .. :try_end_a0} :catch_dc
+
+    .line 162
+    if-eqz v5, :cond_b7
+
+    .line 164
     const v1, 0x7f0a0030
 
-    :try_start_8e
+    :try_start_a5
     invoke-virtual {v2, v1}, Landroid/app/Dialog;->findViewById(I)Landroid/view/View;
 
     move-result-object v1
 
-    .line 162
-    if-eqz v1, :cond_a0
+    .line 165
+    if-eqz v1, :cond_b7
 
     new-instance v6, Landroid/graphics/drawable/BitmapDrawable;
 
@@ -394,13 +420,13 @@
     invoke-direct {v6, v7, v5}, Landroid/graphics/drawable/BitmapDrawable;-><init>(Landroid/content/res/Resources;Landroid/graphics/Bitmap;)V
 
     invoke-virtual {v1, v6}, Landroid/view/View;->setBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
-    :try_end_a0
-    .catch Ljava/lang/Throwable; {:try_start_8e .. :try_end_a0} :catch_111
+    :try_end_b7
+    .catch Ljava/lang/Throwable; {:try_start_a5 .. :try_end_b7} :catch_128
 
-    .line 167
-    :cond_a0
-    :goto_a0
-    :try_start_a0
+    .line 170
+    :cond_b7
+    :goto_b7
+    :try_start_b7
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
@@ -421,11 +447,11 @@
 
     move-result-object v6
 
-    if-eqz v5, :cond_10c
+    if-eqz v5, :cond_123
 
     move v1, v3
 
-    :goto_b8
+    :goto_cf
     invoke-virtual {v6, v1}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
 
     move-result-object v1
@@ -435,27 +461,27 @@
     move-result-object v1
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModNotify;->log(Ljava/lang/String;)V
-    :try_end_c3
-    .catch Ljava/lang/Throwable; {:try_start_a0 .. :try_end_c3} :catch_c5
+    :try_end_da
+    .catch Ljava/lang/Throwable; {:try_start_b7 .. :try_end_da} :catch_dc
 
-    goto/16 :goto_42
+    goto/16 :goto_59
 
-    .line 168
-    :catch_c5
+    .line 171
+    :catch_dc
     move-exception v1
 
     move-object v1, v2
 
-    goto :goto_48
+    goto :goto_5f
 
-    .line 135
-    :cond_c8
-    :try_start_c8
+    .line 138
+    :cond_df
+    :try_start_df
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFaction;->faction(Ljava/lang/String;)I
 
     move-result v5
 
-    .line 136
+    .line 139
     new-instance v6, Ljava/lang/StringBuilder;
 
     invoke-direct {v6}, Ljava/lang/StringBuilder;-><init>()V
@@ -492,7 +518,7 @@
 
     move-result-object v6
 
-    .line 137
+    .line 140
     new-instance v5, Ljava/lang/StringBuilder;
 
     invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
@@ -514,30 +540,30 @@
     const/16 v8, 0x100
 
     invoke-static {p0, v5, v8}, Lfr/testudo/spacecorsair/mod/ModComms;->asset(Landroid/content/Context;Ljava/lang/String;I)Landroid/graphics/Bitmap;
-    :try_end_109
-    .catch Ljava/lang/Throwable; {:try_start_c8 .. :try_end_109} :catch_46
+    :try_end_120
+    .catch Ljava/lang/Throwable; {:try_start_df .. :try_end_120} :catch_5d
 
     move-result-object v5
 
-    goto/16 :goto_67
+    goto/16 :goto_7e
 
-    :cond_10c
+    :cond_123
     move v1, v4
 
-    .line 167
-    goto :goto_b8
+    .line 170
+    goto :goto_cf
 
-    .line 171
-    :catch_10e
+    .line 174
+    :catch_125
     move-exception v1
 
-    goto/16 :goto_53
+    goto/16 :goto_6a
 
-    .line 163
-    :catch_111
+    .line 166
+    :catch_128
     move-exception v1
 
-    goto :goto_a0
+    goto :goto_b7
 .end method
 
 .method static push(Ljava/lang/String;Ljava/lang/String;)V
