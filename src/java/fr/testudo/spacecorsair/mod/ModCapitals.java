@@ -440,6 +440,7 @@ public final class ModCapitals {
             }
             a.setSameAs(g.position).add(15, sz * 0.48f + 10);
             ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(a, g.lifeBar);
+            if (c.police) ModPoliceTitan.overBarDraw(g, a, sz);
             if (g.chasseTarget != null && !c.hostileAnnounced) {
                 c.hostileAnnounced = true;
                 ModRep.flagshipProvoked(c.f.key);

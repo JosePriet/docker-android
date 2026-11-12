@@ -40,6 +40,15 @@ public final class ModPoliceTitan {
     static final float TEST_DISTANCE = 2600f;
 
     private static GuardianCivilShip titan;
+    // owner pick 2026-11-12 (card "police titan extra shield": Overshield layer): a second white-blue layer worth 40% of
+    // the titan's hull that takes damage before its normal shield; it regenerates only after 20 s without the titan
+    // taking any damage, refilling in 6 s. Doomsday % damage goes straight to the hull as before (no mitigation rule).
+    static final float OVER_FRAC = 0.4f;
+    static final int OVER_DELAY_MS = 20000, OVER_REFILL_MS = 6000;
+    private static float over, overCap;
+    private static long overQuietMs;      // game time since the titan last took damage (pauses with the game)
+    private static float overLastLife;
+    private static fr.testudo.spacecorsair.display.hud.InfoBarEnnemis overBar;
     private static String name;
     private static final ModCapitals.Faction[] POL = new ModCapitals.Faction[ModCapitals.FACTIONS.length];
     private static int lockCd, breakCd, lockMs, chargeMs;
@@ -83,6 +92,10 @@ public final class ModPoliceTitan {
             ModArt.prefetch("pol_cap_" + f.key);
             titan = g;
             name = g.specificName;
+            overCap = over = g.maxLife * OVER_FRAC;
+            overQuietMs = 0;
+            overLastLife = g.life;
+            overBar = null;
             lockCd = LOCKDOWN_FIRST_MS;
             breakCd = SHIELD_BREAK_FIRST_MS;
             lockMs = 0;
@@ -132,6 +145,7 @@ public final class ModPoliceTitan {
     /** Sector change (ModCapitals.onLevel, after the caps are cleared). */
     static void onLevel() {
         titan = null;
+        overBar = null;
         endLockdown();
         testMs = ModDev.testFlag("corsair_poltitan") ? TEST_DELAY_MS : -1;
     }
@@ -149,8 +163,64 @@ public final class ModPoliceTitan {
         }
     }
 
+    // ------------------------------------------------------------------ overshield
+    /** ModLive.hit, before the normal shield: the overshield takes the damage first; any damage resets the regen delay. */
+    static float overAbsorb(Element target, float dmg) {
+        if (dmg <= 0 || target == null || target != titan) return dmg;
+        overQuietMs = 0;
+        if (over <= 0) return dmg;
+        float a = Math.min(dmg, over);
+        over -= a;
+        if (over <= 0) {
+            over = 0;
+            ModLive.fx("fx_shock", 1, 1, target.position.x, target.position.y, ModCapitals.SIZE * 1.3f, 700, 0.8f, 0.92f, 1.0f, true);
+            ModSound.play("warp_in", 0.7f, 1.6f, 800);
+            ModTitanAI.say(target, ModLang.tr("OVERSHIELD DOWN"), 0.8f, 0.92f, 1.0f);
+            log("overshield down");
+        }
+        return dmg - a;
+    }
+
+    /** Regen: only after OVER_DELAY_MS without damage, back to full in OVER_REFILL_MS. */
+    private static void overTick(GuardianCivilShip g, long j) {
+        if (g == null || g.removed || overCap <= 0) return;
+        if (g.life < overLastLife) overQuietMs = 0;   // hull damage that skips ModLive.hit (doomsday %) also counts
+        overLastLife = g.life;
+        if (over >= overCap) return;
+        overQuietMs += j;
+        if (overQuietMs < OVER_DELAY_MS) return;
+        boolean was = over <= 0;
+        over = Math.min(overCap, over + overCap * j / (float) OVER_REFILL_MS);
+        if (was && over > 0) {
+            ModTitanAI.say(g, ModLang.tr("OVERSHIELD RESTORED"), 0.8f, 0.92f, 1.0f);
+            ModSound.play("warp_in", 0.5f, 1.3f, 800);
+        }
+    }
+
+    /** ModV34.shieldDraw: a bright white-blue shell outside the normal one while the overshield holds. */
+    static void overShell(Element e, float side) {
+        if (e != titan || overCap <= 0 || over <= 0) return;
+        float f = over / overCap, w = side * 1.3f;
+        float pulse = 0.85f + 0.15f * (float) Math.sin(System.currentTimeMillis() / 220.0);
+        ModFx.spr("shield_shell", e.position.x, e.position.y, w, w, 0, 0.8f, 0.92f, 1.0f, (0.18f + 0.3f * f) * pulse, true);
+    }
+
+    /** ModCapitals.draw, right after the hull bar: the white-blue overshield bar just above it. */
+    static void overBarDraw(GuardianCivilShip g, Vector2 a, float sz) {
+        if (g != titan || overCap <= 0 || over <= 0 || g.lifeBar == null) return;
+        try {
+            if (overBar == null) overBar = fr.testudo.spacecorsair.display.hud.InfoBarEnnemis.newTransparentWhite(new Vector2(0, 0), (int) g.lifeBar.witdh, 10);
+            overBar.setValue(100f * over / overCap);
+            a.setSameAs(g.position).add(15, sz * 0.48f + 26);
+            ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(a, overBar);
+        } catch (Throwable t) {
+            // bar only
+        }
+    }
+
     // ------------------------------------------------------------------ per frame (ModTitanAI.tick)
     static void tick(PlayerShip ps, long j) {
+        overTick(titan, j);
         if (testMs >= 0) {
             testMs -= j;
             if (testMs < 0 && ps != null && !ps.removed) testSpawn(ps);

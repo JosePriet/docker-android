@@ -456,6 +456,7 @@ public final class ModLive {
             out = ModV35.damage(target, out, p);   // v35 kill-time targets by advantage
             out = ModBoss.damageIn(target, out, p);
             out = ModTitanAI.damageIn(target, out, p);
+            out = ModPoliceTitan.overAbsorb(target, out);   // owner 2026-11-12: police titan overshield, before its shield
             out = ModV34.shieldAbsorb(target, out, p);   // v37: big enemies' default shield
             out = ModPolice.hit(target, out, p);   // v42: police heat from player hits, police-only weapons on the player
             onHit(target);

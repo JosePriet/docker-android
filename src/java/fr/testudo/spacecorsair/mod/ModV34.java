@@ -495,6 +495,7 @@ public class ModV34 {
 
     /** ModLive.over: a faint shell that dims with the charge. */
     static void shieldDraw(Element e, float side) {
+        ModPoliceTitan.overShell(e, side);
         Sh h = bigShield.get(e);
         if (h == null || h.cap <= 0 || h.cur <= 0) return;
         float f = h.cur / h.cap, w = side * 1.15f;
