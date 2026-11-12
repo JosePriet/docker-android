@@ -173,6 +173,25 @@ elif [ $GAME = sc ]; then
   log "direct: Settings"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 4; need settings; shot settings_v36; dump settings_v36
   log "seekbars on settings: $(grep -o 'class="android.widget.SeekBar"' $OUT/last.xml | wc -l)"
   back 3
+  # ---- v43a-5 (owner 2026-11-12): inbox notices pop up as the stock character dialog (astrodroid / faction commander)
+  if [ "$STAGE" = V47N ]; then
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt
+    sleep 4; shot flight_before
+    a shell "rm -f $T/corsair_nodialog"; sleep 1
+    a shell "touch $T/corsair_notify; chmod 644 $T/corsair_*"
+    for i in 1 2 3 4 5; do
+      got=0; for w in $(seq 1 10); do sleep 2; dump dlg_$i; grep -q 'id/btnCancel' $OUT/last.xml && { got=1; break; }; done
+      [ $got = 1 ] || { log "no dialog $i"; break; }
+      shot dialog_$i; log "dialog $i: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -v 'text=""' | head -4 | tr '\n' ' ')"
+      tap_text "id/btnCancel" ok_$i || break
+      sleep 2; shot after_$i
+    done
+    sleep 3; noexit; shot flight_after
+    log "EVIDENCE v47n: $(grep 'ModTest notify' $LG | sed 's/^.*): //' | tr '\n' ' ')"
+    grep -E "ModTest notify|FATAL|AndroidRuntime" $LG > $OUT/v47n_events.txt
+    a shell "rm -f $T/corsair_notify"
+    finish; exit 0
+  fi
   # ---- v41 (owner 2026-11-03): Refit button on the docked station screen (My Ship cannot open while docked)
   if [ "$STAGE" = V41 ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
