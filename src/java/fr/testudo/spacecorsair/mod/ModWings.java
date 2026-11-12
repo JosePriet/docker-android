@@ -10,8 +10,9 @@ import fr.testudo.spacecorsair.engine.GameRenderer;
  * moving, a much smaller version of the Monolith s5 wings (ModMonolith). The s5 sprite is split by src/genwings47.py into
  * <art>_stage5_hull (drawn as the player hull by ModV35.playerArt, with its own glow masks) and <art>_stage5_wingL/R
  * (drawn here under the hull, rotated about a pivot on the cut line). Same speed model as the Monolith: open with speed
- * (fully open at 60% of the calibrated top speed), damped spring, fold only 2.5 s after a full stop. Player only; enemies
- * keep the single sprite.
+ * (fully open at 60% of the calibrated top speed), damped spring, fold only 2.5 s after a full stop. Player (under) and,
+ * since the v43a-2 audit, enemy Mantis/Verdant s5 (enemySkin + underEnemy, per-enemy state). A draw gap over 1 s (sector
+ * jump, pause, menu) resets the spring so the wings start closed.
  */
 public final class ModWings {
     private ModWings() {}
@@ -117,6 +118,7 @@ public final class ModWings {
             if (i != cur) reset();
             cur = i;
             long t = System.currentTimeMillis();
+            if (lastT != 0 && t - lastT > 1000) reset();   // sector jump / pause: start closed
             update(ps, t);
             Drawable hd = ps.getDrawableObject();
             if (hd == null || hd.dimensions == null) return;
@@ -168,6 +170,7 @@ public final class ModWings {
             Drawable hd = e.getDrawableObject();
             if (hd == null || hd.dimensions == null) return;
             double[] st = EST.get(e);
+            if (st != null && st[4] != 0 && System.currentTimeMillis() - st[4] > 1000) st = null;   // off screen / jump: start closed
             if (st == null) { st = new double[]{1e-3, 0, 0, 0, 0, -1}; EST.put(e, st); }
             long t = System.currentTimeMillis();
             double dt = st[4] == 0 ? 0.016 : Math.max(0, Math.min(0.1, (t - st[4]) / 1000.0));
