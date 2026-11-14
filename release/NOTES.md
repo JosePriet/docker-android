@@ -30,3 +30,6 @@ _Asset rebuilt 2026-11-10 20:13 UTC: in-game version stamp now reads mod v43a (v
 - Police waves come every 28 s (was 35 s); police tech no longer passes through the Leviathan anchor wall.
 - Spartan Mantis/Verdant form V: rear wings open with speed.
 - Leviathan: war-drum spine and heavy wake (form IV fainter). Reaver Warlord/Dreadnought reclassed.
+- Police titans gain an overshield (40% of hull) that breaks before the shield and recharges after 20 s without damage.
+- Inbox notices pop up in flight as character dialogues (astrodroid or faction commander).
+- Spanish for the prologue and the police overshield.
