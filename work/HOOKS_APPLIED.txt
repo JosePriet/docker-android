@@ -18,3 +18,4 @@ hooks44_poi applied Wed Nov  4 20:30:29 UTC 2026
 hooks45_intro applied Tue Nov 10 14:30:27 UTC 2026
 hooks46_prologue 2026-11-10: LevelBuilder.getLevelByName, StorageManager.save/saveConfig/saveInventory (v46 playable prologue)
 hooks46b_prologue_damage 2026-11-10: PlayerShip.applyDamage -> ModPrologue.damage (v46 hull floor before the engine's death check)
+hooks47_skull 2026-11-14: GameThread.drawOnRadarAndCalcNearby radar point -> ModMap.radarPoint2(+Element) (v43a-8 outlevel skull)
