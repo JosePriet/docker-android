@@ -54,6 +54,8 @@ public final class ModCapitals {
     /** v43a-4: every flagship carries a visible titan-class shield (ModV34.bigShield, drawn as the shell): capacity and
      *  regen x this over ModV34.shieldStats(lvl, lvl, TITAN). Aegis sturdy, Bloodforge nearly none, Crown/Sunspire light. */
     static final float[] SHIELD_MULT = {1.6f, 0.4f, 0.9f, 0.7f, 1.0f, 0.8f, 1.0f};
+    /** v43a-6 (owner 2026-11-14 "way too easy"): flagship and police titan battery damage x3. */
+    static final float DMG_MULT = 3.0f;
     static final int SIZE = 1500;                 // drawable size in world units (titans are 1000)
     static final long RESPAWN_MS = 3L * 3600 * 1000;
 
@@ -116,6 +118,7 @@ public final class ModCapitals {
         if (ModPrologue.active) { ModPoliceTitan.onLevel(); return; }
         // Guardian ships are pooled: forget the previous sector's flagships before the pool hands them out again
         for (GuardianCivilShip g : caps.keySet()) { ModTitan.titanClass.remove(g); ModTitanAI.forget(g); }
+        ModAegisDrones.clear();   // v43a-6
         caps.clear();
         ModPoliceTitan.onLevel();
         try {
@@ -249,7 +252,7 @@ public final class ModCapitals {
         g.canonProue.init(reload, dmg, 6, 15.0f, 0.8f, 4, 3);
         g.canonPoupe.init(reload, dmg, 6, 15.0f, 0.8f, 4, 3);
         silenceStock(g);                            // v33: the drawn turrets fire instead (guns)
-        c.shot = dmg * ModV34.curve(lvl);           // v42 (owner: flagships far too weak): batteries follow the v34 level curve
+        c.shot = dmg * ModV34.curve(lvl) * DMG_MULT;   // v42: v34 level curve; v43a-6 (owner 11-14: L40 maxed titans lost <10% hull) x DMG_MULT
         c.lvl = lvl;
         g.specificName = f.name + " flagship: " + f.ship;
         g.specificNameDecalX = -1;
@@ -477,6 +480,7 @@ public final class ModCapitals {
             for (int k = 0; k < n; k++) { c.tAng[k] = g.spin; c.tReload[k] = 300 * k; }   // staggered first salvo
         }
         boolean hostile = !ps.removed && ModLive.titanHostile(g, c);
+        if (hostile && "spartan".equals(c.f.key)) ModAegisDrones.tick(g, c.shot * GUNS[0][0].dmg, c.lvl, ps, j);   // v43a-6: rail drones
         Gun[] gs = GUNS[indexOf(c.f)];
         for (int k = 0; k < n; k++) {
             Gun gun = gs[k % gs.length];
@@ -583,6 +587,7 @@ public final class ModCapitals {
                 if (!g.removed) continue;
                 it.remove();                      // pooled: never treat the recycled ship as a flagship
                 ModV34.bigShield.remove(g);        // v43a-4
+                ModAegisDrones.drop(g);            // v43a-6
                 ModTitan.titanClass.remove(g);
                 ModTitanAI.forget(g);
                 if (c.police) {                    // v42: no flagship bookkeeping (respawn timer, standing, pursuit, bounty)

@@ -43,10 +43,10 @@
     .registers 12
 
     .prologue
-    .line 81
+    .line 83
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 82
+    .line 84
     iput p1, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->fam:I
 
     iput p2, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->dmg:F
@@ -59,7 +59,7 @@
 
     iput p6, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->spread:F
 
-    .line 83
+    .line 85
     iput p7, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->shots:I
 
     iput p8, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->turn:F
@@ -70,6 +70,6 @@
 
     iput p11, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->b:F
 
-    .line 84
+    .line 86
     return-void
 .end method

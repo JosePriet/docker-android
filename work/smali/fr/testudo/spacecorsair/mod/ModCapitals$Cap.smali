@@ -47,22 +47,22 @@
     .registers 2
 
     .prologue
-    .line 60
+    .line 62
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 62
+    .line 64
     const/4 v0, -0x1
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->data:I
 
-    .line 64
+    .line 66
     new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->anchor:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 71
+    .line 73
     const/high16 v0, 0x3f800000    # 1.0f
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->rate:F
