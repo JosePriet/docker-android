@@ -261,18 +261,23 @@ elif [ $GAME = sc ]; then
   # ---- v43a audit item 7 (owner 2026-11-14 "Emulator check"): hull a maxed L40 titan loses to flagships (3x) and police titans (3.6x).
   # corsair_dmgtest (ModDev.testDmg): L40, refit 10, Siege Railgun, full hull/shield; target 1,700 ahead; player holds still, auto-aims, fires.
   # Evidence: logcat "ModTest dmg" (start / once a second / end) -> dmg.txt
-  case "$STAGE" in D1|D2|D3)
+  case "$STAGE" in D1|D2|D3|D4|D5|D6)
     LG=$OUT/logcat_live.txt
     case $STAGE in
       D1) H="hullLeviathan Leviathan leviathan"; TG="spartan reaver ironclad kretari helion warden varn";;
       D2) H="hullLeviathan Leviathan leviathan"; TG="police_spartan police_reaver police_ironclad police_kretari police_helion police_warden police_varn";;
       D3) H="hullWarlord Warlord warlord"; TG="spartan reaver ironclad police_spartan police_kretari police_warden";;
+      # round 2 (owner "C"): best shield gear + dodging (circle at 300 u/s); D6 = still, best shield only
+      D4) H="hullLeviathan Leviathan leviathan"; TG="police_spartan police_reaver police_ironclad police_kretari"; DODGE=300;;
+      D5) H="hullLeviathan Leviathan leviathan"; TG="police_helion police_warden police_varn"; DODGE=300;;
+      D6) H="hullWarlord Warlord warlord"; TG="police_spartan police_reaver police_kretari police_warden"; DODGE=300;;
     esac
     if fly $H; then
       sleep 5; shot dmg_ready
+      [ -n "$DODGE" ] && a shell "echo $DODGE > $T/corsair_dmgdodge; chmod 644 $T/corsair_*"
       for tg in $TG; do
         a shell "echo $tg > $T/corsair_dmgtest; chmod 644 $T/corsair_*"
-        for i in $(seq 1 48); do sleep 4; need dmg_${tg}_$i; grep -q "dmg end $tg " $LG && break; [ $((i % 8)) = 1 ] && shot dmg_${tg}_$i; done
+        for i in $(seq 1 47); do sleep 4; need dmg_${tg}_$i; grep -q "dmg end $tg " $LG && break; [ $((i % 8)) = 1 ] && shot dmg_${tg}_$i; done
         shot dmg_${tg}_end
         log "EVIDENCE $(grep -E "dmg (start|end) $tg " $LG | sed 's/^.*ModTest[^:]*: //' | tr '\n' ' ')"
         sleep 8

@@ -34,10 +34,10 @@ index ac4123a..2b263ca 100644
          ModPrologue.tick(ps, j);   // v46 playable prologue
          ModComms.tick(ps);
 diff --git a/src/java/fr/testudo/spacecorsair/mod/ModDev.java b/src/java/fr/testudo/spacecorsair/mod/ModDev.java
-index 3cfdbff..3c96aed 100644
+index 3cfdbff..ee15d8e 100644
 --- a/src/java/fr/testudo/spacecorsair/mod/ModDev.java
 +++ b/src/java/fr/testudo/spacecorsair/mod/ModDev.java
-@@ -377,6 +377,128 @@ public final class ModDev {
+@@ -377,6 +377,153 @@ public final class ModDev {
      private static String t37Drive, t37DriveSeen;
      private static Boolean evOn;
  
@@ -84,6 +84,15 @@ index 3cfdbff..3c96aed 100644
 +                float ang = Element.normalizeSpin((((float) Math.toDegrees(ps.position.getAngularWithInRad(g.position))) % 360.0f) + 90.0f);
 +                if (ps.playerCannons != null) for (int i = 0; i < ps.playerCannons.length; i++) ps.playerCannons[i].targetSpin = ang;
 +                ps.isShooting = true;
++                if (tDmgDodge > 0) {   // dodge: circle the target at the current range, tangential speed tDmgDodge u/s
++                    float dx = ps.position.x - g.position.x, dy = ps.position.y - g.position.y;
++                    float d = (float) Math.sqrt(dx * dx + dy * dy);
++                    if (d > 1) {
++                        float st = tDmgDodge * j / 1000f;
++                        ps.position.x += -dy / d * st;
++                        ps.position.y += dx / d * st;
++                    }
++                }
 +                if (g instanceof fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip) {
 +                    fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip c = (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip) g;
 +                    if (c.chasseTarget == null) c.attackPlayerIfItNotTheCaseAlready();
@@ -112,7 +121,7 @@ index 3cfdbff..3c96aed 100644
 +        }
 +    }
 +
-+    private static float tDmgShLast;
++    private static float tDmgShLast, tDmgDodge;
 +
 +    private static String pct(float a, float b) {
 +        return b <= 0 ? "?" : String.format(java.util.Locale.US, "%.1f%%", a * 100f / b);
@@ -131,6 +140,22 @@ index 3cfdbff..3c96aed 100644
 +        SpaceObjectType cur = ModV35.currentShip();
 +        android.content.SharedPreferences p = ModQol.prefs();
 +        if (cur != null && p != null) p.edit().putInt("v35_refit_" + cur.name(), 10).commit();
++        // round 2 (owner 2026-11-14 "C"): best shield gear = highest capacity, debug/dev/pilot items excluded
++        SpaceObjectType best = null; int bc = -1;
++        for (SpaceObjectType t : SpaceObjectType.values()) {
++            String n = t.name();
++            if (n.startsWith("debug") || n.startsWith("dev") || n.startsWith("pilot")) continue;
++            try {
++                GearSpec gs = t.getGearSpec();
++                if (gs instanceof ShieldSpec && ((ShieldSpec) gs).capacity > bc) { bc = ((ShieldSpec) gs).capacity; best = t; }
++            } catch (Throwable x) { /* not gear */ }
++        }
++        if (best != null) {
++            pi.playerGear.shield = best;
++            ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.forceAddObject(SpaceObject.of(best));
++        }
++        tDmgDodge = 0;
++        try { String dv = testValue("corsair_dmgdodge"); if (dv != null) tDmgDodge = Float.parseFloat(dv.trim()); } catch (Throwable x) { tDmgDodge = 0; }
 +        ps.applyGear();
 +        ps.setFullLifeAndShieldUp();
 +        ps.life = ps.maxLife;
@@ -157,7 +182,7 @@ index 3cfdbff..3c96aed 100644
 +        tDmgHullLost = tDmgShieldLost = tDmgDealt = 0;
 +        ModCapitals.Cap c = ModCapitals.cap(g);
 +        ev("dmg", "start " + v + " player L" + pi.level + " " + (cur == null ? "?" : cur.name()) + " refit10 hull=" + Math.round(ps.maxLife)
-+            + " shield=" + (ps.shield != null ? Math.round(ps.shield.capacity) : 0) + " laser=" + pi.playerGear.laser.name()
++            + " shield=" + (ps.shield != null ? Math.round(ps.shield.capacity) : 0) + " laser=" + pi.playerGear.laser.name() + " shieldGear=" + pi.playerGear.shield.name() + " dodge=" + tDmgDodge
 +            + " turrets=" + (ps.playerCannons == null ? 0 : ps.playerCannons.length) + " | target L" + (c == null ? -1 : c.lvl)
 +            + " hull=" + Math.round(g.maxLife) + " shot=" + (c == null ? -1 : Math.round(c.shot)) + " rate=" + (c == null ? -1 : c.rate)
 +            + " police=" + (c != null && c.police));
