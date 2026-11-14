@@ -51,8 +51,8 @@ public final class ModPrologue {
     static final int BOSS_FI = 1;                // ModCapitals.FACTIONS[1] = Crimson Reavers, flagship Bloodforge
     static final String HULL = "corvette";       // owner 2026-11-10: "the one thats red and dark mostly"
     static final float BOSS_DIST = 2800f;        // where the Bloodforge waits, ahead of the player
-    static final float BOSS_FLOOR = 0.12f;       // its hull never drops below this: the fight cannot be won
-    static final float DEATH_HULL = 0.10f;       // of max hull: the Corsair is finished, the end beat takes over
+    static final float BOSS_FLOOR = 0.12f;       // its hull never drops below this: the fight cannot be won (owner 2026-11-14: keep it unkillable)
+    static final float DEATH_HULL = 0.10f;       // of max hull: the Corsair is finished, the end beat takes over (owner 2026-11-14: keep 10%)
     static final float HULL_FLOOR = 0.04f;       // held above zero every frame: only the end beat may finish the ship
     static final int BRIEF_MS = 7000;            // bounty brief on screen from the first frame
     static final int END_MS = 6000;              // destruction beat + salvage caption before the restart
