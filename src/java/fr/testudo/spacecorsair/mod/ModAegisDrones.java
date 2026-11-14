@@ -17,14 +17,14 @@ import java.util.WeakHashMap;
 
 /**
  * v43a-6 (owner 2026-11-14): the SRS Aegis (and the Spartan police titan built from it) launches rail drones while
- * hostile: a wing of 2..5 (Aegis 5); lost drones respawn together 10 s later. Drones give no XP, loot or bounty. Drones are small fighters (drone_aegis art, redesigned from
+ * hostile: a wing of 2..5 (rolled at each launch); lost drones respawn together 10 s later. Drones give no XP, loot or bounty. Drones are small fighters (drone_aegis art, redesigned from
  * the Hornet by src/genaegisdrone.py) that chase the player and fire their own rail shot every RAIL_MS; their stock
  * blaster is silenced. Each rail hit = RAIL_SHARE of one Aegis battery shot. Drones die with their carrier.
  */
 public final class ModAegisDrones {
     private ModAegisDrones() {}
 
-    static final int MAX_DRONES = 5, MIN_DRONES = 2;   // owner 11-14: a carrier fields 2..5 (Aegis: 5)
+    static final int MAX_DRONES = 5, MIN_DRONES = 2;   // owner 11-14: each launch fields 2..5
     static final long RESPAWN_MS = 10000;               // owner 11-14: any loss -> the whole wing is back 10 s later
     static final float HULL_SHARE = 0.02f;              // drone hull = 2% of the carrier's hull
     static final long RAIL_MS = 2200;
@@ -56,6 +56,7 @@ public final class ModAegisDrones {
                 w.next -= j;
                 if (w.next <= 0) {   // refill the whole wing at once, then wait for the next loss
                     w.next = RESPAWN_MS;
+                    w.count = MIN_DRONES + (int) (Math.random() * (MAX_DRONES - MIN_DRONES + 1));   // owner: 2..5 per launch
                     while (w.drones.size() < w.count) {
                         Ennemis e = spawn(g, lvl, ps);
                         if (e == null) break;
