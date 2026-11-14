@@ -788,12 +788,12 @@ public class ModV34 {
                 Mod.floatText(ps, ModLang.tr("EVADED"), 0.6f, 0.9f, 1.0f);
                 return 0f;
             }
-            // owner 2026-11-14 06:16: police are neutral entities whatever hull they fly: no faction counter, no family
-            // resist/weak, no weapon-fit penalty or bonus either way (shots from police and shots at police)
-            if (ModPolice.isPolice(src) || ModPolice.isPolice(target)) return dmg * pilot(stat(src), stat(target));
+            // owner 2026-11-14 06:16: police are neutral entities whatever hull they fly: no faction counter and no family
+            // resist/weak either way. The player's own weapon fit (below) still applies: it belongs to the ship (owner 06:16).
+            boolean neutral = ModPolice.isPolice(src) || ModPolice.isPolice(target);
             int fam = ModWeapons.familyOf(p);
             String fa = factionOf(src), fd = factionOf(target);
-            float out = dmg * pilot(stat(src), stat(target)) * counter(fa, fd, fam);
+            float out = dmg * pilot(stat(src), stat(target)) * (neutral ? 1.0f : counter(fa, fd, fam));
             if (src.isPlayer) {
                 out *= weaponRule(fa, fam);
                 if (fam == RAIL && "spartan".equals(fa)) out *= 1.1f;   // H5: Spartan hulls +10% rail damage
