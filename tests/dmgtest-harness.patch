@@ -34,10 +34,10 @@ index ac4123a..2b263ca 100644
          ModPrologue.tick(ps, j);   // v46 playable prologue
          ModComms.tick(ps);
 diff --git a/src/java/fr/testudo/spacecorsair/mod/ModDev.java b/src/java/fr/testudo/spacecorsair/mod/ModDev.java
-index 3cfdbff..214feb5 100644
+index 3cfdbff..3c96aed 100644
 --- a/src/java/fr/testudo/spacecorsair/mod/ModDev.java
 +++ b/src/java/fr/testudo/spacecorsair/mod/ModDev.java
-@@ -377,6 +377,122 @@ public final class ModDev {
+@@ -377,6 +377,128 @@ public final class ModDev {
      private static String t37Drive, t37DriveSeen;
      private static Boolean evOn;
  
@@ -45,6 +45,8 @@ index 3cfdbff..214feb5 100644
 +    private static String tDmg;
 +    private static long tDmgPoll, tDmgLog, tDmgT;
 +    private static Element tDmgTgt;
++    private static PlayerShip tDmgPs;
++    private static Object tDmgLevel;
 +    private static float tDmgLast, tDmgHullLost, tDmgShieldLost, tDmgDealt, tDmgTgtLast;
 +    private static boolean tDmgDone;
 +
@@ -75,7 +77,9 @@ index 3cfdbff..214feb5 100644
 +            float tl = g.life;
 +            if (tl < tDmgTgtLast) tDmgDealt += tDmgTgtLast - tl;
 +            tDmgTgtLast = tl;
-+            boolean dead = ps.removed || ps.life <= 0, killed = g.removed || g.life <= 0;
++            // a respawn swaps the ship or the sector (the target is cleared with it): that is a player death, not a kill
++            boolean dead = ps != tDmgPs || ps.removed || ps.life <= 0 || ObjectRegistry.INSTANCE.game.currentLevel != tDmgLevel;
++            boolean killed = !dead && (g.removed || g.life <= 0);
 +            if (!dead && !killed) {
 +                float ang = Element.normalizeSpin((((float) Math.toDegrees(ps.position.getAngularWithInRad(g.position))) % 360.0f) + 90.0f);
 +                if (ps.playerCannons != null) for (int i = 0; i < ps.playerCannons.length; i++) ps.playerCannons[i].targetSpin = ang;
@@ -143,6 +147,8 @@ index 3cfdbff..214feb5 100644
 +        }
 +        if (g == null) { ev("dmg", "start " + v + " FAILED"); return; }
 +        tDmgTgt = g;
++        tDmgPs = ps;
++        tDmgLevel = ObjectRegistry.INSTANCE.game.currentLevel;
 +        tDmgT = 0;
 +        tDmgLog = 0;
 +        tDmgLast = ps.life;
@@ -160,3 +166,15 @@ index 3cfdbff..214feb5 100644
      /** v37 test evidence: logcat "ModTest <tag> <msg>" while the emulator test flag is present (never on a phone). */
      static void ev(String tag, String msg) {
          try {
+diff --git a/src/java/fr/testudo/spacecorsair/mod/ModPrologue.java b/src/java/fr/testudo/spacecorsair/mod/ModPrologue.java
+index c188989..de9d520 100644
+--- a/src/java/fr/testudo/spacecorsair/mod/ModPrologue.java
++++ b/src/java/fr/testudo/spacecorsair/mod/ModPrologue.java
+@@ -82,6 +82,7 @@ public final class ModPrologue {
+     /** Fresh save (Main.onFirstStart, through ModIntro.firstStart). */
+     public static void firstStart() {
+         if (done()) return;
++        if (ModDev.testFlag("corsair_noprologue")) { ModDev.ev("prologue", "skipped (corsair_noprologue)"); return; }   // emulator stages other than V46
+         pending = true;
+         ModDev.ev("prologue", "pending (first start)");
+     }

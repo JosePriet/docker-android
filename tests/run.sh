@@ -83,6 +83,8 @@ if [ "$GAME" = sc ]; then
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
+# v46 prologue would own a fresh install for ~170 s and then restore the pre-prologue save: only the V46 stage plays it
+[ "$GAME" = sc ] && [ "$STAGE" != V46 ] && a shell "touch /data/local/tmp/corsair_noprologue && chmod 644 /data/local/tmp/corsair_noprologue"
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
 log "launch $PKG"; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
