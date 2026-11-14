@@ -309,6 +309,18 @@ public class ModPolice {
         standDown(ObjectRegistry.INSTANCE.playerShip);
     }
 
+    // ================================================================== v43a-11: police armour
+    /** Owner 2026-11-14 13:12: every police / militia / High Council hull takes 25% less damage from every source, police titans 30%. */
+    public static final float ARMOR = 0.25f, TITAN_ARMOR = 0.30f;
+
+    /** ModLive.hit, before the shields: the police damage reduction. */
+    public static float armor(Element target, float dmg) {
+        if (dmg <= 0 || target == null) return dmg;
+        if (ModPoliceTitan.isPoliceTitan(target)) return dmg * (1 - TITAN_ARMOR);
+        if (police.containsKey(target)) return dmg * (1 - ARMOR);
+        return dmg;
+    }
+
     // ================================================================== v43a-9: faction guns
     /**
      * Smali hook (hooks47_policeguns) at the start of Level.commitChanges: a stock EnergyLaser fired by a built police
