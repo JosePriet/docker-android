@@ -4423,7 +4423,7 @@
 
     cmpl-float v3, v2, v3
 
-    if-lez v3, :cond_1d3
+    if-lez v3, :cond_1e0
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModWeapons;->SOUND:[Ljava/lang/String;
 
@@ -4438,6 +4438,20 @@
     mul-float/2addr v2, v4
 
     const v4, 0x3f47ae14    # 0.78f
+
+    sget-object v5, Lfr/testudo/spacecorsair/mod/ModEnemyGuns;->PITCH:[F
+
+    move-object/from16 v0, p1
+
+    iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->f:Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
+
+    invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModCapitals;->indexOf(Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;)I
+
+    move-result v6
+
+    aget v5, v5, v6
+
+    mul-float/2addr v4, v5
 
     const v5, 0x3f733333    # 0.95f
 
@@ -4460,7 +4474,7 @@
     invoke-static {v3, v2, v4, v6, v7}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
     .line 539
-    :cond_1d3
+    :cond_1e0
     return-void
 .end method
 

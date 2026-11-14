@@ -978,14 +978,14 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModWeapons;->GAP:[J
 
-    .line 321
+    .line 331
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModWeapons;->near:Ljava/util/ArrayList;
 
-    .line 322
+    .line 332
     const/16 v0, 0x30
 
     new-array v0, v0, [F
@@ -1342,18 +1342,18 @@
     return-object v0
 .end method
 
-.method private static addArc(FFFF)V
+.method static addArc(FFFF)V
     .registers 7
 
     .prologue
-    .line 406
+    .line 424
     sget v0, Lfr/testudo/spacecorsair/mod/ModWeapons;->arcCount:I
 
     rem-int/lit8 v0, v0, 0x8
 
     mul-int/lit8 v0, v0, 0x6
 
-    .line 407
+    .line 425
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModWeapons;->arcs:[F
 
     aput p0, v1, v0
@@ -1384,178 +1384,227 @@
 
     aput v2, v1, v0
 
-    .line 408
+    .line 426
     sget v0, Lfr/testudo/spacecorsair/mod/ModWeapons;->arcCount:I
 
     add-int/lit8 v0, v0, 0x1
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModWeapons;->arcCount:I
 
-    .line 409
+    .line 427
     return-void
 .end method
 
 .method public static bullet(Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;Z)Lfr/testudo/spacecorsair/display/Drawable;
-    .registers 20
+    .registers 3
 
     .prologue
     .line 292
-    invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModWeapons;->familyOf(Ljava/lang/Object;)I
+    const/4 v0, 0x1
 
-    move-result v17
+    invoke-static {p0, p1, v0}, Lfr/testudo/spacecorsair/mod/ModWeapons;->bullet(Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;ZZ)Lfr/testudo/spacecorsair/display/Drawable;
 
-    .line 293
-    if-gez v17, :cond_8
+    move-result-object v0
 
-    const/4 v2, 0x0
+    return-object v0
+.end method
 
-    .line 315
-    :goto_7
-    return-object v2
+.method static bullet(Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;ZZ)Lfr/testudo/spacecorsair/display/Drawable;
+    .registers 13
 
-    .line 294
-    :cond_8
-    sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->sprites:[Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
-
-    if-nez v2, :cond_a7
-
-    .line 295
-    const/16 v2, 0xc
-
-    new-array v2, v2, [Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
-
-    sput-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->sprites:[Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
-
-    .line 296
-    const/4 v2, 0x6
-
-    new-array v3, v2, [Ljava/lang/String;
-
-    const/4 v2, 0x0
-
-    const-string v4, "fx_bolt"
-
-    aput-object v4, v3, v2
-
-    const/4 v2, 0x1
-
-    const-string v4, "fx_bolt"
-
-    aput-object v4, v3, v2
-
-    const/4 v2, 0x2
-
-    const-string v4, "fx_core"
-
-    aput-object v4, v3, v2
-
-    const/4 v2, 0x3
-
-    const-string v4, "fx_glow"
-
-    aput-object v4, v3, v2
-
-    const/4 v2, 0x4
-
-    const-string v4, "fx_bolt"
-
-    aput-object v4, v3, v2
-
-    const/4 v2, 0x5
-
-    const-string v4, "fx_spark"
-
-    aput-object v4, v3, v2
-
+    .prologue
     .line 297
-    const/4 v2, 0x6
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModWeapons;->familyOf(Ljava/lang/Object;)I
 
-    new-array v4, v2, [[F
-
-    const/4 v2, 0x0
-
-    const/4 v5, 0x2
-
-    new-array v5, v5, [F
-
-    fill-array-data v5, :array_1f2
-
-    aput-object v5, v4, v2
-
-    const/4 v2, 0x1
-
-    const/4 v5, 0x2
-
-    new-array v5, v5, [F
-
-    fill-array-data v5, :array_1fa
-
-    aput-object v5, v4, v2
-
-    const/4 v2, 0x2
-
-    const/4 v5, 0x2
-
-    new-array v5, v5, [F
-
-    fill-array-data v5, :array_202
-
-    aput-object v5, v4, v2
-
-    const/4 v2, 0x3
-
-    const/4 v5, 0x2
-
-    new-array v5, v5, [F
-
-    fill-array-data v5, :array_20a
-
-    aput-object v5, v4, v2
-
-    const/4 v2, 0x4
-
-    const/4 v5, 0x2
-
-    new-array v5, v5, [F
-
-    fill-array-data v5, :array_212
-
-    aput-object v5, v4, v2
-
-    const/4 v2, 0x5
-
-    const/4 v5, 0x2
-
-    new-array v5, v5, [F
-
-    fill-array-data v5, :array_21a
-
-    aput-object v5, v4, v2
+    move-result v2
 
     .line 298
-    const/4 v2, 0x0
+    if-gez v2, :cond_8
 
-    :goto_6d
-    const/4 v5, 0x6
+    const/4 v0, 0x0
 
-    if-ge v2, v5, :cond_a7
+    .line 311
+    :goto_7
+    return-object v0
 
     .line 299
-    sget-object v5, Lfr/testudo/spacecorsair/mod/ModWeapons;->sprites:[Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
+    :cond_8
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModWeapons;->sprites:[Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
-    aget-object v6, v3, v2
+    if-nez v0, :cond_a7
 
-    aget-object v7, v4, v2
+    .line 300
+    const/16 v0, 0xc
+
+    new-array v0, v0, [Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModWeapons;->sprites:[Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
+
+    .line 301
+    const/4 v0, 0x6
+
+    new-array v1, v0, [Ljava/lang/String;
+
+    const/4 v0, 0x0
+
+    const-string v3, "fx_bolt"
+
+    aput-object v3, v1, v0
+
+    const/4 v0, 0x1
+
+    const-string v3, "fx_bolt"
+
+    aput-object v3, v1, v0
+
+    const/4 v0, 0x2
+
+    const-string v3, "fx_core"
+
+    aput-object v3, v1, v0
+
+    const/4 v0, 0x3
+
+    const-string v3, "fx_glow"
+
+    aput-object v3, v1, v0
+
+    const/4 v0, 0x4
+
+    const-string v3, "fx_bolt"
+
+    aput-object v3, v1, v0
+
+    const/4 v0, 0x5
+
+    const-string v3, "fx_spark"
+
+    aput-object v3, v1, v0
+
+    .line 302
+    const/4 v0, 0x6
+
+    new-array v3, v0, [[F
+
+    const/4 v0, 0x0
+
+    const/4 v4, 0x2
+
+    new-array v4, v4, [F
+
+    fill-array-data v4, :array_dc
+
+    aput-object v4, v3, v0
+
+    const/4 v0, 0x1
+
+    const/4 v4, 0x2
+
+    new-array v4, v4, [F
+
+    fill-array-data v4, :array_e4
+
+    aput-object v4, v3, v0
+
+    const/4 v0, 0x2
+
+    const/4 v4, 0x2
+
+    new-array v4, v4, [F
+
+    fill-array-data v4, :array_ec
+
+    aput-object v4, v3, v0
+
+    const/4 v0, 0x3
+
+    const/4 v4, 0x2
+
+    new-array v4, v4, [F
+
+    fill-array-data v4, :array_f4
+
+    aput-object v4, v3, v0
+
+    const/4 v0, 0x4
+
+    const/4 v4, 0x2
+
+    new-array v4, v4, [F
+
+    fill-array-data v4, :array_fc
+
+    aput-object v4, v3, v0
+
+    const/4 v0, 0x5
+
+    const/4 v4, 0x2
+
+    new-array v4, v4, [F
+
+    fill-array-data v4, :array_104
+
+    aput-object v4, v3, v0
+
+    .line 303
+    const/4 v0, 0x0
+
+    :goto_6d
+    const/4 v4, 0x6
+
+    if-ge v0, v4, :cond_a7
+
+    .line 304
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModWeapons;->sprites:[Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
+
+    aget-object v5, v1, v0
+
+    aget-object v6, v3, v0
+
+    const/4 v7, 0x0
+
+    aget v6, v6, v7
+
+    aget-object v7, v3, v0
+
+    const/4 v8, 0x1
+
+    aget v7, v7, v8
+
+    const/4 v8, 0x1
+
+    invoke-static {v5, v6, v7, v8}, Lfr/testudo/spacecorsair/mod/ModFx;->fixed(Ljava/lang/String;FFZ)Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
+
+    move-result-object v5
+
+    aput-object v5, v4, v0
+
+    .line 305
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModWeapons;->sprites:[Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
+
+    add-int/lit8 v5, v0, 0x6
+
+    aget-object v6, v1, v0
+
+    aget-object v7, v3, v0
 
     const/4 v8, 0x0
 
     aget v7, v7, v8
 
-    aget-object v8, v4, v2
+    const v8, 0x3fe66666    # 1.8f
+
+    mul-float/2addr v7, v8
+
+    aget-object v8, v3, v0
 
     const/4 v9, 0x1
 
     aget v8, v8, v9
+
+    const v9, 0x3fcccccd    # 1.6f
+
+    mul-float/2addr v8, v9
 
     const/4 v9, 0x1
 
@@ -1563,464 +1612,126 @@
 
     move-result-object v6
 
-    aput-object v6, v5, v2
+    aput-object v6, v4, v5
 
-    .line 300
-    sget-object v5, Lfr/testudo/spacecorsair/mod/ModWeapons;->sprites:[Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
-
-    add-int/lit8 v6, v2, 0x6
-
-    aget-object v7, v3, v2
-
-    aget-object v8, v4, v2
-
-    const/4 v9, 0x0
-
-    aget v8, v8, v9
-
-    const v9, 0x3fe66666    # 1.8f
-
-    mul-float/2addr v8, v9
-
-    aget-object v9, v4, v2
-
-    const/4 v10, 0x1
-
-    aget v9, v9, v10
-
-    const v10, 0x3fcccccd    # 1.6f
-
-    mul-float/2addr v9, v10
-
-    const/4 v10, 0x1
-
-    invoke-static {v7, v8, v9, v10}, Lfr/testudo/spacecorsair/mod/ModFx;->fixed(Ljava/lang/String;FFZ)Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
-
-    move-result-object v7
-
-    aput-object v7, v5, v6
-
-    .line 298
-    add-int/lit8 v2, v2, 0x1
+    .line 303
+    add-int/lit8 v0, v0, 0x1
 
     goto :goto_6d
 
-    .line 303
+    .line 308
     :cond_a7
-    sget-object v3, Lfr/testudo/spacecorsair/mod/ModWeapons;->sprites:[Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
+    sget-object v1, Lfr/testudo/spacecorsair/mod/ModWeapons;->sprites:[Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
-    if-eqz p1, :cond_133
+    if-eqz p1, :cond_c7
 
-    const/4 v2, 0x6
+    const/4 v0, 0x6
 
     :goto_ac
-    add-int v2, v2, v17
+    add-int/2addr v0, v2
 
-    aget-object v16, v3, v2
-
-    .line 304
-    move-object/from16 v0, v16
-
-    iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
-
-    if-nez v2, :cond_c2
-
-    const/4 v2, 0x2
-
-    move/from16 v0, v17
-
-    if-ne v0, v2, :cond_136
-
-    const-string v2, "fx_core"
-
-    :goto_bd
-    move-object/from16 v0, v16
-
-    invoke-static {v0, v2}, Lfr/testudo/spacecorsair/mod/ModFx;->rebind(Lfr/testudo/spacecorsair/mod/ModFx$Sprite;Ljava/lang/String;)V
-
-    .line 305
-    :cond_c2
-    if-nez v17, :cond_14b
-
-    .line 306
-    const-string v2, "fx_beam"
-
-    move-object/from16 v0, p0
-
-    iget-object v3, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    iget v3, v3, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
-
-    move-object/from16 v0, p0
-
-    iget-object v4, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    iget v4, v4, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
-
-    const/4 v5, 0x0
-
-    const/4 v6, 0x0
-
-    const/high16 v7, 0x43a00000    # 320.0f
-
-    const/high16 v8, 0x41800000    # 16.0f
-
-    const/high16 v9, 0x40c00000    # 6.0f
-
-    sget-object v10, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
-
-    aget-object v10, v10, v17
-
-    const/4 v11, 0x0
-
-    aget v10, v10, v11
-
-    sget-object v11, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
-
-    aget-object v11, v11, v17
-
-    const/4 v12, 0x1
-
-    aget v11, v11, v12
-
-    sget-object v12, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
-
-    aget-object v12, v12, v17
-
-    const/4 v13, 0x2
-
-    aget v12, v12, v13
-
-    const v13, 0x3f59999a    # 0.85f
-
-    const/4 v14, 0x1
-
-    const/4 v15, 0x0
-
-    invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
-
-    .line 307
-    const-string v2, "fx_glow"
-
-    move-object/from16 v0, p0
-
-    iget-object v3, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    iget v3, v3, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
-
-    move-object/from16 v0, p0
-
-    iget-object v4, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    iget v4, v4, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
-
-    const/4 v5, 0x0
-
-    const/4 v6, 0x0
-
-    const/high16 v7, 0x43340000    # 180.0f
-
-    const/high16 v8, 0x428c0000    # 70.0f
-
-    const/high16 v9, 0x41a00000    # 20.0f
-
-    sget-object v10, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
-
-    aget-object v10, v10, v17
-
-    const/4 v11, 0x0
-
-    aget v10, v10, v11
-
-    sget-object v11, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
-
-    aget-object v11, v11, v17
-
-    const/4 v12, 0x1
-
-    aget v11, v11, v12
-
-    sget-object v12, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
-
-    aget-object v12, v12, v17
-
-    const/4 v13, 0x2
-
-    aget v12, v12, v13
-
-    const v13, 0x3f19999a    # 0.6f
-
-    const/4 v14, 0x1
-
-    const/4 v15, 0x0
-
-    invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
-
-    .line 315
-    :cond_12a
-    :goto_12a
-    move-object/from16 v0, v16
-
-    iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
-
-    if-nez v2, :cond_1ed
-
-    const/4 v2, 0x0
-
-    goto/16 :goto_7
-
-    .line 303
-    :cond_133
-    const/4 v2, 0x0
-
-    goto/16 :goto_ac
-
-    .line 304
-    :cond_136
-    const/4 v2, 0x3
-
-    move/from16 v0, v17
-
-    if-ne v0, v2, :cond_13e
-
-    const-string v2, "fx_glow"
-
-    goto :goto_bd
-
-    :cond_13e
-    const/4 v2, 0x5
-
-    move/from16 v0, v17
-
-    if-ne v0, v2, :cond_147
-
-    const-string v2, "fx_spark"
-
-    goto/16 :goto_bd
-
-    :cond_147
-    const-string v2, "fx_bolt"
-
-    goto/16 :goto_bd
-
-    .line 308
-    :cond_14b
-    const/4 v2, 0x2
-
-    move/from16 v0, v17
-
-    if-ne v0, v2, :cond_1a5
+    aget-object v1, v1, v0
 
     .line 309
-    const-string v2, "fx_glow"
+    iget-object v0, v1, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
-    move-object/from16 v0, p0
+    if-nez v0, :cond_bb
 
-    iget-object v3, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+    const/4 v0, 0x2
 
-    iget v3, v3, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
+    if-ne v2, v0, :cond_c9
 
-    move-object/from16 v0, p0
+    const-string v0, "fx_core"
 
-    iget-object v4, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    iget v4, v4, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
-
-    const/4 v5, 0x0
-
-    const/4 v6, 0x0
-
-    const/high16 v7, 0x43200000    # 160.0f
-
-    const/high16 v8, 0x42dc0000    # 110.0f
-
-    const/high16 v9, 0x42480000    # 50.0f
-
-    const/high16 v10, 0x3f800000    # 1.0f
-
-    const v11, 0x3f19999a    # 0.6f
-
-    const/high16 v12, 0x3e800000    # 0.25f
-
-    const/high16 v13, 0x3f400000    # 0.75f
-
-    const/4 v14, 0x1
-
-    const/4 v15, 0x0
-
-    invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
+    :goto_b8
+    invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModFx;->rebind(Lfr/testudo/spacecorsair/mod/ModFx$Sprite;Ljava/lang/String;)V
 
     .line 310
-    sget v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->trail:I
+    :cond_bb
+    if-eqz p2, :cond_c0
 
-    add-int/lit8 v3, v2, 0x1
-
-    sput v3, Lfr/testudo/spacecorsair/mod/ModWeapons;->trail:I
-
-    and-int/lit8 v2, v2, 0x1
-
-    if-nez v2, :cond_12a
+    invoke-static {p0, v2}, Lfr/testudo/spacecorsair/mod/ModWeapons;->trail(Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;I)V
 
     .line 311
-    const-string v2, "fx_smoke"
+    :cond_c0
+    iget-object v0, v1, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
-    move-object/from16 v0, p0
+    if-nez v0, :cond_d8
 
-    iget-object v3, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+    const/4 v0, 0x0
 
-    iget v3, v3, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
-
-    move-object/from16 v0, p0
-
-    iget-object v4, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    iget v4, v4, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
-
-    const/4 v5, 0x0
-
-    const/4 v6, 0x0
-
-    const/high16 v7, 0x44610000    # 900.0f
-
-    const/high16 v8, 0x41f00000    # 30.0f
-
-    const/high16 v9, 0x42a00000    # 80.0f
-
-    const/high16 v10, 0x3f000000    # 0.5f
-
-    const v11, 0x3ee66666    # 0.45f
-
-    const v12, 0x3ecccccd    # 0.4f
-
-    const v13, 0x3f19999a    # 0.6f
-
-    const/4 v14, 0x0
-
-    const/4 v15, 0x0
-
-    invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
-
-    goto :goto_12a
-
-    .line 312
-    :cond_1a5
-    const/4 v2, 0x5
-
-    move/from16 v0, v17
-
-    if-ne v0, v2, :cond_12a
-
-    invoke-static {}, Ljava/lang/Math;->random()D
-
-    move-result-wide v2
-
-    const-wide/high16 v4, 0x3fe0000000000000L    # 0.5
-
-    cmpg-double v2, v2, v4
-
-    if-gez v2, :cond_12a
-
-    .line 313
-    const-string v2, "fx_spark"
-
-    move-object/from16 v0, p0
-
-    iget-object v3, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    iget v3, v3, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
-
-    const/high16 v4, -0x3ea00000    # -14.0f
-
-    const/high16 v5, 0x41600000    # 14.0f
-
-    invoke-static {v4, v5}, Lfr/testudo/spacecorsair/mod/ModFx;->rnd(FF)F
-
-    move-result v4
-
-    add-float/2addr v3, v4
-
-    move-object/from16 v0, p0
-
-    iget-object v4, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    iget v4, v4, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
-
-    const/high16 v5, -0x3ea00000    # -14.0f
-
-    const/high16 v6, 0x41600000    # 14.0f
-
-    invoke-static {v5, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->rnd(FF)F
-
-    move-result v5
-
-    add-float/2addr v4, v5
-
-    const/4 v5, 0x0
-
-    const/4 v6, 0x0
-
-    const/high16 v7, 0x42f00000    # 120.0f
-
-    const/high16 v8, 0x41a00000    # 20.0f
-
-    const/high16 v9, 0x41000000    # 8.0f
-
-    const v10, 0x3f333333    # 0.7f
-
-    const v11, 0x3f59999a    # 0.85f
-
-    const/high16 v12, 0x3f800000    # 1.0f
-
-    const/high16 v13, 0x3f800000    # 1.0f
-
-    const/4 v14, 0x1
-
-    const/4 v15, 0x0
-
-    invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
-
-    goto/16 :goto_12a
-
-    :cond_1ed
-    move-object/from16 v2, v16
-
-    .line 315
     goto/16 :goto_7
 
-    .line 297
+    .line 308
+    :cond_c7
+    const/4 v0, 0x0
+
+    goto :goto_ac
+
+    .line 309
+    :cond_c9
+    const/4 v0, 0x3
+
+    if-ne v2, v0, :cond_cf
+
+    const-string v0, "fx_glow"
+
+    goto :goto_b8
+
+    :cond_cf
+    const/4 v0, 0x5
+
+    if-ne v2, v0, :cond_d5
+
+    const-string v0, "fx_spark"
+
+    goto :goto_b8
+
+    :cond_d5
+    const-string v0, "fx_bolt"
+
+    goto :goto_b8
+
+    :cond_d8
+    move-object v0, v1
+
+    .line 311
+    goto/16 :goto_7
+
+    .line 302
     nop
 
-    :array_1f2
+    :array_dc
     .array-data 4
         0x41c00000    # 24.0f
         0x433e0000    # 190.0f
     .end array-data
 
-    :array_1fa
+    :array_e4
     .array-data 4
         0x41200000    # 10.0f
         0x42100000    # 36.0f
     .end array-data
 
-    :array_202
+    :array_ec
     .array-data 4
         0x42800000    # 64.0f
         0x42800000    # 64.0f
     .end array-data
 
-    :array_20a
+    :array_f4
     .array-data 4
         0x42300000    # 44.0f
         0x42300000    # 44.0f
     .end array-data
 
-    :array_212
+    :array_fc
     .array-data 4
         0x41900000    # 18.0f
         0x42800000    # 64.0f
     .end array-data
 
-    :array_21a
+    :array_104
     .array-data 4
         0x42300000    # 44.0f
         0x42300000    # 44.0f
@@ -2282,7 +1993,7 @@
     .registers 16
 
     .prologue
-    .line 413
+    .line 431
     const/4 v0, 0x0
 
     move v11, v0
@@ -2292,10 +2003,10 @@
 
     if-ge v11, v0, :cond_93
 
-    .line 414
+    .line 432
     mul-int/lit8 v0, v11, 0x6
 
-    .line 415
+    .line 433
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModWeapons;->arcs:[F
 
     add-int/lit8 v2, v0, 0x4
@@ -2308,7 +2019,7 @@
 
     if-gtz v1, :cond_17
 
-    .line 413
+    .line 431
     :goto_13
     add-int/lit8 v0, v11, 0x1
 
@@ -2316,7 +2027,7 @@
 
     goto :goto_2
 
-    .line 416
+    .line 434
     :cond_17
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModWeapons;->arcs:[F
 
@@ -2330,7 +2041,7 @@
 
     aput v3, v1, v2
 
-    .line 417
+    .line 435
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModWeapons;->arcs:[F
 
     aget v10, v1, v0
@@ -2353,7 +2064,7 @@
 
     aget v13, v1, v0
 
-    .line 419
+    .line 437
     const/4 v2, 0x1
 
     move v8, v2
@@ -2367,14 +2078,14 @@
 
     if-gt v8, v2, :cond_7b
 
-    .line 420
+    .line 438
     int-to-float v2, v8
 
     const/high16 v3, 0x40e00000    # 7.0f
 
     div-float v3, v2, v3
 
-    .line 421
+    .line 439
     sub-float v2, v12, v10
 
     mul-float/2addr v2, v3
@@ -2396,7 +2107,7 @@
     :goto_53
     add-float/2addr v2, v4
 
-    .line 422
+    .line 440
     sub-float v4, v13, v9
 
     mul-float/2addr v3, v4
@@ -2418,7 +2129,7 @@
     :goto_64
     add-float/2addr v3, v4
 
-    .line 423
+    .line 441
     const/high16 v4, 0x3f400000    # 0.75f
 
     const v5, 0x3f59999a    # 0.85f
@@ -2429,7 +2140,7 @@
 
     invoke-static/range {v0 .. v7}, Lfr/testudo/spacecorsair/mod/ModFx;->line(FFFFFFFF)V
 
-    .line 419
+    .line 437
     add-int/lit8 v4, v8, 0x1
 
     move v8, v4
@@ -2440,19 +2151,19 @@
 
     goto :goto_3b
 
-    .line 421
+    .line 439
     :cond_77
     const/4 v2, 0x0
 
     goto :goto_53
 
-    .line 422
+    .line 440
     :cond_79
     const/4 v3, 0x0
 
     goto :goto_64
 
-    .line 427
+    .line 445
     :cond_7b
     const-string v0, "fx_glow"
 
@@ -2480,9 +2191,60 @@
 
     goto :goto_13
 
-    .line 429
+    .line 447
     :cond_93
     return-void
+.end method
+
+.method static enemyRamp()F
+    .registers 6
+
+    .prologue
+    .line 418
+    invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
+
+    move-result-wide v0
+
+    .line 419
+    sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampTargetE:Lfr/testudo/spacecorsair/business/Element;
+
+    if-eqz v2, :cond_12
+
+    sget-wide v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampLastE:J
+
+    sub-long v2, v0, v2
+
+    const-wide/16 v4, 0x3e8
+
+    cmp-long v2, v2, v4
+
+    if-lez v2, :cond_14
+
+    :cond_12
+    const/4 v0, 0x0
+
+    .line 420
+    :goto_13
+    return v0
+
+    :cond_14
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    sget-wide v4, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampSinceE:J
+
+    sub-long/2addr v0, v4
+
+    long-to-float v0, v0
+
+    const v1, 0x453b8000    # 3000.0f
+
+    div-float/2addr v0, v1
+
+    invoke-static {v2, v0}, Ljava/lang/Math;->min(FF)F
+
+    move-result v0
+
+    goto :goto_13
 .end method
 
 .method static family(Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;)I
@@ -2927,50 +2689,60 @@
     .registers 19
 
     .prologue
-    .line 328
+    .line 338
     :try_start_0
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModWeapons;->familyOf(Ljava/lang/Object;)I
 
     move-result v3
 
-    .line 329
+    .line 339
     if-ltz v3, :cond_8
 
     if-nez p1, :cond_9
 
-    .line 403
+    .line 414
     :cond_8
     :goto_8
     return-void
 
-    .line 330
+    .line 340
     :cond_9
     sget-object v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v5, v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
-    .line 331
+    .line 341
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
 
     aget-object v12, v2, v3
 
-    .line 332
+    .line 342
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->sender:Lfr/testudo/spacecorsair/business/Element;
 
-    if-ne v2, v5, :cond_46
+    if-ne v2, v5, :cond_4f
 
     const/4 v2, 0x1
 
     move v4, v2
 
-    .line 333
+    .line 343
     :goto_19
-    packed-switch v3, :pswitch_data_2ee
+    if-nez v4, :cond_22
 
-    .line 397
-    :pswitch_1c
+    move-object/from16 v0, p0
+
+    move-object/from16 v1, p1
+
+    invoke-static {v0, v1, v3}, Lfr/testudo/spacecorsair/mod/ModEnemyGuns;->onImpact(Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;Lfr/testudo/spacecorsair/business/Element;I)V
+
+    .line 344
+    :cond_22
+    packed-switch v3, :pswitch_data_2f6
+
+    .line 408
+    :pswitch_25
     const-string v2, "fx_core"
 
     move-object/from16 v0, p1
@@ -3017,35 +2789,35 @@
 
     goto :goto_8
 
-    .line 400
-    :catch_44
+    .line 411
+    :catch_4d
     move-exception v2
 
     goto :goto_8
 
-    .line 332
-    :cond_46
+    .line 342
+    :cond_4f
     const/4 v2, 0x0
 
     move v4, v2
 
     goto :goto_19
 
-    .line 335
-    :pswitch_49
+    .line 346
+    :pswitch_52
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v2
 
-    .line 336
-    if-nez v4, :cond_a7
+    .line 347
+    if-nez v4, :cond_b0
 
-    .line 337
+    .line 348
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampTargetE:Lfr/testudo/spacecorsair/business/Element;
 
     move-object/from16 v0, p1
 
-    if-ne v0, v4, :cond_5f
+    if-ne v0, v4, :cond_68
 
     sget-wide v4, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampLastE:J
 
@@ -3055,18 +2827,18 @@
 
     cmp-long v4, v4, v6
 
-    if-lez v4, :cond_63
+    if-lez v4, :cond_6c
 
-    :cond_5f
+    :cond_68
     sput-object p1, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampTargetE:Lfr/testudo/spacecorsair/business/Element;
 
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampSinceE:J
 
-    .line 338
-    :cond_63
+    .line 349
+    :cond_6c
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampLastE:J
 
-    .line 339
+    .line 350
     move-object/from16 v0, p0
 
     iget v4, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->damage:F
@@ -3097,7 +2869,7 @@
 
     iput v2, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->damage:F
 
-    .line 340
+    .line 351
     const-string v2, "fx_core"
 
     move-object/from16 v0, p1
@@ -3138,20 +2910,20 @@
 
     goto/16 :goto_8
 
-    .line 343
-    :cond_a7
+    .line 354
+    :cond_b0
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampTarget:Lfr/testudo/spacecorsair/business/Element;
 
     move-object/from16 v0, p1
 
-    if-eq v0, v4, :cond_b1
+    if-eq v0, v4, :cond_ba
 
     sput-object p1, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampTarget:Lfr/testudo/spacecorsair/business/Element;
 
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampSince:J
 
-    .line 344
-    :cond_b1
+    .line 355
+    :cond_ba
     const/high16 v4, 0x3f800000    # 1.0f
 
     sget-wide v6, Lfr/testudo/spacecorsair/mod/ModWeapons;->rampSince:J
@@ -3168,7 +2940,7 @@
 
     move-result v11
 
-    .line 345
+    .line 356
     move-object/from16 v0, p0
 
     iget v2, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->damage:F
@@ -3183,7 +2955,7 @@
 
     iput v2, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->damage:F
 
-    .line 346
+    .line 357
     const-string v2, "fx_core"
 
     move-object/from16 v0, p1
@@ -3236,30 +3008,30 @@
 
     goto/16 :goto_8
 
-    .line 350
-    :pswitch_fb
-    if-eqz v4, :cond_120
+    .line 361
+    :pswitch_104
+    if-eqz v4, :cond_129
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->near:Ljava/util/ArrayList;
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/Mod;->enemiesInto(Ljava/util/List;)V
 
-    .line 352
-    :goto_102
+    .line 363
+    :goto_10b
     const/4 v2, 0x0
 
     move v3, v2
 
-    :goto_104
+    :goto_10d
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->near:Ljava/util/ArrayList;
 
     invoke-virtual {v2}, Ljava/util/ArrayList;->size()I
 
     move-result v2
 
-    if-ge v3, v2, :cond_147
+    if-ge v3, v2, :cond_150
 
-    .line 353
+    .line 364
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->near:Ljava/util/ArrayList;
 
     invoke-virtual {v2, v3}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
@@ -3268,34 +3040,34 @@
 
     check-cast v2, Lfr/testudo/spacecorsair/business/Element;
 
-    .line 354
+    .line 365
     move-object/from16 v0, p1
 
-    if-eq v2, v0, :cond_11c
+    if-eq v2, v0, :cond_125
 
     iget-boolean v6, v2, Lfr/testudo/spacecorsair/business/Element;->removed:Z
 
-    if-eqz v6, :cond_126
+    if-eqz v6, :cond_12f
 
-    .line 352
-    :cond_11c
-    :goto_11c
+    .line 363
+    :cond_125
+    :goto_125
     add-int/lit8 v2, v3, 0x1
 
     move v3, v2
 
-    goto :goto_104
+    goto :goto_10d
 
-    .line 351
-    :cond_120
+    .line 362
+    :cond_129
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->near:Ljava/util/ArrayList;
 
     invoke-virtual {v2}, Ljava/util/ArrayList;->clear()V
 
-    goto :goto_102
+    goto :goto_10b
 
-    .line 355
-    :cond_126
+    .line 366
+    :cond_12f
     iget-object v6, v2, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     move-object/from16 v0, p1
@@ -3310,7 +3082,7 @@
 
     cmpg-float v6, v6, v7
 
-    if-gez v6, :cond_11c
+    if-gez v6, :cond_125
 
     move-object/from16 v0, p0
 
@@ -3328,17 +3100,17 @@
 
     invoke-virtual {v2, v6, v7, v0}, Lfr/testudo/spacecorsair/business/Element;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
 
-    goto :goto_11c
+    goto :goto_125
 
-    .line 357
-    :cond_147
-    if-nez v4, :cond_17d
+    .line 368
+    :cond_150
+    if-nez v4, :cond_186
 
-    if-eqz v5, :cond_17d
+    if-eqz v5, :cond_186
 
     move-object/from16 v0, p1
 
-    if-eq v0, v5, :cond_17d
+    if-eq v0, v5, :cond_186
 
     iget-object v2, v5, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -3354,7 +3126,7 @@
 
     cmpg-float v2, v2, v3
 
-    if-gez v2, :cond_17d
+    if-gez v2, :cond_186
 
     move-object/from16 v0, p0
 
@@ -3362,17 +3134,17 @@
 
     instance-of v2, v2, Lfr/testudo/spacecorsair/business/world/station/Station;
 
-    if-eqz v2, :cond_16d
+    if-eqz v2, :cond_176
 
-    .line 358
+    .line 369
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModStationGuns;->playerWanted()Z
 
     move-result v2
 
-    if-eqz v2, :cond_17d
+    if-eqz v2, :cond_186
 
-    .line 359
-    :cond_16d
+    .line 370
+    :cond_176
     move-object/from16 v0, p0
 
     iget v2, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->damage:F
@@ -3389,8 +3161,8 @@
 
     invoke-virtual {v5, v2, v3, v0}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
 
-    .line 360
-    :cond_17d
+    .line 371
+    :cond_186
     const-string v2, "fx_core"
 
     move-object/from16 v0, p1
@@ -3429,7 +3201,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 361
+    .line 372
     const-string v2, "fx_shock"
 
     move-object/from16 v0, p1
@@ -3468,19 +3240,19 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 362
+    .line 373
     const/4 v2, 0x0
 
     move/from16 v16, v2
 
-    :goto_1ca
+    :goto_1d3
     const/4 v2, 0x4
 
     move/from16 v0, v16
 
-    if-ge v0, v2, :cond_20f
+    if-ge v0, v2, :cond_218
 
-    .line 363
+    .line 374
     const-string v2, "fx_smoke"
 
     move-object/from16 v0, p1
@@ -3531,20 +3303,20 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 364
+    .line 375
     const v2, 0x3f99999a    # 1.2f
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFx;->lastDrag(F)V
 
-    .line 362
+    .line 373
     add-int/lit8 v2, v16, 0x1
 
     move/from16 v16, v2
 
-    goto :goto_1ca
+    goto :goto_1d3
 
-    .line 366
-    :cond_20f
+    .line 377
+    :cond_218
     const-string v2, "titan_blast"
 
     const v3, 0x3ee66666    # 0.45f
@@ -3557,19 +3329,19 @@
 
     goto/16 :goto_8
 
-    .line 370
-    :pswitch_21d
-    if-eqz v4, :cond_252
+    .line 381
+    :pswitch_226
+    if-eqz v4, :cond_25b
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->near:Ljava/util/ArrayList;
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/Mod;->enemiesInto(Ljava/util/List;)V
 
-    .line 373
-    :goto_224
+    .line 384
+    :goto_22d
     const/4 v3, 0x0
 
-    .line 374
+    .line 385
     const/4 v2, 0x0
 
     move v7, v2
@@ -3578,32 +3350,32 @@
 
     move-object/from16 v9, p1
 
-    :goto_22a
+    :goto_233
     const/4 v2, 0x2
 
-    if-ge v7, v2, :cond_268
+    if-ge v7, v2, :cond_271
 
-    .line 375
+    .line 386
     const/4 v5, 0x0
 
-    .line 376
+    .line 387
     const/high16 v3, 0x43e10000    # 450.0f
 
-    .line 377
+    .line 388
     const/4 v2, 0x0
 
     move v6, v2
 
-    :goto_232
+    :goto_23b
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->near:Ljava/util/ArrayList;
 
     invoke-virtual {v2}, Ljava/util/ArrayList;->size()I
 
     move-result v2
 
-    if-ge v6, v2, :cond_266
+    if-ge v6, v2, :cond_26f
 
-    .line 378
+    .line 389
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->near:Ljava/util/ArrayList;
 
     invoke-virtual {v2, v6}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
@@ -3612,39 +3384,39 @@
 
     check-cast v2, Lfr/testudo/spacecorsair/business/Element;
 
-    .line 379
+    .line 390
     move-object/from16 v0, p1
 
-    if-eq v2, v0, :cond_2ea
+    if-eq v2, v0, :cond_2f3
 
-    if-eq v2, v9, :cond_2ea
+    if-eq v2, v9, :cond_2f3
 
     iget-boolean v4, v2, Lfr/testudo/spacecorsair/business/Element;->removed:Z
 
-    if-eqz v4, :cond_258
+    if-eqz v4, :cond_261
 
     move-object v2, v5
 
-    .line 377
-    :goto_24d
+    .line 388
+    :goto_256
     add-int/lit8 v4, v6, 0x1
 
     move v6, v4
 
     move-object v5, v2
 
-    goto :goto_232
+    goto :goto_23b
 
-    .line 371
-    :cond_252
+    .line 382
+    :cond_25b
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->near:Ljava/util/ArrayList;
 
     invoke-virtual {v2}, Ljava/util/ArrayList;->clear()V
 
-    goto :goto_224
+    goto :goto_22d
 
-    .line 380
-    :cond_258
+    .line 391
+    :cond_261
     iget-object v4, v2, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v10, v9, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3653,21 +3425,21 @@
 
     move-result v4
 
-    .line 381
+    .line 392
     cmpg-float v10, v4, v3
 
-    if-gez v10, :cond_2ea
+    if-gez v10, :cond_2f3
 
     move v3, v4
 
-    goto :goto_24d
+    goto :goto_256
 
-    .line 383
-    :cond_266
-    if-nez v5, :cond_290
+    .line 394
+    :cond_26f
+    if-nez v5, :cond_299
 
-    .line 390
-    :cond_268
+    .line 401
+    :cond_271
     const-string v2, "fx_spark"
 
     move-object/from16 v0, p1
@@ -3714,8 +3486,8 @@
 
     goto/16 :goto_8
 
-    .line 384
-    :cond_290
+    .line 395
+    :cond_299
     move-object/from16 v0, p0
 
     iget v2, v0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->damage:F
@@ -3732,7 +3504,7 @@
 
     invoke-virtual {v5, v2, v3, v0}, Lfr/testudo/spacecorsair/business/Element;->applyDamage(FLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
 
-    .line 385
+    .line 396
     iget-object v2, v9, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v2, v2, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -3751,15 +3523,15 @@
 
     invoke-static {v2, v3, v4, v6}, Lfr/testudo/spacecorsair/mod/ModWeapons;->addArc(FFFF)V
 
-    .line 386
+    .line 397
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWeapons;->near:Ljava/util/ArrayList;
 
     invoke-virtual {v2, v5}, Ljava/util/ArrayList;->remove(Ljava/lang/Object;)Z
 
-    .line 388
+    .line 399
     add-int/lit8 v3, v8, 0x1
 
-    .line 374
+    .line 385
     add-int/lit8 v2, v7, 0x1
 
     move v7, v2
@@ -3768,10 +3540,10 @@
 
     move-object v9, v5
 
-    goto/16 :goto_22a
+    goto/16 :goto_233
 
-    .line 394
-    :pswitch_2c2
+    .line 405
+    :pswitch_2cb
     const-string v2, "fx_streak"
 
     move-object/from16 v0, p1
@@ -3815,27 +3587,25 @@
     const/4 v15, 0x1
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
-    :try_end_2e8
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_2e8} :catch_44
+    :try_end_2f1
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_2f1} :catch_4d
 
     goto/16 :goto_8
 
-    :cond_2ea
+    :cond_2f3
     move-object v2, v5
 
-    goto/16 :goto_24d
+    goto/16 :goto_256
 
-    .line 333
-    nop
-
-    :pswitch_data_2ee
+    .line 344
+    :pswitch_data_2f6
     .packed-switch 0x0
-        :pswitch_2c2
-        :pswitch_1c
-        :pswitch_fb
-        :pswitch_1c
-        :pswitch_49
-        :pswitch_21d
+        :pswitch_2cb
+        :pswitch_25
+        :pswitch_104
+        :pswitch_25
+        :pswitch_52
+        :pswitch_226
     .end packed-switch
 .end method
 
@@ -4641,6 +4411,287 @@
     .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_c3} :catch_8a
 
     goto/16 :goto_22
+.end method
+
+.method static trail(Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;I)V
+    .registers 16
+
+    .prologue
+    .line 316
+    if-nez p1, :cond_61
+
+    .line 317
+    const-string v0, "fx_beam"
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v1, v1, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
+
+    iget-object v2, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v2, v2, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
+
+    const/4 v3, 0x0
+
+    const/4 v4, 0x0
+
+    const/high16 v5, 0x43a00000    # 320.0f
+
+    const/high16 v6, 0x41800000    # 16.0f
+
+    const/high16 v7, 0x40c00000    # 6.0f
+
+    sget-object v8, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
+
+    aget-object v8, v8, p1
+
+    const/4 v9, 0x0
+
+    aget v8, v8, v9
+
+    sget-object v9, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
+
+    aget-object v9, v9, p1
+
+    const/4 v10, 0x1
+
+    aget v9, v9, v10
+
+    sget-object v10, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
+
+    aget-object v10, v10, p1
+
+    const/4 v11, 0x2
+
+    aget v10, v10, v11
+
+    const v11, 0x3f59999a    # 0.85f
+
+    const/4 v12, 0x1
+
+    const/4 v13, 0x0
+
+    invoke-static/range {v0 .. v13}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
+
+    .line 318
+    const-string v0, "fx_glow"
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v1, v1, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
+
+    iget-object v2, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v2, v2, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
+
+    const/4 v3, 0x0
+
+    const/4 v4, 0x0
+
+    const/high16 v5, 0x43340000    # 180.0f
+
+    const/high16 v6, 0x428c0000    # 70.0f
+
+    const/high16 v7, 0x41a00000    # 20.0f
+
+    sget-object v8, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
+
+    aget-object v8, v8, p1
+
+    const/4 v9, 0x0
+
+    aget v8, v8, v9
+
+    sget-object v9, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
+
+    aget-object v9, v9, p1
+
+    const/4 v10, 0x1
+
+    aget v9, v9, v10
+
+    sget-object v10, Lfr/testudo/spacecorsair/mod/ModWeapons;->COLOR:[[F
+
+    aget-object v10, v10, p1
+
+    const/4 v11, 0x2
+
+    aget v10, v10, v11
+
+    const v11, 0x3f19999a    # 0.6f
+
+    const/4 v12, 0x1
+
+    const/4 v13, 0x0
+
+    invoke-static/range {v0 .. v13}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
+
+    .line 326
+    :cond_60
+    :goto_60
+    return-void
+
+    .line 319
+    :cond_61
+    const/4 v0, 0x2
+
+    if-ne p1, v0, :cond_b1
+
+    .line 320
+    const-string v0, "fx_glow"
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v1, v1, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
+
+    iget-object v2, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v2, v2, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
+
+    const/4 v3, 0x0
+
+    const/4 v4, 0x0
+
+    const/high16 v5, 0x43200000    # 160.0f
+
+    const/high16 v6, 0x42dc0000    # 110.0f
+
+    const/high16 v7, 0x42480000    # 50.0f
+
+    const/high16 v8, 0x3f800000    # 1.0f
+
+    const v9, 0x3f19999a    # 0.6f
+
+    const/high16 v10, 0x3e800000    # 0.25f
+
+    const/high16 v11, 0x3f400000    # 0.75f
+
+    const/4 v12, 0x1
+
+    const/4 v13, 0x0
+
+    invoke-static/range {v0 .. v13}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
+
+    .line 321
+    sget v0, Lfr/testudo/spacecorsair/mod/ModWeapons;->trail:I
+
+    add-int/lit8 v1, v0, 0x1
+
+    sput v1, Lfr/testudo/spacecorsair/mod/ModWeapons;->trail:I
+
+    and-int/lit8 v0, v0, 0x1
+
+    if-nez v0, :cond_60
+
+    .line 322
+    const-string v0, "fx_smoke"
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v1, v1, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
+
+    iget-object v2, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v2, v2, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
+
+    const/4 v3, 0x0
+
+    const/4 v4, 0x0
+
+    const/high16 v5, 0x44610000    # 900.0f
+
+    const/high16 v6, 0x41f00000    # 30.0f
+
+    const/high16 v7, 0x42a00000    # 80.0f
+
+    const/high16 v8, 0x3f000000    # 0.5f
+
+    const v9, 0x3ee66666    # 0.45f
+
+    const v10, 0x3ecccccd    # 0.4f
+
+    const v11, 0x3f19999a    # 0.6f
+
+    const/4 v12, 0x0
+
+    const/4 v13, 0x0
+
+    invoke-static/range {v0 .. v13}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
+
+    goto :goto_60
+
+    .line 323
+    :cond_b1
+    const/4 v0, 0x5
+
+    if-ne p1, v0, :cond_60
+
+    invoke-static {}, Ljava/lang/Math;->random()D
+
+    move-result-wide v0
+
+    const-wide/high16 v2, 0x3fe0000000000000L    # 0.5
+
+    cmpg-double v0, v0, v2
+
+    if-gez v0, :cond_60
+
+    .line 324
+    const-string v0, "fx_spark"
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v1, v1, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
+
+    const/high16 v2, -0x3ea00000    # -14.0f
+
+    const/high16 v3, 0x41600000    # 14.0f
+
+    invoke-static {v2, v3}, Lfr/testudo/spacecorsair/mod/ModFx;->rnd(FF)F
+
+    move-result v2
+
+    add-float/2addr v1, v2
+
+    iget-object v2, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v2, v2, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
+
+    const/high16 v3, -0x3ea00000    # -14.0f
+
+    const/high16 v4, 0x41600000    # 14.0f
+
+    invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModFx;->rnd(FF)F
+
+    move-result v3
+
+    add-float/2addr v2, v3
+
+    const/4 v3, 0x0
+
+    const/4 v4, 0x0
+
+    const/high16 v5, 0x42f00000    # 120.0f
+
+    const/high16 v6, 0x41a00000    # 20.0f
+
+    const/high16 v7, 0x41000000    # 8.0f
+
+    const v8, 0x3f333333    # 0.7f
+
+    const v9, 0x3f59999a    # 0.85f
+
+    const/high16 v10, 0x3f800000    # 1.0f
+
+    const/high16 v11, 0x3f800000    # 1.0f
+
+    const/4 v12, 0x1
+
+    const/4 v13, 0x0
+
+    invoke-static/range {v0 .. v13}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
+
+    goto/16 :goto_60
 .end method
 
 .method static typeName(II)Ljava/lang/String;

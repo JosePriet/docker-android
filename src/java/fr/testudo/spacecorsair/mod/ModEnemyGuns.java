@@ -65,8 +65,9 @@ public final class ModEnemyGuns {
         int[] w = who.get(s);
         if (w != null) return w;
         w = NONE;
+        boolean keep = false;   // a miss is cached only when final (flagship, player drone); others may register later
         try {
-            if (ModCapitals.cap(s) != null || Mod.isDrone(s)) w = NONE;
+            if (ModCapitals.cap(s) != null || Mod.isDrone(s)) { w = NONE; keep = true; }
             else if (s instanceof Station) {
                 int f = ModStationGuns.factionOfSender(s);
                 w = f < 0 ? NONE : new int[]{f, 1, 2};
@@ -81,7 +82,7 @@ public final class ModEnemyGuns {
         } catch (Throwable t) {
             w = NONE;
         }
-        who.put(s, w);
+        if (w != NONE || keep) who.put(s, w);
         return w;
     }
 
@@ -107,7 +108,8 @@ public final class ModEnemyGuns {
     private static final ArrayList<EnergyBullet> reaver = new ArrayList<EnergyBullet>(), kretari = new ArrayList<EnergyBullet>(),
         ironclad = new ArrayList<EnergyBullet>();
     private static final ArrayList<Element> reaverS = new ArrayList<Element>(), kretariS = new ArrayList<Element>(),
-        ironcladS = new ArrayList<Element>();
+        ironcladS = new ArrayList<Element>(), bitsS = new ArrayList<Element>();
+    private static final ArrayList<EnergyBullet> bits = new ArrayList<EnergyBullet>();
 
     @SuppressWarnings("unchecked")
     public static void swap(List<?> toAdd) {
@@ -131,6 +133,8 @@ public final class ModEnemyGuns {
                     b.level = p.level;
                     b.lifeTimeInMilli = p.lifeTimeInMilli;   // stock range kept: looks and signatures, not reach
                     ((List<Object>) toAdd).set(i, b);
+                    shrapnel.remove(b);   // pooled: drop stale flags
+                    released.remove(b);
                     o = b;
                 }
                 if (!(o instanceof EnergyBullet)) continue;
@@ -176,6 +180,8 @@ public final class ModEnemyGuns {
         reaver.clear(); reaverS.clear();
         kretari.clear(); kretariS.clear();
         ironclad.clear(); ironcladS.clear();
+        for (int i = 0; i < bits.size(); i++) shrapnel.remove(bits.get(i));
+        bits.clear(); bitsS.clear();
         who.clear();
         acidUntil = 0;
         ionUntil = 0;
@@ -212,6 +218,11 @@ public final class ModEnemyGuns {
                 reaver.remove(i); reaverS.remove(i);
                 burst(b, s);
             }
+            // expired Ironclad shells and shrapnel bits (pooled bullets: unflag before reuse)
+            for (int i = ironclad.size() - 1; i >= 0; i--)
+                if (!alive(ironclad.get(i), ironcladS.get(i), ModWeapons.ARTY)) { ironclad.remove(i); ironcladS.remove(i); }
+            for (int i = bits.size() - 1; i >= 0; i--)
+                if (!alive(bits.get(i), bitsS.get(i), ModWeapons.AUTO)) { shrapnel.remove(bits.get(i)); bits.remove(i); bitsS.remove(i); }
             // Kre'tari spines turn toward the player
             float step = HOME_DEG_S * j / 1000.0f;
             for (int i = kretari.size() - 1; i >= 0; i--) {
@@ -261,7 +272,9 @@ public final class ModEnemyGuns {
             n.spin = deg;
             n.level = b.level;
             n.lifeTimeInMilli = BURST_LIFE;
+            released.remove(n);
             shrapnel.put(n, Boolean.TRUE);
+            bits.add(n); bitsS.add(s);
             ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(n);
         }
         int sz = shooter(s)[1];
@@ -342,14 +355,14 @@ public final class ModEnemyGuns {
                 scale = 1 + ramp;
                 g = bl = 1 - 0.7f * ramp;
             }
-            boolean bits = shrapnel.containsKey(e);
-            Texture t = bits ? art("fx_shrapnel_reaver")
+            boolean isBit = shrapnel.containsKey(e);
+            Texture t = isBit ? art("fx_shrapnel_reaver")
                 : art("proj_" + ModCapitals.FACTIONS[f].key + (f == WARDEN && fam == ModWeapons.ARC ? "_arc" : "") + SZ[size]);
             if (t != null) {
                 float sw = WH[size][0] * scale, sh = WH[size][1] * scale;
-                if (bits) { sw = sh = 18; }
+                if (isBit) { sw = sh = 18; }
                 else if (f == IRONCLAD) { sw *= 1.3f; sh *= 1.3f; }
-                if (bits) ModFx.sprTex(t, e.position.x, e.position.y, sw, sh, e.spin, e.r, e.g, e.b, 1, true, 0, 0, 1, 1);
+                if (isBit) ModFx.sprTex(t, e.position.x, e.position.y, sw, sh, e.spin, e.r, e.g, e.b, 1, true, 0, 0, 1, 1);
                 else ModFx.sprTex(t, e.position.x, e.position.y, sw, sh, e.spin, r, g, bl, 1, true, 0, 0, 1, 1);
                 if (size > 0) ModWeapons.trail(e, fam);
                 return ModFx.EMPTY;
