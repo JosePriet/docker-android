@@ -480,7 +480,10 @@ public final class ModCapitals {
             for (int k = 0; k < n; k++) { c.tAng[k] = g.spin; c.tReload[k] = 300 * k; }   // staggered first salvo
         }
         boolean hostile = !ps.removed && ModLive.titanHostile(g, c);
-        if (hostile && "spartan".equals(c.f.key)) ModAegisDrones.tick(g, c.shot * GUNS[0][0].dmg, c.lvl, ps, j);   // v43a-6: rail drones
+        if ("spartan".equals(c.f.key)) {   // v43a-6: rail drones while hostile; recalled when the Aegis calms down
+            if (hostile) ModAegisDrones.tick(g, c.shot * GUNS[0][0].dmg, c.lvl, ps, j);
+            else ModAegisDrones.drop(g);
+        }
         Gun[] gs = GUNS[indexOf(c.f)];
         for (int k = 0; k < n; k++) {
             Gun gun = gs[k % gs.length];

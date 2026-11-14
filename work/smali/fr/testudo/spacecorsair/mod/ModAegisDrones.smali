@@ -272,7 +272,7 @@
 
     if-eqz v2, :cond_f
 
-    .line 132
+    .line 134
     :cond_e
     :goto_e
     return-void
@@ -352,15 +352,73 @@
     check-cast v3, Ljava/lang/Float;
 
     .line 121
-    move-object/from16 v0, p0
+    const v2, 0x45228000    # 2600.0f
 
-    iget-object v2, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+    div-float v2, v16, v2
 
+    .line 122
     move-object/from16 v0, p1
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    invoke-virtual {v2, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->getAngularWithInRad(Lfr/testudo/spacecorsair/engine/Vector2;)D
+    iget v4, v4, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
+
+    move-object/from16 v0, p1
+
+    iget-object v5, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v5, v5, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
+
+    const/high16 v6, 0x42c80000    # 100.0f
+
+    mul-float/2addr v5, v6
+
+    mul-float/2addr v5, v2
+
+    add-float/2addr v4, v5
+
+    move-object/from16 v0, p1
+
+    iget-object v5, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v5, v5, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
+
+    move-object/from16 v0, p1
+
+    iget-object v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v6, v6, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
+
+    const/high16 v7, 0x42c80000    # 100.0f
+
+    mul-float/2addr v6, v7
+
+    mul-float/2addr v2, v6
+
+    add-float/2addr v2, v5
+
+    .line 123
+    move-object/from16 v0, p0
+
+    iget-object v5, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v5, v5, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
+
+    sub-float/2addr v2, v5
+
+    float-to-double v6, v2
+
+    move-object/from16 v0, p0
+
+    iget-object v2, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->position:Lfr/testudo/spacecorsair/engine/Vector2;
+
+    iget v2, v2, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
+
+    sub-float v2, v4, v2
+
+    float-to-double v4, v2
+
+    invoke-static {v6, v7, v4, v5}, Ljava/lang/Math;->atan2(DD)D
 
     move-result-wide v4
 
@@ -374,17 +432,17 @@
 
     add-float v11, v2, v4
 
-    .line 122
+    .line 124
     invoke-static {}, Lfr/testudo/spacecorsair/business/factory/GamePools;->newEnnergyBullet()Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;
 
     move-result-object v2
 
-    .line 123
-    if-nez v3, :cond_f9
+    .line 125
+    if-nez v3, :cond_129
 
     const/high16 v3, 0x42c80000    # 100.0f
 
-    :goto_6a
+    :goto_9a
     const/4 v4, 0x4
 
     const v6, 0x3f4ccccd    # 0.8f
@@ -407,7 +465,7 @@
 
     move-result-object v2
 
-    .line 124
+    .line 126
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     move-object/from16 v0, p0
@@ -416,7 +474,7 @@
 
     invoke-virtual {v3, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 125
+    .line 127
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
 
     const/4 v4, 0x0
@@ -435,15 +493,15 @@
 
     invoke-virtual {v3, v4, v5}, Lfr/testudo/spacecorsair/engine/Vector2;->applyRotatation(D)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 126
+    .line 128
     iput v11, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->spin:F
 
-    .line 127
+    .line 129
     const-wide/16 v4, 0x587
 
     iput-wide v4, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->lifeTimeInMilli:J
 
-    .line 128
+    .line 130
     sget-object v3, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v3, v3, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -454,7 +512,7 @@
 
     invoke-interface {v3, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 129
+    .line 131
     const-string v2, "fx_core"
 
     move-object/from16 v0, p0
@@ -493,7 +551,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 130
+    .line 132
     const/4 v2, 0x0
 
     const/high16 v3, 0x3f800000    # 1.0f
@@ -508,7 +566,7 @@
 
     move-result v2
 
-    .line 131
+    .line 133
     const v3, 0x3d4ccccd    # 0.05f
 
     cmpl-float v3, v2, v3
@@ -537,13 +595,13 @@
 
     goto/16 :goto_e
 
-    .line 123
-    :cond_f9
+    .line 125
+    :cond_129
     invoke-virtual {v3}, Ljava/lang/Float;->floatValue()F
 
     move-result v3
 
-    goto/16 :goto_6a
+    goto/16 :goto_9a
 .end method
 
 .method private static spawn(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;ILfr/testudo/spacecorsair/business/player/PlayerShip;)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;

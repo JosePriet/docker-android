@@ -118,7 +118,9 @@ public final class ModAegisDrones {
         if (r[0] > 0 || dist > RAIL_RANGE) return;
         r[0] = RAIL_MS;
         Float dmg = shotOf.get(e);
-        float ang = (float) Math.toDegrees(e.position.getAngularWithInRad(ps.position)) + 90.0f;
+        float t = dist / (RAIL_SPEED * 100.0f);   // lead the target like the flagship batteries (ModCapitals.guns)
+        float ax = ps.position.x + ps.speed.x * 100.0f * t, ay = ps.position.y + ps.speed.y * 100.0f * t;
+        float ang = (float) Math.toDegrees(Math.atan2(ay - e.position.y, ax - e.position.x)) + 90;
         fr.testudo.spacecorsair.business.projectiles.EnergyBullet p = fr.testudo.spacecorsair.business.factory.GamePools.newEnnergyBullet()
             .init(dmg == null ? 100 : dmg, 4, e, 0.8f, 0.55f, 0.95f, 1.0f, ModWeapons.TAG[ModWeapons.RAIL]);
         p.position.setSameAs(e.position);
