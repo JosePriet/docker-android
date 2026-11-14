@@ -1,7 +1,7 @@
 name: emulator-test
 on:
   push:
-    branches: [emulator-tests]
+    branches: [emulator-tests, claude/project-thread-qs9twg]
   workflow_dispatch:
 permissions:
   contents: write
@@ -16,8 +16,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v43a6n, stage: V47N }
-          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v43a6p, stage: V42 }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v43a12-d1, stage: D1 }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v43a12-d2, stage: D2 }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v43a12-d3, stage: D3 }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v43a12-v42, stage: V42 }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v43a12-v46, stage: V46 }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v43a12-v47n, stage: V47N }
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM

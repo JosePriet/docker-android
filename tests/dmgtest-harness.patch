@@ -1,0 +1,162 @@
+diff --git a/src/java/fr/testudo/spacecorsair/mod/ModCapitals.java b/src/java/fr/testudo/spacecorsair/mod/ModCapitals.java
+index 4861997..2575818 100644
+--- a/src/java/fr/testudo/spacecorsair/mod/ModCapitals.java
++++ b/src/java/fr/testudo/spacecorsair/mod/ModCapitals.java
+@@ -161,6 +161,18 @@ public final class ModCapitals {
+         }
+     }
+ 
++    /** v43a audit item 7 (emulator damage test): faction flagship fi at {@code at}, hostile at once, at the usual scaled level. */
++    static GuardianCivilShip testBuild(int fi, Vector2 at) {
++        for (GuardianCivilShip old : caps.keySet()) {
++            if (old.removed) continue;
++            old.removed = true;
++            ObjectRegistry.INSTANCE.game.currentLevel.toDelete.add(old);
++        }
++        GuardianCivilShip g = build(fi, scaledLevel(ObjectRegistry.INSTANCE.game.currentLevel.id.levelMax), null, at);
++        try { g.attackPlayerIfItNotTheCaseAlready(); } catch (Throwable t) { /* re-armed by the test tick */ }
++        return g;
++    }
++
+     /** v42 (owner 23:17): flagships scale with the player: level = max(sector top, player level + 2), capped. */
+     static final int FLAGSHIP_OVER_PLAYER = 2;
+ 
+diff --git a/src/java/fr/testudo/spacecorsair/mod/ModCaps.java b/src/java/fr/testudo/spacecorsair/mod/ModCaps.java
+index ac4123a..2b263ca 100644
+--- a/src/java/fr/testudo/spacecorsair/mod/ModCaps.java
++++ b/src/java/fr/testudo/spacecorsair/mod/ModCaps.java
+@@ -162,6 +162,7 @@ public final class ModCaps {
+                 } catch (Exception e) { /* test only */ }
+             }
+         }
++        ModDev.testDmg(ps, j);   // v43a audit item 7: corsair_dmgtest
+         ModTestMode.tick(ps, j);
+         ModPrologue.tick(ps, j);   // v46 playable prologue
+         ModComms.tick(ps);
+diff --git a/src/java/fr/testudo/spacecorsair/mod/ModDev.java b/src/java/fr/testudo/spacecorsair/mod/ModDev.java
+index 3cfdbff..214feb5 100644
+--- a/src/java/fr/testudo/spacecorsair/mod/ModDev.java
++++ b/src/java/fr/testudo/spacecorsair/mod/ModDev.java
+@@ -377,6 +377,122 @@ public final class ModDev {
+     private static String t37Drive, t37DriveSeen;
+     private static Boolean evOn;
+ 
++    // ------------------------------------------------------------------ v43a audit item 7: titan damage measurement
++    private static String tDmg;
++    private static long tDmgPoll, tDmgLog, tDmgT;
++    private static Element tDmgTgt;
++    private static float tDmgLast, tDmgHullLost, tDmgShieldLost, tDmgDealt, tDmgTgtLast;
++    private static boolean tDmgDone;
++
++    /**
++     * Emulator only. corsair_dmgtest=&lt;faction key&gt; (flagship) or police_&lt;faction key&gt; (police titan); a new value starts a
++     * new fight. The flown hull becomes a maxed L40 pilot (level 40, refit 10, Siege Railgun, full hull and shield), the target
++     * spawns 1,700 ahead and attacks; the player stays put, its turrets aim at the target and fire every frame. Logcat
++     * "ModTest dmg" once a second: player hull %, hull and shield lost so far, target hull %, then "dmg end" (killed /
++     * player_dead / timeout 180 s). Numbers only; nothing here changes balance.
++     */
++    static void testDmg(PlayerShip ps, long j) {
++        try {
++            tDmgPoll -= j;
++            if (tDmgPoll <= 0) {
++                tDmgPoll = 1000;
++                String v = testValue("corsair_dmgtest");
++                if (v != null && v.trim().length() > 0 && !v.equals(tDmg)) { tDmg = v; dmgStart(ps, v.trim()); }
++            }
++            Element g = tDmgTgt;
++            if (g == null || tDmgDone) return;
++            tDmgT += j;
++            // damage bookkeeping every frame: drops only (regen is not counted back)
++            float sh = ps.shield != null ? ps.shield.currentValue : 0;
++            if (ps.life < tDmgLast) tDmgHullLost += tDmgLast - ps.life;
++            tDmgLast = ps.life;
++            if (sh < tDmgShLast) tDmgShieldLost += tDmgShLast - sh;
++            tDmgShLast = sh;
++            float tl = g.life;
++            if (tl < tDmgTgtLast) tDmgDealt += tDmgTgtLast - tl;
++            tDmgTgtLast = tl;
++            boolean dead = ps.removed || ps.life <= 0, killed = g.removed || g.life <= 0;
++            if (!dead && !killed) {
++                float ang = Element.normalizeSpin((((float) Math.toDegrees(ps.position.getAngularWithInRad(g.position))) % 360.0f) + 90.0f);
++                if (ps.playerCannons != null) for (int i = 0; i < ps.playerCannons.length; i++) ps.playerCannons[i].targetSpin = ang;
++                ps.isShooting = true;
++                if (g instanceof fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip) {
++                    fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip c = (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip) g;
++                    if (c.chasseTarget == null) c.attackPlayerIfItNotTheCaseAlready();
++                }
++            }
++            tDmgLog -= j;
++            String end = dead ? "player_dead" : killed ? "killed" : tDmgT >= 180000 ? "timeout" : null;
++            if (tDmgLog <= 0 || end != null) {
++                tDmgLog = 1000;
++                ModV34.Sh ts = ModV34.bigShield.get(g);
++                ev("dmg", tDmg + " t=" + (tDmgT / 1000f) + " phull=" + pct(ps.life, ps.maxLife) + " pshield=" + Math.round(sh) + "/"
++                    + (ps.shield != null ? Math.round(ps.shield.capacity) : 0) + " hullLost=" + pct(tDmgHullLost, ps.maxLife)
++                    + " shieldLost=" + Math.round(tDmgShieldLost) + " wall=" + Math.round(ModAnchor.cur) + "/" + Math.round(ModAnchor.cap)
++                    + " thull=" + pct(g.life, g.maxLife) + " tshield=" + (ts == null ? 0 : Math.round(ts.cur)) + " dealt=" + Math.round(tDmgDealt)
++                    + " dist=" + Math.round(g.position.distance(ps.position)));
++            }
++            if (end != null) {
++                tDmgDone = true;
++                ps.isShooting = false;
++                ev("dmg", "end " + tDmg + " result=" + end + " t=" + (tDmgT / 1000f) + " hullLost=" + pct(tDmgHullLost, ps.maxLife)
++                    + " shieldLost=" + Math.round(tDmgShieldLost) + " pMaxHull=" + Math.round(ps.maxLife) + " tMaxHull=" + Math.round(g.maxLife)
++                    + " thull=" + pct(g.life, g.maxLife) + " dealt=" + Math.round(tDmgDealt));
++            }
++        } catch (Throwable t) {
++            ev("dmg", "error " + t);
++        }
++    }
++
++    private static float tDmgShLast;
++
++    private static String pct(float a, float b) {
++        return b <= 0 ? "?" : String.format(java.util.Locale.US, "%.1f%%", a * 100f / b);
++    }
++
++    private static void dmgStart(PlayerShip ps, String v) {
++        tDmgTgt = null;
++        tDmgDone = false;
++        if (ModPoliceTitan.active()) ModPoliceTitan.standDown();
++        PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
++        pi.level = 40;
++        pi.init();
++        SpaceObjectType rail = SpaceObjectType.valueOf("modRailgunL15");   // mod enum entry (smali), not in the compile jar
++        pi.playerGear.laser = rail;
++        ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.forceAddObject(SpaceObject.of(rail));
++        SpaceObjectType cur = ModV35.currentShip();
++        android.content.SharedPreferences p = ModQol.prefs();
++        if (cur != null && p != null) p.edit().putInt("v35_refit_" + cur.name(), 10).commit();
++        ps.applyGear();
++        ps.setFullLifeAndShieldUp();
++        ps.life = ps.maxLife;
++        if (ps.shield != null) ps.shield.currentValue = ps.shield.capacity;
++        ModAnchor.cur = -1;   // wall starts full
++        Vector2 at = new Vector2(ps.position.x, ps.position.y + 1700);
++        boolean police = v.startsWith("police_");
++        String key = police ? v.substring(7) : v;
++        Element g = null;
++        if (police) {
++            g = ModPoliceTitan.spawn(key, 0, at);
++        } else {
++            for (int i = 0; i < ModCapitals.FACTIONS.length; i++) if (ModCapitals.FACTIONS[i].key.equals(key)) g = ModCapitals.testBuild(i, at);
++        }
++        if (g == null) { ev("dmg", "start " + v + " FAILED"); return; }
++        tDmgTgt = g;
++        tDmgT = 0;
++        tDmgLog = 0;
++        tDmgLast = ps.life;
++        tDmgShLast = ps.shield != null ? ps.shield.currentValue : 0;
++        tDmgTgtLast = g.life;
++        tDmgHullLost = tDmgShieldLost = tDmgDealt = 0;
++        ModCapitals.Cap c = ModCapitals.cap(g);
++        ev("dmg", "start " + v + " player L" + pi.level + " " + (cur == null ? "?" : cur.name()) + " refit10 hull=" + Math.round(ps.maxLife)
++            + " shield=" + (ps.shield != null ? Math.round(ps.shield.capacity) : 0) + " laser=" + pi.playerGear.laser.name()
++            + " turrets=" + (ps.playerCannons == null ? 0 : ps.playerCannons.length) + " | target L" + (c == null ? -1 : c.lvl)
++            + " hull=" + Math.round(g.maxLife) + " shot=" + (c == null ? -1 : Math.round(c.shot)) + " rate=" + (c == null ? -1 : c.rate)
++            + " police=" + (c != null && c.police));
++    }
++
+     /** v37 test evidence: logcat "ModTest <tag> <msg>" while the emulator test flag is present (never on a phone). */
+     static void ev(String tag, String msg) {
+         try {
