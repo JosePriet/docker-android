@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 451
+    .line 458
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModTestMode$4;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 5
 
     .prologue
-    .line 452
+    .line 459
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModTestMode$4;->val$a:Landroid/app/Activity;
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
