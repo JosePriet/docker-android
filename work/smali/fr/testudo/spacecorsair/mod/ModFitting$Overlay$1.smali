@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 461
+    .line 481
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$1;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 3
 
     .prologue
-    .line 464
+    .line 484
     :try_start_0
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$1;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
@@ -50,15 +50,15 @@
     :try_end_6
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_6} :catch_7
 
-    .line 468
+    .line 488
     :goto_6
     return-void
 
-    .line 465
+    .line 485
     :catch_7
     move-exception v0
 
-    .line 466
+    .line 486
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$1;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModFitting;->fail(Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;)V

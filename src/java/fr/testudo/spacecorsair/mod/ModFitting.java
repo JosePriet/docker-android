@@ -326,7 +326,9 @@ public final class ModFitting {
         String lv = "Lv " + g.level;
         if (g instanceof LaserSpec) {
             LaserSpec l = (LaserSpec) g;
-            return lv + " · DPS " + (int) l.getDps() + " · " + l.damage + ModLang.tr(" dmg / ") + l.reload + " ms";
+            // weapon fit (2026-11-14): the H1 loss on the selected hull shows as "DPS base -> real"
+            int base = (int) l.getDps(), real = (int) fitDps(l);
+            return lv + " · DPS " + (real < base ? base + " → " + real : String.valueOf(base)) + " · " + l.damage + ModLang.tr(" dmg / ") + l.reload + " ms";
         }
         if (g instanceof MissileSpec) {
             MissileSpec m = (MissileSpec) g;
@@ -357,11 +359,29 @@ public final class ModFitting {
     /** Comparable headline number of an item (DPS, shield HP, missile damage, boost, cells), or NaN. */
     static float headline(SpaceObjectType t) {
         GearSpec g = t == null ? null : t.getGearSpec();
-        if (g instanceof LaserSpec) return ((LaserSpec) g).getDps();
+        if (g instanceof LaserSpec) return fitDps((LaserSpec) g);
         if (g instanceof ShieldSpec) return ((ShieldSpec) g).capacity;
         if (g instanceof MissileSpec) return empty(t) ? 0 : ((MissileSpec) g).damage + ((MissileSpec) g).radiusDamage;
         if (g instanceof BoosterSpec) return empty(t) ? 0 : ((BoosterSpec) g).boostPower;
         return Float.NaN;
+    }
+
+    /** Item DPS after the H1 weapon-fit multipliers for the selected hull (damage x fire rate). */
+    static float fitDps(LaserSpec l) {
+        float[] m = ModV34.fitMult(ModV34.fitState(ModV34.gearHullKey(), l));
+        return l.getDps() * m[0] * m[1];
+    }
+
+    /** Fit line under a laser's stats, or null for stock guns / beams. Colour: FITS green, neutral orange, off-faction red. */
+    static TextView fitView(Context c, SpaceObjectType t) {
+        GearSpec g = t == null || empty(t) ? null : t.getGearSpec();
+        if (!(g instanceof LaserSpec)) return null;
+        String key = ModV34.gearHullKey();
+        int st = ModV34.fitState(key, (LaserSpec) g);
+        if (st == ModV34.FIT_NONE) return null;
+        TextView v = text(c, 10, st == ModV34.FIT_OK ? GOOD : st == ModV34.FIT_OFF ? BAD : HIGH_C, true);
+        v.setText(ModV34.fitLine(key, st));
+        return v;
     }
 
     /** Sustained laser DPS of the fitted ship, from the live PlayerShip values (hull bonuses included). */
@@ -858,7 +878,9 @@ public final class ModFitting {
                 row(ModLang.tr("Damage / shot"), String.valueOf((int) ps.bulletDamage));
                 row(ModLang.tr("Cycle time"), ps.milleSecBetweenShots + " ms");
                 row(ModLang.tr("Laser DPS (item)"), String.valueOf((int) ps.laserSpec.getDps()));
-                row(ModLang.tr("Fitted DPS (est.)"), String.valueOf(Math.round(fittedDps(ps))));
+                int fs = ModV34.fitState(ModShips.factionKey(ps), ps.laserSpec);
+                row(ModLang.tr("Fitted DPS (est.)"), String.valueOf(Math.round(fittedDps(ps) * ModV34.fitMult(fs)[0])));   // H1 per-hit cut (rate cut is already live)
+                if (fs != ModV34.FIT_NONE) row(ModLang.tr("Weapon fit"), fs == ModV34.FIT_OK ? ModLang.tr("FITS") : fs == ModV34.FIT_OFF ? ModLang.tr("OFF-FACTION") : ModLang.tr("Neutral hull: -15%"));
             }
             SpaceObjectType mt = pi.playerGear.missile;
             if (!empty(mt) && ps != null && ps.missileSpec != null) {
@@ -1539,6 +1561,11 @@ public final class ModFitting {
             st.setText(t == null ? "" : statLine(t));
             st.setPadding(0, (int) (3 * d), 0, 0);
             col.addView(st);
+            TextView fv = fitView(a, t);
+            if (fv != null) {
+                fv.setPadding(0, (int) (2 * d), 0, 0);
+                col.addView(fv);
+            }
             r.addView(col, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
             return r;
         }

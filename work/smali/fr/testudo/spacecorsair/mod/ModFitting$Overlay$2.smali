@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 516
+    .line 536
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$2;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
     iput p2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$2;->val$slot:I
@@ -49,7 +49,7 @@
     .registers 4
 
     .prologue
-    .line 517
+    .line 537
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$2;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;

@@ -11,5 +11,12 @@
  "Reporting to the Genesis tutorial sector...": "Rumbo al sector de instrucción de Genesis...",
  "REPLAY PROLOGUE": "REPETIR PRÓLOGO",
  "OVERSHIELD DOWN": "SOBREESCUDO ROTO",
- "OVERSHIELD RESTORED": "SOBREESCUDO REPUESTO"
+ "OVERSHIELD RESTORED": "SOBREESCUDO REPUESTO",
+ "FITS: %s weapon family": "IDÓNEA: familia de armas de %s",
+ "Neutral hull: -15% damage with faction weapons": "Casco neutral: -15% de daño con armas de facción",
+ "OFF-FACTION: -40%% damage, -40%% fire rate, -40%% range, no hull weapon bonuses. %s hulls use %s.": "FUERA DE FACCIÓN: -40%% de daño, -40%% de cadencia, -40%% de alcance, sin bonos de armas del casco. Los cascos de %s usan %s.",
+ "Weapon fit": "Afinidad del arma",
+ "FITS": "IDÓNEA",
+ "OFF-FACTION": "FUERA DE FACCIÓN",
+ "Neutral hull: -15%": "Casco neutral: -15%"
 }

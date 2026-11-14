@@ -632,6 +632,58 @@ public class ModV34 {
         return ownFamily(hullFaction, fam) ? 1.0f : 0.6f;
     }
 
+    // ================================================================== weapon-fit UI (2026-11-14, owner: make H1 visible)
+    static final int FIT_NONE = 0, FIT_OK = 1, FIT_NEUTRAL = 2, FIT_OFF = 3;
+
+    /** Faction key of the hull the player has selected (PlayerGear, so it is right during ship changes too). */
+    static String gearHullKey() {
+        try {
+            PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
+            return ModShips.factionKey(ModShips.hullFor((fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec) pi.playerGear.playerShip.getGearSpec()));
+        } catch (Throwable t) {
+            return "";
+        }
+    }
+
+    /** H1 state of a laser on a hull: no family (stock gun / beam), own family, neutral hull, other faction's family. */
+    static int fitState(String key, fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpec l) {
+        int fam = l == null ? -1 : ModWeapons.family(l);
+        if (fam < 0) return FIT_NONE;
+        if (key.length() == 0) return FIT_NEUTRAL;
+        return ownFamily(key, fam) ? FIT_OK : FIT_OFF;
+    }
+
+    /** {per-hit damage, fire rate} multipliers H1 applies (weaponRule + offFactionRate). */
+    static float[] fitMult(int state) {
+        if (state == FIT_NEUTRAL) return new float[]{0.85f, 1f};
+        if (state == FIT_OFF) return new float[]{0.6f, 0.6f};
+        return new float[]{1f, 1f};
+    }
+
+    static String factionName(String key) {
+        for (ModCapitals.Faction f : ModCapitals.FACTIONS) if (f.key.equals(key)) return ModLang.tr(f.name);
+        return key;
+    }
+
+    /** Families a faction hull fights best with, e.g. "Railgun / Arc Projector". */
+    static String favored(String key) {
+        StringBuilder b = new StringBuilder();
+        for (int f = 0; f < ModWeapons.COUNT; f++) {
+            if (!ownFamily(key, f)) continue;
+            if (b.length() > 0) b.append(" / ");
+            b.append(ModLang.tr(ModWeapons.familyName(f)));
+        }
+        return b.toString();
+    }
+
+    /** One readable line for the item card / equip warning ("" for stock guns and beams). */
+    static String fitLine(String key, int state) {
+        if (state == FIT_OK) return ModLang.trf("FITS: %s weapon family", factionName(key));
+        if (state == FIT_NEUTRAL) return ModLang.tr("Neutral hull: -15% damage with faction weapons");
+        if (state == FIT_OFF) return ModLang.trf("OFF-FACTION: -40%% damage, -40%% fire rate, -40%% range, no hull weapon bonuses. %s hulls use %s.", factionName(key), favored(key));
+        return "";
+    }
+
     /** H5: Frontier (warden) hulls reload rails 10% faster. From ModShips.apply after gear is applied. */
     public static void railReload(PlayerShip ps) {
         try {

@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 529
+    .line 549
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$3;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 4
 
     .prologue
-    .line 531
+    .line 551
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$3;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
@@ -49,13 +49,13 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting;->setClassic(Landroid/content/Context;Z)V
 
-    .line 532
+    .line 552
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$3;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->tick(Z)V
 
-    .line 533
+    .line 553
     return-void
 .end method

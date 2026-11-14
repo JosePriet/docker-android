@@ -89,10 +89,24 @@ public class ModLock {
             return false;
         }
         if (req == null || req == currentShip() || carrierOk(t)) {
+            fitWarning(t);
             return true;
         }
         toast(t.getLocalizedLabel() + ModLang.tr(" can only be equipped on the ") + shipName(req) + ".");
         return false;
+    }
+
+    /** Weapon fit (2026-11-14, owner): equipping a laser that loses damage on this hull (H1) says so; the equip still goes ahead. */
+    private static void fitWarning(SpaceObjectType t) {
+        try {
+            GearSpec g = t.getGearSpec();
+            if (!(g instanceof fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpec)) return;
+            String key = ModV34.gearHullKey();
+            int st = ModV34.fitState(key, (fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpec) g);
+            if (st == ModV34.FIT_OFF || st == ModV34.FIT_NEUTRAL) toast(t.getLocalizedLabel() + ": " + ModV34.fitLine(key, st));
+        } catch (Throwable e) {
+            // no warning
+        }
     }
 
     /** Hook at the end of PlayerInfo.changeShip: fix the laser and missile slots for the new ship. */

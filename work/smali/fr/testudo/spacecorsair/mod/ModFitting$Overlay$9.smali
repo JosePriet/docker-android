@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 743
+    .line 763
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$9;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
     iput p2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$9;->val$slot:I
@@ -49,7 +49,7 @@
     .registers 3
 
     .prologue
-    .line 743
+    .line 763
     :try_start_0
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$9;->this$0:Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;
 
