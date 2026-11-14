@@ -788,7 +788,7 @@ public class ModV34 {
                 Mod.floatText(ps, ModLang.tr("EVADED"), 0.6f, 0.9f, 1.0f);
                 return 0f;
             }
-            int fam = ModWeapons.familyOf(p);
+            int fam = ModPolice.isPolice(src) ? -1 : ModWeapons.familyOf(p);   // owner 2026-11-14: police fire their faction family but take no family resist/weak bonus or penalty
             String fa = factionOf(src), fd = factionOf(target);
             float out = dmg * pilot(stat(src), stat(target)) * counter(fa, fd, fam);
             if (src.isPlayer) {
