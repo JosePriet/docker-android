@@ -3424,7 +3424,9 @@
 
     iget v7, p1, Lfr/testudo/spacecorsair/business/Element;->radarPointSize:F
 
-    invoke-static/range {v0 .. v7}, Lfr/testudo/spacecorsair/mod/ModMap;->radarPoint(Lfr/testudo/spacecorsair/engine/RenderQueue;Lfr/testudo/spacecorsair/engine/Vector2;ZFFFFF)V
+    move-object v8, p1
+
+    invoke-static/range {v0 .. v8}, Lfr/testudo/spacecorsair/mod/ModMap;->radarPoint2(Lfr/testudo/spacecorsair/engine/RenderQueue;Lfr/testudo/spacecorsair/engine/Vector2;ZFFFFFLfr/testudo/spacecorsair/business/Element;)V
 
     goto/16 :goto_5a
 

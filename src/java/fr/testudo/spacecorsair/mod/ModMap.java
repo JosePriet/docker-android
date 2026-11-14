@@ -49,6 +49,27 @@ public final class ModMap {
 
     private static final fr.testudo.spacecorsair.engine.Vector2 rp = new fr.testudo.spacecorsair.engine.Vector2();
 
+    /**
+     * v43a-8 (owner 2026-11-14, hooks47_skull): same as radarPoint, with the element. An enemy at least ModLive.SKULL_GAP
+     * levels above the player shows a red skull (icon_skull, upright) instead of its dot; the dot stays until the art is on the GPU.
+     */
+    public static void radarPoint2(fr.testudo.spacecorsair.engine.RenderQueue q, fr.testudo.spacecorsair.engine.Vector2 at, boolean b,
+                                   float r, float g, float bl, float a, float size, fr.testudo.spacecorsair.business.Element e) {
+        try {
+            if (e != null && ModLive.outlevels(e)) {
+                Texture t = ModArt.ready("icon_skull");
+                if (t != null) {
+                    float h = ModLive.SKULL_RADAR_H, w = h * ModLive.SKULL_ASPECT;
+                    ModFx.hudTex(t, at.x, at.y, w, h, ModLive.SKULL_R, ModLive.SKULL_G, ModLive.SKULL_B, Math.max(0.85f, a));
+                    return;
+                }
+            }
+        } catch (Throwable ignored) {
+            // fall through to the stock dot
+        }
+        radarPoint(q, at, b, r, g, bl, a, size);
+    }
+
     public static void asteroidRadar(fr.testudo.spacecorsair.business.Element e) {
         e.radarColorR = ASTEROID_R;
         e.radarColorG = ASTEROID_G;

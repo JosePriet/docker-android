@@ -184,7 +184,35 @@ public final class ModLive {
         if (enemy) {
             int boss = ModBoss.kindOf(e);
             if (boss >= 0) bossPlate((Ennemis) e, d, boss);
+            else if (outlevels(e)) skullTag((Ennemis) e, d);
         }
+    }
+
+    // ------------------------------------------------------------------ v43a-8 outlevel skull (owner 2026-11-14)
+    /** Level gap at which an enemy counts as clearly outleveling the player: skull on its level tag and radar blip. Tune here. */
+    public static final int SKULL_GAP = 5;
+    /** Skull tint (red) and on-screen size: name tag height in world units, radar blip height in radar units (mission icon = 8). */
+    static final float SKULL_R = 1.0f, SKULL_G = 0.22f, SKULL_B = 0.18f, SKULL_TAG_H = 22.0f, SKULL_RADAR_H = 13.0f;
+    /** icon_skull.webp is 40 x 48. */
+    static final float SKULL_ASPECT = 40.0f / 48.0f;
+
+    /** True for a hostile enemy (not a drone) at least SKULL_GAP levels above the player. */
+    static boolean outlevels(Element e) {
+        if (!(e instanceof Ennemis) || Mod.isDrone(e)) return false;
+        return ((Ennemis) e).level - ModV34.playerLevel() >= SKULL_GAP;
+    }
+
+    /** Pulsing red skull just left of the stock level text (drawn at -w/2 - 10, or - 18 from L10, and h/2 + 8 by the game). */
+    private static void skullTag(Ennemis e, Drawable d) {
+        float w, h;
+        if (d instanceof ModFx.Sprite) { w = ((ModFx.Sprite) d).w; h = ((ModFx.Sprite) d).h; }
+        else if (d.dimensions != null) { w = d.dimensions.x; h = d.dimensions.y; }
+        else return;
+        float sh = SKULL_TAG_H, sw = sh * SKULL_ASPECT;
+        float x = e.position.x - w / 2.0f - (e.level < 10 ? 10.0f : 18.0f) - 4.0f - sw / 2.0f;
+        float y = e.position.y + h / 2.0f + 8.0f + sh * 0.35f;
+        float pulse = 0.8f + 0.2f * (float) Math.sin(nowMs / 220.0d);
+        upright("icon_skull", x, y, sw, sh, SKULL_R, SKULL_G, SKULL_B, pulse, false);
     }
 
     // ------------------------------------------------------------------ living ships

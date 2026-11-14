@@ -211,6 +211,24 @@ public final class ModFx {
         queue(s, x, y, w, h, rot, r, g, b, a, add);
     }
 
+    /** v43a-8: one texture in HUD (radar) coordinates, queued like the stock radar icons (camera-relative, zoom-insensitive). */
+    public static void hudTex(Texture t, float x, float y, float w, float h, float r, float g, float b, float a) {
+        if (t == null || a <= 0.01f || budget <= 0) return;
+        budget--;
+        Sprite s = RING[ringPos];
+        ringPos = (ringPos + 1) % RING.length;
+        s.myTexture = t;
+        s.u0 = 0; s.v0 = 1; s.u1 = 1; s.v1 = 0;   // upright, like ModLive.upright (scene drawn y-up)
+        s.repeatT = false;
+        s.flat = false;
+        s.edgeA = null;
+        s.w = w;
+        s.h = h;
+        s.additive = false;
+        at.set(x, y);
+        ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(at, true, s, 0.0f, true, Math.min(1.0f, a), r, g, b);
+    }
+
     /** v30: the next sprTex draws a flat-colour silhouette (rim lights). */
     static boolean flatNext;
 
