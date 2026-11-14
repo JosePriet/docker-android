@@ -38,7 +38,8 @@ import java.util.Set;
  * v40 (owner 2026-11-03): hidden test mode. Tapping the "Killed by the dev" achievement 10 times within 10 s shows a
  * small LOGIN button on the achievements screen. Logging in restarts the game on a separate test profile: max level,
  * every ship owned, gates open, whole galaxy map visible, every mission repeatable, free instant hyperdrive jumps,
- * credits / rare parts / cores kept topped up. LOG OUT restarts on the normal save, exactly as it was at login.
+ * credits / rare parts / cores kept topped up. LOG OUT restarts on the normal save, exactly as it was at login, and
+ * discards the test profile (owner 2026-11-14), so the next login seeds a fresh one from the normal save.
  *
  * Profiles: the game's save files (getFilesDir) and the "spacecorsair" + "modqol" preferences are swapped at process
  * start, before StorageManager.restore reads them (hook hooks40). Copies live in app_corsair_profiles/main and /test.
@@ -70,7 +71,13 @@ public final class ModTestMode {
             String pending = read(new File(r, "pending"), null);
             if (pending != null && !pending.equals(active) && ("main".equals(pending) || "test".equals(pending))) {
                 File from = new File(r, active);
-                store(c, from);                                  // the profile being left, complete before anything else changes
+                if ("test".equals(active)) {
+                    delete(from);                                // owner 2026-11-14: logging out throws the test profile away, so the
+                                                                 // next login starts from zero again (re-seeded from the normal save)
+                    ModDev.ev("v40test", "test profile discarded on logout");
+                } else {
+                    store(c, from);                              // the profile being left, complete before anything else changes
+                }
                 write(new File(r, "active"), pending);
                 File to = new File(r, pending);
                 if (new File(to, "complete").exists()) load(c, to);   // else: first login, the test profile starts as a copy
