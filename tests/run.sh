@@ -256,6 +256,29 @@ elif [ $GAME = sc ]; then
     back 3; return 1
   }
   T=/data/local/tmp
+  # ---- v43a-15 (owner 2026-11-14): enemy faction weapons + signatures; police at each faction HQ fire that faction's guns
+  if [ "$STAGE" = V48E ]; then
+    LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    flag() { a shell "touch $T/$1; chmod 644 $T/corsair_*"; }
+    unflag() { a shell "rm -f $T/$1"; }
+    goto() { put corsair_goto $1; for i in $(seq 1 60); do sleep 4; need goto_$1; grep -q "goto arrived $1" $LG && break; done
+      log "goto $1 arrived=$(grep -c "goto arrived $1" $LG)"; sleep 4; shot sector_$1; }
+    if fly hullLeviathan Leviathan leviathan; then
+      flag corsair_egunlog; flag corsair_policelog
+      for S in SPARTAN_HQ PIRATE_BAY THE_HIVE OMICRON_PRIME ORE_BELT HELIOSTAT HIGHWAY; do
+        unflag corsair_heat; goto $S; put corsair_heat 50
+        for w in 1 2 3; do unflag corsair_policewave; sleep 1; flag corsair_policewave; sleep 5; shot ${S}_w${w}; done
+        for k in 1 2 3; do sleep 4; shot ${S}_fight_$k; need ${S}_fight_$k; done
+        log "EVIDENCE $S: $(grep -E "egun" $LG | tail -6 | sed 's/^.*): //' | tr '\n' ' ')"
+      done
+      unflag corsair_heat
+      grep -E "egun|police|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v48e_events.txt
+      log "EVIDENCE egun kinds: $(grep -oE "egun [a-z]+ [a-z]+" $LG | sort | uniq -c | tr '\n' ' ')"
+      a shell "rm -f $T/corsair_egunlog $T/corsair_policelog $T/corsair_policewave $T/corsair_heat $T/corsair_goto"
+    fi
+    finish; exit 0
+  fi
   # ---- v42 (owner 2026-11-03): police escalation class by class, police titan, police weapons, missile tracking logs
   if [ "$STAGE" = V42 ]; then
     LG=$OUT/logcat_live.txt
