@@ -185,6 +185,8 @@ public class ModPolice {
     private static final ArrayList<Ennemis> boosted = new ArrayList<Ennemis>();
     /** Police ships: {class, missile cooldown ms, volley count}; ours and the joined patrols. */
     private static final WeakHashMap<Element, long[]> police = new WeakHashMap<Element, long[]>();
+    /** v43a-9: faction index (ModCapitals.FACTIONS) of each built police hull, for its faction guns. */
+    private static final WeakHashMap<Element, Integer> factionOf = new WeakHashMap<Element, Integer>();
     private static final WeakHashMap<Element, Long> snareReady = new WeakHashMap<Element, Long>();
     private static final WeakHashMap<Element, Long> civilHit = new WeakHashMap<Element, Long>();
     private static long nextPoliceHit;
@@ -305,6 +307,38 @@ public class ModPolice {
         lastTop = NONE;
         log("titan killed: heat reset");
         standDown(ObjectRegistry.INSTANCE.playerShip);
+    }
+
+    // ================================================================== v43a-9: faction guns
+    /**
+     * Smali hook (hooks47_policeguns) at the start of Level.commitChanges: a stock EnergyLaser fired by a built police
+     * hull is swapped for an EnergyBullet of its faction's battery family (ModCapitals.GUNS[fi], alternating when the
+     * faction has two), same damage, position, speed, spin and lifetime. Joined sector patrols (stock PoliceShip) keep
+     * stock lasers. Police are exempt from fit bonuses/penalties (ModV34.damage, weapon fit thread).
+     */
+    private static int swapN;
+    public static void factionGuns(List<?> toAdd) {
+        if (factionOf.isEmpty() || toAdd == null) return;
+        try {
+            for (int i = 0; i < toAdd.size(); i++) {
+                Object o = toAdd.get(i);
+                if (!(o instanceof fr.testudo.spacecorsair.business.projectiles.EnergyLaser)) continue;
+                fr.testudo.spacecorsair.business.projectiles.EnergyLaser l = (fr.testudo.spacecorsair.business.projectiles.EnergyLaser) o;
+                Integer fi = l.sender == null ? null : factionOf.get(l.sender);
+                if (fi == null) continue;
+                ModCapitals.Gun[] gs = ModCapitals.GUNS[fi];
+                ModCapitals.Gun gun = gs[(swapN++) % gs.length];
+                fr.testudo.spacecorsair.business.projectiles.EnergyBullet b = fr.testudo.spacecorsair.business.factory.GamePools.newEnnergyBullet()
+                    .init(l.damage, 6, l.sender, 1.0f, gun.r, gun.g, gun.b, ModWeapons.TAG[gun.fam]);
+                b.position.setSameAs(l.position);
+                b.speed.setSameAs(l.speed);
+                b.spin = l.spin;
+                b.lifeTimeInMilli = l.lifeTimeInMilli;
+                ((List<Object>) toAdd).set(i, b);
+            }
+        } catch (Throwable t) {
+            // stock lasers this frame
+        }
     }
 
     // ================================================================== police-only weapons
@@ -623,6 +657,7 @@ public class ModPolice {
         e.specificNameDecalX = -1;
         if (e.lifeBar != null) e.lifeBar.setValue(100.0f);
         police.put(e, new long[] {cls, cls == FRIGATE ? MISSILE_MS / 2 : MISSILE_MS_BIG, 0});
+        factionOf.put(e, fi);   // v43a-9
         if (!ModPoliceTitan.council(ModCapitals.FACTIONS[fi].key)) lightBar.put(e, (float) h.size);
         ModPoliceAura.put(e, h.art, fi, h.size);   // v43: animated faction aura
         if ("monolith".equals(h.art)) monoAura.put(e, (float) h.size);   // owner 23:13: keep the s5 effect, adapted   // High Council: no police lights
@@ -631,6 +666,7 @@ public class ModPolice {
 
     /** v43: a dead / removed police hull (pooled, reused later) drops its lights and aura. */
     private static void unvisual(Element e) {
+        factionOf.remove(e);   // v43a-9
         lightBar.remove(e);
         monoAura.remove(e);
         ModPoliceAura.remove(e);

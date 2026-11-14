@@ -973,6 +973,10 @@
     .registers 7
 
     .prologue
+    iget-object v0, p0, Lfr/testudo/spacecorsair/game/levels/Level;->toAdd:Ljava/util/List;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModPolice;->factionGuns(Ljava/util/List;)V
+
     const/4 v1, 0x0
 
     .line 133
