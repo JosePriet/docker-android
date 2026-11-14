@@ -90,6 +90,7 @@ public final class ModShield {
             float k = curve(frac);
             if (s.isPlayerShield) {
                 if (ModPolice.regenStopped()) return 0;   // v42: police shield drain stops the regen 3 s
+                if (ModEnemyGuns.ionStopped()) return 0;   // v43a-15: Warden ion arc pauses the regen 2 s
                 if (slow) k *= SLOW;
                 return f * k * ModV34.levelShield();
             }

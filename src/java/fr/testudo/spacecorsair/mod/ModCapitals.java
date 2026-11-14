@@ -535,7 +535,7 @@ public final class ModCapitals {
             for (int i = 0; i < 2; i++) ModFx.part("fx_smoke", mx, my, fx * 60 + ModFx.rnd(-25, 25), fy * 60 + ModFx.rnd(-25, 25), 1200, 60, 200, 0.45f, 0.42f, 0.4f, 0.55f, false, true);
         }
         float gain = Math.max(0, 1.0f - dist / 5000.0f);
-        if (gain > 0.05f) ModSound.play(ModWeapons.SOUND[gun.fam], 0.9f * gain, 0.78f * ModFx.rnd(0.95f, 1.05f), ModWeapons.GAP[gun.fam]);
+        if (gain > 0.05f) ModSound.play(ModWeapons.SOUND[gun.fam], 0.9f * gain, 0.78f * ModEnemyGuns.PITCH[indexOf(c.f)] * ModFx.rnd(0.95f, 1.05f), ModWeapons.GAP[gun.fam]);   // v43a-15 faction pitch
     }
 
     /** From ModTitan.bullet: a flagship shell (proj_cap_<key> art when it exists, else the family's titan-size bolt). */

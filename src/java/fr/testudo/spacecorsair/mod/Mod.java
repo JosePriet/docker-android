@@ -56,6 +56,11 @@ public class Mod {
 
     // ---------------------------------------------------------------- sides / drones
 
+    /** v43a-15: the player's two drone slots (ModEnemyGuns Warden arc jump). */
+    static Ennemis[] playerDrones() {
+        return drones;
+    }
+
     public static boolean isDrone(Element e) {
         return e != null && (e == drones[0] || e == drones[1]);
     }

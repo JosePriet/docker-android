@@ -100,6 +100,12 @@ public final class ModStationGuns {
     }
 
     private static final ArrayList<Post> posts = new ArrayList<Post>();
+
+    /** v43a-15: ModEnemyGuns, the faction index of a gun station, -1 neutral or not a gun post. */
+    static int factionOfSender(Element e) {
+        for (int i = 0; i < posts.size(); i++) if (posts.get(i).st == e) return posts.get(i).f;
+        return -1;
+    }
     private static LevelId level;
     private static long scanLeft;
     private static final Vector2 mz = new Vector2(), aim = new Vector2(), a = new Vector2();
@@ -361,7 +367,7 @@ public final class ModStationGuns {
         ModFx.part("fx_core", mx, my, 0, 0, 140, fl * 0.3f, fl, gun.r, gun.g, gun.b, 1.0f, true, true);
         ModFx.part("fx_glow", mx, my, fx * 40, fy * 40, 220, fl * 0.5f, fl * 1.6f, gun.r, gun.g * 0.9f, gun.b * 0.8f, 0.7f, true, true);
         float gain = Math.max(0, 1.0f - ps.position.distance(at) / 5000.0f);
-        if (gain > 0.05f) ModSound.play(ModWeapons.SOUND[gun.fam], 0.7f * gain, ModFx.rnd(0.95f, 1.05f), ModWeapons.GAP[gun.fam]);
+        if (gain > 0.05f) ModSound.play(ModWeapons.SOUND[gun.fam], 0.7f * gain, (p.f >= 0 ? ModEnemyGuns.PITCH[p.f] : 1.0f) * ModFx.rnd(0.95f, 1.05f), ModWeapons.GAP[gun.fam]);   // v43a-15 faction pitch
     }
 
     // ------------------------------------------------------------------ draw

@@ -332,6 +332,22 @@ public class ModPolice {
      */
     private static int swapN;
     public static void factionGuns(List<?> toAdd) {
+        try {
+            policeGuns(toAdd);
+        } finally {
+            ModEnemyGuns.swap(toAdd);   // v43a-15: every other faction ship + signatures (after the police swap)
+        }
+    }
+
+    /** v43a-15: ModEnemyGuns, a police ship's gun faction (built hull's faction, or the sector owner for stock patrols), -1 = none. */
+    static int policeFactionOf(Element e) {
+        if (e == null) return -1;
+        Integer f = factionOf.get(e);
+        if (f == null && sectorFi >= 0 && e instanceof PoliceShip && isPolice(e)) f = sectorFi;
+        return f == null || f < 0 || f >= ModCapitals.GUNS.length ? -1 : f;
+    }
+
+    private static void policeGuns(List<?> toAdd) {
         if ((factionOf.isEmpty() && sectorFi < 0) || toAdd == null) return;
         try {
             for (int i = 0; i < toAdd.size(); i++) {

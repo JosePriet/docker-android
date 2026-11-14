@@ -481,6 +481,7 @@ public final class ModLive {
             out = ModAnchor.beam(target, out, p);   // v39: enemy beams through the Leviathan anchor wall
             if (out <= 0 && dmg > 0) return 0;
             out = ModV34.damage(target, out, p);
+            out = ModEnemyGuns.damageIn(target, out, p);   // v43a-15: Helion shield breaker
             out = ModV35.damage(target, out, p);   // v35 kill-time targets by advantage
             out = ModBoss.damageIn(target, out, p);
             out = ModTitanAI.damageIn(target, out, p);

@@ -289,6 +289,11 @@ public final class ModWeapons {
 
     /** From ModTitan.bullet: family bullet sprites (bigger on titans) + trails. Null = not a family bullet. */
     public static Drawable bullet(EnergyBullet e, boolean titan) {
+        return bullet(e, titan, true);
+    }
+
+    /** v43a-15: trails = false for small enemy ships (owner rule: fancy effects on big classes only). */
+    static Drawable bullet(EnergyBullet e, boolean titan, boolean trails) {
         int f = familyOf(e);
         if (f < 0) return null;
         if (sprites == null) {
@@ -302,6 +307,12 @@ public final class ModWeapons {
         }
         ModFx.Sprite s = sprites[(titan ? COUNT : 0) + f];
         if (s.myTexture == null) ModFx.rebind(s, f == ARTY ? "fx_core" : f == BLAST ? "fx_glow" : f == ARC ? "fx_spark" : "fx_bolt");
+        if (trails) trail(e, f);
+        return s.myTexture == null ? null : s;
+    }
+
+    /** Family trail particles for one bullet this frame (v43a-15: shared with ModEnemyGuns). */
+    static void trail(EnergyBullet e, int f) {
         if (f == RAIL) {
             ModFx.part("fx_beam", e.position.x, e.position.y, 0, 0, 320, 16, 6, COLOR[f][0], COLOR[f][1], COLOR[f][2], 0.85f, true, false);
             ModFx.part("fx_glow", e.position.x, e.position.y, 0, 0, 180, 70, 20, COLOR[f][0], COLOR[f][1], COLOR[f][2], 0.6f, true, false);
@@ -312,7 +323,6 @@ public final class ModWeapons {
         } else if (f == ARC && Math.random() < 0.5) {
             ModFx.part("fx_spark", e.position.x + ModFx.rnd(-14, 14), e.position.y + ModFx.rnd(-14, 14), 0, 0, 120, 20, 8, 0.7f, 0.85f, 1.0f, 1.0f, true, false);
         }
-        return s.myTexture == null ? null : s;
     }
 
     // ------------------------------------------------------------------ impacts
@@ -330,6 +340,7 @@ public final class ModWeapons {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             float[] c = COLOR[f];
             boolean mine = b.sender == ps;          // v33: flagship batteries fire the families too: no splash/chains on the player's side
+            if (!mine) ModEnemyGuns.onImpact(b, target, f);   // v43a-15 faction signatures (acid, ion)
             switch (f) {
                 case DISINT: {
                     long now = System.currentTimeMillis();
@@ -402,7 +413,14 @@ public final class ModWeapons {
         }
     }
 
-    private static void addArc(float x1, float y1, float x2, float y2) {
+    /** v43a-15: enemy disintegrator ramp 0..1 (ModEnemyGuns Varn bolts thicken with it). */
+    static float enemyRamp() {
+        long now = System.currentTimeMillis();
+        if (rampTargetE == null || now - rampLastE > 1000) return 0;
+        return Math.min(1.0f, (now - rampSinceE) / 3000.0f);
+    }
+
+    static void addArc(float x1, float y1, float x2, float y2) {
         int i = (arcCount % 8) * 6;
         arcs[i] = x1; arcs[i + 1] = y1; arcs[i + 2] = x2; arcs[i + 3] = y2; arcs[i + 4] = 160;
         arcCount++;

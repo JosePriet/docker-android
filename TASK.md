@@ -124,3 +124,7 @@ Ships grow through refits, enemies fight smarter, and sectors feel busier. The f
 - check.sh PASS, with JVM tests for the refit maths, the AI advantage score and the wreck timers.
 - One emulator run. Then the owner's phone test for AI feel, kill times and refit balance.
 - A change list in audits/v35-changes.md, then the audit and the two-agent review.
+
+## v43a-15: enemy weapon designs (owner 2026-11-14)
+Every faction ship (fleets, wings, patrols, police, station guns; not pirates) fires its faction's weapon family with its own shot art (proj_<key>_s/_m/_l from GPT, gpt-catchup/13-enemy-shots), per-faction sound pitch, and one signature: Spartan 0.6 s marked shot; Reaver flak burst within 250 (5 x 25%); Kre'tari spines home 30 deg/s + acid 10%/s for 2 s; Varn ramp visible; Ironclad landing ring 0.8 s (battleship+); Helion x1.5 shield / x0.7 hull; Warden arc pauses shield regen 2 s + jumps to a player drone within 450.
+Acceptance: check.sh PASS; faction shots no longer stock lasers; each signature visible/working in game (phone test). Change list: /mnt/project-files/audits/v43a-15-enemy-weapons-changes.md.

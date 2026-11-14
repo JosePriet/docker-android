@@ -169,6 +169,7 @@ public final class ModCaps {
         ModSector.tick(ps, j);
         ModPolice.tick(ps, j);   // v42 police escalation
         ModStationGuns.tick(ps, j);   // v44 station turrets
+        ModEnemyGuns.tick(ps, j);   // v43a-15 faction weapon signatures
         ModRep.tick(ps, j);
         ModAlerts.tick(ps, j);
         ModShield.tick(ps, j);
@@ -178,6 +179,7 @@ public final class ModCaps {
             level = lvl;
             ModFx.clear();
             ModCapitals.onLevel();
+            ModEnemyGuns.onLevel();
             ModWreck.onLevel();
             ModTitanAI.resetPlayer(ps);
             ModDerelict.onLevel(ps);
@@ -467,6 +469,7 @@ public final class ModCaps {
             ModFaction.draw(ps);
             ModFx.drawParticles(true);
             long nowMs = System.currentTimeMillis();
+            ModEnemyGuns.draw(ps);   // v43a-15 aim lines, landing rings
             ModWeapons.drawArcs(lastDraw == 0 ? 16 : Math.min(100, nowMs - lastDraw));
             lastDraw = nowMs;
 
