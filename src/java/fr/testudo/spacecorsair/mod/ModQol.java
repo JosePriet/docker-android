@@ -239,6 +239,7 @@ public class ModQol {
 
     /** Hook: Ennemis.onDestroyed after the XP grant. Credit bounty scaled by enemy level; xp is the mitigated XP. */
     public static void bounty(Ennemis e, int xp) {
+        if (ModAegisDrones.isDrone(e)) return;   // v43a-6: drones are a skill, not ships: no loot, parts, salvage or bounty
         try {
             if (e == null || xp <= 0 || e.xp <= 0) return;
             if (ModPolice.isPolice(e)) { addCredits(ModPolice.CREDITS_PER_SHIP, e); return; }   // v42 owner: flat 1,000 cr, nothing else

@@ -12,9 +12,11 @@
 
 
 # static fields
-.field static final DRONE_EVERY_MS:J = 0x1770L
+.field static final HULL_SHARE:F = 0.02f
 
 .field static final MAX_DRONES:I = 0x5
+
+.field static final MIN_DRONES:I = 0x2
 
 .field static final RAIL_MS:J = 0x898L
 
@@ -23,6 +25,8 @@
 .field static final RAIL_SHARE:F = 0.6f
 
 .field static final RAIL_SPEED:F = 26.0f
+
+.field static final RESPAWN_MS:J = 0x2710L
 
 .field static final SIZE:I = 0xaa
 
@@ -69,21 +73,21 @@
     .registers 1
 
     .prologue
-    .line 39
+    .line 41
     new-instance v0, Ljava/util/WeakHashMap;
 
     invoke-direct {v0}, Ljava/util/WeakHashMap;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->wings:Ljava/util/Map;
 
-    .line 40
+    .line 42
     new-instance v0, Ljava/util/WeakHashMap;
 
     invoke-direct {v0}, Ljava/util/WeakHashMap;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->reload:Ljava/util/Map;
 
-    .line 41
+    .line 43
     new-instance v0, Ljava/util/WeakHashMap;
 
     invoke-direct {v0}, Ljava/util/WeakHashMap;-><init>()V
@@ -107,7 +111,7 @@
     .registers 2
 
     .prologue
-    .line 73
+    .line 86
     new-instance v0, Ljava/util/ArrayList;
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->wings:Ljava/util/Map;
@@ -139,13 +143,13 @@
 
     goto :goto_f
 
-    .line 74
+    .line 87
     :cond_1f
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->wings:Ljava/util/Map;
 
     invoke-interface {v0}, Ljava/util/Map;->clear()V
 
-    .line 75
+    .line 88
     return-void
 .end method
 
@@ -155,28 +159,28 @@
     .prologue
     const/high16 v3, 0x432a0000    # 170.0f
 
-    .line 78
+    .line 91
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->drawable:Lfr/testudo/spacecorsair/display/Drawable;
 
     if-nez v0, :cond_1d
 
-    .line 79
+    .line 92
     const-string v0, "drone_aegis"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModArt;->lazyTex(Ljava/lang/String;)Lfr/testudo/spacecorsair/display/Texture;
 
     move-result-object v0
 
-    .line 80
+    .line 93
     if-nez v0, :cond_10
 
     const/4 v0, 0x0
 
-    .line 83
+    .line 96
     :goto_f
     return-object v0
 
-    .line 81
+    .line 94
     :cond_10
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModArt$Art;
 
@@ -190,7 +194,7 @@
 
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->drawable:Lfr/testudo/spacecorsair/display/Drawable;
 
-    .line 83
+    .line 96
     :cond_1d
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->drawable:Lfr/testudo/spacecorsair/display/Drawable;
 
@@ -201,7 +205,7 @@
     .registers 4
 
     .prologue
-    .line 67
+    .line 75
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->wings:Ljava/util/Map;
 
     invoke-interface {v0, p0}, Ljava/util/Map;->remove(Ljava/lang/Object;)Ljava/lang/Object;
@@ -210,14 +214,14 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;
 
-    .line 68
+    .line 76
     if-nez v0, :cond_b
 
-    .line 70
+    .line 78
     :cond_a
     return-void
 
-    .line 69
+    .line 77
     :cond_b
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->drones:Ljava/util/ArrayList;
 
@@ -257,7 +261,7 @@
     .registers 22
 
     .prologue
-    .line 113
+    .line 131
     move-object/from16 v0, p0
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->removed:Z
@@ -272,12 +276,12 @@
 
     if-eqz v2, :cond_f
 
-    .line 134
+    .line 152
     :cond_e
     :goto_e
     return-void
 
-    .line 114
+    .line 132
     :cond_f
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->reload:Ljava/util/Map;
 
@@ -289,10 +293,10 @@
 
     check-cast v2, [J
 
-    .line 115
+    .line 133
     if-eqz v2, :cond_e
 
-    .line 116
+    .line 134
     const/4 v3, 0x0
 
     aget-wide v4, v2, v3
@@ -301,7 +305,7 @@
 
     aput-wide v4, v2, v3
 
-    .line 117
+    .line 135
     move-object/from16 v0, p0
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -314,7 +318,7 @@
 
     move-result v16
 
-    .line 118
+    .line 136
     const/4 v3, 0x0
 
     aget-wide v4, v2, v3
@@ -331,14 +335,14 @@
 
     if-gtz v3, :cond_e
 
-    .line 119
+    .line 137
     const/4 v3, 0x0
 
     const-wide/16 v4, 0x898
 
     aput-wide v4, v2, v3
 
-    .line 120
+    .line 138
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->shotOf:Ljava/util/Map;
 
     move-object/from16 v0, p0
@@ -351,12 +355,12 @@
 
     check-cast v3, Ljava/lang/Float;
 
-    .line 121
+    .line 139
     const v2, 0x45228000    # 2600.0f
 
     div-float v2, v16, v2
 
-    .line 122
+    .line 140
     move-object/from16 v0, p1
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -397,7 +401,7 @@
 
     add-float/2addr v2, v5
 
-    .line 123
+    .line 141
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -432,12 +436,12 @@
 
     add-float v11, v2, v4
 
-    .line 124
+    .line 142
     invoke-static {}, Lfr/testudo/spacecorsair/business/factory/GamePools;->newEnnergyBullet()Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;
 
     move-result-object v2
 
-    .line 125
+    .line 143
     if-nez v3, :cond_129
 
     const/high16 v3, 0x42c80000    # 100.0f
@@ -465,7 +469,7 @@
 
     move-result-object v2
 
-    .line 126
+    .line 144
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     move-object/from16 v0, p0
@@ -474,7 +478,7 @@
 
     invoke-virtual {v3, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 127
+    .line 145
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
 
     const/4 v4, 0x0
@@ -493,15 +497,15 @@
 
     invoke-virtual {v3, v4, v5}, Lfr/testudo/spacecorsair/engine/Vector2;->applyRotatation(D)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 128
+    .line 146
     iput v11, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->spin:F
 
-    .line 129
+    .line 147
     const-wide/16 v4, 0x587
 
     iput-wide v4, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->lifeTimeInMilli:J
 
-    .line 130
+    .line 148
     sget-object v3, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v3, v3, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -512,7 +516,7 @@
 
     invoke-interface {v3, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 131
+    .line 149
     const-string v2, "fx_core"
 
     move-object/from16 v0, p0
@@ -551,7 +555,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 132
+    .line 150
     const/4 v2, 0x0
 
     const/high16 v3, 0x3f800000    # 1.0f
@@ -566,7 +570,7 @@
 
     move-result v2
 
-    .line 133
+    .line 151
     const v3, 0x3d4ccccd    # 0.05f
 
     cmpl-float v3, v2, v3
@@ -595,7 +599,7 @@
 
     goto/16 :goto_e
 
-    .line 125
+    .line 143
     :cond_129
     invoke-virtual {v3}, Ljava/lang/Float;->floatValue()F
 
@@ -604,29 +608,57 @@
     goto/16 :goto_9a
 .end method
 
+.method public static isDrone(Ljava/lang/Object;)Z
+    .registers 2
+
+    .prologue
+    .line 82
+    instance-of v0, p0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+
+    if-eqz v0, :cond_e
+
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->reload:Ljava/util/Map;
+
+    invoke-interface {v0, p0}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_e
+
+    const/4 v0, 0x1
+
+    :goto_d
+    return v0
+
+    :cond_e
+    const/4 v0, 0x0
+
+    goto :goto_d
+.end method
+
 .method private static spawn(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;ILfr/testudo/spacecorsair/business/player/PlayerShip;)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
     .registers 20
 
     .prologue
-    .line 87
+    .line 100
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->drawable()Lfr/testudo/spacecorsair/display/Drawable;
 
     move-result-object v2
 
-    .line 88
+    .line 101
     if-nez v2, :cond_8
 
     const/4 v2, 0x0
 
-    .line 109
+    .line 127
     :goto_7
     return-object v2
 
-    .line 89
+    .line 102
     :cond_8
     sget-object v3, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->BasciEnnemisSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
 
-    .line 90
+    .line 103
     const/4 v4, 0x0
 
     array-length v5, v3
@@ -643,20 +675,20 @@
 
     move-result v4
 
-    .line 91
+    .line 104
     invoke-static/range {p1 .. p1}, Lfr/testudo/spacecorsair/mod/ModV34;->want(I)V
 
-    .line 92
+    .line 105
     new-instance v16, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;
 
     invoke-direct/range {v16 .. v16}, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;-><init>()V
 
-    .line 93
+    .line 106
     move-object/from16 v0, v16
 
     iput-object v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->d:Lfr/testudo/spacecorsair/display/Drawable;
 
-    .line 94
+    .line 107
     new-instance v2, Lfr/testudo/spacecorsair/engine/Vector2;
 
     const/high16 v5, 0x42ee0000    # 119.0f
@@ -669,28 +701,28 @@
 
     iput-object v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->phys:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 95
+    .line 108
     aget-object v2, v3, v4
 
     move-object/from16 v0, v16
 
     invoke-virtual {v0, v2, v4}, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->initLevelConfig(Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;I)Lfr/testudo/spacecorsair/business/ennemis/BasicEnnemyShip;
 
-    .line 96
+    .line 109
     const-wide v2, 0x1fffffffffffffffL
 
     move-object/from16 v0, v16
 
     iput-wide v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->milleSecBetweenShots:J
 
-    .line 97
+    .line 110
     const/4 v2, 0x0
 
     move-object/from16 v0, v16
 
     iput v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->bulletDamage:F
 
-    .line 98
+    .line 111
     move-object/from16 v0, v16
 
     iget v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->pouseeForce:F
@@ -703,7 +735,56 @@
 
     iput v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->pouseeForce:F
 
-    .line 99
+    .line 112
+    const/high16 v2, 0x447a0000    # 1000.0f
+
+    move-object/from16 v0, p0
+
+    iget v3, v0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->maxLife:F
+
+    const v4, 0x3ca3d70a    # 0.02f
+
+    mul-float/2addr v3, v4
+
+    invoke-static {v2, v3}, Ljava/lang/Math;->max(FF)F
+
+    move-result v2
+
+    move-object/from16 v0, v16
+
+    iput v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->maxLife:F
+
+    .line 113
+    move-object/from16 v0, v16
+
+    iget v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->maxLife:F
+
+    move-object/from16 v0, v16
+
+    iput v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->life:F
+
+    .line 114
+    const/high16 v2, 0x42c80000    # 100.0f
+
+    move-object/from16 v0, v16
+
+    iput v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->lifeInPourc:F
+
+    .line 115
+    const/4 v2, 0x0
+
+    move-object/from16 v0, v16
+
+    iput v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->xp:I
+
+    .line 116
+    sget-object v2, Lfr/testudo/spacecorsair/business/loot/LootConfig;->NONE:Lfr/testudo/spacecorsair/business/loot/LootConfig;
+
+    move-object/from16 v0, v16
+
+    iput-object v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->lootConfig:Lfr/testudo/spacecorsair/business/loot/LootConfig;
+
+    .line 117
     const-string v2, "Aegis Rail Drone"
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -714,14 +795,14 @@
 
     iput-object v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->specificName:Ljava/lang/String;
 
-    .line 100
+    .line 118
     const/4 v2, -0x1
 
     move-object/from16 v0, v16
 
     iput v2, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->specificNameDecalX:I
 
-    .line 101
+    .line 119
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v2
@@ -734,7 +815,7 @@
 
     mul-double/2addr v2, v4
 
-    .line 102
+    .line 120
     move-object/from16 v0, v16
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -769,20 +850,20 @@
 
     invoke-virtual {v4, v5, v2}, Lfr/testudo/spacecorsair/engine/Vector2;->add(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 103
+    .line 121
     invoke-virtual/range {v16 .. v16}, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->updateSapCoords()V
 
-    .line 104
+    .line 122
     move-object/from16 v0, v16
 
     move-object/from16 v1, p2
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->initAttackTarget(Lfr/testudo/spacecorsair/business/Element;)V
 
-    .line 105
+    .line 123
     invoke-virtual/range {v16 .. v16}, Lfr/testudo/spacecorsair/mod/ModFleet$Fighter;->addToCurrentLevel()V
 
-    .line 106
+    .line 124
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->reload:Ljava/util/Map;
 
     const/4 v3, 0x1
@@ -811,7 +892,7 @@
 
     invoke-interface {v2, v0, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 107
+    .line 125
     const-string v2, "fx_glow"
 
     move-object/from16 v0, v16
@@ -850,7 +931,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 108
+    .line 126
     const-string v2, "warp_in"
 
     const v3, 0x3ecccccd    # 0.4f
@@ -863,7 +944,7 @@
 
     move-object/from16 v2, v16
 
-    .line 109
+    .line 127
     goto/16 :goto_7
 .end method
 
@@ -871,7 +952,7 @@
     .registers 12
 
     .prologue
-    .line 47
+    .line 49
     :try_start_0
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->wings:Ljava/util/Map;
 
@@ -881,8 +962,8 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;
 
-    .line 48
-    if-nez v0, :cond_90
+    .line 50
+    if-nez v0, :cond_a1
 
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;
 
@@ -894,7 +975,7 @@
 
     move-object v2, v0
 
-    .line 49
+    .line 51
     :goto_15
     iget-object v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->drones:Ljava/util/ArrayList;
 
@@ -909,7 +990,7 @@
     :goto_1e
     if-ltz v1, :cond_46
 
-    .line 50
+    .line 52
     iget-object v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->drones:Ljava/util/ArrayList;
 
     invoke-virtual {v0, v1}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
@@ -918,7 +999,7 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    .line 51
+    .line 53
     iget-boolean v3, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->removed:Z
 
     if-nez v3, :cond_33
@@ -944,7 +1025,7 @@
 
     invoke-interface {v3, v0}, Ljava/util/Map;->remove(Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 49
+    .line 51
     :cond_42
     add-int/lit8 v0, v1, -0x1
 
@@ -952,50 +1033,100 @@
 
     goto :goto_1e
 
-    .line 53
+    .line 55
     :cond_46
-    iget-wide v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->next:J
-
-    sub-long/2addr v0, p4
-
-    iput-wide v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->next:J
-
-    .line 54
-    iget-wide v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->next:J
-
-    const-wide/16 v4, 0x0
-
-    cmp-long v0, v0, v4
-
-    if-gtz v0, :cond_78
-
     iget-object v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->drones:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->size()I
 
     move-result v0
 
-    const/4 v1, 0x5
+    iget v1, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->count:I
 
-    if-ge v0, v1, :cond_78
+    if-ge v0, v1, :cond_9c
 
-    .line 55
-    const-wide/16 v0, 0x1770
+    .line 56
+    iget-wide v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->next:J
+
+    sub-long/2addr v0, p4
 
     iput-wide v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->next:J
 
-    .line 56
+    .line 57
+    iget-wide v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->next:J
+
+    const-wide/16 v4, 0x0
+
+    cmp-long v0, v0, v4
+
+    if-gtz v0, :cond_71
+
+    .line 58
+    const-wide/16 v0, 0x2710
+
+    iput-wide v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->next:J
+
+    .line 59
+    :goto_61
+    iget-object v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->drones:Ljava/util/ArrayList;
+
+    invoke-virtual {v0}, Ljava/util/ArrayList;->size()I
+
+    move-result v0
+
+    iget v1, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->count:I
+
+    if-ge v0, v1, :cond_71
+
+    .line 60
     invoke-static {p0, p2, p3}, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->spawn(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;ILfr/testudo/spacecorsair/business/player/PlayerShip;)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     move-result-object v0
 
-    .line 57
-    if-eqz v0, :cond_78
+    .line 61
+    if-nez v0, :cond_89
 
+    .line 67
+    :cond_71
+    :goto_71
+    iget-object v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->drones:Ljava/util/ArrayList;
+
+    invoke-virtual {v0}, Ljava/util/ArrayList;->iterator()Ljava/util/Iterator;
+
+    move-result-object v1
+
+    :goto_77
+    invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_88
+
+    invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+
+    invoke-static {v0, p3, p4, p5}, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->fly(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
+
+    goto :goto_77
+
+    .line 68
+    :catch_87
+    move-exception v0
+
+    .line 71
+    :cond_88
+    return-void
+
+    .line 62
+    :cond_89
     iget-object v1, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->drones:Ljava/util/ArrayList;
 
     invoke-virtual {v1, v0}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
+    .line 63
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->shotOf:Ljava/util/Map;
 
     const v3, 0x3f19999a    # 0.6f
@@ -1008,43 +1139,20 @@
 
     invoke-interface {v1, v0, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 59
-    :cond_78
-    iget-object v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->drones:Ljava/util/ArrayList;
+    goto :goto_61
 
-    invoke-virtual {v0}, Ljava/util/ArrayList;->iterator()Ljava/util/Iterator;
+    .line 66
+    :cond_9c
+    const-wide/16 v0, 0x2710
 
-    move-result-object v1
+    iput-wide v0, v2, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->next:J
+    :try_end_a0
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_a0} :catch_87
 
-    :goto_7e
-    invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+    goto :goto_71
 
-    move-result v0
-
-    if-eqz v0, :cond_8f
-
-    invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
-
-    move-result-object v0
-
-    check-cast v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
-
-    invoke-static {v0, p3, p4, p5}, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->fly(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
-    :try_end_8d
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_8d} :catch_8e
-
-    goto :goto_7e
-
-    .line 60
-    :catch_8e
-    move-exception v0
-
-    .line 63
-    :cond_8f
-    return-void
-
-    :cond_90
+    :cond_a1
     move-object v2, v0
 
-    goto :goto_15
+    goto/16 :goto_15
 .end method

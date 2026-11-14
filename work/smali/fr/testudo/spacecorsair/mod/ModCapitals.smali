@@ -4619,13 +4619,13 @@
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->removed:Z
 
-    if-nez v2, :cond_18d
+    if-nez v2, :cond_193
 
     invoke-static/range {p0 .. p1}, Lfr/testudo/spacecorsair/mod/ModLive;->titanHostile(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;)Z
 
     move-result v2
 
-    if-eqz v2, :cond_18d
+    if-eqz v2, :cond_193
 
     const/4 v2, 0x1
 
@@ -4633,6 +4633,12 @@
 
     .line 483
     :goto_4f
+    move-object/from16 v0, p1
+
+    iget-boolean v2, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
+
+    if-nez v2, :cond_63
+
     const-string v2, "spartan"
 
     move-object/from16 v0, p1
@@ -4645,10 +4651,11 @@
 
     move-result v2
 
-    if-eqz v2, :cond_7b
+    if-eqz v2, :cond_81
 
     .line 484
-    if-eqz v8, :cond_191
+    :cond_63
+    if-eqz v8, :cond_197
 
     move-object/from16 v0, p1
 
@@ -4681,8 +4688,8 @@
     invoke-static/range {v2 .. v7}, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->tick(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;FILfr/testudo/spacecorsair/business/player/PlayerShip;J)V
 
     .line 487
-    :cond_7b
-    :goto_7b
+    :cond_81
+    :goto_81
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModCapitals;->GUNS:[[Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;
 
     move-object/from16 v0, p1
@@ -4700,7 +4707,7 @@
 
     move v9, v2
 
-    :goto_89
+    :goto_8f
     if-ge v9, v10, :cond_9
 
     .line 489
@@ -4717,7 +4724,7 @@
 
     aget v2, v2, v9
 
-    if-lez v2, :cond_a4
+    if-lez v2, :cond_aa
 
     move-object/from16 v0, p1
 
@@ -4734,14 +4741,14 @@
     aput v3, v2, v9
 
     .line 491
-    :cond_a4
+    :cond_aa
     move-object/from16 v0, p1
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->tKick:[I
 
     aget v2, v2, v9
 
-    if-lez v2, :cond_b8
+    if-lez v2, :cond_be
 
     move-object/from16 v0, p1
 
@@ -4758,7 +4765,7 @@
     aput v3, v2, v9
 
     .line 492
-    :cond_b8
+    :cond_be
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -4814,19 +4821,19 @@
     iget v2, v0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->spin:F
 
     .line 495
-    if-eqz v8, :cond_196
+    if-eqz v8, :cond_19c
 
     iget v3, v4, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->range:F
 
     cmpg-float v3, v7, v3
 
-    if-gez v3, :cond_196
+    if-gez v3, :cond_19c
 
     const/4 v3, 0x1
 
     .line 496
-    :goto_f6
-    if-eqz v3, :cond_146
+    :goto_fc
+    if-eqz v3, :cond_14c
 
     .line 497
     iget v2, v4, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->speed:F
@@ -4922,7 +4929,7 @@
     add-float/2addr v2, v5
 
     .line 501
-    :cond_146
+    :cond_14c
     move-object/from16 v0, p1
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->tAng:[F
@@ -4978,7 +4985,7 @@
     aput v5, v6, v9
 
     .line 504
-    if-eqz v3, :cond_188
+    if-eqz v3, :cond_18e
 
     move-object/from16 v0, p1
 
@@ -4986,7 +4993,7 @@
 
     aget v3, v3, v9
 
-    if-gtz v3, :cond_188
+    if-gtz v3, :cond_18e
 
     invoke-static {v2}, Ljava/lang/Math;->abs(F)F
 
@@ -4996,19 +5003,19 @@
 
     cmpl-float v2, v2, v3
 
-    if-lez v2, :cond_199
+    if-lez v2, :cond_19f
 
     .line 488
-    :cond_188
-    :goto_188
+    :cond_18e
+    :goto_18e
     add-int/lit8 v2, v9, 0x1
 
     move v9, v2
 
-    goto/16 :goto_89
+    goto/16 :goto_8f
 
     .line 482
-    :cond_18d
+    :cond_193
     const/4 v2, 0x0
 
     move v8, v2
@@ -5016,19 +5023,19 @@
     goto/16 :goto_4f
 
     .line 485
-    :cond_191
+    :cond_197
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->drop(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;)V
 
-    goto/16 :goto_7b
+    goto/16 :goto_81
 
     .line 495
-    :cond_196
+    :cond_19c
     const/4 v3, 0x0
 
-    goto/16 :goto_f6
+    goto/16 :goto_fc
 
     .line 505
-    :cond_199
+    :cond_19f
     move-object/from16 v0, p1
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->tReload:[I
@@ -5092,7 +5099,7 @@
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->fireLogged:Z
 
-    if-nez v2, :cond_188
+    if-nez v2, :cond_18e
 
     const-string v2, "corsair_nodialog"
 
@@ -5100,7 +5107,7 @@
 
     move-result v2
 
-    if-eqz v2, :cond_188
+    if-eqz v2, :cond_18e
 
     .line 509
     const/4 v2, 0x1
@@ -5180,7 +5187,7 @@
 
     invoke-static {v2, v3}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
 
-    goto/16 :goto_188
+    goto/16 :goto_18e
 .end method
 
 .method static indexOf(Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;)I

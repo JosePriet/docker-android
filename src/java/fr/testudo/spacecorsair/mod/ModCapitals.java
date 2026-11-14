@@ -480,8 +480,8 @@ public final class ModCapitals {
             for (int k = 0; k < n; k++) { c.tAng[k] = g.spin; c.tReload[k] = 300 * k; }   // staggered first salvo
         }
         boolean hostile = !ps.removed && ModLive.titanHostile(g, c);
-        if ("spartan".equals(c.f.key)) {   // v43a-6: rail drones while hostile; recalled when the Aegis calms down
-            if (hostile) ModAegisDrones.tick(g, c.shot * GUNS[0][0].dmg, c.lvl, ps, j);
+        if (c.police || "spartan".equals(c.f.key)) {   // v43a-6 (owner 11-14): drone skill = SRS Aegis + every police titan; recalled when calm
+            if (hostile) ModAegisDrones.tick(g, c.shot * GUNS[0][0].dmg, c.lvl, ps, j);   // rail = 60% of an Aegis-type rail shot at this carrier's damage
             else ModAegisDrones.drop(g);
         }
         Gun[] gs = GUNS[indexOf(c.f)];

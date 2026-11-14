@@ -134,6 +134,7 @@ public class ModV34 {
 
     /** G3 rare loot: a kill can drop rare salvage worth several bounties; mean value = the sim's loot share of the kill. */
     public static void rareSalvage(Ennemis e, int bounty) {
+        if (ModAegisDrones.isDrone(e)) return;   // v43a-6: drones are a skill, not ships: no loot, parts, salvage or bounty
         try {
             boolean boss = ModBoss.isBoss(e) || e.xp >= 500;
             int c0 = boss ? 2 : e.elite ? 1 : 0;

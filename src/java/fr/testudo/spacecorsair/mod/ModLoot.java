@@ -182,6 +182,7 @@ public class ModLoot {
 
     /** Hook: an enemy was destroyed by the player (or a drone). */
     public static void onEnemyKilled(Ennemis e) {
+        if (ModAegisDrones.isDrone(e)) return;   // v43a-6: drones are a skill, not ships: no loot, parts, salvage or bounty
         ModRep.enemyKilled(e);
         try {
             if (e == null || ModBoss.isBoss(e) || ModPolice.isPolice(e)) return;   // v42 owner: police pay a flat bounty only

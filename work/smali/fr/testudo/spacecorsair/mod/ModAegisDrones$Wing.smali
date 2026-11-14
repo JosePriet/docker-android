@@ -15,6 +15,8 @@
 
 
 # instance fields
+.field count:I
+
 .field final drones:Ljava/util/ArrayList;
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -34,20 +36,25 @@
     .registers 3
 
     .prologue
-    .line 34
+    .line 35
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 35
+    .line 36
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->drones:Ljava/util/ArrayList;
 
-    .line 36
-    const-wide/16 v0, 0xbb8
+    .line 37
+    const-wide/16 v0, 0x5dc
 
     iput-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->next:J
+
+    .line 38
+    const/4 v0, 0x5
+
+    iput v0, p0, Lfr/testudo/spacecorsair/mod/ModAegisDrones$Wing;->count:I
 
     return-void
 .end method

@@ -325,6 +325,7 @@ public class ModV35 {
 
     /** Rare parts from kills (ModQol.bounty): bosses 2, elites 15% for 1 [P]. Rare salvage adds 1 (ModV34.rareSalvage). */
     public static void partsFromKill(Ennemis e) {
+        if (ModAegisDrones.isDrone(e)) return;   // v43a-6: drones are a skill, not ships: no loot, parts, salvage or bounty
         try {
             if (ModBoss.isBoss(e) || e.xp >= 500) addParts(2, e);
             else if (e.elite && Math.random() < 0.15) addParts(1, e);

@@ -17,15 +17,16 @@ import java.util.WeakHashMap;
 
 /**
  * v43a-6 (owner 2026-11-14): the SRS Aegis (and the Spartan police titan built from it) launches rail drones while
- * hostile: one every DRONE_EVERY_MS up to MAX_DRONES alive. Drones are small fighters (drone_aegis art, redesigned from
+ * hostile: a wing of 2..5 (Aegis 5); lost drones respawn together 10 s later. Drones give no XP, loot or bounty. Drones are small fighters (drone_aegis art, redesigned from
  * the Hornet by src/genaegisdrone.py) that chase the player and fire their own rail shot every RAIL_MS; their stock
  * blaster is silenced. Each rail hit = RAIL_SHARE of one Aegis battery shot. Drones die with their carrier.
  */
 public final class ModAegisDrones {
     private ModAegisDrones() {}
 
-    static final int MAX_DRONES = 5;
-    static final long DRONE_EVERY_MS = 6000;
+    static final int MAX_DRONES = 5, MIN_DRONES = 2;   // owner 11-14: a carrier fields 2..5 (Aegis: 5)
+    static final long RESPAWN_MS = 10000;               // owner 11-14: any loss -> the whole wing is back 10 s later
+    static final float HULL_SHARE = 0.02f;              // drone hull = 2% of the carrier's hull
     static final long RAIL_MS = 2200;
     static final float RAIL_SHARE = 0.6f;
     static final int SIZE = 170;
@@ -33,7 +34,8 @@ public final class ModAegisDrones {
 
     static final class Wing {
         final ArrayList<Ennemis> drones = new ArrayList<Ennemis>();
-        long next = 3000;
+        long next = 1500;           // first launch shortly after the carrier turns hostile
+        int count = MAX_DRONES;
     }
 
     private static final Map<GuardianCivilShip, Wing> wings = new WeakHashMap<GuardianCivilShip, Wing>();
@@ -50,12 +52,18 @@ public final class ModAegisDrones {
                 Ennemis e = w.drones.get(i);
                 if (e.removed || e.life <= 0) { w.drones.remove(i); reload.remove(e); shotOf.remove(e); }
             }
-            w.next -= j;
-            if (w.next <= 0 && w.drones.size() < MAX_DRONES) {
-                w.next = DRONE_EVERY_MS;
-                Ennemis e = spawn(g, lvl, ps);
-                if (e != null) { w.drones.add(e); shotOf.put(e, batteryShot * RAIL_SHARE); }
-            }
+            if (w.drones.size() < w.count) {
+                w.next -= j;
+                if (w.next <= 0) {   // refill the whole wing at once, then wait for the next loss
+                    w.next = RESPAWN_MS;
+                    while (w.drones.size() < w.count) {
+                        Ennemis e = spawn(g, lvl, ps);
+                        if (e == null) break;
+                        w.drones.add(e);
+                        shotOf.put(e, batteryShot * RAIL_SHARE);
+                    }
+                }
+            } else w.next = RESPAWN_MS;
             for (Ennemis e : w.drones) fly(e, ps, j);
         } catch (Throwable t) {
             // no drones this frame
@@ -67,6 +75,11 @@ public final class ModAegisDrones {
         Wing w = wings.remove(g);
         if (w == null) return;
         for (Ennemis e : w.drones) { e.removed = true; reload.remove(e); shotOf.remove(e); }
+    }
+
+    /** Loot, parts, salvage and bounty hooks skip drones. */
+    public static boolean isDrone(Object e) {
+        return e instanceof Ennemis && reload.containsKey(e);
     }
 
     static void clear() {
@@ -96,6 +109,11 @@ public final class ModAegisDrones {
         f.milleSecBetweenShots = Long.MAX_VALUE / 4;   // stock blaster silenced: the rail fires instead
         f.bulletDamage = 0;
         f.pouseeForce *= 1.6f;
+        f.maxLife = Math.max(1000f, g.maxLife * HULL_SHARE);   // stats follow the carrier
+        f.life = f.maxLife;
+        f.lifeInPourc = 100.0f;
+        f.xp = 0;                                              // a skill, not a ship: no XP, no loot
+        f.lootConfig = fr.testudo.spacecorsair.business.loot.LootConfig.NONE;
         f.specificName = ModLang.tr("Aegis Rail Drone");
         f.specificNameDecalX = -1;
         double an = Math.random() * Math.PI * 2;
