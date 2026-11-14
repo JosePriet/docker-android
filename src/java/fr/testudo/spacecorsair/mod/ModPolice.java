@@ -187,6 +187,8 @@ public class ModPolice {
     private static final WeakHashMap<Element, long[]> police = new WeakHashMap<Element, long[]>();
     /** v43a-9: faction index (ModCapitals.FACTIONS) of each built police hull, for its faction guns. */
     private static final WeakHashMap<Element, Integer> factionOf = new WeakHashMap<Element, Integer>();
+    /** v43a-13: faction index of the current sector's owner (Frontier Authority if unowned), for stock patrol guns; -1 = none. */
+    private static int sectorFi = -1;
     private static final WeakHashMap<Element, Long> snareReady = new WeakHashMap<Element, Long>();
     private static final WeakHashMap<Element, Long> civilHit = new WeakHashMap<Element, Long>();
     private static long nextPoliceHit;
@@ -317,7 +319,7 @@ public class ModPolice {
     public static float armor(Element target, float dmg) {
         if (dmg <= 0 || target == null) return dmg;
         if (ModPoliceTitan.isPoliceTitan(target)) return dmg * (1 - TITAN_ARMOR);
-        if (police.containsKey(target)) return dmg * (1 - ARMOR);
+        if (isPolice(target)) return dmg * (1 - ARMOR);   // v43a-13 (owner item 6 = A): stock sector patrols too
         return dmg;
     }
 
@@ -325,19 +327,20 @@ public class ModPolice {
     /**
      * Smali hook (hooks47_policeguns) at the start of Level.commitChanges: a stock EnergyLaser fired by a built police
      * hull is swapped for an EnergyBullet of its faction's battery family (ModCapitals.GUNS[fi], alternating when the
-     * faction has two), same damage, position, speed and spin; lifetime from the faction gun's range. Joined sector patrols (stock PoliceShip) keep
-     * stock lasers. Police are exempt from fit bonuses/penalties (ModV34.damage, weapon fit thread).
+     * faction has two), same damage, position, speed and spin; lifetime from the faction gun's range. v43a-13 (owner 2026-11-14,
+     * item 6 = A): stock sector patrols (PoliceShip, joined or not) get the guns of the sector's owner faction (sectorFi). Police are exempt from fit bonuses/penalties (ModV34.damage, weapon fit thread).
      */
     private static int swapN;
     public static void factionGuns(List<?> toAdd) {
-        if (factionOf.isEmpty() || toAdd == null) return;
+        if ((factionOf.isEmpty() && sectorFi < 0) || toAdd == null) return;
         try {
             for (int i = 0; i < toAdd.size(); i++) {
                 Object o = toAdd.get(i);
                 if (!(o instanceof fr.testudo.spacecorsair.business.projectiles.EnergyLaser)) continue;
                 fr.testudo.spacecorsair.business.projectiles.EnergyLaser l = (fr.testudo.spacecorsair.business.projectiles.EnergyLaser) o;
                 Integer fi = l.sender == null ? null : factionOf.get(l.sender);
-                if (fi == null) continue;
+                if (fi == null && sectorFi >= 0 && l.sender instanceof PoliceShip && isPolice(l.sender)) fi = sectorFi;   // v43a-13: stock patrols
+                if (fi == null || fi < 0 || fi >= ModCapitals.GUNS.length) continue;
                 ModCapitals.Gun[] gs = ModCapitals.GUNS[fi];
                 ModCapitals.Gun gun = gs[(swapN++) % gs.length];
                 fr.testudo.spacecorsair.business.projectiles.EnergyBullet b = fr.testudo.spacecorsair.business.factory.GamePools.newEnnergyBullet()
@@ -457,6 +460,7 @@ public class ModPolice {
 
     private static void enter(LevelId id) {
         if (here != null && heat > 0) left.put(here, new long[] {leaveHeat(heat), lastTop, ModSector.play()});
+        try { sectorFi = id == null || id.isMulti ? -1 : factionIndex(id); } catch (Throwable t) { sectorFi = -1; }   // v43a-13
         visualsClear();        // v43
         police.clear();        // v42 fix: pooled PoliceShips reused elsewhere must not keep police weapons / timers
         snareReady.clear();
