@@ -328,7 +328,7 @@ public final class ModFitting {
             LaserSpec l = (LaserSpec) g;
             // weapon fit (2026-11-14): the H1 loss on the selected hull shows as "DPS base -> real"
             int base = (int) l.getDps(), real = (int) fitDps(l);
-            return lv + " · DPS " + (real < base ? base + " → " + real : String.valueOf(base)) + " · " + l.damage + ModLang.tr(" dmg / ") + l.reload + " ms";
+            return lv + " · DPS " + (real != base ? base + " → " + real : String.valueOf(base)) + " · " + l.damage + ModLang.tr(" dmg / ") + l.reload + " ms";
         }
         if (g instanceof MissileSpec) {
             MissileSpec m = (MissileSpec) g;
@@ -368,8 +368,9 @@ public final class ModFitting {
 
     /** Item DPS after the H1 weapon-fit multipliers for the selected hull (damage x fire rate). */
     static float fitDps(LaserSpec l) {
-        float[] m = ModV34.fitMult(ModV34.fitState(ModV34.gearHullKey(), l));
-        return l.getDps() * m[0] * m[1];
+        String key = ModV34.gearHullKey();
+        float[] m = ModV34.fitMult(ModV34.fitState(key, l)), r = ModV34.railBonus(key, l);
+        return l.getDps() * m[0] * m[1] * r[0] * r[1];
     }
 
     /** Fit line under a laser's stats, or null for stock guns / beams. Colour: FITS green, neutral orange, off-faction red. */
@@ -879,7 +880,7 @@ public final class ModFitting {
                 row(ModLang.tr("Cycle time"), ps.milleSecBetweenShots + " ms");
                 row(ModLang.tr("Laser DPS (item)"), String.valueOf((int) ps.laserSpec.getDps()));
                 int fs = ModV34.fitState(ModShips.factionKey(ps), ps.laserSpec);
-                row(ModLang.tr("Fitted DPS (est.)"), String.valueOf(Math.round(fittedDps(ps) * ModV34.fitMult(fs)[0])));   // H1 per-hit cut (rate cut is already live)
+                row(ModLang.tr("Fitted DPS (est.)"), String.valueOf(Math.round(fittedDps(ps) * ModV34.fitMult(fs)[0] * ModV34.railBonus(ModShips.factionKey(ps), ps.laserSpec)[0])));   // H1 per-hit cut + H5 Spartan rail damage (rate changes are already live)
                 if (fs != ModV34.FIT_NONE) row(ModLang.tr("Weapon fit"), fs == ModV34.FIT_OK ? ModLang.tr("FITS") : fs == ModV34.FIT_OFF ? ModLang.tr("OFF-FACTION") : ModLang.tr("Neutral hull: -15%"));
             }
             SpaceObjectType mt = pi.playerGear.missile;

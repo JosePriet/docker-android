@@ -81,15 +81,15 @@
 
     const/4 v6, -0x1
 
-    .line 500
+    .line 501
     invoke-direct {p0, p1}, Landroid/widget/FrameLayout;-><init>(Landroid/content/Context;)V
 
-    .line 476
+    .line 477
     const-wide/high16 v2, -0x8000000000000000L
 
     iput-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->sig:J
 
-    .line 478
+    .line 479
     const-string v0, "corsair_fit"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testValue(Ljava/lang/String;)Ljava/lang/String;
@@ -98,7 +98,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->testFit:Ljava/lang/String;
 
-    .line 480
+    .line 481
     new-instance v0, Landroid/os/Handler;
 
     invoke-static {}, Landroid/os/Looper;->getMainLooper()Landroid/os/Looper;
@@ -109,41 +109,41 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->handler:Landroid/os/Handler;
 
-    .line 481
+    .line 482
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$1;
 
     invoke-direct {v0, p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$1;-><init>(Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;)V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->poll:Ljava/lang/Runnable;
 
-    .line 497
+    .line 498
     new-array v0, v9, [Lfr/testudo/spacecorsair/mod/ModFitting$Tile;
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->tiles:[Lfr/testudo/spacecorsair/mod/ModFitting$Tile;
 
-    .line 501
+    .line 502
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
-    .line 502
+    .line 503
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->dp(Landroid/content/Context;)F
 
     move-result v0
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
-    .line 503
+    .line 504
     const-string v0, "modFitting"
 
     invoke-virtual {p0, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->setTag(Ljava/lang/Object;)V
 
-    .line 504
+    .line 505
     invoke-virtual {p0, v7}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->setClickable(Z)V
 
-    .line 505
+    .line 506
     # invokes: Lfr/testudo/spacecorsair/mod/ModFitting;->loadUiArt(Landroid/content/Context;)V
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$100(Landroid/content/Context;)V
 
-    .line 506
+    .line 507
     # getter for: Lfr/testudo/spacecorsair/mod/ModFitting;->artBg:Landroid/graphics/Bitmap;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$200()Landroid/graphics/Bitmap;
 
@@ -151,17 +151,17 @@
 
     if-eqz v0, :cond_105
 
-    .line 507
+    .line 508
     new-instance v0, Landroid/widget/ImageView;
 
     invoke-direct {v0, p1}, Landroid/widget/ImageView;-><init>(Landroid/content/Context;)V
 
-    .line 508
+    .line 509
     sget-object v2, Landroid/widget/ImageView$ScaleType;->CENTER_CROP:Landroid/widget/ImageView$ScaleType;
 
     invoke-virtual {v0, v2}, Landroid/widget/ImageView;->setScaleType(Landroid/widget/ImageView$ScaleType;)V
 
-    .line 509
+    .line 510
     # getter for: Lfr/testudo/spacecorsair/mod/ModFitting;->artBg:Landroid/graphics/Bitmap;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModFitting;->access$200()Landroid/graphics/Bitmap;
 
@@ -169,40 +169,40 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/ImageView;->setImageBitmap(Landroid/graphics/Bitmap;)V
 
-    .line 510
+    .line 511
     new-instance v2, Landroid/widget/FrameLayout$LayoutParams;
 
     invoke-direct {v2, v6, v6}, Landroid/widget/FrameLayout$LayoutParams;-><init>(II)V
 
     invoke-virtual {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 511
+    .line 512
     new-instance v0, Landroid/view/View;
 
     invoke-direct {v0, p1}, Landroid/view/View;-><init>(Landroid/content/Context;)V
 
-    .line 512
+    .line 513
     const v2, -0x66faf4ea
 
     invoke-virtual {v0, v2}, Landroid/view/View;->setBackgroundColor(I)V
 
-    .line 513
+    .line 514
     new-instance v2, Landroid/widget/FrameLayout$LayoutParams;
 
     invoke-direct {v2, v6, v6}, Landroid/widget/FrameLayout$LayoutParams;-><init>(II)V
 
     invoke-virtual {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 518
+    .line 519
     :goto_6f
     new-instance v0, Landroid/widget/LinearLayout;
 
     invoke-direct {v0, p1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 519
+    .line 520
     invoke-virtual {v0, v7}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 520
+    .line 521
     const/high16 v2, 0x41000000    # 8.0f
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -211,7 +211,7 @@
 
     float-to-int v2, v2
 
-    .line 521
+    .line 522
     const/high16 v3, 0x40800000    # 4.0f
 
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -222,14 +222,14 @@
 
     invoke-virtual {v0, v2, v3, v2, v2}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 522
+    .line 523
     new-instance v2, Landroid/widget/FrameLayout$LayoutParams;
 
     invoke-direct {v2, v6, v6}, Landroid/widget/FrameLayout$LayoutParams;-><init>(II)V
 
     invoke-virtual {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 523
+    .line 524
     invoke-direct {p0, p1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->header(Landroid/app/Activity;)Landroid/view/View;
 
     move-result-object v2
@@ -248,17 +248,17 @@
 
     invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 524
+    .line 525
     new-instance v2, Landroid/view/View;
 
     invoke-direct {v2, p1}, Landroid/view/View;-><init>(Landroid/content/Context;)V
 
-    .line 525
+    .line 526
     const v3, -0x7f952f01
 
     invoke-virtual {v2, v3}, Landroid/view/View;->setBackgroundColor(I)V
 
-    .line 526
+    .line 527
     new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
 
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -273,15 +273,15 @@
 
     invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 528
+    .line 529
     new-instance v2, Landroid/widget/LinearLayout;
 
     invoke-direct {v2, p1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 529
+    .line 530
     invoke-virtual {v2, v1}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 530
+    .line 531
     new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
 
     const/high16 v4, 0x3f800000    # 1.0f
@@ -290,7 +290,7 @@
 
     invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 531
+    .line 532
     invoke-direct {p0, p1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->left(Landroid/app/Activity;)Landroid/view/View;
 
     move-result-object v0
@@ -303,7 +303,7 @@
 
     invoke-virtual {v2, v0, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 532
+    .line 533
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;
 
     invoke-direct {v0, p1}, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;-><init>(Landroid/content/Context;)V
@@ -312,11 +312,11 @@
 
     move v0, v1
 
-    .line 533
+    .line 534
     :goto_e2
     if-ge v0, v9, :cond_117
 
-    .line 535
+    .line 536
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->tiles:[Lfr/testudo/spacecorsair/mod/ModFitting$Tile;
 
     new-instance v4, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;
@@ -325,7 +325,7 @@
 
     aput-object v4, v3, v0
 
-    .line 536
+    .line 537
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->tiles:[Lfr/testudo/spacecorsair/mod/ModFitting$Tile;
 
     aget-object v3, v3, v0
@@ -336,7 +336,7 @@
 
     invoke-virtual {v3, v4}, Lfr/testudo/spacecorsair/mod/ModFitting$Tile;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 539
+    .line 540
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->ring:Lfr/testudo/spacecorsair/mod/ModFitting$RingView;
 
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->tiles:[Lfr/testudo/spacecorsair/mod/ModFitting$Tile;
@@ -345,12 +345,12 @@
 
     invoke-virtual {v3, v4}, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->addView(Landroid/view/View;)V
 
-    .line 533
+    .line 534
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_e2
 
-    .line 515
+    .line 516
     :cond_105
     new-instance v0, Landroid/graphics/drawable/GradientDrawable;
 
@@ -364,12 +364,12 @@
 
     invoke-direct {v0, v2, v3}, Landroid/graphics/drawable/GradientDrawable;-><init>(Landroid/graphics/drawable/GradientDrawable$Orientation;[I)V
 
-    .line 516
+    .line 517
     invoke-virtual {p0, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->setBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
 
     goto/16 :goto_6f
 
-    .line 541
+    .line 542
     :cond_117
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->ring:Lfr/testudo/spacecorsair/mod/ModFitting$RingView;
 
@@ -381,7 +381,7 @@
 
     invoke-virtual {v2, v0, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 542
+    .line 543
     invoke-direct {p0, p1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->right(Landroid/app/Activity;)Landroid/view/View;
 
     move-result-object v0
@@ -394,14 +394,14 @@
 
     invoke-virtual {v2, v0, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 544
+    .line 545
     new-instance v0, Landroid/widget/FrameLayout$LayoutParams;
 
     invoke-direct {v0, v6, v6}, Landroid/widget/FrameLayout$LayoutParams;-><init>(II)V
 
     invoke-virtual {p2, p0, v0}, Landroid/view/ViewGroup;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 547
+    .line 548
     const-string v0, "FITTING"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -416,14 +416,14 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->toggle:Landroid/widget/Button;
 
-    .line 548
+    .line 549
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->toggle:Landroid/widget/Button;
 
     const-string v1, "modFittingBtn"
 
     invoke-virtual {v0, v1}, Landroid/widget/Button;->setTag(Ljava/lang/Object;)V
 
-    .line 549
+    .line 550
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->toggle:Landroid/widget/Button;
 
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$3;
@@ -432,14 +432,14 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 555
+    .line 556
     new-instance v0, Landroid/widget/FrameLayout$LayoutParams;
 
     const/16 v1, 0x31
 
     invoke-direct {v0, v8, v8, v1}, Landroid/widget/FrameLayout$LayoutParams;-><init>(III)V
 
-    .line 556
+    .line 557
     const/high16 v1, 0x40c00000    # 6.0f
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -450,22 +450,22 @@
 
     iput v1, v0, Landroid/widget/FrameLayout$LayoutParams;->topMargin:I
 
-    .line 557
+    .line 558
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->toggle:Landroid/widget/Button;
 
     invoke-virtual {p2, v1, v0}, Landroid/view/ViewGroup;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 558
+    .line 559
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->toggle:Landroid/widget/Button;
 
     const/16 v1, 0x8
 
     invoke-virtual {v0, v1}, Landroid/widget/Button;->setVisibility(I)V
 
-    .line 559
+    .line 560
     return-void
 
-    .line 515
+    .line 516
     nop
 
     :array_176
@@ -486,19 +486,19 @@
 
     const/high16 v5, 0x40e00000    # 7.0f
 
-    .line 658
+    .line 659
     invoke-static {p1, p2, v6}, Lfr/testudo/spacecorsair/mod/ModFitting;->button(Landroid/content/Context;Ljava/lang/String;I)Landroid/widget/Button;
 
     move-result-object v0
 
-    .line 659
+    .line 660
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$8;
 
     invoke-direct {v1, p0, p3, p4}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$8;-><init>(Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;Ljava/lang/String;Ljava/lang/String;)V
 
     invoke-virtual {v0, v1}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 662
+    .line 663
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
     mul-float/2addr v1, v4
@@ -525,14 +525,14 @@
 
     invoke-virtual {v0, v1, v2, v3, v4}, Landroid/widget/Button;->setPadding(IIII)V
 
-    .line 663
+    .line 664
     new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v2, -0x2
 
     invoke-direct {v1, v6, v2}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
-    .line 664
+    .line 665
     const/high16 v2, 0x40a00000    # 5.0f
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -543,10 +543,10 @@
 
     iput v2, v1, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
 
-    .line 665
+    .line 666
     invoke-virtual {v0, v1}, Landroid/widget/Button;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 666
+    .line 667
     return-object v0
 .end method
 
@@ -554,15 +554,15 @@
     .registers 14
 
     .prologue
-    .line 853
+    .line 854
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v0}, Landroid/widget/LinearLayout;->removeAllViews()V
 
-    .line 854
+    .line 855
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
-    .line 855
+    .line 856
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     const-string v1, "DEFENSE"
@@ -577,10 +577,10 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 856
+    .line 857
     if-eqz p1, :cond_bd
 
-    .line 857
+    .line 858
     const-string v0, "Hull HP"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -619,12 +619,12 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 858
+    .line 859
     iget-object v0, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     if-eqz v0, :cond_bd
 
-    .line 859
+    .line 860
     const-string v0, "Shield HP"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -667,7 +667,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 860
+    .line 861
     const-string v0, "Shield regen"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -708,7 +708,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 861
+    .line 862
     const-string v0, "Regen delay"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -747,7 +747,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 864
+    .line 865
     :cond_bd
     if-eqz p6, :cond_dd
 
@@ -779,7 +779,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 865
+    .line 866
     :cond_dd
     if-eqz p5, :cond_10b
 
@@ -827,7 +827,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 867
+    .line 868
     :cond_10b
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
@@ -843,27 +843,27 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 868
-    if-eqz p1, :cond_214
+    .line 869
+    if-eqz p1, :cond_222
 
     iget-object v0, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->laserSpec:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    if-eqz v0, :cond_214
-
-    .line 869
-    const-string v0, ""
+    if-eqz v0, :cond_222
 
     .line 870
+    const-string v0, ""
+
+    .line 871
     :try_start_122
     iget-object v0, p6, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserType:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;->getLocalizedLabel()Ljava/lang/String;
     :try_end_127
-    .catch Ljava/lang/Throwable; {:try_start_122 .. :try_end_127} :catch_6e2
+    .catch Ljava/lang/Throwable; {:try_start_122 .. :try_end_127} :catch_6f0
 
     move-result-object v0
 
-    .line 871
+    .line 872
     :goto_128
     iget-object v1, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->laserSpec:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
@@ -879,25 +879,25 @@
 
     move-result-object v0
 
-    .line 873
+    .line 874
     :cond_136
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->guns(Lfr/testudo/spacecorsair/business/player/PlayerShip;)I
 
     move-result v2
 
-    .line 874
+    .line 875
     invoke-static {p5}, Lfr/testudo/spacecorsair/mod/ModV38;->turretPlan(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)[I
 
     move-result-object v1
 
-    .line 875
-    if-eqz v1, :cond_761
+    .line 876
+    if-eqz v1, :cond_76f
 
     const/4 v4, 0x5
 
     aget v1, v1, v4
 
-    .line 876
+    .line 877
     :goto_143
     const-string v4, "Turrets"
 
@@ -913,7 +913,7 @@
 
     move-result-object v5
 
-    if-le v1, v2, :cond_6e7
+    if-le v1, v2, :cond_6f5
 
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -966,7 +966,7 @@
 
     invoke-direct {p0, v4, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 877
+    .line 878
     invoke-virtual {v0}, Ljava/lang/String;->length()I
 
     move-result v1
@@ -981,7 +981,7 @@
 
     invoke-direct {p0, v1, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 878
+    .line 879
     :cond_197
     const-string v0, "Damage / shot"
 
@@ -999,7 +999,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 879
+    .line 880
     const-string v0, "Cycle time"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1028,7 +1028,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 880
+    .line 881
     const-string v0, "Laser DPS (item)"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1049,7 +1049,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 881
+    .line 882
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModShips;->factionKey(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Ljava/lang/String;
 
     move-result-object v0
@@ -1060,7 +1060,7 @@
 
     move-result v0
 
-    .line 882
+    .line 883
     const-string v1, "Fitted DPS (est.)"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1081,6 +1081,22 @@
 
     mul-float/2addr v2, v4
 
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModShips;->factionKey(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Ljava/lang/String;
+
+    move-result-object v4
+
+    iget-object v5, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->laserSpec:Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
+
+    invoke-static {v4, v5}, Lfr/testudo/spacecorsair/mod/ModV34;->railBonus(Ljava/lang/String;Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;)[F
+
+    move-result-object v4
+
+    const/4 v5, 0x0
+
+    aget v4, v4, v5
+
+    mul-float/2addr v2, v4
+
     invoke-static {v2}, Ljava/lang/Math;->round(F)I
 
     move-result v2
@@ -1091,8 +1107,8 @@
 
     invoke-direct {p0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 883
-    if-eqz v0, :cond_214
+    .line 884
+    if-eqz v0, :cond_222
 
     const-string v1, "Weapon fit"
 
@@ -1102,7 +1118,7 @@
 
     const/4 v2, 0x1
 
-    if-ne v0, v2, :cond_6eb
+    if-ne v0, v2, :cond_6f9
 
     const-string v0, "FITS"
 
@@ -1110,29 +1126,29 @@
 
     move-result-object v0
 
-    :goto_211
+    :goto_21f
     invoke-direct {p0, v1, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 885
-    :cond_214
+    .line 886
+    :cond_222
     iget-object v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->missile:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 886
+    .line 887
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModFitting;->empty(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
 
     move-result v0
 
-    if-nez v0, :cond_6fe
+    if-nez v0, :cond_70c
 
-    if-eqz p1, :cond_6fe
+    if-eqz p1, :cond_70c
 
     iget-object v0, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->missileSpec:Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    if-eqz v0, :cond_6fe
+    if-eqz v0, :cond_70c
 
-    .line 887
+    .line 888
     const-string v0, "Missile damage"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1175,7 +1191,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 888
+    .line 889
     const-string v0, "Missile reload"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1214,8 +1230,8 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 889
-    if-eqz p6, :cond_285
+    .line 890
+    if-eqz p6, :cond_293
 
     const-string v0, "Launchers"
 
@@ -1231,8 +1247,8 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 890
-    :cond_285
+    .line 891
+    :cond_293
     const-string v0, "Missiles"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1271,8 +1287,8 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 895
-    :goto_2ad
+    .line 896
+    :goto_2bb
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     const-string v1, "NAVIGATION"
@@ -1287,10 +1303,10 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 896
-    if-eqz p6, :cond_309
-
     .line 897
+    if-eqz p6, :cond_317
+
+    .line 898
     const-string v0, "Top speed"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1319,7 +1335,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 898
+    .line 899
     const-string v0, "Agility"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1348,7 +1364,7 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 899
+    .line 900
     const-string v0, "Mass"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1363,14 +1379,14 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 901
-    :cond_309
+    .line 902
+    :cond_317
     iget-object v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->booster:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 902
-    if-eqz v1, :cond_70f
+    .line 903
+    if-eqz v1, :cond_71d
 
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
@@ -1378,7 +1394,7 @@
 
     instance-of v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
 
-    if-eqz v0, :cond_70f
+    if-eqz v0, :cond_71d
 
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
@@ -1386,8 +1402,8 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
 
-    .line 903
-    :goto_31d
+    .line 904
+    :goto_32b
     const-string v2, "Booster"
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1398,27 +1414,27 @@
 
     move-result v1
 
-    if-nez v1, :cond_32b
+    if-nez v1, :cond_339
 
-    if-nez v0, :cond_712
+    if-nez v0, :cond_720
 
-    :cond_32b
+    :cond_339
     const-string v0, "none"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    :goto_331
+    :goto_33f
     invoke-direct {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 904
+    .line 905
     iget-object v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->hyperdriveEngine:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 905
-    if-eqz v1, :cond_743
+    .line 906
+    if-eqz v1, :cond_751
 
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
@@ -1426,7 +1442,7 @@
 
     instance-of v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
 
-    if-eqz v0, :cond_743
+    if-eqz v0, :cond_751
 
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
@@ -1434,8 +1450,8 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
 
-    .line 906
-    :goto_348
+    .line 907
+    :goto_356
     const-string v2, "Hyperdrive"
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1446,33 +1462,33 @@
 
     move-result v1
 
-    if-nez v1, :cond_356
+    if-nez v1, :cond_364
 
-    if-nez v0, :cond_746
+    if-nez v0, :cond_754
 
-    :cond_356
+    :cond_364
     const-string v0, "none"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    :goto_35c
+    :goto_36a
     invoke-direct {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 908
+    .line 909
     iget v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
 
     const/16 v1, 0xa
 
-    if-lt v0, v1, :cond_3de
+    if-lt v0, v1, :cond_3ec
 
-    .line 910
+    .line 911
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->playerStat()I
 
     move-result v0
 
-    .line 911
+    .line 912
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     const-string v2, "PILOT STATS"
@@ -1487,7 +1503,7 @@
 
     invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 912
+    .line 913
     const-string v1, "Attack"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1520,7 +1536,7 @@
 
     invoke-direct {p0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 913
+    .line 914
     const-string v1, "Defense"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1553,7 +1569,7 @@
 
     invoke-direct {p0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 914
+    .line 915
     const-string v1, "Reaction"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1586,16 +1602,16 @@
 
     invoke-direct {p0, v1, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 916
-    :cond_3de
+    .line 917
+    :cond_3ec
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->summary()[Ljava/lang/String;
 
     move-result-object v1
 
-    .line 917
-    if-eqz v1, :cond_545
+    .line 918
+    if-eqz v1, :cond_553
 
-    .line 919
+    .line 920
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     const-string v2, "REFIT"
@@ -1610,7 +1626,7 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 920
+    .line 921
     const-string v0, "Refit level"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1689,7 +1705,7 @@
 
     invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 921
+    .line 922
     const-string v0, "Rare parts"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1702,7 +1718,7 @@
 
     invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 922
+    .line 923
     const/4 v0, 0x6
 
     aget-object v0, v1, v0
@@ -1713,7 +1729,7 @@
 
     invoke-direct {p0, v0, v2}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 923
+    .line 924
     const/4 v0, 0x2
 
     aget-object v0, v1, v0
@@ -1722,9 +1738,9 @@
 
     move-result v0
 
-    if-lez v0, :cond_4e9
+    if-lez v0, :cond_4f7
 
-    .line 924
+    .line 925
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -1763,7 +1779,7 @@
 
     move-result-object v0
 
-    .line 925
+    .line 926
     const-string v2, "0"
 
     const/4 v4, 0x3
@@ -1774,7 +1790,7 @@
 
     move-result v2
 
-    if-nez v2, :cond_4b9
+    if-nez v2, :cond_4c7
 
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -1818,8 +1834,8 @@
 
     move-result-object v0
 
-    .line 926
-    :cond_4b9
+    .line 927
+    :cond_4c7
     const/4 v2, 0x0
 
     aget-object v2, v1, v2
@@ -1832,7 +1848,7 @@
 
     const/16 v4, 0xa
 
-    if-ne v2, v4, :cond_4e0
+    if-ne v2, v4, :cond_4ee
 
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -1860,8 +1876,8 @@
 
     move-result-object v0
 
-    .line 927
-    :cond_4e0
+    .line 928
+    :cond_4ee
     const-string v2, "Next level"
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1870,8 +1886,8 @@
 
     invoke-direct {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 929
-    :cond_4e9
+    .line 930
+    :cond_4f7
     const/high16 v0, 0x41200000    # 10.0f
 
     const v2, -0x4f3b26
@@ -1882,7 +1898,7 @@
 
     move-result-object v0
 
-    .line 930
+    .line 931
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -1911,12 +1927,12 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 931
+    .line 932
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v2, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 932
+    .line 933
     const/4 v0, 0x2
 
     aget-object v0, v1, v0
@@ -1925,9 +1941,9 @@
 
     move-result v0
 
-    if-lez v0, :cond_545
+    if-lez v0, :cond_553
 
-    .line 933
+    .line 934
     const-string v0, "REFIT"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1940,14 +1956,14 @@
 
     move-result-object v0
 
-    .line 934
+    .line 935
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;
 
     invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$10;-><init>(Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;)V
 
     invoke-virtual {v0, v1}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 939
+    .line 940
     new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v2, -0x1
@@ -1956,7 +1972,7 @@
 
     invoke-direct {v1, v2, v4}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
-    .line 940
+    .line 941
     const/high16 v2, 0x40800000    # 4.0f
 
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -1967,13 +1983,13 @@
 
     iput v2, v1, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
 
-    .line 941
+    .line 942
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v2, v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 944
-    :cond_545
+    .line 945
+    :cond_553
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     const-string v1, "CARGO"
@@ -1988,7 +2004,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 945
+    .line 946
     const-string v0, "Hold"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2033,8 +2049,8 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 946
-    if-eqz p5, :cond_59b
+    .line 947
+    if-eqz p5, :cond_5a9
 
     iget v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
@@ -2042,7 +2058,7 @@
 
     cmpl-float v0, v0, v1
 
-    if-eqz v0, :cond_59b
+    if-eqz v0, :cond_5a9
 
     const-string v0, "Hull cargo bonus"
 
@@ -2058,23 +2074,23 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 948
-    :cond_59b
-    if-eqz p5, :cond_6e1
-
     .line 949
+    :cond_5a9
+    if-eqz p5, :cond_6ef
+
+    .line 950
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 950
+    .line 951
     iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
     const/high16 v2, 0x3f800000    # 1.0f
 
     cmpl-float v1, v1, v2
 
-    if-eqz v1, :cond_5c3
+    if-eqz v1, :cond_5d1
 
     const-string v1, "Laser damage "
 
@@ -2100,15 +2116,15 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 951
-    :cond_5c3
+    .line 952
+    :cond_5d1
     iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
     const/high16 v2, 0x3f800000    # 1.0f
 
     cmpl-float v1, v1, v2
 
-    if-eqz v1, :cond_5e4
+    if-eqz v1, :cond_5f2
 
     const-string v1, "Laser reload time "
 
@@ -2134,15 +2150,15 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 952
-    :cond_5e4
+    .line 953
+    :cond_5f2
     iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
     const/high16 v2, 0x3f800000    # 1.0f
 
     cmpl-float v1, v1, v2
 
-    if-eqz v1, :cond_605
+    if-eqz v1, :cond_613
 
     const-string v1, "Shield capacity "
 
@@ -2168,15 +2184,15 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 953
-    :cond_605
+    .line 954
+    :cond_613
     iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
     const/high16 v2, 0x3f800000    # 1.0f
 
     cmpl-float v1, v1, v2
 
-    if-eqz v1, :cond_626
+    if-eqz v1, :cond_634
 
     const-string v1, "Shield regeneration "
 
@@ -2202,15 +2218,15 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 954
-    :cond_626
+    .line 955
+    :cond_634
     iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldDelay:F
 
     const/high16 v2, 0x3f800000    # 1.0f
 
     cmpl-float v1, v1, v2
 
-    if-eqz v1, :cond_647
+    if-eqz v1, :cond_655
 
     const-string v1, "Shield recovery delay "
 
@@ -2236,15 +2252,15 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 955
-    :cond_647
+    .line 956
+    :cond_655
     iget v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
 
     const/high16 v2, 0x3f800000    # 1.0f
 
     cmpl-float v1, v1, v2
 
-    if-eqz v1, :cond_668
+    if-eqz v1, :cond_676
 
     const-string v1, "Missile reload time "
 
@@ -2270,11 +2286,11 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 956
-    :cond_668
+    .line 957
+    :cond_676
     iget-object v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
-    if-eqz v1, :cond_674
+    if-eqz v1, :cond_682
 
     iget-object v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
@@ -2282,17 +2298,17 @@
 
     move-result v1
 
-    if-gtz v1, :cond_67a
+    if-gtz v1, :cond_688
 
-    :cond_674
+    :cond_682
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
 
     move-result v1
 
-    if-lez v1, :cond_6e1
+    if-lez v1, :cond_6ef
 
-    .line 957
-    :cond_67a
+    .line 958
+    :cond_688
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     const-string v2, "HULL BONUSES"
@@ -2307,14 +2323,14 @@
 
     invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 958
+    .line 959
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->length()I
 
     move-result v1
 
-    if-lez v1, :cond_6b1
+    if-lez v1, :cond_6bf
 
-    .line 959
+    .line 960
     const/high16 v1, 0x41300000    # 11.0f
 
     const/4 v2, -0x1
@@ -2325,7 +2341,7 @@
 
     move-result-object v1
 
-    .line 960
+    .line 961
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v0
@@ -2336,7 +2352,7 @@
 
     invoke-virtual {v1, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 961
+    .line 962
     const/high16 v0, 0x40000000    # 2.0f
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -2347,16 +2363,16 @@
 
     invoke-virtual {v1, v0, v2}, Landroid/widget/TextView;->setLineSpacing(FF)V
 
-    .line 962
+    .line 963
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 964
-    :cond_6b1
+    .line 965
+    :cond_6bf
     iget-object v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
-    if-eqz v0, :cond_6e1
+    if-eqz v0, :cond_6ef
 
     iget-object v0, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
@@ -2364,9 +2380,9 @@
 
     move-result v0
 
-    if-lez v0, :cond_6e1
+    if-lez v0, :cond_6ef
 
-    .line 965
+    .line 966
     const/high16 v0, 0x41200000    # 10.0f
 
     const v1, -0x4f3b26
@@ -2377,7 +2393,7 @@
 
     move-result-object v0
 
-    .line 966
+    .line 967
     iget-object v1, p5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
     invoke-static {v1}, Landroid/text/Html;->fromHtml(Ljava/lang/String;)Landroid/text/Spanned;
@@ -2386,7 +2402,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 967
+    .line 968
     const/4 v1, 0x0
 
     const/high16 v2, 0x40800000    # 4.0f
@@ -2403,34 +2419,34 @@
 
     invoke-virtual {v0, v1, v2, v3, v4}, Landroid/widget/TextView;->setPadding(IIII)V
 
-    .line 968
+    .line 969
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 972
-    :cond_6e1
+    .line 973
+    :cond_6ef
     return-void
 
-    .line 870
-    :catch_6e2
+    .line 871
+    :catch_6f0
     move-exception v0
 
     const-string v0, ""
 
     goto/16 :goto_128
 
-    .line 876
-    :cond_6e7
+    .line 877
+    :cond_6f5
     const-string v1, ""
 
     goto/16 :goto_17d
 
-    .line 883
-    :cond_6eb
+    .line 884
+    :cond_6f9
     const/4 v2, 0x3
 
-    if-ne v0, v2, :cond_6f6
+    if-ne v0, v2, :cond_704
 
     const-string v0, "OFF-FACTION"
 
@@ -2438,19 +2454,19 @@
 
     move-result-object v0
 
-    goto/16 :goto_211
+    goto/16 :goto_21f
 
-    :cond_6f6
+    :cond_704
     const-string v0, "Neutral hull: -15%"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    goto/16 :goto_211
+    goto/16 :goto_21f
 
-    .line 892
-    :cond_6fe
+    .line 893
+    :cond_70c
     const-string v0, "Missiles"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2465,16 +2481,16 @@
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->row(Ljava/lang/String;Ljava/lang/String;)V
 
-    goto/16 :goto_2ad
-
-    .line 902
-    :cond_70f
-    const/4 v0, 0x0
-
-    goto/16 :goto_31d
+    goto/16 :goto_2bb
 
     .line 903
-    :cond_712
+    :cond_71d
+    const/4 v0, 0x0
+
+    goto/16 :goto_32b
+
+    .line 904
+    :cond_720
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
@@ -2521,16 +2537,16 @@
 
     move-result-object v0
 
-    goto/16 :goto_331
-
-    .line 905
-    :cond_743
-    const/4 v0, 0x0
-
-    goto/16 :goto_348
+    goto/16 :goto_33f
 
     .line 906
-    :cond_746
+    :cond_751
+    const/4 v0, 0x0
+
+    goto/16 :goto_356
+
+    .line 907
+    :cond_754
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
@@ -2555,9 +2571,9 @@
 
     move-result-object v0
 
-    goto/16 :goto_35c
+    goto/16 :goto_36a
 
-    :cond_761
+    :cond_76f
     move v1, v2
 
     goto/16 :goto_143
@@ -2577,34 +2593,34 @@
 
     const/4 v5, -0x2
 
-    .line 562
+    .line 563
     new-instance v0, Landroid/widget/LinearLayout;
 
     invoke-direct {v0, p1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 563
+    .line 564
     invoke-virtual {v0, v8}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 564
+    .line 565
     const/16 v1, 0x10
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->setGravity(I)V
 
-    .line 565
+    .line 566
     new-instance v1, Landroid/widget/ImageView;
 
     invoke-direct {v1, p1}, Landroid/widget/ImageView;-><init>(Landroid/content/Context;)V
 
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->emblem:Landroid/widget/ImageView;
 
-    .line 566
+    .line 567
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->emblem:Landroid/widget/ImageView;
 
     sget-object v2, Landroid/widget/ImageView$ScaleType;->FIT_CENTER:Landroid/widget/ImageView$ScaleType;
 
     invoke-virtual {v1, v2}, Landroid/widget/ImageView;->setScaleType(Landroid/widget/ImageView$ScaleType;)V
 
-    .line 567
+    .line 568
     new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
 
     const/high16 v2, 0x42100000    # 36.0f
@@ -2625,7 +2641,7 @@
 
     invoke-direct {v1, v2, v3}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
-    .line 568
+    .line 569
     const/high16 v2, 0x41000000    # 8.0f
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -2636,20 +2652,20 @@
 
     iput v2, v1, Landroid/widget/LinearLayout$LayoutParams;->rightMargin:I
 
-    .line 569
+    .line 570
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->emblem:Landroid/widget/ImageView;
 
     invoke-virtual {v0, v2, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 570
+    .line 571
     new-instance v1, Landroid/widget/LinearLayout;
 
     invoke-direct {v1, p1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 571
+    .line 572
     invoke-virtual {v1, v6}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 572
+    .line 573
     const/high16 v2, 0x41880000    # 17.0f
 
     invoke-static {p1, v2, v9, v6}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
@@ -2658,24 +2674,24 @@
 
     iput-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->name:Landroid/widget/TextView;
 
-    .line 573
+    .line 574
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->name:Landroid/widget/TextView;
 
     invoke-virtual {v2, v6}, Landroid/widget/TextView;->setSingleLine(Z)V
 
-    .line 574
+    .line 575
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->name:Landroid/widget/TextView;
 
     sget-object v3, Landroid/text/TextUtils$TruncateAt;->END:Landroid/text/TextUtils$TruncateAt;
 
     invoke-virtual {v2, v3}, Landroid/widget/TextView;->setEllipsize(Landroid/text/TextUtils$TruncateAt;)V
 
-    .line 575
+    .line 576
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->name:Landroid/widget/TextView;
 
     invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 576
+    .line 577
     const/high16 v2, 0x41300000    # 11.0f
 
     const v3, -0x4f3b26
@@ -2686,19 +2702,19 @@
 
     iput-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->sub:Landroid/widget/TextView;
 
-    .line 577
+    .line 578
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->sub:Landroid/widget/TextView;
 
     invoke-virtual {v2, v6}, Landroid/widget/TextView;->setSingleLine(Z)V
 
-    .line 578
+    .line 579
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->sub:Landroid/widget/TextView;
 
     sget-object v3, Landroid/text/TextUtils$TruncateAt;->END:Landroid/text/TextUtils$TruncateAt;
 
     invoke-virtual {v2, v3}, Landroid/widget/TextView;->setEllipsize(Landroid/text/TextUtils$TruncateAt;)V
 
-    .line 579
+    .line 580
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->sub:Landroid/widget/TextView;
 
     const/high16 v3, 0x40400000    # 3.0f
@@ -2711,19 +2727,19 @@
 
     invoke-virtual {v2, v8, v3, v8, v8}, Landroid/widget/TextView;->setPadding(IIII)V
 
-    .line 580
+    .line 581
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->sub:Landroid/widget/TextView;
 
     invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 581
+    .line 582
     new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-direct {v2, v5, v5}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
     invoke-virtual {v0, v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 582
+    .line 583
     const v1, -0x952f01
 
     invoke-static {p1, v7, v1, v6}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
@@ -2732,26 +2748,26 @@
 
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->faction:Landroid/widget/TextView;
 
-    .line 583
+    .line 584
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->faction:Landroid/widget/TextView;
 
     invoke-virtual {v1, v6}, Landroid/widget/TextView;->setSingleLine(Z)V
 
-    .line 584
+    .line 585
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->faction:Landroid/widget/TextView;
 
     sget-object v2, Landroid/text/TextUtils$TruncateAt;->END:Landroid/text/TextUtils$TruncateAt;
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setEllipsize(Landroid/text/TextUtils$TruncateAt;)V
 
-    .line 585
+    .line 586
     new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
 
     const/high16 v2, 0x3f800000    # 1.0f
 
     invoke-direct {v1, v8, v5, v2}, Landroid/widget/LinearLayout$LayoutParams;-><init>(IIF)V
 
-    .line 586
+    .line 587
     const/high16 v2, 0x41600000    # 14.0f
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -2762,26 +2778,26 @@
 
     iput v2, v1, Landroid/widget/LinearLayout$LayoutParams;->leftMargin:I
 
-    .line 587
+    .line 588
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->faction:Landroid/widget/TextView;
 
     invoke-virtual {v0, v2, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 588
+    .line 589
     invoke-static {p1, v7, v9, v6}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
 
     move-result-object v1
 
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->credits:Landroid/widget/TextView;
 
-    .line 589
+    .line 590
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->credits:Landroid/widget/TextView;
 
     const/16 v2, 0x10
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 590
+    .line 591
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->credits:Landroid/widget/TextView;
 
     const/high16 v2, 0x40800000    # 4.0f
@@ -2794,7 +2810,7 @@
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setCompoundDrawablePadding(I)V
 
-    .line 591
+    .line 592
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->credits:Landroid/widget/TextView;
 
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$4;
@@ -2803,26 +2819,26 @@
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 594
+    .line 595
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->credits:Landroid/widget/TextView;
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 595
+    .line 596
     invoke-static {p1, v7, v9, v6}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
 
     move-result-object v1
 
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->creditsInApp:Landroid/widget/TextView;
 
-    .line 596
+    .line 597
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->creditsInApp:Landroid/widget/TextView;
 
     const/16 v2, 0x10
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 597
+    .line 598
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->creditsInApp:Landroid/widget/TextView;
 
     const/high16 v2, 0x40800000    # 4.0f
@@ -2835,7 +2851,7 @@
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setCompoundDrawablePadding(I)V
 
-    .line 598
+    .line 599
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->creditsInApp:Landroid/widget/TextView;
 
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$5;
@@ -2844,12 +2860,12 @@
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 601
+    .line 602
     new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-direct {v1, v5, v5}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
-    .line 602
+    .line 603
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
     mul-float/2addr v2, v7
@@ -2858,12 +2874,12 @@
 
     iput v2, v1, Landroid/widget/LinearLayout$LayoutParams;->leftMargin:I
 
-    .line 603
+    .line 604
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->creditsInApp:Landroid/widget/TextView;
 
     invoke-virtual {v0, v2, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 604
+    .line 605
     const v1, -0x952f01
 
     invoke-static {p1, v7, v1, v6}, Lfr/testudo/spacecorsair/mod/ModFitting;->text(Landroid/content/Context;FIZ)Landroid/widget/TextView;
@@ -2872,12 +2888,12 @@
 
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->level:Landroid/widget/TextView;
 
-    .line 605
+    .line 606
     new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-direct {v1, v5, v5}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
-    .line 606
+    .line 607
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
     mul-float/2addr v2, v7
@@ -2886,12 +2902,12 @@
 
     iput v2, v1, Landroid/widget/LinearLayout$LayoutParams;->leftMargin:I
 
-    .line 607
+    .line 608
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->level:Landroid/widget/TextView;
 
     invoke-virtual {v0, v2, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 608
+    .line 609
     const-string v1, "CLASSIC"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2904,19 +2920,19 @@
 
     move-result-object v1
 
-    .line 609
+    .line 610
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$6;
 
     invoke-direct {v2, p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$6;-><init>(Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;)V
 
     invoke-virtual {v1, v2}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 615
+    .line 616
     new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-direct {v2, v5, v5}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
-    .line 616
+    .line 617
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
     mul-float/2addr v3, v7
@@ -2925,10 +2941,10 @@
 
     iput v3, v2, Landroid/widget/LinearLayout$LayoutParams;->leftMargin:I
 
-    .line 617
+    .line 618
     invoke-virtual {v0, v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 618
+    .line 619
     return-object v0
 .end method
 
@@ -2940,15 +2956,15 @@
 
     const/4 v5, 0x0
 
-    .line 629
+    .line 630
     new-instance v0, Landroid/widget/LinearLayout;
 
     invoke-direct {v0, p1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 630
+    .line 631
     invoke-virtual {v0, v6}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 631
+    .line 632
     const/high16 v1, 0x40000000    # 2.0f
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -2967,7 +2983,7 @@
 
     invoke-virtual {v0, v5, v1, v2, v5}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 632
+    .line 633
     const-string v1, "SHIP STATUS"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2980,7 +2996,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 633
+    .line 634
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     const-string v2, "HULL"
@@ -2995,7 +3011,7 @@
 
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->hullBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
-    .line 634
+    .line 635
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     const-string v2, "SHIELD"
@@ -3010,7 +3026,7 @@
 
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->shieldBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
-    .line 635
+    .line 636
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     const-string v2, "XP"
@@ -3021,7 +3037,7 @@
 
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->xpBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
-    .line 636
+    .line 637
     new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v2, -0x1
@@ -3036,7 +3052,7 @@
 
     invoke-direct {v1, v2, v3}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
-    .line 637
+    .line 638
     const/high16 v2, 0x40800000    # 4.0f
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -3047,12 +3063,12 @@
 
     iput v2, v1, Landroid/widget/LinearLayout$LayoutParams;->bottomMargin:I
 
-    .line 638
+    .line 639
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->hullBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     invoke-virtual {v0, v2, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 639
+    .line 640
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->shieldBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
@@ -3061,7 +3077,7 @@
 
     invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 640
+    .line 641
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->xpBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
@@ -3070,7 +3086,7 @@
 
     invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 641
+    .line 642
     const-string v2, "CARGO HOLD"
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -3083,7 +3099,7 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 642
+    .line 643
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     const-string v3, "CARGO"
@@ -3098,7 +3114,7 @@
 
     iput-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->cargoBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
-    .line 643
+    .line 644
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->cargoBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$7;
@@ -3107,7 +3123,7 @@
 
     invoke-virtual {v2, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 646
+    .line 647
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->cargoBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
@@ -3116,7 +3132,7 @@
 
     invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 647
+    .line 648
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     const-string v3, "MISSILES"
@@ -3131,7 +3147,7 @@
 
     iput-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->ammoBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
-    .line 648
+    .line 649
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->ammoBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     new-instance v3, Landroid/widget/LinearLayout$LayoutParams;
@@ -3140,12 +3156,12 @@
 
     invoke-virtual {v0, v2, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 649
+    .line 650
     new-instance v1, Landroid/view/View;
 
     invoke-direct {v1, p1}, Landroid/view/View;-><init>(Landroid/content/Context;)V
 
-    .line 650
+    .line 651
     new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
 
     const/high16 v3, 0x3f800000    # 1.0f
@@ -3154,7 +3170,7 @@
 
     invoke-virtual {v0, v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 651
+    .line 652
     const-string v1, "INVENTORY"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -3171,7 +3187,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 652
+    .line 653
     const-string v1, "CASH SHOP"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -3188,7 +3204,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 653
+    .line 654
     const-string v1, "SHIPS"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -3205,7 +3221,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 654
+    .line 655
     return-object v0
 .end method
 
@@ -3221,15 +3237,15 @@
 
     const/4 v5, 0x0
 
-    .line 670
+    .line 671
     new-instance v0, Landroid/widget/ScrollView;
 
     invoke-direct {v0, p1}, Landroid/widget/ScrollView;-><init>(Landroid/content/Context;)V
 
-    .line 671
+    .line 672
     invoke-virtual {v0, v5}, Landroid/widget/ScrollView;->setFillViewport(Z)V
 
-    .line 672
+    .line 673
     const v1, -0x66f4e5d2
 
     const v2, 0x406ad0ff
@@ -3246,43 +3262,43 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/ScrollView;->setBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 673
+    .line 674
     new-instance v1, Landroid/widget/LinearLayout;
 
     invoke-direct {v1, p1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
-    .line 674
+    .line 675
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     const/4 v2, 0x1
 
     invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 675
+    .line 676
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
     mul-float/2addr v1, v7
 
     float-to-int v1, v1
 
-    .line 676
+    .line 677
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v2, v1, v5, v1, v1}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 677
+    .line 678
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v0, v1}, Landroid/widget/ScrollView;->addView(Landroid/view/View;)V
 
-    .line 678
+    .line 679
     new-instance v1, Landroid/widget/FrameLayout;
 
     invoke-direct {v1, p1}, Landroid/widget/FrameLayout;-><init>(Landroid/content/Context;)V
 
-    .line 679
+    .line 680
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
     mul-float/2addr v2, v7
@@ -3297,14 +3313,14 @@
 
     invoke-virtual {v1, v2, v3, v5, v5}, Landroid/widget/FrameLayout;->setPadding(IIII)V
 
-    .line 680
+    .line 681
     new-instance v2, Landroid/widget/FrameLayout$LayoutParams;
 
     invoke-direct {v2, v8, v8}, Landroid/widget/FrameLayout$LayoutParams;-><init>(II)V
 
     invoke-virtual {v1, v0, v2}, Landroid/widget/FrameLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 681
+    .line 682
     return-object v1
 .end method
 
@@ -3318,17 +3334,17 @@
 
     const/4 v5, 0x0
 
-    .line 975
+    .line 976
     new-instance v0, Landroid/widget/LinearLayout;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     invoke-direct {v0, v1}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 976
+    .line 977
     invoke-virtual {v0, v5}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 977
+    .line 978
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
 
     mul-float/2addr v1, v3
@@ -3343,7 +3359,7 @@
 
     invoke-virtual {v0, v5, v1, v5, v2}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 978
+    .line 979
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     const v2, -0x4f3b26
@@ -3352,10 +3368,10 @@
 
     move-result-object v1
 
-    .line 979
+    .line 980
     invoke-virtual {v1, p1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 980
+    .line 981
     new-instance v2, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v3, -0x2
@@ -3366,7 +3382,7 @@
 
     invoke-virtual {v0, v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 981
+    .line 982
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     const/4 v2, -0x1
@@ -3377,23 +3393,23 @@
 
     move-result-object v1
 
-    .line 982
+    .line 983
     invoke-virtual {v1, p2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 983
+    .line 984
     const/4 v2, 0x5
 
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 984
+    .line 985
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 985
+    .line 986
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stats:Landroid/widget/LinearLayout;
 
     invoke-virtual {v1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 986
+    .line 987
     return-void
 .end method
 
@@ -3403,7 +3419,7 @@
     .prologue
     const/4 v4, 0x0
 
-    .line 622
+    .line 623
     const/high16 v0, 0x41300000    # 11.0f
 
     const v1, -0x952f01
@@ -3414,10 +3430,10 @@
 
     move-result-object v0
 
-    .line 623
+    .line 624
     invoke-virtual {v0, p2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 624
+    .line 625
     const/high16 v1, 0x41000000    # 8.0f
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -3436,7 +3452,7 @@
 
     invoke-virtual {v0, v4, v1, v4, v2}, Landroid/widget/TextView;->setPadding(IIII)V
 
-    .line 625
+    .line 626
     return-object v0
 .end method
 
@@ -3446,7 +3462,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 837
+    .line 838
     invoke-virtual {p1}, Landroid/widget/TextView;->getCompoundDrawables()[Landroid/graphics/drawable/Drawable;
 
     move-result-object v0
@@ -3455,12 +3471,12 @@
 
     if-eqz v0, :cond_a
 
-    .line 850
+    .line 851
     :cond_9
     :goto_9
     return-void
 
-    .line 839
+    .line 840
     :cond_a
     :try_start_a
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
@@ -3469,19 +3485,19 @@
 
     move-result-object v0
 
-    .line 840
+    .line 841
     instance-of v1, v0, Landroid/widget/ImageView;
 
     if-eqz v1, :cond_9
 
-    .line 841
+    .line 842
     check-cast v0, Landroid/widget/ImageView;
 
     invoke-virtual {v0}, Landroid/widget/ImageView;->getDrawable()Landroid/graphics/drawable/Drawable;
 
     move-result-object v0
 
-    .line 842
+    .line 843
     if-eqz v0, :cond_9
 
     invoke-virtual {v0}, Landroid/graphics/drawable/Drawable;->getConstantState()Landroid/graphics/drawable/Drawable$ConstantState;
@@ -3490,7 +3506,7 @@
 
     if-eqz v1, :cond_9
 
-    .line 843
+    .line 844
     invoke-virtual {v0}, Landroid/graphics/drawable/Drawable;->getConstantState()Landroid/graphics/drawable/Drawable$ConstantState;
 
     move-result-object v0
@@ -3509,7 +3525,7 @@
 
     move-result-object v0
 
-    .line 844
+    .line 845
     const/high16 v1, 0x41800000    # 16.0f
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->d:F
@@ -3518,14 +3534,14 @@
 
     float-to-int v1, v1
 
-    .line 845
+    .line 846
     const/4 v2, 0x0
 
     const/4 v3, 0x0
 
     invoke-virtual {v0, v2, v3, v1, v1}, Landroid/graphics/drawable/Drawable;->setBounds(IIII)V
 
-    .line 846
+    .line 847
     const/4 v1, 0x0
 
     const/4 v2, 0x0
@@ -3538,7 +3554,7 @@
 
     goto :goto_9
 
-    .line 847
+    .line 848
     :catch_46
     move-exception v0
 
@@ -3551,29 +3567,29 @@
     .prologue
     const-wide/16 v10, 0x1f
 
-    .line 724
+    .line 725
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    .line 725
+    .line 726
     iget-object v1, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
 
-    .line 726
+    .line 727
     iget-object v2, v1, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
 
-    .line 727
+    .line 728
     iget-object v3, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
 
     iget-object v3, v3, Lfr/testudo/spacecorsair/game/Game;->playerCurrentShipInventory:Lfr/testudo/spacecorsair/business/player/Inventory;
 
-    .line 728
+    .line 729
     iget-object v4, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
-    .line 729
+    .line 730
     const-wide/16 v6, 0x11
 
-    .line 730
+    .line 731
     mul-long/2addr v6, v10
 
     iget-object v0, v2, Lfr/testudo/spacecorsair/business/player/PlayerGear;->playerShip:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
@@ -3586,7 +3602,7 @@
 
     add-long/2addr v6, v8
 
-    .line 731
+    .line 732
     mul-long/2addr v6, v10
 
     iget-object v0, v2, Lfr/testudo/spacecorsair/business/player/PlayerGear;->laser:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
@@ -3599,7 +3615,7 @@
 
     add-long/2addr v6, v8
 
-    .line 732
+    .line 733
     mul-long/2addr v6, v10
 
     iget-object v0, v2, Lfr/testudo/spacecorsair/business/player/PlayerGear;->missile:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
@@ -3612,7 +3628,7 @@
 
     add-long/2addr v6, v8
 
-    .line 733
+    .line 734
     mul-long/2addr v6, v10
 
     iget-object v0, v2, Lfr/testudo/spacecorsair/business/player/PlayerGear;->shield:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
@@ -3625,7 +3641,7 @@
 
     add-long/2addr v6, v8
 
-    .line 734
+    .line 735
     mul-long/2addr v6, v10
 
     iget-object v0, v2, Lfr/testudo/spacecorsair/business/player/PlayerGear;->booster:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
@@ -3638,7 +3654,7 @@
 
     add-long/2addr v6, v8
 
-    .line 735
+    .line 736
     mul-long/2addr v6, v10
 
     iget-object v0, v2, Lfr/testudo/spacecorsair/business/player/PlayerGear;->hyperdriveEngine:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
@@ -3651,7 +3667,7 @@
 
     add-long/2addr v6, v8
 
-    .line 736
+    .line 737
     mul-long/2addr v6, v10
 
     iget v0, v1, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
@@ -3660,14 +3676,14 @@
 
     add-long/2addr v6, v8
 
-    .line 737
+    .line 738
     mul-long/2addr v6, v10
 
     iget-wide v0, v1, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->curXp:J
 
     add-long/2addr v0, v6
 
-    .line 738
+    .line 739
     mul-long/2addr v0, v10
 
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCredit()J
@@ -3676,7 +3692,7 @@
 
     add-long/2addr v0, v6
 
-    .line 739
+    .line 740
     mul-long/2addr v0, v10
 
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCreditInApp()J
@@ -3685,7 +3701,7 @@
 
     add-long/2addr v0, v6
 
-    .line 740
+    .line 741
     mul-long/2addr v0, v10
 
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getTotalWeight()I
@@ -3696,7 +3712,7 @@
 
     add-long/2addr v0, v6
 
-    .line 741
+    .line 742
     mul-long/2addr v0, v10
 
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCapacityInTon()I
@@ -3707,7 +3723,7 @@
 
     add-long/2addr v0, v6
 
-    .line 742
+    .line 743
     mul-long/2addr v0, v10
 
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getMissileCount()I
@@ -3718,10 +3734,10 @@
 
     add-long/2addr v0, v2
 
-    .line 743
+    .line 744
     if-eqz v4, :cond_94
 
-    .line 744
+    .line 745
     mul-long/2addr v0, v10
 
     iget v2, v4, Lfr/testudo/spacecorsair/business/player/PlayerShip;->life:F
@@ -3732,7 +3748,7 @@
 
     add-long/2addr v0, v2
 
-    .line 745
+    .line 746
     mul-long/2addr v0, v10
 
     iget v2, v4, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
@@ -3743,12 +3759,12 @@
 
     add-long/2addr v0, v2
 
-    .line 746
+    .line 747
     iget-object v2, v4, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     if-eqz v2, :cond_94
 
-    .line 747
+    .line 748
     mul-long/2addr v0, v10
 
     iget-object v2, v4, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
@@ -3761,7 +3777,7 @@
 
     add-long/2addr v0, v2
 
-    .line 748
+    .line 749
     mul-long/2addr v0, v10
 
     iget-object v2, v4, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
@@ -3774,7 +3790,7 @@
 
     add-long/2addr v0, v2
 
-    .line 751
+    .line 752
     :cond_94
     return-wide v0
 .end method
@@ -3783,25 +3799,25 @@
     .registers 7
 
     .prologue
-    .line 755
+    .line 756
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->testDone:Z
 
     if-eqz v0, :cond_5
 
-    .line 766
+    .line 767
     :cond_4
     return-void
 
-    .line 756
+    .line 757
     :cond_5
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->testDone:Z
 
-    .line 757
+    .line 758
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->testFit:Ljava/lang/String;
 
-    .line 758
+    .line 759
     if-eqz v0, :cond_4
 
     const-string v1, "fit_"
@@ -3812,7 +3828,7 @@
 
     if-eqz v1, :cond_4
 
-    .line 759
+    .line 760
     const/4 v1, 0x4
 
     invoke-virtual {v0, v1}, Ljava/lang/String;->substring(I)Ljava/lang/String;
@@ -3825,7 +3841,7 @@
 
     move-result-object v1
 
-    .line 760
+    .line 761
     const/4 v0, 0x0
 
     :goto_20
@@ -3833,7 +3849,7 @@
 
     if-ge v0, v2, :cond_4
 
-    .line 761
+    .line 762
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModFitting;->SLOT_NAME:[Ljava/lang/String;
 
     aget-object v2, v2, v0
@@ -3844,7 +3860,7 @@
 
     if-eqz v2, :cond_39
 
-    .line 763
+    .line 764
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->handler:Landroid/os/Handler;
 
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay$9;
@@ -3855,7 +3871,7 @@
 
     invoke-virtual {v2, v3, v4, v5}, Landroid/os/Handler;->postDelayed(Ljava/lang/Runnable;J)Z
 
-    .line 760
+    .line 761
     :cond_39
     add-int/lit8 v0, v0, 0x1
 
@@ -3868,33 +3884,33 @@
     .registers 15
 
     .prologue
-    .line 771
-    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
     .line 772
-    iget-object v1, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
-
-    iget-object v2, v1, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
+    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     .line 773
     iget-object v1, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
 
-    iget-object v3, v1, Lfr/testudo/spacecorsair/game/Game;->playerCurrentShipInventory:Lfr/testudo/spacecorsair/business/player/Inventory;
+    iget-object v2, v1, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
 
     .line 774
-    iget-object v1, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
+    iget-object v1, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
+
+    iget-object v3, v1, Lfr/testudo/spacecorsair/game/Game;->playerCurrentShipInventory:Lfr/testudo/spacecorsair/business/player/Inventory;
 
     .line 775
+    iget-object v1, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
+
+    .line 776
     iget-object v0, v2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->playerShip:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 776
+    .line 777
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v5
 
-    .line 777
+    .line 778
     invoke-virtual {v4}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
     move-result-object v0
@@ -3911,7 +3927,7 @@
 
     move-object v6, v0
 
-    .line 780
+    .line 781
     :goto_23
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->name:Landroid/widget/TextView;
 
@@ -3922,7 +3938,7 @@
     :goto_29
     invoke-virtual {v7, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 781
+    .line 782
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->name:Landroid/widget/TextView;
 
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
@@ -3933,24 +3949,24 @@
 
     invoke-virtual {v0, v7}, Landroid/widget/TextView;->setTextColor(I)V
 
-    .line 782
+    .line 783
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 783
+    .line 784
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModShips;->className(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v7
 
     invoke-virtual {v0, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 784
+    .line 785
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModShips;->techName(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v7
 
-    .line 785
+    .line 786
     invoke-virtual {v7}, Ljava/lang/String;->length()I
 
     move-result v8
@@ -3965,7 +3981,7 @@
 
     invoke-virtual {v8, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 786
+    .line 787
     :cond_56
     if-eqz v5, :cond_6f
 
@@ -3991,7 +4007,7 @@
 
     invoke-virtual {v7, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 787
+    .line 788
     :cond_6f
     if-eqz v6, :cond_84
 
@@ -3999,7 +4015,7 @@
 
     if-eqz v7, :cond_84
 
-    .line 788
+    .line 789
     :try_start_75
     const-string v7, " \u00b7 "
 
@@ -4017,7 +4033,7 @@
     :try_end_84
     .catch Ljava/lang/Throwable; {:try_start_75 .. :try_end_84} :catch_2ed
 
-    .line 790
+    .line 791
     :cond_84
     :goto_84
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->sub:Landroid/widget/TextView;
@@ -4028,12 +4044,12 @@
 
     invoke-virtual {v7, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 791
+    .line 792
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModFitting;->factionIndex(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)I
 
     move-result v7
 
-    .line 792
+    .line 793
     if-nez v5, :cond_2f0
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModShipTree;->group(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
@@ -4044,16 +4060,16 @@
 
     if-ge v0, v8, :cond_2f0
 
-    .line 793
+    .line 794
     :goto_9a
     if-ltz v0, :cond_276
 
-    .line 794
+    .line 795
     sget-object v7, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     aget-object v0, v7, v0
 
-    .line 795
+    .line 796
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->faction:Landroid/widget/TextView;
 
     iget-object v8, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->name:Ljava/lang/String;
@@ -4066,7 +4082,7 @@
 
     invoke-virtual {v7, v8}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 796
+    .line 797
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->faction:Landroid/widget/TextView;
 
     iget v8, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->r:F
@@ -4099,7 +4115,7 @@
 
     invoke-virtual {v7, v8}, Landroid/widget/TextView;->setTextColor(I)V
 
-    .line 797
+    .line 798
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     new-instance v8, Ljava/lang/StringBuilder;
@@ -4126,12 +4142,12 @@
 
     move-result-object v0
 
-    .line 798
+    .line 799
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->emblem:Landroid/widget/ImageView;
 
     invoke-virtual {v7, v0}, Landroid/widget/ImageView;->setImageBitmap(Landroid/graphics/Bitmap;)V
 
-    .line 799
+    .line 800
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->emblem:Landroid/widget/ImageView;
 
     if-eqz v0, :cond_272
@@ -4141,7 +4157,7 @@
     :goto_ed
     invoke-virtual {v7, v0}, Landroid/widget/ImageView;->setVisibility(I)V
 
-    .line 807
+    .line 808
     :goto_f0
     invoke-static {}, Ljava/util/Locale;->getDefault()Ljava/util/Locale;
 
@@ -4151,7 +4167,7 @@
 
     move-result-object v0
 
-    .line 808
+    .line 809
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->credits:Landroid/widget/TextView;
 
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCredit()J
@@ -4164,7 +4180,7 @@
 
     invoke-virtual {v7, v8}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 809
+    .line 810
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->creditsInApp:Landroid/widget/TextView;
 
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCreditInApp()J
@@ -4177,21 +4193,21 @@
 
     invoke-virtual {v7, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 810
+    .line 811
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->credits:Landroid/widget/TextView;
 
     const-string v7, "imgCredits"
 
     invoke-direct {p0, v0, v7}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->setIcon(Landroid/widget/TextView;Ljava/lang/String;)V
 
-    .line 811
+    .line 812
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->creditsInApp:Landroid/widget/TextView;
 
     const-string v7, "imgCreditsInApp"
 
     invoke-direct {p0, v0, v7}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->setIcon(Landroid/widget/TextView;Ljava/lang/String;)V
 
-    .line 812
+    .line 813
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->level:Landroid/widget/TextView;
 
     new-instance v7, Ljava/lang/StringBuilder;
@@ -4216,10 +4232,10 @@
 
     invoke-virtual {v0, v7}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 815
+    .line 816
     if-eqz v1, :cond_1a6
 
-    .line 816
+    .line 817
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->hullBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     iget v0, v1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
@@ -4269,7 +4285,7 @@
 
     invoke-virtual {v7, v0, v8}, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->set(FLjava/lang/String;)V
 
-    .line 817
+    .line 818
     iget-object v0, v1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     if-eqz v0, :cond_1a6
@@ -4333,7 +4349,7 @@
 
     invoke-virtual {v7, v0, v8}, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->set(FLjava/lang/String;)V
 
-    .line 819
+    .line 820
     :cond_1a6
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->xpBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
@@ -4397,12 +4413,12 @@
 
     invoke-virtual {v7, v0, v8}, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->set(FLjava/lang/String;)V
 
-    .line 820
+    .line 821
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCapacityInTon()I
 
     move-result v7
 
-    .line 821
+    .line 822
     iget-object v8, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->cargoBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
     if-lez v7, :cond_2b8
@@ -4452,7 +4468,7 @@
 
     invoke-virtual {v8, v0, v7}, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->set(FLjava/lang/String;)V
 
-    .line 822
+    .line 823
     iget-object v0, v2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->missile:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
@@ -4461,7 +4477,7 @@
 
     const/4 v0, 0x0
 
-    .line 823
+    .line 824
     :goto_218
     instance-of v7, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
@@ -4469,18 +4485,18 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    .line 824
+    .line 825
     :goto_21e
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getMissileCount()I
 
     move-result v8
 
-    .line 825
+    .line 826
     if-nez v0, :cond_2c8
 
     const/4 v0, 0x0
 
-    .line 826
+    .line 827
     :goto_225
     iget-object v9, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->ammoBar:Lfr/testudo/spacecorsair/mod/ModFitting$Bar;
 
@@ -4528,14 +4544,14 @@
     :goto_24d
     invoke-virtual {v9, v7, v0}, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->set(FLjava/lang/String;)V
 
-    .line 829
+    .line 830
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->ring:Lfr/testudo/spacecorsair/mod/ModFitting$RingView;
 
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
     invoke-virtual {v0, v7, v4, v5, v6}, Lfr/testudo/spacecorsair/mod/ModFitting$RingView;->setShip(Landroid/content/Context;Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;Lfr/testudo/spacecorsair/mod/ModShips$Hull;Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)V
 
-    .line 830
+    .line 831
     const/4 v0, 0x0
 
     :goto_258
@@ -4557,13 +4573,13 @@
 
     goto :goto_258
 
-    .line 777
+    .line 778
     :cond_269
     const/4 v6, 0x0
 
     goto/16 :goto_23
 
-    .line 780
+    .line 781
     :cond_26c
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModFitting;->label(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
@@ -4571,13 +4587,13 @@
 
     goto/16 :goto_29
 
-    .line 799
+    .line 800
     :cond_272
     const/16 v0, 0x8
 
     goto/16 :goto_ed
 
-    .line 801
+    .line 802
     :cond_276
     if-eqz v5, :cond_2a4
 
@@ -4591,7 +4607,7 @@
 
     iget-object v0, v5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 802
+    .line 803
     :goto_282
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->faction:Landroid/widget/TextView;
 
@@ -4603,21 +4619,21 @@
 
     invoke-virtual {v7, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 803
+    .line 804
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->faction:Landroid/widget/TextView;
 
     const v7, -0x4f3b26
 
     invoke-virtual {v0, v7}, Landroid/widget/TextView;->setTextColor(I)V
 
-    .line 804
+    .line 805
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->emblem:Landroid/widget/ImageView;
 
     const/4 v7, 0x0
 
     invoke-virtual {v0, v7}, Landroid/widget/ImageView;->setImageBitmap(Landroid/graphics/Bitmap;)V
 
-    .line 805
+    .line 806
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->emblem:Landroid/widget/ImageView;
 
     const/16 v7, 0x8
@@ -4626,7 +4642,7 @@
 
     goto/16 :goto_f0
 
-    .line 801
+    .line 802
     :cond_2a4
     const-string v0, "Independent"
 
@@ -4636,19 +4652,19 @@
 
     goto :goto_282
 
-    .line 816
+    .line 817
     :cond_2ab
     const/4 v0, 0x0
 
     goto/16 :goto_14a
 
-    .line 817
+    .line 818
     :cond_2ae
     const/4 v0, 0x0
 
     goto/16 :goto_182
 
-    .line 819
+    .line 820
     :cond_2b1
     const/4 v0, 0x0
 
@@ -4659,13 +4675,13 @@
 
     goto/16 :goto_1cc
 
-    .line 821
+    .line 822
     :cond_2b8
     const/4 v0, 0x0
 
     goto/16 :goto_1ed
 
-    .line 822
+    .line 823
     :cond_2bb
     iget-object v0, v2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
 
@@ -4677,19 +4693,19 @@
 
     goto/16 :goto_218
 
-    .line 823
+    .line 824
     :cond_2c5
     const/4 v0, 0x0
 
     goto/16 :goto_21e
 
-    .line 825
+    .line 826
     :cond_2c8
     iget v0, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->maxCountInventory:I
 
     goto/16 :goto_225
 
-    .line 826
+    .line 827
     :cond_2cc
     const/4 v7, 0x0
 
@@ -4723,13 +4739,13 @@
     :cond_2e8
     move-object v0, p0
 
-    .line 833
+    .line 834
     invoke-direct/range {v0 .. v6}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->buildStats(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/business/player/PlayerInfo;Lfr/testudo/spacecorsair/business/player/Inventory;Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;Lfr/testudo/spacecorsair/mod/ModShips$Hull;Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)V
 
-    .line 834
+    .line 835
     return-void
 
-    .line 788
+    .line 789
     :catch_2ed
     move-exception v7
 
@@ -4745,13 +4761,13 @@
     .registers 1
 
     .prologue
-    .line 692
+    .line 693
     invoke-super {p0}, Landroid/widget/FrameLayout;->onDetachedFromWindow()V
 
-    .line 693
+    .line 694
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stop()V
 
-    .line 694
+    .line 695
     return-void
 .end method
 
@@ -4759,14 +4775,14 @@
     .registers 3
 
     .prologue
-    .line 687
+    .line 688
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->handler:Landroid/os/Handler;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->poll:Ljava/lang/Runnable;
 
     invoke-virtual {v0, v1}, Landroid/os/Handler;->removeCallbacks(Ljava/lang/Runnable;)V
 
-    .line 688
+    .line 689
     return-void
 .end method
 
@@ -4780,10 +4796,10 @@
 
     const/4 v2, 0x0
 
-    .line 698
+    .line 699
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->stop()V
 
-    .line 699
+    .line 700
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->broken:Z
 
     if-nez v0, :cond_13
@@ -4796,12 +4812,12 @@
 
     if-eqz v0, :cond_14
 
-    .line 721
+    .line 722
     :cond_13
     :goto_13
     return-void
 
-    .line 700
+    .line 701
     :cond_14
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->lists:Landroid/view/View;
 
@@ -4817,7 +4833,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->lists:Landroid/view/View;
 
-    .line 701
+    .line 702
     :cond_22
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->lists:Landroid/view/View;
 
@@ -4833,7 +4849,7 @@
 
     move v0, v1
 
-    .line 702
+    .line 703
     :goto_2f
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->act:Landroid/app/Activity;
 
@@ -4843,14 +4859,14 @@
 
     move-result v5
 
-    .line 703
+    .line 704
     if-nez v5, :cond_be
 
     if-nez v0, :cond_be
 
     move v3, v2
 
-    .line 704
+    .line 705
     :goto_3c
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->getVisibility()I
 
@@ -4858,21 +4874,21 @@
 
     if-eq v6, v3, :cond_48
 
-    .line 705
+    .line 706
     invoke-virtual {p0, v3}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->setVisibility(I)V
 
-    .line 706
+    .line 707
     if-nez v3, :cond_48
 
     move p1, v1
 
-    .line 708
+    .line 709
     :cond_48
     if-eqz v5, :cond_c1
 
     if-nez v0, :cond_c1
 
-    .line 709
+    .line 710
     :goto_4c
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->toggle:Landroid/widget/Button;
 
@@ -4890,18 +4906,18 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/Button;->setVisibility(I)V
 
-    .line 710
+    .line 711
     :cond_5d
     if-nez v3, :cond_a0
 
-    .line 711
+    .line 712
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->getParent()Landroid/view/ViewParent;
 
     move-result-object v0
 
     check-cast v0, Landroid/view/ViewGroup;
 
-    .line 712
+    .line 713
     if-eqz v0, :cond_84
 
     invoke-virtual {v0}, Landroid/view/ViewGroup;->getChildCount()I
@@ -4932,13 +4948,13 @@
 
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->bringToFront()V
 
-    .line 713
+    .line 714
     :cond_84
     invoke-direct {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->signature()J
 
     move-result-wide v0
 
-    .line 714
+    .line 715
     if-nez p1, :cond_98
 
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->sig:J
@@ -4955,18 +4971,18 @@
 
     if-eqz v2, :cond_9d
 
-    .line 715
+    .line 716
     :cond_98
     iput-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->sig:J
 
-    .line 716
+    .line 717
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->bind()V
 
-    .line 718
+    .line 719
     :cond_9d
     invoke-direct {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->testPick()V
 
-    .line 720
+    .line 721
     :cond_a0
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Overlay;->getWindowToken()Landroid/os/IBinder;
 
@@ -4999,22 +5015,22 @@
     :cond_bb
     move v0, v2
 
-    .line 701
+    .line 702
     goto/16 :goto_2f
 
     :cond_be
     move v3, v4
 
-    .line 703
+    .line 704
     goto/16 :goto_3c
 
     :cond_c1
     move v2, v4
 
-    .line 708
+    .line 709
     goto :goto_4c
 
-    .line 720
+    .line 721
     :cond_c3
     const-wide/16 v0, 0x4b0
 

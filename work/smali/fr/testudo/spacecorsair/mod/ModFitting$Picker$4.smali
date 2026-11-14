@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 1493
+    .line 1494
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$4;->val$dlg:Landroid/app/Dialog;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 3
 
     .prologue
-    .line 1494
+    .line 1495
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Picker$4;->val$dlg:Landroid/app/Dialog;
 
     invoke-virtual {v0}, Landroid/app/Dialog;->dismiss()V

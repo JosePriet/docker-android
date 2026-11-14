@@ -660,6 +660,14 @@ public class ModV34 {
         return new float[]{1f, 1f};
     }
 
+    /** H5 own-faction rail bonuses as a DPS multiplier: {per-hit (Spartan +10% rail damage), rate (Frontier rails reload 10% faster)}. */
+    static float[] railBonus(String key, fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpec l) {
+        if (l == null || ModWeapons.family(l) != RAIL) return new float[]{1f, 1f};
+        if ("spartan".equals(key)) return new float[]{1.1f, 1f};
+        if ("warden".equals(key)) return new float[]{1f, 1f / 0.9f};
+        return new float[]{1f, 1f};
+    }
+
     static String factionName(String key) {
         for (ModCapitals.Faction f : ModCapitals.FACTIONS) if (f.key.equals(key)) return ModLang.tr(f.name);
         return key;

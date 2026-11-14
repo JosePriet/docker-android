@@ -43,10 +43,10 @@
 
     const/4 v1, 0x1
 
-    .line 1009
+    .line 1010
     invoke-direct {p0, p1}, Landroid/view/View;-><init>(Landroid/content/Context;)V
 
-    .line 1002
+    .line 1003
     new-instance v0, Landroid/graphics/Paint;
 
     invoke-direct {v0, v1}, Landroid/graphics/Paint;-><init>(I)V
@@ -71,36 +71,36 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->edge:Landroid/graphics/Paint;
 
-    .line 1003
+    .line 1004
     new-instance v0, Landroid/graphics/RectF;
 
     invoke-direct {v0}, Landroid/graphics/RectF;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->r:Landroid/graphics/RectF;
 
-    .line 1006
+    .line 1007
     const-string v0, ""
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->value:Ljava/lang/String;
 
-    .line 1010
+    .line 1011
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->label:Ljava/lang/String;
 
-    .line 1011
+    .line 1012
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModFitting;->dp(Landroid/content/Context;)F
 
     move-result v0
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->d:F
 
-    .line 1012
+    .line 1013
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->bg:Landroid/graphics/Paint;
 
     const v1, -0xefe5d8
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1013
+    .line 1014
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->fill:Landroid/graphics/Paint;
 
     and-int v1, p3, v3
@@ -111,14 +111,14 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1014
+    .line 1015
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->edge:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 1015
+    .line 1016
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->edge:Landroid/graphics/Paint;
 
     const/high16 v1, 0x3f800000    # 1.0f
@@ -131,7 +131,7 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 1016
+    .line 1017
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->edge:Landroid/graphics/Paint;
 
     and-int v1, p3, v3
@@ -142,14 +142,14 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1017
+    .line 1018
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->txt:Landroid/graphics/Paint;
 
     const/4 v1, -0x1
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 1018
+    .line 1019
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->txt:Landroid/graphics/Paint;
 
     const/high16 v1, 0x41200000    # 10.0f
@@ -168,14 +168,14 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setTextSize(F)V
 
-    .line 1019
+    .line 1020
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->txt:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Typeface;->DEFAULT_BOLD:Landroid/graphics/Typeface;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setTypeface(Landroid/graphics/Typeface;)Landroid/graphics/Typeface;
 
-    .line 1020
+    .line 1021
     return-void
 .end method
 
@@ -191,7 +191,7 @@
 
     const/4 v6, 0x0
 
-    .line 1033
+    .line 1034
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->getWidth()I
 
     move-result v0
@@ -210,26 +210,26 @@
 
     mul-float/2addr v2, v3
 
-    .line 1034
+    .line 1035
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->r:Landroid/graphics/RectF;
 
     invoke-virtual {v3, v6, v6, v0, v1}, Landroid/graphics/RectF;->set(FFFF)V
 
-    .line 1035
+    .line 1036
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->r:Landroid/graphics/RectF;
 
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->bg:Landroid/graphics/Paint;
 
     invoke-virtual {p1, v3, v2, v2, v4}, Landroid/graphics/Canvas;->drawRoundRect(Landroid/graphics/RectF;FFLandroid/graphics/Paint;)V
 
-    .line 1036
+    .line 1037
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->frac:F
 
     cmpl-float v3, v3, v6
 
     if-lez v3, :cond_3b
 
-    .line 1037
+    .line 1038
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->r:Landroid/graphics/RectF;
 
     mul-float v4, v7, v2
@@ -244,27 +244,27 @@
 
     invoke-virtual {v3, v6, v6, v4, v1}, Landroid/graphics/RectF;->set(FFFF)V
 
-    .line 1038
+    .line 1039
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->r:Landroid/graphics/RectF;
 
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->fill:Landroid/graphics/Paint;
 
     invoke-virtual {p1, v3, v2, v2, v4}, Landroid/graphics/Canvas;->drawRoundRect(Landroid/graphics/RectF;FFLandroid/graphics/Paint;)V
 
-    .line 1040
+    .line 1041
     :cond_3b
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->r:Landroid/graphics/RectF;
 
     invoke-virtual {v3, v6, v6, v0, v1}, Landroid/graphics/RectF;->set(FFFF)V
 
-    .line 1041
+    .line 1042
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->r:Landroid/graphics/RectF;
 
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->edge:Landroid/graphics/Paint;
 
     invoke-virtual {p1, v3, v2, v2, v4}, Landroid/graphics/Canvas;->drawRoundRect(Landroid/graphics/RectF;FFLandroid/graphics/Paint;)V
 
-    .line 1042
+    .line 1043
     div-float/2addr v1, v7
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->txt:Landroid/graphics/Paint;
@@ -285,14 +285,14 @@
 
     sub-float/2addr v1, v2
 
-    .line 1043
+    .line 1044
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->txt:Landroid/graphics/Paint;
 
     sget-object v3, Landroid/graphics/Paint$Align;->LEFT:Landroid/graphics/Paint$Align;
 
     invoke-virtual {v2, v3}, Landroid/graphics/Paint;->setTextAlign(Landroid/graphics/Paint$Align;)V
 
-    .line 1044
+    .line 1045
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->label:Ljava/lang/String;
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->d:F
@@ -303,14 +303,14 @@
 
     invoke-virtual {p1, v2, v3, v1, v4}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 1045
+    .line 1046
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->txt:Landroid/graphics/Paint;
 
     sget-object v3, Landroid/graphics/Paint$Align;->RIGHT:Landroid/graphics/Paint$Align;
 
     invoke-virtual {v2, v3}, Landroid/graphics/Paint;->setTextAlign(Landroid/graphics/Paint$Align;)V
 
-    .line 1046
+    .line 1047
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->value:Ljava/lang/String;
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->d:F
@@ -323,7 +323,7 @@
 
     invoke-virtual {p1, v2, v0, v1, v3}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 1047
+    .line 1048
     return-void
 .end method
 
@@ -333,7 +333,7 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 1023
+    .line 1024
     invoke-static {p1}, Ljava/lang/Float;->isNaN(F)Z
 
     move-result v1
@@ -342,7 +342,7 @@
 
     move p1, v0
 
-    .line 1024
+    .line 1025
     :cond_8
     const/high16 v1, 0x3f800000    # 1.0f
 
@@ -354,7 +354,7 @@
 
     move-result v0
 
-    .line 1025
+    .line 1026
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->frac:F
 
     cmpl-float v1, v0, v1
@@ -369,18 +369,18 @@
 
     if-eqz v1, :cond_21
 
-    .line 1029
+    .line 1030
     :goto_20
     return-void
 
-    .line 1026
+    .line 1027
     :cond_21
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->frac:F
 
-    .line 1027
+    .line 1028
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->value:Ljava/lang/String;
 
-    .line 1028
+    .line 1029
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModFitting$Bar;->invalidate()V
 
     goto :goto_20
