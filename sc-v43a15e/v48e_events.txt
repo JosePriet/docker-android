@@ -1,0 +1,342 @@
+11-14 17:52:54.368 D/AndroidRuntime( 2490): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:52:54.372 I/AndroidRuntime( 2490): Using default boot image
+11-14 17:52:54.373 I/AndroidRuntime( 2490): Leaving lock profiling enabled
+11-14 17:52:54.494 D/AndroidRuntime( 2490): Calling main entry com.android.commands.monkey.Monkey
+11-14 17:52:54.647 I/AndroidRuntime( 2490): VM exiting with result code 0.
+11-14 17:53:14.409 D/AndroidRuntime( 2696): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:14.415 I/AndroidRuntime( 2696): Using default boot image
+11-14 17:53:14.416 I/AndroidRuntime( 2696): Leaving lock profiling enabled
+11-14 17:53:15.365 D/AndroidRuntime( 2696): Calling main entry com.android.commands.input.Input
+11-14 17:53:16.295 D/AndroidRuntime( 2696): Shutting down VM
+11-14 17:53:20.013 D/AndroidRuntime( 2735): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:20.045 I/AndroidRuntime( 2735): Using default boot image
+11-14 17:53:20.045 I/AndroidRuntime( 2735): Leaving lock profiling enabled
+11-14 17:53:20.876 D/AndroidRuntime( 2735): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:53:22.243 D/AndroidRuntime( 2735): Shutting down VM
+11-14 17:53:23.183 D/AndroidRuntime( 2767): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:23.215 I/AndroidRuntime( 2767): Using default boot image
+11-14 17:53:23.215 I/AndroidRuntime( 2767): Leaving lock profiling enabled
+11-14 17:53:23.547 D/AndroidRuntime( 2767): Calling main entry com.android.commands.input.Input
+11-14 17:53:23.609 D/AndroidRuntime( 2767): Shutting down VM
+11-14 17:53:30.313 D/AndroidRuntime( 2818): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:30.335 I/AndroidRuntime( 2818): Using default boot image
+11-14 17:53:30.335 I/AndroidRuntime( 2818): Leaving lock profiling enabled
+11-14 17:53:31.145 D/AndroidRuntime( 2818): Calling main entry com.android.commands.input.Input
+11-14 17:53:33.233 D/AndroidRuntime( 2818): Shutting down VM
+11-14 17:53:34.196 D/AndroidRuntime( 2845): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:34.204 I/AndroidRuntime( 2845): Using default boot image
+11-14 17:53:34.204 I/AndroidRuntime( 2845): Leaving lock profiling enabled
+11-14 17:53:34.664 D/AndroidRuntime( 2845): Calling main entry com.android.commands.input.Input
+11-14 17:53:36.761 D/AndroidRuntime( 2845): Shutting down VM
+11-14 17:53:37.676 D/AndroidRuntime( 2870): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:37.684 I/AndroidRuntime( 2870): Using default boot image
+11-14 17:53:37.684 I/AndroidRuntime( 2870): Leaving lock profiling enabled
+11-14 17:53:38.233 D/AndroidRuntime( 2870): Calling main entry com.android.commands.input.Input
+11-14 17:53:40.315 D/AndroidRuntime( 2870): Shutting down VM
+11-14 17:53:49.528 D/AndroidRuntime( 2956): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:49.538 I/AndroidRuntime( 2956): Using default boot image
+11-14 17:53:49.538 I/AndroidRuntime( 2956): Leaving lock profiling enabled
+11-14 17:53:49.793 D/AndroidRuntime( 2956): Calling main entry com.android.commands.input.Input
+11-14 17:53:50.244 D/AndroidRuntime( 2956): Shutting down VM
+11-14 17:53:52.024 D/AndroidRuntime( 2978): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:52.029 I/AndroidRuntime( 2978): Using default boot image
+11-14 17:53:52.029 I/AndroidRuntime( 2978): Leaving lock profiling enabled
+11-14 17:53:52.285 D/AndroidRuntime( 2978): Calling main entry com.android.commands.input.Input
+11-14 17:53:52.586 D/AndroidRuntime( 2978): Shutting down VM
+11-14 17:53:54.267 D/AndroidRuntime( 3000): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:54.273 I/AndroidRuntime( 3000): Using default boot image
+11-14 17:53:54.273 I/AndroidRuntime( 3000): Leaving lock profiling enabled
+11-14 17:53:54.507 D/AndroidRuntime( 3000): Calling main entry com.android.commands.input.Input
+11-14 17:53:54.818 D/AndroidRuntime( 3000): Shutting down VM
+11-14 17:53:56.507 D/AndroidRuntime( 3029): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:56.512 I/AndroidRuntime( 3029): Using default boot image
+11-14 17:53:56.512 I/AndroidRuntime( 3029): Leaving lock profiling enabled
+11-14 17:53:56.715 D/AndroidRuntime( 3029): Calling main entry com.android.commands.input.Input
+11-14 17:53:57.023 D/AndroidRuntime( 3029): Shutting down VM
+11-14 17:53:58.722 D/AndroidRuntime( 3055): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:53:58.733 I/AndroidRuntime( 3055): Using default boot image
+11-14 17:53:58.733 I/AndroidRuntime( 3055): Leaving lock profiling enabled
+11-14 17:53:59.074 D/AndroidRuntime( 3055): Calling main entry com.android.commands.input.Input
+11-14 17:53:59.382 D/AndroidRuntime( 3055): Shutting down VM
+11-14 17:54:01.072 D/AndroidRuntime( 3090): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:01.079 I/AndroidRuntime( 3090): Using default boot image
+11-14 17:54:01.079 I/AndroidRuntime( 3090): Leaving lock profiling enabled
+11-14 17:54:01.358 D/AndroidRuntime( 3090): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:54:02.577 D/AndroidRuntime( 3090): Shutting down VM
+11-14 17:54:03.455 D/AndroidRuntime( 3121): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:03.461 I/AndroidRuntime( 3121): Using default boot image
+11-14 17:54:03.461 I/AndroidRuntime( 3121): Leaving lock profiling enabled
+11-14 17:54:03.698 D/AndroidRuntime( 3121): Calling main entry com.android.commands.input.Input
+11-14 17:54:03.850 D/AndroidRuntime( 3121): Shutting down VM
+11-14 17:54:06.501 D/AndroidRuntime( 3154): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:06.508 I/AndroidRuntime( 3154): Using default boot image
+11-14 17:54:06.508 I/AndroidRuntime( 3154): Leaving lock profiling enabled
+11-14 17:54:06.753 D/AndroidRuntime( 3154): Calling main entry com.android.commands.input.Input
+11-14 17:54:07.669 D/AndroidRuntime( 3154): Shutting down VM
+11-14 17:54:09.399 D/AndroidRuntime( 3179): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:09.404 I/AndroidRuntime( 3179): Using default boot image
+11-14 17:54:09.404 I/AndroidRuntime( 3179): Leaving lock profiling enabled
+11-14 17:54:09.684 D/AndroidRuntime( 3179): Calling main entry com.android.commands.input.Input
+11-14 17:54:09.726 D/AndroidRuntime( 3179): Shutting down VM
+11-14 17:54:11.505 D/AndroidRuntime( 3202): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:11.513 I/AndroidRuntime( 3202): Using default boot image
+11-14 17:54:11.513 I/AndroidRuntime( 3202): Leaving lock profiling enabled
+11-14 17:54:11.753 D/AndroidRuntime( 3202): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:54:12.990 D/AndroidRuntime( 3202): Shutting down VM
+11-14 17:54:13.889 D/AndroidRuntime( 3226): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:13.894 I/AndroidRuntime( 3226): Using default boot image
+11-14 17:54:13.894 I/AndroidRuntime( 3226): Leaving lock profiling enabled
+11-14 17:54:14.117 D/AndroidRuntime( 3226): Calling main entry com.android.commands.input.Input
+11-14 17:54:14.152 D/AndroidRuntime( 3226): Shutting down VM
+11-14 17:54:19.144 D/AndroidRuntime( 3255): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:19.160 I/AndroidRuntime( 3255): Using default boot image
+11-14 17:54:19.160 I/AndroidRuntime( 3255): Leaving lock profiling enabled
+11-14 17:54:19.404 D/AndroidRuntime( 3255): Calling main entry com.android.commands.input.Input
+11-14 17:54:19.558 D/AndroidRuntime( 3255): Shutting down VM
+11-14 17:54:23.233 D/AndroidRuntime( 3290): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:23.240 I/AndroidRuntime( 3290): Using default boot image
+11-14 17:54:23.240 I/AndroidRuntime( 3290): Leaving lock profiling enabled
+11-14 17:54:23.469 D/AndroidRuntime( 3290): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:54:24.589 D/AndroidRuntime( 3290): Shutting down VM
+11-14 17:54:32.581 D/AndroidRuntime( 3337): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:32.587 I/AndroidRuntime( 3337): Using default boot image
+11-14 17:54:32.587 I/AndroidRuntime( 3337): Leaving lock profiling enabled
+11-14 17:54:32.803 D/AndroidRuntime( 3337): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:54:33.994 D/AndroidRuntime( 3337): Shutting down VM
+11-14 17:54:34.706 D/AndroidRuntime( 3360): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:34.711 I/AndroidRuntime( 3360): Using default boot image
+11-14 17:54:34.712 I/AndroidRuntime( 3360): Leaving lock profiling enabled
+11-14 17:54:34.897 D/AndroidRuntime( 3360): Calling main entry com.android.commands.input.Input
+11-14 17:54:34.961 D/AndroidRuntime( 3360): Shutting down VM
+11-14 17:54:39.302 D/AndroidRuntime( 3385): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:39.340 I/AndroidRuntime( 3385): Using default boot image
+11-14 17:54:39.340 I/AndroidRuntime( 3385): Leaving lock profiling enabled
+11-14 17:54:40.629 D/AndroidRuntime( 3385): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:54:41.812 D/AndroidRuntime( 3385): Shutting down VM
+11-14 17:54:50.468 D/AndroidRuntime( 3441): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:50.474 I/AndroidRuntime( 3441): Using default boot image
+11-14 17:54:50.474 I/AndroidRuntime( 3441): Leaving lock profiling enabled
+11-14 17:54:50.664 D/AndroidRuntime( 3441): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:54:51.838 D/AndroidRuntime( 3441): Shutting down VM
+11-14 17:54:52.476 D/AndroidRuntime( 3464): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:52.480 I/AndroidRuntime( 3464): Using default boot image
+11-14 17:54:52.480 I/AndroidRuntime( 3464): Leaving lock profiling enabled
+11-14 17:54:52.621 D/AndroidRuntime( 3464): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:54:53.711 D/AndroidRuntime( 3464): Shutting down VM
+11-14 17:54:54.353 D/AndroidRuntime( 3486): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:54.357 I/AndroidRuntime( 3486): Using default boot image
+11-14 17:54:54.357 I/AndroidRuntime( 3486): Leaving lock profiling enabled
+11-14 17:54:54.491 D/AndroidRuntime( 3486): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:54:55.599 D/AndroidRuntime( 3486): Shutting down VM
+11-14 17:54:56.210 D/AndroidRuntime( 3509): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:56.215 I/AndroidRuntime( 3509): Using default boot image
+11-14 17:54:56.216 I/AndroidRuntime( 3509): Leaving lock profiling enabled
+11-14 17:54:56.481 D/AndroidRuntime( 3509): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:54:57.591 D/AndroidRuntime( 3509): Shutting down VM
+11-14 17:54:58.261 D/AndroidRuntime( 3536): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:54:58.266 I/AndroidRuntime( 3536): Using default boot image
+11-14 17:54:58.266 I/AndroidRuntime( 3536): Leaving lock profiling enabled
+11-14 17:54:58.442 D/AndroidRuntime( 3536): Calling main entry com.android.commands.input.Input
+11-14 17:54:58.462 D/AndroidRuntime( 3536): Shutting down VM
+11-14 17:55:07.693 D/AndroidRuntime( 3572): >>>>>> START com.android.internal.os.RuntimeInit uid 0 <<<<<<
+11-14 17:55:07.701 I/AndroidRuntime( 3572): Using default boot image
+11-14 17:55:07.701 I/AndroidRuntime( 3572): Leaving lock profiling enabled
+11-14 17:55:08.490 D/AndroidRuntime( 3572): Calling main entry com.android.commands.uiautomator.Launcher
+11-14 17:55:10.187 D/AndroidRuntime( 3572): Shutting down VM
+11-14 17:55:13.272 V/JDE     ( 3619): Achievement :policeVento , value :0
+11-14 17:56:02.044 I/CorsairMod( 3619): police forced wave
+11-14 17:56:02.131 I/CorsairMod( 3619): police wave spartan top=0 L16 ships=2/2 active=2 heat=1
+11-14 17:56:02.412 I/CorsairMod( 3619): egun fire spartan fam=0 size=1 kind=2
+11-14 17:56:03.110 I/CorsairMod( 3619): egun marked shot released size=1
+11-14 17:56:11.534 I/CorsairMod( 3619): police enter SPARTAN_HQ heat=50 lastTop=-1
+11-14 17:56:11.535 I/CorsairMod( 3619): police wave spartan top=0 L16 ships=2/2 active=2 heat=50
+11-14 17:56:14.404 I/CorsairMod( 3619): egun fire spartan fam=0 size=1 kind=2
+11-14 17:56:15.308 I/CorsairMod( 3619): egun marked shot released size=1
+11-14 17:56:17.628 I/CorsairMod( 3619): egun fire spartan fam=0 size=0 kind=1
+11-14 17:56:18.422 I/CorsairMod( 3619): egun marked shot released size=0
+11-14 17:56:20.153 I/CorsairMod( 3619): police forced wave
+11-14 17:56:20.158 I/CorsairMod( 3619): police wave spartan top=1 L16 ships=4/4 active=6 heat=50
+11-14 17:56:21.514 I/CorsairMod( 3619): egun fire spartan fam=0 size=1 kind=2
+11-14 17:56:22.171 I/CorsairMod( 3619): egun marked shot released size=1
+11-14 17:56:24.665 I/CorsairMod( 3619): egun fire spartan fam=0 size=0 kind=1
+11-14 17:56:25.318 I/CorsairMod( 3619): egun marked shot released size=0
+11-14 17:56:27.773 I/CorsairMod( 3619): egun fire spartan fam=0 size=0 kind=1
+11-14 17:56:28.368 I/CorsairMod( 3619): egun marked shot released size=0
+11-14 17:56:31.502 I/CorsairMod( 3619): egun fire spartan fam=0 size=0 kind=1
+11-14 17:56:32.171 I/CorsairMod( 3619): egun marked shot released size=0
+11-14 17:56:34.587 I/CorsairMod( 3619): egun fire spartan fam=0 size=0 kind=1
+11-14 17:56:35.304 I/CorsairMod( 3619): egun marked shot released size=1
+11-14 17:56:37.691 I/CorsairMod( 3619): egun fire spartan fam=0 size=0 kind=1
+11-14 17:56:38.468 I/CorsairMod( 3619): egun marked shot released size=0
+11-14 17:56:40.762 I/CorsairMod( 3619): egun fire spartan fam=0 size=0 kind=1
+11-14 17:56:41.648 I/CorsairMod( 3619): egun marked shot released size=0
+11-14 17:56:43.898 I/CorsairMod( 3619): egun fire spartan fam=0 size=0 kind=1
+11-14 17:56:44.712 I/CorsairMod( 3619): egun marked shot released size=1
+11-14 17:56:46.917 I/CorsairMod( 3619): egun fire spartan fam=0 size=0 kind=1
+11-14 17:56:47.774 I/CorsairMod( 3619): egun marked shot released size=0
+11-14 17:56:50.130 I/CorsairMod( 3619): egun fire spartan fam=0 size=1 kind=2
+11-14 17:57:05.703 I/CorsairMod( 3619): egun fire warden fam=0 size=1 kind=2
+11-14 17:57:06.230 I/CorsairMod( 3619): egun fire helion fam=3 size=1 kind=2
+11-14 17:57:22.477 I/CorsairMod( 3619): police forced wave
+11-14 17:57:22.487 I/CorsairMod( 3619): police wave reaver top=0 L16 ships=2/2 active=2 heat=1
+11-14 17:57:29.636 I/CorsairMod( 3619): egun fire reaver fam=1 size=0 kind=1
+11-14 17:57:30.628 I/CorsairMod( 3619): egun reaver burst dmg=120.93353
+11-14 17:57:32.655 I/CorsairMod( 3619): egun fire reaver fam=1 size=0 kind=1
+11-14 17:57:33.716 I/CorsairMod( 3619): egun reaver burst dmg=136.70747
+11-14 17:57:35.728 I/CorsairMod( 3619): egun fire reaver fam=1 size=0 kind=1
+11-14 17:57:37.047 I/CorsairMod( 3619): egun reaver burst dmg=11.0
+11-14 17:57:39.372 I/CorsairMod( 3619): police forced wave
+11-14 17:57:39.379 I/CorsairMod( 3619): police wave reaver top=1 L16 ships=4/4 active=6 heat=1
+11-14 17:57:40.629 I/CorsairMod( 3619): egun fire reaver fam=1 size=1 kind=1
+11-14 17:57:41.378 I/CorsairMod( 3619): egun reaver burst dmg=44.0
+11-14 17:57:44.509 I/CorsairMod( 3619): egun reaver burst dmg=44.0
+11-14 17:57:44.865 I/CorsairMod( 3619): egun fire reaver fam=1 size=0 kind=1
+11-14 17:57:47.645 I/CorsairMod( 3619): egun reaver burst dmg=11.0
+11-14 17:57:47.876 I/CorsairMod( 3619): egun fire reaver fam=1 size=1 kind=1
+11-14 17:57:50.968 I/CorsairMod( 3619): egun fire reaver fam=1 size=0 kind=1
+11-14 17:57:50.981 I/CorsairMod( 3619): egun reaver burst dmg=44.0
+11-14 17:57:53.974 I/CorsairMod( 3619): egun fire reaver fam=1 size=1 kind=1
+11-14 17:57:53.981 I/CorsairMod( 3619): egun reaver burst dmg=11.0
+11-14 17:57:57.152 I/CorsairMod( 3619): egun reaver burst dmg=34.17687
+11-14 17:57:57.315 I/CorsairMod( 3619): egun fire reaver fam=1 size=0 kind=1
+11-14 17:58:00.246 I/CorsairMod( 3619): egun reaver burst dmg=136.70747
+11-14 17:58:00.368 I/CorsairMod( 3619): egun fire reaver fam=1 size=0 kind=1
+11-14 17:58:03.268 I/CorsairMod( 3619): egun reaver burst dmg=136.70747
+11-14 17:58:03.476 I/CorsairMod( 3619): egun fire reaver fam=1 size=0 kind=1
+11-14 17:58:09.192 I/CorsairMod( 3619): egun fire warden fam=0 size=1 kind=2
+11-14 17:58:22.553 I/CorsairMod( 3619): police enter SPARTAN_HQ heat=25 lastTop=1
+11-14 17:58:38.274 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=2
+11-14 17:58:55.083 I/CorsairMod( 3619): egun fire warden fam=0 size=1 kind=2
+11-14 17:58:55.286 I/CorsairMod( 3619): egun fire warden fam=5 size=1 kind=2
+11-14 17:59:13.368 I/CorsairMod( 3619): police enter THE_HIVE heat=50 lastTop=-1
+11-14 17:59:13.373 I/CorsairMod( 3619): police wave kretari top=0 L40 ships=2/2 active=2 heat=50
+11-14 17:59:19.331 I/CorsairMod( 3619): egun fire kretari fam=1 size=0 kind=1
+11-14 17:59:19.820 I/CorsairMod( 3619): egun kretari acid dps=80.01121
+11-14 17:59:20.579 I/CorsairMod( 3619): police forced wave
+11-14 17:59:20.586 I/CorsairMod( 3619): police wave kretari top=1 L40 ships=4/4 active=6 heat=50
+11-14 17:59:22.412 I/CorsairMod( 3619): egun fire kretari fam=1 size=0 kind=1
+11-14 17:59:26.900 I/CorsairMod( 3619): police enter THE_HIVE heat=50 lastTop=1
+11-14 17:59:26.967 I/CorsairMod( 3619): police wave kretari top=2 L40 ships=3/3 active=3 heat=50
+11-14 17:59:30.168 I/CorsairMod( 3619): police forced wave
+11-14 17:59:30.173 I/CorsairMod( 3619): police wave kretari top=3 L40 ships=3/3 active=6 heat=50
+11-14 17:59:44.109 I/CorsairMod( 3619): egun fire kretari fam=1 size=1 kind=1
+11-14 17:59:47.545 I/CorsairMod( 3619): egun fire kretari fam=1 size=1 kind=1
+11-14 17:59:50.783 I/CorsairMod( 3619): egun fire kretari fam=1 size=1 kind=1
+11-14 17:59:52.154 I/CorsairMod( 3619): egun kretari acid dps=5.2000003
+11-14 17:59:54.048 I/CorsairMod( 3619): egun fire kretari fam=1 size=1 kind=1
+11-14 17:59:56.501 I/CorsairMod( 3619): egun kretari acid dps=5.2000003
+11-14 17:59:57.052 I/CorsairMod( 3619): egun fire kretari fam=1 size=1 kind=1
+11-14 17:59:58.696 I/CorsairMod( 3619): police wave kretari top=4 L40 ships=2/4 active=8 heat=50
+11-14 18:00:02.696 I/CorsairMod( 3619): egun fire warden fam=0 size=1 kind=2
+11-14 18:00:02.722 I/CorsairMod( 3619): egun fire warden fam=5 size=1 kind=2
+11-14 18:00:27.507 I/CorsairMod( 3619): police forced wave
+11-14 18:00:27.508 I/CorsairMod( 3619): police wave varn top=0 L34 ships=2/2 active=2 heat=1
+11-14 18:00:32.256 I/CorsairMod( 3619): egun fire varn fam=4 size=0 kind=1
+11-14 18:00:35.367 I/CorsairMod( 3619): egun fire varn fam=4 size=0 kind=1
+11-14 18:00:36.103 I/CorsairMod( 3619): police forced wave
+11-14 18:00:36.106 I/CorsairMod( 3619): police wave varn top=1 L34 ships=3/3 active=5 heat=1
+11-14 18:00:36.951 I/CorsairMod( 3619): egun varn ramp=0.5043333
+11-14 18:00:41.840 I/CorsairMod( 3619): police enter OMICRON_PRIME heat=50 lastTop=-1
+11-14 18:00:41.847 I/CorsairMod( 3619): police wave varn top=0 L34 ships=2/2 active=2 heat=50
+11-14 18:00:43.755 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=2
+11-14 18:00:45.568 I/CorsairMod( 3619): police forced wave
+11-14 18:00:45.577 I/CorsairMod( 3619): police wave varn top=1 L34 ships=3/3 active=5 heat=50
+11-14 18:00:46.776 I/CorsairMod( 3619): egun fire varn fam=4 size=0 kind=1
+11-14 18:00:49.907 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=2
+11-14 18:00:50.665 I/CorsairMod( 3619): egun varn ramp=0.507
+11-14 18:00:52.958 I/CorsairMod( 3619): egun fire varn fam=4 size=0 kind=1
+11-14 18:00:53.686 I/CorsairMod( 3619): egun varn ramp=0.6566667
+11-14 18:00:55.992 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=0
+11-14 18:00:59.119 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=0
+11-14 18:00:59.363 I/CorsairMod( 3619): police enter OMICRON_PRIME heat=50 lastTop=1
+11-14 18:00:59.385 I/CorsairMod( 3619): police wave varn top=2 L34 ships=4/4 active=4 heat=50
+11-14 18:01:02.289 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=2
+11-14 18:01:05.515 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=2
+11-14 18:01:06.548 I/CorsairMod( 3619): egun varn ramp=0.5093333
+11-14 18:01:08.788 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=2
+11-14 18:01:10.580 I/CorsairMod( 3619): egun varn ramp=0.504
+11-14 18:01:11.904 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=2
+11-14 18:01:13.581 I/CorsairMod( 3619): egun varn ramp=1.0
+11-14 18:01:15.074 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=2
+11-14 18:01:25.647 I/CorsairMod( 3619): egun fire spartan fam=0 size=1 kind=2
+11-14 18:01:26.259 I/CorsairMod( 3619): egun marked shot released size=1
+11-14 18:01:26.307 I/CorsairMod( 3619): egun fire helion fam=3 size=1 kind=2
+11-14 18:01:27.623 I/CorsairMod( 3619): police enter SPARTAN_HQ heat=12 lastTop=1
+11-14 18:01:29.330 I/CorsairMod( 3619): egun fire spartan fam=0 size=1 kind=2
+11-14 18:01:30.015 I/CorsairMod( 3619): egun marked shot released size=1
+11-14 18:01:51.534 I/CorsairMod( 3619): police forced wave
+11-14 18:01:51.537 I/CorsairMod( 3619): police wave ironclad top=0 L7 ships=2/2 active=2 heat=1
+11-14 18:01:53.172 I/CorsairMod( 3619): egun fire ironclad fam=2 size=1 kind=2
+11-14 18:01:56.233 I/CorsairMod( 3619): egun fire ironclad fam=2 size=0 kind=1
+11-14 18:01:59.357 I/CorsairMod( 3619): egun fire ironclad fam=2 size=0 kind=1
+11-14 18:02:00.275 I/CorsairMod( 3619): police forced wave
+11-14 18:02:00.277 I/CorsairMod( 3619): police wave ironclad top=1 L7 ships=3/3 active=5 heat=1
+11-14 18:02:02.460 I/CorsairMod( 3619): egun fire ironclad fam=2 size=0 kind=1
+11-14 18:02:05.521 I/CorsairMod( 3619): egun fire ironclad fam=2 size=1 kind=1
+11-14 18:02:08.536 I/CorsairMod( 3619): egun fire ironclad fam=2 size=0 kind=1
+11-14 18:02:08.619 I/CorsairMod( 3619): police forced wave
+11-14 18:02:08.635 I/CorsairMod( 3619): police wave ironclad top=2 L7 ships=3/3 active=8 heat=1
+11-14 18:02:11.604 I/CorsairMod( 3619): egun fire ironclad fam=2 size=0 kind=1
+11-14 18:02:14.622 I/CorsairMod( 3619): egun fire ironclad fam=2 size=1 kind=0
+11-14 18:02:17.674 I/CorsairMod( 3619): egun fire ironclad fam=2 size=0 kind=1
+11-14 18:02:20.742 I/CorsairMod( 3619): egun fire ironclad fam=2 size=0 kind=1
+11-14 18:02:23.829 I/CorsairMod( 3619): egun fire ironclad fam=2 size=0 kind=1
+11-14 18:02:27.024 I/CorsairMod( 3619): egun fire ironclad fam=2 size=0 kind=1
+11-14 18:02:30.077 I/CorsairMod( 3619): egun fire ironclad fam=2 size=1 kind=1
+11-14 18:02:33.131 I/CorsairMod( 3619): egun fire ironclad fam=2 size=1 kind=1
+11-14 18:02:38.646 I/CorsairMod( 3619): egun fire spartan fam=0 size=1 kind=2
+11-14 18:02:38.935 I/CorsairMod( 3619): egun fire ironclad fam=2 size=1 kind=2
+11-14 18:02:39.258 I/CorsairMod( 3619): egun marked shot released size=1
+11-14 18:02:56.432 I/CorsairMod( 3619): police forced wave
+11-14 18:02:56.438 I/CorsairMod( 3619): police wave helion top=0 L13 ships=2/2 active=2 heat=1
+11-14 18:03:01.768 I/CorsairMod( 3619): egun fire helion fam=3 size=0 kind=1
+11-14 18:03:04.735 I/CorsairMod( 3619): police forced wave
+11-14 18:03:04.737 I/CorsairMod( 3619): police wave helion top=1 L13 ships=4/4 active=6 heat=1
+11-14 18:03:04.790 I/CorsairMod( 3619): egun fire helion fam=3 size=0 kind=1
+11-14 18:03:04.859 I/CorsairMod( 3619): egun helion x0.7
+11-14 18:03:07.822 I/CorsairMod( 3619): egun fire helion fam=3 size=0 kind=1
+11-14 18:03:07.951 I/CorsairMod( 3619): egun helion x0.7
+11-14 18:03:10.912 I/CorsairMod( 3619): egun fire helion fam=3 size=0 kind=1
+11-14 18:03:11.025 I/CorsairMod( 3619): egun helion x0.7
+11-14 18:03:13.584 I/CorsairMod( 3619): police forced wave
+11-14 18:03:13.593 I/CorsairMod( 3619): police wave helion top=2 L13 ships=2/4 active=8 heat=1
+11-14 18:03:13.953 I/CorsairMod( 3619): egun fire helion fam=3 size=0 kind=1
+11-14 18:03:14.228 I/CorsairMod( 3619): egun helion x0.7
+11-14 18:03:17.014 I/CorsairMod( 3619): egun fire helion fam=3 size=0 kind=1
+11-14 18:03:17.866 I/CorsairMod( 3619): egun helion x0.7
+11-14 18:03:20.118 I/CorsairMod( 3619): egun fire helion fam=3 size=0 kind=1
+11-14 18:03:21.619 I/CorsairMod( 3619): egun helion x0.7
+11-14 18:03:23.231 I/CorsairMod( 3619): egun fire helion fam=3 size=0 kind=1
+11-14 18:03:25.148 I/CorsairMod( 3619): egun helion x0.7
+11-14 18:03:26.404 I/CorsairMod( 3619): egun fire helion fam=3 size=1 kind=1
+11-14 18:03:28.469 I/CorsairMod( 3619): egun helion x0.7
+11-14 18:03:29.405 I/CorsairMod( 3619): egun fire helion fam=3 size=1 kind=2
+11-14 18:03:31.574 I/CorsairMod( 3619): egun helion x0.7
+11-14 18:03:32.413 I/CorsairMod( 3619): egun fire helion fam=3 size=1 kind=1
+11-14 18:03:34.697 I/CorsairMod( 3619): egun helion x0.7
+11-14 18:03:35.631 I/CorsairMod( 3619): egun fire helion fam=3 size=0 kind=1
+11-14 18:03:38.829 I/CorsairMod( 3619): egun fire helion fam=3 size=0 kind=1
+11-14 18:03:40.458 I/CorsairMod( 3619): egun helion x1.5
+11-14 18:03:53.311 I/CorsairMod( 3619): police enter SPARTAN_HQ heat=6 lastTop=1
+11-14 18:04:08.742 I/CorsairMod( 3619): egun fire varn fam=4 size=1 kind=2
+11-14 18:04:10.977 I/CorsairMod( 3619): police enter OMICRON_PRIME heat=25 lastTop=2
+11-14 18:04:33.368 I/CorsairMod( 3619): police forced wave
+11-14 18:04:33.377 I/CorsairMod( 3619): police wave warden top=0 L37 ships=2/2 active=2 heat=1
+11-14 18:04:39.114 I/CorsairMod( 3619): egun fire warden fam=0 size=0 kind=1
+11-14 18:04:39.286 I/CorsairMod( 3619): egun fire warden fam=5 size=0 kind=1
+11-14 18:04:42.309 I/CorsairMod( 3619): egun fire warden fam=0 size=0 kind=1
+11-14 18:04:42.365 I/CorsairMod( 3619): egun fire warden fam=5 size=0 kind=1
+11-14 18:04:42.666 I/CorsairMod( 3619): egun warden ion regen paused
+11-14 18:04:46.974 I/CorsairMod( 3619): police enter HIGHWAY heat=50 lastTop=-1
+11-14 18:04:46.977 I/CorsairMod( 3619): police wave warden top=0 L37 ships=2/2 active=2 heat=50
+11-14 18:04:47.760 I/CorsairMod( 3619): police forced wave
+11-14 18:04:47.761 I/CorsairMod( 3619): police wave warden top=1 L37 ships=3/3 active=5 heat=50
+11-14 18:04:52.651 I/CorsairMod( 3619): egun fire warden fam=0 size=0 kind=1
+11-14 18:04:52.697 I/CorsairMod( 3619): egun fire warden fam=5 size=0 kind=1
+11-14 18:04:54.109 I/CorsairMod( 3619): police forced wave
+11-14 18:04:54.111 I/CorsairMod( 3619): police wave warden top=2 L37 ships=3/3 active=8 heat=50
+11-14 18:04:55.795 I/CorsairMod( 3619): egun fire warden fam=0 size=0 kind=1
+11-14 18:04:56.034 I/CorsairMod( 3619): egun fire warden fam=5 size=0 kind=1
+11-14 18:04:56.549 I/CorsairMod( 3619): egun warden ion regen paused
+11-14 18:05:02.128 I/CorsairMod( 3619): police enter HIGHWAY heat=50 lastTop=2
+11-14 18:05:02.133 I/CorsairMod( 3619): police wave warden top=3 L37 ships=3/3 active=3 heat=50

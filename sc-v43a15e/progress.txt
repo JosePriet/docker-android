@@ -1,0 +1,81 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[25s] shot launch ok
+[35s] cancel exit prompt
+[41s] shot after_back ok
+[56s] shot steering ok
+[56s] direct: BuyInapp gift
+[75s] tap 'id/txtGift' at 620 926
+[85s] tap 'id/btnGift' at 1253 939
+[91s] shot gift_box_redeemed ok
+[97s] direct: Settings
+[104s] shot settings_v36 ok
+[106s] seekbars on settings: 3
+[124s] Leviathan page found=1
+[130s] tap '^(Use|USE)' at 1971 1008
+[184s] goto SPARTAN_HQ arrived=1
+[192s] shot sector_SPARTAN_HQ ok
+[200s] shot SPARTAN_HQ_w1 ok
+[210s] shot SPARTAN_HQ_w2 ok
+[219s] shot SPARTAN_HQ_w3 ok
+[227s] shot SPARTAN_HQ_fight_1 ok
+[234s] shot SPARTAN_HQ_fight_2 ok
+[241s] shot SPARTAN_HQ_fight_3 ok
+[242s] EVIDENCE SPARTAN_HQ: egun fire spartan fam=0 size=0 kind=1 egun marked shot released size=0 egun fire spartan fam=0 size=0 kind=1 egun marked shot released size=1 egun fire spartan fam=0 size=0 kind=1 egun marked shot released size=0 
+[266s] goto PIRATE_BAY arrived=1
+[272s] shot sector_PIRATE_BAY ok
+[280s] shot PIRATE_BAY_w1 ok
+[289s] shot PIRATE_BAY_w2 ok
+[298s] shot PIRATE_BAY_w3 ok
+[304s] shot PIRATE_BAY_fight_1 ok
+[311s] shot PIRATE_BAY_fight_2 ok
+[317s] shot PIRATE_BAY_fight_3 ok
+[317s] EVIDENCE PIRATE_BAY: egun reaver burst dmg=34.17687 egun fire reaver fam=1 size=0 kind=1 egun reaver burst dmg=136.70747 egun fire reaver fam=1 size=0 kind=1 egun reaver burst dmg=136.70747 egun fire reaver fam=1 size=0 kind=1 
+[374s] goto THE_HIVE arrived=1
+[381s] shot sector_THE_HIVE ok
+[391s] shot THE_HIVE_w1 ok
+[400s] shot THE_HIVE_w2 ok
+[409s] shot THE_HIVE_w3 ok
+[416s] shot THE_HIVE_fight_1 ok
+[423s] shot THE_HIVE_fight_2 ok
+[429s] shot THE_HIVE_fight_3 ok
+[429s] EVIDENCE THE_HIVE: egun fire kretari fam=1 size=1 kind=1 egun fire kretari fam=1 size=1 kind=1 egun kretari acid dps=5.2000003 egun fire kretari fam=1 size=1 kind=1 egun kretari acid dps=5.2000003 egun fire kretari fam=1 size=1 kind=1 
+[450s] goto OMICRON_PRIME arrived=1
+[457s] shot sector_OMICRON_PRIME ok
+[466s] shot OMICRON_PRIME_w1 ok
+[475s] shot OMICRON_PRIME_w2 ok
+[484s] shot OMICRON_PRIME_w3 ok
+[491s] shot OMICRON_PRIME_fight_1 ok
+[499s] shot OMICRON_PRIME_fight_2 ok
+[506s] shot OMICRON_PRIME_fight_3 ok
+[506s] EVIDENCE OMICRON_PRIME: egun fire varn fam=4 size=1 kind=2 egun varn ramp=0.5093333 egun fire varn fam=4 size=1 kind=2 egun varn ramp=0.504 egun fire varn fam=4 size=1 kind=2 egun varn ramp=1.0 
+[535s] goto ORE_BELT arrived=1
+[541s] shot sector_ORE_BELT ok
+[550s] shot ORE_BELT_w1 ok
+[559s] shot ORE_BELT_w2 ok
+[567s] shot ORE_BELT_w3 ok
+[574s] shot ORE_BELT_fight_1 ok
+[580s] shot ORE_BELT_fight_2 ok
+[587s] shot ORE_BELT_fight_3 ok
+[587s] EVIDENCE ORE_BELT: egun fire ironclad fam=2 size=0 kind=1 egun fire ironclad fam=2 size=0 kind=1 egun fire ironclad fam=2 size=0 kind=1 egun fire ironclad fam=2 size=0 kind=1 egun fire ironclad fam=2 size=1 kind=1 egun fire ironclad fam=2 size=1 kind=1 
+[599s] goto HELIOSTAT arrived=1
+[606s] shot sector_HELIOSTAT ok
+[615s] shot HELIOSTAT_w1 ok
+[624s] shot HELIOSTAT_w2 ok
+[632s] shot HELIOSTAT_w3 ok
+[639s] shot HELIOSTAT_fight_1 ok
+[646s] shot HELIOSTAT_fight_2 ok
+[652s] shot HELIOSTAT_fight_3 ok
+[652s] EVIDENCE HELIOSTAT: egun fire helion fam=3 size=1 kind=2 egun helion x0.7 egun fire helion fam=3 size=1 kind=1 egun helion x0.7 egun fire helion fam=3 size=0 kind=1 egun fire helion fam=3 size=0 kind=1 
+[697s] goto HIGHWAY arrived=1
+[703s] shot sector_HIGHWAY ok
+[713s] shot HIGHWAY_w1 ok
+[723s] shot HIGHWAY_w2 ok
+[733s] shot HIGHWAY_w3 ok
+[741s] shot HIGHWAY_fight_1 ok
+[747s] shot HIGHWAY_fight_2 ok
+[755s] shot HIGHWAY_fight_3 ok
+[755s] EVIDENCE HIGHWAY: egun warden ion regen paused egun fire warden fam=0 size=0 kind=1 egun fire warden fam=5 size=0 kind=1 egun fire warden fam=0 size=0 kind=1 egun fire warden fam=5 size=0 kind=1 egun warden ion regen paused 
+[755s] EVIDENCE egun kinds:      15 egun fire helion      15 egun fire ironclad       7 egun fire kretari      11 egun fire reaver      16 egun fire spartan      15 egun fire varn      14 egun fire warden      11 egun helion x       3 egun kretari acid      15 egun marked shot      11 egun reaver burst       6 egun varn ramp       2 egun warden ion 
+[758s] done; errors: 145 lines
+230 frames

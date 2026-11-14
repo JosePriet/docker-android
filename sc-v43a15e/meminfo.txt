@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 786710 Realtime: 786710
+
+** MEMINFO in pid 3619 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    22268    22196        0        0    24664    31756    24825     3113
+  Dalvik Heap    40905    40764        0        0    45132    21405    10719    10686
+ Dalvik Other     1577      864        0        0     3204                           
+        Stack      832      832        0        0      848                           
+       Ashmem    10171     9432        0        0    10976                           
+    Other dev      120        0      120        0      324                           
+     .so mmap     4508      244      448        0    43156                           
+    .jar mmap     1397        0       68        0    21640                           
+    .apk mmap     1059        0       68        0    24536                           
+    .ttf mmap      125        0        0        0      604                           
+    .dex mmap     2592       12     2568        0     2720                           
+    .oat mmap      965        0        8        0    15364                           
+    .art mmap     1532      892        0        0    19968                           
+   Other mmap      342       36       76        0     2520                           
+      Unknown      393      376        0        0      840                           
+        TOTAL    88786    75648     3356        0    88786    53161    35544    13799
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    41656                          65100
+         Native Heap:    22196                          24664
+                Code:     3424                         109476
