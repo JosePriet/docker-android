@@ -143,6 +143,7 @@ public final class ModEnemyGuns {
                 if (fam < 0 || shrapnel.containsKey(b)) continue;
                 if (released.remove(b) != null) continue;   // a Marked shot leaving: sound already played
                 int f = w[0];
+                log("fire" + f + "_" + fam, "fire " + key(f) + " fam=" + fam + " size=" + w[1] + " kind=" + w[2]);
                 if (f == SPARTAN && fam == ModWeapons.RAIL) {
                     Held h = new Held();
                     h.b = b; h.s = p.sender; h.left = MARK_MS; h.size = w[1];
@@ -206,6 +207,7 @@ public final class ModEnemyGuns {
                 released.put(h.b, Boolean.TRUE);
                 ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(h.b);
                 sound(ps, SPARTAN, ModWeapons.RAIL, h.size, h.b.position.x, h.b.position.y);
+                log("mark", "marked shot released size=" + h.size);
                 if (h.size > 0)
                     ModFx.part("fx_glow", h.b.position.x, h.b.position.y, 0, 0, 160, 20, h.size == 2 ? 90 : 50, 0.55f, 0.95f, 1.0f, 0.8f, true, true);
             }
@@ -217,6 +219,7 @@ public final class ModEnemyGuns {
                 if (b.position.distance(ps.position) > BURST_RANGE) continue;
                 reaver.remove(i); reaverS.remove(i);
                 burst(b, s);
+                log("burst", "reaver burst dmg=" + b.damage);
             }
             // expired Ironclad shells and shrapnel bits (pooled bullets: unflag before reuse)
             for (int i = ironclad.size() - 1; i >= 0; i--)
@@ -293,8 +296,10 @@ public final class ModEnemyGuns {
                 acidDps = Math.max(now < acidUntil ? acidDps : 0, b.damage * ACID_FRAC);
                 acidUntil = now + ACID_MS;
                 acidFrom = b.sender;
+                log("acid", "kretari acid dps=" + acidDps);
             } else if (f == WARDEN && fam == ModWeapons.ARC) {
                 ionUntil = now + ION_MS;
+                log("ion", "warden ion regen paused");
                 Ennemis[] ds = Mod.playerDrones();
                 Ennemis best = null;
                 float bd = ION_JUMP;
@@ -325,10 +330,35 @@ public final class ModEnemyGuns {
             if (dmg <= 0 || p == null || target == null || !target.isPlayer) return dmg;
             if (shooter(p.sender)[0] != HELION || ModWeapons.familyOf(p) != ModWeapons.BLAST) return dmg;
             PlayerShip ps = (PlayerShip) target;
-            return dmg * (ps.shield != null && ps.shield.currentValue > 0 ? SHIELD_X : HULL_X);
+            float m = ps.shield != null && ps.shield.currentValue > 0 ? SHIELD_X : HULL_X;
+            log("helion", "helion x" + m);
+            return dmg * m;
         } catch (Throwable t) {
             return dmg;
         }
+    }
+
+    // ------------------------------------------------------------------ test log (emulator: /data/local/tmp/corsair_egunlog)
+    private static Boolean logOn;
+    private static long logCheck;
+    private static final HashMap<String, Long> logAt = new HashMap<String, Long>();
+
+    static void log(String key, String msg) {
+        try {
+            long now = System.currentTimeMillis();
+            if (logOn == null || now - logCheck > 5000) { logCheck = now; logOn = ModDev.testFlag("corsair_egunlog"); }
+            if (!logOn) return;
+            Long at = logAt.get(key);
+            if (at != null && now - at < 3000) return;
+            logAt.put(key, now);
+            android.util.Log.i("CorsairMod", "egun " + msg);
+        } catch (Throwable t) {
+            // no log
+        }
+    }
+
+    static String key(int f) {
+        return f >= 0 && f < ModCapitals.FACTIONS.length ? ModCapitals.FACTIONS[f].key : "?";
     }
 
     // ------------------------------------------------------------------ draw
@@ -353,6 +383,7 @@ public final class ModEnemyGuns {
             if (f == VARN && fam == ModWeapons.DISINT) {
                 float ramp = ModWeapons.enemyRamp();
                 scale = 1 + ramp;
+                if (ramp > 0.5f) log("varn", "varn ramp=" + ramp);
                 g = bl = 1 - 0.7f * ramp;
             }
             boolean isBit = shrapnel.containsKey(e);
@@ -407,6 +438,7 @@ public final class ModEnemyGuns {
                 float ms = along / (v * 0.1f);
                 if (ms > RING_MS || ms > b.lifeTimeInMilli) continue;
                 float a = 0.35f + 0.6f * (1 - ms / RING_MS);
+                log("ring", "ironclad ring ms=" + (int) ms);
                 if (ring == null) ring = ModArt.ready("tele_cap_ironclad");
                 if (ring != null) ModFx.sprTex(ring, px, py, RING_R * 2, RING_R * 2, 0, 1.0f, 0.3f, 0.15f, a, true, 0, 0, 1, 1);
                 else ModFx.spr("fx_ring", px, py, RING_R * 2, RING_R * 2, 0, 1.0f, 0.3f, 0.15f, a, true);
