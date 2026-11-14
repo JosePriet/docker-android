@@ -313,7 +313,7 @@ public class ModPolice {
     /**
      * Smali hook (hooks47_policeguns) at the start of Level.commitChanges: a stock EnergyLaser fired by a built police
      * hull is swapped for an EnergyBullet of its faction's battery family (ModCapitals.GUNS[fi], alternating when the
-     * faction has two), same damage, position, speed, spin and lifetime. Joined sector patrols (stock PoliceShip) keep
+     * faction has two), same damage, position, speed and spin; lifetime from the faction gun's range. Joined sector patrols (stock PoliceShip) keep
      * stock lasers. Police are exempt from fit bonuses/penalties (ModV34.damage, weapon fit thread).
      */
     private static int swapN;
@@ -333,7 +333,8 @@ public class ModPolice {
                 b.position.setSameAs(l.position);
                 b.speed.setSameAs(l.speed);
                 b.spin = l.spin;
-                b.lifeTimeInMilli = l.lifeTimeInMilli;
+                float v = (float) Math.hypot(l.speed.x, l.speed.y);   // v43a-10 audit: the faction gun's range, not the laser's
+                b.lifeTimeInMilli = v > 0.01f ? (long) (gun.range * 1.15f / (v * 0.1f)) : l.lifeTimeInMilli;
                 ((List<Object>) toAdd).set(i, b);
             }
         } catch (Throwable t) {
