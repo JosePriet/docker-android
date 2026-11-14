@@ -771,7 +771,8 @@ public class ModV34 {
     static float wallDamage(Element target, Projectile p, float raw) {
         try {
             if (p == null || p.sender == null || target == null) return raw;
-            return raw * pilot(stat(p.sender), stat(target)) * counter(factionOf(p.sender), factionOf(target), ModWeapons.familyOf(p));
+            boolean neutral = ModPolice.isPolice(p.sender) || ModPolice.isPolice(target);   // owner 2026-11-14 06:16: police are neutral (as in damage())
+            return raw * pilot(stat(p.sender), stat(target)) * (neutral ? 1.0f : counter(factionOf(p.sender), factionOf(target), ModWeapons.familyOf(p)));
         } catch (Throwable t) {
             return raw;
         }

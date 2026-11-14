@@ -827,7 +827,7 @@ public class ModV35 {
         try {
             if (p == null || p.sender == null || !p.sender.isPlayer || !(target instanceof Ennemis) || dmg <= 0) return dmg;
             Ennemis e = (Ennemis) target;
-            if (e.elite || ModBoss.isBoss(e) || ModBoss.kindOf(e) >= 0 || Mod.isDrone(e) || ModCapitals.cap(e) != null || ModTitan.isTitanClass(e)) return dmg;   // normal enemies only
+            if (e.elite || ModBoss.isBoss(e) || ModBoss.kindOf(e) >= 0 || Mod.isDrone(e) || ModCapitals.cap(e) != null || ModTitan.isTitanClass(e) || ModPolice.isPolice(e)) return dmg;   // normal enemies only; police are neutral (owner 2026-11-14 06:16)
             PlayerShip ps = (PlayerShip) p.sender;
             String ef = ModV34.factionOf(e), pf = ModV34.factionOf(ps);
             int w = wheel(ef, pf);

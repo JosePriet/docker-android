@@ -935,7 +935,7 @@
 
     const/4 v0, 0x0
 
-    .line 783
+    .line 784
     if-eqz p2, :cond_b
 
     if-eqz p0, :cond_b
@@ -944,20 +944,20 @@
 
     if-gtz v2, :cond_c
 
-    .line 803
+    .line 804
     :cond_b
     :goto_b
     return p1
 
-    .line 784
+    .line 785
     :cond_c
     :try_start_c
     iget-object v2, p2, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->sender:Lfr/testudo/spacecorsair/business/Element;
 
-    .line 785
+    .line 786
     if-eqz v2, :cond_b
 
-    .line 786
+    .line 787
     iget-boolean v3, p0, Lfr/testudo/spacecorsair/business/Element;->isPlayer:Z
 
     if-eqz v3, :cond_44
@@ -990,10 +990,10 @@
 
     if-gez v3, :cond_44
 
-    .line 787
+    .line 788
     check-cast p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
-    .line 788
+    .line 789
     const-string v1, "EVADED"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1010,10 +1010,10 @@
 
     move p1, v0
 
-    .line 789
+    .line 790
     goto :goto_b
 
-    .line 793
+    .line 794
     :cond_44
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModPolice;->isPolice(Lfr/testudo/spacecorsair/business/Element;)Z
 
@@ -1030,13 +1030,13 @@
     :cond_50
     const/4 v0, 0x1
 
-    .line 794
+    .line 795
     :goto_51
     invoke-static {p2}, Lfr/testudo/spacecorsair/mod/ModWeapons;->familyOf(Ljava/lang/Object;)I
 
     move-result v3
 
-    .line 795
+    .line 796
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModV34;->factionOf(Lfr/testudo/spacecorsair/business/Element;)Ljava/lang/String;
 
     move-result-object v4
@@ -1045,7 +1045,7 @@
 
     move-result-object v5
 
-    .line 796
+    .line 797
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModV34;->stat(Lfr/testudo/spacecorsair/business/Element;)I
 
     move-result v6
@@ -1067,19 +1067,19 @@
     :goto_6d
     mul-float/2addr v0, v6
 
-    .line 797
+    .line 798
     iget-boolean v1, v2, Lfr/testudo/spacecorsair/business/Element;->isPlayer:Z
 
     if-eqz v1, :cond_85
 
-    .line 798
+    .line 799
     invoke-static {v4, v3}, Lfr/testudo/spacecorsair/mod/ModV34;->weaponRule(Ljava/lang/String;I)F
 
     move-result v1
 
     mul-float/2addr v0, v1
 
-    .line 799
+    .line 800
     if-nez v3, :cond_85
 
     const-string v1, "spartan"
@@ -1097,16 +1097,16 @@
     :cond_85
     move p1, v0
 
-    .line 801
+    .line 802
     goto :goto_b
 
-    .line 793
+    .line 794
     :cond_87
     const/4 v0, 0x0
 
     goto :goto_51
 
-    .line 796
+    .line 797
     :cond_89
     invoke-static {v4, v5, v3}, Lfr/testudo/spacecorsair/mod/ModV34;->counter(Ljava/lang/String;Ljava/lang/String;I)F
     :try_end_8c
@@ -1116,7 +1116,7 @@
 
     goto :goto_6d
 
-    .line 802
+    .line 803
     :catch_8e
     move-exception v0
 
@@ -5231,7 +5231,7 @@
 
     if-nez p0, :cond_9
 
-    .line 776
+    .line 777
     :cond_8
     :goto_8
     return p2
@@ -5240,25 +5240,61 @@
     :cond_9
     iget-object v0, p1, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->sender:Lfr/testudo/spacecorsair/business/Element;
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModV34;->stat(Lfr/testudo/spacecorsair/business/Element;)I
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModPolice;->isPolice(Lfr/testudo/spacecorsair/business/Element;)Z
 
     move-result v0
 
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->stat(Lfr/testudo/spacecorsair/business/Element;)I
+    if-nez v0, :cond_17
+
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModPolice;->isPolice(Lfr/testudo/spacecorsair/business/Element;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_2e
+
+    :cond_17
+    const/4 v0, 0x1
+
+    .line 775
+    :goto_18
+    iget-object v1, p1, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->sender:Lfr/testudo/spacecorsair/business/Element;
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModV34;->stat(Lfr/testudo/spacecorsair/business/Element;)I
 
     move-result v1
 
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModV34;->pilot(II)F
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->stat(Lfr/testudo/spacecorsair/business/Element;)I
 
-    move-result v0
+    move-result v2
 
-    mul-float/2addr v0, p2
+    invoke-static {v1, v2}, Lfr/testudo/spacecorsair/mod/ModV34;->pilot(II)F
 
-    iget-object v1, p1, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->sender:Lfr/testudo/spacecorsair/business/Element;
+    move-result v1
 
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModV34;->factionOf(Lfr/testudo/spacecorsair/business/Element;)Ljava/lang/String;
+    mul-float/2addr v1, p2
 
-    move-result-object v1
+    if-eqz v0, :cond_30
+
+    const/high16 v0, 0x3f800000    # 1.0f
+
+    :goto_2b
+    mul-float p2, v1, v0
+
+    goto :goto_8
+
+    .line 774
+    :cond_2e
+    const/4 v0, 0x0
+
+    goto :goto_18
+
+    .line 775
+    :cond_30
+    iget-object v0, p1, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->sender:Lfr/testudo/spacecorsair/business/Element;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModV34;->factionOf(Lfr/testudo/spacecorsair/business/Element;)Ljava/lang/String;
+
+    move-result-object v0
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->factionOf(Lfr/testudo/spacecorsair/business/Element;)Ljava/lang/String;
 
@@ -5268,18 +5304,16 @@
 
     move-result v3
 
-    invoke-static {v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModV34;->counter(Ljava/lang/String;Ljava/lang/String;I)F
-    :try_end_29
-    .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_29} :catch_2d
+    invoke-static {v0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModV34;->counter(Ljava/lang/String;Ljava/lang/String;I)F
+    :try_end_41
+    .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_41} :catch_43
 
-    move-result v1
+    move-result v0
 
-    mul-float p2, v0, v1
+    goto :goto_2b
 
-    goto :goto_8
-
-    .line 775
-    :catch_2d
+    .line 776
+    :catch_43
     move-exception v0
 
     goto :goto_8

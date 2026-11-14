@@ -2927,6 +2927,12 @@
 
     if-nez v0, :cond_15
 
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModPolice;->isPolice(Lfr/testudo/spacecorsair/business/Element;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_15
+
     .line 831
     iget-object v0, p2, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->sender:Lfr/testudo/spacecorsair/business/Element;
 
@@ -2950,8 +2956,8 @@
     neg-int v0, v0
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModV35;->ttkFactor(I)F
-    :try_end_4e
-    .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_4e} :catch_51
+    :try_end_54
+    .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_54} :catch_57
 
     move-result v0
 
@@ -2960,7 +2966,7 @@
     goto :goto_15
 
     .line 835
-    :catch_51
+    :catch_57
     move-exception v0
 
     goto :goto_15
