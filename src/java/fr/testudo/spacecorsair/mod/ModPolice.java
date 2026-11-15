@@ -198,6 +198,11 @@ public class ModPolice {
         return heat;
     }
 
+    /** v43a-17: a police Monolith (police fly it at form V): the only police hull that carries the Phoenix Lance. */
+    static boolean isPoliceMonolith(Element e) {
+        return e != null && monoAura.containsKey(e);
+    }
+
     public static boolean isPolice(Element e) {
         if (e == null) return false;
         if (police.containsKey(e) || ModPoliceTitan.isPoliceTitan(e)) return true;

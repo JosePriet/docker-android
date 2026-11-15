@@ -32,8 +32,6 @@
 
 .field static final MK:[Ljava/lang/String;
 
-.field static final POLICE_CHANCE:F = 0.35f
-
 .field static final PRICE:[I
 
 .field static final P_PROMPT:Ljava/lang/String; = "lance_prompted"
@@ -2463,7 +2461,7 @@
 
     instance-of v0, p0, Lfr/testudo/spacecorsair/business/world/station/Station;
     :try_end_26
-    .catch Ljava/lang/Throwable; {:try_start_18 .. :try_end_26} :catch_bd
+    .catch Ljava/lang/Throwable; {:try_start_18 .. :try_end_26} :catch_b3
 
     if-eqz v0, :cond_74
 
@@ -2592,36 +2590,27 @@
 
     move-result v0
 
-    if-eqz v0, :cond_a5
+    if-eqz v0, :cond_9b
 
-    invoke-static {}, Ljava/lang/Math;->random()D
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModPolice;->isPoliceMonolith(Lfr/testudo/spacecorsair/business/Element;)Z
 
-    move-result-wide v4
+    move-result v2
 
-    const-wide v6, 0x3fd6666660000000L    # 0.3499999940395355
-
-    cmpg-double v0, v4, v6
-
-    if-gez v0, :cond_a3
-
-    move v2, v1
-
-    :cond_a3
     move v0, v2
 
     goto :goto_29
 
     .line 446
-    :cond_a5
+    :cond_9b
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->rank(Lfr/testudo/spacecorsair/business/Element;)I
 
     move-result v0
 
-    if-ne v0, v1, :cond_b9
+    if-ne v0, v1, :cond_af
 
     invoke-static {}, Ljava/lang/Math;->random()D
-    :try_end_ae
-    .catch Ljava/lang/Throwable; {:try_start_74 .. :try_end_ae} :catch_bd
+    :try_end_a4
+    .catch Ljava/lang/Throwable; {:try_start_74 .. :try_end_a4} :catch_b3
 
     move-result-wide v4
 
@@ -2629,16 +2618,16 @@
 
     cmpg-double v0, v4, v6
 
-    if-gez v0, :cond_b6
+    if-gez v0, :cond_ac
 
     move v2, v1
 
-    :cond_b6
+    :cond_ac
     move v0, v2
 
     goto/16 :goto_29
 
-    :cond_b9
+    :cond_af
     move v1, v2
 
     move v0, v2
@@ -2647,7 +2636,7 @@
     goto/16 :goto_29
 
     .line 448
-    :catch_bd
+    :catch_b3
     move-exception v0
 
     goto/16 :goto_2a

@@ -33,7 +33,7 @@ import java.util.WeakHashMap;
  * - A held molten stream: fast short bolts every 80 ms drawn as a continuous beam; flat damage on shields, ramping on the
  *   hull (+100% after 4 s on one target); the target keeps burning 3 s after the beam leaves; a heat meter forces a 3 s
  *   cooldown after 9 s of fire; the turret turns at half speed.
- * - Enemies: only elites, bosses and police can carry it (owner 2026-11-15).
+ * - Enemies: elites and bosses may carry it; of the police, every police Monolith (form V) does and no other police hull (owner 2026-11-15 18:45).
  * Every number here is a default for the owner's playtest.
  */
 public final class ModLance {
@@ -421,7 +421,7 @@ public final class ModLance {
     }
 
     // ------------------------------------------------------------------ enemy Lance (elites, bosses, police)
-    static final float ELITE_CHANCE = 0.25f, POLICE_CHANCE = 0.35f, BOSS_CHANCE = 1.0f;
+    static final float ELITE_CHANCE = 0.25f, BOSS_CHANCE = 1.0f;
     static final float ENEMY_RAMP = 1.0f;          // +100% on the player's hull after RAMP_MS
     static final float ENEMY_BURN = 0.3f;          // the burn deals 30% of the last hit over BURN_MS
     private static final WeakHashMap<Element, Boolean> holder = new WeakHashMap<Element, Boolean>();
@@ -442,7 +442,7 @@ public final class ModLance {
         try {
             if (ModCapitals.cap(s) != null || Mod.isDrone(s) || s instanceof Station) yes = false;
             else if (ModBoss.isBoss(s) || ModV34.rank(s) == 2) yes = Math.random() < BOSS_CHANCE;   // mission bosses and stock bosses
-            else if (ModPolice.isPolice(s)) yes = Math.random() < POLICE_CHANCE;   // any police class
+            else if (ModPolice.isPolice(s)) yes = ModPolice.isPoliceMonolith(s);   // owner 18:45: the Lance comes with the form V Monolith; other police keep faction guns
             else if (ModV34.rank(s) == 1) yes = Math.random() < ELITE_CHANCE;
             else finalAnswer = false;   // may still turn elite/boss after spawning
         } catch (Throwable t) {
