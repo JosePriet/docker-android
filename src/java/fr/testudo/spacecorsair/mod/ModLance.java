@@ -442,7 +442,8 @@ public final class ModLance {
         try {
             if (ModCapitals.cap(s) != null || Mod.isDrone(s) || s instanceof Station) yes = false;
             else if (ModBoss.isBoss(s) || ModV34.rank(s) == 2) yes = Math.random() < BOSS_CHANCE;   // mission bosses and stock bosses
-            else if (ModPolice.isPolice(s)) yes = Math.random() < POLICE_CHANCE;   // any police class else if (ModV34.rank(s) == 1) yes = Math.random() < ELITE_CHANCE;
+            else if (ModPolice.isPolice(s)) yes = Math.random() < POLICE_CHANCE;   // any police class
+            else if (ModV34.rank(s) == 1) yes = Math.random() < ELITE_CHANCE;
             else finalAnswer = false;   // may still turn elite/boss after spawning
         } catch (Throwable t) {
             yes = false;
