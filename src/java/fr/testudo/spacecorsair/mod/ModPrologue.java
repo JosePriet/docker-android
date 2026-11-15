@@ -114,6 +114,7 @@ public final class ModPrologue {
     }
 
     private static boolean done() {
+        if (ModDev.testFlag("corsair_noprologue")) return true;   // emulator only: skip the prologue for feature runs
         SharedPreferences p = ModQol.prefs();
         return p != null && p.getBoolean(DONE, false) && !ModDev.testFlag(TEST_FLAG);
     }
