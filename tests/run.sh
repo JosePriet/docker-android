@@ -267,6 +267,10 @@ elif [ $GAME = sc ]; then
     for w in $(seq 1 40); do P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; sleep 3; done
     [ -z "$P1" ] && { a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; }
     sleep 18; a shell input keyevent KEYCODE_BACK; sleep 3; noexit; log "prologue done, pid $P0 -> $P1"
+    # the restart restores the pristine save, so the gift (all hulls) must be redeemed again
+    a shell am start -n $PKG/.activity.BuyInapp_ >/dev/null; sleep 5
+    tap_text "id/txtGift" giftbox2 && { sleep 2; a shell input text CORSAIRDEV; sleep 1; a shell input keyevent KEYCODE_BACK; sleep 1; tap_text "id/btnGift" giftbtn2; sleep 3; shot gift_again; }
+    back 2; sleep 3
     if fly hullHornet Hornet hornet; then
       for L in 0 4 6 8 10; do put corsair_refit $L; sleep 4; shot hornet_refit_$L; done
       put corsair_spawn albatros,elite; sleep 4
