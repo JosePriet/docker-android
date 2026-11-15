@@ -641,6 +641,7 @@ public class ModShips {
             b.append("<br>").append(ModLang.tr("Agility")).append(": ").append(s.agilityInformational).append(" / 100");
             b.append("<br>").append(ModLang.tr("Turrets")).append(": ").append(ModV38.turretText(h, s.canonCount)).append(" · ").append(ModLang.tr("Missiles")).append(": ").append(s.missileCount);
             if ("hornet".equals(h.art)) {   // v43a-16 (owner 2026-11-15): Hornet form V crystal systems
+                b.append("<br>").append(ModLang.tr("Forms IV-V: Crystal drive, moves with almost no inertia (same top speed)."));
                 b.append("<br>").append(ModLang.tr("Form V: Stinger, a fixed passive bow turret that burns the nearest enemy (35% of your turret DPS as damage over time)."));
                 b.append("<br>").append(ModLang.tr("Form V: Wing shield, the 4 wings pair up into up to 2 shields facing incoming fire (-15% damage, less as they heat; overheat drops them for a while)."));
             }

@@ -41,9 +41,9 @@ public final class ModV38 {
             // the fixed passive Stinger (ModHornet), not an equipped turret.
             // v43a-16c (owner 11-15): base = form I (no stage1 art); II-IV from the owner-picked GPT images, pads measured
             null, null,
-            {412, 518, 608, 515},
+            {396, 528, 628, 528},
             {403, 507, 620, 507},
-            {366, 507, 661, 510, 513, 739},   // form IV: side + stern pads; the bow socket stays closed until form V
+            {354, 554, 669, 554, 512, 772},   // form IV: side + stern pads; the bow socket stays closed until form V
             {361, 487, 666, 489, 513, 728}},
     };
 

@@ -194,6 +194,7 @@ public final class ModHornet {
 
     // ------------------------------------------------------------------ player tick (Mod frame, after ModAnchor.tick)
     public static void tick(PlayerShip ps, long j) {
+        snap(ps);
         try {
             if (!active(ps) || ObjectRegistry.INSTANCE.game.mapMode) {
                 if (P.placed) P.reset();
@@ -205,6 +206,47 @@ public final class ModHornet {
             else tickDots(P, ps, j, now);
         } catch (Throwable t) {
             // never breaks the frame
+        }
+    }
+
+    // ------------------------------------------------------------------ crystal drive (owner 2026-11-15 16:55)
+    /**
+     * Forms IV and V ("unlike its s1-3 variant"): the crystal drive moves like the alien UFO, with almost no inertia. The
+     * stock UFO uses drag 1.033 (other hulls about 1.004-1.015); thrust is raised by the same ratio so the top speed is
+     * unchanged and only the coasting / turning-around goes. Values the gear applies (applySoloGear) are remembered and put
+     * back when the ship leaves form IV/V or is switched.
+     */
+    static final float SNAP_DRAG = 1.033f;
+    private static float gearDrag = -1, gearForce;
+    private static PlayerShip snapPs;
+
+    private static void snap(PlayerShip ps) {
+        try {
+            boolean on = false;
+            if (ps != null && !ps.removed && ps.shipSpec != null) {
+                ModShips.Hull h = ModShips.hullFor(ps.shipSpec);
+                on = h != null && ART.equals(h.art) && ModV35.stage(ModV35.level(ModV35.currentShip())) >= 4;
+            }
+            if (snapPs != null && snapPs != ps) { gearDrag = -1; snapPs = null; }   // other ship object: gear reapplied
+            if (on) {
+                if (ps.speedDeperditionfactor != SNAP_DRAG) {   // fresh gear values (load, refit, gear change)
+                    gearDrag = ps.speedDeperditionfactor;
+                    gearForce = ps.maxPouseeForce;
+                    if (gearDrag > 1.0001f) {
+                        ps.maxPouseeForce = gearForce * (SNAP_DRAG - 1) / (gearDrag - 1);
+                        ps.speedDeperditionfactor = SNAP_DRAG;
+                        snapPs = ps;
+                        log("crystal drive on: drag " + gearDrag + " -> " + SNAP_DRAG);
+                    }
+                }
+            } else if (snapPs == ps && ps.speedDeperditionfactor == SNAP_DRAG && gearDrag > 0) {
+                ps.speedDeperditionfactor = gearDrag;
+                ps.maxPouseeForce = gearForce;
+                gearDrag = -1;
+                snapPs = null;
+            }
+        } catch (Throwable t) {
+            // keep the stock handling
         }
     }
 

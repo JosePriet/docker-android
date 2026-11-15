@@ -633,10 +633,10 @@
 
     :array_2f6
     .array-data 4
-        0x19c
-        0x206
-        0x260
-        0x203
+        0x18c
+        0x210
+        0x274
+        0x210
     .end array-data
 
     :array_302
@@ -649,12 +649,12 @@
 
     :array_30e
     .array-data 4
-        0x16e
-        0x1fb
-        0x295
-        0x1fe
-        0x201
-        0x2e3
+        0x162
+        0x22a
+        0x29d
+        0x22a
+        0x200
+        0x304
     .end array-data
 
     :array_31e
