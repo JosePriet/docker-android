@@ -128,13 +128,13 @@ public class ModFaction extends MissionListener {
     static final int TITHE_CREDITS = 2000000, TITHE_PARTS = 5;
     // columns as the story rows (0-16), 17 unused number, 18 amends, 19 hunt, 20 lance. Text: Claude (EN), ES in i18n/gpt/v48_lance_es.json.
     private static final Object[][] LANCE_ROWS = {
-        {"spartan", LANCE_ORDER, "Trial of the Phoenix", "BOUNTY", "HUGO_WISDOM", "HUGO_WISDOM", 10, 0, "", "Ashmaw, Reaver Warlord", "",
+        {"spartan", LANCE_ORDER, "Trial of the Phoenix", "BOUNTY", "HUGO_WISDOM", "HUGO_WISDOM", 1, 0, "", "Ashmaw, Reaver Warlord", "",
             "Captain, your Monolith has risen in its phoenix form, and the council honours it. One trial remains before the Lance is yours: Ashmaw, the Reaver warlord who burned the Halcyon convoy, is raiding Hugo Wisdom. End him, and the Republic will place the Phoenix Lance in your hands.",
             "Hunt down Ashmaw, the Reaver warlord, in Hugo Wisdom.",
             "Ashmaw is ash. The council places the Phoenix Lance in your hands, Captain. Its fire is yours.",
             "Ashmaw slipped away. The council's offer stands when you are ready to try again.",
             900000, ModLance.BASE, 0, false, false, true},
-        {"spartan", LANCE_ORDER, "Tithe of the Phoenix", "DONATE", "SPARTAN_HQ", "SPARTAN_HQ", 10, 0, "", "", "",
+        {"spartan", LANCE_ORDER, "Tithe of the Phoenix", "DONATE", "SPARTAN_HQ", "SPARTAN_HQ", 1, 0, "", "", "",
             "Captain, the council honours your phoenix. If you would rather serve the Republic's forges than its front line, a tithe of 2,000,000 credits and 5 rare parts will fund the next Lance, and the first one will be yours. The tithe is taken when you are in Spartan HQ with the full amount aboard.",
             "Bring 2,000,000 credits and 5 rare parts to Spartan HQ.",
             "The forges are lit with your tithe. The Phoenix Lance is yours, Captain. Wear its fire well.",
@@ -860,6 +860,7 @@ public class ModFaction extends MissionListener {
                 b.lifeInPourc = 100;
                 if (b.lifeBar != null) b.lifeBar.setValue(100);
                 target = place(b, center, null, true, false);
+                if (lance(idx)) ModLance.forceHolder(b);   // v43a-17: Ashmaw fights with the Phoenix Lance
                 for (int k = 0; k < (lance(idx) ? 5 : hunt(idx) ? 4 : 2); k++) place(foe(varn ? VARN : REAVER, false), away(center, 150, 400), null, false, false);
             }
         } else if ("KILL_ENEMY_TYPE".equals(obj)) {

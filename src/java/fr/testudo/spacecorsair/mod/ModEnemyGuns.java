@@ -120,7 +120,7 @@ public final class ModEnemyGuns {
                 Object o = toAdd.get(i);
                 if (!(o instanceof Projectile)) continue;
                 Projectile p = (Projectile) o;
-                EnergyBullet lance = ModLance.enemyShot(p);   // v43a-17: elites, mission bosses and police battleship+ may carry the Phoenix Lance
+                EnergyBullet lance = ModLance.enemyShot(p);   // v43a-17: elites, bosses and police may carry the Phoenix Lance
                 if (lance != null) { ((List<Object>) toAdd).set(i, lance); continue; }
                 int[] w = shooter(p.sender);
                 if (w[0] < 0) continue;

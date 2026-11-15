@@ -33,7 +33,7 @@ import java.util.WeakHashMap;
  * - A held molten stream: fast short bolts every 80 ms drawn as a continuous beam; flat damage on shields, ramping on the
  *   hull (+100% after 4 s on one target); the target keeps burning 3 s after the beam leaves; a heat meter forces a 3 s
  *   cooldown after 9 s of fire; the turret turns at half speed.
- * - Enemies: only elites, mission bosses and police (battleship class up) can carry it (owner 2026-11-15).
+ * - Enemies: only elites, bosses and police can carry it (owner 2026-11-15).
  * Every number here is a default for the owner's playtest.
  */
 public final class ModLance {
@@ -420,7 +420,7 @@ public final class ModLance {
         }
     }
 
-    // ------------------------------------------------------------------ enemy Lance (elites, mission bosses, police battleship+)
+    // ------------------------------------------------------------------ enemy Lance (elites, bosses, police)
     static final float ELITE_CHANCE = 0.25f, POLICE_CHANCE = 0.35f, BOSS_CHANCE = 1.0f;
     static final float ENEMY_RAMP = 1.0f;          // +100% on the player's hull after RAMP_MS
     static final float ENEMY_BURN = 0.3f;          // the burn deals 30% of the last hit over BURN_MS
@@ -441,11 +441,8 @@ public final class ModLance {
         boolean finalAnswer = true;
         try {
             if (ModCapitals.cap(s) != null || Mod.isDrone(s) || s instanceof Station) yes = false;
-            else if (ModBoss.isBoss(s)) yes = Math.random() < BOSS_CHANCE;
-            else if (ModPolice.isPolice(s)) {
-                int c = ModPoliceTitan.isPoliceTitan(s) ? ModShips.TITAN : ModPolice.classOf(s);
-                yes = c >= ModShips.BATTLESHIP && Math.random() < POLICE_CHANCE;
-            } else if (ModV34.rank(s) == 1) yes = Math.random() < ELITE_CHANCE;
+            else if (ModBoss.isBoss(s) || ModV34.rank(s) == 2) yes = Math.random() < BOSS_CHANCE;   // mission bosses and stock bosses
+            else if (ModPolice.isPolice(s)) yes = Math.random() < POLICE_CHANCE;   // any police class else if (ModV34.rank(s) == 1) yes = Math.random() < ELITE_CHANCE;
             else finalAnswer = false;   // may still turn elite/boss after spawning
         } catch (Throwable t) {
             yes = false;
@@ -455,6 +452,11 @@ public final class ModLance {
             if (yes) ModDev.ev("lance", "enemy holder " + s.getClass().getSimpleName() + " police=" + ModPolice.isPolice(s) + " boss=" + ModBoss.isBoss(s));
         }
         return yes;
+    }
+
+    /** ModFaction trial target (Ashmaw): always carries the Lance. */
+    static void forceHolder(Element e) {
+        if (e != null) holder.put(e, Boolean.TRUE);
     }
 
     /** ModEnemyGuns.swap: a holder's laser shots become Lance bolts. Returns the replacement or null. */
@@ -482,9 +484,9 @@ public final class ModLance {
         if (shield) eRampSince = now;
         float ramp = Math.min(1.0f, (now - eRampSince) / (float) RAMP_MS);
         b.damage *= 1 + ENEMY_RAMP * ramp;
+        eBurnDps = Math.max(now < eBurnUntil ? eBurnDps : 0, b.damage * ENEMY_BURN * 1000f / BURN_MS);   // strongest live burn, before the timer restarts
         eBurnFrom = b.sender;
         eBurnUntil = now + BURN_MS;
-        eBurnDps = Math.max(now < eBurnUntil ? eBurnDps : 0, b.damage * ENEMY_BURN * 1000f / BURN_MS);
         ModFx.part("fx_fire", ps.position.x + ModFx.rnd(-30, 30), ps.position.y + ModFx.rnd(-30, 30), 0, 0, 350, 30, 90, 1.0f, 0.5f, 0.12f, 0.85f, true, true);
     }
 
