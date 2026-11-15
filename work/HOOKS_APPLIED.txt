@@ -20,3 +20,4 @@ hooks46_prologue 2026-11-10: LevelBuilder.getLevelByName, StorageManager.save/sa
 hooks46b_prologue_damage 2026-11-10: PlayerShip.applyDamage -> ModPrologue.damage (v46 hull floor before the engine's death check)
 hooks47_skull 2026-11-14: GameThread.drawOnRadarAndCalcNearby radar point -> ModMap.radarPoint2(+Element) (v43a-8 outlevel skull)
 hooks47_policeguns 2026-11-14: Level.commitChanges -> ModPolice.factionGuns(toAdd) (v43a-9 police fire faction weapons)
+hooks48_lance 2026-11-15: SpaceObjectType +3 constants modPhoenixLance/Mk2/Mk3 0x157-0x159 (v43a-17 Phoenix Lance)

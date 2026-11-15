@@ -87,6 +87,13 @@ public final class ModV38 {
 
     /** Puts the turrets of stage s on the hull's spec. Returns true when the count or a position changed. */
     static boolean setStage(ModShips.Hull h, int s) {
+        return setStage(h, s, false);
+    }
+
+    /** v43a-17: the Monolith's front pad alone while it mounts the Phoenix Lance (owner 2026-11-15: one turret). */
+    static final int[] LANCE_PAD = {512, 294};
+
+    static boolean setStage(ModShips.Hull h, int s, boolean lance) {
         PlayerShipSpec spec = h == null ? null : h.spec;
         if (spec == null || artIndex(h.art) < 0 || spec.canonPos == null) return false;
         if (!DEFAULTS.containsKey(spec)) {
@@ -95,6 +102,9 @@ public final class ModV38 {
             DEFAULTS.put(spec, d);
         }
         Vector2[] want = pads(h, s);
+        if (lance && "monolith".equals(h.art)) {
+            want = new Vector2[]{new Vector2(((LANCE_PAD[0] + 0.5f) / 1024f - 0.5f) * h.size, ((LANCE_PAD[1] + 0.5f) / 1024f - 0.5f) * h.size)};
+        }
         if (want == null) want = DEFAULTS.get(spec);
         boolean same = spec.canonCount == want.length && spec.canonPos.length >= want.length;
         for (int i = 0; same && i < want.length; i++) {
@@ -134,14 +144,15 @@ public final class ModV38 {
             fr.testudo.spacecorsair.business.loot.SpaceObjectType cur = ModV35.currentShip();
             if (ModShips.hull(cur) != h) return false;   // mid ship switch: the next applyGear syncs
             int s = ModV35.stage(ModV35.level(cur));
-            if (!setStage(h, s)) return false;
+            boolean lance = s >= 5 && ModLance.isLance(ps.laserSpec);   // v43a-17: one front turret with the Phoenix Lance
+            if (!setStage(h, s, lance)) return false;
             inSync = true;
             try {
                 ps.applyGear();
             } finally {
                 inSync = false;
             }
-            ModDev.ev("v38", h.art + " stage " + s + " turrets " + ps.shipSpec.canonCount);
+            ModDev.ev("v38", h.art + " stage " + s + " turrets " + ps.shipSpec.canonCount + (lance ? " (Phoenix Lance)" : ""));
             return true;
         } catch (Throwable t) {
             inSync = false;

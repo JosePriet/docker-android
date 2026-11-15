@@ -857,7 +857,7 @@ public class ModV35 {
 
     /** The finale missions are the order 4-6 rows. */
     public static boolean finale(int order) {
-        return order >= 4;
+        return order >= 4 && order < ModFaction.LANCE_ORDER;   // v43a-17: the Phoenix Lance rows are not finale steps
     }
 
     // ------------------------------------------------------------------ v34 req 12: stock gear prices by rarity

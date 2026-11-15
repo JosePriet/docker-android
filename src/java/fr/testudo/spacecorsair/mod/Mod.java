@@ -271,6 +271,7 @@ public class Mod {
         PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
         try {
             if (ps != null && (o instanceof EnergyBullet) && ((EnergyBullet) o).sender == ps) {
+                if (!ModLance.allowShot(ps, o)) return false;   // v43a-17: venting, or not on the phoenix form
                 ModTitan.onBullet(ps, o);
                 ModWeapons.onBullet(ps, o);
             }

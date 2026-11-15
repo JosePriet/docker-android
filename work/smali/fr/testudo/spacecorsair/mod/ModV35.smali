@@ -3224,17 +3224,21 @@
     .line 860
     const/4 v0, 0x4
 
-    if-lt p0, v0, :cond_5
+    if-lt p0, v0, :cond_9
+
+    const/16 v0, 0x9
+
+    if-ge p0, v0, :cond_9
 
     const/4 v0, 0x1
 
-    :goto_4
+    :goto_8
     return v0
 
-    :cond_5
+    :cond_9
     const/4 v0, 0x0
 
-    goto :goto_4
+    goto :goto_8
 .end method
 
 .method static flagshipCore(Ljava/lang/String;)V

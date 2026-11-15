@@ -21,6 +21,7 @@ public class ModLock {
         if (n.startsWith("arwingBoltLaser")) return PlayerShipSpec.Image.ALIEN_RAT;
         if (n.startsWith("regentBeamLaser") || n.startsWith("regentHiveBay")) return PlayerShipSpec.Image.ALIEN_BLATTE;
         if (n.startsWith("megatronBattery") || n.startsWith("megatronSalvo")) return PlayerShipSpec.Image.TEST;
+        if (n.startsWith(ModLance.BASE)) return ModLance.monolithImage();   // v43a-17 Phoenix Lance: Monolith only
         if (ModDev.isDev(t) && !ModDev.HULL.equals(n)) return devImage();   // the DEV kit belongs to the X-0 only
         return null;
     }
@@ -54,6 +55,7 @@ public class ModLock {
         if (img == PlayerShipSpec.Image.ALIEN_RAT) return "Arwing";
         if (img == PlayerShipSpec.Image.ALIEN_BLATTE) return "Regent";
         if (img == PlayerShipSpec.Image.TEST) return "Megatron";
+        if (img != null && img == ModLance.monolithImage()) return "Monolith";
         return "?";
     }
 
@@ -89,6 +91,8 @@ public class ModLock {
             return false;
         }
         if (req == null || req == currentShip() || carrierOk(t)) {
+            String lance = ModLance.equipBlock(t);   // v43a-17: and only at form V
+            if (lance != null) { toast(lance); return false; }
             fitWarning(t);
             return true;
         }
@@ -163,7 +167,7 @@ public class ModLock {
         Inventory inv = ObjectRegistry.INSTANCE.game.playerCurrentShipInventory;
         int lvl = ObjectRegistry.INSTANCE.game.playerInfo.level;
         PlayerShipSpec.Image req = requiredShip(equipped);
-        if ((req != null && req == img) || carrierOk(equipped)) {
+        if (((req != null && req == img) && ModLance.equipBlock(equipped) == null) || carrierOk(equipped)) {   // v43a-17: a Lance below form V comes off
             return equipped;
         }
         SpaceObjectType own = null;
@@ -177,6 +181,7 @@ public class ModLock {
             }
             PlayerShipSpec.Image r = requiredShip(t);
             if (r == img) {
+                if (ModLance.tierOf(t) >= 0) continue;   // v43a-17: the Lance is never fitted automatically
                 if (own == null || better(t, own)) own = t;
             } else if (r == null) {
                 if (best == null || better(t, best)) best = t;

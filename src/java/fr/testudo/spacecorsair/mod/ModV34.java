@@ -430,6 +430,18 @@ public class ModV34 {
      */
     private static final WeakHashMap<Element, Integer> stockLvOf = new WeakHashMap<Element, Integer>();
     static final class Sh { float cap, cur, rate; long last, hit = -UNDER_FIRE_MS; }
+
+    /** v43a-17 (Phoenix Lance): the mod shield of this ship still holds charge. */
+    static boolean shieldUp(Element e) {
+        Sh h = e == null ? null : bigShield.get(e);
+        return h != null && h.cap > 0 && h.cur > 0;
+    }
+
+    /** v43a-17: 0 regular, 1 elite, 2 boss (Req 3 factors), from the per-spawn state. */
+    static int rank(Element e) {
+        int[] s = e == null ? null : state.get(e);
+        return s != null && s.length > 2 ? s[2] : 0;
+    }
     static final WeakHashMap<Element, Sh> bigShield = new WeakHashMap<Element, Sh>();
     static final float UNDER_FIRE = 0.85f;
     static final long UNDER_FIRE_MS = 3000;
