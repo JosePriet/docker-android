@@ -80,7 +80,7 @@ timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ]; then
-  NOPRO=""; [ "$STAGE" = V49H ] && NOPRO=/data/local/tmp/corsair_noprologue
+  NOPRO=""; { [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ]; } && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
@@ -174,6 +174,36 @@ elif [ $GAME = sc ]; then
   log "direct: Settings"; a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 4; need settings; shot settings_v36; dump settings_v36
   log "seekbars on settings: $(grep -o 'class="android.widget.SeekBar"' $OUT/last.xml | wc -l)"
   back 3
+  # ---- v49 LAN co-op (owner 2026-11-15): the game hosts for a scripted guest, then joins a scripted host that replays
+  # the recorded host stream. Evidence: tests/lan_peer.py output, logcat "ModTest lan ...", shots of both phases.
+  if [ "$STAGE" = V50L ]; then
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    sleep 4; shot lan_flight_before
+    timeout 10 adb forward tcp:37001 tcp:37001
+    put corsair_lan host; sleep 4
+    python3 tests/lan_peer.py guest 30 $OUT tests/lan_shot.txt > $OUT/lan_guest_peer.txt 2>&1 & PEER=$!
+    for k in 1 2 3 4 5 6 7 8; do sleep 3.5; shot lan_host_$k; need lan_host_$k; done
+    wait $PEER; log "EVIDENCE lan host phase: $(cat $OUT/lan_guest_peer.txt | tr '\n' ' ')"
+    log "EVIDENCE lan host log: $(grep -E "ModTest lan" $LG | tail -8 | sed 's/^.*): //' | tr '\n' ' ')"
+    put corsair_lan off; sleep 4; timeout 10 adb forward --remove tcp:37001
+    ls -la $OUT/host_stream.bin
+    python3 tests/lan_peer.py host 35 $OUT > $OUT/lan_host_peer.txt 2>&1 & PEER=$!
+    sleep 2; put corsair_lan join:10.0.2.2
+    for k in 1 2 3; do sleep 3.5; shot lan_guest_$k; need lan_guest_$k; done
+    # hold the right stick (fire) so the guest sends its shots
+    a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 760; sleep 0.2; a shell input motionevent MOVE 1932 680
+    sleep 2; shot lan_guest_fire_1; sleep 2; shot lan_guest_fire_2
+    a shell input motionevent UP 1932 680
+    for k in 4 5 6 7 8; do sleep 3.5; shot lan_guest_$k; need lan_guest_$k; done
+    wait $PEER; log "EVIDENCE lan guest phase: $(cat $OUT/lan_host_peer.txt | tr '\n' ' ')"
+    log "EVIDENCE lan guest log: $(grep -E "ModTest lan" $LG | tail -10 | sed 's/^.*): //' | tr '\n' ' ')"
+    put corsair_lan off; sleep 4; shot lan_after
+    grep -E "ModTest lan|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v50l_events.txt
+    rm -f $OUT/host_stream.bin
+    a shell "rm -f $T/corsair_lan"
+    finish; exit 0
+  fi
   # ---- v43a-5 (owner 2026-11-12): inbox notices pop up as the stock character dialog (astrodroid / faction commander)
   if [ "$STAGE" = V47N ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
