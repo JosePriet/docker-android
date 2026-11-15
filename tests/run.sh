@@ -80,8 +80,9 @@ timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ]; then
+  NOPRO=""; [ "$STAGE" = V49H ] && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
-  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $( [ \"$STAGE\" = V49H ] && echo /data/local/tmp/corsair_noprologue ) && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
+  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
