@@ -70,6 +70,7 @@ public final class ModLive {
                 under(e);
                 ModPolice.under(e);   // v42: police Monolith aura
                 ModWings.underEnemy(e);   // v43a-2: Mantis/Verdant s5 enemy rear wings
+                ModHornet.underEnemy(e);   // v43a-16: Hornet s5 enemy wings, wing shields, Stinger
             } catch (Throwable t) {
                 // visuals never break the frame
             }
