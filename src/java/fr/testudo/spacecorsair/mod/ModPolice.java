@@ -200,7 +200,7 @@ public class ModPolice {
 
     /** v43a-17: a police Monolith (police fly it at form V): the only police hull that carries the Phoenix Lance. */
     static boolean isPoliceMonolith(Element e) {
-        return e != null && monoAura.containsKey(e);
+        return e != null && policeMono.containsKey(e);
     }
 
     public static boolean isPolice(Element e) {
@@ -698,6 +698,7 @@ public class ModPolice {
         factionOf.put(e, fi);   // v43a-9
         if (!ModPoliceTitan.council(ModCapitals.FACTIONS[fi].key)) lightBar.put(e, (float) h.size);
         ModPoliceAura.put(e, h.art, fi, h.size);   // v43: animated faction aura
+        if ("monolith".equals(h.art)) policeMono.put(e, Boolean.TRUE);   // v43a-17: the hull itself, kept apart from the aura effect
         if ("monolith".equals(h.art)) monoAura.put(e, (float) h.size);   // owner 23:13: keep the s5 effect, adapted   // High Council: no police lights
         return e;
     }
@@ -707,12 +708,14 @@ public class ModPolice {
         factionOf.remove(e);   // v43a-9
         lightBar.remove(e);
         monoAura.remove(e);
+        policeMono.remove(e);
         ModPoliceAura.remove(e);
     }
 
     private static void visualsClear() {
         lightBar.clear();
         monoAura.clear();
+        policeMono.clear();
         ModPoliceAura.clearAll();
     }
 
@@ -720,6 +723,8 @@ public class ModPolice {
     private static final WeakHashMap<Element, Float> lightBar = new WeakHashMap<Element, Float>();
     private static final Vector2 lb = new Vector2();
     private static final WeakHashMap<Element, Float> monoAura = new WeakHashMap<Element, Float>();
+    /** v43a-17: police ships spawned on the Monolith hull (roster art "monolith"), for the Phoenix Lance. */
+    private static final WeakHashMap<Element, Boolean> policeMono = new WeakHashMap<Element, Boolean>();
 
     /** Hook (ModLive.draw, before the hull): the police Monolith's s5 aura in police white/blue. */
     static void under(Element e) {
