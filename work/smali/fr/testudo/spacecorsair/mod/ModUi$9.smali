@@ -3,7 +3,7 @@
 .source "ModUi.java"
 
 # interfaces
-.implements Landroid/view/ViewTreeObserver$OnGlobalLayoutListener;
+.implements Landroid/view/View$OnClickListener;
 
 
 # annotations
@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 229
+    .line 230
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUi$9;->val$activity:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -41,11 +41,15 @@
 
 
 # virtual methods
-.method public onGlobalLayout()V
-    .registers 2
+.method public onClick(Landroid/view/View;)V
+    .registers 3
 
     .prologue
-    .line 230
+    .line 231
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$9;->val$activity:Landroid/app/Activity;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->showInbox(Landroid/app/Activity;)V
+
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$9;->val$activity:Landroid/app/Activity;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModUi;->update(Landroid/app/Activity;)V

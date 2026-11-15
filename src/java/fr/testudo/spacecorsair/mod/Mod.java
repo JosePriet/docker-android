@@ -62,7 +62,7 @@ public class Mod {
     }
 
     public static boolean isDrone(Element e) {
-        return e != null && (e == drones[0] || e == drones[1]);
+        return e != null && (e == drones[0] || e == drones[1] || ModLan.isProxy(e));   // v49: the LAN guest's stand-in is on the player's side
     }
 
     /** 0 = no drone involved (original rules), 1 = same side (no hit), 2 = opposite sides (hit). */

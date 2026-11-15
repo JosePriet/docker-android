@@ -776,6 +776,13 @@ public class ModArt {
         return name == null ? null : textures.get(name);
     }
 
+    /** v49 LAN co-op: the modart name an eager (non-lazy) mod texture is registered under, null for anything else. */
+    static String nameOf(Texture t) {
+        if (t == null) return null;
+        for (Map.Entry<String, Texture> e : textures.entrySet()) if (e.getValue() == t) return e.getKey();
+        return null;
+    }
+
     // ------------------------------------------------------------------ UI bitmaps
     /** v24: opens assets/modart/<name>.webp (lossless), falling back to .png. Caller closes the stream. */
     public static InputStream open(Context ctx, String name) throws java.io.IOException {

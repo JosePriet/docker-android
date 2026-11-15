@@ -41,9 +41,9 @@
 
 .field public static lastCamDecal:F
 
-.field static xDelta:F
+.field public static xDelta:F
 
-.field static yDelta:F
+.field public static yDelta:F
 
 
 # instance fields
@@ -3740,7 +3740,9 @@
     return v0
 
     :cond_5e
-    const/4 v0, 0x0
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLan;->alsoVisible(Lfr/testudo/spacecorsair/business/Element;)Z
+
+    move-result v0
 
     goto :goto_5d
 .end method

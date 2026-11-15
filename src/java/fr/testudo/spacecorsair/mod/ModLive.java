@@ -37,6 +37,7 @@ public final class ModLive {
     /** v30b smali hook at the start of GameThread.doPhysic: once per game frame, before any element is drawn. */
     public static void frameStart() {
         frameDone = false;
+        ModLan.frame();   // v49 LAN co-op: link bookkeeping, guest replays the host's world
     }
 
     private static boolean frameDone;
@@ -58,6 +59,20 @@ public final class ModLive {
 
     /** Smali hook (GameThread.doPhysic): queues an element with the v30 layers around it. */
     public static void draw(Element e) {
+        if (ModLan.connected) {   // v49 LAN co-op
+            if (ModLan.drawProxy(e)) return;   // host: the guest's ship sprites at its stand-in
+            if (ModLan.guestActive()) {
+                if (!ModLan.guestDraw(e)) return;   // guest: the world comes from the host's stream
+                ModLan.shipStart();
+                drawPlain(e);
+                ModLan.shipEnd();
+                return;
+            }
+        }
+        drawPlain(e);
+    }
+
+    private static void drawPlain(Element e) {
         if (e instanceof Projectile || e.isParticule) {
             if (e instanceof Projectile) ModAnchor.projectile((Projectile) e);   // v39: Leviathan anchor wall stops enemy shots
             e.registerYourselfToDrawQueue();

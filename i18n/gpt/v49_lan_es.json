@@ -1,0 +1,22 @@
+{
+ "CO-OP CONNECTED": "COOPERATIVO CONECTADO",
+ "CO-OP LINK LOST": "ENLACE COOPERATIVO PERDIDO",
+ "CO-OP": "COOP",
+ "Close": "Cerrar",
+ "Co-op connected": "Cooperativo conectado",
+ "Co-op link lost": "Enlace cooperativo perdido",
+ "Connecting...": "Conectando...",
+ "Disconnect": "Desconectar",
+ "Host": "Crear partida",
+ "Join a game": "Unirse a una partida",
+ "Join": "Unirse",
+ "LAN co-op": "Cooperativo LAN",
+ "Looking for games on this network...": "Buscando partidas en esta red...",
+ "No game found. Type the host's address (shown on the host's LAN co-op screen):": "No se encontró ninguna partida. Escribe la dirección del anfitrión (aparece en su pantalla de Cooperativo LAN):",
+ "Play together on the same Wi-Fi, or with one phone's hotspot. One phone hosts, the other joins. The host's game runs the sector; the guest keeps its own ship, cargo and save, and shares the host's XP.": "Jugad juntos en la misma red Wi-Fi o con el punto de acceso de un teléfono. Un teléfono crea la partida y el otro se une. El juego del anfitrión dirige el sector; el invitado conserva su nave, su carga y su partida guardada, y comparte la XP del anfitrión.",
+ "Type address": "Escribir dirección",
+ "Waiting for a player to join...": "Esperando a que se una un jugador...",
+ "You are hosting. Your friend plays in your sector.": "Eres el anfitrión. Tu amigo juega en tu sector.",
+ "You joined a friend's game. You follow the host between sectors.": "Te uniste a la partida de un amigo. Sigues al anfitrión entre sectores.",
+ "Your address:": "Tu dirección:"
+}
