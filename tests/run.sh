@@ -81,7 +81,7 @@ log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/i
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ]; then
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
-  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
+  a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $( [ \"$STAGE\" = V49H ] && echo /data/local/tmp/corsair_noprologue ) && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
 a logcat -c; adb logcat -v time > $OUT/logcat_live.txt 2>&1 & LC=$!
 frames
@@ -261,16 +261,6 @@ elif [ $GAME = sc ]; then
     LG=$OUT/logcat_live.txt
     put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
     flag() { a shell "touch $T/$1; chmod 644 $T/corsair_*"; }
-    pid() { timeout 5 adb shell pidof $PKG; }
-    # a fresh install plays the 120 s prologue and then restarts into a pristine save: wait it out before flying
-    P0=$(pid); for w in $(seq 1 60); do grep -q "prologue end played" $LG && break; sleep 3; done
-    for w in $(seq 1 40); do P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; sleep 3; done
-    [ -z "$P1" ] && { a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; }
-    sleep 18; a shell input keyevent KEYCODE_BACK; sleep 3; noexit; log "prologue done, pid $P0 -> $P1"
-    # the restart restores the pristine save, so the gift (all hulls) must be redeemed again
-    a shell am start -n $PKG/.activity.BuyInapp_ >/dev/null; sleep 5
-    tap_text "id/txtGift" giftbox2 && { sleep 2; a shell input text CORSAIRDEV; sleep 1; a shell input keyevent KEYCODE_BACK; sleep 1; tap_text "id/btnGift" giftbtn2; sleep 3; shot gift_again; }
-    back 2; sleep 3
     if fly hullHornet Hornet hornet; then
       for L in 0 4 6 8 10; do put corsair_refit $L; sleep 4; shot hornet_refit_$L; done
       put corsair_spawn albatros,elite; sleep 4
