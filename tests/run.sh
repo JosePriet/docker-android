@@ -256,6 +256,22 @@ elif [ $GAME = sc ]; then
     back 3; return 1
   }
   T=/data/local/tmp
+  # ---- v43a-16 (owner 2026-11-15): Hornet forms II-V, floating wings, wing shields, Stinger, crystal drive
+  if [ "$STAGE" = V49H ]; then
+    LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    flag() { a shell "touch $T/$1; chmod 644 $T/corsair_*"; }
+    if fly hullHornet Hornet hornet; then
+      for L in 0 4 6 8 10; do put corsair_refit $L; sleep 4; shot hornet_refit_$L; done
+      put corsair_spawn albatros,elite; sleep 4
+      for k in 1 2 3 4 5 6; do sleep 3; shot hornet_s5_fight_$k; done
+      flag corsair_kill; sleep 2; a shell "rm -f $T/corsair_kill $T/corsair_spawn"; sleep 6; shot hornet_s5_after
+      log "EVIDENCE hornet: $(grep -E "hornet|v38 hornet" $LG | tail -30 | sed 's/^.*): //' | tr '\n' ' ')"
+      grep -E "hornet|v38|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v49h_events.txt
+      a shell "rm -f $T/corsair_refit"
+    fi
+    finish; exit 0
+  fi
   # ---- v43a-15 (owner 2026-11-14): enemy faction weapons + signatures; police at each faction HQ fire that faction's guns
   if [ "$STAGE" = V48E ]; then
     LG=$OUT/logcat_live.txt
