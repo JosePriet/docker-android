@@ -1,3 +1,14 @@
+# Space Corsair mod v43a2
+
+- Hornet forms II-V art, form V floating wings (inertia), wing shields (2 max), Stinger passive bow turret, crystal drive.
+- Enemy and police Hornets appear at form V.
+- Drones on the Aegis and police titans; titan and flagship damage x3.
+- Weapon-fit display, skull marker on enemies 5+ levels above you, test-mode reset on logout.
+
+SHA-256 of the APK: 94b66f98422dc59799f472be413fc6339bf8fe9de1c5ad030f1b2e8c4444a984
+
+---
+
 # Space Corsair mod v43a
 
 ## New: a playable prologue
