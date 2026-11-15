@@ -31,7 +31,7 @@ public final class ModPoliceGen {
     public static final String[] KEYS = {"spartan", "reaver", "kretari", "varn", "ironclad", "helion", "warden"};
     static final int SPARTAN = 0, REAVER = 1, KRETARI = 2, VARN = 3, IRONCLAD = 4, HELION = 5, WARDEN = 6;
     /** Police fly the top refit stage of these hulls (genpolice42.STAGE5). */
-    static final String[] STAGE5 = {"bastion", "mantis", "verdant", "monolith", "leviathan"};
+    static final String[] STAGE5 = {"bastion", "mantis", "verdant", "monolith", "leviathan", "hornet"};
     static final String[] COMPS = {"_glow_l", "_veins", "_anim_01", "_anim_02", "_anim_03", "_anim_04", "_anim_05", "_anim_06",
         "_anim_07", "_anim_08", "_glow_e"};
     public static final int MAGENTA = 0xFFFF00FF;   // wreck delta: hole in the hull

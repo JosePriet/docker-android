@@ -129,7 +129,7 @@
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->KEYS:[Ljava/lang/String;
 
     .line 34
-    const/4 v0, 0x5
+    const/4 v0, 0x6
 
     new-array v0, v0, [Ljava/lang/String;
 
@@ -152,6 +152,12 @@
     const-string v1, "leviathan"
 
     aput-object v1, v0, v7
+
+    const/4 v1, 0x5
+
+    const-string v2, "hornet"
+
+    aput-object v2, v0, v1
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->STAGE5:[Ljava/lang/String;
 
@@ -221,91 +227,93 @@
     .line 251
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_d8
+    fill-array-data v0, :array_de
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->COUNCIL:[F
 
     .line 252
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_e2
+    fill-array-data v0, :array_e8
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->SILVER:[F
 
     .line 281
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_ec
+    fill-array-data v0, :array_f2
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->LIGHT_RED:[F
 
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_f6
+    fill-array-data v0, :array_fc
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->LIGHT_BLUE:[F
 
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_100
+    fill-array-data v0, :array_106
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->ENGINE:[F
 
     .line 282
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_10a
+    fill-array-data v0, :array_110
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->COUNCIL_RAW:[F
 
     .line 307
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_114
+    fill-array-data v0, :array_11a
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->GOLD:[F
 
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_11e
+    fill-array-data v0, :array_124
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->BLOOD:[F
 
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_128
+    fill-array-data v0, :array_12e
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->LGOLD:[F
 
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_132
+    fill-array-data v0, :array_138
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->VIOLET:[F
 
     .line 308
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_13c
+    fill-array-data v0, :array_142
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->MGREEN:[F
 
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_146
+    fill-array-data v0, :array_14c
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->CAMO:[F
 
     new-array v0, v3, [F
 
-    fill-array-data v0, :array_150
+    fill-array-data v0, :array_156
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen;->DARKSPOT:[F
 
     return-void
 
     .line 251
-    :array_d8
+    nop
+
+    :array_de
     .array-data 4
         0x3f241a42
         0x3e906907
@@ -313,7 +321,7 @@
     .end array-data
 
     .line 252
-    :array_e2
+    :array_e8
     .array-data 4
         0x3f75c28f    # 0.96f
         0x3f7ae148    # 0.98f
@@ -321,21 +329,21 @@
     .end array-data
 
     .line 281
-    :array_ec
+    :array_f2
     .array-data 4
         0x3f800000    # 1.0f
         0x3df5c28f    # 0.12f
         0x3dcccccd    # 0.1f
     .end array-data
 
-    :array_f6
+    :array_fc
     .array-data 4
         0x3e19999a    # 0.15f
         0x3ed70a3d    # 0.42f
         0x3f800000    # 1.0f
     .end array-data
 
-    :array_100
+    :array_106
     .array-data 4
         0x3f0ccccd    # 0.55f
         0x3f47ae14    # 0.78f
@@ -343,7 +351,7 @@
     .end array-data
 
     .line 282
-    :array_10a
+    :array_110
     .array-data 4
         0x3f000000    # 0.5f
         0x3e6147ae    # 0.22f
@@ -351,28 +359,28 @@
     .end array-data
 
     .line 307
-    :array_114
+    :array_11a
     .array-data 4
         0x435e0000    # 222.0f
         0x43320000    # 178.0f
         0x428c0000    # 70.0f
     .end array-data
 
-    :array_11e
+    :array_124
     .array-data 4
         0x43160000    # 150.0f
         0x41000000    # 8.0f
         0x41800000    # 16.0f
     .end array-data
 
-    :array_128
+    :array_12e
     .array-data 4
         0x437f0000    # 255.0f
         0x43640000    # 228.0f
         0x43160000    # 150.0f
     .end array-data
 
-    :array_132
+    :array_138
     .array-data 4
         0x428c0000    # 70.0f
         0x41f00000    # 30.0f
@@ -380,21 +388,21 @@
     .end array-data
 
     .line 308
-    :array_13c
+    :array_142
     .array-data 4
         0x42800000    # 64.0f
         0x42b40000    # 90.0f
         0x42400000    # 48.0f
     .end array-data
 
-    :array_146
+    :array_14c
     .array-data 4
         0x41900000    # 18.0f
         0x41a00000    # 20.0f
         0x41800000    # 16.0f
     .end array-data
 
-    :array_150
+    :array_156
     .array-data 4
         0x42080000    # 34.0f
         0x41d00000    # 26.0f
