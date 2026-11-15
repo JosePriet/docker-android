@@ -261,6 +261,12 @@ elif [ $GAME = sc ]; then
     LG=$OUT/logcat_live.txt
     put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
     flag() { a shell "touch $T/$1; chmod 644 $T/corsair_*"; }
+    pid() { timeout 5 adb shell pidof $PKG; }
+    # a fresh install plays the 120 s prologue and then restarts into a pristine save: wait it out before flying
+    P0=$(pid); for w in $(seq 1 60); do grep -q "prologue end played" $LG && break; sleep 3; done
+    for w in $(seq 1 40); do P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; sleep 3; done
+    [ -z "$P1" ] && { a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; }
+    sleep 18; a shell input keyevent KEYCODE_BACK; sleep 3; noexit; log "prologue done, pid $P0 -> $P1"
     if fly hullHornet Hornet hornet; then
       for L in 0 4 6 8 10; do put corsair_refit $L; sleep 4; shot hornet_refit_$L; done
       put corsair_spawn albatros,elite; sleep 4
