@@ -14,7 +14,7 @@ import fr.testudo.spacecorsair.engine.Vector2;
 public final class ModV38 {
     private ModV38() {}
 
-    static final String[] ARTS = {"mantis", "verdant", "leviathan", "bastion", "monolith"};
+    static final String[] ARTS = {"mantis", "verdant", "leviathan", "bastion", "monolith", "hornet"};
     /** [art][stage 0..5] = pads x,y in 1024 px; null = the ModHardpoints default of the hull. */
     static final int[][][] PADS = {
         // v44 (owner 2026-11-04 14:18): the last two forms each unlock a turret. 3-turret hulls: 2 side turrets to form III,
@@ -37,6 +37,10 @@ public final class ModV38 {
         {   // monolith: side pads only to stage 3, front pad turret from stage 4
             {373, 574, 650, 574}, {373, 574, 650, 574}, {373, 574, 650, 574}, {373, 574, 650, 574},
             {512, 294, 324, 299, 700, 299}, {512, 294, 324, 299, 700, 299}},
+        {   // hornet (v43a-16, owner 2026-11-15): base pads to form IV; form V = side pads + stern pad. The bow pad holds
+            // the fixed passive Stinger (ModHornet), not an equipped turret.
+            null, null, null, null, null,
+            {361, 487, 666, 489, 513, 728}},
     };
 
     private static int artIndex(String art) {

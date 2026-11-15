@@ -489,6 +489,7 @@ public final class ModLive {
             out = ModPoliceTitan.overAbsorb(target, out);   // owner 2026-11-12: police titan overshield, before its shield
             out = ModV34.shieldAbsorb(target, out, p);   // v37: big enemies' default shield
             out = ModPolice.hit(target, out, p);   // v42: police heat from player hits, police-only weapons on the player
+            out = ModHornet.damageIn(target, out, p);   // v43a-16: Hornet s5 wing shields
             onHit(target);
             if (target.isPlayer && p != null) {
                 PlayerShip ps = (PlayerShip) target;

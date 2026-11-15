@@ -389,6 +389,7 @@ public class Mod {
             ModCaps.tick(ps, j);
             ModTitan.tick(ps, j);
             ModAnchor.tick(ps, j);   // v39: Leviathan anchor stance
+            ModHornet.tick(ps, j);   // v43a-16: Hornet s5 wing shields + Stinger
         } catch (Exception e) {
             // v17 visuals never break the frame
         }

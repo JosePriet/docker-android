@@ -4719,13 +4719,13 @@
     .line 581
     iget-object v3, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->art:Ljava/lang/String;
 
-    invoke-static {v3, v2}, Lfr/testudo/spacecorsair/mod/ModMonolith;->useParts(Ljava/lang/String;I)Z
+    invoke-static {v3, v2}, Lfr/testudo/spacecorsair/mod/ModHornet;->useParts(Ljava/lang/String;I)Z
 
     move-result v3
 
     if-eqz v3, :cond_2f
 
-    const-string v1, "monolith_stage5_hull"
+    const-string v1, "hornet_stage5_hull"
 
     .line 582
     :goto_22
@@ -4747,11 +4747,24 @@
     :cond_2f
     iget-object v3, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->art:Ljava/lang/String;
 
+    invoke-static {v3, v2}, Lfr/testudo/spacecorsair/mod/ModMonolith;->useParts(Ljava/lang/String;I)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_3a
+
+    const-string v1, "monolith_stage5_hull"
+
+    goto :goto_22
+
+    :cond_3a
+    iget-object v3, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->art:Ljava/lang/String;
+
     invoke-static {v3, v2}, Lfr/testudo/spacecorsair/mod/ModWings;->useParts(Ljava/lang/String;I)Z
 
     move-result v3
 
-    if-eqz v3, :cond_4d
+    if-eqz v3, :cond_58
 
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -4775,7 +4788,7 @@
 
     goto :goto_22
 
-    :cond_4d
+    :cond_58
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -4797,15 +4810,15 @@
     move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-    :try_end_65
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_65} :catch_67
+    :try_end_70
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_70} :catch_72
 
     move-result-object v1
 
     goto :goto_22
 
     .line 583
-    :catch_67
+    :catch_72
     move-exception v1
 
     goto :goto_9
