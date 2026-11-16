@@ -280,13 +280,17 @@ export class Registry {
     if (l.kicked && l.kicked.has(id)) return reply("kicked", {}, null, 403);
     if (l.full) return reply("full");
     if (!this.allow("jn:" + ik, 20, 10 * 60 * 1000)) return reply("slow", {}, null, 429);
+    const pid = await this.pid(l, id);   // before the slot check: nothing waits between the check and the insert
     l.joins = l.joins.filter((j) => t - j.at < JOIN_LIFE_MS);
     const prev = l.joins.find((x) => x.id === id);   // the same player again (with its relay address, or repeating the join): same session
-    l.joins = l.joins.filter((x) => x.id !== id && x.ik !== ik);   // one waiting join per caller address: one caller cannot hold every slot
+    l.joins = l.joins.filter((x) => x.id !== id);
+    // two waiting joins per caller address (two phones on one wifi), the oldest gives way: one caller cannot hold every slot
+    const same = l.joins.filter((x) => x.ik === ik);
+    if (same.length >= 2) l.joins = l.joins.filter((x) => x !== same[0]);
     if (l.joins.length >= 4) return reply("full");
     // the joiner picks the session number (random 32 bits), so repeating a join gives the same one even after this object slept
     const j = {
-      jid: prev ? prev.jid : token(4), sid: num(f.sid, -2147483648, 2147483647), id, ik, pid: await this.pid(l, id), at: t,
+      jid: prev ? prev.jid : token(4), sid: num(f.sid, -2147483648, 2147483647), id, ik, pid, at: t,
       nick: nickOf(f.nick), ctry: ctryOf(f.ctry), cands: f.hide === "1" ? "" : candsOf(f.cands), relay: relayOf(f.relay),
     };
     l.joins.push(j);
@@ -350,6 +354,12 @@ export class Registry {
     const t = this.now();
     const guest = l && id !== l.id && l.joins.some((j) => j.id === id && t - j.at < JOIN_LIFE_MS);   // a guest needs a join that is waiting now
     if (!l || (id !== l.id && !guest) || (id === l.id && f.token !== l.token)) return reply("no", {}, null, 403);
+    // A plan without the provider's API: one fixed credential kept as service secrets (the plan itself stops at its limit)
+    if (this.env.RELAY_USER && this.env.RELAY_PASS) {
+      if (!this.allow("turn:" + id, 12, 60 * 60 * 1000) || !this.allow("turnip:" + ik, 24, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
+      const host = clean(this.env.RELAY_HOST || "standard.relay.metered.ca", 80, /[^a-z0-9.-]/g);
+      return reply("ok", { host, port: num(this.env.RELAY_PORT, 1, 65535) === 1 ? 80 : num(this.env.RELAY_PORT, 1, 65535), user: this.env.RELAY_USER, pass: this.env.RELAY_PASS });
+    }
     const app = clean(this.env.METERED_APP, 40, /[^a-z0-9-]/g), key = this.env.METERED_KEY;
     if (!app || !key) return reply("off");
     if (!this.allow("turn:" + id, 12, 60 * 60 * 1000) || !this.allow("turnip:" + ik, 24, 60 * 60 * 1000)) return reply("slow", {}, null, 429);

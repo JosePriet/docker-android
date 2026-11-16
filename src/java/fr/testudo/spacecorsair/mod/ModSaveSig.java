@@ -61,7 +61,7 @@ final class ModSaveSig {
                 android.os.FileObserver.CLOSE_WRITE | android.os.FileObserver.MOVED_TO | android.os.FileObserver.DELETE | android.os.FileObserver.CREATE) {
                 @Override public void onEvent(int event, String path) {
                     // signed at once on this thread (the hash is cheap), so an app closed right after a save leaves a current signature
-                    try { String s = signAll(); if (s.length() > 0) synchronized (signLock) { prefs().edit().putString("sig", s).commit(); } } catch (Throwable e) { /* the delayed pass below */ }
+                    try { synchronized (signLock) { String s = signAll(); if (s.length() > 0) prefs().edit().putString("sig", s).commit(); } } catch (Throwable e) { /* the delayed pass below */ }
                     resignSoon();
                 }
             };
@@ -81,8 +81,10 @@ final class ModSaveSig {
                 try {
                     for (int wait : new int[]{300, 2700}) {
                         Thread.sleep(wait);
-                        String s = signAll();
-                        if (s.length() > 0) synchronized (signLock) { prefs().edit().putString("sig", s).commit(); }
+                        synchronized (signLock) {   // hashed and stored under one lock: an older hash never lands after a newer one
+                            String s = signAll();
+                            if (s.length() > 0) prefs().edit().putString("sig", s).commit();
+                        }
                     }
                 } catch (Throwable e) {
                     // signed at the next write

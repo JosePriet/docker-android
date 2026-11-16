@@ -84,7 +84,7 @@ is("a guest has a different name in every lobby", new Set(names).size === 3);
   const h = await call(reg, "POST", "/lobby", { ...host, id: ID("a").slice(0, 30) + "77", pub: "0" }, "5.5.6.1");
   for (let i = 0; i < 6; i++) await call(reg, "POST", "/lobby/" + h.code + "/join", { ...guest, id: (i + "c").repeat(16) }, "6.6.7.7");
   const hb = await call(reg, "POST", "/lobby/" + h.code + "/beat", { token: h.token }, "5.5.6.1");
-  is("one waiting join per caller address", hb.rows.length === 1);
+  is("two waiting joins per caller address at most", hb.rows.length === 2);
   is("another caller still gets a slot", (await call(reg, "POST", "/lobby/" + h.code + "/join", { ...guest, id: ID("6") }, "6.6.7.8")).first === "ok");
   is("an oversized body is refused", (await call(reg, "POST", "/lobby/" + h.code + "/join", { ...guest, nick: "x".repeat(20000) }, "6.6.7.9")).status === 413);
 }
@@ -172,6 +172,17 @@ is("the next join has the host's addresses again", aw2.cands === "1.2.3.4:5000" 
 is("stored lobbies hold no addresses", JSON.stringify([...st.m]).match(/\d+\.\d+\.\d+\.\d+/) === null);
 await call(reg2, "POST", "/lobby/" + p3.code + "/close", { token: p3.token });
 is("a closed lobby leaves storage", [...st.m.keys()].filter((k) => k === "lobby:" + p3.code).length === 0);
+
+// fixed relay credential (a plan without the provider's API)
+{
+  const rf = new Registry({ storage: storage() }, { RELAY_USER: "fu", RELAY_PASS: "fp", RELAY_HOST: "free.relay.metered.ca", RELAY_PORT: "443" });
+  let out = 0;
+  rf.fetchOut = async () => { out++; return new Response("{}"); };
+  const hf = await call(rf, "POST", "/lobby", { ...host, id: ID("a") }, "12.0.0.1");
+  const tf = await call(rf, "POST", "/turn", { code: hf.code, id: ID("a"), token: hf.token }, "12.0.0.1");
+  is("fixed relay credential is handed out without calling the provider", tf.first === "ok" && tf.user === "fu" && tf.pass === "fp" && tf.host === "free.relay.metered.ca" && tf.port === "443" && out === 0);
+  is("fixed relay credential still refused to a stranger", (await call(rf, "POST", "/turn", { code: hf.code, id: ID("4") }, "12.0.0.2")).status === 403);
+}
 
 // daily stop
 const r2 = new Registry({ storage: storage() }, { DAILY_REQUESTS: "1000" });

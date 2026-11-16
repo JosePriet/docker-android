@@ -347,7 +347,8 @@ final class ModNet {
             boolean loop = a.isLoopbackAddress();
             if (loop && !testLoopback) return null;
             if (a.isMulticastAddress() || a.isAnyLocalAddress() || a.isLinkLocalAddress()) return null;
-            if (b.length == 4 && ((b[0] & 255) == 0 || (b[0] & 255) >= 224 || (b[0] & 255) == 127 && !loop)) return null;
+            byte[] r = a.getAddress();   // the address as the library sees it (an IPv4-mapped IPv6 literal is IPv4 here)
+            if (r.length == 4 && ((r[0] & 255) == 0 || (r[0] & 255) >= 224 || (r[0] & 255) == 127 && !loop)) return null;
             return new InetSocketAddress(a, port);
         } catch (Throwable t) {
             return null;
@@ -562,7 +563,10 @@ final class ModNet {
             boolean start;
             synchronized (this) { start = !chanOf.containsKey(show(peer)) && binding.size() < 8 && binding.add(show(peer)); }
             if (start) new Thread(new Runnable() {   // the first packet from this peer: give it a channel
-                public void run() { try { bind(peer); } catch (Throwable t) { /* stays on send indications */ } }
+                public void run() {
+                    try { bind(peer); } catch (Throwable t) { /* stays on send indications */ }
+                    finally { synchronized (Turn.this) { binding.remove(show(peer)); } }   // the cap is on binds in progress
+                }
             }, "net-turn-bind").start();
         }
 

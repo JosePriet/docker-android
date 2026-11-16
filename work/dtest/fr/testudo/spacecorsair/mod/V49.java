@@ -265,7 +265,7 @@ public class V49 {
             is("lobby: answer parsed, oversize line dropped", rp.ok() && rp.get("code").equals("ABCD") && rp.rows.size() == 1 && rp.rows.get(0).length == 8 && rp.rows.get(0)[2].equals("-5"));
             is("lobby: addresses are literals only", ModLobby.addrs("1.2.3.4:5000,[2001:db8::1]:6000,evil.example:8000,999.1.1.1:5000,1.2.3.4:70000").size() == 2);
             String[] badAddr = {"127.0.0.1:5000", "0.0.0.0:5000", "255.255.255.255:5000", "224.0.0.1:5000", "169.254.1.1:5000", "1.2.3.4:80", "1.2.3.4:+5000", "1.2.3:5000", "1.2.3.4.5:5000",
-                "[::1]:5000", "[::]:5000", "[ff02::1]:5000", "[fe80::1]:5000", "[1:2:3]:5000", "[a:b.c0ffee.de]:5000", "[1::2::3]:5000", "[12345::1]:5000", "[1:2:3:4:5:6:7:8:9]:5000", "[::ffff:1.2.3.4]:5000", "[g::1]:5000", "x:5000", ":5000", "1.2.3.4:"};
+                "[::1]:5000", "[::]:5000", "[ff02::1]:5000", "[fe80::1]:5000", "[1:2:3]:5000", "[0:0:0:0:0:ffff:ffff:ffff]:5000", "[::ffff:7f00:1]:5000", "[::ffff:e000:1]:5000", "[::ffff:0:1]:5000", "[a:b.c0ffee.de]:5000", "[1::2::3]:5000", "[12345::1]:5000", "[1:2:3:4:5:6:7:8:9]:5000", "[::ffff:1.2.3.4]:5000", "[g::1]:5000", "x:5000", ":5000", "1.2.3.4:"};
             int refused = 0;
             for (String x : badAddr) if (ModNet.parse(x) == null) refused++; else System.out.println("  accepted: " + x);
             is("net: loopback, any, broadcast, multicast, link-local, low ports and non-literals are refused (" + refused + "/" + badAddr.length + ")", refused == badAddr.length);

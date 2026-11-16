@@ -237,6 +237,8 @@ final class ModLobby {
 
     /** Relayed data one session may use, both ways (the free relay plan is 0.5 GB a month for all players). */
     static final long RELAY_SESSION_BYTES = 30L << 20;
+    private static volatile ModNet.Link budgetLink;
+    private static volatile long budgetBase;
 
     private static String sector() {
         try { return ObjectRegistry.INSTANCE.game.currentLevel.id.levelName; } catch (Throwable t) { return ""; }
@@ -513,7 +515,8 @@ final class ModLobby {
         ModNet.Turn t = l.w.turn;
         long now = System.currentTimeMillis();
         if (t != null && now - relayReported > 60000) { relayReported = now; ModDev.ev("lobby", "relayed bytes " + t.bytes); }
-        if (t != null && l.relayed() && t.bytes > RELAY_SESSION_BYTES && ModLan.connected && ModLan.internet) {
+        if (t != null && l != budgetLink) { budgetLink = l; budgetBase = t.bytes; }   // a new session on a relay that already carried others
+        if (t != null && l.relayed() && t.bytes - budgetBase > RELAY_SESSION_BYTES && ModLan.connected && ModLan.internet) {
             // the free relay is small and shared by everyone: one session gets a fixed share, then ends with a clear message
             ModDev.ev("lobby", "relay session budget used: " + t.bytes);
             String msg = ModLang.tr("This session used up its share of the free relay. Direct connections and local games still work.");
