@@ -100,7 +100,7 @@ public final class ModLan {
     private static final Object outLock = new Object();
     private static final ArrayList<byte[]> reliable = new ArrayList<byte[]>();
     private static byte[] latest;
-    private static long linkGen;
+    private static volatile long linkGen;
 
     /** Host: starts listening and announcing. UI thread. */
     static void host() {
@@ -112,13 +112,18 @@ public final class ModLan {
             public void run() {
                 try {
                     ServerSocket ss = new ServerSocket();
+                    server = ss;
+                    if (gen != linkGen) { ss.close(); return; }
                     ss.setReuseAddress(true);
                     ss.bind(new InetSocketAddress(PORT));
-                    server = ss;
-                    Socket s = ss.accept();
-                    if (gen != linkGen) { s.close(); return; }
-                    try { ss.close(); } catch (Throwable t) { /* one guest */ }
-                    begin(s, gen);
+                    while (gen == linkGen) {
+                        Socket s = ss.accept();
+                        if (gen != linkGen) { s.close(); return; }
+                        if (!hello(s)) { s.close(); continue; }   // not a Space Corsair guest: keep waiting
+                        try { ss.close(); } catch (Throwable t) { /* one guest */ }
+                        begin(s, gen);
+                        return;
+                    }
                 } catch (Throwable t) {
                     if (gen == linkGen) fail(t);
                 }
@@ -160,6 +165,7 @@ public final class ModLan {
             Socket s = new Socket();
             s.connect(new InetSocketAddress(ip, PORT), 5000);
             if (gen != linkGen) { s.close(); return; }
+            s.getOutputStream().write(HELLO.getBytes("UTF-8"));
             begin(s, gen);
         } catch (Throwable t) {
             fail(t);
@@ -234,6 +240,19 @@ public final class ModLan {
         return sb.length() == 0 ? "?" : sb.toString();
     }
 
+    /** Host: the first 6 bytes from a guest must be the HELLO tag (3 s). */
+    private static boolean hello(Socket s) {
+        try {
+            s.setSoTimeout(3000);
+            byte[] b = new byte[HELLO.length()];
+            new DataInputStream(s.getInputStream()).readFully(b);
+            s.setSoTimeout(0);
+            return HELLO.equals(new String(b, "UTF-8"));
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
     private static void begin(final Socket s, final long gen) throws IOException {
         s.setTcpNoDelay(true);
         s.setSendBufferSize(256 * 1024);
@@ -301,19 +320,27 @@ public final class ModLan {
     /** Ends the session on both sides. */
     static void stop() {
         linkGen++;
-        if (connected && sock != null) {
-            try { sock.getOutputStream().write(new byte[]{MSG_BYE, 0, 0, 0, 0}); } catch (Throwable t) { /* closing anyway */ }
-        }
+        final Socket old = sock;
+        final boolean bye = connected;
         connected = false;
         role = NONE;
         status = "";
-        try { if (sock != null) sock.close(); } catch (Throwable t) { /* closed */ }
+        if (old != null) {
+            new Thread(new Runnable() {   // never on the UI thread (no network there); the writer thread has stopped
+                public void run() {
+                    try { if (bye) { old.getOutputStream().write(new byte[]{MSG_BYE, 0, 0, 0, 0}); old.getOutputStream().flush(); } } catch (Throwable t) { /* closing anyway */ }
+                    try { old.close(); } catch (Throwable t) { /* closed */ }
+                }
+            }, "lan-bye").start();
+        }
         try { if (server != null) server.close(); } catch (Throwable t) { /* closed */ }
         try { if (beacon != null) beacon.close(); } catch (Throwable t) { /* closed */ }
         sock = null;
         server = null;
         synchronized (outLock) { reliable.clear(); latest = null; outLock.notifyAll(); }
         dropProxy = true;
+        pvp = false;
+        pvpWanted = false;
     }
 
     private static void sendReliable(int type, ByteArrayOutputStream body) {
@@ -534,6 +561,8 @@ public final class ModLan {
         String level;
         float hx, hy, dmg;
         long xp;
+        boolean pvp;
+        int round, hostWins, guestWins;
         Rec[] recs;
         int n;
     }
@@ -543,13 +572,14 @@ public final class ModLan {
         String level;
         float x, y, vx, vy, spin, life, maxLife, halfW, halfH;
         long at;
+        int defeats;
         Rec[] recs;
         int n;
     }
 
     private static final Object inLock = new Object();
     private static InFrame inFrame;
-    private static InState inState;
+    private static volatile InState inState;
     private static final ArrayList<byte[]> inShots = new ArrayList<byte[]>();
 
     private static void receive(int type, byte[] b) throws IOException {
@@ -564,6 +594,7 @@ public final class ModLan {
             f.hx = in.readFloat(); f.hy = in.readFloat(); f.dmg = in.readFloat(); f.xp = in.readLong();
             f.n = in.readUnsignedShort();
             f.recs = readRecs(in, f.n);
+            if (in.available() >= 9) { f.pvp = in.readBoolean(); f.round = in.readInt(); f.hostWins = in.readShort(); f.guestWins = in.readShort(); }
             synchronized (inLock) { inFrame = f; }
             gotFrames++;
             lastRecs = f.n;
@@ -575,6 +606,7 @@ public final class ModLan {
             s.life = in.readFloat(); s.maxLife = in.readFloat(); s.halfW = in.readFloat(); s.halfH = in.readFloat();
             s.n = in.readUnsignedShort();
             s.recs = readRecs(in, s.n);
+            if (in.available() >= 4) s.defeats = in.readInt();
             s.at = System.currentTimeMillis();
             synchronized (inLock) { inState = s; }
             gotFrames++;
@@ -682,7 +714,7 @@ public final class ModLan {
     private static String testLast;
     static volatile int sentFrames, gotFrames, lastRecs, shotsIn, shotsOut;
 
-    /** Emulator only: /data/local/tmp/corsair_lan = host | join:ADDRESS | off (a new value re-triggers). */
+    /** Emulator only: /data/local/tmp/corsair_lan = host | join:ADDRESS | off | duel | duel-off (a new value re-triggers). */
     private static void testSwitch(long now) {
         if (now - testAt < 2000) return;
         testAt = now;
@@ -692,6 +724,8 @@ public final class ModLan {
         ModDev.ev("lan", "test switch " + v);
         if (v.equals("host")) host();
         else if (v.equals("off")) stop();
+        else if (v.equals("duel")) duel(true);
+        else if (v.equals("duel-off")) duel(false);
         else if (v.startsWith("join:")) new Thread(new Runnable() { public void run() { join(v.substring(5)); ModDev.ev("lan", "join -> connected=" + connected + " " + status); } }, "lan-join").start();
     }
     private static boolean announce, lost;
@@ -703,8 +737,9 @@ public final class ModLan {
     private static boolean pulled;
     private static long pullAt;
     // host
-    static Ennemis proxy;
-    private static final float PROXY_LIFE = 1.0e9f;   // never dies on the host; the deficit is the guest's damage
+    static volatile Ennemis proxy;
+    private static Level proxyLevel;
+    private static final float PROXY_LIFE = 1.0e6f;   // never dies on the host; the deficit is the guest's damage
     private static float dmgSent, dmgBase = -1;
     private static long xpSent, xpBase = -1;
     private static int proxyFrom = -1, proxyTo = -1;
@@ -750,13 +785,14 @@ public final class ModLan {
             inShots.clear();
         }
         Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
-        boolean here = s != null && s.alive && lv.id != null && lv.id.levelName.equals(s.level)
+        hostDuel(ps, lv, s);
+        boolean here = s != null && s.alive && System.currentTimeMillis() - s.at < 2000 && lv.id != null && lv.id.levelName.equals(s.level)
             && !ObjectRegistry.INSTANCE.game.mapMode;
         if (!here) {
             removeProxy();
             return;
         }
-        if (proxy == null || proxy.removed) spawnProxy(ps, s);
+        if (proxy == null || proxy.removed || proxyLevel != lv) { removeProxy(); spawnProxy(ps, s); proxyLevel = lv; }
         Ennemis p = proxy;
         if (p == null) return;
         float age = Math.min(250, System.currentTimeMillis() - s.at) / 16.0f;   // speeds are per ~16 ms frame
@@ -773,7 +809,7 @@ public final class ModLan {
         p.removed = false;
         for (byte[] b : shots) fireShot(b, p);
         retarget -= dt;
-        if (retarget <= 0) {
+        if (!pvp && retarget <= 0) {
             retarget = 1000;
             for (Element e : lv.elements) {
                 if (!(e instanceof Ennemis) || e.removed || e == p || Mod.isDrone(e)) continue;
@@ -819,8 +855,18 @@ public final class ModLan {
         if (p != null && !p.removed) p.remove();
     }
 
+    /** hooks49b: Level's enemy counts skip the stand-in (it never dies, so a zone would never read as cleared). */
+    public static boolean countsAsEnemy(Object o) {
+        return o instanceof Ennemis && (proxy == null || o != proxy);
+    }
+
     static boolean isProxy(Element e) {
         return e != null && e == proxy;
+    }
+
+    /** Mod.isDrone: the stand-in is on the player's side in co-op; in a duel it is an opponent (stock enemy rules). */
+    static boolean isAlly(Element e) {
+        return e != null && e == proxy && !pvp;
     }
 
     /** ModLive.draw for the stand-in: the guest's own ship sprites at the stand-in's position. True = drawn here. */
@@ -879,11 +925,12 @@ public final class ModLan {
         Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
         // the guest's own sector stays empty: the host's world is what it sees and fights
         for (Element e : lv.elements) {
-            if (e == ps || e.removed) continue;
+            if (e == ps || e.removed || Mod.isDrone(e)) continue;   // own drones stay
             if (e instanceof Ennemis || e instanceof CivilShip || e instanceof Asteroid || e instanceof LootElement || e instanceof Mine
                 || (e instanceof Projectile && ((Projectile) e).sender != ps)) e.remove();
         }
         if (f == null) return;
+        guestDuel(ps, f);
         // follow the host between sectors
         if (lv.id != null && !lv.id.levelName.equals(f.level) && !ObjectRegistry.INSTANCE.game.mapMode) {
             long now = System.currentTimeMillis();
@@ -893,7 +940,8 @@ public final class ModLan {
                 try {
                     LevelId to = null;
                     for (LevelId l : LevelId.values()) if (l.levelName.equals(f.level)) { to = l; break; }
-                    if (to != null) lv.requestChangeLevel(to.levelName, to.jumpPortalName);
+                    if (to == LevelId.FFA_THE_PLAYER_PAY) lv.requestChangeLevel(to.levelName, ARENA_GATE);
+                    else if (to != null) lv.requestChangeLevel(to.levelName, to.jumpPortalName);
                     ModDev.ev("lan", "guest pulled to " + f.level + " found=" + (to != null));
                 } catch (Throwable t) {
                     // retried on the next host frame
@@ -903,7 +951,8 @@ public final class ModLan {
         }
         if (pulled) {
             pulled = false;
-            ps.position.set(f.hx + 250, f.hy + 250);   // arrive next to the host
+            if (pvp) ps.position.set(f.hx + 2400, f.hy);   // a duel starts apart
+            else ps.position.set(f.hx + 250, f.hy + 250);   // arrive next to the host
             ps.speed.set(0, 0);
             ps.updateSapCoords();
         }
@@ -1083,6 +1132,7 @@ public final class ModLan {
                 int n = capture(q, 0, size, proxyFrom < 0 ? 0 : proxyFrom, proxyTo < 0 ? 0 : proxyTo, 0, 0, ro, MAX_REMOTE);
                 o.writeShort(n);
                 rb.writeTo(o);
+                o.writeBoolean(pvp); o.writeInt(round); o.writeShort(hostWins); o.writeShort(guestWins);
                 o.flush();
                 sendLatest(MSG_FRAME, bo);
                 sentFrames++;
@@ -1103,6 +1153,7 @@ public final class ModLan {
                 if (shipFrom >= 0 && shipTo > shipFrom) n = capture(q, shipFrom, shipTo, 0, 0, ps.position.x, ps.position.y, ro, 200);
                 o.writeShort(n);
                 rb.writeTo(o);
+                o.writeInt(defeats);
                 o.flush();
                 sendLatest(MSG_STATE, bo);
                 sentFrames++;
@@ -1125,6 +1176,130 @@ public final class ModLan {
         Vector2 dim = e.getDimToTestIfVisibleOnScreen();
         float ex = dim != null ? dim.x / 2 : 0, ey = dim != null ? dim.y / 2 : 0;
         return Math.abs(e.position.x - p.position.x) < hw + ex && Math.abs(e.position.y - p.position.y) < hh + ey;
+    }
+
+    // ------------------------------------------------------------------ PvP duel (the old multiplayer bay)
+    static volatile boolean pvp;
+    private static volatile boolean pvpWanted;
+    private static boolean jumpedIn;
+    private static LevelId duelFrom;
+    private static final String ARENA_GATE = "VECTOR00_GATE";
+    static int round, hostWins, guestWins, defeats;
+    private static int seenDefeats, seenRound;
+    private static boolean lostRound, restore;
+
+    /** Host UI: start or end a duel. The host's game takes both ships to the player bay (FFA, off the map). */
+    static void duel(boolean on) {
+        pvpWanted = on;
+        ModDev.ev("lan", "duel " + on);
+    }
+
+    private static boolean inBay() {
+        try {
+            Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
+            return lv != null && lv.id == LevelId.FFA_THE_PLAYER_PAY;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    private static void hostDuel(PlayerShip ps, Level lv, InState s) {
+        if (pvpWanted && !pvp) {
+            pvp = true;
+            round = 1; hostWins = 0; guestWins = 0;
+            seenDefeats = s != null ? s.defeats : 0;
+            jumpedIn = false;
+            removeProxy();   // re-spawned on the duel side
+        }
+        if (pvp && !pvpWanted) {
+            pvp = false;
+            removeProxy();
+            if (inBay() && duelFrom != null) lv.requestChangeLevel(duelFrom.levelName, duelFrom.jumpPortalName);
+            return;
+        }
+        if (!pvp) return;
+        if (!inBay()) {
+            if (!jumpedIn) {
+                jumpedIn = true;
+                duelFrom = lv.id;
+                lv.requestChangeLevel(LevelId.FFA_THE_PLAYER_PAY.levelName, ARENA_GATE);
+                ModDev.ev("lan", "host jumps to the duel bay from " + duelFrom);
+            }
+            return;
+        }
+        if (s != null && s.defeats > seenDefeats) {   // the guest's hull hit its floor: host wins the round
+            seenDefeats = s.defeats;
+            hostWins++;
+            round++;
+            restore = true;
+            roundText(ps, true);
+        }
+        if (lostRound) {   // the host's hull hit its floor: guest wins the round
+            lostRound = false;
+            guestWins++;
+            round++;
+            restore = true;
+            roundText(ps, false);
+        }
+        if (restore) { restore = false; refill(ps); }
+    }
+
+    private static void guestDuel(PlayerShip ps, InFrame f) {
+        pvp = f.pvp;
+        if (!pvp) { seenRound = f.round; return; }
+        if (lostRound) { lostRound = false; defeats++; }
+        if (f.round != seenRound) {
+            boolean won = f.guestWins > guestWins;
+            boolean first = seenRound == 0;
+            seenRound = f.round;
+            hostWins = f.hostWins; guestWins = f.guestWins;
+            refill(ps);
+            if (!first) roundText(ps, won);
+        }
+    }
+
+    private static void roundText(PlayerShip ps, boolean won) {
+        int mine = role == HOST ? hostWins : guestWins, theirs = role == HOST ? guestWins : hostWins;
+        Mod.floatText(ps, (won ? ModLang.tr("ROUND WON") : ModLang.tr("ROUND LOST")) + "  " + mine + " - " + theirs,
+            won ? 0.3f : 1.0f, won ? 1.0f : 0.4f, won ? 0.5f : 0.3f);
+        ModDev.ev("lan", "duel round " + (won ? "won" : "lost") + " " + mine + "-" + theirs);
+    }
+
+    private static void refill(PlayerShip ps) {
+        ps.life = ps.maxLife;
+        ps.lifeInPourc = 100.0f;
+    }
+
+    /**
+     * ModPrologue.damage (start of PlayerShip.applyDamage, before shields): in a duel the hull stops at 1; reaching it
+     * loses the round instead of the ship (no death, no death fee, no respawn).
+     */
+    static float duelFloor(PlayerShip ps, float amount) {
+        if (!pvp || !connected || ps == null || amount <= 0 || !inBay()) return amount;
+        float room = ps.life - 1.0f;
+        if (amount >= room) {
+            lostRound = true;
+            return Math.max(0f, room);
+        }
+        return amount;
+    }
+
+    /** ModPrologue.level (LevelBuilder.getLevelByName): the duel bay, asteroid cover only. Null = not a duel. */
+    static Level arenaLevel(String name) {
+        if (name == null || !pvp || role == NONE || !LevelId.FFA_THE_PLAYER_PAY.levelName.equals(name)) return null;
+        try {
+            List<Element> els = new ArrayList<Element>();
+            fr.testudo.spacecorsair.game.levels.builders.ArenaLevelBuilder.addAsteroids(els);
+            els.add(PlayerShip.instance());
+            Level l = new Level(LevelId.FFA_THE_PLAYER_PAY, els, fr.testudo.spacecorsair.game.levels.LevelAnimator.NOP);
+            l.musicResourceId = 0x7f06002d;   // the arena combat track
+            l.backGroundImage = fr.testudo.spacecorsair.display.Background.BackImage.random();
+            ModDev.ev("lan", "duel bay built, elements " + els.size());
+            return l;
+        } catch (Throwable t) {
+            ModDev.ev("lan", "duel bay failed " + t);
+            return null;
+        }
     }
 
     // ------------------------------------------------------------------ JVM test access (work/dtest V49)
@@ -1154,7 +1329,9 @@ public final class ModLan {
     static void showMenu(final Activity a) {
         try {
             String msg;
-            if (connected) msg = (role == HOST ? ModLang.tr("You are hosting. Your friend plays in your sector.") : ModLang.tr("You joined a friend's game. You follow the host between sectors."));
+            if (connected) msg = (role == HOST ? ModLang.tr("You are hosting. Your friend plays in your sector.") : ModLang.tr("You joined a friend's game. You follow the host between sectors."))
+                + "\n\n" + ModLang.tr("PvP duel: both ships go to the old multiplayer bay and fight rounds. A ship stops at 1 hull and loses the round; nobody dies or pays a death fee. Undock to start.")
+                + (pvp ? "\n\n" + ModLang.tr("Duel score") + " " + hostWins + " - " + guestWins : "");
             else if (role == HOST) msg = status + "\n\n" + ModLang.tr("Your address:") + " " + myAddresses();
             else msg = ModLang.tr("Play together on the same Wi-Fi, or with one phone's hotspot. One phone hosts, the other joins. The host's game runs the sector; the guest keeps its own ship, cargo and save, and shares the host's XP.")
                 + (status.length() > 0 ? "\n\n" + status : "");
@@ -1163,6 +1340,11 @@ public final class ModLan {
                 b.setPositiveButton(ModLang.tr("Disconnect"), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface d, int w) { stop(); }
                 });
+                if (connected && role == HOST) {
+                    b.setNeutralButton(pvpWanted ? ModLang.tr("End duel") : ModLang.tr("PvP duel"), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface d, int w) { duel(!pvpWanted); }
+                    });
+                }
                 b.setNegativeButton(ModLang.tr("Close"), null);
             } else {
                 b.setPositiveButton(ModLang.tr("Host"), new DialogInterface.OnClickListener() {

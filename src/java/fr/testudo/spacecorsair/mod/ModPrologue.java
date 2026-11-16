@@ -104,7 +104,8 @@ public final class ModPrologue {
 
     /** LevelBuilder.getLevelByName (hooks46): the player bay, built here; null leaves the stock dispatch alone. */
     public static Level level(String name) {
-        if (!active || name == null || !LevelId.FFA_THE_PLAYER_PAY.levelName.equals(name)) return null;
+        if (!active) return ModLan.arenaLevel(name);   // v49: the LAN duel bay
+        if (name == null || !LevelId.FFA_THE_PLAYER_PAY.levelName.equals(name)) return null;
         try {
             return build();
         } catch (Throwable t) {
@@ -137,7 +138,8 @@ public final class ModPrologue {
      *  one Bloodforge salvo between two frames would run the stock death screen, credit penalty and achievements.
      *  While the prologue runs the hull can never be driven below the floor, and the end beat is fully immune. */
     public static float damage(PlayerShip ps, float amount) {
-        if (!active || ps == null || amount <= 0) return amount;
+        if (!active) return ModLan.duelFloor(ps, amount);   // v49: LAN duel rounds end at 1 hull
+        if (ps == null || amount <= 0) return amount;
         if (ending) return 0f;
         try {
             float room = ps.life - ps.maxLife * HULL_FLOOR;

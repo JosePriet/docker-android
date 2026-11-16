@@ -3033,7 +3033,7 @@
 
     if-eq p0, v2, :cond_16
 
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLan;->isProxy(Lfr/testudo/spacecorsair/business/Element;)Z
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLan;->isAlly(Lfr/testudo/spacecorsair/business/Element;)Z
 
     move-result v2
 

@@ -18,5 +18,11 @@
  "Waiting for a player to join...": "Esperando a que se una un jugador...",
  "You are hosting. Your friend plays in your sector.": "Eres el anfitrión. Tu amigo juega en tu sector.",
  "You joined a friend's game. You follow the host between sectors.": "Te uniste a la partida de un amigo. Sigues al anfitrión entre sectores.",
- "Your address:": "Tu dirección:"
+ "Your address:": "Tu dirección:",
+ "End duel": "Terminar duelo",
+ "PvP duel": "Duelo JcJ",
+ "ROUND WON": "RONDA GANADA",
+ "ROUND LOST": "RONDA PERDIDA",
+ "Duel score": "Marcador del duelo",
+ "PvP duel: both ships go to the old multiplayer bay and fight rounds. A ship stops at 1 hull and loses the round; nobody dies or pays a death fee. Undock to start.": "Duelo JcJ: ambas naves van a la antigua bahía multijugador y luchan por rondas. Una nave se queda en 1 de casco y pierde la ronda; nadie muere ni paga tarifa por muerte. Desacopla para empezar."
 }

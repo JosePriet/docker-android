@@ -79,9 +79,12 @@ public class V49 {
         j.start();
         java.net.Socket hs = ss.accept();
         j.join(6000);
+        Thread.sleep(300);
         is("link: guest connected", ModLan.connected && ModLan.role == ModLan.GUEST);
         ModLan.stop();
         DataInputStream hin = new DataInputStream(hs.getInputStream());
+        byte[] hb = new byte[6]; hin.readFully(hb);
+        is("link: guest opens with the HELLO tag", "SCLAN1".equals(new String(hb, "UTF-8")));
         int type = hin.readUnsignedByte();
         is("stop: guest says bye (" + type + ")", type == 5);
         is("stop: link down", !ModLan.connected && ModLan.role == ModLan.NONE);

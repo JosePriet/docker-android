@@ -17,6 +17,10 @@
 # instance fields
 .field dmg:F
 
+.field guestWins:I
+
+.field hostWins:I
+
 .field hx:F
 
 .field hy:F
@@ -25,7 +29,11 @@
 
 .field n:I
 
+.field pvp:Z
+
 .field recs:[Lfr/testudo/spacecorsair/mod/ModLan$Rec;
+
+.field round:I
 
 .field xp:J
 
@@ -35,7 +43,7 @@
     .registers 1
 
     .prologue
-    .line 533
+    .line 560
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void

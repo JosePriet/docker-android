@@ -19,6 +19,8 @@
 
 .field at:J
 
+.field defeats:I
+
 .field halfH:F
 
 .field halfW:F
@@ -49,7 +51,7 @@
     .registers 1
 
     .prologue
-    .line 541
+    .line 570
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void

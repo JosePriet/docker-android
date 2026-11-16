@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 250
+    .line 269
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$gen:J
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$in:Ljava/io/DataInputStream;
@@ -49,7 +49,7 @@
     .registers 7
 
     .prologue
-    .line 253
+    .line 272
     :goto_0
     :try_start_0
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$gen:J
@@ -63,21 +63,21 @@
 
     if-nez v0, :cond_43
 
-    .line 254
+    .line 273
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$in:Ljava/io/DataInputStream;
 
     invoke-virtual {v0}, Ljava/io/DataInputStream;->readUnsignedByte()I
 
     move-result v0
 
-    .line 255
+    .line 274
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$in:Ljava/io/DataInputStream;
 
     invoke-virtual {v1}, Ljava/io/DataInputStream;->readInt()I
 
     move-result v1
 
-    .line 256
+    .line 275
     if-ltz v1, :cond_1c
 
     const/high16 v2, 0x400000
@@ -111,11 +111,11 @@
     :try_end_35
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_35} :catch_35
 
-    .line 262
+    .line 281
     :catch_35
     move-exception v0
 
-    .line 263
+    .line 282
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -128,23 +128,23 @@
     if-nez v1, :cond_43
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->fail(Ljava/lang/Throwable;)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$300(Ljava/lang/Throwable;)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$400(Ljava/lang/Throwable;)V
 
-    .line 265
+    .line 284
     :cond_43
     return-void
 
-    .line 257
+    .line 276
     :cond_44
     :try_start_44
     new-array v1, v1, [B
 
-    .line 258
+    .line 277
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$in:Ljava/io/DataInputStream;
 
     invoke-virtual {v2, v1}, Ljava/io/DataInputStream;->readFully([B)V
 
-    .line 259
+    .line 278
     const/4 v2, 0x5
 
     if-ne v0, v2, :cond_56
@@ -157,10 +157,10 @@
 
     throw v0
 
-    .line 260
+    .line 279
     :cond_56
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->receive(I[B)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$500(I[B)V
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$600(I[B)V
     :try_end_59
     .catch Ljava/lang/Throwable; {:try_start_44 .. :try_end_59} :catch_35
 

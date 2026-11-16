@@ -17,23 +17,12 @@
 .end annotation
 
 
-# instance fields
-.field final synthetic val$a:Landroid/app/Activity;
-
-
 # direct methods
-.method constructor <init>(Landroid/app/Activity;)V
-    .registers 2
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>()V
+    .registers 1
 
     .prologue
-    .line 1171
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$a:Landroid/app/Activity;
-
+    .line 1344
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -45,11 +34,23 @@
     .registers 4
 
     .prologue
-    .line 1172
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$a:Landroid/app/Activity;
+    .line 1345
+    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->pvpWanted:Z
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1000()Z
 
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->findHosts(Landroid/app/Activity;)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$900(Landroid/app/Activity;)V
+    move-result v0
+
+    if-nez v0, :cond_b
+
+    const/4 v0, 0x1
+
+    :goto_7
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->duel(Z)V
 
     return-void
+
+    :cond_b
+    const/4 v0, 0x0
+
+    goto :goto_7
 .end method
