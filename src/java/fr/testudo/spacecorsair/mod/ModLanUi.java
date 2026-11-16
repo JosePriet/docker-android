@@ -252,6 +252,11 @@ final class ModLanUi {
         ListView lv = new ListView(a);
         lv.setAdapter(ad);
         col.addView(lv, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1));
+        TextView lic = new TextView(a);   // MIT attribution for the flag images
+        lic.setTextSize(10);
+        lic.setPadding((int) (10 * d), (int) (4 * d), (int) (10 * d), 0);
+        lic.setText(ModLang.tr("Flag images: flag-icons, (c) 2013 Panayiotis Lipiridis, MIT License."));
+        col.addView(lic);
         final AlertDialog dlg = new AlertDialog.Builder(a).setTitle(ModLang.tr("Country (optional)")).setView(col).setNegativeButton(ModLang.tr("Close"), null).create();
         find.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int st, int c, int af) { }

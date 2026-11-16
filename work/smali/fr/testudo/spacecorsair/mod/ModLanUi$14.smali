@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 509
+    .line 514
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$14;->val$p:Landroid/widget/LinearLayout;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$14;->val$tv:Landroid/widget/TextView;
@@ -51,7 +51,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 511
+    .line 516
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$14;->val$p:Landroid/widget/LinearLayout;
 
     invoke-virtual {v0}, Landroid/widget/LinearLayout;->getVisibility()I
@@ -62,7 +62,7 @@
 
     const/4 v0, 0x1
 
-    .line 512
+    .line 517
     :goto_a
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$14;->val$p:Landroid/widget/LinearLayout;
 
@@ -73,7 +73,7 @@
     :goto_f
     invoke-virtual {v3, v2}, Landroid/widget/LinearLayout;->setVisibility(I)V
 
-    .line 513
+    .line 518
     if-eqz v0, :cond_20
 
     # setter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->unread:I
@@ -88,17 +88,17 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 514
+    .line 519
     :cond_20
     return-void
 
     :cond_21
     move v0, v1
 
-    .line 511
+    .line 516
     goto :goto_a
 
-    .line 512
+    .line 517
     :cond_23
     const/16 v2, 0x8
 
