@@ -18,6 +18,12 @@ import fr.testudo.spacecorsair.business.world.Asteroid;
 import fr.testudo.spacecorsair.business.world.Mine;
 import fr.testudo.spacecorsair.business.world.civil.CivilShip;
 import fr.testudo.spacecorsair.display.Drawable;
+import fr.testudo.spacecorsair.display.hud.InfoBar;
+import fr.testudo.spacecorsair.display.hud.InfoBarEnnemis;
+import fr.testudo.spacecorsair.display.hud.Radar;
+import fr.testudo.spacecorsair.business.mission.Mission;
+import fr.testudo.spacecorsair.business.mission.engine.AlreadyCompletedEngine;
+import fr.testudo.spacecorsair.business.world.RadarDrawType;
 import fr.testudo.spacecorsair.display.RenderElement;
 import fr.testudo.spacecorsair.display.RenderElementType;
 import fr.testudo.spacecorsair.display.Texture;
@@ -89,7 +95,7 @@ public final class ModLan {
 
     private static final String HELLO = "SCLAN1";
     private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5;
-    private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3;
+    private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
     private static final int MAX_REMOTE = 2200;   // render queue holds 2500 per frame
 
     // ------------------------------------------------------------------ link
@@ -343,6 +349,9 @@ public final class ModLan {
         pvpWanted = false;
         seenRound = 0;
         defeatRound = -1;
+        solo = false;
+        marksOut = null;
+        marksN = 0;
     }
 
     private static void sendReliable(int type, ByteArrayOutputStream body) {
@@ -449,7 +458,7 @@ public final class ModLan {
     }
 
     // ------------------------------------------------------------------ render-list capture (sender side)
-    private static Field fType, fPos, fSpin, fA, fR, fG, fB, fZoom, fBack, fText, fTSize, fPSize, fQSize, fQIdx;
+    private static Field fType, fPos, fSpin, fA, fR, fG, fB, fZoom, fBack, fText, fTSize, fPSize, fQSize, fQIdx, fInfo;
     private static boolean reflOk;
 
     private static boolean refl() {
@@ -459,7 +468,7 @@ public final class ModLan {
             fType = acc(c, "renderType"); fPos = acc(c, "position"); fSpin = acc(c, "spin");
             fA = acc(c, "a"); fR = acc(c, "r"); fG = acc(c, "g"); fB = acc(c, "b");
             fZoom = acc(c, "zoomInsensitive"); fBack = acc(c, "backgroundMode"); fText = acc(c, "text");
-            fTSize = acc(c, "textSize"); fPSize = acc(c, "pointSize");
+            fTSize = acc(c, "textSize"); fPSize = acc(c, "pointSize"); fInfo = acc(c, "infoBar");
             fQSize = acc(RenderQueue.class, "queueSize"); fQIdx = acc(RenderQueue.class, "waitingQueueIndex");
             reflOk = true;
         } catch (Throwable t) {
@@ -547,6 +556,17 @@ public final class ModLan {
                 o.writeByte(b255(a)); o.writeByte(b255(r)); o.writeByte(b255(g)); o.writeByte(b255(b));
                 o.writeFloat(fPSize.getFloat(re));
                 n++;
+            } else if (type == RenderElementType.INFOBAR) {   // v50: enemy life / shield bars
+                Object ib = fInfo.get(re);
+                if (!(ib instanceof InfoBarEnnemis)) continue;   // HUD bars stay local
+                InfoBar bar = (InfoBar) ib;
+                o.writeByte(R_BAR);
+                o.writeFloat(p.x - ox); o.writeFloat(p.y - oy);
+                o.writeFloat(bar.centerPosition.x); o.writeFloat(bar.centerPosition.y);
+                o.writeFloat(bar.witdh); o.writeFloat(bar.height); o.writeFloat(bar.pourcentageValue);
+                o.writeByte(b255(bar.fillA)); o.writeByte(b255(bar.fillR)); o.writeByte(b255(bar.fillG)); o.writeByte(b255(bar.fillB));
+                o.writeByte(b255(bar.extA)); o.writeByte(b255(bar.extR)); o.writeByte(b255(bar.extG)); o.writeByte(b255(bar.extB));
+                n++;
             }
         }
         return n;
@@ -555,7 +575,7 @@ public final class ModLan {
     // ------------------------------------------------------------------ received data
     static final class Rec {
         int kind, id, flags, tsize;
-        float x, y, spin, a, r, g, b, w, h, u0, v0, u1, v1, e0, e1, psize;
+        float x, y, spin, a, r, g, b, w, h, u0, v0, u1, v1, e0, e1, psize, xa, xr, xg, xb;
         String text;
     }
 
@@ -567,6 +587,10 @@ public final class ModLan {
         int round, hostWins, guestWins;
         Rec[] recs;
         int n;
+        String mission;
+        boolean missionDone;
+        byte[] marks;
+        int marksN;
     }
 
     static final class InState {
@@ -575,6 +599,8 @@ public final class ModLan {
         float x, y, vx, vy, spin, life, maxLife, halfW, halfH;
         long at;
         int defeats;
+        boolean solo;
+        String mission = "";
         Rec[] recs;
         int n;
     }
@@ -597,6 +623,12 @@ public final class ModLan {
             f.n = in.readUnsignedShort();
             f.recs = readRecs(in, f.n);
             if (in.available() >= 9) { f.pvp = in.readBoolean(); f.round = in.readInt(); f.hostWins = in.readShort(); f.guestWins = in.readShort(); }
+            if (in.available() >= 5) {   // v50 trailing: mission, radar markers
+                f.mission = in.readUTF(); f.missionDone = in.readBoolean();
+                f.marksN = in.readUnsignedShort();
+                int len = in.readInt();
+                if (len > 0 && len <= in.available()) { f.marks = new byte[len]; in.readFully(f.marks); } else f.marksN = 0;
+            }
             synchronized (inLock) { inFrame = f; }
             gotFrames++;
             lastRecs = f.n;
@@ -609,6 +641,7 @@ public final class ModLan {
             s.n = in.readUnsignedShort();
             s.recs = readRecs(in, s.n);
             if (in.available() >= 4) s.defeats = in.readInt();
+            if (in.available() >= 3) { s.solo = in.readBoolean(); s.mission = in.readUTF(); }
             s.at = System.currentTimeMillis();
             synchronized (inLock) { inState = s; }
             gotFrames++;
@@ -646,6 +679,12 @@ public final class ModLan {
                 r.x = in.readFloat(); r.y = in.readFloat();
                 r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
                 r.psize = in.readFloat();
+            } else if (r.kind == R_BAR) {
+                r.x = in.readFloat(); r.y = in.readFloat();
+                r.u0 = in.readFloat(); r.v0 = in.readFloat();
+                r.w = in.readFloat(); r.h = in.readFloat(); r.psize = in.readFloat();
+                r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
+                r.xa = in.readUnsignedByte() / 255.0f; r.xr = in.readUnsignedByte() / 255.0f; r.xg = in.readUnsignedByte() / 255.0f; r.xb = in.readUnsignedByte() / 255.0f;
             } else {
                 throw new IOException("bad record " + r.kind);
             }
@@ -672,6 +711,7 @@ public final class ModLan {
             ModFx.Sprite[] sp = pools[slot];
             Vector2[] vp = vpools[slot];
             int used = 0;
+            int bars = 0;
             for (int i = 0; i < n && size < arr.length - 300 && used < MAX_REMOTE; i++) {
                 Rec r = recs[i];
                 RenderElement re = arr[size];
@@ -701,6 +741,10 @@ public final class ModLan {
                     re.setAsText(at, r.text, false, r.r, r.g, r.b, r.a, SIZES[r.tsize]);
                 } else if (r.kind == R_POINT) {
                     re.setAsPoint(at, false, r.r, r.g, r.b, r.a, r.psize);
+                } else if (r.kind == R_BAR) {
+                    InfoBarEnnemis bar = barFor(slot, bars++, r);
+                    if (bar == null) continue;
+                    re.set(at, bar);
                 } else continue;
                 size++;
                 used++;
@@ -709,6 +753,140 @@ public final class ModLan {
         } catch (Throwable t) {
             // a broken remote frame is skipped
         }
+    }
+
+    private static final int MAX_BARS = 96;
+    private static final InfoBarEnnemis[][] barPool = new InfoBarEnnemis[3][MAX_BARS];
+
+    /** A pooled enemy bar shaped like the host's (rebuilt only when its size or offset changes). */
+    private static InfoBarEnnemis barFor(int slot, int k, Rec r) {
+        if (k >= MAX_BARS) return null;
+        InfoBarEnnemis b = barPool[slot][k];
+        if (b == null || b.witdh != r.w || b.height != r.h || b.centerPosition.x != r.u0 || b.centerPosition.y != r.v0) {
+            b = barPool[slot][k] = new InfoBarEnnemis(new Vector2(r.u0, r.v0), (int) r.w, (int) r.h);
+        }
+        b.fillA = r.a; b.fillR = r.r; b.fillG = r.g; b.fillB = r.b;
+        b.extA = r.xa; b.extR = r.xr; b.extG = r.xg; b.extB = r.xb;
+        if (b.pourcentageValue != r.psize) b.setValue(r.psize);
+        return b;
+    }
+
+    // ------------------------------------------------------------------ v50: radar markers and shared missions
+    private static final int MK_POINT = 1, MK_MISSION = 2, MK_SKULL = 4, MAX_MARKS = 300;
+    private static volatile byte[] marksOut;
+    private static volatile int marksN;
+    static volatile boolean solo;   // guest: flies its own game (own missions) while staying linked
+
+    /** Host, game thread: what the guest's radar shows (the host's enemies, civilians, rocks, loot, mines, objectives). */
+    private static void hostMarks(PlayerShip ps, Level lv) {
+        try {
+            ByteArrayOutputStream bo = new ByteArrayOutputStream(4096);
+            DataOutputStream o = new DataOutputStream(bo);
+            int n = 0;
+            o.writeFloat(ps.position.x); o.writeFloat(ps.position.y); o.writeByte(MK_POINT); o.writeByte(0);
+            o.writeByte(51); o.writeByte(255); o.writeByte(153); o.writeByte(255); o.writeFloat(Math.max(3, ps.radarPointSize));
+            n++;
+            for (Element e : lv.elements) {
+                if (n >= MAX_MARKS) break;
+                if (e == null || e.removed || e == ps || e == proxy || e.radarDrawType == null) continue;
+                boolean mission = e.isMissionObjective && e.missionObjectiveColor != null;
+                if (!mission && !(e.drawOnRadar && (e instanceof Ennemis || e instanceof CivilShip || e instanceof Asteroid || e instanceof LootElement || e instanceof Mine))) continue;
+                if (e.position.distance(ps.position) > 20000) continue;
+                int fl = (e.radarDrawType.isPoint ? MK_POINT : 0) | (mission ? MK_MISSION : 0);
+                try { if (!mission && e.radarDrawType.isPoint && ModLive.outlevels(e)) fl |= MK_SKULL; } catch (Throwable t) { /* no skull */ }
+                o.writeFloat(e.position.x); o.writeFloat(e.position.y); o.writeByte(fl); o.writeByte(e.radarDrawType.ordinal());
+                if (mission) { o.writeByte(b255(e.missionObjectiveColor.a)); o.writeByte(b255(e.missionObjectiveColor.r)); o.writeByte(b255(e.missionObjectiveColor.g)); o.writeByte(b255(e.missionObjectiveColor.b)); }
+                else { o.writeByte(255); o.writeByte(b255(e.radarColorR)); o.writeByte(b255(e.radarColorG)); o.writeByte(b255(e.radarColorB)); }
+                o.writeFloat(e.radarPointSize);
+                n++;
+            }
+            o.flush();
+            marksOut = bo.toByteArray();
+            marksN = n;
+        } catch (Throwable t) {
+            marksN = 0;
+        }
+    }
+
+    private static final RadarDrawType[] RDT = RadarDrawType.values();
+    private static final Vector2 mkAt = new Vector2();
+
+    /** Guest: the host's markers on this ship's radar, placed exactly as GameThread.drawOnRadarAndCalcNearby does. */
+    private static void guestMarks(PlayerShip ps, InFrame f) {
+        if (f == null || f.marks == null || f.marksN <= 0) return;
+        try {
+            RenderQueue q = ObjectRegistry.INSTANCE.renderQueue;
+            Vector2 cam = ObjectRegistry.INSTANCE.camera.centerPosition;
+            float range = ps.radarPortee;
+            if (range <= 0) return;
+            float k = (Radar.DEMI_DIM - 20) / range;
+            DataInputStream in = new DataInputStream(new java.io.ByteArrayInputStream(f.marks));
+            for (int i = 0; i < f.marksN; i++) {
+                float x = in.readFloat(), y = in.readFloat();
+                int fl = in.readUnsignedByte(), dt = in.readUnsignedByte();
+                float a = in.readUnsignedByte() / 255.0f, r = in.readUnsignedByte() / 255.0f, g = in.readUnsignedByte() / 255.0f, b = in.readUnsignedByte() / 255.0f;
+                float size = in.readFloat();
+                float dx = cam.x - x, dy = cam.y - y;
+                if (dx * dx + dy * dy >= range * range) continue;
+                mkAt.setSameAs(Radar.drawPosition).add(-dx * k, -dy * k);
+                boolean point = (fl & MK_POINT) != 0;
+                if ((fl & MK_MISSION) != 0) {
+                    Drawable d = point ? Mission.targetRadarDrawable : (dt < RDT.length ? RDT[dt].radar_drawable : null);
+                    if (d != null) q.addToWaitingQueue(mkAt, true, d, 0.0f, true, a, r, g, b);
+                } else if (point) {
+                    Texture t = (fl & MK_SKULL) != 0 ? ModArt.ready("icon_skull") : null;
+                    if (t != null) {
+                        float h = ModLive.SKULL_RADAR_H, w = h * ModLive.SKULL_ASPECT;
+                        ModFx.hudTex(t, mkAt.x, mkAt.y, w, h, ModLive.SKULL_R, ModLive.SKULL_G, ModLive.SKULL_B, 0.85f);
+                    } else ModMap.radarPoint(q, mkAt, true, r, g, b, 1.0f, size);
+                } else if (dt < RDT.length && RDT[dt].radar_drawable != null) {
+                    q.addToWaitingQueue(mkAt, true, RDT[dt].radar_drawable, 0.0f, true, 1.0f, 1.0f, 1.0f, 1.0f);
+                }
+            }
+        } catch (Throwable t) {
+            // radar markers skipped this frame
+        }
+    }
+
+    static String missionId() {
+        try {
+            Mission m = ObjectRegistry.INSTANCE.currentMission;
+            return m != null && m.missionId != null ? m.missionId : "";
+        } catch (Throwable t) {
+            return "";
+        }
+    }
+
+    static boolean missionDone() {
+        try {
+            Mission m = ObjectRegistry.INSTANCE.currentMission;
+            return m != null && m.missionEngine != null && m.missionEngine.isCompleted();
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    /** Guest: same mission as the host = one shared objective; the host's completion completes it here too. */
+    private static void guestMission(PlayerShip ps, InFrame f) {
+        try {
+            if (f.mission == null || f.mission.length() == 0 || !f.missionDone) return;
+            Mission m = ObjectRegistry.INSTANCE.currentMission;
+            if (m == null || !f.mission.equals(m.missionId) || m.missionEngine == null || m.missionEngine.isCompleted()) return;
+            m.missionEngine = new AlreadyCompletedEngine();
+            Mod.floatText(ps, ModLang.tr("CO-OP MISSION COMPLETE"), 0.3f, 1.0f, 0.5f);
+            ModDev.ev("lan", "shared mission completed " + m.missionId);
+        } catch (Throwable t) {
+            // mission left as it was
+        }
+    }
+
+    /** Guest: switch between following the host and flying its own game. */
+    static void setSolo(boolean on) {
+        if (solo == on) return;
+        solo = on;
+        dmgBase = -1; dmgSeen = 0; xpBase = -1; xpSeen = 0;   // no catch-up of what happened while apart
+        pulled = false;
+        ModDev.ev("lan", "guest solo=" + on);
     }
 
     // ------------------------------------------------------------------ game-thread hooks
@@ -790,6 +968,7 @@ public final class ModLan {
             inShots.clear();
         }
         Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
+        hostMarks(ps, lv);
         hostDuel(ps, lv, s);
         boolean here = s != null && s.alive && System.currentTimeMillis() - s.at < 2000 && lv.id != null && lv.id.levelName.equals(s.level)
             && !ObjectRegistry.INSTANCE.game.mapMode;
@@ -927,6 +1106,7 @@ public final class ModLan {
     private static void guestFrame(PlayerShip ps) {
         InFrame f;
         synchronized (inLock) { f = inFrame; }
+        if (solo) return;   // flying its own game: own sector, own missions
         Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
         // the guest's own sector stays empty: the host's world is what it sees and fights
         for (Element e : lv.elements) {
@@ -978,6 +1158,7 @@ public final class ModLan {
             xpSeen += x;
             try { ObjectRegistry.INSTANCE.game.playerInfo.addXp((int) Math.min(Integer.MAX_VALUE, x)); } catch (Throwable t) { /* no xp */ }
         }
+        guestMission(ps, f);
         replay(f.recs, f.n, 0, 0);
     }
 
@@ -999,11 +1180,16 @@ public final class ModLan {
 
     /** ModLive.draw on the guest: false = do not draw (the host's stream shows it). Records the player's own ship range. */
     static boolean guestDraw(Element e) {
-        return e == ObjectRegistry.INSTANCE.playerShip;
+        PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+        if (e != ps) return false;
+        InFrame f;
+        synchronized (inLock) { f = inFrame; }
+        guestMarks(ps, f);   // same pass as the stock radar dots
+        return true;
     }
 
     static boolean guestActive() {
-        return role == GUEST && connected;
+        return role == GUEST && connected && !solo;
     }
 
     static void shipStart() { if (guestActive()) shipFrom = queueSize(); }
@@ -1141,6 +1327,10 @@ public final class ModLan {
                 o.writeShort(n);
                 rb.writeTo(o);
                 o.writeBoolean(pvp); o.writeInt(round); o.writeShort(hostWins); o.writeShort(guestWins);
+                o.writeUTF(missionId()); o.writeBoolean(missionDone());
+                byte[] mk = marksOut;
+                int mn = mk == null ? 0 : marksN;
+                o.writeShort(mn); o.writeInt(mn == 0 ? 0 : mk.length); if (mn > 0) o.write(mk);
                 o.flush();
                 sendLatest(MSG_FRAME, bo);
                 sentFrames++;
@@ -1148,7 +1338,7 @@ public final class ModLan {
                 ByteArrayOutputStream bo = new ByteArrayOutputStream(4096);
                 DataOutputStream o = new DataOutputStream(bo);
                 Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
-                boolean alive = !ps.removed && ps.life > 0 && !ObjectRegistry.INSTANCE.game.mapMode;
+                boolean alive = !ps.removed && ps.life > 0 && !ObjectRegistry.INSTANCE.game.mapMode && !solo;
                 o.writeBoolean(alive);
                 o.writeUTF(lv.id != null ? lv.id.levelName : "");
                 o.writeFloat(ps.position.x); o.writeFloat(ps.position.y);
@@ -1162,6 +1352,7 @@ public final class ModLan {
                 o.writeShort(n);
                 rb.writeTo(o);
                 o.writeInt(defeats);
+                o.writeBoolean(solo); o.writeUTF(missionId());
                 o.flush();
                 sendLatest(MSG_STATE, bo);
                 sentFrames++;
@@ -1357,12 +1548,22 @@ public final class ModLan {
         return ModLang.tr("LAN co-op") + (connected ? " *" : " ...");
     }
 
+    /** Dialog text: same mission = shared objective; different = each flies its own (guest: Fly my own missions). */
+    private static String missionLine() {
+        String mine = missionId(), theirs = "";
+        if (role == HOST) { InState st = inState; theirs = st != null ? st.mission : ""; if (st != null && st.solo) return ModLang.tr("Your friend is flying their own missions."); }
+        else { InFrame f; synchronized (inLock) { f = inFrame; } theirs = f != null && f.mission != null ? f.mission : ""; if (solo) return ModLang.tr("You are flying your own missions. Follow the host to fight together again."); }
+        if (mine.length() > 0 && mine.equals(theirs)) return ModLang.tr("Same mission: you work on it together. When the host completes it, it completes for both.");
+        return ModLang.tr("Missions: pick the same mission to work on it together, or the guest can fly their own missions and come back later.");
+    }
+
     static void showMenu(final Activity a) {
         try {
             String msg;
             if (connected) msg = (role == HOST ? ModLang.tr("You are hosting. Your friend plays in your sector.") : ModLang.tr("You joined a friend's game. You follow the host between sectors."))
                 + "\n\n" + ModLang.tr("PvP duel: both ships go to the old multiplayer bay and fight rounds. A ship stops at 1 hull and loses the round; nobody dies or pays a death fee. Undock to start.")
-                + (pvp ? "\n\n" + ModLang.tr("Duel score") + " " + hostWins + " - " + guestWins : "");
+                + (pvp ? "\n\n" + ModLang.tr("Duel score") + " " + hostWins + " - " + guestWins : "")
+                + "\n\n" + missionLine();
             else if (role == HOST) msg = status + "\n\n" + ModLang.tr("Your address:") + " " + myAddresses();
             else msg = ModLang.tr("Play together on the same Wi-Fi, or with one phone's hotspot. One phone hosts, the other joins. The host's game runs the sector; the guest keeps its own ship, cargo and save, and shares the host's XP.")
                 + (status.length() > 0 ? "\n\n" + status : "");
@@ -1371,6 +1572,11 @@ public final class ModLan {
                 b.setPositiveButton(ModLang.tr("Disconnect"), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface d, int w) { stop(); }
                 });
+                if (connected && role == GUEST) {
+                    b.setNeutralButton(solo ? ModLang.tr("Follow the host") : ModLang.tr("Fly my own missions"), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface d, int w) { setSolo(!solo); }
+                    });
+                }
                 if (connected && role == HOST) {
                     b.setNeutralButton(pvpWanted ? ModLang.tr("End duel") : ModLang.tr("PvP duel"), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface d, int w) { duel(!pvpWanted); }

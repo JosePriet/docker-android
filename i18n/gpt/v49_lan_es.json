@@ -24,5 +24,12 @@
  "ROUND WON": "RONDA GANADA",
  "ROUND LOST": "RONDA PERDIDA",
  "Duel score": "Marcador del duelo",
- "PvP duel: both ships go to the old multiplayer bay and fight rounds. A ship stops at 1 hull and loses the round; nobody dies or pays a death fee. Undock to start.": "Duelo JcJ: ambas naves van a la antigua bahía multijugador y luchan por rondas. Una nave se queda en 1 de casco y pierde la ronda; nadie muere ni paga tarifa por muerte. Desacopla para empezar."
+ "PvP duel: both ships go to the old multiplayer bay and fight rounds. A ship stops at 1 hull and loses the round; nobody dies or pays a death fee. Undock to start.": "Duelo JcJ: ambas naves van a la antigua bahía multijugador y luchan por rondas. Una nave se queda en 1 de casco y pierde la ronda; nadie muere ni paga tarifa por muerte. Desacopla para empezar.",
+ "CO-OP MISSION COMPLETE": "MISIÓN COOPERATIVA COMPLETADA",
+ "Follow the host": "Seguir al anfitrión",
+ "Fly my own missions": "Volar mis propias misiones",
+ "Your friend is flying their own missions.": "Tu amigo está volando sus propias misiones.",
+ "You are flying your own missions. Follow the host to fight together again.": "Estás volando tus propias misiones. Sigue al anfitrión para volver a luchar juntos.",
+ "Same mission: you work on it together. When the host completes it, it completes for both.": "Misma misión: la hacéis juntos. Cuando el anfitrión la completa, se completa para los dos.",
+ "Missions: pick the same mission to work on it together, or the guest can fly their own missions and come back later.": "Misiones: elegid la misma misión para hacerla juntos, o el invitado puede volar sus propias misiones y volver después."
 }
