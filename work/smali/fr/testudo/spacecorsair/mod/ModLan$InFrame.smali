@@ -27,6 +27,14 @@
 
 .field level:Ljava/lang/String;
 
+.field marks:[B
+
+.field marksN:I
+
+.field mission:Ljava/lang/String;
+
+.field missionDone:Z
+
 .field n:I
 
 .field pvp:Z
@@ -43,7 +51,7 @@
     .registers 1
 
     .prologue
-    .line 562
+    .line 582
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void

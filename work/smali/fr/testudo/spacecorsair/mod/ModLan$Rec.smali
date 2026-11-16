@@ -55,6 +55,14 @@
 
 .field x:F
 
+.field xa:F
+
+.field xb:F
+
+.field xg:F
+
+.field xr:F
+
 .field y:F
 
 
@@ -63,7 +71,7 @@
     .registers 1
 
     .prologue
-    .line 556
+    .line 576
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void

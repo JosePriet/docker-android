@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 286
+    .line 292
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$gen:J
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$out:Ljava/io/DataOutputStream;
@@ -49,7 +49,7 @@
     .registers 7
 
     .prologue
-    .line 289
+    .line 295
     :goto_0
     :try_start_0
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$gen:J
@@ -63,7 +63,7 @@
 
     if-nez v0, :cond_44
 
-    .line 292
+    .line 298
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->outLock:Ljava/lang/Object;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$700()Ljava/lang/Object;
 
@@ -73,7 +73,7 @@
     :try_end_f
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_f} :catch_36
 
-    .line 293
+    .line 299
     :goto_f
     :try_start_f
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->reliable:Ljava/util/ArrayList;
@@ -116,7 +116,7 @@
 
     goto :goto_f
 
-    .line 298
+    .line 304
     :catchall_33
     move-exception v0
 
@@ -129,11 +129,11 @@
     :try_end_36
     .catch Ljava/lang/Throwable; {:try_start_35 .. :try_end_36} :catch_36
 
-    .line 303
+    .line 309
     :catch_36
     move-exception v0
 
-    .line 304
+    .line 310
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -148,11 +148,11 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->fail(Ljava/lang/Throwable;)V
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$400(Ljava/lang/Throwable;)V
 
-    .line 306
+    .line 312
     :cond_44
     return-void
 
-    .line 294
+    .line 300
     :cond_45
     :try_start_45
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->reliable:Ljava/util/ArrayList;
@@ -177,7 +177,7 @@
 
     check-cast v0, [[B
 
-    .line 295
+    .line 301
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->reliable:Ljava/util/ArrayList;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$800()Ljava/util/ArrayList;
 
@@ -185,24 +185,24 @@
 
     invoke-virtual {v2}, Ljava/util/ArrayList;->clear()V
 
-    .line 296
+    .line 302
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->latest:[B
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$900()[B
 
     move-result-object v2
 
-    .line 297
+    .line 303
     const/4 v3, 0x0
 
     # setter for: Lfr/testudo/spacecorsair/mod/ModLan;->latest:[B
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLan;->access$902([B)[B
 
-    .line 298
+    .line 304
     monitor-exit v1
     :try_end_69
     .catchall {:try_start_45 .. :try_end_69} :catchall_33
 
-    .line 299
+    .line 305
     :try_start_69
     array-length v3, v0
 
@@ -221,7 +221,7 @@
 
     goto :goto_6b
 
-    .line 300
+    .line 306
     :cond_77
     if-eqz v2, :cond_7e
 
@@ -229,7 +229,7 @@
 
     invoke-virtual {v0, v2}, Ljava/io/DataOutputStream;->write([B)V
 
-    .line 301
+    .line 307
     :cond_7e
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$out:Ljava/io/DataOutputStream;
 

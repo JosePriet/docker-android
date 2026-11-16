@@ -31,9 +31,13 @@
 
 .field maxLife:F
 
+.field mission:Ljava/lang/String;
+
 .field n:I
 
 .field recs:[Lfr/testudo/spacecorsair/mod/ModLan$Rec;
+
+.field solo:Z
 
 .field spin:F
 
@@ -48,11 +52,16 @@
 
 # direct methods
 .method constructor <init>()V
-    .registers 1
+    .registers 2
 
     .prologue
-    .line 572
+    .line 596
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    .line 603
+    const-string v0, ""
+
+    iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$InState;->mission:Ljava/lang/String;
 
     return-void
 .end method

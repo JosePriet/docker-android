@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 1375
+    .line 1576
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,23 +34,20 @@
     .registers 4
 
     .prologue
-    .line 1376
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->pvpWanted:Z
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1000()Z
+    .line 1577
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->solo:Z
 
-    move-result v0
-
-    if-nez v0, :cond_b
+    if-nez v0, :cond_9
 
     const/4 v0, 0x1
 
-    :goto_7
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->duel(Z)V
+    :goto_5
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->setSolo(Z)V
 
     return-void
 
-    :cond_b
+    :cond_9
     const/4 v0, 0x0
 
-    goto :goto_7
+    goto :goto_5
 .end method

@@ -20,12 +20,10 @@
 # instance fields
 .field final synthetic val$a:Landroid/app/Activity;
 
-.field final synthetic val$ip:Landroid/widget/EditText;
-
 
 # direct methods
-.method constructor <init>(Landroid/app/Activity;Landroid/widget/EditText;)V
-    .registers 3
+.method constructor <init>(Landroid/app/Activity;)V
+    .registers 2
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -33,10 +31,8 @@
     .end annotation
 
     .prologue
-    .line 1426
+    .line 1626
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$15;->val$a:Landroid/app/Activity;
-
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$15;->val$ip:Landroid/widget/EditText;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -49,25 +45,15 @@
     .registers 5
 
     .prologue
-    .line 1427
+    .line 1627
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$15;->val$a:Landroid/app/Activity;
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$15;->val$ip:Landroid/widget/EditText;
-
-    invoke-virtual {v1}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
+    invoke-static {}, Ljava/util/Collections;->emptyList()Ljava/util/List;
 
     move-result-object v1
 
-    invoke-interface {v1}, Landroid/text/Editable;->toString()Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-virtual {v1}, Ljava/lang/String;->trim()Ljava/lang/String;
-
-    move-result-object v1
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->connectTo(Landroid/app/Activity;Ljava/lang/String;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1300(Landroid/app/Activity;Ljava/lang/String;)V
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->pickHost(Landroid/app/Activity;Ljava/util/List;)V
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1200(Landroid/app/Activity;Ljava/util/List;)V
 
     return-void
 .end method

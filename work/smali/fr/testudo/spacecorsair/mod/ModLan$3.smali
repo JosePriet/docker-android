@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 269
+    .line 275
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$gen:J
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$in:Ljava/io/DataInputStream;
@@ -49,7 +49,7 @@
     .registers 7
 
     .prologue
-    .line 272
+    .line 278
     :goto_0
     :try_start_0
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$gen:J
@@ -63,21 +63,21 @@
 
     if-nez v0, :cond_43
 
-    .line 273
+    .line 279
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$in:Ljava/io/DataInputStream;
 
     invoke-virtual {v0}, Ljava/io/DataInputStream;->readUnsignedByte()I
 
     move-result v0
 
-    .line 274
+    .line 280
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$in:Ljava/io/DataInputStream;
 
     invoke-virtual {v1}, Ljava/io/DataInputStream;->readInt()I
 
     move-result v1
 
-    .line 275
+    .line 281
     if-ltz v1, :cond_1c
 
     const/high16 v2, 0x400000
@@ -111,11 +111,11 @@
     :try_end_35
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_35} :catch_35
 
-    .line 281
+    .line 287
     :catch_35
     move-exception v0
 
-    .line 282
+    .line 288
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -130,21 +130,21 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->fail(Ljava/lang/Throwable;)V
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$400(Ljava/lang/Throwable;)V
 
-    .line 284
+    .line 290
     :cond_43
     return-void
 
-    .line 276
+    .line 282
     :cond_44
     :try_start_44
     new-array v1, v1, [B
 
-    .line 277
+    .line 283
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$in:Ljava/io/DataInputStream;
 
     invoke-virtual {v2, v1}, Ljava/io/DataInputStream;->readFully([B)V
 
-    .line 278
+    .line 284
     const/4 v2, 0x5
 
     if-ne v0, v2, :cond_56
@@ -157,7 +157,7 @@
 
     throw v0
 
-    .line 279
+    .line 285
     :cond_56
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->receive(I[B)V
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$600(I[B)V
