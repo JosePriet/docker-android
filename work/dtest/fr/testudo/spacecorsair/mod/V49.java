@@ -143,6 +143,19 @@ public class V49 {
             eb.position.set(0, 0); eb.damage = Float.NaN;
             is("shot: NaN refused", !ModLan.shotOk(eb, 0, 0));
         }
+        {   // v45 stream diet: a captured frame deflates and still parses as a message header
+            byte[] raw = new byte[20000];
+            for (int i = 0; i < raw.length; i++) raw[i] = (byte) (i % 28 == 0 ? 0 : (i * 7) % 5);
+            byte[] pm = ModLan.packedForTest(2, raw);
+            int len = ((pm[1] & 255) << 24) | ((pm[2] & 255) << 16) | ((pm[3] & 255) << 8) | (pm[4] & 255);
+            java.util.zip.Inflater z = new java.util.zip.Inflater();
+            z.setInput(pm, 10, pm.length - 10);
+            byte[] back = new byte[raw.length];
+            int got = z.inflate(back);
+            is("diet: packed frame is smaller (" + pm.length + " of " + raw.length + ") and round-trips", pm[0] == 6 && pm[5] == 2 && len == pm.length - 5 && got == raw.length && java.util.Arrays.equals(raw, back));
+            byte[] small = ModLan.packedForTest(3, new byte[40]);
+            is("diet: small messages stay plain", small[0] == 3 && small.length == 45);
+        }
         is("clean: control characters and length", ModLan.clean("a\nb\u0007cdef", 4).equals("abcd"));
         System.out.println(bad == 0 ? "V49 VALUES-OK" : "V49 VALUES-FAIL " + bad);
         System.exit(0);

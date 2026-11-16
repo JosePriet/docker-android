@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan;->pickHost(Landroid/app/Activity;Ljava/util/List;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -17,27 +17,12 @@
 .end annotation
 
 
-# instance fields
-.field final synthetic val$a:Landroid/app/Activity;
-
-.field final synthetic val$items:[Ljava/lang/String;
-
-
 # direct methods
-.method constructor <init>(Landroid/app/Activity;[Ljava/lang/String;)V
-    .registers 3
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>()V
+    .registers 1
 
     .prologue
-    .line 1624
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$14;->val$a:Landroid/app/Activity;
-
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$14;->val$items:[Ljava/lang/String;
-
+    .line 2034
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -46,28 +31,26 @@
 
 # virtual methods
 .method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 6
+    .registers 4
 
     .prologue
-    .line 1625
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$14;->val$a:Landroid/app/Activity;
+    .line 2035
+    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->pvpWanted:Z
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1400()Z
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$14;->val$items:[Ljava/lang/String;
+    move-result v0
 
-    aget-object v1, v1, p2
+    if-nez v0, :cond_b
 
-    const-string v2, " "
+    const/4 v0, 0x1
 
-    invoke-virtual {v1, v2}, Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
-
-    move-result-object v1
-
-    const/4 v2, 0x0
-
-    aget-object v1, v1, v2
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->connectTo(Landroid/app/Activity;Ljava/lang/String;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1300(Landroid/app/Activity;Ljava/lang/String;)V
+    :goto_7
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->duel(Z)V
 
     return-void
+
+    :cond_b
+    const/4 v0, 0x0
+
+    goto :goto_7
 .end method

@@ -37,7 +37,7 @@
     .end annotation
 
     .prologue
-    .line 104
+    .line 107
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModComms$1;->val$key:Ljava/lang/String;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModComms$1;->val$text:Ljava/lang/String;
@@ -63,7 +63,7 @@
 
     const/high16 v7, 0x437f0000    # 255.0f
 
-    .line 107
+    .line 110
     :try_start_5
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->panel:Landroid/widget/LinearLayout;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$000()Landroid/widget/LinearLayout;
@@ -72,11 +72,11 @@
 
     if-nez v2, :cond_c
 
-    .line 130
+    .line 133
     :goto_b
     return-void
 
-    .line 108
+    .line 111
     :cond_c
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModComms$1;->val$key:Ljava/lang/String;
 
@@ -84,19 +84,19 @@
 
     move-result v2
 
-    .line 109
+    .line 112
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModComms$1;->val$key:Ljava/lang/String;
 
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModFaction;->commander(Ljava/lang/String;)I
 
     move-result v3
 
-    .line 110
+    .line 113
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     aget-object v4, v4, v2
 
-    .line 111
+    .line 114
     iget v2, v4, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->r:F
 
     mul-float/2addr v2, v7
@@ -119,7 +119,7 @@
 
     move-result v5
 
-    .line 112
+    .line 115
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->act:Landroid/app/Activity;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$100()Landroid/app/Activity;
 
@@ -135,24 +135,24 @@
 
     iget v2, v2, Landroid/util/DisplayMetrics;->density:F
 
-    .line 113
+    .line 116
     new-instance v6, Landroid/graphics/drawable/GradientDrawable;
 
     invoke-direct {v6}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
 
-    .line 114
+    .line 117
     const/high16 v7, 0x41200000    # 10.0f
 
     mul-float/2addr v7, v2
 
     invoke-virtual {v6, v7}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
 
-    .line 115
+    .line 118
     const v7, -0x1ff5f1e6
 
     invoke-virtual {v6, v7}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
 
-    .line 116
+    .line 119
     const/high16 v7, 0x40000000    # 2.0f
 
     mul-float/2addr v2, v7
@@ -161,7 +161,7 @@
 
     invoke-virtual {v6, v2, v5}, Landroid/graphics/drawable/GradientDrawable;->setStroke(II)V
 
-    .line 117
+    .line 120
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->panel:Landroid/widget/LinearLayout;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$000()Landroid/widget/LinearLayout;
 
@@ -169,7 +169,7 @@
 
     invoke-virtual {v2, v6}, Landroid/widget/LinearLayout;->setBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 118
+    .line 121
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModComms$1;->val$key:Ljava/lang/String;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModComms;->portrait(Ljava/lang/String;)Landroid/graphics/Bitmap;
@@ -177,7 +177,7 @@
 
     move-result-object v2
 
-    .line 119
+    .line 122
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->face:Landroid/widget/ImageView;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$300()Landroid/widget/ImageView;
 
@@ -185,7 +185,7 @@
 
     invoke-virtual {v6, v2}, Landroid/widget/ImageView;->setImageBitmap(Landroid/graphics/Bitmap;)V
 
-    .line 120
+    .line 123
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->face:Landroid/widget/ImageView;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$300()Landroid/widget/ImageView;
 
@@ -198,7 +198,7 @@
     :goto_6d
     invoke-virtual {v6, v2}, Landroid/widget/ImageView;->setVisibility(I)V
 
-    .line 121
+    .line 124
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->who:Landroid/widget/TextView;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$400()Landroid/widget/TextView;
 
@@ -234,7 +234,7 @@
 
     invoke-virtual {v2, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 122
+    .line 125
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->who:Landroid/widget/TextView;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$400()Landroid/widget/TextView;
 
@@ -242,7 +242,7 @@
 
     invoke-virtual {v2, v5}, Landroid/widget/TextView;->setTextColor(I)V
 
-    .line 123
+    .line 126
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->msg:Landroid/widget/TextView;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$500()Landroid/widget/TextView;
 
@@ -256,7 +256,7 @@
 
     invoke-virtual {v2, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 124
+    .line 127
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->open:Landroid/widget/Button;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$600()Landroid/widget/Button;
 
@@ -276,7 +276,7 @@
     :goto_b6
     invoke-virtual {v2, v0}, Landroid/widget/Button;->setVisibility(I)V
 
-    .line 125
+    .line 128
     :cond_b9
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->panel:Landroid/widget/LinearLayout;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$000()Landroid/widget/LinearLayout;
@@ -287,7 +287,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->setVisibility(I)V
 
-    .line 126
+    .line 129
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModComms$1;->val$ms:I
 
     if-gez v0, :cond_d6
@@ -300,7 +300,7 @@
 
     goto/16 :goto_b
 
-    .line 127
+    .line 130
     :catch_cf
     move-exception v0
 
@@ -309,16 +309,16 @@
     :cond_d2
     move v2, v1
 
-    .line 120
+    .line 123
     goto :goto_6d
 
     :cond_d4
     move v0, v1
 
-    .line 124
+    .line 127
     goto :goto_b6
 
-    .line 126
+    .line 129
     :cond_d6
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 

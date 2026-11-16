@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 224
+    .line 227
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 8
 
     .prologue
-    .line 227
+    .line 230
     :try_start_0
     const-string v0, "comms_click"
 
@@ -46,7 +46,7 @@
 
     invoke-static {v0, v1, v2, v4, v5}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    .line 228
+    .line 231
     # getter for: Lfr/testudo/spacecorsair/mod/ModComms;->panel:Landroid/widget/LinearLayout;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModComms;->access$000()Landroid/widget/LinearLayout;
 
@@ -56,13 +56,13 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->setVisibility(I)V
 
-    .line 229
+    .line 232
     const/4 v0, 0x1
 
     # setter for: Lfr/testudo/spacecorsair/mod/ModComms;->hailOpen:Z
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModComms;->access$802(Z)Z
 
-    .line 230
+    .line 233
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -73,11 +73,11 @@
     :try_end_22
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_22} :catch_23
 
-    .line 234
+    .line 237
     :goto_22
     return-void
 
-    .line 231
+    .line 234
     :catch_23
     move-exception v0
 

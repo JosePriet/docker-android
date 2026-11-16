@@ -3,12 +3,12 @@
 .source "ModLan.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Ljava/util/Comparator;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLan;->shotFields(Ljava/lang/Class;)[Ljava/lang/reflect/Field;
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -16,24 +16,23 @@
     name = null
 .end annotation
 
-
-# instance fields
-.field final synthetic val$a:Landroid/app/Activity;
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Ljava/lang/Object;",
+        "Ljava/util/Comparator",
+        "<",
+        "Ljava/lang/reflect/Field;",
+        ">;"
+    }
+.end annotation
 
 
 # direct methods
-.method constructor <init>(Landroid/app/Activity;)V
-    .registers 2
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>()V
+    .registers 1
 
     .prologue
-    .line 1588
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$11;->val$a:Landroid/app/Activity;
-
+    .line 1671
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -41,16 +40,38 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
+.method public bridge synthetic compare(Ljava/lang/Object;Ljava/lang/Object;)I
     .registers 4
 
     .prologue
-    .line 1589
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->host()V
+    .line 1671
+    check-cast p1, Ljava/lang/reflect/Field;
 
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$11;->val$a:Landroid/app/Activity;
+    check-cast p2, Ljava/lang/reflect/Field;
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
+    invoke-virtual {p0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModLan$11;->compare(Ljava/lang/reflect/Field;Ljava/lang/reflect/Field;)I
 
-    return-void
+    move-result v0
+
+    return v0
+.end method
+
+.method public compare(Ljava/lang/reflect/Field;Ljava/lang/reflect/Field;)I
+    .registers 5
+
+    .prologue
+    .line 1671
+    invoke-virtual {p1}, Ljava/lang/reflect/Field;->getName()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {p2}, Ljava/lang/reflect/Field;->getName()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->compareTo(Ljava/lang/String;)I
+
+    move-result v0
+
+    return v0
 .end method

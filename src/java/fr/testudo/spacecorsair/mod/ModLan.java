@@ -96,7 +96,7 @@ public final class ModLan {
     private static final String HELLO = "SCLAN2";   // v45: + version, nickname, country, and a host reply byte
     static final int MAX_MSG = 256 * 1024;
     private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3;
-    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5;
+    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6;   // v45: 6 = a deflated FRAME / STATE (type byte first)
     private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
     private static final int MAX_REMOTE = 2200;   // render queue holds 2500 per frame
 
@@ -569,8 +569,63 @@ public final class ModLan {
     }
 
     private static void sendLatest(int type, ByteArrayOutputStream body) {
-        byte[] m = frameBytes(type, body);
+        byte[] m = packed(type, body.toByteArray());
         synchronized (outLock) { latest = m; outLock.notifyAll(); }
+    }
+
+    // v45 stream diet: frames go out deflated (the render list repeats itself a lot), at most SEND_HZ times a second
+    static final int SEND_HZ = 30;
+    private static final java.util.zip.Deflater zOut = new java.util.zip.Deflater(1);
+    private static byte[] zBuf = new byte[65536];
+    static volatile long rawOut;
+
+    /** Sender thread of frames (one at a time): [MSG_Z][len][type][raw length][deflated body], or the plain message when that is smaller. */
+    private static byte[] packed(int type, byte[] raw) {
+        rawOut += raw.length + 5;
+        if (raw.length >= 256) {
+            synchronized (zOut) {
+                zOut.reset();
+                zOut.setInput(raw);
+                zOut.finish();
+                if (zBuf.length < raw.length) zBuf = new byte[raw.length + 1024];
+                int n = zOut.deflate(zBuf, 0, raw.length - 16);   // only worth it when smaller
+                if (zOut.finished()) {
+                    byte[] m = new byte[10 + n];
+                    int len = 5 + n;
+                    m[0] = (byte) MSG_Z;
+                    m[1] = (byte) (len >>> 24); m[2] = (byte) (len >>> 16); m[3] = (byte) (len >>> 8); m[4] = (byte) len;
+                    m[5] = (byte) type;
+                    m[6] = (byte) (raw.length >>> 24); m[7] = (byte) (raw.length >>> 16); m[8] = (byte) (raw.length >>> 8); m[9] = (byte) raw.length;
+                    System.arraycopy(zBuf, 0, m, 10, n);
+                    return m;
+                }
+            }
+        }
+        byte[] m = new byte[5 + raw.length];
+        m[0] = (byte) type;
+        m[1] = (byte) (raw.length >>> 24); m[2] = (byte) (raw.length >>> 16); m[3] = (byte) (raw.length >>> 8); m[4] = (byte) raw.length;
+        System.arraycopy(raw, 0, m, 5, raw.length);
+        return m;
+    }
+
+    /** Reader thread: the message inside a MSG_Z body. The stated size is bounded before anything is allocated. */
+    private static void unpack(byte[] b) throws IOException {
+        if (b.length < 5) throw new IOException("short packed message");
+        int type = b[0] & 255;
+        int n = ((b[1] & 255) << 24) | ((b[2] & 255) << 16) | ((b[3] & 255) << 8) | (b[4] & 255);
+        if ((type != MSG_FRAME && type != MSG_STATE) || n < 0 || n > MAX_MSG) throw new IOException("bad packed message");
+        byte[] raw = new byte[n];
+        java.util.zip.Inflater z = new java.util.zip.Inflater();
+        try {
+            z.setInput(b, 5, b.length - 5);
+            int got = z.inflate(raw);
+            if (got != n || !z.finished()) throw new IOException("bad packed size");
+        } catch (java.util.zip.DataFormatException e) {
+            throw new IOException("bad packed data");
+        } finally {
+            z.end();
+        }
+        receive(type, raw);
     }
 
     private static byte[] frameBytes(int type, ByteArrayOutputStream body) {
@@ -822,7 +877,9 @@ public final class ModLan {
 
     private static void receive(int type, byte[] b) throws IOException {
         DataInputStream in = new DataInputStream(new java.io.ByteArrayInputStream(b));
-        if (type == MSG_DEF) {
+        if (type == MSG_Z) {
+            unpack(b);
+        } else if (type == MSG_DEF) {
             int id = in.readUnsignedShort();
             String k = in.readUTF();
             if (!defOk(k)) return;   // v45: only texture keys this game can have
@@ -1168,7 +1225,7 @@ public final class ModLan {
     }
     private static boolean announce, lost;
     private static volatile boolean joinAsk;
-    private static long persistAt, logOut, logIn;
+    private static long persistAt, logOut, logIn, logRaw;
 
     // v45: a shared mission completed in co-op survives quitting before the claim (kept until that mission is claimed or dropped)
     private static boolean persistSeen;
@@ -1241,8 +1298,8 @@ public final class ModLan {
                     + " got=" + gotFrames + " lastRecs=" + lastRecs + " proxy=" + (proxy != null) + " shotsIn=" + shotsIn + " shotsOut=" + shotsOut
                     + " dmgSent=" + dmgSent + " dmgSeen=" + dmgSeen + " xpSent=" + xpSent + " xpSeen=" + xpSeen + " hull=" + ps.life + "/" + ps.maxLife
                     + " pos=" + (int) ps.position.x + "," + (int) ps.position.y
-                    + " outBs=" + (bytesOut - logOut) / 3 + " inBs=" + (bytesIn - logIn) / 3 + " flags=" + flags + " strikes=" + strikes);
-                logOut = bytesOut; logIn = bytesIn;
+                    + " rawBs=" + (rawOut - logRaw) / 3 + " outBs=" + (bytesOut - logOut) / 3 + " inBs=" + (bytesIn - logIn) / 3 + " flags=" + flags + " strikes=" + strikes);
+                logOut = bytesOut; logIn = bytesIn; logRaw = rawOut;
             }
             if (role == HOST) hostFrame(ps, dt);
             else if (role == GUEST) guestFrame(ps);
@@ -1684,6 +1741,9 @@ public final class ModLan {
     public static void beforeSwap(RenderQueue q) {
         if (!connected) return;
         try {
+            long nowMs = System.currentTimeMillis();
+            if (nowMs - lastSendMs < 1000 / SEND_HZ - 3) return;   // v45: at most SEND_HZ frames a second, whatever the game's frame rate
+            lastSendMs = nowMs;
             if (!refl()) return;
             int size = fQSize.getInt(q);
             if (ObjectRegistry.INSTANCE.game == null || ObjectRegistry.INSTANCE.game.currentLevel == null) return;
@@ -1742,7 +1802,7 @@ public final class ModLan {
         }
     }
 
-    private static long xpLastHost = -1;
+    private static long xpLastHost = -1, lastSendMs;
 
     /** hooks49: GameThread.isElementVisible fallback. Host: also inside the guest's view (+ margin). */
     public static boolean alsoVisible(Element e) {
@@ -1913,6 +1973,8 @@ public final class ModLan {
     static int queueSizeOf(RenderQueue q) throws Exception { refl(); return fQSize.getInt(q); }
 
     static void hostForTest() { host(); autoAccept = true; }
+
+    static byte[] packedForTest(int type, byte[] raw) { return packed(type, raw); }
 
     static Class<?> shotClassForTest(String n) { return shotClass(n); }
 

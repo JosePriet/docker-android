@@ -3,12 +3,12 @@
 .source "ModLan.java"
 
 # interfaces
-.implements Ljava/lang/Runnable;
+.implements Landroid/content/DialogInterface$OnClickListener;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan;->connectTo(Landroid/app/Activity;Ljava/lang/String;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -20,12 +20,10 @@
 # instance fields
 .field final synthetic val$a:Landroid/app/Activity;
 
-.field final synthetic val$addr:Ljava/lang/String;
-
 
 # direct methods
-.method constructor <init>(Ljava/lang/String;Landroid/app/Activity;)V
-    .registers 3
+.method constructor <init>(Landroid/app/Activity;)V
+    .registers 2
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -33,10 +31,8 @@
     .end annotation
 
     .prologue
-    .line 1643
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$17;->val$addr:Ljava/lang/String;
-
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$17;->val$a:Landroid/app/Activity;
+    .line 2045
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$17;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -45,24 +41,15 @@
 
 
 # virtual methods
-.method public run()V
-    .registers 3
+.method public onClick(Landroid/content/DialogInterface;I)V
+    .registers 4
 
     .prologue
-    .line 1645
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$17;->val$addr:Ljava/lang/String;
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->join(Ljava/lang/String;)V
-
-    .line 1646
+    .line 2046
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$17;->val$a:Landroid/app/Activity;
 
-    new-instance v1, Lfr/testudo/spacecorsair/mod/ModLan$17$1;
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->findHosts(Landroid/app/Activity;)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1500(Landroid/app/Activity;)V
 
-    invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModLan$17$1;-><init>(Lfr/testudo/spacecorsair/mod/ModLan$17;)V
-
-    invoke-virtual {v0, v1}, Landroid/app/Activity;->runOnUiThread(Ljava/lang/Runnable;)V
-
-    .line 1647
     return-void
 .end method

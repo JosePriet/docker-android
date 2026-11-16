@@ -17,23 +17,12 @@
 .end annotation
 
 
-# instance fields
-.field final synthetic val$a:Landroid/app/Activity;
-
-
 # direct methods
-.method constructor <init>(Landroid/app/Activity;)V
-    .registers 2
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>()V
+    .registers 1
 
     .prologue
-    .line 1591
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$12;->val$a:Landroid/app/Activity;
-
+    .line 2025
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -42,14 +31,11 @@
 
 # virtual methods
 .method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 4
+    .registers 3
 
     .prologue
-    .line 1592
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$12;->val$a:Landroid/app/Activity;
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->findHosts(Landroid/app/Activity;)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1100(Landroid/app/Activity;)V
+    .line 2026
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->stop()V
 
     return-void
 .end method

@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 117
+    .line 119
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$1;->val$gen:J
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,17 +45,17 @@
     .registers 7
 
     .prologue
-    .line 120
+    .line 122
     :try_start_0
     new-instance v0, Ljava/net/ServerSocket;
 
     invoke-direct {v0}, Ljava/net/ServerSocket;-><init>()V
 
-    .line 121
+    .line 123
     # setter for: Lfr/testudo/spacecorsair/mod/ModLan;->server:Ljava/net/ServerSocket;
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$002(Ljava/net/ServerSocket;)Ljava/net/ServerSocket;
 
-    .line 122
+    .line 124
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$1;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -69,18 +69,18 @@
 
     invoke-virtual {v0}, Ljava/net/ServerSocket;->close()V
 
-    .line 136
+    .line 138
     :cond_15
     :goto_15
     return-void
 
-    .line 123
+    .line 125
     :cond_16
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Ljava/net/ServerSocket;->setReuseAddress(Z)V
 
-    .line 124
+    .line 126
     new-instance v1, Ljava/net/InetSocketAddress;
 
     const v2, 0x9089
@@ -89,7 +89,7 @@
 
     invoke-virtual {v0, v1}, Ljava/net/ServerSocket;->bind(Ljava/net/SocketAddress;)V
 
-    .line 125
+    .line 127
     :goto_25
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$1;->val$gen:J
 
@@ -102,12 +102,12 @@
 
     if-nez v1, :cond_15
 
-    .line 126
+    .line 128
     invoke-virtual {v0}, Ljava/net/ServerSocket;->accept()Ljava/net/Socket;
 
     move-result-object v1
 
-    .line 127
+    .line 129
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$1;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -125,11 +125,11 @@
 
     goto :goto_15
 
-    .line 133
+    .line 135
     :catch_41
     move-exception v0
 
-    .line 134
+    .line 136
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$1;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -146,44 +146,54 @@
 
     goto :goto_15
 
-    .line 128
+    .line 130
     :cond_50
     :try_start_50
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->hello(Ljava/net/Socket;)Z
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$200(Ljava/net/Socket;)Z
+    iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$1;->val$gen:J
+
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->hello(Ljava/net/Socket;J)Z
+    invoke-static {v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModLan;->access$200(Ljava/net/Socket;J)Z
+    :try_end_55
+    .catch Ljava/lang/Throwable; {:try_start_50 .. :try_end_55} :catch_41
 
     move-result v2
 
-    if-nez v2, :cond_5a
+    if-nez v2, :cond_5e
 
+    :try_start_58
     invoke-virtual {v1}, Ljava/net/Socket;->close()V
-    :try_end_59
-    .catch Ljava/lang/Throwable; {:try_start_50 .. :try_end_59} :catch_41
+    :try_end_5b
+    .catch Ljava/lang/Throwable; {:try_start_58 .. :try_end_5b} :catch_5c
 
     goto :goto_25
 
-    .line 129
-    :cond_5a
-    :try_start_5a
-    invoke-virtual {v0}, Ljava/net/ServerSocket;->close()V
-    :try_end_5d
-    .catch Ljava/lang/Throwable; {:try_start_5a .. :try_end_5d} :catch_63
+    :catch_5c
+    move-exception v1
 
-    .line 130
-    :goto_5d
-    :try_start_5d
+    goto :goto_25
+
+    .line 131
+    :cond_5e
+    :try_start_5e
+    invoke-virtual {v0}, Ljava/net/ServerSocket;->close()V
+    :try_end_61
+    .catch Ljava/lang/Throwable; {:try_start_5e .. :try_end_61} :catch_67
+
+    .line 132
+    :goto_61
+    :try_start_61
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$1;->val$gen:J
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->begin(Ljava/net/Socket;J)V
     invoke-static {v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModLan;->access$300(Ljava/net/Socket;J)V
-    :try_end_62
-    .catch Ljava/lang/Throwable; {:try_start_5d .. :try_end_62} :catch_41
+    :try_end_66
+    .catch Ljava/lang/Throwable; {:try_start_61 .. :try_end_66} :catch_41
 
     goto :goto_15
 
-    .line 129
-    :catch_63
+    .line 131
+    :catch_67
     move-exception v0
 
-    goto :goto_5d
+    goto :goto_61
 .end method

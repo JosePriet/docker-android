@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan;->pickHost(Landroid/app/Activity;Ljava/util/List;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -17,23 +17,12 @@
 .end annotation
 
 
-# instance fields
-.field final synthetic val$a:Landroid/app/Activity;
-
-
 # direct methods
-.method constructor <init>(Landroid/app/Activity;)V
-    .registers 2
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>()V
+    .registers 1
 
     .prologue
-    .line 1627
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$15;->val$a:Landroid/app/Activity;
-
+    .line 2037
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -42,18 +31,11 @@
 
 # virtual methods
 .method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 5
+    .registers 3
 
     .prologue
-    .line 1628
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$15;->val$a:Landroid/app/Activity;
-
-    invoke-static {}, Ljava/util/Collections;->emptyList()Ljava/util/List;
-
-    move-result-object v1
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->pickHost(Landroid/app/Activity;Ljava/util/List;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1200(Landroid/app/Activity;Ljava/util/List;)V
+    .line 2038
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->kick()V
 
     return-void
 .end method
