@@ -69,7 +69,7 @@
 
     invoke-virtual {v0}, Ljava/net/ServerSocket;->close()V
 
-    .line 138
+    .line 139
     :cond_15
     :goto_15
     return-void
@@ -125,11 +125,11 @@
 
     goto :goto_15
 
-    .line 135
+    .line 136
     :catch_41
     move-exception v0
 
-    .line 136
+    .line 137
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$1;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -175,25 +175,45 @@
     .line 131
     :cond_5e
     :try_start_5e
-    invoke-virtual {v0}, Ljava/net/ServerSocket;->close()V
-    :try_end_61
-    .catch Ljava/lang/Throwable; {:try_start_5e .. :try_end_61} :catch_67
+    iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$1;->val$gen:J
+
+    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$100()J
+
+    move-result-wide v4
+
+    cmp-long v2, v2, v4
+
+    if-eqz v2, :cond_6c
+
+    invoke-virtual {v1}, Ljava/net/Socket;->close()V
+    :try_end_6b
+    .catch Ljava/lang/Throwable; {:try_start_5e .. :try_end_6b} :catch_41
+
+    goto :goto_15
 
     .line 132
-    :goto_61
-    :try_start_61
+    :cond_6c
+    :try_start_6c
+    invoke-virtual {v0}, Ljava/net/ServerSocket;->close()V
+    :try_end_6f
+    .catch Ljava/lang/Throwable; {:try_start_6c .. :try_end_6f} :catch_75
+
+    .line 133
+    :goto_6f
+    :try_start_6f
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$1;->val$gen:J
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->begin(Ljava/net/Socket;J)V
     invoke-static {v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModLan;->access$300(Ljava/net/Socket;J)V
-    :try_end_66
-    .catch Ljava/lang/Throwable; {:try_start_61 .. :try_end_66} :catch_41
+    :try_end_74
+    .catch Ljava/lang/Throwable; {:try_start_6f .. :try_end_74} :catch_41
 
     goto :goto_15
 
-    .line 131
-    :catch_67
+    .line 132
+    :catch_75
     move-exception v0
 
-    goto :goto_61
+    goto :goto_6f
 .end method

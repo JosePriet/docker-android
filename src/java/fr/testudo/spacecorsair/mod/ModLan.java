@@ -96,7 +96,7 @@ public final class ModLan {
     private static final String HELLO = "SCLAN2";   // v45: + version, nickname, country, and a host reply byte
     static final int MAX_MSG = 256 * 1024;
     private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3;
-    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7, MSG_KILL = 8;   // v45: 6 = a deflated FRAME / STATE (type byte first)
+    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7, MSG_KILL = 8, MSG_PING = 9;   // v45: 6 = a deflated FRAME / STATE (type byte first)
     private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
     private static final int MAX_REMOTE = 2200;   // render queue holds 2500 per frame
 
@@ -128,6 +128,7 @@ public final class ModLan {
                         Socket s = ss.accept();
                         if (gen != linkGen) { s.close(); return; }
                         if (!hello(s, gen)) { try { s.close(); } catch (Throwable t) { /* closed */ } continue; }   // not a guest, wrong version, declined: keep waiting
+                        if (gen != linkGen) { s.close(); return; }   // hosting ended while the question was open
                         try { ss.close(); } catch (Throwable t) { /* one guest */ }
                         begin(s, gen);
                         return;
@@ -140,8 +141,9 @@ public final class ModLan {
         acceptT.start();
         beaconT = new Thread(new Runnable() {
             public void run() {
+                DatagramSocket ds = null;
                 try {
-                    DatagramSocket ds = new DatagramSocket();
+                    ds = new DatagramSocket();
                     ds.setBroadcast(true);
                     beacon = ds;
                     while (gen == linkGen && !connected) {
@@ -156,7 +158,7 @@ public final class ModLan {
                 } catch (Throwable t) {
                     // discovery is optional: the guest can type the address
                 } finally {
-                    if (beacon != null) beacon.close();
+                    if (ds != null) ds.close();   // its own socket, never a newer session's
                 }
             }
         }, "lan-beacon");
@@ -199,7 +201,7 @@ public final class ModLan {
             lastAddr = ip;
             begin(s, gen);
         } catch (Throwable t) {
-            fail(t);
+            if (gen == linkGen) fail(t);   // a join the player already left must not end what came after it
         }
     }
 
@@ -277,12 +279,13 @@ public final class ModLan {
     /** Host: asks the player (dialog on the current screen; also offered in the LAN co-op menu). 25 s without an answer declines. */
     private static boolean askAccept(final String who, long gen) {
         decision = 0;
+        final int ask = ++askId;
         pendingWho = who;
         try {
             Activity a = ModComms.activity();
             if (a == null || a.isFinishing()) a = lastAct;
             final Activity fa = a;
-            if (fa != null && !fa.isFinishing()) fa.runOnUiThread(new Runnable() { public void run() { acceptDialog(fa, who); } });
+            if (fa != null && !fa.isFinishing()) fa.runOnUiThread(new Runnable() { public void run() { acceptDialog(fa, who, ask); } });
         } catch (Throwable t) {
             // the menu still offers it
         }
@@ -297,11 +300,14 @@ public final class ModLan {
         return decision == 1 && gen == linkGen;
     }
 
-    private static void acceptDialog(Activity a, String who) {
+    private static volatile int askId;
+
+    /** ask = the question this dialog belongs to; a dialog left over from an earlier joiner answers nothing. */
+    private static void acceptDialog(Activity a, String who, final int ask) {
         try {
             new AlertDialog.Builder(a).setTitle(ModLang.tr("LAN co-op")).setMessage(who + " " + ModLang.tr("wants to join your game."))
-                .setPositiveButton(ModLang.tr("Accept"), new DialogInterface.OnClickListener() { public void onClick(DialogInterface d, int w) { if (decision == 0) decision = 1; } })
-                .setNegativeButton(ModLang.tr("Decline"), new DialogInterface.OnClickListener() { public void onClick(DialogInterface d, int w) { if (decision == 0) decision = 2; } })
+                .setPositiveButton(ModLang.tr("Accept"), new DialogInterface.OnClickListener() { public void onClick(DialogInterface d, int w) { if (decision == 0 && ask == askId) decision = 1; } })
+                .setNegativeButton(ModLang.tr("Decline"), new DialogInterface.OnClickListener() { public void onClick(DialogInterface d, int w) { if (decision == 0 && ask == askId) decision = 2; } })
                 .show();
         } catch (Throwable t) {
             // no dialog on this screen
@@ -442,6 +448,8 @@ public final class ModLan {
         s.setTcpNoDelay(true);
         s.setSendBufferSize(64 * 1024);   // v45: a small kernel queue, so stale frames are dropped here (latest-only) instead of piling up
         s.setReceiveBufferSize(256 * 1024);
+        s.setKeepAlive(true);
+        s.setSoTimeout(10000);   // the writer pings every 2 s even while the game is paused: 10 s of silence is a dead link
         byeSeen = false;
         strikes = 0;
         sock = s;
@@ -484,15 +492,22 @@ public final class ModLan {
                         byte[][] rel;
                         byte[] frame;
                         synchronized (outLock) {
-                            while (reliable.isEmpty() && latest == null && gen == linkGen) outLock.wait(200);
+                            long idle = System.currentTimeMillis();
+                            while (reliable.isEmpty() && latest == null && gen == linkGen) {
+                                outLock.wait(200);
+                                if (System.currentTimeMillis() - idle >= 2000) { reliable.add(new byte[]{MSG_PING, 0, 0, 0, 0}); break; }
+                            }
                             rel = reliable.toArray(new byte[reliable.size()][]);
                             reliable.clear();
                             frame = latest;
                             latest = null;
                         }
-                        for (byte[] m : rel) { out.write(m); bytesOut += m.length; }   // definitions and shots go out before the frame that uses them
-                        if (frame != null) { out.write(frame); bytesOut += frame.length; }
-                        out.flush();
+                        synchronized (s) {   // whole messages only: the goodbye of stop() never lands inside a frame
+                            if (gen != linkGen) break;
+                            for (byte[] m : rel) { out.write(m); bytesOut += m.length; }   // definitions and shots go out before the frame that uses them
+                            if (frame != null) { out.write(frame); bytesOut += frame.length; }
+                            out.flush();
+                        }
                     }
                 } catch (Throwable t) {
                     if (gen == linkGen) fail(t);
@@ -555,7 +570,11 @@ public final class ModLan {
             s.setSoTimeout(5000);
             DataInputStream hi = new DataInputStream(s.getInputStream());
             int r = hi.readUnsignedByte();
-            if (r != OK || linkGen != mark) { s.close(); return true; }   // refused, or the player moved on: stop trying
+            if (r != OK || linkGen != mark) {   // refused, or the player moved on: stop trying
+                s.close();
+                if (linkGen == mark) status = ModLang.tr("Co-op link lost");
+                return true;
+            }
             readPeerId(hi);
             s.setSoTimeout(0);
             role = GUEST;
@@ -581,7 +600,7 @@ public final class ModLan {
         if (old != null) {
             new Thread(new Runnable() {   // never on the UI thread (no network there); the writer thread has stopped
                 public void run() {
-                    try { if (bye) { old.getOutputStream().write(new byte[]{MSG_BYE, 0, 0, 0, 0}); old.getOutputStream().flush(); } } catch (Throwable t) { /* closing anyway */ }
+                    try { if (bye) synchronized (old) { old.getOutputStream().write(new byte[]{MSG_BYE, 0, 0, 0, 0}); old.getOutputStream().flush(); } } catch (Throwable t) { /* closing anyway */ }
                     try { old.close(); } catch (Throwable t) { /* closed */ }
                 }
             }, "lan-bye").start();
@@ -690,6 +709,7 @@ public final class ModLan {
         synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); }
         dmgSent = 0; dmgSeen = 0; xpSent = 0; xpSeen = 0; xpBase = -1; dmgBase = -1;
         capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0;
+        synchronized (inLock) { inKills.clear(); }
     }
 
     /** Stable cross-phone key of a texture: L<asset> (mod lazy art), M<name> (mod eager art), R<resource> (stock); null = skip. */
@@ -1126,27 +1146,27 @@ public final class ModLan {
                 r.x = fin(in.readFloat()); r.y = fin(in.readFloat()); r.spin = fin(in.readFloat());
                 r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
                 r.flags = in.readUnsignedByte();
-                r.w = fin(in.readFloat()); r.h = fin(in.readFloat());
+                r.w = Math.max(-20000f, Math.min(20000f, fin(in.readFloat()))); r.h = Math.max(-20000f, Math.min(20000f, fin(in.readFloat())));
                 if (r.kind == R_FX) {
-                    r.u0 = in.readFloat(); r.v0 = in.readFloat(); r.u1 = in.readFloat(); r.v1 = in.readFloat();
-                    if ((r.flags & 16) != 0) { r.e0 = in.readFloat(); r.e1 = in.readFloat(); }
+                    r.u0 = fin(in.readFloat()); r.v0 = fin(in.readFloat()); r.u1 = fin(in.readFloat()); r.v1 = fin(in.readFloat());
+                    if ((r.flags & 16) != 0) { r.e0 = fin(in.readFloat()); r.e1 = fin(in.readFloat()); }
                 } else {
                     r.u0 = 0; r.v0 = 0; r.u1 = 1; r.v1 = 1;
                 }
             } else if (r.kind == R_TEXT) {
-                r.x = in.readFloat(); r.y = in.readFloat();
+                r.x = fin(in.readFloat()); r.y = fin(in.readFloat());
                 r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
                 r.flags = in.readUnsignedByte();
                 r.tsize = in.readUnsignedByte();
                 r.text = clean(in.readUTF(), 200);   // v45: printable, bounded
             } else if (r.kind == R_POINT) {
-                r.x = in.readFloat(); r.y = in.readFloat();
+                r.x = fin(in.readFloat()); r.y = fin(in.readFloat());
                 r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
-                r.psize = in.readFloat();
+                r.psize = Math.max(0f, Math.min(512f, fin(in.readFloat())));
             } else if (r.kind == R_BAR) {
-                r.x = in.readFloat(); r.y = in.readFloat();
-                r.u0 = in.readFloat(); r.v0 = in.readFloat();
-                r.w = in.readFloat(); r.h = in.readFloat(); r.psize = in.readFloat();
+                r.x = fin(in.readFloat()); r.y = fin(in.readFloat());
+                r.u0 = fin(in.readFloat()); r.v0 = fin(in.readFloat());
+                r.w = Math.max(1f, Math.min(512f, fin(in.readFloat()))); r.h = Math.max(1f, Math.min(512f, fin(in.readFloat()))); r.psize = fin(in.readFloat());
                 r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
                 r.xa = in.readUnsignedByte() / 255.0f; r.xr = in.readUnsignedByte() / 255.0f; r.xg = in.readUnsignedByte() / 255.0f; r.xb = in.readUnsignedByte() / 255.0f;
             } else {
@@ -1490,8 +1510,7 @@ public final class ModLan {
             boolean nearHost = hx * hx + hy * hy < 4000f * 4000f;
             float reach = MAX_SPEED * secs + 1500f;
             if (moveAt != 0 && !nearHost && dx * dx + dy * dy > reach * reach) {
-                flags++;
-                if (++strikes >= STRIKES) { violation("movement"); return; }
+                flags++;   // held in place, never kicked for it: a stall and catch-up can look the same
                 moveHold = true;
             } else {
                 moveHold = false;
@@ -1537,9 +1556,9 @@ public final class ModLan {
     static final float TAG_UP = 150f;            // the name tag sits this far above the other ship
     static final float MAX_SPEED = 6000f;        // world units per second
     static final float MAX_STEP = 100f;          // speed vector per frame
-    static final int MAX_SHOTS_S = 80;
+    static final int MAX_SHOTS_S = 300;
     static final float MAX_SHOT_DMG = 1.0e6f;
-    static final float SHOT_REACH = 800f;        // a shot starts at the ship
+    static final float SHOT_REACH = 1500f;       // a shot starts at the ship
     private static InState moveState;
     private static float moveX, moveY, roundDmg;
     private static long moveAt, shotSec;
@@ -1680,7 +1699,7 @@ public final class ModLan {
         InFrame f;
         synchronized (inLock) { f = inFrame; }
         if (soloReset) { soloReset = false; dmgBase = -1; dmgSeen = 0; xpBase = -1; xpSeen = 0; pulled = false; }
-        if (solo) return;   // flying its own game: own sector, own missions
+        if (solo) { synchronized (inLock) { inKills.clear(); } return; }   // flying its own game: own sector, own missions
         Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
         // the guest's own sector stays empty: the host's world is what it sees and fights
         for (Element e : lv.elements) {
@@ -1691,7 +1710,7 @@ public final class ModLan {
         }
         ArrayList<Kill> kills = null;
         synchronized (inLock) { if (!inKills.isEmpty()) { kills = new ArrayList<Kill>(inKills); inKills.clear(); } }
-        if (kills != null) for (Kill k : kills) rollLoot(k);
+        if (kills != null && f != null && lv.id != null && lv.id.levelName.equals(f.level)) for (Kill k : kills) rollLoot(k);   // only in the host's sector
         if (f == null) return;
         guestDuel(ps, f);
         // follow the host between sectors
@@ -1936,6 +1955,7 @@ public final class ModLan {
                 int mn = mk == null ? 0 : ((mk[0] & 255) << 8) | (mk[1] & 255);
                 o.writeShort(mn); o.writeInt(mn == 0 ? 0 : mk.length - 2); if (mn > 0) o.write(mk, 2, mk.length - 2);
                 o.flush();
+                if (bo.size() > MAX_MSG - 64) { flags++; return; }   // larger than the receiver takes: this frame is skipped
                 sendLatest(MSG_FRAME, bo);
                 sentFrames++;
             } else if (role == GUEST) {
@@ -2184,7 +2204,7 @@ public final class ModLan {
     static void showMenu(final Activity a) {
         try {
             lastAct = a;
-            if (role == HOST && pendingWho != null && decision == 0) { acceptDialog(a, pendingWho); return; }
+            if (role == HOST && pendingWho != null && decision == 0) { acceptDialog(a, pendingWho, askId); return; }
             final Runnable again = new Runnable() { public void run() { showMenu(a); } };
             if (!ModLanUi.hasProfile()) { ModLanUi.whoAreYou(a, again); return; }   // first time: nickname and country
             String title = ModLang.tr("Multiplayer");
@@ -2254,7 +2274,8 @@ public final class ModLan {
                 a.runOnUiThread(new Runnable() {
                     public void run() {
                         try { wait.dismiss(); } catch (Throwable t) { /* gone */ }
-                        pickHost(a, found);
+                        if (a.isFinishing()) return;
+                        try { pickHost(a, found); } catch (Throwable t) { /* the screen went away */ }
                     }
                 });
             }

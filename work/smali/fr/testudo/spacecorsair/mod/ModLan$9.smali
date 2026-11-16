@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 582
+    .line 601
     iput-boolean p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$bye:Z
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$old:Ljava/net/Socket;
@@ -46,28 +46,35 @@
 
 # virtual methods
 .method public run()V
-    .registers 3
+    .registers 4
 
     .prologue
-    .line 584
+    .line 603
     :try_start_0
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$bye:Z
 
-    if-eqz v0, :cond_1c
+    if-eqz v0, :cond_20
 
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$old:Ljava/net/Socket;
+
+    monitor-enter v1
+    :try_end_7
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_7} :catch_29
+
+    :try_start_7
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$old:Ljava/net/Socket;
 
     invoke-virtual {v0}, Ljava/net/Socket;->getOutputStream()Ljava/io/OutputStream;
 
     move-result-object v0
 
-    const/4 v1, 0x5
+    const/4 v2, 0x5
 
-    new-array v1, v1, [B
+    new-array v2, v2, [B
 
-    fill-array-data v1, :array_26
+    fill-array-data v2, :array_2e
 
-    invoke-virtual {v0, v1}, Ljava/io/OutputStream;->write([B)V
+    invoke-virtual {v0, v2}, Ljava/io/OutputStream;->write([B)V
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$old:Ljava/net/Socket;
 
@@ -76,36 +83,54 @@
     move-result-object v0
 
     invoke-virtual {v0}, Ljava/io/OutputStream;->flush()V
-    :try_end_1c
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_1c} :catch_24
 
-    .line 585
-    :cond_1c
-    :goto_1c
-    :try_start_1c
+    monitor-exit v1
+    :try_end_20
+    .catchall {:try_start_7 .. :try_end_20} :catchall_26
+
+    .line 604
+    :cond_20
+    :goto_20
+    :try_start_20
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$old:Ljava/net/Socket;
 
     invoke-virtual {v0}, Ljava/net/Socket;->close()V
-    :try_end_21
-    .catch Ljava/lang/Throwable; {:try_start_1c .. :try_end_21} :catch_22
+    :try_end_25
+    .catch Ljava/lang/Throwable; {:try_start_20 .. :try_end_25} :catch_2b
 
-    .line 586
-    :goto_21
+    .line 605
+    :goto_25
     return-void
 
-    .line 585
-    :catch_22
+    .line 603
+    :catchall_26
     move-exception v0
 
-    goto :goto_21
+    :try_start_27
+    monitor-exit v1
+    :try_end_28
+    .catchall {:try_start_27 .. :try_end_28} :catchall_26
 
-    .line 584
-    :catch_24
+    :try_start_28
+    throw v0
+    :try_end_29
+    .catch Ljava/lang/Throwable; {:try_start_28 .. :try_end_29} :catch_29
+
+    :catch_29
     move-exception v0
 
-    goto :goto_1c
+    goto :goto_20
 
-    :array_26
+    .line 604
+    :catch_2b
+    move-exception v0
+
+    goto :goto_25
+
+    .line 603
+    nop
+
+    :array_2e
     .array-data 1
         0x5t
         0x0t

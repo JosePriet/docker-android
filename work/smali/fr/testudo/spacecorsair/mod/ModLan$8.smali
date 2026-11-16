@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 527
+    .line 542
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$8;->val$mark:J
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLan$8;->val$back:Ljava/lang/String;
@@ -49,7 +49,7 @@
     .registers 7
 
     .prologue
-    .line 529
+    .line 544
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
@@ -58,7 +58,7 @@
 
     add-long/2addr v0, v2
 
-    .line 531
+    .line 546
     :cond_7
     :try_start_7
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
@@ -80,12 +80,12 @@
 
     if-nez v2, :cond_35
 
-    .line 532
+    .line 547
     const-wide/16 v2, 0xbb8
 
     invoke-static {v2, v3}, Ljava/lang/Thread;->sleep(J)V
 
-    .line 533
+    .line 548
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$100()J
 
@@ -97,19 +97,19 @@
 
     if-eqz v2, :cond_29
 
-    .line 540
+    .line 555
     :cond_28
     :goto_28
     return-void
 
-    .line 534
+    .line 549
     :cond_29
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$8;->val$back:Ljava/lang/String;
 
     iget-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModLan$8;->val$mark:J
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->tryRejoin(Ljava/lang/String;J)Z
-    invoke-static {v2, v4, v5}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1300(Ljava/lang/String;J)Z
+    invoke-static {v2, v4, v5}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1400(Ljava/lang/String;J)Z
     :try_end_30
     .catch Ljava/lang/Throwable; {:try_start_7 .. :try_end_30} :catch_34
 
@@ -119,11 +119,11 @@
 
     goto :goto_28
 
-    .line 536
+    .line 551
     :catch_34
     move-exception v0
 
-    .line 539
+    .line 554
     :cond_35
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$100()J

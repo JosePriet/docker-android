@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 2274
+    .line 2295
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$26;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 5
 
     .prologue
-    .line 2275
+    .line 2296
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$26;->val$a:Landroid/app/Activity;
 
     invoke-static {}, Ljava/util/Collections;->emptyList()Ljava/util/List;
@@ -53,7 +53,7 @@
     move-result-object v1
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->pickHost(Landroid/app/Activity;Ljava/util/List;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1700(Landroid/app/Activity;Ljava/util/List;)V
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1800(Landroid/app/Activity;Ljava/util/List;)V
 
     return-void
 .end method

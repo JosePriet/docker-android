@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 2280
+    .line 2301
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$27;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$27;->val$ip:Landroid/widget/EditText;
@@ -49,7 +49,7 @@
     .registers 5
 
     .prologue
-    .line 2281
+    .line 2302
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$27;->val$a:Landroid/app/Activity;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$27;->val$ip:Landroid/widget/EditText;
@@ -67,7 +67,7 @@
     move-result-object v1
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->connectTo(Landroid/app/Activity;Ljava/lang/String;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1800(Landroid/app/Activity;Ljava/lang/String;)V
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1900(Landroid/app/Activity;Ljava/lang/String;)V
 
     return-void
 .end method

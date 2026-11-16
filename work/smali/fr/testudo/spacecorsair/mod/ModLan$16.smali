@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 2205
+    .line 2225
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,9 +34,9 @@
     .registers 1
 
     .prologue
-    .line 2205
+    .line 2225
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->noRejoin()V
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1500()V
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1600()V
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->stop()V
 

@@ -18,14 +18,16 @@
 
 
 # instance fields
+.field final synthetic val$ask:I
+
 .field final synthetic val$fa:Landroid/app/Activity;
 
 .field final synthetic val$who:Ljava/lang/String;
 
 
 # direct methods
-.method constructor <init>(Landroid/app/Activity;Ljava/lang/String;)V
-    .registers 3
+.method constructor <init>(Landroid/app/Activity;Ljava/lang/String;I)V
+    .registers 4
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -33,10 +35,12 @@
     .end annotation
 
     .prologue
-    .line 285
+    .line 288
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$fa:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$who:Ljava/lang/String;
+
+    iput p3, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$ask:I
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -46,16 +50,18 @@
 
 # virtual methods
 .method public run()V
-    .registers 3
+    .registers 4
 
     .prologue
-    .line 285
+    .line 288
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$fa:Landroid/app/Activity;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$who:Ljava/lang/String;
 
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->acceptDialog(Landroid/app/Activity;Ljava/lang/String;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$600(Landroid/app/Activity;Ljava/lang/String;)V
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$ask:I
+
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->acceptDialog(Landroid/app/Activity;Ljava/lang/String;I)V
+    invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModLan;->access$600(Landroid/app/Activity;Ljava/lang/String;I)V
 
     return-void
 .end method

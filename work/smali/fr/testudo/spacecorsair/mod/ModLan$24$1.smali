@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 2254
+    .line 2274
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$24$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$24;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$24$1;->val$found:Ljava/util/List;
@@ -49,7 +49,7 @@
     .registers 3
 
     .prologue
-    .line 2256
+    .line 2276
     :try_start_0
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$24$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$24;
 
@@ -57,10 +57,27 @@
 
     invoke-virtual {v0}, Landroid/app/AlertDialog;->dismiss()V
     :try_end_7
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_7} :catch_11
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_7} :catch_1e
 
-    .line 2257
+    .line 2277
     :goto_7
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$24$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$24;
+
+    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$24;->val$a:Landroid/app/Activity;
+
+    invoke-virtual {v0}, Landroid/app/Activity;->isFinishing()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_12
+
+    .line 2279
+    :goto_11
+    return-void
+
+    .line 2278
+    :cond_12
+    :try_start_12
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$24$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$24;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$24;->val$a:Landroid/app/Activity;
@@ -68,13 +85,19 @@
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$24$1;->val$found:Ljava/util/List;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->pickHost(Landroid/app/Activity;Ljava/util/List;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1700(Landroid/app/Activity;Ljava/util/List;)V
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1800(Landroid/app/Activity;Ljava/util/List;)V
+    :try_end_1b
+    .catch Ljava/lang/Throwable; {:try_start_12 .. :try_end_1b} :catch_1c
 
-    .line 2258
-    return-void
+    goto :goto_11
 
-    .line 2256
-    :catch_11
+    :catch_1c
+    move-exception v0
+
+    goto :goto_11
+
+    .line 2276
+    :catch_1e
     move-exception v0
 
     goto :goto_7
