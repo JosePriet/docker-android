@@ -1,3 +1,13 @@
+# Space Corsair mod v44
+
+- LAN co-op: on the docked station toolbar, tap "LAN co-op". One phone hosts, the other joins (same Wi-Fi or one phone's hotspot). Both phones need v44. The guest flies in the host's sector with its own ship, save and shields, and shares the host's XP.
+- PvP duel: the host taps "PvP duel". Rounds end at 1 hull; nobody dies.
+- Known gaps (fixed in the next build): guest radar shows no enemies, no enemy life bars on the guest, guest missions do not progress.
+
+SHA-256 of the APK: 3c6bccb7f6b81bc9ff4cc370ad0fbd818f8110774cc52cecc50f3561dc6f2d59
+
+---
+
 # Space Corsair mod v43a2
 
 - Hornet forms II-V art, form V floating wings (inertia), wing shields (2 max), Stinger passive bow turret, crystal drive.
