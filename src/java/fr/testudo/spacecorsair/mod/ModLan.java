@@ -211,7 +211,8 @@ public final class ModLan {
         if (verCache != null) return verCache;
         try {
             android.content.Context c = ObjectRegistry.INSTANCE.game.context;
-            verCache = c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName;
+            android.content.pm.PackageInfo pi = c.getPackageManager().getPackageInfo(c.getPackageName(), 0);
+            verCache = pi.versionName + " #" + pi.versionCode;   // name and build: two builds under one release name do not mix
         } catch (Throwable t) {
             return "?";
         }

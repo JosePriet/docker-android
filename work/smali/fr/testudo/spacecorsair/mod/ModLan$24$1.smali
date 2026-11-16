@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 2253
+    .line 2254
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$24$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$24;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$24$1;->val$found:Ljava/util/List;
@@ -49,7 +49,7 @@
     .registers 3
 
     .prologue
-    .line 2255
+    .line 2256
     :try_start_0
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$24$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$24;
 
@@ -59,7 +59,7 @@
     :try_end_7
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_7} :catch_11
 
-    .line 2256
+    .line 2257
     :goto_7
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$24$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$24;
 
@@ -70,10 +70,10 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->pickHost(Landroid/app/Activity;Ljava/util/List;)V
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1700(Landroid/app/Activity;Ljava/util/List;)V
 
-    .line 2257
+    .line 2258
     return-void
 
-    .line 2255
+    .line 2256
     :catch_11
     move-exception v0
 
