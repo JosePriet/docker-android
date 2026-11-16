@@ -175,7 +175,7 @@ elif [ $GAME = sc ]; then
   log "seekbars on settings: $(grep -o 'class="android.widget.SeekBar"' $OUT/last.xml | wc -l)"
   back 3
   # ---- v49 LAN co-op (owner 2026-11-15): the game hosts for a scripted guest, then joins a scripted host that replays
-  # the recorded host stream. Evidence: tests/lan_peer.py output, logcat "ModTest lan ...", shots of both phases.
+  # the recorded host stream. Evidence: tests/lan_peer.py output, logcat "ModTest.*: lan ...", shots of both phases.
   if [ "$STAGE" = V50L ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
     put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
@@ -185,7 +185,7 @@ elif [ $GAME = sc ]; then
     python3 tests/lan_peer.py guest 30 $OUT tests/lan_shot.txt > $OUT/lan_guest_peer.txt 2>&1 & PEER=$!
     for k in 1 2 3 4 5 6 7 8; do sleep 3.5; shot lan_host_$k; need lan_host_$k; done
     wait $PEER; log "EVIDENCE lan host phase: $(cat $OUT/lan_guest_peer.txt | tr '\n' ' ')"
-    log "EVIDENCE lan host log: $(grep -E "ModTest lan" $LG | tail -8 | sed 's/^.*): //' | tr '\n' ' ')"
+    log "EVIDENCE lan host log: $(grep -E "ModTest.*: lan" $LG | tail -8 | sed 's/^.*): //' | tr '\n' ' ')"
     put corsair_lan off; sleep 4; timeout 10 adb forward --remove tcp:37001
     ls -la $OUT/host_stream.bin
     python3 tests/lan_peer.py host 35 $OUT > $OUT/lan_host_peer.txt 2>&1 & PEER=$!
@@ -197,9 +197,19 @@ elif [ $GAME = sc ]; then
     a shell input motionevent UP 1932 680
     for k in 4 5 6 7 8; do sleep 3.5; shot lan_guest_$k; need lan_guest_$k; done
     wait $PEER; log "EVIDENCE lan guest phase: $(cat $OUT/lan_host_peer.txt | tr '\n' ' ')"
-    log "EVIDENCE lan guest log: $(grep -E "ModTest lan" $LG | tail -10 | sed 's/^.*): //' | tr '\n' ' ')"
+    log "EVIDENCE lan guest log: $(grep -E "ModTest.*: lan" $LG | tail -10 | sed 's/^.*): //' | tr '\n' ' ')"
     put corsair_lan off; sleep 4; shot lan_after
-    grep -E "ModTest lan|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v50l_events.txt
+    # duel: the game hosts again, starts a duel (both ships to the player bay), the scripted guest fires at it
+    timeout 10 adb forward tcp:37001 tcp:37001
+    put corsair_lan host; sleep 4
+    python3 tests/lan_peer.py duel 45 $OUT tests/lan_shot.txt > $OUT/lan_duel_peer.txt 2>&1 & PEER=$!
+    sleep 5; put corsair_lan duel
+    for k in 1 2 3 4 5 6 7 8 9 10; do sleep 3.5; shot lan_duel_$k; need lan_duel_$k; done
+    wait $PEER; log "EVIDENCE lan duel phase: $(cat $OUT/lan_duel_peer.txt | tr '\n' ' ')"
+    log "EVIDENCE lan duel log: $(grep -E "ModTest.*: lan" $LG | grep -E "duel|bay|round" | tail -10 | sed 's/^.*): //' | tr '\n' ' ')"
+    put corsair_lan duel-off; sleep 6; shot lan_duel_over; put corsair_lan off; sleep 3
+    timeout 10 adb forward --remove tcp:37001; rm -f $OUT/duel_stream.bin
+    grep -E "ModTest.*: lan|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v50l_events.txt
     rm -f $OUT/host_stream.bin
     a shell "rm -f $T/corsair_lan"
     finish; exit 0

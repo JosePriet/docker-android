@@ -32,7 +32,7 @@ def reader(s, sink, stop):
     except Exception as e:
         sink.append((-1, str(e).encode(), time.time()))
 
-def guest(secs, out, shotfile):
+def guest(secs, out, shotfile, aim=False):
     po, vo, hexs = open(shotfile).read().split()
     tpl = bytearray(bytes.fromhex(hexs)); po = int(po); vo = int(vo)
     s = None
@@ -44,11 +44,12 @@ def guest(secs, out, shotfile):
     if s is None:
         print('GUEST no connection'); return
     s.settimeout(None); s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+    s.sendall(b'SCLAN1')
     got, stop = [], [False]
     threading.Thread(target=reader, args=(s, got, stop), daemon=True).start()
     s.sendall(msg(MSG_DEF, struct.pack('>H', 1) + utf('Lrv_raider')))
     t0 = time.time(); last_shot = 0; level = None; hx = hy = 0.0; sent = 0; shots = 0
-    raw = open(out + '/host_stream.bin', 'wb')
+    raw = open(out + ('/duel_stream.bin' if aim else '/host_stream.bin'), 'wb')
     done = 0
     while time.time() - t0 < secs:
         while done < len(got):
@@ -64,8 +65,12 @@ def guest(secs, out, shotfile):
             if time.time() - last_shot > 2:
                 last_shot = time.time()
                 b = bytearray(tpl)
-                struct.pack_into('>?ff', b, po, True, gx, gy - 120)
-                struct.pack_into('>?ff', b, vo, True, 0.0, -18.0)
+                if aim:   # duel: fire at the host
+                    struct.pack_into('>?ff', b, po, True, gx - 150, gy)
+                    struct.pack_into('>?ff', b, vo, True, -18.0, 0.0)
+                else:
+                    struct.pack_into('>?ff', b, po, True, gx, gy - 120)
+                    struct.pack_into('>?ff', b, vo, True, 0.0, -18.0)
                 s.sendall(msg(MSG_SHOT, bytes(b))); shots += 1
         time.sleep(0.04)
     stop[0] = True
@@ -93,6 +98,7 @@ def host(secs, out):
     except Exception:
         print('HOST nobody joined'); return
     s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+    hello = recv_all(s, 6); print('HOST hello', hello)
     got, stop = [], [False]
     threading.Thread(target=reader, args=(s, got, stop), daemon=True).start()
     for t, b in defs: s.sendall(msg(t, b))
@@ -117,5 +123,5 @@ def host(secs, out):
     print('HOST joined by %s frames_sent=%d dmg_total=%.0f guest_states=%d guest_shots=%d last_states=%s' % (addr[0], i, dmg, len(states), len(shots), lives))
 
 if __name__ == '__main__':
-    if sys.argv[1] == 'guest': guest(float(sys.argv[2]), sys.argv[3], sys.argv[4])
+    if sys.argv[1] in ('guest', 'duel'): guest(float(sys.argv[2]), sys.argv[3], sys.argv[4], sys.argv[1] == 'duel')
     else: host(float(sys.argv[2]), sys.argv[3])
