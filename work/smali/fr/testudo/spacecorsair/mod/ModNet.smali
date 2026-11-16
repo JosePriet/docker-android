@@ -46,6 +46,8 @@
 
 .field static final SEG:I = 0x44c
 
+.field static volatile testLoopback:Z
+
 .field private static final txRnd:Ljava/util/Random;
 
 
@@ -54,7 +56,7 @@
     .registers 1
 
     .prologue
-    .line 196
+    .line 197
     new-instance v0, Ljava/security/SecureRandom;
 
     invoke-direct {v0}, Ljava/security/SecureRandom;-><init>()V
@@ -100,7 +102,7 @@
 
     const/4 v2, 0x0
 
-    .line 254
+    .line 255
     if-eqz p0, :cond_c
 
     :try_start_7
@@ -113,11 +115,11 @@
     :cond_c
     move-object v0, v1
 
-    .line 267
+    .line 268
     :goto_d
     return-object v0
 
-    .line 255
+    .line 256
     :cond_e
     const/4 v3, 0x1
 
@@ -129,7 +131,7 @@
 
     move v3, v0
 
-    .line 256
+    .line 257
     :goto_16
     if-eqz v3, :cond_1d
 
@@ -144,7 +146,7 @@
 
     goto :goto_d
 
-    .line 255
+    .line 256
     :cond_1f
     if-ne v3, v6, :cond_25
 
@@ -159,7 +161,7 @@
 
     goto :goto_16
 
-    .line 257
+    .line 258
     :cond_27
     const/4 v0, 0x2
 
@@ -177,28 +179,28 @@
 
     or-int/2addr v0, v4
 
-    .line 258
+    .line 259
     new-array v4, v3, [B
 
-    .line 259
+    .line 260
     const/4 v5, 0x4
 
     const/4 v6, 0x0
 
     invoke-static {p0, v5, v4, v6, v3}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 260
+    .line 261
     if-eqz p2, :cond_50
 
-    .line 261
+    .line 262
     xor-int/lit16 v0, v0, 0x2112
 
-    .line 262
+    .line 263
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModNet;->mask([B)[B
 
     move-result-object v5
 
-    .line 263
+    .line 264
     :goto_43
     if-ge v2, v3, :cond_50
 
@@ -219,7 +221,7 @@
     :cond_50
     move v2, v0
 
-    .line 265
+    .line 266
     new-instance v0, Ljava/net/InetSocketAddress;
 
     invoke-static {v4}, Ljava/net/InetAddress;->getByAddress([B)Ljava/net/InetAddress;
@@ -232,13 +234,13 @@
 
     goto :goto_d
 
-    .line 266
+    .line 267
     :catch_5b
     move-exception v0
 
     move-object v0, v1
 
-    .line 267
+    .line 268
     goto :goto_d
 .end method
 
@@ -248,7 +250,7 @@
     .prologue
     const/4 v3, 0x0
 
-    .line 201
+    .line 202
     array-length v0, p1
 
     rem-int/lit8 v0, v0, 0x4
@@ -257,7 +259,7 @@
 
     rem-int/lit8 v0, v0, 0x4
 
-    .line 202
+    .line 203
     array-length v1, p1
 
     add-int/lit8 v1, v1, 0x4
@@ -266,7 +268,7 @@
 
     new-array v0, v0, [B
 
-    .line 203
+    .line 204
     shr-int/lit8 v1, p0, 0x8
 
     int-to-byte v1, v1
@@ -297,14 +299,14 @@
 
     aput-byte v2, v0, v1
 
-    .line 204
+    .line 205
     const/4 v1, 0x4
 
     array-length v2, p1
 
     invoke-static {p1, v3, v0, v1, v2}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 205
+    .line 206
     return-object v0
 .end method
 
@@ -321,12 +323,12 @@
     .end annotation
 
     .prologue
-    .line 222
+    .line 223
     new-instance v1, Ljava/util/HashMap;
 
     invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
 
-    .line 223
+    .line 224
     const/4 v0, 0x2
 
     aget-byte v0, p0, v0
@@ -349,16 +351,16 @@
 
     move-result v2
 
-    .line 224
+    .line 225
     const/16 v0, 0x14
 
-    .line 225
+    .line 226
     :goto_1a
     add-int/lit8 v3, v0, 0x4
 
     if-gt v3, v2, :cond_3f
 
-    .line 226
+    .line 227
     aget-byte v3, p0, v0
 
     and-int/lit16 v3, v3, 0xff
@@ -389,18 +391,18 @@
 
     or-int/2addr v4, v5
 
-    .line 227
+    .line 228
     add-int/lit8 v5, v0, 0x4
 
     add-int/2addr v5, v4
 
     if-le v5, v2, :cond_40
 
-    .line 231
+    .line 232
     :cond_3f
     return-object v1
 
-    .line 228
+    .line 229
     :cond_40
     invoke-static {v3}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
@@ -426,7 +428,7 @@
 
     invoke-virtual {v1, v3, v5}, Ljava/util/HashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 229
+    .line 230
     :cond_59
     add-int/lit8 v3, v4, 0x4
 
@@ -440,7 +442,7 @@
 
     add-int/2addr v0, v3
 
-    .line 230
+    .line 231
     goto :goto_1a
 .end method
 
@@ -450,14 +452,14 @@
     .prologue
     const/16 v4, 0x10
 
-    .line 190
+    .line 191
     new-instance v1, Ljava/lang/StringBuilder;
 
     mul-int/lit8 v0, p2, 0x2
 
     invoke-direct {v1, v0}, Ljava/lang/StringBuilder;-><init>(I)V
 
-    .line 191
+    .line 192
     const/4 v0, 0x0
 
     :goto_a
@@ -491,7 +493,7 @@
 
     goto :goto_a
 
-    .line 192
+    .line 193
     :cond_28
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -513,18 +515,18 @@
     .end annotation
 
     .prologue
-    .line 291
+    .line 292
     new-instance v1, Ljava/util/ArrayList;
 
     invoke-direct {v1}, Ljava/util/ArrayList;-><init>()V
 
-    .line 293
+    .line 294
     :try_start_5
     invoke-static {}, Ljava/net/NetworkInterface;->getNetworkInterfaces()Ljava/util/Enumeration;
 
     move-result-object v2
 
-    .line 294
+    .line 295
     :cond_9
     :goto_9
     if-eqz v2, :cond_7f
@@ -535,7 +537,7 @@
 
     if-eqz v0, :cond_7f
 
-    .line 295
+    .line 296
     invoke-interface {v2}, Ljava/util/Enumeration;->nextElement()Ljava/lang/Object;
 
     move-result-object v0
@@ -544,7 +546,7 @@
     :try_end_17
     .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_17} :catch_7e
 
-    .line 296
+    .line 297
     :try_start_17
     invoke-virtual {v0}, Ljava/net/NetworkInterface;->isUp()Z
 
@@ -560,13 +562,13 @@
 
     if-nez v3, :cond_9
 
-    .line 297
+    .line 298
     :try_start_23
     invoke-virtual {v0}, Ljava/net/NetworkInterface;->getInetAddresses()Ljava/util/Enumeration;
 
     move-result-object v3
 
-    .line 298
+    .line 299
     :cond_27
     invoke-interface {v3}, Ljava/util/Enumeration;->hasMoreElements()Z
 
@@ -574,14 +576,14 @@
 
     if-eqz v0, :cond_9
 
-    .line 299
+    .line 300
     invoke-interface {v3}, Ljava/util/Enumeration;->nextElement()Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/net/InetAddress;
 
-    .line 300
+    .line 301
     invoke-virtual {v0}, Ljava/net/InetAddress;->isLoopbackAddress()Z
 
     move-result v4
@@ -606,17 +608,17 @@
 
     if-nez v4, :cond_27
 
-    .line 301
+    .line 302
     instance-of v4, v0, Ljava/net/Inet6Address;
 
     if-eqz v4, :cond_71
 
-    .line 302
+    .line 303
     invoke-virtual {v0}, Ljava/net/InetAddress;->getAddress()[B
 
     move-result-object v0
 
-    .line 303
+    .line 304
     const/4 v4, 0x0
 
     aget-byte v4, v0, v4
@@ -627,7 +629,7 @@
 
     if-ne v4, v5, :cond_27
 
-    .line 304
+    .line 305
     new-instance v4, Ljava/net/InetSocketAddress;
 
     invoke-static {v0}, Ljava/net/InetAddress;->getByAddress([B)Ljava/net/InetAddress;
@@ -638,7 +640,7 @@
 
     invoke-virtual {v1, v4}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 306
+    .line 307
     :cond_68
     :goto_68
     invoke-virtual {v1}, Ljava/util/ArrayList;->size()I
@@ -651,11 +653,11 @@
 
     move-object v0, v1
 
-    .line 312
+    .line 313
     :goto_70
     return-object v0
 
-    .line 305
+    .line 306
     :cond_71
     instance-of v4, v0, Ljava/net/Inet4Address;
 
@@ -671,17 +673,17 @@
 
     goto :goto_68
 
-    .line 309
+    .line 310
     :catch_7e
     move-exception v0
 
     :cond_7f
     move-object v0, v1
 
-    .line 312
+    .line 313
     goto :goto_70
 
-    .line 296
+    .line 297
     :catch_81
     move-exception v0
 
@@ -694,12 +696,12 @@
     .prologue
     const/4 v3, 0x0
 
-    .line 246
+    .line 247
     const/16 v0, 0x10
 
     new-array v0, v0, [B
 
-    .line 247
+    .line 248
     const/16 v1, 0x21
 
     aput-byte v1, v0, v3
@@ -722,355 +724,268 @@
 
     aput-byte v2, v0, v1
 
-    .line 248
+    .line 249
     const/4 v1, 0x4
 
     const/16 v2, 0xc
 
     invoke-static {p0, v3, v0, v1, v2}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 249
+    .line 250
     return-object v0
 .end method
 
 .method static parse(Ljava/lang/String;)Ljava/net/InetSocketAddress;
-    .registers 12
+    .registers 8
 
     .prologue
-    const/16 v10, 0x3a
+    const/4 v0, 0x0
 
-    const/4 v9, 0x4
+    .line 335
+    if-eqz p0, :cond_b
 
-    const/4 v1, 0x1
-
-    const/4 v2, 0x0
-
-    const/4 v3, 0x0
-
-    .line 327
-    if-eqz p0, :cond_10
-
-    :try_start_8
+    :try_start_3
     invoke-virtual {p0}, Ljava/lang/String;->length()I
 
-    move-result v0
+    move-result v1
 
-    const/16 v4, 0x40
+    const/16 v2, 0x40
 
-    if-le v0, v4, :cond_12
+    if-le v1, v2, :cond_c
 
-    :cond_10
-    move-object v0, v3
-
-    .line 351
-    :goto_11
+    .line 354
+    :cond_b
+    :goto_b
     return-object v0
 
-    .line 328
-    :cond_12
-    const/16 v0, 0x3a
+    .line 336
+    :cond_c
+    const/16 v1, 0x3a
 
-    invoke-virtual {p0, v0}, Ljava/lang/String;->lastIndexOf(I)I
+    invoke-virtual {p0, v1}, Ljava/lang/String;->lastIndexOf(I)I
+
+    move-result v2
+
+    .line 337
+    if-lez v2, :cond_b
+
+    invoke-virtual {p0}, Ljava/lang/String;->length()I
+
+    move-result v1
+
+    add-int/lit8 v1, v1, -0x1
+
+    if-eq v2, v1, :cond_b
+
+    invoke-virtual {p0}, Ljava/lang/String;->length()I
+
+    move-result v1
+
+    sub-int/2addr v1, v2
+
+    const/4 v3, 0x6
+
+    if-gt v1, v3, :cond_b
+
+    .line 338
+    add-int/lit8 v1, v2, 0x1
+
+    :goto_26
+    invoke-virtual {p0}, Ljava/lang/String;->length()I
+
+    move-result v3
+
+    if-ge v1, v3, :cond_3f
+
+    invoke-virtual {p0, v1}, Ljava/lang/String;->charAt(I)C
+
+    move-result v3
+
+    const/16 v4, 0x30
+
+    if-lt v3, v4, :cond_b
+
+    invoke-virtual {p0, v1}, Ljava/lang/String;->charAt(I)C
+
+    move-result v3
+
+    const/16 v4, 0x39
+
+    if-gt v3, v4, :cond_b
+
+    add-int/lit8 v1, v1, 0x1
+
+    goto :goto_26
+
+    .line 339
+    :cond_3f
+    const/4 v1, 0x0
+
+    invoke-virtual {p0, v1, v2}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+
+    move-result-object v1
+
+    .line 340
+    add-int/lit8 v2, v2, 0x1
+
+    invoke-virtual {p0, v2}, Ljava/lang/String;->substring(I)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-static {v2}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+
+    move-result v2
+
+    .line 341
+    const/16 v3, 0x400
+
+    if-lt v2, v3, :cond_b
+
+    const v3, 0xffff
+
+    if-gt v2, v3, :cond_b
+
+    .line 343
+    const-string v3, "["
+
+    invoke-virtual {v1, v3}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_c3
+
+    const-string v3, "]"
+
+    invoke-virtual {v1, v3}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_c3
+
+    const/4 v3, 0x1
+
+    invoke-virtual {v1}, Ljava/lang/String;->length()I
 
     move-result v4
 
-    .line 329
-    if-gtz v4, :cond_1c
+    add-int/lit8 v4, v4, -0x1
 
-    move-object v0, v3
+    invoke-virtual {v1, v3, v4}, Ljava/lang/String;->substring(II)Ljava/lang/String;
 
-    goto :goto_11
+    move-result-object v1
 
-    .line 330
-    :cond_1c
-    const/4 v0, 0x0
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModNet;->v6(Ljava/lang/String;)[B
 
-    invoke-virtual {p0, v0, v4}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+    move-result-object v1
 
-    move-result-object v0
+    .line 345
+    :goto_76
+    if-eqz v1, :cond_b
 
-    .line 331
-    add-int/lit8 v4, v4, 0x1
+    .line 346
+    invoke-static {v1}, Ljava/net/InetAddress;->getByAddress([B)Ljava/net/InetAddress;
 
-    invoke-virtual {p0, v4}, Ljava/lang/String;->substring(I)Ljava/lang/String;
+    move-result-object v3
+
+    .line 347
+    invoke-virtual {v3}, Ljava/net/InetAddress;->isLoopbackAddress()Z
+
+    move-result v1
+
+    .line 348
+    if-eqz v1, :cond_86
+
+    sget-boolean v4, Lfr/testudo/spacecorsair/mod/ModNet;->testLoopback:Z
+
+    if-eqz v4, :cond_b
+
+    .line 349
+    :cond_86
+    invoke-virtual {v3}, Ljava/net/InetAddress;->isMulticastAddress()Z
+
+    move-result v4
+
+    if-nez v4, :cond_b
+
+    invoke-virtual {v3}, Ljava/net/InetAddress;->isAnyLocalAddress()Z
+
+    move-result v4
+
+    if-nez v4, :cond_b
+
+    invoke-virtual {v3}, Ljava/net/InetAddress;->isLinkLocalAddress()Z
+
+    move-result v4
+
+    if-nez v4, :cond_b
+
+    .line 350
+    invoke-virtual {v3}, Ljava/net/InetAddress;->getAddress()[B
 
     move-result-object v4
 
-    invoke-static {v4}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+    .line 351
+    array-length v5, v4
 
-    move-result v7
+    const/4 v6, 0x4
 
-    .line 332
-    if-lez v7, :cond_32
+    if-ne v5, v6, :cond_bb
 
-    const v4, 0xffff
+    const/4 v5, 0x0
 
-    if-le v7, v4, :cond_34
+    aget-byte v5, v4, v5
 
-    :cond_32
-    move-object v0, v3
+    and-int/lit16 v5, v5, 0xff
 
-    goto :goto_11
+    if-eqz v5, :cond_b
 
-    .line 333
-    :cond_34
-    const-string v4, "["
+    const/4 v5, 0x0
 
-    invoke-virtual {v0, v4}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    aget-byte v5, v4, v5
 
-    move-result v4
+    and-int/lit16 v5, v5, 0xff
 
-    if-eqz v4, :cond_f2
+    const/16 v6, 0xe0
 
-    const-string v4, "]"
+    if-ge v5, v6, :cond_b
 
-    invoke-virtual {v0, v4}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+    const/4 v5, 0x0
 
-    move-result v4
+    aget-byte v4, v4, v5
 
-    if-eqz v4, :cond_f2
+    and-int/lit16 v4, v4, 0xff
 
-    const/4 v4, 0x1
+    const/16 v5, 0x7f
 
-    invoke-virtual {v0}, Ljava/lang/String;->length()I
+    if-ne v4, v5, :cond_bb
 
-    move-result v5
+    if-eqz v1, :cond_b
 
-    add-int/lit8 v5, v5, -0x1
+    .line 352
+    :cond_bb
+    new-instance v1, Ljava/net/InetSocketAddress;
 
-    invoke-virtual {v0, v4, v5}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+    invoke-direct {v1, v3, v2}, Ljava/net/InetSocketAddress;-><init>(Ljava/net/InetAddress;I)V
 
-    move-result-object v0
+    move-object v0, v1
 
-    move-object v6, v0
-
-    .line 334
-    :goto_50
-    const/16 v0, 0x3a
-
-    invoke-virtual {v6, v0}, Ljava/lang/String;->indexOf(I)I
-
-    move-result v0
-
-    if-ltz v0, :cond_89
-
-    move v0, v1
-
-    :goto_59
-    move v5, v2
-
-    .line 335
-    :goto_5a
-    invoke-virtual {v6}, Ljava/lang/String;->length()I
-
-    move-result v4
-
-    if-ge v5, v4, :cond_91
-
-    .line 336
-    invoke-virtual {v6, v5}, Ljava/lang/String;->charAt(I)C
-
-    move-result v4
-
-    .line 337
-    const/16 v8, 0x30
-
-    if-lt v4, v8, :cond_6c
-
-    const/16 v8, 0x39
-
-    if-le v4, v8, :cond_84
-
-    :cond_6c
-    const/16 v8, 0x2e
-
-    if-eq v4, v8, :cond_84
-
-    if-eqz v0, :cond_8b
-
-    if-eq v4, v10, :cond_84
-
-    const/16 v8, 0x61
-
-    if-lt v4, v8, :cond_7c
-
-    const/16 v8, 0x66
-
-    if-le v4, v8, :cond_84
-
-    :cond_7c
-    const/16 v8, 0x41
-
-    if-lt v4, v8, :cond_8b
-
-    const/16 v8, 0x46
-
-    if-gt v4, v8, :cond_8b
-
-    :cond_84
-    move v4, v1
-
-    .line 338
-    :goto_85
-    if-nez v4, :cond_8d
-
-    move-object v0, v3
-
-    goto :goto_11
-
-    :cond_89
-    move v0, v2
-
-    .line 334
-    goto :goto_59
-
-    :cond_8b
-    move v4, v2
-
-    .line 337
-    goto :goto_85
-
-    .line 335
-    :cond_8d
-    add-int/lit8 v4, v5, 0x1
-
-    move v5, v4
-
-    goto :goto_5a
-
-    .line 340
-    :cond_91
-    if-nez v0, :cond_d2
-
-    .line 341
-    const-string v0, "\\."
-
-    const/4 v1, -0x1
-
-    invoke-virtual {v6, v0, v1}, Ljava/lang/String;->split(Ljava/lang/String;I)[Ljava/lang/String;
-
-    move-result-object v0
-
-    .line 342
-    array-length v1, v0
-
-    if-eq v1, v9, :cond_a0
-
-    move-object v0, v3
-
-    goto/16 :goto_11
-
-    .line 343
-    :cond_a0
-    const/4 v1, 0x4
-
-    new-array v1, v1, [B
+    goto/16 :goto_b
 
     .line 344
-    :goto_a3
-    if-ge v2, v9, :cond_c3
-
-    aget-object v4, v0, v2
-
-    invoke-static {v4}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
-
-    move-result v4
-
-    if-ltz v4, :cond_ba
-
-    const/16 v5, 0xff
-
-    if-gt v4, v5, :cond_ba
-
-    aget-object v5, v0, v2
-
-    invoke-virtual {v5}, Ljava/lang/String;->length()I
-
-    move-result v5
-
-    const/4 v6, 0x3
-
-    if-le v5, v6, :cond_bd
-
-    :cond_ba
-    move-object v0, v3
-
-    goto/16 :goto_11
-
-    :cond_bd
-    int-to-byte v4, v4
-
-    aput-byte v4, v1, v2
-
-    add-int/lit8 v2, v2, 0x1
-
-    goto :goto_a3
-
-    .line 345
     :cond_c3
-    new-instance v0, Ljava/net/InetSocketAddress;
-
-    invoke-static {v1}, Ljava/net/InetAddress;->getByAddress([B)Ljava/net/InetAddress;
-
-    move-result-object v1
-
-    invoke-direct {v0, v1, v7}, Ljava/net/InetSocketAddress;-><init>(Ljava/net/InetAddress;I)V
-
-    goto/16 :goto_11
-
-    .line 350
-    :catch_ce
-    move-exception v0
-
-    move-object v0, v3
-
-    .line 351
-    goto/16 :goto_11
-
-    .line 347
-    :cond_d2
-    invoke-static {v6}, Ljava/net/InetAddress;->getByName(Ljava/lang/String;)Ljava/net/InetAddress;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModNet;->v4(Ljava/lang/String;)[B
+    :try_end_c6
+    .catch Ljava/lang/Throwable; {:try_start_3 .. :try_end_c6} :catch_c8
 
     move-result-object v1
 
-    .line 348
-    invoke-virtual {v1}, Ljava/net/InetAddress;->isLoopbackAddress()Z
+    goto :goto_76
 
-    move-result v0
+    .line 353
+    :catch_c8
+    move-exception v1
 
-    if-nez v0, :cond_e8
-
-    invoke-virtual {v1}, Ljava/net/InetAddress;->isMulticastAddress()Z
-
-    move-result v0
-
-    if-nez v0, :cond_e8
-
-    invoke-virtual {v1}, Ljava/net/InetAddress;->isAnyLocalAddress()Z
-
-    move-result v0
-
-    if-eqz v0, :cond_eb
-
-    :cond_e8
-    move-object v0, v3
-
-    goto/16 :goto_11
-
-    .line 349
-    :cond_eb
-    new-instance v0, Ljava/net/InetSocketAddress;
-
-    invoke-direct {v0, v1, v7}, Ljava/net/InetSocketAddress;-><init>(Ljava/net/InetAddress;I)V
-    :try_end_f0
-    .catch Ljava/lang/Throwable; {:try_start_8 .. :try_end_f0} :catch_ce
-
-    goto/16 :goto_11
-
-    :cond_f2
-    move-object v6, v0
-
-    goto/16 :goto_50
+    goto/16 :goto_b
 .end method
 
 .method static plain(Ljava/net/InetAddress;)Ljava/net/InetAddress;
@@ -1085,20 +1000,20 @@
 
     const/4 v1, 0x0
 
-    .line 179
+    .line 180
     :try_start_6
     invoke-virtual {p0}, Ljava/net/InetAddress;->getAddress()[B
 
     move-result-object v3
 
-    .line 180
+    .line 181
     array-length v2, v3
 
     const/16 v4, 0x10
 
     if-ne v2, v4, :cond_53
 
-    .line 181
+    .line 182
     const/16 v2, 0xa
 
     aget-byte v2, v3, v2
@@ -1118,7 +1033,7 @@
     :goto_1f
     move v2, v1
 
-    .line 182
+    .line 183
     :goto_20
     if-ge v2, v5, :cond_2e
 
@@ -1138,10 +1053,10 @@
     :cond_2c
     move v0, v1
 
-    .line 181
+    .line 182
     goto :goto_1f
 
-    .line 183
+    .line 184
     :cond_2e
     if-eqz v0, :cond_53
 
@@ -1187,12 +1102,12 @@
 
     move-result-object p0
 
-    .line 186
+    .line 187
     :cond_53
     :goto_53
     return-object p0
 
-    .line 185
+    .line 186
     :catch_54
     move-exception v0
 
@@ -1203,7 +1118,7 @@
     .registers 4
 
     .prologue
-    .line 173
+    .line 174
     if-eqz p0, :cond_26
 
     if-eqz p1, :cond_26
@@ -1255,7 +1170,7 @@
     .registers 5
 
     .prologue
-    .line 317
+    .line 318
     invoke-virtual {p0}, Ljava/net/InetSocketAddress;->getAddress()Ljava/net/InetAddress;
 
     move-result-object v0
@@ -1264,19 +1179,19 @@
 
     move-result-object v1
 
-    .line 318
+    .line 319
     invoke-virtual {v1}, Ljava/net/InetAddress;->getHostAddress()Ljava/lang/String;
 
     move-result-object v0
 
-    .line 319
+    .line 320
     const/16 v2, 0x25
 
     invoke-virtual {v0, v2}, Ljava/lang/String;->indexOf(I)I
 
     move-result v2
 
-    .line 320
+    .line 321
     if-ltz v2, :cond_19
 
     const/4 v3, 0x0
@@ -1285,7 +1200,7 @@
 
     move-result-object v0
 
-    .line 321
+    .line 322
     :cond_19
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -1351,7 +1266,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 276
+    .line 277
     :try_start_1
     new-instance v0, Ljava/net/InetSocketAddress;
 
@@ -1361,7 +1276,7 @@
 
     invoke-direct {v0, v2, p2}, Ljava/net/InetSocketAddress;-><init>(Ljava/net/InetAddress;I)V
 
-    .line 277
+    .line 278
     const/4 v2, 0x1
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModNet;->txid()[B
@@ -1376,14 +1291,14 @@
 
     move-result-object v2
 
-    .line 278
+    .line 279
     const/4 v3, 0x2
 
     invoke-virtual {p0, v0, v2, v3, p3}, Lfr/testudo/spacecorsair/mod/ModNet$Wire;->transact(Ljava/net/SocketAddress;[BII)[B
 
     move-result-object v2
 
-    .line 279
+    .line 280
     if-eqz v2, :cond_2e
 
     const/4 v0, 0x0
@@ -1406,12 +1321,12 @@
 
     if-eq v0, v3, :cond_2f
 
-    .line 285
+    .line 286
     :cond_2e
     :goto_2e
     return-object v1
 
-    .line 280
+    .line 281
     :cond_2f
     array-length v0, v2
 
@@ -1419,7 +1334,7 @@
 
     move-result-object v3
 
-    .line 281
+    .line 282
     const/16 v0, 0x20
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -1442,7 +1357,7 @@
 
     move-result-object v0
 
-    .line 282
+    .line 283
     if-nez v0, :cond_79
 
     const/4 v0, 0x1
@@ -1469,7 +1384,7 @@
 
     move-object v2, v0
 
-    .line 283
+    .line 284
     :goto_60
     if-nez v2, :cond_65
 
@@ -1501,7 +1416,7 @@
 
     goto :goto_63
 
-    .line 284
+    .line 285
     :catch_77
     move-exception v0
 
@@ -1519,8 +1434,8 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 209
     .line 210
+    .line 211
     array-length v3, p2
 
     move v0, v1
@@ -1540,13 +1455,13 @@
 
     goto :goto_4
 
-    .line 211
+    .line 212
     :cond_d
     add-int/lit8 v0, v2, 0x14
 
     new-array v3, v0, [B
 
-    .line 212
+    .line 213
     shr-int/lit8 v0, p0, 0x8
 
     int-to-byte v0, v0
@@ -1573,7 +1488,7 @@
 
     aput-byte v2, v3, v0
 
-    .line 213
+    .line 214
     const/4 v0, 0x4
 
     const/16 v2, 0x21
@@ -1598,17 +1513,17 @@
 
     aput-byte v2, v3, v0
 
-    .line 214
+    .line 215
     const/16 v0, 0x8
 
     const/16 v2, 0xc
 
     invoke-static {p1, v1, v3, v0, v2}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 215
+    .line 216
     const/16 v2, 0x14
 
-    .line 216
+    .line 217
     array-length v4, p2
 
     move v0, v1
@@ -1630,7 +1545,7 @@
 
     goto :goto_43
 
-    .line 217
+    .line 218
     :cond_50
     return-object v3
 .end method
@@ -1641,7 +1556,7 @@
     .prologue
     const/16 v3, 0xc
 
-    .line 271
+    .line 272
     new-array v0, v3, [B
 
     const/16 v1, 0x8
@@ -1657,7 +1572,7 @@
     .registers 2
 
     .prologue
-    .line 198
+    .line 199
     const/16 v0, 0xc
 
     new-array v0, v0, [B
@@ -1669,6 +1584,453 @@
     return-object v0
 .end method
 
+.method private static v4(Ljava/lang/String;)[B
+    .registers 10
+
+    .prologue
+    const/4 v1, 0x0
+
+    const/4 v8, 0x4
+
+    const/4 v2, 0x0
+
+    .line 359
+    const-string v0, "\\."
+
+    const/4 v3, -0x1
+
+    invoke-virtual {p0, v0, v3}, Ljava/lang/String;->split(Ljava/lang/String;I)[Ljava/lang/String;
+
+    move-result-object v5
+
+    .line 360
+    array-length v0, v5
+
+    if-eq v0, v8, :cond_f
+
+    move-object v0, v2
+
+    .line 369
+    :goto_e
+    return-object v0
+
+    .line 361
+    :cond_f
+    new-array v3, v8, [B
+
+    move v4, v1
+
+    .line 362
+    :goto_12
+    if-ge v4, v8, :cond_5d
+
+    .line 363
+    aget-object v0, v5, v4
+
+    invoke-virtual {v0}, Ljava/lang/String;->length()I
+
+    move-result v0
+
+    const/4 v6, 0x1
+
+    if-lt v0, v6, :cond_26
+
+    aget-object v0, v5, v4
+
+    invoke-virtual {v0}, Ljava/lang/String;->length()I
+
+    move-result v0
+
+    const/4 v6, 0x3
+
+    if-le v0, v6, :cond_28
+
+    :cond_26
+    move-object v0, v2
+
+    goto :goto_e
+
+    :cond_28
+    move v0, v1
+
+    .line 364
+    :goto_29
+    aget-object v6, v5, v4
+
+    invoke-virtual {v6}, Ljava/lang/String;->length()I
+
+    move-result v6
+
+    if-ge v0, v6, :cond_4a
+
+    aget-object v6, v5, v4
+
+    invoke-virtual {v6, v0}, Ljava/lang/String;->charAt(I)C
+
+    move-result v6
+
+    const/16 v7, 0x30
+
+    if-lt v6, v7, :cond_45
+
+    aget-object v6, v5, v4
+
+    invoke-virtual {v6, v0}, Ljava/lang/String;->charAt(I)C
+
+    move-result v6
+
+    const/16 v7, 0x39
+
+    if-le v6, v7, :cond_47
+
+    :cond_45
+    move-object v0, v2
+
+    goto :goto_e
+
+    :cond_47
+    add-int/lit8 v0, v0, 0x1
+
+    goto :goto_29
+
+    .line 365
+    :cond_4a
+    aget-object v0, v5, v4
+
+    invoke-static {v0}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+
+    move-result v0
+
+    .line 366
+    const/16 v6, 0xff
+
+    if-le v0, v6, :cond_56
+
+    move-object v0, v2
+
+    goto :goto_e
+
+    .line 367
+    :cond_56
+    int-to-byte v0, v0
+
+    aput-byte v0, v3, v4
+
+    .line 362
+    add-int/lit8 v0, v4, 0x1
+
+    move v4, v0
+
+    goto :goto_12
+
+    :cond_5d
+    move-object v0, v3
+
+    .line 369
+    goto :goto_e
+.end method
+
+.method private static v6(Ljava/lang/String;)[B
+    .registers 15
+
+    .prologue
+    const/16 v13, 0x10
+
+    const/4 v4, -0x1
+
+    const/4 v6, 0x0
+
+    const/4 v3, 0x0
+
+    .line 374
+    invoke-virtual {p0}, Ljava/lang/String;->length()I
+
+    move-result v0
+
+    const/4 v1, 0x2
+
+    if-lt v0, v1, :cond_14
+
+    invoke-virtual {p0}, Ljava/lang/String;->length()I
+
+    move-result v0
+
+    const/16 v1, 0x27
+
+    if-le v0, v1, :cond_16
+
+    :cond_14
+    move-object v0, v6
+
+    .line 395
+    :goto_15
+    return-object v0
+
+    .line 375
+    :cond_16
+    const-string v0, "::"
+
+    invoke-virtual {p0, v0}, Ljava/lang/String;->indexOf(Ljava/lang/String;)I
+
+    move-result v1
+
+    .line 376
+    if-ltz v1, :cond_2a
+
+    const-string v0, "::"
+
+    add-int/lit8 v2, v1, 0x1
+
+    invoke-virtual {p0, v0, v2}, Ljava/lang/String;->indexOf(Ljava/lang/String;I)I
+
+    move-result v0
+
+    if-ltz v0, :cond_2a
+
+    move-object v0, v6
+
+    goto :goto_15
+
+    .line 377
+    :cond_2a
+    if-gez v1, :cond_4b
+
+    const-string v0, ":"
+
+    invoke-virtual {p0, v0, v4}, Ljava/lang/String;->split(Ljava/lang/String;I)[Ljava/lang/String;
+
+    move-result-object v0
+
+    move-object v8, v0
+
+    .line 378
+    :goto_33
+    if-ltz v1, :cond_3d
+
+    add-int/lit8 v0, v1, 0x2
+
+    invoke-virtual {p0}, Ljava/lang/String;->length()I
+
+    move-result v2
+
+    if-lt v0, v2, :cond_5d
+
+    :cond_3d
+    new-array v0, v3, [Ljava/lang/String;
+
+    .line 379
+    :goto_3f
+    array-length v2, v8
+
+    array-length v4, v0
+
+    add-int v9, v2, v4
+
+    .line 380
+    if-gez v1, :cond_6a
+
+    const/16 v1, 0x8
+
+    if-eq v9, v1, :cond_6d
+
+    :cond_49
+    move-object v0, v6
+
+    goto :goto_15
+
+    .line 377
+    :cond_4b
+    if-nez v1, :cond_51
+
+    new-array v0, v3, [Ljava/lang/String;
+
+    move-object v8, v0
+
+    goto :goto_33
+
+    :cond_51
+    invoke-virtual {p0, v3, v1}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+
+    move-result-object v0
+
+    const-string v2, ":"
+
+    invoke-virtual {v0, v2, v4}, Ljava/lang/String;->split(Ljava/lang/String;I)[Ljava/lang/String;
+
+    move-result-object v0
+
+    move-object v8, v0
+
+    goto :goto_33
+
+    .line 378
+    :cond_5d
+    add-int/lit8 v0, v1, 0x2
+
+    invoke-virtual {p0, v0}, Ljava/lang/String;->substring(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    const-string v2, ":"
+
+    invoke-virtual {v0, v2, v4}, Ljava/lang/String;->split(Ljava/lang/String;I)[Ljava/lang/String;
+
+    move-result-object v0
+
+    goto :goto_3f
+
+    .line 380
+    :cond_6a
+    const/4 v1, 0x7
+
+    if-gt v9, v1, :cond_49
+
+    .line 381
+    :cond_6d
+    new-array v7, v13, [B
+
+    move v5, v3
+
+    .line 382
+    :goto_70
+    if-ge v5, v9, :cond_c9
+
+    .line 383
+    array-length v1, v8
+
+    if-ge v5, v1, :cond_87
+
+    aget-object v1, v8, v5
+
+    .line 384
+    :goto_77
+    invoke-virtual {v1}, Ljava/lang/String;->length()I
+
+    move-result v2
+
+    const/4 v4, 0x1
+
+    if-lt v2, v4, :cond_85
+
+    invoke-virtual {v1}, Ljava/lang/String;->length()I
+
+    move-result v2
+
+    const/4 v4, 0x4
+
+    if-le v2, v4, :cond_8d
+
+    :cond_85
+    move-object v0, v6
+
+    goto :goto_15
+
+    .line 383
+    :cond_87
+    array-length v1, v8
+
+    sub-int v1, v5, v1
+
+    aget-object v1, v0, v1
+
+    goto :goto_77
+
+    :cond_8d
+    move v2, v3
+
+    move v4, v3
+
+    .line 386
+    :goto_8f
+    invoke-virtual {v1}, Ljava/lang/String;->length()I
+
+    move-result v10
+
+    if-ge v2, v10, :cond_b0
+
+    .line 387
+    invoke-virtual {v1, v2}, Ljava/lang/String;->charAt(I)C
+
+    move-result v10
+
+    invoke-static {v10, v13}, Ljava/lang/Character;->digit(CI)I
+
+    move-result v10
+
+    .line 388
+    if-ltz v10, :cond_a7
+
+    invoke-virtual {v1, v2}, Ljava/lang/String;->charAt(I)C
+
+    move-result v11
+
+    const/16 v12, 0x66
+
+    if-le v11, v12, :cond_aa
+
+    :cond_a7
+    move-object v0, v6
+
+    goto/16 :goto_15
+
+    .line 389
+    :cond_aa
+    mul-int/lit8 v4, v4, 0x10
+
+    add-int/2addr v4, v10
+
+    .line 386
+    add-int/lit8 v2, v2, 0x1
+
+    goto :goto_8f
+
+    .line 391
+    :cond_b0
+    array-length v1, v8
+
+    if-ge v5, v1, :cond_c5
+
+    move v1, v5
+
+    .line 392
+    :goto_b4
+    mul-int/lit8 v2, v1, 0x2
+
+    shr-int/lit8 v10, v4, 0x8
+
+    int-to-byte v10, v10
+
+    aput-byte v10, v7, v2
+
+    .line 393
+    mul-int/lit8 v1, v1, 0x2
+
+    add-int/lit8 v1, v1, 0x1
+
+    int-to-byte v2, v4
+
+    aput-byte v2, v7, v1
+
+    .line 382
+    add-int/lit8 v5, v5, 0x1
+
+    goto :goto_70
+
+    .line 391
+    :cond_c5
+    rsub-int/lit8 v1, v9, 0x8
+
+    add-int/2addr v1, v5
+
+    goto :goto_b4
+
+    :cond_c9
+    move-object v0, v7
+
+    .line 395
+    goto/16 :goto_15
+.end method
+
 .method static withIntegrity([B[B)[B
     .registers 7
     .annotation system Ldalvik/annotation/Throws;
@@ -1678,7 +2040,7 @@
     .end annotation
 
     .prologue
-    .line 543
+    .line 589
     :try_start_0
     array-length v0, p0
 
@@ -1686,7 +2048,7 @@
 
     new-array v0, v0, [B
 
-    .line 544
+    .line 590
     const/4 v1, 0x0
 
     const/4 v2, 0x0
@@ -1695,12 +2057,12 @@
 
     invoke-static {p0, v1, v0, v2, v3}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 545
+    .line 591
     array-length v1, v0
 
     add-int/lit8 v1, v1, -0x14
 
-    .line 546
+    .line 592
     const/4 v2, 0x2
 
     shr-int/lit8 v3, v1, 0x8
@@ -1715,14 +2077,14 @@
 
     aput-byte v1, v0, v2
 
-    .line 547
+    .line 593
     const-string v1, "HmacSHA1"
 
     invoke-static {v1}, Ljavax/crypto/Mac;->getInstance(Ljava/lang/String;)Ljavax/crypto/Mac;
 
     move-result-object v1
 
-    .line 548
+    .line 594
     new-instance v2, Ljavax/crypto/spec/SecretKeySpec;
 
     const-string v3, "HmacSHA1"
@@ -1731,19 +2093,19 @@
 
     invoke-virtual {v1, v2}, Ljavax/crypto/Mac;->init(Ljava/security/Key;)V
 
-    .line 549
+    .line 595
     const/4 v2, 0x0
 
     array-length v3, p0
 
     invoke-virtual {v1, v0, v2, v3}, Ljavax/crypto/Mac;->update([BII)V
 
-    .line 550
+    .line 596
     invoke-virtual {v1}, Ljavax/crypto/Mac;->doFinal()[B
 
     move-result-object v1
 
-    .line 551
+    .line 597
     array-length v2, p0
 
     const/4 v3, 0x0
@@ -1774,7 +2136,7 @@
 
     aput-byte v3, v0, v2
 
-    .line 552
+    .line 598
     const/4 v2, 0x0
 
     array-length v3, p0
@@ -1787,14 +2149,14 @@
     :try_end_52
     .catch Ljava/security/GeneralSecurityException; {:try_start_0 .. :try_end_52} :catch_53
 
-    .line 553
+    .line 599
     return-object v0
 
-    .line 554
+    .line 600
     :catch_53
     move-exception v0
 
-    .line 555
+    .line 601
     new-instance v0, Ljava/io/IOException;
 
     const-string v1, "no HMAC"
@@ -1812,7 +2174,7 @@
 
     const/4 v1, 0x1
 
-    .line 235
+    .line 236
     invoke-virtual {p0}, Ljava/net/InetSocketAddress;->getAddress()Ljava/net/InetAddress;
 
     move-result-object v0
@@ -1825,14 +2187,14 @@
 
     move-result-object v3
 
-    .line 236
+    .line 237
     array-length v0, v3
 
     add-int/lit8 v0, v0, 0x4
 
     new-array v4, v0, [B
 
-    .line 237
+    .line 238
     array-length v0, v3
 
     const/4 v5, 0x4
@@ -1846,14 +2208,14 @@
 
     aput-byte v0, v4, v1
 
-    .line 238
+    .line 239
     invoke-virtual {p0}, Ljava/net/InetSocketAddress;->getPort()I
 
     move-result v0
 
     xor-int/lit16 v0, v0, 0x2112
 
-    .line 239
+    .line 240
     shr-int/lit8 v1, v0, 0x8
 
     int-to-byte v1, v1
@@ -1866,12 +2228,12 @@
 
     aput-byte v0, v4, v1
 
-    .line 240
+    .line 241
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModNet;->mask([B)[B
 
     move-result-object v1
 
-    .line 241
+    .line 242
     const/4 v0, 0x0
 
     :goto_2f
@@ -1898,10 +2260,10 @@
     :cond_3f
     move v0, v2
 
-    .line 237
+    .line 238
     goto :goto_18
 
-    .line 242
+    .line 243
     :cond_41
     return-object v4
 .end method

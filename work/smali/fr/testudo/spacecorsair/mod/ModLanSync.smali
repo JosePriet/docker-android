@@ -1174,7 +1174,7 @@
     move v2, v0
 
     :goto_4
-    if-ge v2, p1, :cond_227
+    if-ge v2, p1, :cond_22b
 
     .line 212
     new-instance v4, Lfr/testudo/spacecorsair/mod/ModLan$Rec;
@@ -1546,7 +1546,7 @@
     :cond_126
     const/4 v0, 0x2
 
-    if-ne v6, v0, :cond_155
+    if-ne v6, v0, :cond_159
 
     .line 245
     invoke-static {p0, v4, v1}, Lfr/testudo/spacecorsair/mod/ModLanSync;->colour(Ljava/io/DataInputStream;Lfr/testudo/spacecorsair/mod/ModLan$Rec;Z)V
@@ -1576,6 +1576,10 @@
 
     move-result-object v0
 
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
     iput-object v0, v4, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->text:Ljava/lang/String;
 
     .line 249
@@ -1598,10 +1602,10 @@
     goto/16 :goto_66
 
     .line 250
-    :cond_155
+    :cond_159
     const/4 v0, 0x3
 
-    if-ne v6, v0, :cond_16b
+    if-ne v6, v0, :cond_16f
 
     .line 251
     invoke-static {p0, v4, v1}, Lfr/testudo/spacecorsair/mod/ModLanSync;->colour(Ljava/io/DataInputStream;Lfr/testudo/spacecorsair/mod/ModLan$Rec;Z)V
@@ -1627,10 +1631,10 @@
     goto/16 :goto_66
 
     .line 254
-    :cond_16b
+    :cond_16f
     const/4 v0, 0x4
 
-    if-ne v6, v0, :cond_20e
+    if-ne v6, v0, :cond_212
 
     .line 255
     invoke-virtual {p0}, Ljava/io/DataInputStream;->readFloat()F
@@ -1821,7 +1825,7 @@
     goto/16 :goto_66
 
     .line 262
-    :cond_20e
+    :cond_212
     new-instance v0, Ljava/io/IOException;
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -1847,7 +1851,7 @@
     throw v0
 
     .line 266
-    :cond_227
+    :cond_22b
     return-object v3
 .end method
 

@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 2570
+    .line 2720
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$35;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,19 +45,19 @@
     .registers 8
 
     .prologue
-    .line 2572
+    .line 2722
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->chatText()Ljava/lang/String;
 
     move-result-object v0
 
-    .line 2573
+    .line 2723
     const-string v1, "\n"
 
     invoke-virtual {v0, v1}, Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
 
     move-result-object v1
 
-    .line 2574
+    .line 2724
     new-instance v2, Ljava/lang/StringBuilder;
 
     new-instance v0, Ljava/lang/StringBuilder;
@@ -115,7 +115,7 @@
 
     invoke-direct {v2, v0}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
-    .line 2575
+    .line 2725
     const/4 v0, 0x0
 
     array-length v3, v1
@@ -145,7 +145,7 @@
 
     goto :goto_4c
 
-    .line 2576
+    .line 2726
     :cond_5d
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -157,6 +157,6 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLobby;->report(Ljava/lang/String;Ljava/lang/Runnable;)V
 
-    .line 2579
+    .line 2729
     return-void
 .end method

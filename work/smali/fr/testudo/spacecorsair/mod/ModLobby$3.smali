@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLobby;->join(Ljava/lang/String;)Z
+    value = Lfr/testudo/spacecorsair/mod/ModLobby;->repeatJoin(JLjava/lang/String;[Ljava/lang/String;Lfr/testudo/spacecorsair/mod/ModNet$Link;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -37,7 +37,7 @@
     .end annotation
 
     .prologue
-    .line 423
+    .line 491
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$g:J
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$fl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
@@ -57,7 +57,7 @@
     .registers 7
 
     .prologue
-    .line 426
+    .line 494
     const/4 v0, 0x0
 
     :goto_1
@@ -65,13 +65,13 @@
 
     if-ge v0, v1, :cond_23
 
-    .line 427
+    .line 495
     const-wide/16 v2, 0x1f40
 
     :try_start_6
     invoke-static {v2, v3}, Ljava/lang/Thread;->sleep(J)V
 
-    .line 428
+    .line 496
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$g:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLobby;->gen:J
@@ -99,12 +99,12 @@
 
     if-eqz v1, :cond_24
 
-    .line 432
+    .line 501
     :cond_23
     :goto_23
     return-void
 
-    .line 429
+    .line 497
     :cond_24
     const-string v1, "POST"
 
@@ -137,16 +137,50 @@
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$again:[Ljava/lang/String;
 
     invoke-static {v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModLobby;->call(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;)Lfr/testudo/spacecorsair/mod/ModLobby$Reply;
-    :try_end_46
-    .catch Ljava/lang/Throwable; {:try_start_6 .. :try_end_46} :catch_49
 
-    .line 426
+    move-result-object v1
+
+    .line 498
+    invoke-virtual {v1}, Lfr/testudo/spacecorsair/mod/ModLobby$Reply;->ok()Z
+
+    move-result v2
+
+    if-eqz v2, :cond_66
+
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$fl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
+
+    const-string v3, "cands"
+
+    invoke-virtual {v1, v3}, Lfr/testudo/spacecorsair/mod/ModLobby$Reply;->get(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLobby;->addrs(Ljava/lang/String;)Ljava/util/List;
+
+    move-result-object v3
+
+    const-string v4, "relay"
+
+    invoke-virtual {v1, v4}, Lfr/testudo/spacecorsair/mod/ModLobby$Reply;->get(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModNet;->parse(Ljava/lang/String;)Ljava/net/InetSocketAddress;
+
+    move-result-object v1
+
+    invoke-virtual {v2, v3, v1}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->addTargets(Ljava/util/List;Ljava/net/InetSocketAddress;)V
+    :try_end_66
+    .catch Ljava/lang/Throwable; {:try_start_6 .. :try_end_66} :catch_69
+
+    .line 494
+    :cond_66
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_1
 
-    .line 431
-    :catch_49
+    .line 500
+    :catch_69
     move-exception v0
 
     goto :goto_23

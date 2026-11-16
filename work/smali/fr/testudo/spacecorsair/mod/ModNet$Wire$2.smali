@@ -27,7 +27,7 @@
     .registers 4
 
     .prologue
-    .line 95
+    .line 96
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Wire$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Wire$2;->val$to:Ljava/net/SocketAddress;
@@ -45,7 +45,7 @@
     .registers 4
 
     .prologue
-    .line 95
+    .line 96
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Wire$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Wire$2;->val$to:Ljava/net/SocketAddress;

@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 208
+    .line 209
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$2$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$2;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 4
 
     .prologue
-    .line 208
+    .line 209
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$2$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$2;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLanUi$2;->val$picked:[Ljava/lang/String;

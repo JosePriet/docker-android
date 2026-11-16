@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 70
+    .line 71
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Wire$1;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 2
 
     .prologue
-    .line 70
+    .line 71
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Wire$1;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModNet$Wire;->loop()V

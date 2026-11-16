@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 2576
+    .line 2726
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$35$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLan$35$1;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 4
 
     .prologue
-    .line 2577
+    .line 2727
     :try_start_0
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$35$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLan$35$1;
 
@@ -72,12 +72,12 @@
     :try_end_1c
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_1c} :catch_1d
 
-    .line 2578
+    .line 2728
     :cond_1c
     :goto_1c
     return-void
 
-    .line 2577
+    .line 2727
     :catch_1d
     move-exception v0
 

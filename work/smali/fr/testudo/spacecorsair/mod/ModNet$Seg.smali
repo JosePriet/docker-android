@@ -33,7 +33,7 @@
     .registers 1
 
     .prologue
-    .line 560
+    .line 606
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -43,7 +43,7 @@
     .registers 2
 
     .prologue
-    .line 560
+    .line 606
     invoke-direct {p0}, Lfr/testudo/spacecorsair/mod/ModNet$Seg;-><init>()V
 
     return-void

@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 506
+    .line 507
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$13;->val$in:Landroid/widget/EditText;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$13;->val$tv:Landroid/widget/TextView;
@@ -49,7 +49,7 @@
     .registers 5
 
     .prologue
-    .line 508
+    .line 509
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$13;->val$in:Landroid/widget/EditText;
 
     invoke-virtual {v0}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
@@ -70,19 +70,19 @@
 
     move-result-object v0
 
-    .line 509
+    .line 510
     invoke-virtual {v0}, Ljava/lang/String;->length()I
 
     move-result v1
 
     if-nez v1, :cond_1b
 
-    .line 515
+    .line 516
     :cond_1a
     :goto_1a
     return-void
 
-    .line 510
+    .line 511
     :cond_1b
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->sendChat(Ljava/lang/String;)Z
 
@@ -90,7 +90,7 @@
 
     if-eqz v1, :cond_1a
 
-    .line 511
+    .line 512
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
@@ -129,14 +129,14 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModLanUi;->add(Ljava/lang/String;)V
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$500(Ljava/lang/String;)V
 
-    .line 512
+    .line 513
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$13;->val$in:Landroid/widget/EditText;
 
     const-string v1, ""
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
 
-    .line 513
+    .line 514
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$13;->val$tv:Landroid/widget/TextView;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLanUi;->allLines()Ljava/lang/String;

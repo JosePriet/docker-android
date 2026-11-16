@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 75
+    .line 79
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 8
 
     .prologue
-    .line 78
+    .line 82
     const/4 v0, 0x2
 
     :try_start_1
@@ -51,36 +51,37 @@
 
     aget v3, v1, v0
 
-    .line 79
+    .line 83
     int-to-long v4, v3
 
     invoke-static {v4, v5}, Ljava/lang/Thread;->sleep(J)V
 
-    .line 80
-    # invokes: Lfr/testudo/spacecorsair/mod/ModSaveSig;->signAll()Ljava/lang/String;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSaveSig;->access$100()Ljava/lang/String;
+    .line 84
+    # getter for: Lfr/testudo/spacecorsair/mod/ModSaveSig;->signLock:Ljava/lang/Object;
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSaveSig;->access$000()Ljava/lang/Object;
 
     move-result-object v3
 
-    .line 81
-    invoke-virtual {v3}, Ljava/lang/String;->length()I
+    monitor-enter v3
+    :try_end_15
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_15} :catch_37
 
-    move-result v4
-
-    if-lez v4, :cond_31
-
-    # getter for: Lfr/testudo/spacecorsair/mod/ModSaveSig;->signLock:Ljava/lang/Object;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSaveSig;->access$200()Ljava/lang/Object;
+    .line 85
+    :try_start_15
+    # invokes: Lfr/testudo/spacecorsair/mod/ModSaveSig;->signAll()Ljava/lang/String;
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSaveSig;->access$100()Ljava/lang/String;
 
     move-result-object v4
 
-    monitor-enter v4
-    :try_end_1f
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_1f} :catch_37
+    .line 86
+    invoke-virtual {v4}, Ljava/lang/String;->length()I
 
-    :try_start_1f
+    move-result v5
+
+    if-lez v5, :cond_30
+
     # invokes: Lfr/testudo/spacecorsair/mod/ModSaveSig;->prefs()Landroid/content/SharedPreferences;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSaveSig;->access$300()Landroid/content/SharedPreferences;
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSaveSig;->access$200()Landroid/content/SharedPreferences;
 
     move-result-object v5
 
@@ -90,42 +91,43 @@
 
     const-string v6, "sig"
 
-    invoke-interface {v5, v6, v3}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;
+    invoke-interface {v5, v6, v4}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;
 
-    move-result-object v3
+    move-result-object v4
 
-    invoke-interface {v3}, Landroid/content/SharedPreferences$Editor;->commit()Z
+    invoke-interface {v4}, Landroid/content/SharedPreferences$Editor;->commit()Z
 
-    monitor-exit v4
+    .line 87
+    :cond_30
+    monitor-exit v3
 
-    .line 78
-    :cond_31
+    .line 82
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_8
 
-    .line 81
+    .line 87
     :catchall_34
     move-exception v0
 
-    monitor-exit v4
+    monitor-exit v3
     :try_end_36
-    .catchall {:try_start_1f .. :try_end_36} :catchall_34
+    .catchall {:try_start_15 .. :try_end_36} :catchall_34
 
     :try_start_36
     throw v0
     :try_end_37
     .catch Ljava/lang/Throwable; {:try_start_36 .. :try_end_37} :catch_37
 
-    .line 83
+    .line 89
     :catch_37
     move-exception v0
 
-    .line 86
+    .line 92
     :cond_38
     return-void
 
-    .line 78
+    .line 82
     nop
 
     :array_3a

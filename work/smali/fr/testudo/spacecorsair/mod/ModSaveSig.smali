@@ -101,14 +101,14 @@
     return-void
 .end method
 
-.method static synthetic access$000()V
-    .registers 0
+.method static synthetic access$000()Ljava/lang/Object;
+    .registers 1
 
     .prologue
     .line 20
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSaveSig;->resignSoon()V
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModSaveSig;->signLock:Ljava/lang/Object;
 
-    return-void
+    return-object v0
 .end method
 
 .method static synthetic access$100()Ljava/lang/String;
@@ -123,17 +123,7 @@
     return-object v0
 .end method
 
-.method static synthetic access$200()Ljava/lang/Object;
-    .registers 1
-
-    .prologue
-    .line 20
-    sget-object v0, Lfr/testudo/spacecorsair/mod/ModSaveSig;->signLock:Ljava/lang/Object;
-
-    return-object v0
-.end method
-
-.method static synthetic access$300()Landroid/content/SharedPreferences;
+.method static synthetic access$200()Landroid/content/SharedPreferences;
     .registers 1
 
     .prologue
@@ -145,11 +135,21 @@
     return-object v0
 .end method
 
+.method static synthetic access$300()V
+    .registers 0
+
+    .prologue
+    .line 20
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSaveSig;->resignSoon()V
+
+    return-void
+.end method
+
 .method static installForTest(Ljava/lang/String;)V
     .registers 1
 
     .prologue
-    .line 135
+    .line 141
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModSaveSig;->install:Ljava/lang/String;
 
     return-void
@@ -159,7 +159,7 @@
     .registers 1
 
     .prologue
-    .line 138
+    .line 144
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSaveSig;->install:Ljava/lang/String;
 
     return-object v0
@@ -169,7 +169,7 @@
     .registers 6
 
     .prologue
-    .line 133
+    .line 139
     const-wide/16 v0, 0x0
 
     sget-wide v2, Lfr/testudo/spacecorsair/mod/ModSaveSig;->lockedUntil:J
@@ -217,7 +217,7 @@
     .registers 4
 
     .prologue
-    .line 131
+    .line 137
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
@@ -243,12 +243,12 @@
     .registers 6
 
     .prologue
-    .line 72
+    .line 76
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
 
-    .line 73
+    .line 77
     sget-wide v2, Lfr/testudo/spacecorsair/mod/ModSaveSig;->signAt:J
 
     sub-long v2, v0, v2
@@ -259,15 +259,15 @@
 
     if-gez v2, :cond_f
 
-    .line 90
+    .line 96
     :goto_e
     return-void
 
-    .line 74
+    .line 78
     :cond_f
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModSaveSig;->signAt:J
 
-    .line 75
+    .line 79
     new-instance v0, Ljava/lang/Thread;
 
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModSaveSig$2;
@@ -278,12 +278,12 @@
 
     invoke-direct {v0, v1, v2}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
-    .line 88
+    .line 94
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Ljava/lang/Thread;->setDaemon(Z)V
 
-    .line 89
+    .line 95
     invoke-virtual {v0}, Ljava/lang/Thread;->start()V
 
     goto :goto_e
@@ -298,14 +298,14 @@
     .end annotation
 
     .prologue
-    .line 124
+    .line 130
     const-string v0, "HmacSHA256"
 
     invoke-static {v0}, Ljavax/crypto/Mac;->getInstance(Ljava/lang/String;)Ljavax/crypto/Mac;
 
     move-result-object v0
 
-    .line 125
+    .line 131
     new-instance v1, Ljavax/crypto/spec/SecretKeySpec;
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModSaveSig;->KEY:[B
@@ -316,12 +316,12 @@
 
     invoke-virtual {v0, v1}, Ljavax/crypto/Mac;->init(Ljava/security/Key;)V
 
-    .line 126
+    .line 132
     invoke-virtual {v0, p0}, Ljavax/crypto/Mac;->doFinal([B)[B
 
     move-result-object v0
 
-    .line 127
+    .line 133
     const/4 v1, 0x0
 
     array-length v2, v0
@@ -339,7 +339,7 @@
     .prologue
     const/4 v2, 0x0
 
-    .line 95
+    .line 101
     :try_start_1
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSaveSig;->ctx:Landroid/content/Context;
 
@@ -351,7 +351,7 @@
 
     move-result-object v3
 
-    .line 96
+    .line 102
     if-eqz v3, :cond_10
 
     array-length v0, v3
@@ -361,22 +361,22 @@
     :cond_10
     const-string v0, ""
 
-    .line 119
+    .line 125
     :goto_12
     return-object v0
 
-    .line 97
+    .line 103
     :cond_13
     invoke-static {v3}, Ljava/util/Arrays;->sort([Ljava/lang/Object;)V
 
-    .line 98
+    .line 104
     const-string v0, "HmacSHA256"
 
     invoke-static {v0}, Ljavax/crypto/Mac;->getInstance(Ljava/lang/String;)Ljavax/crypto/Mac;
 
     move-result-object v4
 
-    .line 99
+    .line 105
     new-instance v0, Ljavax/crypto/spec/SecretKeySpec;
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModSaveSig;->KEY:[B
@@ -387,12 +387,12 @@
 
     invoke-virtual {v4, v0}, Ljavax/crypto/Mac;->init(Ljava/security/Key;)V
 
-    .line 100
+    .line 106
     const/high16 v0, 0x10000
 
     new-array v5, v0, [B
 
-    .line 102
+    .line 108
     array-length v6, v3
 
     move v1, v2
@@ -404,7 +404,7 @@
 
     aget-object v2, v3, v1
 
-    .line 103
+    .line 109
     invoke-virtual {v2}, Ljava/io/File;->isFile()Z
 
     move-result v7
@@ -421,14 +421,14 @@
 
     if-lez v7, :cond_47
 
-    .line 102
+    .line 108
     :cond_44
     :goto_44
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_2f
 
-    .line 104
+    .line 110
     :cond_47
     invoke-virtual {v2}, Ljava/io/File;->getName()Ljava/lang/String;
 
@@ -442,19 +442,19 @@
 
     invoke-virtual {v4, v7}, Ljavax/crypto/Mac;->update([B)V
 
-    .line 105
+    .line 111
     const/4 v7, 0x0
 
     invoke-virtual {v4, v7}, Ljavax/crypto/Mac;->update(B)V
 
-    .line 106
+    .line 112
     new-instance v7, Ljava/io/FileInputStream;
 
     invoke-direct {v7, v2}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
     :try_end_5d
     .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_5d} :catch_6d
 
-    .line 109
+    .line 115
     :goto_5d
     :try_start_5d
     invoke-virtual {v7, v5}, Ljava/io/FileInputStream;->read([B)I
@@ -471,38 +471,38 @@
 
     goto :goto_5d
 
-    .line 111
+    .line 117
     :catchall_68
     move-exception v0
 
     :try_start_69
     invoke-virtual {v7}, Ljava/io/FileInputStream;->close()V
 
-    .line 112
+    .line 118
     throw v0
     :try_end_6d
     .catch Ljava/lang/Throwable; {:try_start_69 .. :try_end_6d} :catch_6d
 
-    .line 118
+    .line 124
     :catch_6d
     move-exception v0
 
-    .line 119
+    .line 125
     const-string v0, ""
 
     goto :goto_12
 
-    .line 111
+    .line 117
     :cond_71
     :try_start_71
     invoke-virtual {v7}, Ljava/io/FileInputStream;->close()V
 
-    .line 113
+    .line 119
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_44
 
-    .line 115
+    .line 121
     :cond_77
     if-nez v0, :cond_7c
 
@@ -510,13 +510,13 @@
 
     goto :goto_12
 
-    .line 116
+    .line 122
     :cond_7c
     invoke-virtual {v4}, Ljavax/crypto/Mac;->doFinal()[B
 
     move-result-object v0
 
-    .line 117
+    .line 123
     const/4 v1, 0x0
 
     array-length v2, v0
@@ -541,7 +541,7 @@
 
     if-nez p0, :cond_7
 
-    .line 68
+    .line 72
     :cond_6
     :goto_6
     return-void
@@ -744,7 +744,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSaveSig;->keep:Landroid/os/FileObserver;
 
-    .line 64
+    .line 68
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModSaveSig;->keep:Landroid/os/FileObserver;
 
     invoke-virtual {v0}, Landroid/os/FileObserver;->startWatching()V
@@ -753,7 +753,7 @@
 
     goto/16 :goto_6
 
-    .line 65
+    .line 69
     :catch_c1
     move-exception v0
 

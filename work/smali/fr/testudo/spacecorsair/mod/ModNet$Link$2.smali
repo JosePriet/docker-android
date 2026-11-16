@@ -23,7 +23,7 @@
     .registers 2
 
     .prologue
-    .line 948
+    .line 1025
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     invoke-direct {p0}, Ljava/io/InputStream;-><init>()V
@@ -37,7 +37,7 @@
     .registers 3
 
     .prologue
-    .line 971
+    .line 1048
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     monitor-enter v1
@@ -46,7 +46,7 @@
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModNet$Link;->inSize:I
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1000(Lfr/testudo/spacecorsair/mod/ModNet$Link;)I
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1100(Lfr/testudo/spacecorsair/mod/ModNet$Link;)I
 
     move-result v0
 
@@ -77,15 +77,15 @@
 
     const/4 v2, 0x0
 
-    .line 950
+    .line 1027
     new-array v0, v1, [B
 
-    .line 951
+    .line 1028
     invoke-virtual {p0, v0, v2, v1}, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->read([BII)I
 
     move-result v1
 
-    .line 952
+    .line 1029
     if-gez v1, :cond_c
 
     const/4 v0, -0x1
@@ -110,21 +110,21 @@
     .end annotation
 
     .prologue
-    .line 956
+    .line 1033
     if-nez p3, :cond_4
 
     const/4 v0, 0x0
 
-    .line 962
+    .line 1039
     :goto_3
     return v0
 
-    .line 957
+    .line 1034
     :cond_4
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModNet$Link;->soTimeout:I
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$900(Lfr/testudo/spacecorsair/mod/ModNet$Link;)I
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1000(Lfr/testudo/spacecorsair/mod/ModNet$Link;)I
 
     move-result v0
 
@@ -137,7 +137,7 @@
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModNet$Link;->soTimeout:I
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$900(Lfr/testudo/spacecorsair/mod/ModNet$Link;)I
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1000(Lfr/testudo/spacecorsair/mod/ModNet$Link;)I
 
     move-result v2
 
@@ -145,19 +145,19 @@
 
     add-long/2addr v0, v2
 
-    .line 958
+    .line 1035
     :goto_18
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     monitor-enter v2
 
-    .line 960
+    .line 1037
     :goto_1b
     :try_start_1b
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModNet$Link;->inSize:I
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1000(Lfr/testudo/spacecorsair/mod/ModNet$Link;)I
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1100(Lfr/testudo/spacecorsair/mod/ModNet$Link;)I
 
     move-result v3
 
@@ -166,7 +166,7 @@
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModNet$Link;->take([BII)I
-    invoke-static {v0, p1, p2, p3}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1100(Lfr/testudo/spacecorsair/mod/ModNet$Link;[BII)I
+    invoke-static {v0, p1, p2, p3}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1200(Lfr/testudo/spacecorsair/mod/ModNet$Link;[BII)I
 
     move-result v0
 
@@ -174,7 +174,7 @@
 
     goto :goto_3
 
-    .line 968
+    .line 1045
     :catchall_2b
     move-exception v0
 
@@ -184,19 +184,19 @@
 
     throw v0
 
-    .line 957
+    .line 1034
     :cond_2e
     const-wide v0, 0x7fffffffffffffffL
 
     goto :goto_18
 
-    .line 961
+    .line 1038
     :cond_34
     :try_start_34
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModNet$Link;->closed:Z
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1200(Lfr/testudo/spacecorsair/mod/ModNet$Link;)Z
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1300(Lfr/testudo/spacecorsair/mod/ModNet$Link;)Z
 
     move-result v3
 
@@ -210,12 +210,12 @@
 
     throw v0
 
-    .line 962
+    .line 1039
     :cond_44
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModNet$Link;->finSeen:Z
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1300(Lfr/testudo/spacecorsair/mod/ModNet$Link;)Z
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1400(Lfr/testudo/spacecorsair/mod/ModNet$Link;)Z
 
     move-result v3
 
@@ -227,12 +227,12 @@
 
     goto :goto_3
 
-    .line 963
+    .line 1040
     :cond_4f
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModNet$Link;->dead:Z
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1400(Lfr/testudo/spacecorsair/mod/ModNet$Link;)Z
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1500(Lfr/testudo/spacecorsair/mod/ModNet$Link;)Z
 
     move-result v3
 
@@ -246,7 +246,7 @@
 
     throw v0
 
-    .line 964
+    .line 1041
     :cond_5f
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
@@ -254,7 +254,7 @@
 
     sub-long v4, v0, v4
 
-    .line 965
+    .line 1042
     const-wide/16 v6, 0x0
 
     cmp-long v3, v4, v6
@@ -271,7 +271,7 @@
     :try_end_73
     .catchall {:try_start_34 .. :try_end_73} :catchall_2b
 
-    .line 966
+    .line 1043
     :cond_73
     :try_start_73
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$2;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;

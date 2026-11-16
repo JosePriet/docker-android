@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 2695
+    .line 2802
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$44;->val$addr:Ljava/lang/String;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$44;->val$a:Landroid/app/Activity;
@@ -49,12 +49,12 @@
     .registers 3
 
     .prologue
-    .line 2697
+    .line 2804
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$44;->val$addr:Ljava/lang/String;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->join(Ljava/lang/String;)V
 
-    .line 2698
+    .line 2805
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$44;->val$a:Landroid/app/Activity;
 
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModLan$44$1;
@@ -63,6 +63,6 @@
 
     invoke-virtual {v0, v1}, Landroid/app/Activity;->runOnUiThread(Ljava/lang/Runnable;)V
 
-    .line 2699
+    .line 2806
     return-void
 .end method

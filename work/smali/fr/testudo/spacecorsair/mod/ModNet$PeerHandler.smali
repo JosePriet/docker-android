@@ -15,5 +15,5 @@
 
 
 # virtual methods
-.method public abstract onPeer(Ljava/net/InetSocketAddress;[BIZ)V
+.method public abstract onPeer(Ljava/net/InetSocketAddress;[BIZ)Z
 .end method
