@@ -32,6 +32,30 @@ def reader(s, sink, stop):
     except Exception as e:
         sink.append((-1, str(e).encode(), time.time()))
 
+def v50_tail(b):
+    """FRAME: count enemy bars (R_BAR) and radar marks; returns (bars, marks, mission) or None."""
+    try:
+        lv, o = rd_utf(b, 0); o += 20
+        n = struct.unpack_from('>H', b, o)[0]; o += 2; bars = 0
+        for _ in range(n):
+            k = b[o]; o += 1
+            if k in (0, 1):
+                o += 2 + 12 + 4; fl = b[o]; o += 1 + 8
+                if k == 1: o += 16 + (8 if fl & 16 else 0)
+            elif k == 2:
+                o += 8 + 4 + 2; _, o = rd_utf(b, o)
+            elif k == 3: o += 8 + 4 + 4
+            elif k == 4: o += 8 + 8 + 12 + 8; bars += 1
+            else: return None
+        o += 9
+        if len(b) - o < 5: return (bars, -1, '')
+        ms, o = rd_utf(b, o); o += 1
+        marks = struct.unpack_from('>H', b, o)[0]
+        return (bars, marks, ms)
+    except Exception as e:
+        return ('err', str(e))
+
+
 def guest(secs, out, shotfile, aim=False):
     po, vo, hexs = open(shotfile).read().split()
     tpl = bytearray(bytes.fromhex(hexs)); po = int(po); vo = int(vo)
@@ -83,6 +107,9 @@ def guest(secs, out, shotfile, aim=False):
     print('GUEST level=%s frames=%d defs=%d recs(min/avg/max)=%s states_sent=%d shots_sent=%d bytes=%d errs=%s' % (
         level, len(frames), len(defs), (min(recs), sum(recs) // len(recs), max(recs)) if recs else None, sent, shots,
         sum(len(b) for _, b, _ in got), errs[:1]))
+    tails = [v50_tail(b) for b in frames]
+    good = [t for t in tails if t and t[0] != 'err']
+    print('GUEST v50 bars(max)=%s marks(min/max)=%s mission=%s bad=%d' % (max([t[0] for t in good] or [None]), (min([t[1] for t in good]), max([t[1] for t in good])) if good else None, good[-1][2] if good else None, len(tails) - len(good)))
 
 def host(secs, out):
     data = open(out + '/host_stream.bin', 'rb').read()
