@@ -125,5 +125,6 @@
  "The lobby service is busy today. Try later, or play a local game.": "El servicio de salas está saturado hoy. Prueba más tarde o juega una partida local.",
  "The lobby service refused the request.": "El servicio de salas rechazó la solicitud.",
  "Report sent.": "Reporte enviado.",
- "The report could not be sent.": "No se pudo enviar el reporte."
+ "The report could not be sent.": "No se pudo enviar el reporte.",
+ "This session used up its share of the free relay. Direct connections and local games still work.": "Esta sesión agotó su parte del repetidor gratuito. Las conexiones directas y las partidas locales siguen funcionando."
 }
