@@ -222,6 +222,17 @@ elif [ $GAME = sc ]; then
     for k in 1 2 3 4 5 6; do sleep 4; shot lan_leanguest_$k; need lan_leanguest_$k; done
     wait $PEER; log "EVIDENCE lean guest phase: $(cat $OUT/lan_lean_host_peer.txt | tr '\n' ' ')"
     log "EVIDENCE lean log: $(grep -E "ModTest.*: lan" $LG | tail -6 | sed 's/^.*): //' | tr '\n' ' ')"
+    put corsair_lan off; sleep 4
+    # v45 small stream in a fight: enemies spawned next to the hosting ship, which fires; the peer reports bytes per second
+    timeout 10 adb forward tcp:37001 tcp:37001
+    put corsair_lan host; sleep 4
+    python3 tests/lan_peer.py guest 30 $OUT tests/lan_shot.txt > $OUT/lan_lean_fight_peer.txt 2>&1 & PEER=$!
+    sleep 3; put corsair_spawn rat; sleep 2; put corsair_spawn frelon,elite; sleep 2; put corsair_spawn albatros,elite
+    for k in 1 2 3 4; do a shell input tap 1700 700; sleep 1; a shell input tap 1700 700; sleep 3; shot lan_leanfight_$k; need lan_leanfight_$k; a shell input tap 1700 700; sleep 1; done
+    wait $PEER; log "EVIDENCE lean fight phase: $(cat $OUT/lan_lean_fight_peer.txt | tr '\n' ' ')"
+    log "EVIDENCE lean fight log: $(grep -E "ModTest.*: lan" $LG | tail -6 | sed 's/^.*): //' | tr '\n' ' ')"
+    log "EVIDENCE guest declared: $(grep -E "guest declared" $LG | tail -3 | sed 's/^.*): //' | tr '\n' ' ')"
+    a shell "rm -f $T/corsair_spawn"; timeout 10 adb forward --remove tcp:37001
     put corsair_lan off; sleep 3; a shell "rm -f $T/corsair_lean"
     grep -E "ModTest.*: lan|ModTest.*: lobby|ModTest.*: save|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v50l_events.txt
     rm -f $OUT/host_stream.bin

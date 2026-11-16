@@ -104,6 +104,7 @@ def guest(secs, out, shotfile, aim=False):
     n = struct.unpack('>H', recv_all(s, 2))[0]; hc = recv_all(s, n).decode('utf-8', 'replace')
     print('GUEST accepted by host nick=%r country=%r' % (hn, hc))
     s.sendall(msg(MSG_CHAT, utf('hello from the test peer')))
+    s.sendall(msg(13, struct.pack('>iiff', 5, 0, 300.0, 100.0) + utf('') + utf('noSuchLaser') + utf('') + utf('')))   # v45 declaration: level 5, an unknown laser (flagged, level tables used)
     got, stop = [], [False]
     threading.Thread(target=reader, args=(s, got, stop), daemon=True).start()
     s.sendall(msg(MSG_DEF, struct.pack('>H', 1) + utf('Lrv_raider')))
