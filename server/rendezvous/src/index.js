@@ -228,6 +228,7 @@ export class Registry {
     const pub = f.pub === "1";
     const id = idOf(f.id);
     if (id.length < 16) return reply("bad", { why: "id" }, null, 400);
+    if (pub && this.env.PUBLIC_OPEN !== "1") return reply("closed", {}, null, 403);   // listed games are switched off for now
     if (pub && f.clean !== "1") return reply("save", {}, null, 403);          // an edited save cannot host publicly
     if (pub && await this.banned(id)) return reply("banned", {}, null, 403);
     if (!this.allow("mk:" + ik, 10, 60 * 60 * 1000)) return reply("slow", { why: "10 lobbies an hour" }, null, 429);
@@ -253,6 +254,7 @@ export class Registry {
   }
 
   list(ver) {
+    if (this.env.PUBLIC_OPEN !== "1") return reply("ok", { n: 0 }, []);
     const t = this.now();
     const c = this.listCache.get(ver);
     if (c && t - c.at < 10000) return c.body.clone();

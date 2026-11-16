@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import java.util.List;
 import android.widget.TextView;
 import fr.testudo.spacecorsair.engine.ObjectRegistry;
 import fr.testudo.spacecorsair.textengine.TextSize;
@@ -555,6 +556,179 @@ final class ModLanUi {
             });
         } catch (Throwable t) {
             // no chat on this screen
+        }
+    }
+
+    // ------------------------------------------------------------------ v45: public list with flags, refreshed by itself
+    interface CodeCb { void code(String c); }
+
+    /** The public games on this version: flag, nickname, sector, level, PvP, seats. One tap joins. Refreshed every 20 s while open. */
+    static void publicList(final Activity a, final CodeCb join) {
+        try {
+            final float d = a.getResources().getDisplayMetrics().density;
+            final ArrayList<String[]> rows = new ArrayList<String[]>();
+            final TextView note = new TextView(a);
+            note.setPadding((int) (20 * d), (int) (10 * d), (int) (20 * d), (int) (6 * d));
+            note.setText(ModLang.tr("Loading the list..."));
+            final ArrayAdapter<String[]> ad = new ArrayAdapter<String[]>(a, android.R.layout.simple_list_item_1, rows) {
+                @Override public View getView(int pos, View old, ViewGroup parent) {
+                    TextView t = old instanceof TextView ? (TextView) old : new TextView(a);
+                    String[] r = getItem(pos);
+                    t.setPadding((int) (20 * d), (int) (12 * d), (int) (20 * d), (int) (12 * d));
+                    t.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                    t.setText(label(r[1], r[2]) + "  ·  " + r[0] + "  ·  " + r[4] + "  ·  " + ModLang.tr("Lv") + " " + r[5]
+                        + "  ·  " + ("1".equals(r[3]) ? ModLang.tr("PvP on") : ModLang.tr("PvP off")) + "  ·  " + r[6] + "/2");
+                    t.setCompoundDrawables(flagDrawable(a, r[2], d), null, null, null);
+                    t.setCompoundDrawablePadding((int) (10 * d));
+                    t.setAlpha("2".equals(r[6]) ? 0.5f : 1.0f);
+                    return t;
+                }
+            };
+            ListView lv = new ListView(a);
+            lv.setAdapter(ad);
+            LinearLayout box = new LinearLayout(a);
+            box.setOrientation(LinearLayout.VERTICAL);
+            box.addView(note);
+            box.addView(lv);
+            final AlertDialog dlg = new AlertDialog.Builder(a).setTitle(ModLang.tr("Public games (internet)")).setView(box)
+                .setPositiveButton(ModLang.tr("Refresh"), null).setNegativeButton(ModLang.tr("Close"), null).create();
+            final Handler h = new Handler(Looper.getMainLooper());
+            final boolean[] loading = {false};
+            final Runnable[] load = new Runnable[1];
+            load[0] = new Runnable() {
+                public void run() {
+                    h.removeCallbacks(this);
+                    if (!dlg.isShowing() || a.isFinishing()) return;
+                    h.postDelayed(this, 20000);   // again in 20 s while the list is open
+                    if (loading[0]) return;
+                    loading[0] = true;
+                    new Thread(new Runnable() {
+                        public void run() {
+                            ModLobby.status = "";
+                            final List<String[]> got = ModLobby.list();
+                            final String st = ModLobby.status;
+                            h.post(new Runnable() {
+                                public void run() {
+                                    loading[0] = false;
+                                    if (!dlg.isShowing()) return;
+                                    rows.clear();
+                                    rows.addAll(got);
+                                    ad.notifyDataSetChanged();
+                                    note.setText(got.isEmpty() ? (st.length() > 0 ? st : ModLang.tr("No public games right now. Host one, or look again in a moment."))
+                                        : ModLang.tr("Tap a game to join. The list refreshes by itself."));
+                                }
+                            });
+                        }
+                    }, "lobby-list").start();
+                }
+            };
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> p, View v, int pos, long id) {
+                    if (pos < 0 || pos >= rows.size() || "2".equals(rows.get(pos)[6])) return;   // full
+                    String c = rows.get(pos)[0];
+                    dlg.dismiss();
+                    join.code(c);
+                }
+            });
+            dlg.setOnDismissListener(new DialogInterface.OnDismissListener() { public void onDismiss(DialogInterface x) { h.removeCallbacks(load[0]); } });
+            dlg.show();
+            dlg.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() { public void onClick(View v) { load[0].run(); } });   // stays open
+            load[0].run();
+        } catch (Throwable t) {
+            // no dialog
+        }
+    }
+
+    static final String CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";   // no 0 O 1 I
+
+    /** The characters of a typed or pasted code that the alphabet has, upper case, at most max. */
+    static String codeChars(CharSequence in, int max) {
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; in != null && i < in.length() && b.length() < max; i++) {
+            char c = Character.toUpperCase(in.charAt(i));
+            if (CODE_ALPHABET.indexOf(c) >= 0) b.append(c);
+        }
+        return b.toString();
+    }
+
+    /** Join by code: four boxes, one character each; typing moves on, delete moves back, a pasted code fills them all. */
+    static void codeBoxes(final Activity a, final CodeCb join) {
+        try {
+            final float d = a.getResources().getDisplayMetrics().density;
+            final EditText[] bx = new EditText[4];
+            LinearLayout row = new LinearLayout(a);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setGravity(Gravity.CENTER);
+            row.setPadding(0, (int) (8 * d), 0, (int) (8 * d));
+            final boolean[] busy = {false};
+            final AlertDialog[] dlg = new AlertDialog[1];
+            final Runnable check = new Runnable() {
+                public void run() {
+                    boolean full = true;
+                    for (EditText e : bx) if (e.getText().length() != 1) full = false;
+                    Button ok = dlg[0] == null ? null : dlg[0].getButton(AlertDialog.BUTTON_POSITIVE);
+                    if (ok != null) ok.setEnabled(full);
+                }
+            };
+            for (int i = 0; i < 4; i++) {
+                final int at = i;
+                final EditText e = new EditText(a);
+                e.setSingleLine(true);
+                e.setGravity(Gravity.CENTER);
+                e.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+                e.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                e.setSelectAllOnFocus(true);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (56 * d), ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.setMargins((int) (6 * d), 0, (int) (6 * d), 0);
+                row.addView(e, lp);
+                bx[i] = e;
+                e.addTextChangedListener(new TextWatcher() {
+                    public void beforeTextChanged(CharSequence q, int st, int c, int n) { }
+                    public void onTextChanged(CharSequence q, int st, int b, int c) { }
+                    public void afterTextChanged(Editable ed) {
+                        if (busy[0]) return;
+                        busy[0] = true;
+                        try {
+                            String ok = codeChars(ed, 4);
+                            // one character stays here; the rest of a paste goes on into the next boxes
+                            for (int k = 0; k < ok.length() && at + k < 4; k++) bx[at + k].setText(ok.substring(k, k + 1));
+                            if (ok.length() == 0) e.setText("");
+                            int next = Math.min(3, at + Math.max(ok.length(), 0));
+                            if (ok.length() > 0 && at + ok.length() <= 3) bx[next].requestFocus();
+                            else if (ok.length() > 0) bx[3].setSelection(bx[3].getText().length());
+                        } finally {
+                            busy[0] = false;
+                        }
+                        check.run();
+                    }
+                });
+                e.setOnKeyListener(new View.OnKeyListener() {
+                    public boolean onKey(View v, int code, android.view.KeyEvent ev) {
+                        if (code == android.view.KeyEvent.KEYCODE_DEL && ev.getAction() == android.view.KeyEvent.ACTION_DOWN && e.getText().length() == 0 && at > 0) {
+                            bx[at - 1].setText("");
+                            bx[at - 1].requestFocus();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+            }
+            dlg[0] = new AlertDialog.Builder(a).setTitle(ModLang.tr("Join by code")).setMessage(ModLang.tr("Type the 4-character code your friend sees on the host screen."))
+                .setView(row)
+                .setPositiveButton(ModLang.tr("Join"), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface x, int w) {
+                        StringBuilder b = new StringBuilder();
+                        for (EditText e : bx) b.append(e.getText());
+                        String c = codeChars(b, 4);
+                        if (c.length() == 4) join.code(c);
+                    }
+                }).setNegativeButton(ModLang.tr("Close"), null).create();
+            dlg[0].getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            dlg[0].show();
+            check.run();
+            bx[0].requestFocus();
+        } catch (Throwable t) {
+            // no dialog
         }
     }
 }

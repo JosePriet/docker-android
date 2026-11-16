@@ -126,5 +126,7 @@
  "The lobby service refused the request.": "El servicio de salas rechazó la solicitud.",
  "Report sent.": "Reporte enviado.",
  "The report could not be sent.": "No se pudo enviar el reporte.",
- "This session used up its share of the free relay. Direct connections and local games still work.": "Esta sesión agotó su parte del repetidor gratuito. Las conexiones directas y las partidas locales siguen funcionando."
+ "This session used up its share of the free relay. Direct connections and local games still work.": "Esta sesión agotó su parte del repetidor gratuito. Las conexiones directas y las partidas locales siguen funcionando.",
+ "Public games open in a later version. Private games with a code work now.": "Las partidas públicas se abrirán en una versión posterior. Las partidas privadas con código ya funcionan.",
+ "Tap a game to join. The list refreshes by itself.": "Toca una partida para unirte. La lista se actualiza sola."
 }

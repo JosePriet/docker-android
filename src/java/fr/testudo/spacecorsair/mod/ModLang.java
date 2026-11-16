@@ -224,6 +224,21 @@ public class ModLang {
     }
 
     /** Spanish for a mod-side English string when Spanish is active; otherwise (or when missing) the input. */
+    private static Map<String, String> back;
+
+    /** The English text behind a translated one (the reverse of {@link #tr}); the text itself when it is not a translation. */
+    public static String en(String shown) {
+        if (shown == null || !spanish()) return shown;
+        Map<String, String> b = back;
+        if (b == null) {
+            b = new java.util.HashMap<String, String>();
+            for (Map.Entry<String, String> e : dict().entrySet()) if (!b.containsKey(e.getValue())) b.put(e.getValue(), e.getKey());
+            back = b;
+        }
+        String s = b.get(shown);
+        return s != null ? s : shown;
+    }
+
     public static String tr(String en) {
         if (en == null || !spanish()) return en;
         String s = dict().get(en);

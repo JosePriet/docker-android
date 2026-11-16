@@ -27,7 +27,7 @@ async function call(reg, method, path, fields, ip) {
 
 const ID = (c) => c.repeat(32);
 const st = storage();
-const reg = new Registry({ storage: st }, { METERED_APP: "demo", METERED_KEY: "k", RELAY_CAP_GB: "18", DAILY_REQUESTS: "90000" });
+const reg = new Registry({ storage: st }, { METERED_APP: "demo", METERED_KEY: "k", RELAY_CAP_GB: "18", DAILY_REQUESTS: "90000", PUBLIC_OPEN: "1" });
 let now = 1000000;
 reg.now = () => now;
 
@@ -161,7 +161,7 @@ is("unreach x2 hides the lobby", (await call(reg, "POST", "/lobby/" + p3.code + 
 }
 
 // the object sleeps: memory is lost, lobbies come back from storage without addresses
-const reg2 = new Registry({ storage: st }, { METERED_APP: "demo", METERED_KEY: "k" });
+const reg2 = new Registry({ storage: st }, { METERED_APP: "demo", METERED_KEY: "k", PUBLIC_OPEN: "1" });
 reg2.now = () => now;
 const aw = await call(reg2, "POST", "/lobby/" + p3.code + "/join", { ...guest, id: ID("5") }, "8.8.8.2");
 is("after a sleep the lobby is still there, addresses not yet", aw.first === "ok" && aw.cands === "" && aw.fresh === "0" && aw.sid === "-77");
@@ -175,7 +175,7 @@ is("a closed lobby leaves storage", [...st.m.keys()].filter((k) => k === "lobby:
 
 // fixed relay credential (a plan without the provider's API)
 {
-  const rf = new Registry({ storage: storage() }, { RELAY_USER: "fu", RELAY_PASS: "fp", RELAY_HOST: "free.relay.metered.ca", RELAY_PORT: "443" });
+  const rf = new Registry({ storage: storage() }, { RELAY_USER: "fu", RELAY_PASS: "fp", RELAY_HOST: "free.relay.metered.ca", RELAY_PORT: "443", PUBLIC_OPEN: "1" });
   let out = 0;
   rf.fetchOut = async () => { out++; return new Response("{}"); };
   const hf = await call(rf, "POST", "/lobby", { ...host, id: ID("a") }, "12.0.0.1");
@@ -184,12 +184,21 @@ is("a closed lobby leaves storage", [...st.m.keys()].filter((k) => k === "lobby:
   is("fixed relay credential still refused to a stranger", (await call(rf, "POST", "/turn", { code: hf.code, id: ID("4") }, "12.0.0.2")).status === 403);
 }
 
+// listed games switched off
+{
+  const rc = new Registry({ storage: storage() }, {});
+  is("public hosting refused while listed games are off", (await call(rc, "POST", "/lobby", { ...host, id: ID("a") }, "13.0.0.1")).first === "closed");
+  const pv = await call(rc, "POST", "/lobby", { ...host, id: ID("a"), pub: "0" }, "13.0.0.1");
+  is("private games still open", pv.first === "ok" && pv.code.length === 4);
+  is("the list is empty while listed games are off", (await call(rc, "GET", "/lobbies?ver=" + encodeURIComponent(host.ver), null, "13.0.0.2")).n === "0");
+}
+
 // daily stop
-const r2 = new Registry({ storage: storage() }, { DAILY_REQUESTS: "1000" });
+const r2 = new Registry({ storage: storage() }, { DAILY_REQUESTS: "1000", PUBLIC_OPEN: "1" });
 let busy = 0;
 for (let i = 0; i < 1005; i++) { const r = await call(r2, "GET", "/lobbies?ver=x", null, "10.0." + (i >> 8) + "." + (i & 255)); if (r.first === "busy") busy++; }
 is("daily request stop", busy === 5);
-const r3 = new Registry({ storage: storage() }, { DAILY_REQUESTS: "1000" });
+const r3 = new Registry({ storage: storage() }, { DAILY_REQUESTS: "1000", PUBLIC_OPEN: "1" });
 for (let i = 0; i < 3000; i++) await call(r3, "GET", "/lobbies?ver=x", null, "11.0.0.1");
 is("one flooding caller does not use up the day for everyone", (await call(r3, "GET", "/lobbies?ver=x", null, "11.0.0.2")).first === "ok");
 is("garbage does not crash", (await call(reg, "POST", "/lobby/%00%ff/join", { id: "\u0000" })).status < 500 && (await call(reg, "GET", "/nothing")).status === 404);

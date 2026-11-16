@@ -1,0 +1,239 @@
+package fr.testudo.spacecorsair.mod;
+
+import fr.testudo.spacecorsair.business.loot.SpaceObjectType;
+import fr.testudo.spacecorsair.business.loot.stuff.GearSpec;
+import fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpec;
+import fr.testudo.spacecorsair.business.loot.stuff.missile.MissileSpec;
+import fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec;
+import fr.testudo.spacecorsair.business.loot.stuff.shield.ShieldSpec;
+import fr.testudo.spacecorsair.business.player.PlayerGear;
+import fr.testudo.spacecorsair.business.player.PlayerInfo;
+import fr.testudo.spacecorsair.business.player.XpBuilder;
+import fr.testudo.spacecorsair.engine.ObjectRegistry;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+/**
+ * v45 host-side checks against the game's own tables (SPEC-FINAL section 2).
+ *
+ * The guest declares what it flies: level, hull, refit level, laser, missile, shield (names of the game's item list).
+ * The host looks each one up in ITS OWN copy of the tables and derives ceilings: damage of one shot, damage per second,
+ * hull and shield points. Whatever the guest then sends is clamped to those ceilings and counted as a flag. A name the
+ * host does not have, or an item above the declared level, falls back to the best stock item of that level.
+ *
+ * The ceilings are generous (a legitimate build never reaches them): they stop a modified client from sending shots
+ * of any size, not a good player.
+ */
+final class ModLanCheck {
+    private ModLanCheck() { }
+
+    /** Hull bonus, weapon fit, refit and faction trait, critical hits and alterations together stay well under this. */
+    static final float DMG_SLACK = 12f;
+    /** Refit (+30%), faction trait (+20%) and rounding. */
+    static final float HULL_SLACK = 1.3f * 1.2f * 1.15f;
+    static final float SHIELD_SLACK = 2.5f;
+    /** A hull with a doomsday weapon: its beam is 100 000 damage a second by the owner's rule. */
+    static final float DOOMSDAY_DPS = 150000f;
+    static final int MAX_NAME = 64;
+
+    static final class Decl {
+        int level, refit;
+        float maxHull, maxShield;   // what the guest's own game shows
+        String ship = "", laser = "", missile = "", shield = "";
+
+        boolean same(Decl o) {
+            return o != null && level == o.level && refit == o.refit && maxHull == o.maxHull && maxShield == o.maxShield && ship.equals(o.ship) && laser.equals(o.laser) && missile.equals(o.missile) && shield.equals(o.shield);
+        }
+    }
+
+    static final class Limits {
+        float shot, dps, hull, shield;
+        int shotsPerSec;
+        int flags;        // what the declaration itself got wrong (unknown item, item above the level)
+        boolean exact;    // false = no usable declaration: the level's best stock items stand in
+    }
+
+    // ------------------------------------------------------------------ the declaration
+    static Decl mine() {
+        Decl d = new Decl();
+        try {
+            PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
+            PlayerGear g = pi.playerGear;
+            d.level = pi.level;
+            d.ship = name(g.playerShip);
+            d.laser = name(g.laser);
+            d.missile = name(g.missile);
+            d.shield = name(g.shield);
+            d.refit = ModV35.level(g.playerShip);
+            fr.testudo.spacecorsair.business.player.PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+            if (ps != null) { d.maxHull = ps.maxLife; d.maxShield = ps.shield != null ? ps.shield.capacity : 0; }
+        } catch (Throwable t) {
+            // an empty declaration: the host uses the level's tables
+        }
+        return d;
+    }
+
+    private static String name(SpaceObjectType t) { return t == null ? "" : t.name(); }
+
+    static byte[] encode(Decl d) throws IOException {
+        ByteArrayOutputStream bo = new ByteArrayOutputStream(96);
+        DataOutputStream o = new DataOutputStream(bo);
+        o.writeInt(d.level);
+        o.writeInt(d.refit);
+        o.writeFloat(d.maxHull); o.writeFloat(d.maxShield);
+        o.writeUTF(d.ship); o.writeUTF(d.laser); o.writeUTF(d.missile); o.writeUTF(d.shield);
+        o.flush();
+        return bo.toByteArray();
+    }
+
+    static Decl decode(byte[] b) throws IOException {
+        if (b == null || b.length > 600) throw new IOException("declaration too large");
+        DataInputStream in = new DataInputStream(new ByteArrayInputStream(b));
+        Decl d = new Decl();
+        d.level = in.readInt();
+        d.refit = in.readInt();
+        d.maxHull = in.readFloat(); d.maxShield = in.readFloat();
+        d.ship = ModLan.clean(in.readUTF(), MAX_NAME);
+        d.laser = ModLan.clean(in.readUTF(), MAX_NAME);
+        d.missile = ModLan.clean(in.readUTF(), MAX_NAME);
+        d.shield = ModLan.clean(in.readUTF(), MAX_NAME);
+        return d;
+    }
+
+    // ------------------------------------------------------------------ the tables
+    private static volatile float[][] best;   // per level: [laser shot, laser dps, missile shot, missile dps, hull booster, shield capacity]
+
+    private static int maxLevel() { return XpBuilder.PLAYER_SHIP_LIFE.length - 1; }
+
+    static int levelOf(int declared) { return Math.max(1, Math.min(maxLevel(), declared)); }
+
+    /** The item of this name in this phone's tables, or null (an enum lookup: never loads or runs anything). */
+    static GearSpec spec(String n) {
+        try {
+            if (n == null || n.length() == 0 || n.length() > MAX_NAME) return null;
+            return SpaceObjectType.valueOf(n).getGearSpec();
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
+    static float laserDps(LaserSpec l) {
+        try { float v = l.getDps(); return v > 0 && !Float.isNaN(v) && !Float.isInfinite(v) ? v : 0; } catch (Throwable t) { return 0; }
+    }
+
+    static float missileDps(MissileSpec m) {
+        float dmg = Math.max(m.damage, m.radiusDamage);
+        return m.reloadSpeedInMilli > 0 ? dmg * 1000f / m.reloadSpeedInMilli : dmg;
+    }
+
+    /** The strongest stock values an item of each level (or lower) has. Built once from the item list. */
+    static float[][] best() {
+        float[][] b = best;
+        if (b != null) return b;
+        int n = maxLevel() + 1;
+        b = new float[n][6];
+        for (SpaceObjectType t : SpaceObjectType.values()) {
+            GearSpec g;
+            try { g = t.getGearSpec(); } catch (Throwable e) { continue; }
+            if (g == null) continue;
+            String tn = t.name().toLowerCase(java.util.Locale.US);
+            if (tn.contains("debug") || tn.contains("godmode") || tn.contains("cheat")) continue;   // developer items are not the level's best stock item
+            int l = Math.max(0, Math.min(n - 1, g.level));
+            if (g instanceof LaserSpec) {
+                b[l][0] = Math.max(b[l][0], ((LaserSpec) g).damage);
+                b[l][1] = Math.max(b[l][1], laserDps((LaserSpec) g));
+            } else if (g instanceof MissileSpec) {
+                b[l][2] = Math.max(b[l][2], Math.max(((MissileSpec) g).damage, ((MissileSpec) g).radiusDamage));
+                b[l][3] = Math.max(b[l][3], missileDps((MissileSpec) g));
+            } else if (g instanceof PlayerShipSpec) {
+                b[l][4] = Math.max(b[l][4], ((PlayerShipSpec) g).lifeBooster);
+            } else if (g instanceof ShieldSpec) {
+                b[l][5] = Math.max(b[l][5], ((ShieldSpec) g).capacity);
+            }
+        }
+        for (int l = 1; l < n; l++) for (int k = 0; k < 6; k++) b[l][k] = Math.max(b[l][k], b[l - 1][k]);   // "this level or lower"
+        best = b;
+        return b;
+    }
+
+    // ------------------------------------------------------------------ the ceilings
+    /** Ceilings for a declaration; null declaration = the top of the tables (nothing declared yet). */
+    static Limits limits(Decl d) {
+        Limits m = new Limits();
+        float[][] bs = best();
+        int L = d == null ? maxLevel() : levelOf(d.level);
+        float[] top = bs[L];
+        if (d != null && d.level != L) m.flags++;
+        float shot = top[0], dps = top[1] * 4, mShot = top[2], mDps = top[3], booster = top[4], shield = top[5];
+        int cannons = 4;
+        boolean doomsday = d == null;
+        float hullDmg = 1f, hullShield = 1f;
+        m.exact = false;
+        if (d != null) {
+            GearSpec ship = spec(d.ship), laser = spec(d.laser), missile = spec(d.missile), sh = spec(d.shield);
+            // the level is the guest's own word, so an item is not refused for being above it: it must exist in the tables
+            boolean okShip = ship instanceof PlayerShipSpec, okLaser = laser instanceof LaserSpec;
+            if (!okShip) booster = bs[bs.length - 1][4];   // unknown hull: the sturdiest hull of the list, so a real ship is never shown weaker
+            if (d.ship.length() > 0 && !okShip) m.flags++;
+            if (d.laser.length() > 0 && !okLaser) m.flags++;
+            if (d.refit < 0 || d.refit > ModV35.REFIT_MAX) m.flags++;
+            if (okShip) {
+                PlayerShipSpec ps = (PlayerShipSpec) ship;
+                booster = ps.lifeBooster;
+                cannons = Math.max(1, Math.max(ps.canonCount, ps.laserCount));
+                try {
+                    ModShips.Hull h = ModShips.hullFor(ps);
+                    if (h != null) { hullDmg = Math.max(1f, h.dmg); hullShield = Math.max(1f, h.shieldCap); doomsday = h.doomsday; }
+                } catch (Throwable t) { /* a stock hull */ }
+            }
+            if (okLaser) {
+                shot = ((LaserSpec) laser).damage;
+                dps = laserDps((LaserSpec) laser) * cannons;
+            } else dps = top[1] * cannons;
+            if (missile instanceof MissileSpec) {
+                mShot = Math.max(((MissileSpec) missile).damage, ((MissileSpec) missile).radiusDamage);
+                mDps = missileDps((MissileSpec) missile);
+            } else if (d.missile.length() > 0) m.flags++;
+            if (sh instanceof ShieldSpec) shield = ((ShieldSpec) sh).capacity;
+            else if (d.shield.length() > 0) m.flags++;
+            m.exact = okShip && okLaser;
+        }
+        m.shot = DMG_SLACK * hullDmg * Math.max(1f, Math.max(shot, mShot));
+        m.dps = DMG_SLACK * hullDmg * Math.max(1f, dps + mDps);
+        if (doomsday) { m.shot = Math.max(m.shot, DOOMSDAY_DPS); m.dps += DOOMSDAY_DPS; }
+        m.hull = Math.max(1f, XpBuilder.PLAYER_SHIP_LIFE[L] * Math.max(0.1f, booster) * HULL_SLACK);
+        m.shield = Math.max(1f, shield * hullShield * SHIELD_SLACK);
+        m.shotsPerSec = 300;
+        if (d != null) {   // the numbers the guest's game shows, against the tables
+            if (!(d.maxHull >= 0) || d.maxHull > m.hull) m.flags++;
+            if (!(d.maxShield >= 0) || d.maxShield > m.shield) m.flags++;
+        }
+        return m;
+    }
+
+    // ------------------------------------------------------------------ damage per second (host, game thread)
+    private static float room;
+    private static long roomAt;
+
+    static void reset() { room = 0; roomAt = 0; }
+
+    /**
+     * The damage this shot may carry: at most the shot ceiling, and at most what is left of three seconds' worth of the
+     * damage-per-second ceiling (refilled over time). 0 = nothing left; the caller counts a flag when it gets less than it asked.
+     */
+    static float allow(Limits m, float damage, long now) {
+        if (m == null || damage <= 0) return Math.max(0, damage);
+        float burst = 3f * m.dps;
+        if (roomAt == 0) room = burst;
+        else room = Math.min(burst, room + m.dps * Math.max(0, now - roomAt) / 1000f);
+        roomAt = now;
+        float d = Math.min(damage, m.shot);
+        if (d > room) d = Math.max(0, room);
+        room -= d;
+        return d;
+    }
+}

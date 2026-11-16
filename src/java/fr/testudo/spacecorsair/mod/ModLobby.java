@@ -36,6 +36,9 @@ final class ModLobby {
 
     static boolean available() { return SERVICE.length() > 0; }
 
+    /** Public (listed) games. Off until the host-side checks and the sync are verified; private codes work regardless. */
+    static final boolean PUBLIC_ON = false;
+
     // ------------------------------------------------------------------ service calls
     static final class Reply {
         String first = "";
@@ -235,8 +238,8 @@ final class ModLobby {
 
     static volatile boolean relayFull;
 
-    /** Relayed data one session may use, both ways (the free relay plan is 0.5 GB a month for all players). */
-    static final long RELAY_SESSION_BYTES = 30L << 20;
+    /** Relayed data one session may use, both ways (the free relay plan is 20 GB a month for all players). */
+    static final long RELAY_SESSION_BYTES = 150L << 20;
     private static volatile ModNet.Link budgetLink;
     private static volatile long budgetBase;
 
@@ -255,7 +258,7 @@ final class ModLobby {
         leave();
         final long g = ++gen;
         hosting = true;
-        pub = isPublic;
+        pub = isPublic && PUBLIC_ON;
         busy = true;
         code = "";
         status = ModLang.tr("Opening the game...");
@@ -409,18 +412,15 @@ final class ModLobby {
                 "clean", ModSaveSig.publicOk() ? "1" : "0", "cands", cands, "hide", hide ? "1" : "0", "sid", "" + sid};
             Reply r = call("POST", "/lobby/" + jc + "/join", base);
             if (!r.ok()) { status = refusal(r); return false; }
-            ModNet.Turn turn = relay(w, jc, "");
-            if (turn != null && turn.relayed != null) {
-                String[] more = new String[base.length + 2];
-                System.arraycopy(base, 0, more, 0, base.length);
-                more[base.length] = "relay"; more[base.length + 1] = ModNet.show(turn.relayed);
-                base = more;
-                Reply r2 = call("POST", "/lobby/" + jc + "/join", more);
+            if (hide) {   // relay only: nothing else may carry this phone's address
+                base = withRelay(w, jc, base);
+                if (base == null) {
+                    status = relayFull ? ModLang.tr("Relay full this month; try Local or another network.")
+                        : ModLang.tr("\"Hide my IP\" needs the relay, and the relay is not available right now.");
+                    return false;
+                }
+                Reply r2 = call("POST", "/lobby/" + jc + "/join", base);
                 if (r2.ok()) r = r2;
-            } else if (hide) {
-                status = relayFull ? ModLang.tr("Relay full this month; try Local or another network.")
-                    : ModLang.tr("\"Hide my IP\" needs the relay, and the relay is not available right now.");
-                return false;
             }
             for (int i = 0; i < 5 && g == gen && r.get("cands").length() == 0 && r.get("relay").length() == 0; i++) {
                 Thread.sleep(3000);   // the service has the lobby but not the host's addresses yet: they come with the host's next heartbeat
@@ -428,26 +428,26 @@ final class ModLobby {
                 if (r3.ok()) r = r3; else if (r3.status != 0) { status = refusal(r3); return false; }
             }
             if (g != gen) return false;
-            l = new ModNet.Link(w, sid);
             status = ModLang.tr("Reaching the host...");
-            final String[] again = base;
-            final ModNet.Link fl = l;
-            Thread rep = new Thread(new Runnable() {   // the join is repeated while reaching the host, in case the service lost it before the host saw it
-                public void run() {
-                    try {
-                        for (int i = 0; i < 4; i++) {
-                            Thread.sleep(8000);
-                            if (g != gen || fl.isConnected() || fl.isClosed()) return;
-                            Reply ra = call("POST", "/lobby/" + jc + "/join", again);
-                            if (ra.ok()) fl.addTargets(addrs(ra.get("cands")), ModNet.parse(ra.get("relay")));   // the host's addresses may have changed
-                        }
-                    } catch (Throwable e) { /* done */ }
-                }
-            }, "lobby-rejoin");
-            rep.setDaemon(true);
-            rep.start();
-            boolean ok = l.connect(addrs(r.get("cands")), ModNet.parse(r.get("relay")), hide, 14000, 40000);
+            l = new ModNet.Link(w, sid);
+            repeatJoin(g, jc, base, l);
+            // direct first (also straight to a hidden host's relay address); the relay is asked for only when that fails
+            boolean ok = l.connect(addrs(r.get("cands")), ModNet.parse(r.get("relay")), hide, 6000, hide ? 40000 : 15000);
             if (g != gen) { l.abandon(); return false; }
+            if (!ok && !hide) {
+                l.abandon();
+                ModDev.ev("lobby", "direct path failed: asking for the relay");
+                String[] more = withRelay(w, jc, base);
+                if (more != null) {
+                    base = more;
+                    Reply r2 = call("POST", "/lobby/" + jc + "/join", base);
+                    if (r2.ok()) r = r2;
+                    l = new ModNet.Link(w, sid);
+                    repeatJoin(g, jc, base, l);
+                    ok = l.connect(addrs(r.get("cands")), ModNet.parse(r.get("relay")), false, 0, 30000);
+                    if (g != gen) { l.abandon(); return false; }
+                }
+            }
             if (!ok) {
                 l.abandon();
                 call("POST", "/lobby/" + jc + "/unreach", "id", ModSaveSig.installId());
@@ -474,6 +474,34 @@ final class ModLobby {
             busy = false;
             if (w != null && (l == null || link != l)) w.close();
         }
+    }
+
+    /** The join fields plus this phone's relay address; null = no relay (off, full, or it does not answer). */
+    private static String[] withRelay(ModNet.Wire w, String jc, String[] base) {
+        ModNet.Turn turn = relay(w, jc, "");
+        if (turn == null || turn.relayed == null) return null;
+        String[] more = new String[base.length + 2];
+        System.arraycopy(base, 0, more, 0, base.length);
+        more[base.length] = "relay"; more[base.length + 1] = ModNet.show(turn.relayed);
+        return more;
+    }
+
+    /** The join is repeated while reaching the host, in case the service lost it before the host saw it. */
+    private static void repeatJoin(final long g, final String jc, final String[] again, final ModNet.Link fl) {
+        Thread rep = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    for (int i = 0; i < 4; i++) {
+                        Thread.sleep(8000);
+                        if (g != gen || fl.isConnected() || fl.isClosed()) return;
+                        Reply ra = call("POST", "/lobby/" + jc + "/join", again);
+                        if (ra.ok()) fl.addTargets(addrs(ra.get("cands")), ModNet.parse(ra.get("relay")));   // the host's addresses may have changed
+                    }
+                } catch (Throwable e) { /* done */ }
+            }
+        }, "lobby-rejoin");
+        rep.setDaemon(true);
+        rep.start();
     }
 
     /** While a guest: the relayed-bytes report and the data saver follow the link. */
@@ -535,6 +563,7 @@ final class ModLobby {
         if ("banned".equals(f)) return ModLang.tr("You were removed by several hosts. Public games are locked for 24 hours.");
         if ("kicked".equals(f)) return ModLang.tr("The host removed you from this game.");
         if ("save".equals(f)) return ModLang.tr("Your save was changed outside the game. Public games are locked for 24 hours; private codes and local games still work.");
+        if ("closed".equals(f)) return ModLang.tr("Public games open in a later version. Private games with a code work now.");
         if ("slow".equals(f)) return ModLang.tr("Too many tries. Wait a few minutes.");
         if ("busy".equals(f)) return ModLang.tr("The lobby service is busy today. Try later, or play a local game.");
         return ModLang.tr("The lobby service refused the request.");

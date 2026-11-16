@@ -276,5 +276,54 @@ public class V49 {
             is("save: signature is stable and changes with the content", ModSaveSig.sign("abc".getBytes()).equals(ModSaveSig.sign("abc".getBytes())) && !ModSaveSig.sign("abc".getBytes()).equals(ModSaveSig.sign("abd".getBytes())) && ModSaveSig.sign("abc".getBytes()).length() == 64);
             is("pvp room: the other player can be hit in sectors only when on", true);
         }
+        // ---- v45: checks against the tables, code entry, guest position
+        {
+            ModLanCheck.Limits top = ModLanCheck.limits(null);
+            is("check: no declaration = the top of the tables (" + (int) top.shot + " a shot, " + (int) top.dps + " a second, hull " + (int) top.hull + ")", top.shot > 0 && top.dps > 0 && top.hull > 0 && !top.exact);
+            ModLanCheck.Decl d = new ModLanCheck.Decl();
+            d.level = 5;
+            fr.testudo.spacecorsair.business.loot.SpaceObjectType laserT = null, shipT = null;
+            for (fr.testudo.spacecorsair.business.loot.SpaceObjectType t : fr.testudo.spacecorsair.business.loot.SpaceObjectType.values()) {
+                fr.testudo.spacecorsair.business.loot.stuff.GearSpec g;
+                try { g = t.getGearSpec(); } catch (Throwable e) { continue; }
+                if (laserT == null && g instanceof fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpec && ((fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpec) g).damage > 0) laserT = t;
+                if (shipT == null && g instanceof fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec) shipT = t;
+            }
+            is("check: the item list has lasers and hulls", laserT != null && shipT != null);
+            d.laser = laserT.name(); d.ship = shipT.name();
+            fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpec ls = (fr.testudo.spacecorsair.business.loot.stuff.laser.LaserSpec) laserT.getGearSpec();
+            fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec ss = (fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec) shipT.getGearSpec();
+            ModLanCheck.Limits m = ModLanCheck.limits(d);
+            float hullWant = fr.testudo.spacecorsair.business.player.XpBuilder.PLAYER_SHIP_LIFE[5] * Math.max(0.1f, ss.lifeBooster) * ModLanCheck.HULL_SLACK;
+            is("check: a declared laser and hull give ceilings from this phone's tables (shot " + (int) m.shot + ", hull " + (int) m.hull + ")",
+                m.exact && m.flags == 0 && m.shot >= ModLanCheck.DMG_SLACK * ls.damage && m.shot <= top.shot * 100 && Math.abs(m.hull - hullWant) < 1f);
+            ModLanCheck.Decl lie = new ModLanCheck.Decl();
+            lie.level = 99999; lie.laser = "noSuchLaser"; lie.ship = "java.lang.Runtime"; lie.maxHull = 1.0e9f; lie.maxShield = Float.NaN;
+            ModLanCheck.Limits lm = ModLanCheck.limits(lie);
+            is("check: unknown items, an impossible level and impossible hull numbers are flagged, ceilings stay finite (flags " + lm.flags + ")", lm.flags >= 5 && !lm.exact && lm.shot > 0 && lm.shot < 1.0e9f && lm.hull < 1.0e9f);
+            ModLanCheck.Decl rt = ModLanCheck.decode(ModLanCheck.encode(d));
+            is("check: declaration round-trip", rt.same(d));
+            boolean big = false;
+            try { ModLanCheck.decode(new byte[700]); } catch (java.io.IOException e) { big = true; }
+            is("check: an oversized declaration is refused", big);
+            ModLanCheck.reset();
+            long t0 = 1000000;
+            float one = ModLanCheck.allow(m, 1.0e9f, t0);
+            is("check: one shot is cut to the shot ceiling", one == Math.min(m.shot, 3 * m.dps));
+            float sum = one;
+            for (int i = 0; i < 100000; i++) sum += ModLanCheck.allow(m, m.shot, t0);
+            is("check: a burst cannot pass three seconds of the damage-per-second ceiling", sum <= 3 * m.dps * 1.001f && ModLanCheck.allow(m, m.shot, t0) == 0);
+            float later = ModLanCheck.allow(m, m.shot, t0 + 1000);
+            is("check: damage room comes back with time", later > 0 && later <= m.dps * 1.001f);
+            is("check: a normal shot passes untouched", ModLanCheck.allow(m, ls.damage * 0.5f, t0 + 60000) == ls.damage * 0.5f);
+            is("code entry: only the code alphabet, upper case, 4 at most", ModLanUi.codeChars("a0b1c-d2e", 4).equals("ABCD") && ModLanUi.codeChars("oO0iI1", 4).equals("") && ModLanUi.codeChars("zz99zz", 4).equals("ZZ99"));
+            long now = 5000000000L;
+            float[] at = ModLan.posOf(ModLan.posLine("Vector 3", 120.5f, -40f, now), "Vector 3", now + 5000);
+            is("guest position: read back for the same sector", at != null && at[0] == 120.5f && at[1] == -40f);
+            is("guest position: another sector, an old record or bad numbers give nothing", ModLan.posOf(ModLan.posLine("Vector 3", 1, 2, now), "Vector 4", now) == null
+                && ModLan.posOf(ModLan.posLine("Vector 3", 1, 2, now), "Vector 3", now + 8L * 24 * 3600 * 1000) == null
+                && ModLan.posOf("Vector 3|NaN|2|" + now, "Vector 3", now) == null && ModLan.posOf("x", "x", now) == null);
+            is("text: English stays English when the phone is not Spanish", "CO-OP".equals(ModLang.en("CO-OP")));
+        }
     }
 }
