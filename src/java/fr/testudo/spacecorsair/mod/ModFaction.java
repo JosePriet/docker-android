@@ -92,7 +92,8 @@ public class ModFaction extends MissionListener {
             System.arraycopy(base, 0, story, 0, base.length);
             System.arraycopy(fin, 0, story, base.length, fin.length);
             String[] hk = ModRepData.KEYS;
-            Object[][] r = new Object[story.length + con.length + hk.length][];   // v35: one renegade hunt per faction after the contracts
+            Object[][] lr = LANCE_ROWS;   // v43a-17: the Phoenix Lance honour missions after the hunts
+            Object[][] r = new Object[story.length + con.length + hk.length + lr.length][];   // v35: one renegade hunt per faction after the contracts
             System.arraycopy(story, 0, r, 0, story.length);
             int[] n = new int[ModRepData.KEYS.length];
             for (int i = 0; i < con.length; i++) {
@@ -114,10 +115,34 @@ public class ModFaction extends MissionListener {
                     contractGoal("BOUNTY", 0), "The renegade is down and the core is recovered.", ModLang.tr("The contract has lapsed. The offer stands if you want to try again."),
                     110000, "", ++n[ModFaction.commander(k)], false, true};
             }
+            System.arraycopy(lr, 0, r, story.length + con.length + hk.length, lr.length);
             rows = r;
         }
         return rows;
     }
+
+    // ------------------------------------------------------------------ v43a-17 Phoenix Lance honour missions (owner 2026-11-15)
+    /** Order of the honour rows: not a contract, not a story step, not a finale (ModV35.finale stops below it). */
+    static final int LANCE_ORDER = 9;
+    /** The donation: credits + rare parts, taken in Spartan HQ (owner: "a fixed amount of credits/items"). */
+    static final int TITHE_CREDITS = 2000000, TITHE_PARTS = 5;
+    // columns as the story rows (0-16), 17 unused number, 18 amends, 19 hunt, 20 lance. Text: Claude (EN), ES in i18n/gpt/v48_lance_es.json.
+    private static final Object[][] LANCE_ROWS = {
+        {"spartan", LANCE_ORDER, "Trial of the Phoenix", "BOUNTY", "HUGO_WISDOM", "HUGO_WISDOM", 1, 0, "", "Ashmaw, Reaver Warlord", "",
+            "Captain, your Monolith has risen in its phoenix form, and the council honours it. One trial remains before the Lance is yours: Ashmaw, the Reaver warlord who burned the Halcyon convoy, is raiding Hugo Wisdom. End him, and the Republic will place the Phoenix Lance in your hands.",
+            "Hunt down Ashmaw, the Reaver warlord, in Hugo Wisdom.",
+            "Ashmaw is ash. The council places the Phoenix Lance in your hands, Captain. Its fire is yours.",
+            "Ashmaw slipped away. The council's offer stands when you are ready to try again.",
+            900000, ModLance.BASE, 0, false, false, true},
+        {"spartan", LANCE_ORDER, "Tithe of the Phoenix", "DONATE", "SPARTAN_HQ", "SPARTAN_HQ", 1, 0, "", "", "",
+            "Captain, the council honours your phoenix. If you would rather serve the Republic's forges than its front line, a tithe of 2,000,000 credits and 5 rare parts will fund the next Lance, and the first one will be yours. The tithe is taken when you are in Spartan HQ with the full amount aboard.",
+            "Bring 2,000,000 credits and 5 rare parts to Spartan HQ.",
+            "The forges are lit with your tithe. The Phoenix Lance is yours, Captain. Wear its fire well.",
+            "The tithe was not paid. The council's offer stands.",
+            0, ModLance.BASE, 0, false, false, true},
+    };
+
+    static boolean lance(int i) { Object[] row = rows()[i]; return row.length > 20 && Boolean.TRUE.equals(row[20]); }
 
     private static String contractGoal(String obj, int count) {
         if ("FIND_OBJECT".equals(obj)) return ModLang.tr("Follow the signal and recover the marked object.");
@@ -147,7 +172,8 @@ public class ModFaction extends MissionListener {
     static int order(int i) { return num(i, 1); }
     static String objective(int i) { return str(i, 3); }
     static int minLevel(int i) { return ModV34.lvl(num(i, 6)); }   // v34: data levels are on the stock 0-16 scale
-    static String id(int i) { return contract(i) ? "FACTION_C_" + key(i).toUpperCase() + "_" + num(i, 17) : "FACTION_" + key(i).toUpperCase() + "_" + order(i); }
+    static String id(int i) { if (lance(i)) return "FACTION_LANCE_" + ("DONATE".equals(objective(i)) ? "TITHE" : "TRIAL");
+        return contract(i) ? "FACTION_C_" + key(i).toUpperCase() + "_" + num(i, 17) : "FACTION_" + key(i).toUpperCase() + "_" + order(i); }
 
     static int faction(String key) {
         for (int i = 0; i < ModCapitals.FACTIONS.length; i++) if (ModCapitals.FACTIONS[i].key.equals(key)) return i;
@@ -171,6 +197,12 @@ public class ModFaction extends MissionListener {
         String tier = item.endsWith("L15") ? ModLang.tr("Siege ") : item.endsWith("L10") ? ModLang.tr("Heavy ") : item.endsWith("L5") ? ModLang.tr("Standard ") : ModLang.tr("Light ");
         String base = item.replaceAll("L\\d+$", "");
         for (int k = 0; k < FAMILY_LABEL.length; k += 2) if (FAMILY_LABEL[k].equals(base)) return tier + FAMILY_LABEL[k + 1];
+        try {
+            String l = ModLance.label(SpaceObjectType.valueOf(item));   // v43a-17
+            if (l != null) return l;
+        } catch (Throwable t) {
+            // raw name
+        }
         return item;
     }
 
@@ -206,7 +238,7 @@ public class ModFaction extends MissionListener {
                 Mission m = new Mission(id(i), fr.testudo.spacecorsair.R.string.missionGenesisTuerChefPillard, TEXT_DESC + i, TEXT_DONE + i,
                     false, minLevel(i), new ModFaction(i), MissionReward.withObject(loot, contract(i) ? 4000 : 900 * minLevel(i), num(i, 15) / 3), contract(i));
                 m.localizedName = contract(i) ? (amends(i) ? ModLang.tr("Amends: ") : ModLang.tr("Contract: ")) + str(i, 2) : str(i, 2);
-                m.restrictedMissionId = order(i) > 1 && order(i) != 4 ? id(i - 1) : null;   // v35: the finale opens at L34 on its own (owner 2026-10-22)
+                m.restrictedMissionId = order(i) > 1 && order(i) != 4 && !lance(i) ? id(i - 1) : null;   // v35: the finale opens at L34 on its own (owner 2026-10-22)
                 ms[i] = m;
             }
             missions = ms;
@@ -240,7 +272,7 @@ public class ModFaction extends MissionListener {
                 if (rank <= ModRep.HOSTILE) continue;                       // the commander will not talk
                 if (rank >= ModRep.NEUTRAL) {
                     for (int i = 0; i < ms.length; i++) {
-                        if (contract(i) || !key(i).equals(k) || ModV35.finale(order(i))) continue;
+                        if (contract(i) || !key(i).equals(k) || ModV35.finale(order(i)) || lance(i)) continue;
                         if (ObjectRegistry.INSTANCE.missionRepository.hasDoneMission(id(i))) continue;
                         if (cur != ms[i] && plv < minLevel(i) - 2 && !testHail) break;      // the chain opens up with the pilot's level
                         if (!list.contains(ms[i])) list.add(ms[i]);
@@ -265,6 +297,9 @@ public class ModFaction extends MissionListener {
                 for (int n = 0; n < 2 && !pool.isEmpty(); n++) {
                     int pick = pool.remove((int) ((day * 7 + fi * 3 + n * 5) % pool.size()));
                     if (!list.contains(ms[pick])) list.add(ms[pick]);
+                }
+                if (ModLance.offerOpen() && "spartan".equals(k)) {   // v43a-17: a Monolith reached form V: the honour missions (task or tithe)
+                    for (int i = 0; i < ms.length; i++) if (lance(i) && !list.contains(ms[i])) list.add(ms[i]);
                 }
                 if (rank >= ModRep.FRIENDLY && ModV35.huntLeft(k) == 0) {
                     for (int i = 0; i < ms.length; i++) if (hunt(i) && key(i).equals(k) && !list.contains(ms[i])) { list.add(ms[i]); ModV35.huntNote(); }
@@ -409,6 +444,7 @@ public class ModFaction extends MissionListener {
         ModRep.change(key(idx), ModV35.missionStanding(contract(idx), order(idx)), true);   // v35 (v34 req 13)
         if (!contract(idx) && order(idx) == 3) ModV34.storyDone(key(idx));
         if (hunt(idx)) ModV35.huntDone(key(idx));
+        if (lance(idx)) ModLance.onUnlock();   // v43a-17
         if ("KILL_FLAGSHIP".equals(obj) && str(idx, 8).length() > 0) ModRep.change(str(idx, 8), -0.8f, true);
         int bonus = Math.round(ModQol.missionPay(num(idx, 15) / 3) * ModRep.payoutBonus(key(idx)));   // v35: bonus on the real payout
         if (bonus > 0) {
@@ -558,7 +594,7 @@ public class ModFaction extends MissionListener {
     // ------------------------------------------------------------------ spawning
     private int foeLevel() {
         int base = minLevel(idx);
-        if (contract(idx)) {
+        if (contract(idx) || lance(idx)) {   // v43a-17: Ashmaw scales with the pilot too
             // contracts scale with the pilot
             try { base = Math.max(1, Math.min(ModV34.CAP, ObjectRegistry.INSTANCE.game.playerInfo.level)); } catch (Throwable t) { base = 5; }
         }
@@ -819,12 +855,13 @@ public class ModFaction extends MissionListener {
             if (b != null) {
                 b.setElite(true);
                 name(b, str(idx, 9));
-                b.maxLife *= hunt(idx) ? 8 : 4;   // owner 2026-10-22: the renegade captain is tougher
+                b.maxLife *= lance(idx) ? 10 : hunt(idx) ? 8 : 4;   // owner 2026-10-22: the renegade captain is tougher; v43a-17 Ashmaw x10
                 b.life = b.maxLife;
                 b.lifeInPourc = 100;
                 if (b.lifeBar != null) b.lifeBar.setValue(100);
                 target = place(b, center, null, true, false);
-                for (int k = 0; k < (hunt(idx) ? 4 : 2); k++) place(foe(varn ? VARN : REAVER, false), away(center, 150, 400), null, false, false);
+                if (lance(idx)) ModLance.forceHolder(b);   // v43a-17: Ashmaw fights with the Phoenix Lance
+                for (int k = 0; k < (lance(idx) ? 5 : hunt(idx) ? 4 : 2); k++) place(foe(varn ? VARN : REAVER, false), away(center, 150, 400), null, false, false);
             }
         } else if ("KILL_ENEMY_TYPE".equals(obj)) {
             post(Math.min(3, goal - progress), center, 300, false);
@@ -910,6 +947,7 @@ public class ModFaction extends MissionListener {
     @Override
     public void onDoPhysic(long j) {
         PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+        if ("DONATE".equals(obj)) { donateTick(ps, j); return; }   // v43a-17 tithe: nothing to fly, paid in Spartan HQ
         if (completed || !inZone || ps == null || ps.removed) return;
         if (!setupDone) {
             // wait for the sector (and its flagship) to be built before placing anything
@@ -1101,6 +1139,34 @@ public class ModFaction extends MissionListener {
             return;
         }
         complete();
+    }
+
+    private int donateMs;
+    private boolean donateTold;
+
+    /** v43a-17: in Spartan HQ with the full tithe aboard, it is taken and the mission completes; short of it, the commander says what is missing (once per visit). */
+    private void donateTick(PlayerShip ps, long j) {
+        if (completed || ps == null) return;
+        donateMs -= j;
+        if (donateMs > 0) return;
+        donateMs = 1000;
+        if (!sectorIs(LevelId.SPARTAN_HQ)) { donateTold = false; return; }
+        fr.testudo.spacecorsair.business.player.Inventory inv = ObjectRegistry.INSTANCE.game.playerCurrentShipInventory;
+        int parts = ModV35.parts();
+        if (inv.getCredit() >= TITHE_CREDITS && parts >= TITHE_PARTS) {
+            SharedPreferences p = prefs();
+            if (p == null) return;
+            inv.removeCredit(TITHE_CREDITS);
+            p.edit().putInt("v35_parts", parts - TITHE_PARTS).commit();
+            ModDev.ev("lance", "tithe paid " + TITHE_CREDITS + " cr + " + TITHE_PARTS + " parts");
+            complete();
+            return;
+        }
+        if (!donateTold) {
+            donateTold = true;
+            ModComms.show(key(idx), ModLang.tr("The tithe is 2,000,000 credits and 5 rare parts. You carry ") + credits((int) Math.min(Integer.MAX_VALUE, inv.getCredit()))
+                + ModLang.tr(" credits and ") + parts + ModLang.tr(" rare parts."), 9000);
+        }
     }
 
     private static boolean sectorIs(LevelId id) {
@@ -1313,6 +1379,7 @@ public class ModFaction extends MissionListener {
         LevelId where = activeSector();
         int branch, val = 0;
         if (completed) branch = 0;
+        else if ("DONATE".equals(obj)) return str(idx, 12);
         else if (where == null) return str(idx, 12);
         else if (!inZone) branch = 1;
         else if (phase == 1 && "DELIVERY".equals(obj)) branch = 7;

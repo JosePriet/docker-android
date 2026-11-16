@@ -154,6 +154,8 @@ public final class ModTitan {
     public static Drawable bullet(EnergyBullet e) {
         try {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+            Drawable lance = ModLance.bullet(e);   // v43a-17 Phoenix Lance bolts (player and enemy holders)
+            if (lance != null) return lance;
             if (e.sender instanceof fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip) return ModCapitals.bullet(e);
             if (e.sender != null && e.sender != ps) {
                 Drawable fs = ModEnemyGuns.bullet(e);   // v43a-15: faction ships, police and stations: faction shot art

@@ -147,6 +147,7 @@ public final class ModCaps {
         if (shopTick <= 0) {
             shopTick = 1000;
             ModWeapons.stockShops();
+            ModLance.slowTick(ps);   // v43a-17 Phoenix Lance prompt, shop, test switches
             testWeapon(ps);
             ModCapitals.testSpawn(ps);
             ModDev.testV30(ps);
@@ -170,6 +171,7 @@ public final class ModCaps {
         ModPolice.tick(ps, j);   // v42 police escalation
         ModStationGuns.tick(ps, j);   // v44 station turrets
         ModEnemyGuns.tick(ps, j);   // v43a-15 faction weapon signatures
+        ModLance.tick(ps, j);   // v43a-17 Phoenix Lance heat, burn, sweep
         ModRep.tick(ps, j);
         ModAlerts.tick(ps, j);
         ModShield.tick(ps, j);
@@ -180,6 +182,7 @@ public final class ModCaps {
             ModFx.clear();
             ModCapitals.onLevel();
             ModEnemyGuns.onLevel();
+            ModLance.onLevel();
             ModWreck.onLevel();
             ModTitanAI.resetPlayer(ps);
             ModDerelict.onLevel(ps);
@@ -472,6 +475,7 @@ public final class ModCaps {
             ModFx.drawParticles(true);
             long nowMs = System.currentTimeMillis();
             ModEnemyGuns.draw(ps);   // v43a-15 aim lines, landing rings
+            ModLance.draw(ps);   // v43a-17 Phoenix Lance streams
             ModWeapons.drawArcs(lastDraw == 0 ? 16 : Math.min(100, nowMs - lastDraw));
             lastDraw = nowMs;
 

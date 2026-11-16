@@ -23,5 +23,6 @@ for k, v in json.load(open(S + '/i18n/gpt/v43_es.json', encoding='utf-8')).items
 for k, v in json.load(open(S + '/i18n/gpt/v46_es.json', encoding='utf-8')).items(): d[k] = v   # prologue + police overshield strings (Claude ES 2026-11-14; owner: simple strings need no GPT pass)
 for k, v in json.load(open(S + '/i18n/gpt/v43a16_es.json', encoding='utf-8')).items(): d[k] = v   # v43a-16 Hornet s5 (Claude ES)
 for k, v in json.load(open(S + '/i18n/gpt/v49_lan_es.json', encoding='utf-8')).items(): d[k] = v   # v49 LAN co-op (Claude ES)
+for k, v in json.load(open(S + '/i18n/gpt/v48_lance_es.json', encoding='utf-8')).items(): d[k] = v   # v43a-17 Phoenix Lance (Claude ES 2026-11-15; owner: simple strings need no GPT pass)
 json.dump(d, open(S + '/i18n/lang/es_full.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=0, sort_keys=True)
 print('entries', len(d))

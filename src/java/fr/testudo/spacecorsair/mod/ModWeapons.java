@@ -166,12 +166,16 @@ public final class ModWeapons {
     }
 
     public static String label(SpaceObjectType t) {
+        String lance = ModLance.label(t);   // v43a-17
+        if (lance != null) return lance;
         int[] ft = parse(t.name());
         if (ft != null && ft.length > 2) return TIER_NAME[ft[1]] + " " + RESKIN_NAME[ft[2]];
         return ft == null ? null : TIER_NAME[ft[1]] + " " + NAME[ft[0]];
     }
 
     public static String desc(SpaceObjectType t) {
+        String lance = ModLance.desc(t);   // v43a-17
+        if (lance != null) return lance;
         int[] ft = parse(t.name());
         if (ft == null) return null;
         String d;
@@ -335,6 +339,7 @@ public final class ModWeapons {
     /** Hook: EnergyBullet.onImpactWithElement (before the hit's damage is applied). */
     public static void onImpact(EnergyBullet b, Element target) {
         try {
+            if (ModLance.onImpact(b, target)) return;   // v43a-17 Phoenix Lance (no family)
             int f = familyOf(b);
             if (f < 0 || target == null) return;
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
