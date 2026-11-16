@@ -4,8 +4,8 @@
 #                                   to the host, fires a shot every 2 s, records the host's stream to OUTDIR/host_stream.bin
 #   host  SECONDS OUTDIR          : listens on 0.0.0.0:37001, replays OUTDIR/host_stream.bin to the game joining as guest
 #                                   (damage counter climbing), records what the guest sends
-import socket, struct, sys, time, threading
-MSG_DEF, MSG_FRAME, MSG_STATE, MSG_SHOT, MSG_BYE = 1, 2, 3, 4, 5
+import socket, struct, sys, time, threading, zlib
+MSG_DEF, MSG_FRAME, MSG_STATE, MSG_SHOT, MSG_BYE, MSG_Z, MSG_CHAT, MSG_KILL = 1, 2, 3, 4, 5, 6, 7, 8
 
 def utf(s):
     b = s.encode('utf-8'); return struct.pack('>H', len(b)) + b
@@ -28,9 +28,22 @@ def reader(s, sink, stop):
     try:
         while not stop[0]:
             h = recv_all(s, 5); t, n = struct.unpack('>BI', h); body = recv_all(s, n)
+            WIRE[0] += n + 5
+            if t == MSG_Z:   # v45: deflated FRAME / STATE = [type][raw length][zlib]
+                t = body[0]; body = zlib.decompress(body[5:])
+            RAW[0] += len(body) + 5
             sink.append((t, body, time.time()))
     except Exception as e:
         sink.append((-1, str(e).encode(), time.time()))
+
+WIRE, RAW = [0], [0]
+
+def hello_guest(s):
+    """v45 handshake as a guest: a wrong version first, so the host names its own; then the real one. Returns the host version."""
+    s.sendall(b'SCLAN2' + utf('?') + utf('Peer') + utf('PAN'))
+    r = recv_all(s, 1)[0]
+    if r != 2: return None
+    n = struct.unpack('>H', recv_all(s, 2))[0]; return recv_all(s, n).decode('utf-8', 'replace')
 
 def v50_tail(b):
     """FRAME: count enemy bars (R_BAR) and radar marks; returns (bars, marks, mission) or None."""
@@ -59,16 +72,29 @@ def v50_tail(b):
 def guest(secs, out, shotfile, aim=False):
     po, vo, hexs = open(shotfile).read().split()
     tpl = bytearray(bytes.fromhex(hexs)); po = int(po); vo = int(vo)
-    s = None
+    s = None; ver = None
     for i in range(30):
         try:
-            s = socket.create_connection(('127.0.0.1', 37001), timeout=5); break
+            s = socket.create_connection(('127.0.0.1', 37001), timeout=5)
+            if ver is None:
+                ver = hello_guest(s); s.close(); s = None
+                print('GUEST host version', ver)
+                if ver is None: time.sleep(1)
+                continue
+            break
         except Exception:
-            time.sleep(1)
+            s = None; time.sleep(1)
     if s is None:
         print('GUEST no connection'); return
     s.settimeout(None); s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-    s.sendall(b'SCLAN1')
+    s.sendall(b'SCLAN2' + utf(ver) + utf('Peer') + utf('PAN'))
+    r = recv_all(s, 1)[0]
+    if r != 0:
+        print('GUEST refused', r); return
+    n = struct.unpack('>H', recv_all(s, 2))[0]; hn = recv_all(s, n).decode('utf-8', 'replace')
+    n = struct.unpack('>H', recv_all(s, 2))[0]; hc = recv_all(s, n).decode('utf-8', 'replace')
+    print('GUEST accepted by host nick=%r country=%r' % (hn, hc))
+    s.sendall(msg(MSG_CHAT, utf('hello from the test peer')))
     got, stop = [], [False]
     threading.Thread(target=reader, args=(s, got, stop), daemon=True).start()
     s.sendall(msg(MSG_DEF, struct.pack('>H', 1) + utf('Lrv_raider')))
@@ -104,6 +130,8 @@ def guest(secs, out, shotfile, aim=False):
     for b in frames:
         lv, o = rd_utf(b, 0); o += 4 * 3 + 8; recs.append(struct.unpack_from('>H', b, o)[0])
     errs = [b for t, b, _ in got if t == -1]
+    kills = [b for t, b, _ in got if t == MSG_KILL]
+    print('GUEST v45 wire_bytes=%d raw_bytes=%d seconds=%d wire_Bps=%d raw_Bps=%d kills=%d chat=%d' % (WIRE[0], RAW[0], secs, WIRE[0] // max(1, secs), RAW[0] // max(1, secs), len(kills), len([1 for t, b, _ in got if t == MSG_CHAT])))
     print('GUEST level=%s frames=%d defs=%d recs(min/avg/max)=%s states_sent=%d shots_sent=%d bytes=%d errs=%s' % (
         level, len(frames), len(defs), (min(recs), sum(recs) // len(recs), max(recs)) if recs else None, sent, shots,
         sum(len(b) for _, b, _ in got), errs[:1]))
@@ -125,7 +153,13 @@ def host(secs, out):
     except Exception:
         print('HOST nobody joined'); return
     s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-    hello = recv_all(s, 6); print('HOST hello', hello)
+    hello = recv_all(s, 6)
+    hv = []
+    for _ in range(3):
+        n = struct.unpack('>H', recv_all(s, 2))[0]; hv.append(recv_all(s, n).decode('utf-8', 'replace'))
+    print('HOST hello', hello, hv)
+    s.sendall(b'\x00' + utf('PeerHost') + utf('ESP'))   # v45: accepted, then the host's name
+    s.sendall(msg(MSG_CHAT, utf('hello from the test host')))
     got, stop = [], [False]
     threading.Thread(target=reader, args=(s, got, stop), daemon=True).start()
     for t, b in defs: s.sendall(msg(t, b))
@@ -137,6 +171,10 @@ def host(secs, out):
             if time.time() - t0 > 8: dmg += 2.0   # the host's game "hits" the guest: 2 per frame after 8 s
             struct.pack_into('>f', b, o + 8, dmg)
             s.sendall(msg(MSG_FRAME, bytes(b)))
+            if i % 150 == 60:   # v45: a kill for the guest's own loot roll, 200 units from the host
+                hx, hy = struct.unpack_from('>ff', b, o)
+                s.sendall(msg(MSG_KILL, utf('fr.testudo.spacecorsair.business.ennemis.AlienBlatte') + struct.pack('>i?ff', 5, True, hx + 200.0, hy)))
+                s.sendall(msg(MSG_KILL, utf('java.lang.Runtime') + struct.pack('>i?ff', 5, True, hx, hy)))   # refused quietly
             time.sleep(0.033)
         s.sendall(msg(MSG_BYE, b''))
     except Exception as e:
@@ -147,6 +185,7 @@ def host(secs, out):
     for b in states[-3:]:
         alive = b[0]; lv, o = rd_utf(b, 1); x, y, vx, vy, sp, life, mx, hw, hh = struct.unpack_from('>fffffffff', b, o)
         n = struct.unpack_from('>H', b, o + 36)[0]; lives.append((alive, lv, int(x), int(y), int(life), int(mx), n))
+    print('HOST v45 guest wire_bytes=%d raw_bytes=%d wire_Bps=%d' % (WIRE[0], RAW[0], WIRE[0] // max(1, int(time.time() - t0))))
     print('HOST joined by %s frames_sent=%d dmg_total=%.0f guest_states=%d guest_shots=%d last_states=%s' % (addr[0], i, dmg, len(states), len(shots), lives))
 
 if __name__ == '__main__':
