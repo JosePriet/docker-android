@@ -604,8 +604,9 @@ final class ModLanUi {
                     loading[0] = true;
                     new Thread(new Runnable() {
                         public void run() {
-                            ModLobby.status = "";
-                            final List<String[]> got = ModLobby.list();
+                            List<String[]> g0;
+                            try { ModLobby.status = ""; g0 = ModLobby.list(); } catch (Throwable e) { g0 = new ArrayList<String[]>(); }   // the result is always posted, so the next refresh runs
+                            final List<String[]> got = g0;
                             final String st = ModLobby.status;
                             h.post(new Runnable() {
                                 public void run() {

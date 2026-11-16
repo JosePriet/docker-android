@@ -170,7 +170,7 @@ final class ModLanCheck {
         if (d != null && d.level != L) m.flags++;
         float shot = top[0], dps = top[1] * 4, mShot = top[2], mDps = top[3], booster = top[4], shield = top[5];
         int cannons = 4;
-        boolean doomsday = d == null;
+        boolean doomsday = false;   // only a declared doomsday hull gets that allowance
         float hullDmg = 1f, hullShield = 1f;
         m.exact = false;
         if (d != null) {
@@ -226,8 +226,11 @@ final class ModLanCheck {
      * damage-per-second ceiling (refilled over time). 0 = nothing left; the caller counts a flag when it gets less than it asked.
      */
     static float allow(Limits m, float damage, long now) {
-        if (m == null || damage <= 0) return Math.max(0, damage);
+        if (!(damage > 0)) return 0;   // also NaN
+        if (m == null) return damage;
         float burst = 3f * m.dps;
+        if (!(burst > 0) || Float.isInfinite(burst)) return 0;
+        if (Float.isNaN(room) || room < 0) room = 0;
         if (roomAt == 0) room = burst;
         else room = Math.min(burst, room + m.dps * Math.max(0, now - roomAt) / 1000f);
         roomAt = now;

@@ -36,8 +36,8 @@ final class ModLobby {
 
     static boolean available() { return SERVICE.length() > 0; }
 
-    /** Public (listed) games. Off until the host-side checks and the sync are verified; private codes work regardless. */
-    static final boolean PUBLIC_ON = false;
+    /** Public (listed) games. The service has its own switch (PUBLIC_OPEN) and answers "closed" while it is off. */
+    static final boolean PUBLIC_ON = true;
 
     // ------------------------------------------------------------------ service calls
     static final class Reply {

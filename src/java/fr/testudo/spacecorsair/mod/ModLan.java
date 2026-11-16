@@ -526,7 +526,7 @@ public final class ModLan {
         writeLock = wl;
         byeSeen = false;
         strikes = 0;
-        limits = null; hullFlagged = false; declSent = null; declSentAt = 0; declAt = 0; ModLanCheck.reset();
+        limits = null; beganAt = System.currentTimeMillis(); hullFlagged = false; declSent = null; declSentAt = 0; declAt = 0; ModLanCheck.reset();
         ModLanSync.on = internet || ModDev.testValue("corsair_lean") != null;   // the small stream: internet links (and the emulator test switch)
         sock = s;
         synchronized (outLock) { reliable.clear(); latest = null; }
@@ -1270,7 +1270,8 @@ public final class ModLan {
             s.halfW = Math.max(100, Math.min(MAX_VIEW, s.halfW)); s.halfH = Math.max(100, Math.min(MAX_VIEW, s.halfH));
             if (s.maxLife > MAX_HULL || s.maxLife < 0) { s.maxLife = Math.max(0, Math.min(MAX_HULL, s.maxLife)); flags++; }
             ModLanCheck.Limits lm = limits;
-            if (lm != null && s.maxLife > lm.hull) { s.maxLife = lm.hull; if (!hullFlagged) { hullFlagged = true; flags++; } }   // v45: no more hull than the declared ship can have
+            if (lm == null) lm = undeclared();
+            if (s.maxLife > lm.hull) { s.maxLife = lm.hull; if (!hullFlagged) { hullFlagged = true; flags++; } }   // v45: no more hull than the declared ship can have
             s.life = Math.min(s.life, s.maxLife);
             s.n = in.readUnsignedShort();
             if (s.n > 200) throw new IOException("too many ship records");
@@ -1299,8 +1300,8 @@ public final class ModLan {
         } else if (type == MSG_DECL && role == HOST) {
             long now = System.currentTimeMillis();
             if (now - declAt < 500) return;   // a declaration changes when gear changes, not many times a second
-            declAt = now;
             ModLanCheck.Limits lm = ModLanCheck.limits(ModLanCheck.decode(b));
+            declAt = now;
             flags += lm.flags;
             hullFlagged = false;
             limits = lm;
@@ -1771,6 +1772,16 @@ public final class ModLan {
     static final float MAX_SHOT_DMG = 1.0e6f;
     static final float SHOT_REACH = 1500f;       // a shot starts at the ship
     private static volatile ModLanCheck.Limits limits;
+    private static ModLanCheck.Limits noDecl;
+    private static volatile long beganAt;
+    static final long DECL_WAIT_MS = 10000;
+
+    /** Ceilings while the guest has declared nothing: the top of the stock tables, no special allowances. Never stored as the guest's limits. */
+    private static ModLanCheck.Limits undeclared() {
+        ModLanCheck.Limits m = noDecl;
+        if (m == null) noDecl = m = ModLanCheck.limits(null);
+        return m;
+    }
     private static volatile boolean hullFlagged;
     private static long declAt, clampAt, declSentAt;
     static volatile long clamped;
@@ -1903,8 +1914,11 @@ public final class ModLan {
             if (!shotOk(p, from.position.x, from.position.y)) { flags++; p.removed = true; return; }
             // v45: damage clamped to what the declared ship and weapons can do by this phone's own tables
             ModLanCheck.Limits lm = limits;
-            if (lm == null) lm = limits = ModLanCheck.limits(null);
             long nowMs = System.currentTimeMillis();
+            if (lm == null) {   // nothing declared: the plain table ceilings for a few seconds, then no shots at all
+                if (nowMs - beganAt > DECL_WAIT_MS) { if (nowMs - clampAt > 1000) { clampAt = nowMs; flags++; } clamped++; p.removed = true; return; }
+                lm = undeclared();
+            }
             float may = ModLanCheck.allow(lm, p.damage, nowMs);
             if (may < p.damage) {
                 if (nowMs - clampAt > 1000) { clampAt = nowMs; flags++; }   // one flag a second while it lasts
@@ -2249,16 +2263,21 @@ public final class ModLan {
 
     // v45: where an internet or local guest was, kept so the ship is still there after leaving and restarting
     private static long posAt;
-    private static boolean posArmed = true;
+    private static boolean posArmed = true, posLive;
 
     private static void guestPos(PlayerShip ps, long now) {
         try {
             Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
             if (lv == null || lv.id == null) return;
-            if (connected && role == GUEST) {
+            boolean guest = connected && role == GUEST;
+            if (guest || posLive) {
+                // from the first guest session on, the record follows the ship (also after leaving), so it is never an old place
                 posArmed = false;
-                if (now - posAt < 10000 || solo || pvp || ps.removed || ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode || lv.id == LevelId.FFA_THE_PLAYER_PAY) return;
+                if (now - posAt < 10000) return;
+                if (ps.isDocked) { if (posLive) { posLive = false; posAt = now; lanPrefs().edit().remove("pos").apply(); } return; }   // docked: the stock game starts at the station
+                if ((guest && (solo || pvp)) || ps.removed || ObjectRegistry.INSTANCE.game.mapMode || lv.id == LevelId.FFA_THE_PLAYER_PAY) return;
                 posAt = now;
+                posLive = true;
                 lanPrefs().edit().putString("pos", posLine(lv.id.levelName, ps.position.x, ps.position.y, now)).apply();
                 return;
             }
