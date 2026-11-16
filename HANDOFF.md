@@ -51,3 +51,9 @@ v35 is the current TASK.md (owner OK 2026-10-22). Start it in a fresh session pe
 
 GPT section 1 complete (22 faction hulls in incoming/gpt-v34-s1-b*, validated). Owner: keep staged until section 2 (titans) arrives, then integrate all faction ships together, stats as a TASK draft first. Spanish strings, reskin names and counter lore merged (part 8, GPT section 9 partial). GPT handoff for the rest of section 9 and for section 1: /mnt/project-files/space-corsair/gpt-handoff-v34.zip. Owner phone-tests v33 and v34; add GPT's ES strings to i18n; then release. v35 per TASK draft (refits: tier upgrades only enhance what a hull is already good at + one faction strength).
 Previous: owner tests v33 on the phone (flagship fight feel, wreck look, battery balance); then `scripts/release.sh v33 ...`. Key: owner uploads `key.p12` into the session (never in git).
+
+## v45 multiplayer (2026-11-16, branch claude/project-thread-fuw6ke, head c89f615 + this note; NOT merged, NOT released)
+Spec: /mnt/project-files/space-corsair/internet-mp/SPEC-FINAL.md. Change list and test results: /mnt/project-files/audits/v45-multiplayer-changes.md. Build: `MODVER_NAME=v45 bash scripts/check.sh 52`.
+Done: section 1 hardening, part of section 2, LAN diet (deflate, 30 Hz), LAN-side rules and screens (PvP toggle, per-player loot, no-pause hooks53, nickname + flags, chat, lobby menu).
+Next windows, in order: (1) state + events sync (spec 3); (2) rest of anti-cheat (weapon-table damage clamp, save HMAC, install id/bans, report); (3) section 6 (UdpLink, STUN, punching, Cloudflare Worker lobby, Metered relay; owner creates the two free accounts first); (4) small gaps: friendly fire with PvP on, guest death-fee waiver, flags in local list rows, data counter, Hide my IP, flag licence line in credits.
+Untested: anything on phones; chat, accept/decline, kick, reconnect, no-pause were not exercised by the emulator run (sc-v45a, run 128, build 05da05d).
