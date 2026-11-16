@@ -312,7 +312,11 @@ export class Registry {
       let full = this.usage ? this.usage.full : false;
       try {
         const r = await this.fetchOut("https://" + app + ".metered.live/api/v1/turn/current_usage?secretKey=" + encodeURIComponent(key));
-        if (r.ok) { const u = await r.json(); full = Number(u.usageInGB) >= num(this.env.RELAY_CAP_GB, 1, 1000); }
+        if (r.ok) {   // stop at 90% of the plan's monthly quota (and never above RELAY_CAP_GB)
+          const u = await r.json();
+          const quota = Number(u.quotaInGB) > 0 ? Number(u.quotaInGB) * 0.9 : Infinity;
+          full = Number(u.usageInGB) >= Math.min(quota, num(this.env.RELAY_CAP_GB, 1, 1000));
+        }
       } catch (e) { /* keeps the last known state */ }
       this.usage = { at: t, full };
     }
