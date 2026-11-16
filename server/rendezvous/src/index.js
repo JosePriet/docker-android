@@ -16,6 +16,7 @@ const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";   // no 0 O 1 I
 const LOBBY_LIST_MS = 2 * 60 * 1000;      // off the list this long after the last heartbeat
 const LOBBY_LIFE_MS = 2 * 60 * 60 * 1000; // code freed this long after the last heartbeat
 const JOIN_LIFE_MS = 60 * 1000;
+const UNREACH_MS = 10 * 60 * 1000;
 const DAY = 24 * 60 * 60 * 1000;
 
 const clean = (s, max, re) => String(s == null ? "" : s).slice(0, max).replace(re, "");
@@ -35,6 +36,28 @@ function reply(first, fields, rows, status) {
   for (const r of (rows || [])) out += "\n" + r.map((x) => String(x).replace(/[\t\r\n]/g, " ")).join("\t");
   return new Response(out + "\n", { status: status || 200, headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" } });
 }
+
+/** The request body as text, or null when it is larger than max (checked before and while reading). */
+async function readCapped(request, max) {
+  if (parseInt(request.headers.get("content-length") || "0", 10) > max) return null;
+  if (!request.body) return "";
+  const rd = request.body.getReader();
+  const chunks = [];
+  let n = 0;
+  for (;;) {
+    const { done, value } = await rd.read();
+    if (done) break;
+    n += value.length;
+    if (n > max) { try { await rd.cancel(); } catch (e) { /* closed */ } return null; }
+    chunks.push(value);
+  }
+  const all = new Uint8Array(n);
+  let o = 0;
+  for (const c of chunks) { all.set(c, o); o += c.length; }
+  return new TextDecoder().decode(all);
+}
+
+const MAX_BODY = 12000;
 
 function token(n) {
   const b = new Uint8Array(n);
@@ -84,7 +107,7 @@ export class Registry {
     const saved = await this.ctx.storage.list({ prefix: "lobby:", limit: 1000 });
     for (const [, c] of saved) {
       if (this.lobbies.has(c.code)) continue;
-      this.lobbies.set(c.code, { ...c, cands: "", relay: "", fresh: false, joins: [], seen: new Map(c.seen || []), kicked: new Set(c.kicked || []), unreach: new Set(), turns: 0, savedAt: c.beatAt });
+      this.lobbies.set(c.code, { ...c, cands: "", relay: "", fresh: false, joins: [], seen: new Map(c.seen || []), kicked: new Set(c.kicked || []), unreach: new Map(), ps: c.ps || token(8), savedAt: c.beatAt });
     }
   }
 
@@ -92,7 +115,7 @@ export class Registry {
   async save(l) {
     l.savedAt = this.now();
     await this.ctx.storage.put("lobby:" + l.code, {
-      code: l.code, token: l.token, pub: l.pub, id: l.id, nick: l.nick, ctry: l.ctry, ver: l.ver, pvp: l.pvp, sector: l.sector, level: l.level,
+      code: l.code, token: l.token, ps: l.ps, pub: l.pub, id: l.id, nick: l.nick, ctry: l.ctry, ver: l.ver, pvp: l.pvp, sector: l.sector, level: l.level,
       hide: l.hide, createdAt: l.createdAt, beatAt: l.beatAt, full: l.full, seen: Array.from(l.seen), kicked: Array.from(l.kicked || []),
     });
   }
@@ -115,9 +138,10 @@ export class Registry {
       const saved = await this.ctx.storage.get("day");
       this.day = saved && saved.day === day ? saved : { day, n: 0 };
     }
+    if (this.day.n >= num(this.env.DAILY_REQUESTS, 1000, 100000)) return true;   // refused requests are not counted
     this.day.n++;
     if (this.day.n % 200 === 0) await this.ctx.storage.put("day", this.day);
-    return this.day.n > num(this.env.DAILY_REQUESTS, 1000, 100000);
+    return false;
   }
 
   async banned(id) {
@@ -127,6 +151,24 @@ export class Registry {
     if (b.until > this.now()) return true;
     await this.ctx.storage.delete("ban:" + id);
     return false;
+  }
+
+  /** What a host sees instead of a guest's install id: stable inside one lobby, useless anywhere else. */
+  async pid(l, id) {
+    const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(l.ps + "|" + id));
+    return Array.from(new Uint8Array(d).slice(0, 16), (x) => x.toString(16).padStart(2, "0")).join("");
+  }
+
+  /** The install id behind a host-side name, among the guests that joined this lobby. */
+  async idOfPid(l, pid) {
+    for (const id of l.seen.keys()) if (await this.pid(l, id) === pid) return id;
+    return "";
+  }
+
+  unreachN(l) {
+    const t = this.now();
+    for (const [k, at] of l.unreach) if (t - at > UNREACH_MS) l.unreach.delete(k);
+    return l.unreach.size;
   }
 
   newCode() {
@@ -151,22 +193,22 @@ export class Registry {
     const url = new URL(request.url);
     const ip = request.headers.get("x-sc-ip") || "0";
     const ik = await this.ipKey(ip);
+    if (!this.allow("req:" + ik, 120, 60 * 1000)) return reply("slow", {}, null, 429);   // per caller first: a refused request costs nobody else anything
     if (await this.overDay()) return reply("busy", { why: "daily limit" }, null, 429);
-    if (!this.allow("req:" + ik, 120, 60 * 1000)) return reply("slow", {}, null, 429);
     await this.load();
     await this.sweep();
     const parts = url.pathname.split("/").filter(Boolean);
     let f = {};
     if (request.method === "POST") {
-      const body = await request.text();
-      if (body.length > 12000) return reply("big", {}, null, 413);
+      const body = await readCapped(request, MAX_BODY);
+      if (body == null) return reply("big", {}, null, 413);
       for (const [k, v] of new URLSearchParams(body)) f[k] = v;
     } else if (request.method !== "GET") return reply("no", {}, null, 405);
 
     if (request.method === "GET" && parts.length === 1 && parts[0] === "lobbies") return this.list(verOf(url.searchParams.get("ver")));
     if (request.method !== "POST") return reply("no", {}, null, 404);
     if (parts.length === 1 && parts[0] === "lobby") return this.create(f, ik);
-    if (parts.length === 1 && parts[0] === "turn") return this.turn(f);
+    if (parts.length === 1 && parts[0] === "turn") return this.turn(f, ik);
     if (parts.length === 1 && parts[0] === "report") return this.report(f, ik);
     if (parts.length === 3 && parts[0] === "lobby") {
       const code = clean(parts[1].toUpperCase(), 4, /[^A-Z2-9]/g);
@@ -202,7 +244,7 @@ export class Registry {
       code, token: token(16), pub, id, ik, nick: nickOf(f.nick), ctry: ctryOf(f.ctry), ver: verOf(f.ver),
       pvp: f.pvp === "1", sector: textOf(f.sector, 40).replace(/\n/g, " "), level: num(f.level, 1, 999),
       hide: f.hide === "1", cands: f.hide === "1" ? "" : candsOf(f.cands), relay: relayOf(f.relay), fresh: true,
-      createdAt: t, beatAt: t, joins: [], seen: new Map(), kicked: new Set(), full: false, unreach: new Set(), turns: 0,
+      createdAt: t, beatAt: t, joins: [], seen: new Map(), kicked: new Set(), full: false, unreach: new Map(), ps: token(8),
     };
     this.lobbies.set(code, l);
     this.listCache.clear();
@@ -216,7 +258,7 @@ export class Registry {
     if (c && t - c.at < 10000) return c.body.clone();
     const rows = [];
     for (const l of this.lobbies.values()) {
-      if (!l.pub || t - l.beatAt > LOBBY_LIST_MS || l.ver !== ver || l.unreach.size >= 2) continue;
+      if (!l.pub || t - l.beatAt > LOBBY_LIST_MS || l.ver !== ver || this.unreachN(l) >= 2) continue;
       rows.push([l.code, l.nick, l.ctry || "?", l.pvp ? 1 : 0, l.sector, l.level, l.full ? 2 : 1]);
       if (rows.length >= 50) break;
     }
@@ -240,11 +282,11 @@ export class Registry {
     if (!this.allow("jn:" + ik, 20, 10 * 60 * 1000)) return reply("slow", {}, null, 429);
     l.joins = l.joins.filter((j) => t - j.at < JOIN_LIFE_MS);
     const prev = l.joins.find((x) => x.id === id);   // the same player again (with its relay address, or repeating the join): same session
-    l.joins = l.joins.filter((x) => x.id !== id);
+    l.joins = l.joins.filter((x) => x.id !== id && x.ik !== ik);   // one waiting join per caller address: one caller cannot hold every slot
     if (l.joins.length >= 4) return reply("full");
     // the joiner picks the session number (random 32 bits), so repeating a join gives the same one even after this object slept
     const j = {
-      jid: prev ? prev.jid : token(4), sid: num(f.sid, -2147483648, 2147483647), id, at: t,
+      jid: prev ? prev.jid : token(4), sid: num(f.sid, -2147483648, 2147483647), id, ik, pid: await this.pid(l, id), at: t,
       nick: nickOf(f.nick), ctry: ctryOf(f.ctry), cands: f.hide === "1" ? "" : candsOf(f.cands), relay: relayOf(f.relay),
     };
     l.joins.push(j);
@@ -263,6 +305,7 @@ export class Registry {
     l.fresh = true;
     const was = l.full, pvp = l.pvp, sector = l.sector;
     l.full = f.full === "1";
+    if (l.full) l.unreach.clear();   // a guest is in: the host can be reached
     if (f.pvp != null) l.pvp = f.pvp === "1";
     if (f.sector != null) l.sector = textOf(f.sector, 40).replace(/\n/g, " ");
     if (f.level != null) l.level = num(f.level, 1, 999);
@@ -272,13 +315,13 @@ export class Registry {
     if (changed) this.listCache.clear();
     if (changed || t - (l.savedAt || 0) > 60000) await this.save(l);   // the heartbeat time reaches storage once a minute
     l.joins = l.joins.filter((j) => t - j.at < JOIN_LIFE_MS);
-    return reply("ok", { n: l.joins.length }, l.joins.map((j) => ["join", j.jid, j.sid, j.id, j.nick, j.ctry || "?", j.cands, j.relay]));
+    return reply("ok", { n: l.joins.length }, l.joins.map((j) => ["join", j.jid, j.sid, j.pid, j.nick, j.ctry || "?", j.cands, j.relay]));
   }
 
   /** Host kicked a guest that really joined this lobby. 3 kicks from different hosts in 24 h = 24 h off public lobbies. */
   async kick(l, f) {
-    const id = idOf(f.id);
-    if (!l.seen.has(id)) return reply("bad", {}, null, 400);
+    const id = await this.idOfPid(l, idOf(f.id));   // the host only ever has the per-lobby name
+    if (!id) return reply("bad", {}, null, 400);
     l.kicked = l.kicked || new Set();
     l.kicked.add(id);
     await this.save(l);
@@ -291,23 +334,25 @@ export class Registry {
     return reply("ok");
   }
 
-  /** A joiner could not reach the host at all. Two such reports from different addresses take the lobby off the list. */
+  /** A joiner could not reach the host at all. Two such reports from different addresses within 10 minutes take the lobby
+   *  off the list until a report expires or a guest gets in. */
   unreach(l, f, ik) {
     if (!l.seen.has(idOf(f.id))) return reply("bad", {}, null, 400);
-    l.unreach.add(ik);
-    if (l.unreach.size >= 2) this.listCache.clear();
+    l.unreach.set(ik, this.now());
+    if (this.unreachN(l) >= 2) this.listCache.clear();
     return reply("ok");
   }
 
   /** Relay credentials for the host or a joined guest of a live lobby. The key never leaves the service. */
-  async turn(f) {
+  async turn(f, ik) {
     const l = this.lobbies.get(clean(String(f.code || "").toUpperCase(), 4, /[^A-Z2-9]/g));
     const id = idOf(f.id);
-    if (!l || (id !== l.id && !l.seen.has(id)) || (id === l.id && f.token !== l.token)) return reply("no", {}, null, 403);
+    const t = this.now();
+    const guest = l && id !== l.id && l.joins.some((j) => j.id === id && t - j.at < JOIN_LIFE_MS);   // a guest needs a join that is waiting now
+    if (!l || (id !== l.id && !guest) || (id === l.id && f.token !== l.token)) return reply("no", {}, null, 403);
     const app = clean(this.env.METERED_APP, 40, /[^a-z0-9-]/g), key = this.env.METERED_KEY;
     if (!app || !key) return reply("off");
-    if (++l.turns > 6) return reply("slow", {}, null, 429);
-    const t = this.now();
+    if (!this.allow("turn:" + id, 12, 60 * 60 * 1000) || !this.allow("turnip:" + ik, 24, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
     if (!this.usage || t - this.usage.at > 10 * 60 * 1000) {
       let full = this.usage ? this.usage.full : false;
       try {
@@ -369,7 +414,13 @@ export default {
   async fetch(request, env) {
     const h = new Headers(request.headers);
     h.set("x-sc-ip", request.headers.get("cf-connecting-ip") || "0");   // used for salted in-memory rate limits only
+    let body;
+    if (request.method === "POST") {   // an oversized body never reaches the registry
+      body = await readCapped(request, MAX_BODY);
+      if (body == null) return reply("big", {}, null, 413);
+      h.delete("content-length");
+    }
     const stub = env.REG.get(env.REG.idFromName("main"));
-    return stub.fetch(new Request(request.url, { method: request.method, headers: h, body: request.method === "POST" ? request.body : undefined }));
+    return stub.fetch(new Request(request.url, { method: request.method, headers: h, body }));
   },
 };

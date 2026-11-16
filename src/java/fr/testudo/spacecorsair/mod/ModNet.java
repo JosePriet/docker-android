@@ -43,7 +43,8 @@ final class ModNet {
     static final int MAX_LATEST = 256 * 1024;
     static final int DEAD_MS = 10000, PING_MS = 1000;
 
-    interface PeerHandler { void onPeer(InetSocketAddress from, byte[] b, int n, boolean viaTurn); }
+    /** True = the packet belongs to this handler's session. */
+    interface PeerHandler { boolean onPeer(InetSocketAddress from, byte[] b, int n, boolean viaTurn); }
 
     // ================================================================== wire
     static final class Wire {
@@ -321,35 +322,76 @@ final class ModNet {
         return (ip instanceof Inet6Address ? "[" + h + "]" : h) + ":" + a.getPort();
     }
 
-    /** Parses {@link #show}; only literal addresses (never a name lookup on a stranger's string). Null = not an address. */
+    /** Tests on one machine: loopback addresses are accepted. Never set in the game. */
+    static volatile boolean testLoopback;
+
+    /**
+     * Parses {@link #show}. Only literal addresses, checked by this code before any library call, so a stranger's string
+     * never causes a name lookup. Refused: loopback, "any", broadcast, multicast, link-local, and ports below 1024
+     * (so a stranger's list cannot aim this phone's packets at a local service). Null = not a usable address.
+     */
     static InetSocketAddress parse(String s) {
         try {
             if (s == null || s.length() > 64) return null;
             int c = s.lastIndexOf(':');
-            if (c <= 0) return null;
+            if (c <= 0 || c == s.length() - 1 || s.length() - c > 6) return null;
+            for (int i = c + 1; i < s.length(); i++) if (s.charAt(i) < '0' || s.charAt(i) > '9') return null;
             String h = s.substring(0, c);
             int port = Integer.parseInt(s.substring(c + 1));
-            if (port <= 0 || port > 65535) return null;
-            if (h.startsWith("[") && h.endsWith("]")) h = h.substring(1, h.length() - 1);
-            boolean v6 = h.indexOf(':') >= 0;
-            for (int i = 0; i < h.length(); i++) {
-                char ch = h.charAt(i);
-                boolean ok = ch >= '0' && ch <= '9' || ch == '.' || (v6 && (ch == ':' || ch >= 'a' && ch <= 'f' || ch >= 'A' && ch <= 'F'));
-                if (!ok) return null;
-            }
-            if (!v6) {
-                String[] p = h.split("\\.", -1);
-                if (p.length != 4) return null;
-                byte[] b = new byte[4];
-                for (int i = 0; i < 4; i++) { int v = Integer.parseInt(p[i]); if (v < 0 || v > 255 || p[i].length() > 3) return null; b[i] = (byte) v; }
-                return new InetSocketAddress(InetAddress.getByAddress(b), port);
-            }
-            InetAddress a = InetAddress.getByName(h);   // a literal: no lookup
-            if (a.isLoopbackAddress() || a.isMulticastAddress() || a.isAnyLocalAddress()) return null;
+            if (port < 1024 || port > 65535) return null;
+            byte[] b;
+            if (h.startsWith("[") && h.endsWith("]")) b = v6(h.substring(1, h.length() - 1));
+            else b = v4(h);
+            if (b == null) return null;
+            InetAddress a = InetAddress.getByAddress(b);   // from bytes: no lookup
+            boolean loop = a.isLoopbackAddress();
+            if (loop && !testLoopback) return null;
+            if (a.isMulticastAddress() || a.isAnyLocalAddress() || a.isLinkLocalAddress()) return null;
+            if (b.length == 4 && ((b[0] & 255) == 0 || (b[0] & 255) >= 224 || (b[0] & 255) == 127 && !loop)) return null;
             return new InetSocketAddress(a, port);
         } catch (Throwable t) {
             return null;
         }
+    }
+
+    private static byte[] v4(String h) {
+        String[] p = h.split("\\.", -1);
+        if (p.length != 4) return null;
+        byte[] b = new byte[4];
+        for (int i = 0; i < 4; i++) {
+            if (p[i].length() < 1 || p[i].length() > 3) return null;
+            for (int k = 0; k < p[i].length(); k++) if (p[i].charAt(k) < '0' || p[i].charAt(k) > '9') return null;
+            int v = Integer.parseInt(p[i]);
+            if (v > 255) return null;
+            b[i] = (byte) v;
+        }
+        return b;
+    }
+
+    /** Hex groups and at most one "::"; no dots, no zone. */
+    private static byte[] v6(String h) {
+        if (h.length() < 2 || h.length() > 39) return null;
+        int dd = h.indexOf("::");
+        if (dd >= 0 && h.indexOf("::", dd + 1) >= 0) return null;
+        String[] head = dd < 0 ? h.split(":", -1) : (dd == 0 ? new String[0] : h.substring(0, dd).split(":", -1));
+        String[] tail = dd < 0 || dd + 2 >= h.length() ? new String[0] : h.substring(dd + 2).split(":", -1);
+        int n = head.length + tail.length;
+        if (dd < 0 ? n != 8 : n > 7) return null;
+        byte[] b = new byte[16];
+        for (int i = 0; i < n; i++) {
+            String g = i < head.length ? head[i] : tail[i - head.length];
+            if (g.length() < 1 || g.length() > 4) return null;
+            int v = 0;
+            for (int k = 0; k < g.length(); k++) {
+                int d = Character.digit(g.charAt(k), 16);
+                if (d < 0 || g.charAt(k) > 'f') return null;
+                v = v * 16 + d;
+            }
+            int at = i < head.length ? i : 8 - n + i;
+            b[at * 2] = (byte) (v >> 8);
+            b[at * 2 + 1] = (byte) v;
+        }
+        return b;
     }
 
     // ================================================================== TURN client
@@ -516,9 +558,9 @@ final class ModNet {
             PeerHandler h = w.handler;
             if (d == null || peer == null || h == null || d.length < 2 || (d[0] & 255) != MAGIC) return;
             bytes += d.length;
-            h.onPeer(peer, d, d.length, true);
+            if (!h.onPeer(peer, d, d.length, true)) return;   // not this session's packet: no channel, no thread
             boolean start;
-            synchronized (this) { start = !chanOf.containsKey(show(peer)) && binding.add(show(peer)); }
+            synchronized (this) { start = !chanOf.containsKey(show(peer)) && binding.size() < 8 && binding.add(show(peer)); }
             if (start) new Thread(new Runnable() {   // the first packet from this peer: give it a channel
                 public void run() { try { bind(peer); } catch (Throwable t) { /* stays on send indications */ } }
             }, "net-turn-bind").start();
@@ -652,7 +694,30 @@ final class ModNet {
          * @param hide never send from this phone's own address to the peer (relay only)
          * @return true = connected (remote() and relayed() say how)
          */
-        boolean connect(List<InetSocketAddress> direct, InetSocketAddress peerRelay, boolean hide, long directMs, long totalMs) {
+        private final java.util.concurrent.CopyOnWriteArrayList<InetSocketAddress> extra = new java.util.concurrent.CopyOnWriteArrayList<InetSocketAddress>();
+        private volatile InetSocketAddress extraRelay;
+
+        /** While connecting: the peer's addresses changed (a newer answer from the lobby service, or its own packet arrived). */
+        void addTargets(List<InetSocketAddress> more, InetSocketAddress relay) {
+            if (started || closed) return;
+            Turn t = w.turn;
+            if (more != null) for (InetSocketAddress a : more) {
+                if (a == null || extra.size() >= 24) break;
+                boolean have = false;
+                for (InetSocketAddress x : extra) if (x.equals(a)) { have = true; break; }
+                if (have) continue;
+                extra.add(a);
+                if (t != null && t.relayed != null) try { t.permit(a.getAddress()); } catch (Throwable e) { /* not through the relay */ }
+            }
+            if (relay != null && !relay.equals(extraRelay)) {
+                if (t != null && t.relayed != null) try { t.permit(relay.getAddress()); } catch (Throwable e) { /* not through the relay */ }
+                extraRelay = relay;
+            }
+        }
+
+        boolean connect(List<InetSocketAddress> direct0, InetSocketAddress peerRelay0, boolean hide, long directMs, long totalMs) {
+            ArrayList<InetSocketAddress> direct = new ArrayList<InetSocketAddress>(direct0);
+            InetSocketAddress peerRelay = peerRelay0;
             long t0 = System.currentTimeMillis();
             byte[] p = pkt(K_PUNCH, 0);
             Turn t = w.turn;
@@ -670,6 +735,9 @@ final class ModNet {
                 long el = System.currentTimeMillis() - t0;
                 if (el > totalMs) break;
                 if (el > directMs) relayNow = true;
+                for (InetSocketAddress x : extra) if (!direct.contains(x) && !x.equals(peerRelay)) direct.add(x);
+                InetSocketAddress er = extraRelay;
+                if (er != null) peerRelay = er;
                 if (!hide) {
                     for (InetSocketAddress c : direct) w.send(c, p, p.length);
                     if (relayNow && peerRelay != null) w.send(peerRelay, p, p.length);
@@ -705,14 +773,19 @@ final class ModNet {
             started = true;
         }
 
-        public void onPeer(InetSocketAddress from, byte[] b, int n, boolean viaTurn) {
-            if (n < HDR || closed) return;
-            if (get4(b, 2) != sid) return;   // not this session: ignored without an answer
+        public boolean onPeer(InetSocketAddress from, byte[] b, int n, boolean viaTurn) {
+            if (n < HDR || closed) return false;
+            if (get4(b, 2) != sid) return false;   // not this session: ignored without an answer
+            onPeer0(from, b, n, viaTurn);
+            return true;
+        }
+
+        private void onPeer0(InetSocketAddress from, byte[] b, int n, boolean viaTurn) {
             int kind = b[1] & 255;
             long now = System.currentTimeMillis();
             if (kind == K_PUNCH) {
                 toAddr(from, viaTurn, pkt(K_PUNCH_ACK, 0));   // answered the way it came
-                if (!started) return;
+                if (!started) { if (!viaTurn && extra.size() < 24 && !extra.contains(from)) extra.add(from); return; }   // the peer's real address right now
             } else if (kind == K_PUNCH_ACK) {
                 if (acked == null) { ackedRelay = viaTurn; acked = from; }
                 else if (started && relayed() && !viaTurn && isDirect(from)) {   // a direct path opened while relayed: move to it
@@ -1038,7 +1111,8 @@ final class ModNet {
             closed = true;
             synchronized (this) { notifyAll(); }
             timer.interrupt();
-            w.close();
+            PeerHandler h = w.handler;
+            if (h == this || h == null) w.close();   // a newer session on this socket keeps it
         }
     }
 }

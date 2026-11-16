@@ -263,7 +263,14 @@ public class V49 {
         {
             ModLobby.Reply rp = ModLobby.parse("ok\ncode=ABCD\nn=1\njoin\tj1\t-5\tid\tBo\t?\t1.2.3.4:5,[2001:db8::1]:6\t\n" + new String(new char[5000]).replace('\0', 'x') + "\n", 200);
             is("lobby: answer parsed, oversize line dropped", rp.ok() && rp.get("code").equals("ABCD") && rp.rows.size() == 1 && rp.rows.get(0).length == 8 && rp.rows.get(0)[2].equals("-5"));
-            is("lobby: addresses are literals only", ModLobby.addrs("1.2.3.4:5,[2001:db8::1]:6,evil.example:80,999.1.1.1:5,1.2.3.4:70000").size() == 2);
+            is("lobby: addresses are literals only", ModLobby.addrs("1.2.3.4:5000,[2001:db8::1]:6000,evil.example:8000,999.1.1.1:5000,1.2.3.4:70000").size() == 2);
+            String[] badAddr = {"127.0.0.1:5000", "0.0.0.0:5000", "255.255.255.255:5000", "224.0.0.1:5000", "169.254.1.1:5000", "1.2.3.4:80", "1.2.3.4:+5000", "1.2.3:5000", "1.2.3.4.5:5000",
+                "[::1]:5000", "[::]:5000", "[ff02::1]:5000", "[fe80::1]:5000", "[1:2:3]:5000", "[a:b.c0ffee.de]:5000", "[1::2::3]:5000", "[12345::1]:5000", "[1:2:3:4:5:6:7:8:9]:5000", "[::ffff:1.2.3.4]:5000", "[g::1]:5000", "x:5000", ":5000", "1.2.3.4:"};
+            int refused = 0;
+            for (String x : badAddr) if (ModNet.parse(x) == null) refused++; else System.out.println("  accepted: " + x);
+            is("net: loopback, any, broadcast, multicast, link-local, low ports and non-literals are refused (" + refused + "/" + badAddr.length + ")", refused == badAddr.length);
+            java.net.InetSocketAddress p6 = ModNet.parse("[2001:db8::a:1]:6000"), p6f = ModNet.parse("[2001:db8:0:0:0:0:a:1]:6000");
+            is("net: IPv6 literals parse without a lookup and round-trip", p6 != null && p6.equals(p6f) && ModNet.show(p6).equals("[2001:db8:0:0:0:a:1]:6000".replace("0:0:0:a", "0:0:0:0:a")) && ModNet.parse("192.168.1.20:40000") != null && ModNet.parse("[2001:db8::]:6000") != null);
             is("lobby: form encoding", ModLobby.form("a", "x y&z", "b", null, "c", "ñ").equals("a=x+y%26z&c=%C3%B1"));
             is("lobby: refusal texts", ModLobby.refusal(ModLobby.parse("gone\n", 404)).length() > 0 && ModLobby.refusal(new ModLobby.Reply()).length() > 0);
             is("save: signature is stable and changes with the content", ModSaveSig.sign("abc".getBytes()).equals(ModSaveSig.sign("abc".getBytes())) && !ModSaveSig.sign("abc".getBytes()).equals(ModSaveSig.sign("abd".getBytes())) && ModSaveSig.sign("abc".getBytes()).length() == 64);

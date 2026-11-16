@@ -218,10 +218,12 @@ final class ModLobby {
             if (!r.ok()) return null;
             String host = r.get("host");
             for (int i = 0; i < host.length(); i++) { char ch = host.charAt(i); if (!(ch >= 'a' && ch <= 'z' || ch >= '0' && ch <= '9' || ch == '.' || ch == '-')) return null; }
+            int port = Integer.parseInt(r.get("port"));
+            if (!host.endsWith(".metered.ca") || port < 1 || port > 65535) return null;   // only the relay provider, whatever the answer says
             InetAddress ip = null;
             for (InetAddress x : InetAddress.getAllByName(host)) if (x instanceof java.net.Inet4Address) { ip = x; break; }
             if (ip == null) return null;
-            ModNet.Turn t = new ModNet.Turn(w, new InetSocketAddress(ip, Integer.parseInt(r.get("port"))), r.get("user"), r.get("pass"));
+            ModNet.Turn t = new ModNet.Turn(w, new InetSocketAddress(ip, port), r.get("user"), r.get("pass"));
             for (int i = 0; i < 3; i++) {
                 try { t.allocate(); return t; } catch (IOException e) { Thread.sleep(1500); }   // a new credential can take a moment to work
             }
@@ -274,6 +276,7 @@ final class ModLobby {
         final boolean[] connecting = {false};
         boolean wasConnected = false;
         int beats = 0;
+        long relayAt = 0, relayWait = 30000;
         try {
             while (stillHost(g)) {
                 boolean hide = hideIp();
@@ -301,7 +304,11 @@ final class ModLobby {
                     status = ModLang.tr("Waiting for a player to join...");
                     ModDev.ev("lobby", "hosting " + (pub ? "public" : "private"));
                 }
-                if (hide && turn == null) turn = relay(w, myCode, myTok);
+                if (hide && turn == null && System.currentTimeMillis() >= relayAt) {
+                    turn = relay(w, myCode, myTok);
+                    if (turn == null) { relayAt = System.currentTimeMillis() + relayWait; relayWait = Math.min(relayWait * 2, 600000); }   // refused or away: ask less and less often
+                    else relayWait = 30000;
+                }
                 boolean conn = ModLan.connected;
                 if (wasConnected && !conn) { tried.clear(); }
                 wasConnected = conn;
@@ -426,7 +433,8 @@ final class ModLobby {
                         for (int i = 0; i < 4; i++) {
                             Thread.sleep(8000);
                             if (g != gen || fl.isConnected() || fl.isClosed()) return;
-                            call("POST", "/lobby/" + jc + "/join", again);
+                            Reply ra = call("POST", "/lobby/" + jc + "/join", again);
+                            if (ra.ok()) fl.addTargets(addrs(ra.get("cands")), ModNet.parse(ra.get("relay")));   // the host's addresses may have changed
                         }
                     } catch (Throwable e) { /* done */ }
                 }

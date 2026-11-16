@@ -59,7 +59,11 @@ final class ModSaveSig {
             if (now.length() > 0) p.edit().putString("sig", now).commit();
             keep = new android.os.FileObserver(ctx.getFilesDir().getPath(),
                 android.os.FileObserver.CLOSE_WRITE | android.os.FileObserver.MOVED_TO | android.os.FileObserver.DELETE | android.os.FileObserver.CREATE) {
-                @Override public void onEvent(int event, String path) { resignSoon(); }
+                @Override public void onEvent(int event, String path) {
+                    // signed at once on this thread (the hash is cheap), so an app closed right after a save leaves a current signature
+                    try { String s = signAll(); if (s.length() > 0) synchronized (signLock) { prefs().edit().putString("sig", s).commit(); } } catch (Throwable e) { /* the delayed pass below */ }
+                    resignSoon();
+                }
             };
             keep.startWatching();
         } catch (Throwable t) {
@@ -67,7 +71,7 @@ final class ModSaveSig {
         }
     }
 
-    /** The game wrote its save: sign it again (0.3 s later, and once more after 3 s for writes that were still open). */
+    /** After the immediate signing: once more 0.3 s later and after 3 s, for writes that were still open. */
     private static void resignSoon() {
         final long mark = System.currentTimeMillis();
         if (mark - signAt < 250) return;   // a signing is already on its way
