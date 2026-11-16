@@ -762,7 +762,10 @@ public final class ModLan {
             if (announce) { announce = false; Mod.floatText(ps, ModLang.tr("CO-OP CONNECTED"), 0.3f, 1.0f, 0.5f); }
             if (lost) { lost = false; Mod.floatText(ps, ModLang.tr("CO-OP LINK LOST"), 1.0f, 0.4f, 0.3f); }
             testSwitch(now);
-            if (!connected) return;
+            if (!connected) {
+                leaveBay();
+                return;
+            }
             if (now - lastLog > 3000) {
                 lastLog = now;
                 ModDev.ev("lan", (role == HOST ? "host" : "guest") + " level=" + (ObjectRegistry.INSTANCE.game.currentLevel.id) + " sent=" + sentFrames
@@ -942,7 +945,10 @@ public final class ModLan {
                 try {
                     LevelId to = null;
                     for (LevelId l : LevelId.values()) if (l.levelName.equals(f.level)) { to = l; break; }
-                    if (to == LevelId.FFA_THE_PLAYER_PAY) lv.requestChangeLevel(to.levelName, ARENA_GATE);
+                    if (to == LevelId.FFA_THE_PLAYER_PAY) {
+                        if (lv.id != LevelId.FFA_THE_PLAYER_PAY && duelFrom == null) duelFrom = lv.id;   // the way home after the duel
+                        lv.requestChangeLevel(to.levelName, ARENA_GATE);
+                    }
                     else if (to != null) lv.requestChangeLevel(to.levelName, to.jumpPortalName);
                     ModDev.ev("lan", "guest pulled to " + f.level + " found=" + (to != null));
                 } catch (Throwable t) {
@@ -1218,7 +1224,7 @@ public final class ModLan {
         if (pvp && !pvpWanted) {
             pvp = false;
             removeProxy();
-            if (inBay() && duelFrom != null) lv.requestChangeLevel(duelFrom.levelName, duelFrom.jumpPortalName);
+            leaveBay();
             return;
         }
         if (!pvp) return;
@@ -1248,6 +1254,21 @@ public final class ModLan {
             roundText(ps, false);
         }
         if (restore) { restore = false; refill(ps); }
+    }
+
+    /** After a duel (ended, or the link lost): the bay has no gates, so the game takes the ship back where it came from. */
+    private static void leaveBay() {
+        LevelId home = duelFrom;
+        if (home == null || pvp) return;
+        duelFrom = null;
+        try {
+            if (inBay()) {
+                ObjectRegistry.INSTANCE.game.currentLevel.requestChangeLevel(home.levelName, home.jumpPortalName);
+                ModDev.ev("lan", "leaving the duel bay for " + home);
+            }
+        } catch (Throwable t) {
+            // stays in the bay; the galaxy map still jumps
+        }
     }
 
     private static void guestDuel(PlayerShip ps, InFrame f) {
