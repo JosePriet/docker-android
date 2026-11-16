@@ -55,10 +55,10 @@
     .registers 2
 
     .prologue
-    .line 923
+    .line 941
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 930
+    .line 948
     const-string v0, ""
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$InState;->mission:Ljava/lang/String;

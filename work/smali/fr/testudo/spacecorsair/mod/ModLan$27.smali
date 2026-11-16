@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 2301
+    .line 2318
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$27;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$27;->val$ip:Landroid/widget/EditText;
@@ -49,7 +49,7 @@
     .registers 5
 
     .prologue
-    .line 2302
+    .line 2319
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$27;->val$a:Landroid/app/Activity;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$27;->val$ip:Landroid/widget/EditText;

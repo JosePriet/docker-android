@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 310
+    .line 312
     iput p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$ask:I
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 5
 
     .prologue
-    .line 310
+    .line 312
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->decision:I
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$700()I
 

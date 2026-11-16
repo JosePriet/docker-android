@@ -109,6 +109,7 @@ public final class ModLan {
     private static final ArrayList<byte[]> reliable = new ArrayList<byte[]>();
     private static byte[] latest;
     private static volatile long linkGen;
+    private static volatile java.util.concurrent.locks.ReentrantLock writeLock;
 
     /** Host: starts listening and announcing. UI thread. */
     static void host() {
@@ -145,6 +146,7 @@ public final class ModLan {
                 try {
                     ds = new DatagramSocket();
                     ds.setBroadcast(true);
+                    if (gen != linkGen) return;
                     beacon = ds;
                     while (gen == linkGen && !connected) {
                         String name = "Corsair";
@@ -278,8 +280,8 @@ public final class ModLan {
 
     /** Host: asks the player (dialog on the current screen; also offered in the LAN co-op menu). 25 s without an answer declines. */
     private static boolean askAccept(final String who, long gen) {
-        decision = 0;
         final int ask = ++askId;
+        decision = 0;
         pendingWho = who;
         try {
             Activity a = ModComms.activity();
@@ -450,6 +452,8 @@ public final class ModLan {
         s.setReceiveBufferSize(256 * 1024);
         s.setKeepAlive(true);
         s.setSoTimeout(10000);   // the writer pings every 2 s even while the game is paused: 10 s of silence is a dead link
+        final java.util.concurrent.locks.ReentrantLock wl = new java.util.concurrent.locks.ReentrantLock();
+        writeLock = wl;
         byeSeen = false;
         strikes = 0;
         sock = s;
@@ -502,11 +506,14 @@ public final class ModLan {
                             frame = latest;
                             latest = null;
                         }
-                        synchronized (s) {   // whole messages only: the goodbye of stop() never lands inside a frame
+                        wl.lock();   // whole messages only: the goodbye of stop() never lands inside a frame
+                        try {
                             if (gen != linkGen) break;
                             for (byte[] m : rel) { out.write(m); bytesOut += m.length; }   // definitions and shots go out before the frame that uses them
                             if (frame != null) { out.write(frame); bytesOut += frame.length; }
                             out.flush();
+                        } finally {
+                            wl.unlock();
                         }
                     }
                 } catch (Throwable t) {
@@ -593,6 +600,7 @@ public final class ModLan {
     static void stop() {
         linkGen++;
         final Socket old = sock;
+        final java.util.concurrent.locks.ReentrantLock wlOld = writeLock;
         final boolean bye = connected;
         connected = false;
         role = NONE;
@@ -600,7 +608,16 @@ public final class ModLan {
         if (old != null) {
             new Thread(new Runnable() {   // never on the UI thread (no network there); the writer thread has stopped
                 public void run() {
-                    try { if (bye) synchronized (old) { old.getOutputStream().write(new byte[]{MSG_BYE, 0, 0, 0, 0}); old.getOutputStream().flush(); } } catch (Throwable t) { /* closing anyway */ }
+                    // the goodbye waits at most 1 s for the writer (a dead peer can block it); the close below always runs and frees it
+                    boolean got = false;
+                    try {
+                        got = bye && wlOld != null && wlOld.tryLock(1, java.util.concurrent.TimeUnit.SECONDS);
+                        if (got) { old.getOutputStream().write(new byte[]{MSG_BYE, 0, 0, 0, 0}); old.getOutputStream().flush(); }
+                    } catch (Throwable t) {
+                        // closing anyway
+                    } finally {
+                        if (got) wlOld.unlock();
+                    }
                     try { old.close(); } catch (Throwable t) { /* closed */ }
                 }
             }, "lan-bye").start();
@@ -630,6 +647,7 @@ public final class ModLan {
 
     private static void sendLatest(int type, ByteArrayOutputStream body) {
         byte[] m = packed(type, body.toByteArray());
+        if (m.length - 5 > MAX_MSG || body.size() > MAX_MSG) { flags++; return; }   // larger than the receiver takes (packed or unpacked): skipped
         synchronized (outLock) { latest = m; outLock.notifyAll(); }
     }
 
@@ -1955,7 +1973,6 @@ public final class ModLan {
                 int mn = mk == null ? 0 : ((mk[0] & 255) << 8) | (mk[1] & 255);
                 o.writeShort(mn); o.writeInt(mn == 0 ? 0 : mk.length - 2); if (mn > 0) o.write(mk, 2, mk.length - 2);
                 o.flush();
-                if (bo.size() > MAX_MSG - 64) { flags++; return; }   // larger than the receiver takes: this frame is skipped
                 sendLatest(MSG_FRAME, bo);
                 sentFrames++;
             } else if (role == GUEST) {

@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 464
+    .line 468
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$6;->val$gen:J
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLan$6;->val$in:Ljava/io/DataInputStream;
@@ -49,7 +49,7 @@
     .registers 9
 
     .prologue
-    .line 467
+    .line 471
     :goto_0
     :try_start_0
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$6;->val$gen:J
@@ -63,21 +63,21 @@
 
     if-nez v0, :cond_43
 
-    .line 468
+    .line 472
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$6;->val$in:Ljava/io/DataInputStream;
 
     invoke-virtual {v0}, Ljava/io/DataInputStream;->readUnsignedByte()I
 
     move-result v0
 
-    .line 469
+    .line 473
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$6;->val$in:Ljava/io/DataInputStream;
 
     invoke-virtual {v1}, Ljava/io/DataInputStream;->readInt()I
 
     move-result v1
 
-    .line 470
+    .line 474
     if-ltz v1, :cond_1c
 
     const/high16 v2, 0x40000
@@ -111,11 +111,11 @@
     :try_end_35
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_35} :catch_35
 
-    .line 483
+    .line 487
     :catch_35
     move-exception v0
 
-    .line 484
+    .line 488
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$6;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -130,21 +130,21 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->fail(Ljava/lang/Throwable;)V
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$400(Ljava/lang/Throwable;)V
 
-    .line 486
+    .line 490
     :cond_43
     return-void
 
-    .line 471
+    .line 475
     :cond_44
     :try_start_44
     new-array v2, v1, [B
 
-    .line 472
+    .line 476
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLan$6;->val$in:Ljava/io/DataInputStream;
 
     invoke-virtual {v3, v2}, Ljava/io/DataInputStream;->readFully([B)V
 
-    .line 473
+    .line 477
     sget-wide v4, Lfr/testudo/spacecorsair/mod/ModLan;->bytesIn:J
 
     add-int/lit8 v1, v1, 0x5
@@ -155,7 +155,7 @@
 
     sput-wide v4, Lfr/testudo/spacecorsair/mod/ModLan;->bytesIn:J
 
-    .line 474
+    .line 478
     const/4 v1, 0x5
 
     if-ne v0, v1, :cond_62
@@ -175,7 +175,7 @@
     :try_end_62
     .catch Ljava/lang/Throwable; {:try_start_44 .. :try_end_62} :catch_35
 
-    .line 476
+    .line 480
     :cond_62
     :try_start_62
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->receive(I[B)V
@@ -186,19 +186,19 @@
 
     goto :goto_0
 
-    .line 477
+    .line 481
     :catch_66
     move-exception v0
 
-    .line 478
+    .line 482
     :try_start_67
     throw v0
 
-    .line 479
+    .line 483
     :catch_68
     move-exception v1
 
-    .line 480
+    .line 484
     new-instance v2, Ljava/io/IOException;
 
     new-instance v3, Ljava/lang/StringBuilder;
