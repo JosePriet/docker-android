@@ -57,3 +57,13 @@ Spec: /mnt/project-files/space-corsair/internet-mp/SPEC-FINAL.md. Change list an
 Done: section 1 hardening, part of section 2, LAN diet (deflate, 30 Hz), LAN-side rules and screens (PvP toggle, per-player loot, no-pause hooks53, nickname + flags, chat, lobby menu).
 Next windows, in order: (1) state + events sync (spec 3); (2) rest of anti-cheat (weapon-table damage clamp, save HMAC, install id/bans, report); (3) section 6 (UdpLink, STUN, punching, Cloudflare Worker lobby, Metered relay; owner creates the two free accounts first); (4) small gaps: friendly fire with PvP on, guest death-fee waiver, flags in local list rows, data counter, Hide my IP, flag licence line in credits.
 Untested: anything on phones; chat, accept/decline, kick, reconnect, no-pause were not exercised by the emulator run (sc-v45a, run 128, build 05da05d).
+
+## v45 internet play (2026-11-16, second window, head d31450f + this note; NOT merged, NOT released)
+- Built: small render stream (ModLanSync), UDP transport with STUN/TURN (ModNet), lobby client (ModLobby), save signature (ModSaveSig), public list, 4-character codes, kick/ban, report, guest death-fee waiver, friendly fire only with PvP on.
+- Lobby service: `server/rendezvous` (Cloudflare Worker + one Durable Object), live at https://sc-rendezvous.spacecs-coop.workers.dev. Deploy: `cd server/rendezvous && set -a && . /mnt/project-files/space-corsair/keys/cloudflare.env && set +a && npx --yes wrangler@4 deploy`. Tests: `node test/registry.test.mjs` (REGISTRY OK).
+- Relay: Metered "Free 20 GB" plan, no provider API; one fixed credential as Worker secrets RELAY_USER / RELAY_PASS (copy in /mnt/project-files/space-corsair/keys/metered.env, never in git). Client caps a relayed session at 30 MB (ModLobby.RELAY_SESSION_BYTES).
+- Checks: `MODVER_NAME=v45 bash scripts/check.sh 52` PASS; two-process test `tests/net/E2E.java` against the live service passes (classpath: work/modcls, work/dtest, game jar, android jar, work/stubcls). Two verifier passes done, all findings acted on (see /mnt/project-files/audits/v45-multiplayer-changes.md).
+- Emulator: run sc-v45c on emulator-tests 0fe222f (adds small-stream phases through `corsair_lean`).
+- Cannot be tested here (no outgoing UDP in the sandbox): STUN, hole punching, the relay. Needs two phones on different networks.
+- Not built from SPEC-FINAL: weapon-table damage clamp and per-class stat checks, true state+events sync (the small render stream stands in), far cosmetic FX drop in saver, guest 10 s position save, flags/ping/auto-refresh in the public list, 4-box code entry, UDP for LAN. Known limitation: the relay credential is shared by all players.
+- Next: owner two-phone test; then owner decides on merge and release.
