@@ -207,7 +207,7 @@ elif [ $GAME = sc ]; then
     for k in 1 2 3 4 5 6 7 8 9 10; do sleep 3.5; shot lan_duel_$k; need lan_duel_$k; done
     wait $PEER; log "EVIDENCE lan duel phase: $(cat $OUT/lan_duel_peer.txt | tr '\n' ' ')"
     log "EVIDENCE lan duel log: $(grep -E "ModTest.*: lan" $LG | grep -E "duel|bay|round" | tail -10 | sed 's/^.*): //' | tr '\n' ' ')"
-    put corsair_lan duel-off; sleep 6; shot lan_duel_over; put corsair_lan off; sleep 3
+    put corsair_lan duel-off; sleep 8; shot lan_duel_over; put corsair_lan off; sleep 3; log "EVIDENCE lan bay exit: $(grep -E "ModTest.*: lan leaving" $LG | sed "s/^.*): //")"
     timeout 10 adb forward --remove tcp:37001; rm -f $OUT/duel_stream.bin
     grep -E "ModTest.*: lan|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v50l_events.txt
     rm -f $OUT/host_stream.bin
