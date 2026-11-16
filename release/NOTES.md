@@ -2,9 +2,11 @@
 
 - LAN co-op: on the docked station toolbar, tap "LAN co-op". One phone hosts, the other joins (same Wi-Fi or one phone's hotspot). Both phones need v44. The guest flies in the host's sector with its own ship, save and shields, and shares the host's XP.
 - PvP duel: the host taps "PvP duel". Rounds end at 1 hull; nobody dies.
-- Known gaps (fixed in the next build): guest radar shows no enemies, no enemy life bars on the guest, guest missions do not progress.
+- Guest radar shows the host's enemies, loot, rocks and mission targets; enemy life and shield bars show on the guest.
+- Missions: same mission = done together (the host completing it completes it for the guest; claim it at a station before quitting). Different missions: the guest taps "Fly my own missions" in the LAN co-op dialog; "Follow the host" rejoins.
+- Phoenix Lance (Legendary, Spartan HQ): unlocks when a Monolith reaches form V; elites, bosses and police Monoliths use it.
 
-SHA-256 of the APK: 3c6bccb7f6b81bc9ff4cc370ad0fbd818f8110774cc52cecc50f3561dc6f2d59
+SHA-256 of the APK: 6eb27d4f431e070df726b2fbee449b74257271c0eef1ee9cd63ed77db2845f5f
 
 ---
 
