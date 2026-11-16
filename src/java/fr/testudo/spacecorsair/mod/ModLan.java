@@ -351,7 +351,6 @@ public final class ModLan {
         defeatRound = -1;
         solo = false;
         marksOut = null;
-        marksN = 0;
     }
 
     private static void sendReliable(int type, ByteArrayOutputStream body) {
@@ -762,7 +761,7 @@ public final class ModLan {
     private static InfoBarEnnemis barFor(int slot, int k, Rec r) {
         if (k >= MAX_BARS) return null;
         InfoBarEnnemis b = barPool[slot][k];
-        if (b == null || b.witdh != r.w || b.height != r.h || b.centerPosition.x != r.u0 || b.centerPosition.y != r.v0) {
+        if (b == null || b.witdh != (int) r.w || b.height != (int) r.h || b.centerPosition.x != r.u0 || b.centerPosition.y != r.v0) {
             b = barPool[slot][k] = new InfoBarEnnemis(new Vector2(r.u0, r.v0), (int) r.w, (int) r.h);
         }
         b.fillA = r.a; b.fillR = r.r; b.fillG = r.g; b.fillB = r.b;
@@ -774,8 +773,8 @@ public final class ModLan {
     // ------------------------------------------------------------------ v50: radar markers and shared missions
     private static final int MK_POINT = 1, MK_MISSION = 2, MK_SKULL = 4, MAX_MARKS = 300;
     private static volatile byte[] marksOut;
-    private static volatile int marksN;
-    static volatile boolean solo;   // guest: flies its own game (own missions) while staying linked
+    static volatile boolean solo;
+    private static volatile boolean soloReset;   // guest: flies its own game (own missions) while staying linked
 
     /** Host, game thread: what the guest's radar shows (the host's enemies, civilians, rocks, loot, mines, objectives). */
     private static void hostMarks(PlayerShip ps, Level lv) {
@@ -784,7 +783,7 @@ public final class ModLan {
             DataOutputStream o = new DataOutputStream(bo);
             int n = 0;
             o.writeFloat(ps.position.x); o.writeFloat(ps.position.y); o.writeByte(MK_POINT); o.writeByte(0);
-            o.writeByte(51); o.writeByte(255); o.writeByte(153); o.writeByte(255); o.writeFloat(Math.max(3, ps.radarPointSize));
+            o.writeByte(255); o.writeByte(51); o.writeByte(255); o.writeByte(153); o.writeFloat(Math.max(3, ps.radarPointSize));
             n++;
             for (Element e : lv.elements) {
                 if (n >= MAX_MARKS) break;
@@ -801,10 +800,12 @@ public final class ModLan {
                 n++;
             }
             o.flush();
-            marksOut = bo.toByteArray();
-            marksN = n;
+            byte[] body = bo.toByteArray(), all = new byte[body.length + 2];
+            all[0] = (byte) (n >> 8); all[1] = (byte) n;
+            System.arraycopy(body, 0, all, 2, body.length);
+            marksOut = all;   // one volatile write: count and bytes stay paired
         } catch (Throwable t) {
-            marksN = 0;
+            marksOut = null;
         }
     }
 
@@ -884,8 +885,7 @@ public final class ModLan {
     static void setSolo(boolean on) {
         if (solo == on) return;
         solo = on;
-        dmgBase = -1; dmgSeen = 0; xpBase = -1; xpSeen = 0;   // no catch-up of what happened while apart
-        pulled = false;
+        soloReset = true;   // game thread clears the damage / XP baselines (no catch-up of what happened while apart)
         ModDev.ev("lan", "guest solo=" + on);
     }
 
@@ -1106,6 +1106,7 @@ public final class ModLan {
     private static void guestFrame(PlayerShip ps) {
         InFrame f;
         synchronized (inLock) { f = inFrame; }
+        if (soloReset) { soloReset = false; dmgBase = -1; dmgSeen = 0; xpBase = -1; xpSeen = 0; pulled = false; }
         if (solo) return;   // flying its own game: own sector, own missions
         Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
         // the guest's own sector stays empty: the host's world is what it sees and fights
@@ -1329,8 +1330,8 @@ public final class ModLan {
                 o.writeBoolean(pvp); o.writeInt(round); o.writeShort(hostWins); o.writeShort(guestWins);
                 o.writeUTF(missionId()); o.writeBoolean(missionDone());
                 byte[] mk = marksOut;
-                int mn = mk == null ? 0 : marksN;
-                o.writeShort(mn); o.writeInt(mn == 0 ? 0 : mk.length); if (mn > 0) o.write(mk);
+                int mn = mk == null ? 0 : ((mk[0] & 255) << 8) | (mk[1] & 255);
+                o.writeShort(mn); o.writeInt(mn == 0 ? 0 : mk.length - 2); if (mn > 0) o.write(mk, 2, mk.length - 2);
                 o.flush();
                 sendLatest(MSG_FRAME, bo);
                 sentFrames++;
