@@ -93,7 +93,9 @@ public final class ModLan {
     static volatile boolean connected;
     static volatile String status = "";
 
-    private static final String HELLO = "SCLAN1";
+    private static final String HELLO = "SCLAN2";   // v45: + version, nickname, country, and a host reply byte
+    static final int MAX_MSG = 256 * 1024;
+    private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3;
     private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5;
     private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
     private static final int MAX_REMOTE = 2200;   // render queue holds 2500 per frame
@@ -125,7 +127,7 @@ public final class ModLan {
                     while (gen == linkGen) {
                         Socket s = ss.accept();
                         if (gen != linkGen) { s.close(); return; }
-                        if (!hello(s)) { s.close(); continue; }   // not a Space Corsair guest: keep waiting
+                        if (!hello(s, gen)) { try { s.close(); } catch (Throwable t) { /* closed */ } continue; }   // not a guest, wrong version, declined: keep waiting
                         try { ss.close(); } catch (Throwable t) { /* one guest */ }
                         begin(s, gen);
                         return;
@@ -145,7 +147,7 @@ public final class ModLan {
                     while (gen == linkGen && !connected) {
                         String name = "Corsair";
                         try { name = ObjectRegistry.INSTANCE.game.currentLevel.id.levelName; } catch (Throwable t) { /* unnamed */ }
-                        byte[] b = (HELLO + " " + name).getBytes("UTF-8");
+                        byte[] b = (HELLO + " " + name + "  v" + myVersion()).getBytes("UTF-8");
                         for (InetAddress a : broadcasts()) {
                             try { ds.send(new DatagramPacket(b, b.length, a, PORT)); } catch (Throwable t) { /* next address */ }
                         }
@@ -171,11 +173,124 @@ public final class ModLan {
             Socket s = new Socket();
             s.connect(new InetSocketAddress(ip, PORT), 5000);
             if (gen != linkGen) { s.close(); return; }
-            s.getOutputStream().write(HELLO.getBytes("UTF-8"));
+            DataOutputStream ho = new DataOutputStream(s.getOutputStream());
+            ho.write(HELLO.getBytes("UTF-8"));
+            ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
+            ho.flush();
+            status = ModLang.tr("Waiting for the host to accept...");
+            s.setSoTimeout(35000);
+            DataInputStream hi = new DataInputStream(s.getInputStream());
+            int r = hi.readUnsignedByte();
+            String hv = r == VERSION ? hi.readUTF() : "";
+            s.setSoTimeout(0);
+            if (gen != linkGen) { s.close(); return; }
+            if (r != OK) {
+                s.close();
+                noRejoin();
+                stop();
+                status = r == VERSION ? ModLang.tr("Different game versions. Your friend has") + " " + clean(hv, 40) + ", " + ModLang.tr("you have") + " " + myVersion() + "."
+                    : r == KICKED ? ModLang.tr("The host removed you from this game.") : ModLang.tr("The host declined.");
+                ModDev.ev("lan", "join refused " + r);
+                return;
+            }
+            lastAddr = ip;
             begin(s, gen);
         } catch (Throwable t) {
             fail(t);
         }
+    }
+
+    // ------------------------------------------------------------------ v45: identity, version lock, accept / kick, reconnect
+    private static String verCache;
+
+    /** The app's version name (same on both phones or the join is refused). */
+    static String myVersion() {
+        if (verCache != null) return verCache;
+        try {
+            android.content.Context c = ObjectRegistry.INSTANCE.game.context;
+            verCache = c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName;
+        } catch (Throwable t) {
+            return "?";
+        }
+        return verCache;
+    }
+
+    static String myNick() { return ""; }      // filled by the nickname screen (later step of the plan)
+
+    static String myCountry() { return ""; }
+
+    /** Printable text of at most max characters (peer-supplied strings never reach the screen raw). */
+    static String clean(String v, int max) {
+        if (v == null) return "";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < v.length() && sb.length() < max; i++) {
+            char ch = v.charAt(i);
+            if (ch >= 32 && ch != 127 && !Character.isISOControl(ch)) sb.append(ch);
+        }
+        return sb.toString();
+    }
+
+    private static final java.util.HashSet<String> kicked = new java.util.HashSet<String>();
+    private static volatile String peerAddr = "", peerNick = "";
+    private static volatile String rejoinAddr;
+    private static volatile long rejoinUntil;
+    private static volatile String lastAddr;
+    private static volatile boolean byeSeen, autoAccept;
+    private static volatile int decision;          // 0 waiting, 1 accept, 2 decline
+    private static volatile String pendingWho;
+    private static volatile Activity lastAct;
+
+    private static void noRejoin() { lastAddr = null; rejoinAddr = null; rejoinUntil = 0; }
+
+    /** Host: asks the player (dialog on the current screen; also offered in the LAN co-op menu). 25 s without an answer declines. */
+    private static boolean askAccept(final String who, long gen) {
+        decision = 0;
+        pendingWho = who;
+        try {
+            Activity a = ModComms.activity();
+            if (a == null || a.isFinishing()) a = lastAct;
+            final Activity fa = a;
+            if (fa != null && !fa.isFinishing()) fa.runOnUiThread(new Runnable() { public void run() { acceptDialog(fa, who); } });
+        } catch (Throwable t) {
+            // the menu still offers it
+        }
+        joinAsk = true;
+        long end = System.currentTimeMillis() + 25000;
+        try {
+            while (decision == 0 && gen == linkGen && System.currentTimeMillis() < end) Thread.sleep(100);
+        } catch (InterruptedException e) {
+            // declined
+        }
+        pendingWho = null;
+        return decision == 1 && gen == linkGen;
+    }
+
+    private static void acceptDialog(Activity a, String who) {
+        try {
+            new AlertDialog.Builder(a).setTitle(ModLang.tr("LAN co-op")).setMessage(who + " " + ModLang.tr("wants to join your game."))
+                .setPositiveButton(ModLang.tr("Accept"), new DialogInterface.OnClickListener() { public void onClick(DialogInterface d, int w) { if (decision == 0) decision = 1; } })
+                .setNegativeButton(ModLang.tr("Decline"), new DialogInterface.OnClickListener() { public void onClick(DialogInterface d, int w) { if (decision == 0) decision = 2; } })
+                .show();
+        } catch (Throwable t) {
+            // no dialog on this screen
+        }
+    }
+
+    /** Host UI: removes the guest; that phone cannot rejoin until the game restarts. */
+    static void kick() {
+        String a = peerAddr;
+        if (a.length() > 0) synchronized (kicked) { kicked.add(a); }
+        ModDev.ev("lan", "kick " + a);
+        noRejoin();
+        stop();
+        host();
+    }
+
+    /** Game thread: a peer broke the rules of the link (bad data, impossible values). The session ends. */
+    private static void violation(String why) {
+        ModDev.ev("lan", "violation: " + why);
+        if (role == HOST) kick();
+        else { noRejoin(); stop(); status = ModLang.tr("Co-op ended: the other game sent invalid data."); lost = true; }
     }
 
     /** Guest: listens for host announcements for ms; returns "address  sector" lines. */
@@ -246,23 +361,51 @@ public final class ModLan {
         return sb.length() == 0 ? "?" : sb.toString();
     }
 
-    /** Host: the first 6 bytes from a guest must be the HELLO tag (3 s). */
-    private static boolean hello(Socket s) {
+    /** Host: HELLO tag, version, nickname, country (3 s); then the reply byte. False = not let in. */
+    private static boolean hello(Socket s, long gen) {
         try {
             s.setSoTimeout(3000);
+            DataInputStream in = new DataInputStream(s.getInputStream());
+            DataOutputStream out = new DataOutputStream(s.getOutputStream());
             byte[] b = new byte[HELLO.length()];
-            new DataInputStream(s.getInputStream()).readFully(b);
+            in.readFully(b);
+            if (!HELLO.equals(new String(b, "UTF-8"))) return false;   // also the v44 "SCLAN1" guests: they see the link close
+            String ver = clean(readShortUTF(in, 64), 40), nick = clean(readShortUTF(in, 64), 12), ctry = clean(readShortUTF(in, 16), 3);
             s.setSoTimeout(0);
-            return HELLO.equals(new String(b, "UTF-8"));
+            String addr = s.getInetAddress() != null ? s.getInetAddress().getHostAddress() : "";
+            boolean out3;
+            synchronized (kicked) { out3 = kicked.contains(addr); }
+            if (out3) { out.writeByte(KICKED); out.flush(); return false; }
+            if (!ver.equals(myVersion())) { out.writeByte(VERSION); out.writeUTF(myVersion()); out.flush(); ModDev.ev("lan", "refused version " + ver); return false; }
+            boolean back = addr.equals(rejoinAddr) && System.currentTimeMillis() < rejoinUntil;   // the same phone reconnecting
+            String who = (nick.length() > 0 ? nick : ModLang.tr("A player")) + (ctry.length() > 0 ? " (" + ctry + ")" : "") + " [" + addr + "]";
+            if (!back && !autoAccept && !askAccept(who, gen)) { out.writeByte(DECLINED); out.flush(); ModDev.ev("lan", "declined " + addr); return false; }
+            out.writeByte(OK);
+            out.flush();
+            peerAddr = addr;
+            peerNick = nick;
+            return true;
         } catch (Throwable t) {
             return false;
         }
     }
 
+    /** readUTF with a length limit (a stranger's string is never read unbounded). */
+    private static String readShortUTF(DataInputStream in, int max) throws IOException {
+        int n = in.readUnsignedShort();
+        if (n > max * 3) throw new IOException("string too long");
+        byte[] b = new byte[n + 2];
+        b[0] = (byte) (n >>> 8); b[1] = (byte) n;
+        in.readFully(b, 2, n);
+        return new DataInputStream(new java.io.ByteArrayInputStream(b)).readUTF();
+    }
+
     private static void begin(final Socket s, final long gen) throws IOException {
         s.setTcpNoDelay(true);
-        s.setSendBufferSize(256 * 1024);
+        s.setSendBufferSize(64 * 1024);   // v45: a small kernel queue, so stale frames are dropped here (latest-only) instead of piling up
         s.setReceiveBufferSize(256 * 1024);
+        byeSeen = false;
+        strikes = 0;
         sock = s;
         synchronized (outLock) { reliable.clear(); latest = null; }
         resetTables();
@@ -278,11 +421,18 @@ public final class ModLan {
                     while (gen == linkGen) {
                         int type = in.readUnsignedByte();
                         int len = in.readInt();
-                        if (len < 0 || len > 4 << 20) throw new IOException("bad length " + len);
+                        if (len < 0 || len > MAX_MSG) throw new IOException("bad length " + len);
                         byte[] b = new byte[len];
                         in.readFully(b);
-                        if (type == MSG_BYE) throw new IOException("bye");
-                        receive(type, b);
+                        bytesIn += len + 5;
+                        if (type == MSG_BYE) { byeSeen = true; throw new IOException("bye"); }
+                        try {
+                            receive(type, b);
+                        } catch (IOException e) {
+                            throw e;
+                        } catch (Throwable e) {
+                            throw new IOException("bad message " + type + " " + e);   // never a crash: the link ends
+                        }
                     }
                 } catch (Throwable t) {
                     if (gen == linkGen) fail(t);
@@ -302,8 +452,8 @@ public final class ModLan {
                             frame = latest;
                             latest = null;
                         }
-                        for (byte[] m : rel) out.write(m);   // definitions and shots go out before the frame that uses them
-                        if (frame != null) out.write(frame);
+                        for (byte[] m : rel) { out.write(m); bytesOut += m.length; }   // definitions and shots go out before the frame that uses them
+                        if (frame != null) { out.write(frame); bytesOut += frame.length; }
                         out.flush();
                     }
                 } catch (Throwable t) {
@@ -317,10 +467,67 @@ public final class ModLan {
 
     private static void fail(Throwable t) {
         boolean was = connected;
+        int wasRole = role;
         ModDev.ev("lan", "link failed " + t);
+        final String back = lastAddr;
+        String peer = peerAddr;
+        boolean auto = autoAccept;
         stop();
         status = ModLang.tr("Co-op link lost") + (t != null && t.getMessage() != null ? ": " + t.getMessage() : "");
         if (was) lost = true;
+        if (!was || byeSeen) return;
+        // v45: a dropped link (not a goodbye) is retried for 30 s
+        if (wasRole == HOST) {
+            rejoinAddr = peer;
+            rejoinUntil = System.currentTimeMillis() + 30000;
+            host();
+            autoAccept = auto;
+            status = ModLang.tr("Co-op link lost. Waiting 30 s for your friend to reconnect...");
+        } else if (wasRole == GUEST && back != null) {
+            status = ModLang.tr("Co-op link lost. Reconnecting...");
+            final long mark = linkGen;
+            new Thread(new Runnable() {
+                public void run() {
+                    long end = System.currentTimeMillis() + 30000;
+                    try {
+                        while (System.currentTimeMillis() < end && linkGen == mark) {
+                            Thread.sleep(3000);
+                            if (linkGen != mark) return;   // the player hosted, joined or disconnected meanwhile
+                            if (tryRejoin(back, mark)) return;
+                        }
+                    } catch (Throwable e) {
+                        // gave up
+                    }
+                    if (linkGen == mark) status = ModLang.tr("Co-op link lost");
+                }
+            }, "lan-rejoin").start();
+        }
+    }
+
+    /** Guest: one quiet reconnect attempt; true = linked again. The generation moves only on success. */
+    private static boolean tryRejoin(String ip, long mark) {
+        Socket s = null;
+        try {
+            s = new Socket();
+            s.connect(new InetSocketAddress(ip, PORT), 2500);
+            DataOutputStream ho = new DataOutputStream(s.getOutputStream());
+            ho.write(HELLO.getBytes("UTF-8"));
+            ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
+            ho.flush();
+            s.setSoTimeout(5000);
+            int r = new DataInputStream(s.getInputStream()).readUnsignedByte();
+            s.setSoTimeout(0);
+            if (r != OK || linkGen != mark) { s.close(); return true; }   // refused, or the player moved on: stop trying
+            role = GUEST;
+            long gen = ++linkGen;
+            lastAddr = ip;
+            begin(s, gen);
+            ModDev.ev("lan", "reconnected");
+            return true;
+        } catch (Throwable t) {
+            try { if (s != null) s.close(); } catch (Throwable e) { /* closed */ }
+            return false;
+        }
     }
 
     /** Ends the session on both sides. */
@@ -351,6 +558,9 @@ public final class ModLan {
         defeatRound = -1;
         solo = false;
         marksOut = null;
+        autoAccept = false;
+        decision = 2;   // a pending join question is void
+        peerAddr = "";
     }
 
     private static void sendReliable(int type, ByteArrayOutputStream body) {
@@ -383,6 +593,7 @@ public final class ModLan {
         synchronized (defIn) { defIn.clear(); texIn.clear(); }
         synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); }
         dmgSent = 0; dmgSeen = 0; xpSent = 0; xpSeen = 0; xpBase = -1; dmgBase = -1;
+        capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0;
     }
 
     /** Stable cross-phone key of a texture: L<asset> (mod lazy art), M<name> (mod eager art), R<resource> (stock); null = skip. */
@@ -614,19 +825,25 @@ public final class ModLan {
         if (type == MSG_DEF) {
             int id = in.readUnsignedShort();
             String k = in.readUTF();
-            synchronized (defIn) { defIn.put(id, k); texIn.remove(id); }
+            if (!defOk(k)) return;   // v45: only texture keys this game can have
+            synchronized (defIn) {
+                if (defIn.size() >= MAX_DEFS && !defIn.containsKey(id)) throw new IOException("too many textures");
+                defIn.put(id, k); texIn.remove(id);
+            }
         } else if (type == MSG_FRAME && role == GUEST) {
             InFrame f = new InFrame();
             f.level = in.readUTF();
-            f.hx = in.readFloat(); f.hy = in.readFloat(); f.dmg = in.readFloat(); f.xp = in.readLong();
+            f.level = clean(f.level, 64);
+            f.hx = fin(in.readFloat()); f.hy = fin(in.readFloat()); f.dmg = fin(in.readFloat()); f.xp = in.readLong();
             f.n = in.readUnsignedShort();
+            if (f.n > MAX_REMOTE) throw new IOException("too many records");
             f.recs = readRecs(in, f.n);
             if (in.available() >= 9) { f.pvp = in.readBoolean(); f.round = in.readInt(); f.hostWins = in.readShort(); f.guestWins = in.readShort(); }
             if (in.available() >= 5) {   // v44 trailing: mission, radar markers
-                f.mission = in.readUTF(); f.missionDone = in.readBoolean();
+                f.mission = clean(in.readUTF(), 80); f.missionDone = in.readBoolean();
                 f.marksN = in.readUnsignedShort();
                 int len = in.readInt();
-                if (len > 0 && len <= in.available()) { f.marks = new byte[len]; in.readFully(f.marks); } else f.marksN = 0;
+                if (len > 0 && len <= in.available() && f.marksN <= 2000 && len >= f.marksN * 14) { f.marks = new byte[len]; in.readFully(f.marks); } else f.marksN = 0;
             }
             synchronized (inLock) { inFrame = f; }
             gotFrames++;
@@ -634,21 +851,61 @@ public final class ModLan {
         } else if (type == MSG_STATE && role == HOST) {
             InState s = new InState();
             s.alive = in.readBoolean();
-            s.level = in.readUTF();
-            s.x = in.readFloat(); s.y = in.readFloat(); s.vx = in.readFloat(); s.vy = in.readFloat(); s.spin = in.readFloat();
-            s.life = in.readFloat(); s.maxLife = in.readFloat(); s.halfW = in.readFloat(); s.halfH = in.readFloat();
+            s.level = clean(in.readUTF(), 64);
+            s.x = fin(in.readFloat()); s.y = fin(in.readFloat()); s.vx = fin(in.readFloat()); s.vy = fin(in.readFloat()); s.spin = fin(in.readFloat());
+            s.life = fin(in.readFloat()); s.maxLife = fin(in.readFloat()); s.halfW = fin(in.readFloat()); s.halfH = fin(in.readFloat());
+            // v45 sanity: a view no larger than the widest zoom, a hull the game could have
+            s.halfW = Math.max(100, Math.min(MAX_VIEW, s.halfW)); s.halfH = Math.max(100, Math.min(MAX_VIEW, s.halfH));
+            if (s.maxLife > MAX_HULL || s.maxLife < 0) { s.maxLife = Math.max(0, Math.min(MAX_HULL, s.maxLife)); flags++; }
+            s.life = Math.min(s.life, s.maxLife);
             s.n = in.readUnsignedShort();
+            if (s.n > 200) throw new IOException("too many ship records");
             s.recs = readRecs(in, s.n);
             if (in.available() >= 4) s.defeats = in.readInt();
-            if (in.available() >= 3) { s.solo = in.readBoolean(); s.mission = in.readUTF(); }
+            if (in.available() >= 3) { s.solo = in.readBoolean(); s.mission = clean(in.readUTF(), 80); }
             s.at = System.currentTimeMillis();
             synchronized (inLock) { inState = s; }
             gotFrames++;
             lastRecs = s.n;
         } else if (type == MSG_SHOT && role == HOST) {
+            if (b.length > 4096) throw new IOException("shot too large");
             synchronized (inLock) { if (inShots.size() < 400) inShots.add(b); }
             shotsIn++;
         }
+    }
+
+    // ------------------------------------------------------------------ v45: validation of everything received
+    static final int MAX_DEFS = 4096;            // distinct textures per session
+    static final float MAX_VIEW = 6000f;         // half extent of a guest view, world units
+    static final float MAX_HULL = 5.0e7f;        // above any hull the game can build
+    static volatile int flags;                   // clamped / dropped values seen (test log)
+    private static volatile int strikes;         // serious violations; the link ends at STRIKES
+    private static final int STRIKES = 20;
+    static volatile long bytesIn, bytesOut;
+
+    private static float fin(float v) throws IOException {
+        if (Float.isNaN(v) || Float.isInfinite(v)) throw new IOException("not a number");
+        return v;
+    }
+
+    /** A texture key this game can resolve: R<stock drawable id>, or L/M<mod art name>. */
+    static boolean defOk(String k) {
+        if (k == null || k.length() < 2 || k.length() > 96) return false;
+        char c = k.charAt(0);
+        if (c == 'R') {
+            try {
+                int id = Integer.parseInt(k.substring(1));
+                return (id >>> 16) == 0x7f02 || (id >>> 16) == 0x7f03;   // drawable / raw packages of the stock APK
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        if (c != 'L' && c != 'M') return false;
+        for (int i = 1; i < k.length(); i++) {
+            char ch = k.charAt(i);
+            if (!(ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z' || ch >= '0' && ch <= '9' || ch == '_' || ch == '-' || ch == '.' || ch == '/')) return false;
+        }
+        return k.indexOf("..") < 0;
     }
 
     private static Rec[] readRecs(DataInputStream in, int n) throws IOException {
@@ -658,10 +915,10 @@ public final class ModLan {
             r.kind = in.readUnsignedByte();
             if (r.kind == R_SPRITE || r.kind == R_FX) {
                 r.id = in.readUnsignedShort();
-                r.x = in.readFloat(); r.y = in.readFloat(); r.spin = in.readFloat();
+                r.x = fin(in.readFloat()); r.y = fin(in.readFloat()); r.spin = fin(in.readFloat());
                 r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
                 r.flags = in.readUnsignedByte();
-                r.w = in.readFloat(); r.h = in.readFloat();
+                r.w = fin(in.readFloat()); r.h = fin(in.readFloat());
                 if (r.kind == R_FX) {
                     r.u0 = in.readFloat(); r.v0 = in.readFloat(); r.u1 = in.readFloat(); r.v1 = in.readFloat();
                     if ((r.flags & 16) != 0) { r.e0 = in.readFloat(); r.e1 = in.readFloat(); }
@@ -673,7 +930,7 @@ public final class ModLan {
                 r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
                 r.flags = in.readUnsignedByte();
                 r.tsize = in.readUnsignedByte();
-                r.text = in.readUTF();
+                r.text = clean(in.readUTF(), 200);   // v45: printable, bounded
             } else if (r.kind == R_POINT) {
                 r.x = in.readFloat(); r.y = in.readFloat();
                 r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
@@ -874,6 +1131,7 @@ public final class ModLan {
             Mission m = ObjectRegistry.INSTANCE.currentMission;
             if (m == null || !f.mission.equals(m.missionId) || m.missionEngine == null || m.missionEngine.isCompleted()) return;
             m.missionEngine = new AlreadyCompletedEngine();
+            try { persistId = m.missionId; persistSeen = true; lanPrefs().edit().putString("done", m.missionId).commit(); } catch (Throwable t) { /* memory only */ }
             Mod.floatText(ps, ModLang.tr("CO-OP MISSION COMPLETE"), 0.3f, 1.0f, 0.5f);
             ModDev.ev("lan", "shared mission completed " + m.missionId);
         } catch (Throwable t) {
@@ -902,13 +1160,44 @@ public final class ModLan {
         if (v == null || v.equals(testLast)) return;
         testLast = v;
         ModDev.ev("lan", "test switch " + v);
-        if (v.equals("host")) host();
+        if (v.equals("host")) { host(); autoAccept = true; }   // the scripted peer has nobody to tap Accept
         else if (v.equals("off")) stop();
         else if (v.equals("duel")) duel(true);
         else if (v.equals("duel-off")) duel(false);
         else if (v.startsWith("join:")) new Thread(new Runnable() { public void run() { join(v.substring(5)); ModDev.ev("lan", "join -> connected=" + connected + " " + status); } }, "lan-join").start();
     }
     private static boolean announce, lost;
+    private static volatile boolean joinAsk;
+    private static long persistAt, logOut, logIn;
+
+    // v45: a shared mission completed in co-op survives quitting before the claim (kept until that mission is claimed or dropped)
+    private static boolean persistSeen;
+    private static String persistId;
+
+    private static android.content.SharedPreferences lanPrefs() {
+        return ObjectRegistry.INSTANCE.game.context.getSharedPreferences("corsair_lan", 0);
+    }
+
+    private static void persistedMission(PlayerShip ps) {
+        try {
+            if (persistId == null) persistId = lanPrefs().getString("done", "");
+            if (persistId.length() == 0) return;
+            Mission m = ObjectRegistry.INSTANCE.currentMission;
+            if (m != null && persistId.equals(m.missionId)) {
+                persistSeen = true;
+                if (m.missionEngine != null && !m.missionEngine.isCompleted()) {
+                    m.missionEngine = new AlreadyCompletedEngine();
+                    ModDev.ev("lan", "restored completed co-op mission " + persistId);
+                }
+            } else if (m != null || persistSeen) {   // claimed, abandoned or replaced
+                persistId = "";
+                persistSeen = false;
+                lanPrefs().edit().remove("done").commit();
+            }
+        } catch (Throwable t) {
+            // checked again in 2 s
+        }
+    }
     private static volatile boolean dropProxy;
     // guest
     private static float dmgSeen;
@@ -940,6 +1229,8 @@ public final class ModLan {
             if (announce) { announce = false; Mod.floatText(ps, ModLang.tr("CO-OP CONNECTED"), 0.3f, 1.0f, 0.5f); }
             if (lost) { lost = false; Mod.floatText(ps, ModLang.tr("CO-OP LINK LOST"), 1.0f, 0.4f, 0.3f); }
             testSwitch(now);
+            if (joinAsk) { joinAsk = false; String w = pendingWho; if (w != null) Mod.floatText(ps, w + " " + ModLang.tr("wants to join your game."), 0.3f, 1.0f, 0.5f); }
+            if (now - persistAt > 2000) { persistAt = now; persistedMission(ps); }
             if (!connected) {
                 leaveBay();
                 return;
@@ -949,7 +1240,9 @@ public final class ModLan {
                 ModDev.ev("lan", (role == HOST ? "host" : "guest") + " level=" + (ObjectRegistry.INSTANCE.game.currentLevel.id) + " sent=" + sentFrames
                     + " got=" + gotFrames + " lastRecs=" + lastRecs + " proxy=" + (proxy != null) + " shotsIn=" + shotsIn + " shotsOut=" + shotsOut
                     + " dmgSent=" + dmgSent + " dmgSeen=" + dmgSeen + " xpSent=" + xpSent + " xpSeen=" + xpSeen + " hull=" + ps.life + "/" + ps.maxLife
-                    + " pos=" + (int) ps.position.x + "," + (int) ps.position.y);
+                    + " pos=" + (int) ps.position.x + "," + (int) ps.position.y
+                    + " outBs=" + (bytesOut - logOut) / 3 + " inBs=" + (bytesIn - logIn) / 3 + " flags=" + flags + " strikes=" + strikes);
+                logOut = bytesOut; logIn = bytesIn;
             }
             if (role == HOST) hostFrame(ps, dt);
             else if (role == GUEST) guestFrame(ps);
@@ -976,22 +1269,48 @@ public final class ModLan {
             removeProxy();
             return;
         }
-        if (proxy == null || proxy.removed || proxyLevel != lv) { removeProxy(); spawnProxy(ps, s); proxyLevel = lv; }
+        if (proxy == null || proxy.removed || proxyLevel != lv) { removeProxy(); spawnProxy(ps, s); proxyLevel = lv; moveAt = 0; }
         Ennemis p = proxy;
         if (p == null) return;
+        // v45 movement check: a jump no ship could fly (and not the arrival next to the host) is not followed
+        if (s != moveState) {
+            moveState = s;
+            float dx = s.x - moveX, dy = s.y - moveY;
+            float secs = Math.max(0.016f, (s.at - moveAt) / 1000.0f);
+            float hx = s.x - ps.position.x, hy = s.y - ps.position.y;
+            boolean nearHost = hx * hx + hy * hy < 4000f * 4000f;
+            float reach = MAX_SPEED * secs + 1500f;
+            if (moveAt != 0 && !nearHost && dx * dx + dy * dy > reach * reach) {
+                flags++;
+                if (++strikes >= STRIKES) { violation("movement"); return; }
+                moveHold = true;
+            } else {
+                moveHold = false;
+                moveX = s.x; moveY = s.y; moveAt = s.at;
+            }
+        }
+        float vx = s.vx, vy = s.vy;
+        float v2 = vx * vx + vy * vy;
+        if (v2 > MAX_STEP * MAX_STEP) { float k = MAX_STEP / (float) Math.sqrt(v2); vx *= k; vy *= k; }
         float age = Math.min(250, System.currentTimeMillis() - s.at) / 16.0f;   // speeds are per ~16 ms frame
-        p.position.set(s.x + s.vx * age, s.y + s.vy * age);
-        p.speed.set(s.vx, s.vy);
+        if (moveHold) p.position.set(moveX, moveY);
+        else p.position.set(s.x + vx * age, s.y + vy * age);
+        p.speed.set(vx, vy);
         p.spin = s.spin;
         p.updateSapCoords();
         // hits on the stand-in are forwarded to the guest's own shields and hull; the stand-in itself never dies
         float lost = PROXY_LIFE - p.life;
-        if (lost > 0) dmgSent += lost;
+        if (lost > 0) { dmgSent += lost; if (pvp) roundDmg += lost; }
         p.maxLife = PROXY_LIFE;
         p.life = PROXY_LIFE;
         p.lifeInPourc = s.maxLife > 0 ? 100.0f * Math.max(0, s.life) / s.maxLife : 100.0f;
         p.removed = false;
-        for (byte[] b : shots) fireShot(b, p);
+        long nowS = System.currentTimeMillis() / 1000;
+        if (nowS != shotSec) { shotSec = nowS; shotCount = 0; }
+        for (byte[] b : shots) {
+            if (++shotCount > MAX_SHOTS_S) { flags++; continue; }   // v45: above any weapon's fire rate
+            fireShot(b, p);
+        }
         retarget -= dt;
         if (!pvp && retarget <= 0) {
             retarget = 1000;
@@ -1003,6 +1322,48 @@ public final class ModLan {
                 if (dp < 2500 && dp < dh && Math.random() < 0.6) en.initAttackTarget(p);
             }
         }
+    }
+
+    // v45 anti-cheat limits (host side). Generous: they stop impossible values, not good players.
+    static final float MAX_SPEED = 6000f;        // world units per second
+    static final float MAX_STEP = 100f;          // speed vector per frame
+    static final int MAX_SHOTS_S = 80;
+    static final float MAX_SHOT_DMG = 1.0e6f;
+    static final float SHOT_REACH = 800f;        // a shot starts at the ship
+    private static InState moveState;
+    private static float moveX, moveY, roundDmg;
+    private static long moveAt, shotSec;
+    private static boolean moveHold;
+    private static int shotCount;
+    private static final HashMap<String, Class<?>> shotClasses = new HashMap<String, Class<?>>();
+
+    /** The projectile class for a received name, loaded without running it; null = not a projectile of this game. */
+    private static Class<?> shotClass(String cn) {
+        if (cn == null || cn.length() > 120 || !cn.startsWith("fr.testudo.spacecorsair.")) return null;
+        if (shotClasses.containsKey(cn)) return shotClasses.get(cn);
+        Class<?> c = null;
+        try {
+            c = Class.forName(cn, false, ModLan.class.getClassLoader());
+            if (!Projectile.class.isAssignableFrom(c) || LaserBeam.class.isAssignableFrom(c) || Modifier.isAbstract(c.getModifiers())) c = null;
+        } catch (Throwable t) {
+            c = null;
+        }
+        if (shotClasses.size() < 256) shotClasses.put(cn, c);
+        return c;
+    }
+
+    private static boolean bad(float v) { return Float.isNaN(v) || Float.isInfinite(v); }
+
+    /** A received shot the guest's ship could have fired: real numbers, starts at the ship, bounded damage and life. */
+    static boolean shotOk(Projectile p, float fromX, float fromY) {
+        if (p.position == null || p.speed == null) return false;
+        if (bad(p.position.x) || bad(p.position.y) || bad(p.speed.x) || bad(p.speed.y) || bad(p.damage) || bad(p.spin) || bad(p.life) || bad(p.maxLife)) return false;
+        float dx = p.position.x - fromX, dy = p.position.y - fromY;
+        if (dx * dx + dy * dy > SHOT_REACH * SHOT_REACH) return false;
+        if (p.damage < 0) p.damage = 0;
+        if (p.damage > MAX_SHOT_DMG) { p.damage = MAX_SHOT_DMG; flags++; }
+        if (p.lifeTimeInMilli > 60000) { p.lifeTimeInMilli = 60000; flags++; }
+        return true;
     }
 
     private static void spawnProxy(PlayerShip ps, InState s) {
@@ -1069,11 +1430,12 @@ public final class ModLan {
         try {
             DataInputStream in = new DataInputStream(new java.io.ByteArrayInputStream(b));
             String cn = in.readUTF();
-            Class<?> c = Class.forName(cn);
-            if (!Projectile.class.isAssignableFrom(c) || LaserBeam.class.isAssignableFrom(c)) return;
+            Class<?> c = shotClass(cn);   // v45: never Class.forName on a peer's string with initialisation
+            if (c == null) { flags++; if (++strikes >= STRIKES) violation("shot class"); return; }
             Projectile p = newProjectile(c);
             if (p == null) return;
             for (Field f : shotFields(c)) readField(in, f, p);
+            if (!shotOk(p, from.position.x, from.position.y)) { flags++; p.removed = true; return; }
             p.sender = from;
             p.alterationSpecs = null;
             p.poisonSource = null;
@@ -1148,20 +1510,37 @@ public final class ModLan {
         // damage the host's game dealt to this ship, through this ship's own shields and hull
         if (dmgBase < 0) dmgBase = f.dmg;
         float d = f.dmg - dmgBase - dmgSeen;
+        long capNow = System.currentTimeMillis();
+        float capS = capAt == 0 ? 0 : Math.min(2.0f, (capNow - capAt) / 1000.0f);
+        if (capAt == 0) { dmgRoom = 1.5f * ps.maxLife; xpRoom = 1.0e9f; }   // a new link starts with full room
+        capAt = capNow;
+        // v45 guest protection: at most one full hull of damage per second, one level of XP per minute, whatever the host sends
+        dmgRoom = Math.min(1.5f * ps.maxLife, dmgRoom + ps.maxLife * capS);
         if (d > 0 && !ps.removed && ps.life > 0) {
             dmgSeen += d;
-            hurt(ps, d);
+            if (d > dmgRoom) { d = Math.max(0, dmgRoom); flags++; }
+            dmgRoom -= d;
+            if (d > 0) hurt(ps, d);
         }
         // shared XP
         if (xpBase < 0) xpBase = f.xp;
         long x = f.xp - xpBase - xpSeen;
+        try {
+            float bar = Math.max(1000f, ObjectRegistry.INSTANCE.game.playerInfo.nextLevelXp);
+            xpRoom = Math.min(bar, xpRoom + bar * capS / 60.0f);
+        } catch (Throwable t) { /* no room added */ }
         if (x > 0) {
             xpSeen += x;
-            try { ObjectRegistry.INSTANCE.game.playerInfo.addXp((int) Math.min(Integer.MAX_VALUE, x)); } catch (Throwable t) { /* no xp */ }
+            if (x > (long) xpRoom) { x = (long) Math.max(0, xpRoom); flags++; }
+            xpRoom -= x;
+            try { if (x > 0) ObjectRegistry.INSTANCE.game.playerInfo.addXp((int) Math.min(Integer.MAX_VALUE, x)); } catch (Throwable t) { /* no xp */ }
         }
         guestMission(ps, f);
         replay(f.recs, f.n, 0, 0);
     }
+
+    private static long capAt;
+    private static float dmgRoom, xpRoom;
 
     private static void hurt(PlayerShip ps, float dmg) {
         try {
@@ -1408,7 +1787,7 @@ public final class ModLan {
         if (pvpWanted && !pvp) {
             pvp = true;
             duelFrom = null;
-            round = 1; hostWins = 0; guestWins = 0;
+            round = 1; hostWins = 0; guestWins = 0; roundDmg = 0;
             seenDefeats = s != null ? s.defeats : 0;
             jumpedIn = false;
             removeProxy();   // re-spawned on the duel side
@@ -1431,7 +1810,11 @@ public final class ModLan {
             }
             return;
         }
-        if (s != null && s.defeats > seenDefeats) {   // the guest's hull hit its floor: host wins the round
+        // v45: the host decides. A guest that soaked 4 hulls of damage without reporting a lost round has lost it.
+        boolean soaked = s != null && s.maxLife > 0 && roundDmg > 4.0f * s.maxLife + 2000f;
+        if (soaked) { flags++; ModDev.ev("lan", "duel round forced, dmg " + roundDmg); }
+        if (s != null && (s.defeats > seenDefeats || soaked)) {   // the guest's hull hit its floor: host wins the round
+            roundDmg = 0;
             seenDefeats = s.defeats;
             hostWins++;
             round++;
@@ -1440,6 +1823,7 @@ public final class ModLan {
         }
         if (lostRound) {   // the host's hull hit its floor: guest wins the round
             lostRound = false;
+            roundDmg = 0;
             guestWins++;
             round++;
             restore = true;
@@ -1528,6 +1912,10 @@ public final class ModLan {
     // ------------------------------------------------------------------ JVM test access (work/dtest V49)
     static int queueSizeOf(RenderQueue q) throws Exception { refl(); return fQSize.getInt(q); }
 
+    static void hostForTest() { host(); autoAccept = true; }
+
+    static Class<?> shotClassForTest(String n) { return shotClass(n); }
+
     static int captureForTest(RenderQueue q, int from, int to, int sf, int st, float ox, float oy, DataOutputStream o) throws Exception {
         refl();
         return capture(q, from, to, sf, st, ox, oy, o, MAX_REMOTE);
@@ -1560,6 +1948,8 @@ public final class ModLan {
 
     static void showMenu(final Activity a) {
         try {
+            lastAct = a;
+            if (role == HOST && pendingWho != null && decision == 0) { acceptDialog(a, pendingWho); return; }
             String msg;
             if (connected) msg = (role == HOST ? ModLang.tr("You are hosting. Your friend plays in your sector.") : ModLang.tr("You joined a friend's game. You follow the host between sectors."))
                 + "\n\n" + ModLang.tr("PvP duel: both ships go to the old multiplayer bay and fight rounds. A ship stops at 1 hull and loses the round; nobody dies or pays a death fee. Undock to start.")
@@ -1582,8 +1972,10 @@ public final class ModLan {
                     b.setNeutralButton(pvpWanted ? ModLang.tr("End duel") : ModLang.tr("PvP duel"), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface d, int w) { duel(!pvpWanted); }
                     });
-                }
-                b.setNegativeButton(ModLang.tr("Close"), null);
+                    b.setNegativeButton(ModLang.tr("Kick player"), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface d, int w) { kick(); }
+                    });
+                } else b.setNegativeButton(ModLang.tr("Close"), null);
             } else {
                 b.setPositiveButton(ModLang.tr("Host"), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface d, int w) { host(); showMenu(a); }

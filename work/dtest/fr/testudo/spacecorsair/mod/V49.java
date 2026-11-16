@@ -78,17 +78,72 @@ public class V49 {
         Thread j = new Thread(new Runnable() { public void run() { ModLan.join("127.0.0.1"); } });
         j.start();
         java.net.Socket hs = ss.accept();
+        DataInputStream hin = new DataInputStream(hs.getInputStream());
+        byte[] hb = new byte[6]; hin.readFully(hb);
+        is("link: guest opens with the HELLO tag", "SCLAN2".equals(new String(hb, "UTF-8")));
+        String gv = hin.readUTF(); hin.readUTF(); hin.readUTF();
+        is("link: guest sends its version (" + gv + ")", gv.equals(ModLan.myVersion()));
+        hs.getOutputStream().write(0); hs.getOutputStream().flush();   // host reply: accepted
         j.join(6000);
         Thread.sleep(300);
         is("link: guest connected", ModLan.connected && ModLan.role == ModLan.GUEST);
         ModLan.stop();
-        DataInputStream hin = new DataInputStream(hs.getInputStream());
-        byte[] hb = new byte[6]; hin.readFully(hb);
-        is("link: guest opens with the HELLO tag", "SCLAN1".equals(new String(hb, "UTF-8")));
         int type = hin.readUnsignedByte();
         is("stop: guest says bye (" + type + ")", type == 5);
         is("stop: link down", !ModLan.connected && ModLan.role == ModLan.NONE);
         hs.close(); ss.close();
+        // v45: a host on another version refuses; the guest ends unlinked with a message
+        ss = new java.net.ServerSocket(ModLan.PORT);
+        j = new Thread(new Runnable() { public void run() { ModLan.join("127.0.0.1"); } });
+        j.start();
+        hs = ss.accept();
+        DataOutputStream ho = new DataOutputStream(hs.getOutputStream());
+        ho.writeByte(2); ho.writeUTF("mod v1"); ho.flush();
+        j.join(6000);
+        is("version: refused join leaves no link", !ModLan.connected && ModLan.role == ModLan.NONE && ModLan.status.contains("mod v1"));
+        hs.close(); ss.close();
+        // v45: the host side. Old tag and wrong version are turned away, the right one is let in, garbage ends the link without a crash
+        ModLan.hostForTest();
+        Thread.sleep(400);
+        java.net.Socket g = new java.net.Socket("127.0.0.1", ModLan.PORT);
+        g.getOutputStream().write("SCLAN1".getBytes("UTF-8")); g.getOutputStream().flush();
+        g.setSoTimeout(3000);
+        is("host: v44 tag is dropped", g.getInputStream().read() == -1);
+        g.close();
+        g = new java.net.Socket("127.0.0.1", ModLan.PORT);
+        DataOutputStream go = new DataOutputStream(g.getOutputStream());
+        go.write("SCLAN2".getBytes("UTF-8")); go.writeUTF("other"); go.writeUTF("x"); go.writeUTF(""); go.flush();
+        g.setSoTimeout(3000);
+        is("host: other version refused", g.getInputStream().read() == 2);
+        g.close();
+        g = new java.net.Socket("127.0.0.1", ModLan.PORT);
+        go = new DataOutputStream(g.getOutputStream());
+        go.write("SCLAN2".getBytes("UTF-8")); go.writeUTF(ModLan.myVersion()); go.writeUTF("Ana"); go.writeUTF("ESP"); go.flush();
+        g.setSoTimeout(3000);
+        is("host: same version accepted", g.getInputStream().read() == 0);
+        Thread.sleep(300);
+        is("host: linked", ModLan.connected && ModLan.role == ModLan.HOST);
+        go.writeByte(3); go.writeInt(64 << 20); go.flush();   // a 64 MB message header
+        Thread.sleep(500);
+        is("host: oversize message ends the link", !ModLan.connected);
+        g.close();
+        ModLan.stop();
+        // v45: texture keys and shot classes
+        is("def: stock drawable ok", ModLan.defOk("R" + 0x7f020010) && ModLan.defOk("Lhull_mantis_s5") && ModLan.defOk("Mfx.glow"));
+        is("def: others refused", !ModLan.defOk("R5") && !ModLan.defOk("R" + 0x01080000) && !ModLan.defOk("L../x") && !ModLan.defOk("Xabc") && !ModLan.defOk("L a"));
+        is("shot class: projectile ok", ModLan.shotClassForTest(EnergyBullet.class.getName()) == EnergyBullet.class);
+        is("shot class: others refused", ModLan.shotClassForTest("java.lang.Runtime") == null && ModLan.shotClassForTest("fr.testudo.spacecorsair.mod.ModLan") == null
+            && ModLan.shotClassForTest("fr.testudo.spacecorsair.business.projectiles.Projectile") == null && ModLan.shotClassForTest("fr.testudo.spacecorsair.business.projectiles.LaserBeam") == null);
+        {
+            EnergyBullet eb = new EnergyBullet();
+            eb.position.set(100, 100); eb.speed.set(1, 1); eb.damage = 5.0e8f; eb.lifeTimeInMilli = 999999;
+            is("shot: clamped", ModLan.shotOk(eb, 0, 0) && eb.damage == ModLan.MAX_SHOT_DMG && eb.lifeTimeInMilli == 60000);
+            eb.position.set(5000, 0);
+            is("shot: far from the ship refused", !ModLan.shotOk(eb, 0, 0));
+            eb.position.set(0, 0); eb.damage = Float.NaN;
+            is("shot: NaN refused", !ModLan.shotOk(eb, 0, 0));
+        }
+        is("clean: control characters and length", ModLan.clean("a\nb\u0007cdef", 4).equals("abcd"));
         System.out.println(bad == 0 ? "V49 VALUES-OK" : "V49 VALUES-FAIL " + bad);
         System.exit(0);
     }

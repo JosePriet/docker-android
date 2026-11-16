@@ -34,6 +34,9 @@ public final class ModComms {
     private ModComms() {}
 
     private static Activity act;
+
+    /** v45 (ModLan): the flight screen's activity while it is attached, else null. */
+    static Activity activity() { return act; }
     private static LinearLayout panel;
     private static ImageView face;
     private static TextView who, msg;
