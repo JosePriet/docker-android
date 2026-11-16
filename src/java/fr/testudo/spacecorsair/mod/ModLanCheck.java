@@ -52,6 +52,7 @@ final class ModLanCheck {
 
     static final class Limits {
         float shot, dps, hull, shield;
+        float shotPvp, dpsPvp;   // without the doomsday allowance: used while the players can hit each other
         int shotsPerSec;
         int flags;        // what the declaration itself got wrong (unknown item, item above the level)
         boolean exact;    // false = no usable declaration: the level's best stock items stand in
@@ -204,16 +205,21 @@ final class ModLanCheck {
         }
         m.shot = DMG_SLACK * hullDmg * Math.max(1f, Math.max(shot, mShot));
         m.dps = DMG_SLACK * hullDmg * Math.max(1f, dps + mDps);
+        m.shotPvp = m.shot; m.dpsPvp = m.dps;
         if (doomsday) { m.shot = Math.max(m.shot, DOOMSDAY_DPS); m.dps += DOOMSDAY_DPS; }
         m.hull = Math.max(1f, XpBuilder.PLAYER_SHIP_LIFE[L] * Math.max(0.1f, booster) * HULL_SLACK);
         m.shield = Math.max(1f, shield * hullShield * SHIELD_SLACK);
         m.shotsPerSec = 300;
+        m.shot = sane(m.shot); m.dps = sane(m.dps); m.shotPvp = sane(m.shotPvp); m.dpsPvp = sane(m.dpsPvp); m.hull = sane(m.hull); m.shield = sane(m.shield);
         if (d != null) {   // the numbers the guest's game shows, against the tables
             if (!(d.maxHull >= 0) || d.maxHull > m.hull) m.flags++;
             if (!(d.maxShield >= 0) || d.maxShield > m.shield) m.flags++;
         }
         return m;
     }
+
+    /** A ceiling is always a finite number of at least 1, whatever a table holds. */
+    private static float sane(float v) { return v >= 1f && !Float.isInfinite(v) ? v : 1f; }
 
     // ------------------------------------------------------------------ damage per second (host, game thread)
     private static float room;
@@ -225,16 +231,19 @@ final class ModLanCheck {
      * The damage this shot may carry: at most the shot ceiling, and at most what is left of three seconds' worth of the
      * damage-per-second ceiling (refilled over time). 0 = nothing left; the caller counts a flag when it gets less than it asked.
      */
-    static float allow(Limits m, float damage, long now) {
+    static float allow(Limits m, float damage, long now) { return allow(m, damage, now, false); }
+
+    static float allow(Limits m, float damage, long now, boolean pvp) {
         if (!(damage > 0)) return 0;   // also NaN
         if (m == null) return damage;
-        float burst = 3f * m.dps;
+        float dps = pvp ? m.dpsPvp : m.dps, shot = pvp ? m.shotPvp : m.shot;
+        float burst = 3f * dps;
         if (!(burst > 0) || Float.isInfinite(burst)) return 0;
         if (Float.isNaN(room) || room < 0) room = 0;
         if (roomAt == 0) room = burst;
-        else room = Math.min(burst, room + m.dps * Math.max(0, now - roomAt) / 1000f);
+        else room = Math.min(burst, room + dps * Math.max(0, now - roomAt) / 1000f);
         roomAt = now;
-        float d = Math.min(damage, m.shot);
+        float d = Math.min(damage, shot);
         if (d > room) d = Math.max(0, room);
         room -= d;
         return d;

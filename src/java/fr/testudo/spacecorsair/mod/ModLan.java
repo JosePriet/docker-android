@@ -526,7 +526,7 @@ public final class ModLan {
         writeLock = wl;
         byeSeen = false;
         strikes = 0;
-        limits = null; beganAt = System.currentTimeMillis(); hullFlagged = false; declSent = null; declSentAt = 0; declAt = 0; ModLanCheck.reset();
+        limits = null; beganAt = System.currentTimeMillis(); firstStateAt = 0; hullFlagged = false; declSent = null; declSentAt = 0; declAt = 0; ModLanCheck.reset();
         ModLanSync.on = internet || ModDev.testValue("corsair_lean") != null;   // the small stream: internet links (and the emulator test switch)
         sock = s;
         synchronized (outLock) { reliable.clear(); latest = null; }
@@ -1280,6 +1280,7 @@ public final class ModLan {
             if (in.available() >= 4) s.defeats = in.readInt();
             if (in.available() >= 3) { s.solo = in.readBoolean(); s.mission = clean(in.readUTF(), 80); }
             s.at = System.currentTimeMillis();
+            if (firstStateAt == 0) firstStateAt = s.at;
             synchronized (inLock) { inState = s; }
             gotFrames++;
             lastRecs = s.n;
@@ -1299,10 +1300,9 @@ public final class ModLan {
             ModLanUi.onChat(peerLabel(), in.readUTF());
         } else if (type == MSG_DECL && role == HOST) {
             long now = System.currentTimeMillis();
-            if (now - declAt < 500) return;   // a declaration changes when gear changes, not many times a second
-            ModLanCheck.Limits lm = ModLanCheck.limits(ModLanCheck.decode(b));
+            ModLanCheck.Limits lm = ModLanCheck.limits(ModLanCheck.decode(b));   // always taken (two gear changes can follow each other closely)
+            if (now - declAt > 500) flags += lm.flags;                            // only the flag count is rate limited
             declAt = now;
-            flags += lm.flags;
             hullFlagged = false;
             limits = lm;
             ModDev.ev("lan", "guest declared: exact=" + lm.exact + " shot<=" + (int) lm.shot + " dps<=" + (int) lm.dps + " hull<=" + (int) lm.hull + " flags=" + lm.flags);
@@ -1773,7 +1773,23 @@ public final class ModLan {
     static final float SHOT_REACH = 1500f;       // a shot starts at the ship
     private static volatile ModLanCheck.Limits limits;
     private static ModLanCheck.Limits noDecl;
-    private static volatile long beganAt;
+    private static volatile long beganAt, firstStateAt;
+    private static final HashMap<Class<?>, Field[]> dmgFieldCache = new HashMap<Class<?>, Field[]>();
+
+    /** The float fields of a projectile class that carry damage ("damage", "radiusDamage", and any mod field named like one). */
+    private static Field[] damageFields(Class<?> c) {
+        Field[] r = dmgFieldCache.get(c);
+        if (r != null) return r;
+        ArrayList<Field> out = new ArrayList<Field>();
+        for (Field f : shotFields(c)) {
+            if (f.getType() != float.class) continue;
+            String n = f.getName().toLowerCase(java.util.Locale.US);
+            if (n.contains("damage") || n.contains("dmg") || n.contains("dps") || n.contains("burn")) out.add(f);
+        }
+        r = out.toArray(new Field[0]);
+        dmgFieldCache.put(c, r);
+        return r;
+    }
     static final long DECL_WAIT_MS = 10000;
 
     /** Ceilings while the guest has declared nothing: the top of the stock tables, no special allowances. Never stored as the guest's limits. */
@@ -1915,16 +1931,27 @@ public final class ModLan {
             // v45: damage clamped to what the declared ship and weapons can do by this phone's own tables
             ModLanCheck.Limits lm = limits;
             long nowMs = System.currentTimeMillis();
-            if (lm == null) {   // nothing declared: the plain table ceilings for a few seconds, then no shots at all
-                if (nowMs - beganAt > DECL_WAIT_MS) { if (nowMs - clampAt > 1000) { clampAt = nowMs; flags++; } clamped++; p.removed = true; return; }
+            if (lm == null) {   // nothing declared: the plain table ceilings for a few seconds after the guest's first state, then no shots at all
+                long first = firstStateAt;
+                if (first != 0 && nowMs - first > DECL_WAIT_MS) { if (nowMs - clampAt > 1000) { clampAt = nowMs; flags++; } clamped++; p.removed = true; return; }
                 lm = undeclared();
             }
-            float may = ModLanCheck.allow(lm, p.damage, nowMs);
-            if (may < p.damage) {
+            // every damage number the shot carries counts (a missile's blast as well as its hit); all are scaled together
+            Field[] dmgF = damageFields(c);
+            float ask = 0;
+            for (Field f : dmgF) {
+                float v = f.getFloat(p);
+                if (bad(v) || v < 0) { flags++; p.removed = true; return; }
+                ask = Math.max(ask, v);
+            }
+            if (ask <= 0) { p.removed = true; return; }   // a shot that hurts nothing is not worth simulating
+            float may = ModLanCheck.allow(lm, ask, nowMs, pvp || pvpRoom);
+            if (may < ask) {
                 if (nowMs - clampAt > 1000) { clampAt = nowMs; flags++; }   // one flag a second while it lasts
                 clamped++;
                 if (may <= 0) { p.removed = true; return; }
-                p.damage = may;
+                float k = may / ask;
+                for (Field f : dmgF) f.setFloat(p, f.getFloat(p) * k);
             }
             p.sender = from;
             p.alterationSpecs = null;
@@ -2275,7 +2302,7 @@ public final class ModLan {
                 posArmed = false;
                 if (now - posAt < 10000) return;
                 if (ps.isDocked) { if (posLive) { posLive = false; posAt = now; lanPrefs().edit().remove("pos").apply(); } return; }   // docked: the stock game starts at the station
-                if ((guest && (solo || pvp)) || ps.removed || ObjectRegistry.INSTANCE.game.mapMode || lv.id == LevelId.FFA_THE_PLAYER_PAY) return;
+                if ((guest && solo) || pvp || ps.removed || ObjectRegistry.INSTANCE.game.mapMode || lv.id == LevelId.FFA_THE_PLAYER_PAY) return;
                 posAt = now;
                 posLive = true;
                 lanPrefs().edit().putString("pos", posLine(lv.id.levelName, ps.position.x, ps.position.y, now)).apply();
