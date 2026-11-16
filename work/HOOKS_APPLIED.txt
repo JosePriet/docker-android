@@ -23,3 +23,4 @@ hooks47_policeguns 2026-11-14: Level.commitChanges -> ModPolice.factionGuns(toAd
 hooks49_lan 2026-11-15: RenderQueue.swapQueues -> ModLan.beforeSwap, GameThread.isElementVisible -> ModLan.alsoVisible, access widening (RenderElement, RenderQueue, Drawable.mCrop, Game.textureLibrary, GameThread.x/yDelta) (v49 LAN co-op)
 hooks49b_lan_count 2026-11-16: Level enemy counts (zone cleared, counts, attackers) -> ModLan.countsAsEnemy (v49 LAN stand-in not counted)
 hooks48_lance 2026-11-15: SpaceObjectType +3 constants modPhoenixLance/Mk2/Mk3 0x157-0x159 (v43a-17 Phoenix Lance)
+hooks53_lan_nopause 2026-11-16: GameThread.showGameMenu -> ModLan.menuOpening, Game.pause -> skipped while ModLan.keepRunning (v45 multiplayer menu does not pause)

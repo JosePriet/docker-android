@@ -45,7 +45,11 @@
 
 .field private static nickCache:Ljava/lang/String;
 
+.field private static started:I
+
 .field private static volatile unread:I
+
+.field private static watching:Z
 
 
 # direct methods
@@ -297,7 +301,17 @@
     return-object v0
 .end method
 
-.method static synthetic access$1002(Landroid/widget/TextView;)Landroid/widget/TextView;
+.method static synthetic access$1002(Landroid/widget/LinearLayout;)Landroid/widget/LinearLayout;
+    .registers 1
+
+    .prologue
+    .line 43
+    sput-object p0, Lfr/testudo/spacecorsair/mod/ModLanUi;->chatPanel:Landroid/widget/LinearLayout;
+
+    return-object p0
+.end method
+
+.method static synthetic access$1102(Landroid/widget/TextView;)Landroid/widget/TextView;
     .registers 1
 
     .prologue
@@ -327,7 +341,45 @@
     return-void
 .end method
 
-.method static synthetic access$400(Ljava/lang/String;)V
+.method static synthetic access$400()I
+    .registers 1
+
+    .prologue
+    .line 43
+    sget v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
+
+    return v0
+.end method
+
+.method static synthetic access$408()I
+    .registers 2
+
+    .prologue
+    .line 43
+    sget v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
+
+    add-int/lit8 v1, v0, 0x1
+
+    sput v1, Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
+
+    return v0
+.end method
+
+.method static synthetic access$410()I
+    .registers 2
+
+    .prologue
+    .line 43
+    sget v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
+
+    add-int/lit8 v1, v0, -0x1
+
+    sput v1, Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
+
+    return v0
+.end method
+
+.method static synthetic access$500(Ljava/lang/String;)V
     .registers 1
 
     .prologue
@@ -337,7 +389,7 @@
     return-void
 .end method
 
-.method static synthetic access$500()Ljava/lang/String;
+.method static synthetic access$600()Ljava/lang/String;
     .registers 1
 
     .prologue
@@ -349,7 +401,7 @@
     return-object v0
 .end method
 
-.method static synthetic access$600()I
+.method static synthetic access$700()I
     .registers 1
 
     .prologue
@@ -359,7 +411,7 @@
     return v0
 .end method
 
-.method static synthetic access$602(I)I
+.method static synthetic access$702(I)I
     .registers 1
 
     .prologue
@@ -369,7 +421,7 @@
     return p0
 .end method
 
-.method static synthetic access$700()Landroid/app/Activity;
+.method static synthetic access$800()Landroid/app/Activity;
     .registers 1
 
     .prologue
@@ -379,7 +431,7 @@
     return-object v0
 .end method
 
-.method static synthetic access$702(Landroid/app/Activity;)Landroid/app/Activity;
+.method static synthetic access$802(Landroid/app/Activity;)Landroid/app/Activity;
     .registers 1
 
     .prologue
@@ -389,22 +441,12 @@
     return-object p0
 .end method
 
-.method static synthetic access$802(Landroid/widget/Button;)Landroid/widget/Button;
+.method static synthetic access$902(Landroid/widget/Button;)Landroid/widget/Button;
     .registers 1
 
     .prologue
     .line 43
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModLanUi;->icon:Landroid/widget/Button;
-
-    return-object p0
-.end method
-
-.method static synthetic access$902(Landroid/widget/LinearLayout;)Landroid/widget/LinearLayout;
-    .registers 1
-
-    .prologue
-    .line 43
-    sput-object p0, Lfr/testudo/spacecorsair/mod/ModLanUi;->chatPanel:Landroid/widget/LinearLayout;
 
     return-object p0
 .end method
@@ -544,25 +586,33 @@
 
     const/high16 v6, 0x3f800000    # 1.0f
 
-    .line 408
-    :try_start_4
+    .line 433
+    const/4 v0, 0x0
+
+    :try_start_5
+    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->underMenu:Z
+
+    .line 434
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLanUi;->watchApp(Landroid/app/Activity;)V
+
+    .line 435
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->chatAct:Landroid/app/Activity;
 
-    if-ne v0, p0, :cond_d
+    if-ne v0, p0, :cond_13
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->icon:Landroid/widget/Button;
 
-    if-eqz v0, :cond_d
+    if-eqz v0, :cond_13
 
-    .line 524
-    :goto_c
+    .line 551
+    :goto_12
     return-void
 
-    .line 409
-    :cond_d
+    .line 436
+    :cond_13
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModLanUi;->chatAct:Landroid/app/Activity;
 
-    .line 410
+    .line 437
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object v0
@@ -573,29 +623,29 @@
 
     iget v1, v0, Landroid/util/DisplayMetrics;->density:F
 
-    .line 411
+    .line 438
     new-instance v2, Landroid/widget/Button;
 
     invoke-direct {v2, p0}, Landroid/widget/Button;-><init>(Landroid/content/Context;)V
 
-    .line 412
+    .line 439
     const-string v0, "\u2709"
 
     invoke-virtual {v2, v0}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
 
-    .line 413
+    .line 440
     const/4 v0, 0x2
 
     const/high16 v3, 0x41900000    # 18.0f
 
     invoke-virtual {v2, v0, v3}, Landroid/widget/Button;->setTextSize(IF)V
 
-    .line 414
+    .line 441
     const/4 v0, -0x1
 
     invoke-virtual {v2, v0}, Landroid/widget/Button;->setTextColor(I)V
 
-    .line 415
+    .line 442
     const/4 v0, 0x0
 
     const/4 v3, 0x0
@@ -606,7 +656,7 @@
 
     invoke-virtual {v2, v0, v3, v4, v5}, Landroid/widget/Button;->setPadding(IIII)V
 
-    .line 416
+    .line 443
     const/4 v0, 0x0
 
     invoke-virtual {v2, v0}, Landroid/widget/Button;->setMinWidth(I)V
@@ -623,22 +673,22 @@
 
     invoke-virtual {v2, v0}, Landroid/widget/Button;->setMinimumHeight(I)V
 
-    .line 417
+    .line 444
     new-instance v0, Landroid/graphics/drawable/GradientDrawable;
 
     invoke-direct {v0}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
 
-    .line 418
+    .line 445
     mul-float v3, v7, v1
 
     invoke-virtual {v0, v3}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
 
-    .line 419
+    .line 446
     const v3, -0x5fdfcfc0
 
     invoke-virtual {v0, v3}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
 
-    .line 420
+    .line 447
     mul-float v3, v6, v1
 
     float-to-int v3, v3
@@ -647,15 +697,15 @@
 
     invoke-virtual {v0, v3, v4}, Landroid/graphics/drawable/GradientDrawable;->setStroke(II)V
 
-    .line 421
+    .line 448
     invoke-virtual {v2, v0}, Landroid/widget/Button;->setBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 422
+    .line 449
     const/16 v0, 0x8
 
     invoke-virtual {v2, v0}, Landroid/widget/Button;->setVisibility(I)V
 
-    .line 423
+    .line 450
     new-instance v0, Landroid/widget/FrameLayout$LayoutParams;
 
     const/high16 v3, 0x42200000    # 40.0f
@@ -674,7 +724,7 @@
 
     invoke-direct {v0, v3, v4, v5}, Landroid/widget/FrameLayout$LayoutParams;-><init>(III)V
 
-    .line 424
+    .line 451
     const/high16 v3, 0x40800000    # 4.0f
 
     mul-float/2addr v3, v1
@@ -683,35 +733,35 @@
 
     iput v3, v0, Landroid/widget/FrameLayout$LayoutParams;->rightMargin:I
 
-    .line 425
+    .line 452
     invoke-virtual {p0, v2, v0}, Landroid/app/Activity;->addContentView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 427
+    .line 454
     new-instance v3, Landroid/widget/LinearLayout;
 
     invoke-direct {v3, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 428
+    .line 455
     const/4 v0, 0x1
 
     invoke-virtual {v3, v0}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 429
+    .line 456
     new-instance v0, Landroid/graphics/drawable/GradientDrawable;
 
     invoke-direct {v0}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
 
-    .line 430
+    .line 457
     mul-float v4, v7, v1
 
     invoke-virtual {v0, v4}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
 
-    .line 431
+    .line 458
     const v4, -0x2fefe7e0    # -9.670001E9f
 
     invoke-virtual {v0, v4}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
 
-    .line 432
+    .line 459
     mul-float v4, v6, v1
 
     float-to-int v4, v4
@@ -720,53 +770,53 @@
 
     invoke-virtual {v0, v4, v5}, Landroid/graphics/drawable/GradientDrawable;->setStroke(II)V
 
-    .line 433
+    .line 460
     invoke-virtual {v3, v0}, Landroid/widget/LinearLayout;->setBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 434
+    .line 461
     mul-float v0, v7, v1
 
     float-to-int v0, v0
 
-    .line 435
+    .line 462
     invoke-virtual {v3, v0, v0, v0, v0}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 436
+    .line 463
     const/16 v0, 0x8
 
     invoke-virtual {v3, v0}, Landroid/widget/LinearLayout;->setVisibility(I)V
 
-    .line 437
+    .line 464
     new-instance v4, Landroid/widget/TextView;
 
     invoke-direct {v4, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    .line 438
+    .line 465
     const/4 v0, 0x2
 
     const/high16 v5, 0x41400000    # 12.0f
 
     invoke-virtual {v4, v0, v5}, Landroid/widget/TextView;->setTextSize(IF)V
 
-    .line 439
+    .line 466
     const v0, -0x17110c
 
     invoke-virtual {v4, v0}, Landroid/widget/TextView;->setTextColor(I)V
 
-    .line 440
+    .line 467
     const/16 v0, 0x50
 
     invoke-virtual {v4, v0}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 441
+    .line 468
     new-instance v5, Landroid/widget/ScrollView;
 
     invoke-direct {v5, p0}, Landroid/widget/ScrollView;-><init>(Landroid/content/Context;)V
 
-    .line 442
+    .line 469
     invoke-virtual {v5, v4}, Landroid/widget/ScrollView;->addView(Landroid/view/View;)V
 
-    .line 443
+    .line 470
     new-instance v0, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v6, -0x1
@@ -779,34 +829,34 @@
 
     invoke-virtual {v3, v5, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 444
+    .line 471
     new-instance v0, Landroid/widget/LinearLayout;
 
     invoke-direct {v0, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 445
+    .line 472
     const/4 v6, 0x0
 
     invoke-virtual {v0, v6}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 446
+    .line 473
     new-instance v6, Landroid/widget/EditText;
 
     invoke-direct {v6, p0}, Landroid/widget/EditText;-><init>(Landroid/content/Context;)V
 
-    .line 447
+    .line 474
     const/4 v7, 0x1
 
     invoke-virtual {v6, v7}, Landroid/widget/EditText;->setSingleLine(Z)V
 
-    .line 448
+    .line 475
     const/4 v7, 0x2
 
     const/high16 v8, 0x41400000    # 12.0f
 
     invoke-virtual {v6, v7, v8}, Landroid/widget/EditText;->setTextSize(IF)V
 
-    .line 449
+    .line 476
     const/4 v7, 0x1
 
     new-array v7, v7, [Landroid/text/InputFilter;
@@ -823,7 +873,7 @@
 
     invoke-virtual {v6, v7}, Landroid/widget/EditText;->setFilters([Landroid/text/InputFilter;)V
 
-    .line 450
+    .line 477
     const-string v7, "Message"
 
     invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -832,7 +882,7 @@
 
     invoke-virtual {v6, v7}, Landroid/widget/EditText;->setHint(Ljava/lang/CharSequence;)V
 
-    .line 451
+    .line 478
     new-instance v7, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v8, 0x0
@@ -845,24 +895,24 @@
 
     invoke-virtual {v0, v6, v7}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 452
+    .line 479
     new-instance v7, Landroid/widget/Button;
 
     invoke-direct {v7, p0}, Landroid/widget/Button;-><init>(Landroid/content/Context;)V
 
-    .line 453
+    .line 480
     const/4 v8, 0x0
 
     invoke-virtual {v7, v8}, Landroid/widget/Button;->setAllCaps(Z)V
 
-    .line 454
+    .line 481
     const/4 v8, 0x2
 
     const/high16 v9, 0x41400000    # 12.0f
 
     invoke-virtual {v7, v8, v9}, Landroid/widget/Button;->setTextSize(IF)V
 
-    .line 455
+    .line 482
     const-string v8, "Send"
 
     invoke-static {v8}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -871,33 +921,33 @@
 
     invoke-virtual {v7, v8}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
 
-    .line 456
+    .line 483
     invoke-virtual {v0, v7}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 457
+    .line 484
     invoke-virtual {v3, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 458
+    .line 485
     new-instance v8, Landroid/widget/Button;
 
     invoke-direct {v8, p0}, Landroid/widget/Button;-><init>(Landroid/content/Context;)V
 
-    .line 459
+    .line 486
     const/4 v0, 0x0
 
     invoke-virtual {v8, v0}, Landroid/widget/Button;->setAllCaps(Z)V
 
-    .line 460
+    .line 487
     const/4 v0, 0x2
 
     const/high16 v9, 0x41300000    # 11.0f
 
     invoke-virtual {v8, v0, v9}, Landroid/widget/Button;->setTextSize(IF)V
 
-    .line 461
+    .line 488
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->muted:Z
 
-    if-eqz v0, :cond_1c4
+    if-eqz v0, :cond_1ca
 
     const-string v0, "Unmute"
 
@@ -905,20 +955,20 @@
 
     move-result-object v0
 
-    :goto_14b
+    :goto_151
     invoke-virtual {v8, v0}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
 
-    .line 462
-    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$11;
+    .line 489
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$12;
 
-    invoke-direct {v0, v8}, Lfr/testudo/spacecorsair/mod/ModLanUi$11;-><init>(Landroid/widget/Button;)V
+    invoke-direct {v0, v8}, Lfr/testudo/spacecorsair/mod/ModLanUi$12;-><init>(Landroid/widget/Button;)V
 
     invoke-virtual {v8, v0}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 465
+    .line 492
     invoke-virtual {v3, v8}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 466
+    .line 493
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object v0
@@ -945,7 +995,7 @@
 
     float-to-int v0, v0
 
-    .line 467
+    .line 494
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object v8
@@ -972,14 +1022,14 @@
 
     float-to-int v8, v8
 
-    .line 468
+    .line 495
     new-instance v9, Landroid/widget/FrameLayout$LayoutParams;
 
     const/16 v10, 0x15
 
     invoke-direct {v9, v0, v8, v10}, Landroid/widget/FrameLayout$LayoutParams;-><init>(III)V
 
-    .line 469
+    .line 496
     const/high16 v0, 0x42400000    # 48.0f
 
     mul-float/2addr v0, v1
@@ -988,33 +1038,33 @@
 
     iput v0, v9, Landroid/widget/FrameLayout$LayoutParams;->rightMargin:I
 
-    .line 470
+    .line 497
     invoke-virtual {p0, v3, v9}, Landroid/app/Activity;->addContentView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 471
-    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$12;
+    .line 498
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$13;
 
-    invoke-direct {v0, v6, v4}, Lfr/testudo/spacecorsair/mod/ModLanUi$12;-><init>(Landroid/widget/EditText;Landroid/widget/TextView;)V
+    invoke-direct {v0, v6, v4}, Lfr/testudo/spacecorsair/mod/ModLanUi$13;-><init>(Landroid/widget/EditText;Landroid/widget/TextView;)V
 
     invoke-virtual {v7, v0}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 482
-    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$13;
+    .line 509
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$14;
 
-    invoke-direct {v0, v3, v4}, Lfr/testudo/spacecorsair/mod/ModLanUi$13;-><init>(Landroid/widget/LinearLayout;Landroid/widget/TextView;)V
+    invoke-direct {v0, v3, v4}, Lfr/testudo/spacecorsair/mod/ModLanUi$14;-><init>(Landroid/widget/LinearLayout;Landroid/widget/TextView;)V
 
     invoke-virtual {v2, v0}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 489
+    .line 516
     sput-object v2, Lfr/testudo/spacecorsair/mod/ModLanUi;->icon:Landroid/widget/Button;
 
-    .line 490
+    .line 517
     sput-object v3, Lfr/testudo/spacecorsair/mod/ModLanUi;->chatPanel:Landroid/widget/LinearLayout;
 
-    .line 491
+    .line 518
     sput-object v4, Lfr/testudo/spacecorsair/mod/ModLanUi;->chatText:Landroid/widget/TextView;
 
-    .line 492
+    .line 519
     new-instance v6, Landroid/os/Handler;
 
     invoke-static {}, Landroid/os/Looper;->getMainLooper()Landroid/os/Looper;
@@ -1023,34 +1073,34 @@
 
     invoke-direct {v6, v0}, Landroid/os/Handler;-><init>(Landroid/os/Looper;)V
 
-    .line 493
-    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$14;
+    .line 520
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;
 
     move-object v1, p0
 
-    invoke-direct/range {v0 .. v6}, Lfr/testudo/spacecorsair/mod/ModLanUi$14;-><init>(Landroid/app/Activity;Landroid/widget/Button;Landroid/widget/LinearLayout;Landroid/widget/TextView;Landroid/widget/ScrollView;Landroid/os/Handler;)V
+    invoke-direct/range {v0 .. v6}, Lfr/testudo/spacecorsair/mod/ModLanUi$15;-><init>(Landroid/app/Activity;Landroid/widget/Button;Landroid/widget/LinearLayout;Landroid/widget/TextView;Landroid/widget/ScrollView;Landroid/os/Handler;)V
 
     invoke-virtual {v6, v0}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
 
-    goto/16 :goto_c
+    goto/16 :goto_12
 
-    .line 521
-    :catch_1c1
+    .line 548
+    :catch_1c7
     move-exception v0
 
-    goto/16 :goto_c
+    goto/16 :goto_12
 
-    .line 461
-    :cond_1c4
+    .line 488
+    :cond_1ca
     const-string v0, "Mute"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-    :try_end_1c9
-    .catch Ljava/lang/Throwable; {:try_start_4 .. :try_end_1c9} :catch_1c1
+    :try_end_1cf
+    .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_1cf} :catch_1c7
 
     move-result-object v0
 
-    goto :goto_14b
+    goto :goto_151
 .end method
 
 .method static blocked(Ljava/lang/String;)Z
@@ -2822,6 +2872,42 @@
     move-result-object v0
 
     goto :goto_f
+.end method
+
+.method private static watchApp(Landroid/app/Activity;)V
+    .registers 3
+
+    .prologue
+    const/4 v1, 0x1
+
+    .line 410
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->watching:Z
+
+    if-eqz v0, :cond_6
+
+    .line 428
+    :goto_5
+    return-void
+
+    .line 411
+    :cond_6
+    sput-boolean v1, Lfr/testudo/spacecorsair/mod/ModLanUi;->watching:Z
+
+    .line 412
+    sput v1, Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
+
+    .line 413
+    invoke-virtual {p0}, Landroid/app/Activity;->getApplication()Landroid/app/Application;
+
+    move-result-object v0
+
+    new-instance v1, Lfr/testudo/spacecorsair/mod/ModLanUi$11;
+
+    invoke-direct {v1}, Lfr/testudo/spacecorsair/mod/ModLanUi$11;-><init>()V
+
+    invoke-virtual {v0, v1}, Landroid/app/Application;->registerActivityLifecycleCallbacks(Landroid/app/Application$ActivityLifecycleCallbacks;)V
+
+    goto :goto_5
 .end method
 
 .method static whoAreYou(Landroid/app/Activity;Ljava/lang/Runnable;)V

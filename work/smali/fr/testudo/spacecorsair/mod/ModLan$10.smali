@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 1270
+    .line 1374
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$v:Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 4
 
     .prologue
-    .line 1270
+    .line 1374
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$v:Ljava/lang/String;
 
     const/4 v1, 0x5

@@ -68,6 +68,12 @@ public final class ModLive {
                 ModLan.shipEnd();
                 return;
             }
+            if (ModLan.hostHides(e)) {   // v45: the host's own loot is not in the guest's stream (each player rolls its own)
+                int from = ModLan.queueSize();
+                drawPlain(e);
+                ModLan.skipRange(from, ModLan.queueSize());
+                return;
+            }
         }
         drawPlain(e);
     }

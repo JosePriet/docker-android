@@ -8401,6 +8401,8 @@
 .method public showGameMenu()V
     .registers 5
 
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->menuOpening()V
+
     .prologue
     .line 2102
     iget-object v0, p0, Lfr/testudo/spacecorsair/engine/GameThread;->msgHandler:Landroid/os/Handler;

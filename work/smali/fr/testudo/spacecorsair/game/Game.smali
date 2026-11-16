@@ -5634,6 +5634,16 @@
 .method public pause()V
     .registers 3
 
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->keepRunning()Z
+
+    move-result v0
+
+    if-eqz v0, :lan_pause
+
+    return-void
+
+    :lan_pause
+
     .prologue
     .line 708
     invoke-static {}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->instance()Lfr/testudo/spacecorsair/business/player/PlayerShip;

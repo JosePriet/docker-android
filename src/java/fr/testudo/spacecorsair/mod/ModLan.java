@@ -96,7 +96,7 @@ public final class ModLan {
     private static final String HELLO = "SCLAN2";   // v45: + version, nickname, country, and a host reply byte
     static final int MAX_MSG = 256 * 1024;
     private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3;
-    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7;   // v45: 6 = a deflated FRAME / STATE (type byte first)
+    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7, MSG_KILL = 8;   // v45: 6 = a deflated FRAME / STATE (type byte first)
     private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
     private static final int MAX_REMOTE = 2200;   // render queue holds 2500 per frame
 
@@ -811,6 +811,7 @@ public final class ModLan {
         int n = 0;
         for (int i = from; i < to && n < max; i++) {
             if (i >= skipFrom && i < skipTo) continue;
+            if (skipN > 0 && role == HOST && skipped(i)) continue;
             RenderElement re = arr[i];
             if (re == null || re.cameraRelative || fBack.getBoolean(re)) continue;
             Object type = fType.get(re);
@@ -915,6 +916,101 @@ public final class ModLan {
     private static volatile InState inState;
     private static final ArrayList<byte[]> inShots = new ArrayList<byte[]>();
 
+    // ------------------------------------------------------------------ v45: each player rolls its own loot
+    static final class Kill { String cls; int level; boolean elite; float x, y; }
+    private static final ArrayList<Kill> inKills = new ArrayList<Kill>();
+    private static long killSec;
+    private static int killCount;
+    static volatile int killsOut, killsIn, lootMine;
+    private static final java.util.Map<Element, Boolean> myLoot = new WeakHashMap<Element, Boolean>();
+    private static final HashMap<String, Method> enemyMakers = new HashMap<String, Method>();
+
+    /** ModLoot.onEnemyKilled on the host (a kill credited to the players): the guest rolls its own drops for it. */
+    static void killed(Ennemis e) {
+        try {
+            if (role != HOST || !connected || e == null || e == proxy || proxy == null || pvp) return;   // guest not in this sector: no roll
+            if (ModBoss.isBoss(e) || ModPolice.isPolice(e)) return;   // same exclusions as the host's own mod roll
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();
+            DataOutputStream o = new DataOutputStream(bo);
+            o.writeUTF(e.getClass().getName()); o.writeInt(e.getLevel()); o.writeBoolean(e.elite);
+            o.writeFloat(e.position.x); o.writeFloat(e.position.y);
+            sendReliable(MSG_KILL, bo);
+            killsOut++;
+        } catch (Throwable t) {
+            // this kill is not rolled on the guest
+        }
+    }
+
+    /** The EnnemisFactory method that builds the named stock enemy class; null = not one (no roll). Loaded without running it. */
+    private static Method enemyMaker(String cn) {
+        if (cn == null || cn.length() > 120 || !cn.startsWith("fr.testudo.spacecorsair.business.ennemis.")) return null;
+        if (enemyMakers.containsKey(cn)) return enemyMakers.get(cn);
+        Method found = null;
+        try {
+            Class<?> c = Class.forName(cn, false, ModLan.class.getClassLoader());
+            if (Ennemis.class.isAssignableFrom(c)) {
+                for (Method m : EnnemisFactory.class.getMethods()) {
+                    Class<?>[] ps = m.getParameterTypes();
+                    if (Modifier.isStatic(m.getModifiers()) && m.getReturnType() == c && ps.length == 2 && ps[0] == int.class && ps[1] == int.class) { found = m; break; }
+                }
+            }
+        } catch (Throwable t) {
+            found = null;
+        }
+        if (enemyMakers.size() < 256) enemyMakers.put(cn, found);
+        return found;
+    }
+
+    /** Guest, game thread: the stock loot roll and the mod's roll for one of the pair's kills, at the kill's position. */
+    private static void rollLoot(Kill k) {
+        try {
+            Method m = enemyMaker(k.cls);
+            if (m == null) return;
+            int lvl = Math.max(1, Math.min(fr.testudo.spacecorsair.business.player.XpBuilder.LEVEL_MAX, k.level));
+            Ennemis ph = (Ennemis) m.invoke(null, lvl, lvl);
+            if (ph == null) return;
+            if (k.elite) ph.setElite(true);
+            ph.position.set(k.x, k.y);
+            if (fr.testudo.spacecorsair.business.player.XpBuilder.canLootFromEnnemisWithLevel(ph.getLevel()))
+                fr.testudo.spacecorsair.business.loot.LootFactory.GenerateLoots(ph.getLootConfig(), ph);
+            ModLoot.drops(ph);
+            killsIn++;
+        } catch (Throwable t) {
+            ModDev.ev("lan", "loot roll failed " + t);
+        }
+    }
+
+    // host: queue ranges left out of the stream this frame (its own loot)
+    private static final int[] skips = new int[128];
+    private static int skipN;
+
+    static boolean hostHides(Element e) {
+        return role == HOST && e instanceof LootElement;
+    }
+
+    static void skipRange(int from, int to) {
+        if (to > from && skipN + 2 <= skips.length) { skips[skipN++] = from; skips[skipN++] = to; }
+    }
+
+    private static boolean skipped(int i) {
+        for (int k = 0; k < skipN; k += 2) if (i >= skips[k] && i < skips[k + 1]) return true;
+        return false;
+    }
+
+    // ------------------------------------------------------------------ v45: the game menu does not pause a linked game
+    private static volatile long menuAt;
+    static volatile boolean underMenu;
+
+    /** hooks53: GameThread.showGameMenu. */
+    public static void menuOpening() { menuAt = System.currentTimeMillis(); }
+
+    /** hooks53: Game.pause. True = do not pause (a linked game whose menu was just opened). */
+    public static boolean keepRunning() {
+        boolean keep = connected && System.currentTimeMillis() - menuAt < 3000;
+        if (keep) { underMenu = true; ModDev.ev("lan", "menu open: game keeps running"); }
+        return keep;
+    }
+
     private static void receive(int type, byte[] b) throws IOException {
         DataInputStream in = new DataInputStream(new java.io.ByteArrayInputStream(b));
         if (type == MSG_Z) {
@@ -964,6 +1060,14 @@ public final class ModLan {
             synchronized (inLock) { inState = s; }
             gotFrames++;
             lastRecs = s.n;
+        } else if (type == MSG_KILL && role == GUEST) {
+            if (b.length > 256) throw new IOException("kill too large");
+            long sec = System.currentTimeMillis() / 1000;
+            if (sec != killSec) { killSec = sec; killCount = 0; }
+            if (++killCount > 20) { flags++; return; }   // more kills a second than a fight has
+            Kill k = new Kill();
+            k.cls = in.readUTF(); k.level = in.readInt(); k.elite = in.readBoolean(); k.x = fin(in.readFloat()); k.y = fin(in.readFloat());
+            synchronized (inLock) { if (inKills.size() < 100) inKills.add(k); }
         } else if (type == MSG_CHAT) {
             long now = System.currentTimeMillis();
             if (b.length > 512) throw new IOException("chat too large");
@@ -1149,7 +1253,7 @@ public final class ModLan {
                 if (n >= MAX_MARKS) break;
                 if (e == null || e.removed || e == ps || e == proxy || e.radarDrawType == null) continue;
                 boolean mission = e.isMissionObjective && e.missionObjectiveColor != null;
-                if (!mission && !(e.drawOnRadar && (e instanceof Ennemis || e instanceof CivilShip || e instanceof Asteroid || e instanceof LootElement || e instanceof Mine))) continue;
+                if (!mission && !(e.drawOnRadar && (e instanceof Ennemis || e instanceof CivilShip || e instanceof Asteroid || e instanceof Mine))) continue;   // v45: no loot marks (each player has its own loot)
                 if (e.position.distance(ps.position) > 20000) continue;
                 int fl = (e.radarDrawType.isPoint ? MK_POINT : 0) | (mission ? MK_MISSION : 0);
                 try { if (!mission && e.radarDrawType.isPoint && ModLive.outlevels(e)) fl |= MK_SKULL; } catch (Throwable t) { /* no skull */ }
@@ -1325,6 +1429,7 @@ public final class ModLan {
         lastFrameMs = now;
         poolFrame++;
         shipFrom = shipTo = proxyFrom = proxyTo = -1;
+        skipN = 0;
         try {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             if (dropProxy) { dropProxy = false; removeProxy(); }
@@ -1344,7 +1449,7 @@ public final class ModLan {
                     + " got=" + gotFrames + " lastRecs=" + lastRecs + " proxy=" + (proxy != null) + " shotsIn=" + shotsIn + " shotsOut=" + shotsOut
                     + " dmgSent=" + dmgSent + " dmgSeen=" + dmgSeen + " xpSent=" + xpSent + " xpSeen=" + xpSeen + " hull=" + ps.life + "/" + ps.maxLife
                     + " pos=" + (int) ps.position.x + "," + (int) ps.position.y
-                    + " rawBs=" + (rawOut - logRaw) / 3 + " outBs=" + (bytesOut - logOut) / 3 + " inBs=" + (bytesIn - logIn) / 3 + " flags=" + flags + " strikes=" + strikes);
+                    + " killsOut=" + killsOut + " killsIn=" + killsIn + " lootMine=" + lootMine + " rawBs=" + (rawOut - logRaw) / 3 + " outBs=" + (bytesOut - logOut) / 3 + " inBs=" + (bytesIn - logIn) / 3 + " flags=" + flags + " strikes=" + strikes);
                 logOut = bytesOut; logIn = bytesIn; logRaw = rawOut;
             }
             if (role == HOST) hostFrame(ps, dt);
@@ -1579,9 +1684,13 @@ public final class ModLan {
         // the guest's own sector stays empty: the host's world is what it sees and fights
         for (Element e : lv.elements) {
             if (e == ps || e.removed || Mod.isDrone(e)) continue;   // own drones stay
+            if (e instanceof LootElement && myLoot.containsKey(e)) continue;   // v45: loot this player rolled
             if (e instanceof Ennemis || e instanceof CivilShip || e instanceof Asteroid || e instanceof LootElement || e instanceof Mine
                 || (e instanceof Projectile && ((Projectile) e).sender != ps)) e.remove();
         }
+        ArrayList<Kill> kills = null;
+        synchronized (inLock) { if (!inKills.isEmpty()) { kills = new ArrayList<Kill>(inKills); inKills.clear(); } }
+        if (kills != null) for (Kill k : kills) rollLoot(k);
         if (f == null) return;
         guestDuel(ps, f);
         // follow the host between sectors
@@ -1667,6 +1776,8 @@ public final class ModLan {
     /** ModLive.draw on the guest: false = do not draw (the host's stream shows it). Records the player's own ship range. */
     static boolean guestDraw(Element e) {
         PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+        shipNow = e == ps;
+        if (e instanceof LootElement && myLoot.containsKey(e)) return true;   // v45: own loot is drawn locally
         if (e != ps) return false;
         InFrame f;
         synchronized (inLock) { f = inFrame; }
@@ -1678,9 +1789,11 @@ public final class ModLan {
         return role == GUEST && connected && !solo;
     }
 
-    static void shipStart() { if (guestActive()) shipFrom = queueSize(); }
+    private static boolean shipNow;
 
-    static void shipEnd() { if (guestActive()) shipTo = queueSize(); }
+    static void shipStart() { if (guestActive() && shipNow) shipFrom = queueSize(); }
+
+    static void shipEnd() { if (guestActive() && shipNow) shipTo = queueSize(); }
 
     /** ModPolice.factionGuns (Level.commitChanges): new elements of this frame. The guest sends its own shots. */
     static void added(List<?> toAdd) {
@@ -1688,6 +1801,7 @@ public final class ModLan {
         try {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             for (Object o : toAdd) {
+                if (o instanceof LootElement) { myLoot.put((Element) o, Boolean.TRUE); lootMine++; continue; }   // v45: only this player's rolls add loot here
                 if (!(o instanceof Projectile) || o instanceof LaserBeam) continue;
                 Projectile p = (Projectile) o;
                 if (p.sender != ps) continue;

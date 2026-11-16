@@ -184,6 +184,12 @@ public class ModLoot {
     public static void onEnemyKilled(Ennemis e) {
         if (ModAegisDrones.isDrone(e)) return;   // v43a-6: drones are a skill, not ships: no loot, parts, salvage or bounty
         ModRep.enemyKilled(e);
+        ModLan.killed(e);   // v45: the co-op guest rolls its own loot for this kill
+        drops(e);
+    }
+
+    /** The mod's drop rolls for one destroyed enemy (v45: also run on the co-op guest's phone, for its own loot). */
+    static void drops(Ennemis e) {
         try {
             if (e == null || ModBoss.isBoss(e) || ModPolice.isPolice(e)) return;   // v42 owner: police pay a flat bounty only
             // the old alien / Megatron family drops stay (their own rare table)

@@ -402,9 +402,36 @@ final class ModLanUi {
         unread = 0;
     }
 
+    private static boolean watching;
+    private static int started;
+
+    /** A linked game keeps running under its menu; when the whole app leaves the screen it pauses like the stock game. */
+    private static void watchApp(Activity a) {
+        if (watching) return;
+        watching = true;
+        started = 1;   // registered from the flight screen's onResume: it is started
+        a.getApplication().registerActivityLifecycleCallbacks(new android.app.Application.ActivityLifecycleCallbacks() {
+            public void onActivityCreated(Activity x, android.os.Bundle b) { }
+            public void onActivityStarted(Activity x) { started++; }
+            public void onActivityResumed(Activity x) { }
+            public void onActivityPaused(Activity x) { }
+            public void onActivityStopped(Activity x) {
+                started--;
+                if (started <= 0 && ModLan.underMenu) {
+                    ModLan.underMenu = false;
+                    try { ObjectRegistry.INSTANCE.game.gameThread.pauseGame(); } catch (Throwable t) { /* already stopped */ }
+                }
+            }
+            public void onActivitySaveInstanceState(Activity x, android.os.Bundle b) { }
+            public void onActivityDestroyed(Activity x) { }
+        });
+    }
+
     /** From ModComms.attachUi: the flight screen. A message icon on the right edge while a game is linked; it opens the chat panel. */
     static void attach(final Activity a) {
         try {
+            ModLan.underMenu = false;   // back on the flight screen
+            watchApp(a);
             if (chatAct == a && icon != null) return;
             chatAct = a;
             final float d = a.getResources().getDisplayMetrics().density;
