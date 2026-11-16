@@ -16,5 +16,5 @@ new_sqlite_classes = ["Registry"]
 [vars]
 METERED_APP = "spacecsdev"
 RELAY_CAP_GB = "18"
-PUBLIC_OPEN = "0"
+PUBLIC_OPEN = "1"
 DAILY_REQUESTS = "90000"
