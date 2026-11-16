@@ -555,7 +555,7 @@ public final class ModLan {
                 o.writeByte(b255(a)); o.writeByte(b255(r)); o.writeByte(b255(g)); o.writeByte(b255(b));
                 o.writeFloat(fPSize.getFloat(re));
                 n++;
-            } else if (type == RenderElementType.INFOBAR) {   // v45: enemy life / shield bars
+            } else if (type == RenderElementType.INFOBAR) {   // v44: enemy life / shield bars
                 Object ib = fInfo.get(re);
                 if (!(ib instanceof InfoBarEnnemis)) continue;   // HUD bars stay local
                 InfoBar bar = (InfoBar) ib;
@@ -622,7 +622,7 @@ public final class ModLan {
             f.n = in.readUnsignedShort();
             f.recs = readRecs(in, f.n);
             if (in.available() >= 9) { f.pvp = in.readBoolean(); f.round = in.readInt(); f.hostWins = in.readShort(); f.guestWins = in.readShort(); }
-            if (in.available() >= 5) {   // v45 trailing: mission, radar markers
+            if (in.available() >= 5) {   // v44 trailing: mission, radar markers
                 f.mission = in.readUTF(); f.missionDone = in.readBoolean();
                 f.marksN = in.readUnsignedShort();
                 int len = in.readInt();
@@ -770,7 +770,7 @@ public final class ModLan {
         return b;
     }
 
-    // ------------------------------------------------------------------ v45: radar markers and shared missions
+    // ------------------------------------------------------------------ v44: radar markers and shared missions
     private static final int MK_POINT = 1, MK_MISSION = 2, MK_SKULL = 4, MAX_MARKS = 300;
     private static volatile byte[] marksOut;
     static volatile boolean solo;
