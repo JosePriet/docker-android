@@ -208,8 +208,22 @@ elif [ $GAME = sc ]; then
     wait $PEER; log "EVIDENCE lan duel phase: $(cat $OUT/lan_duel_peer.txt | tr '\n' ' ')"
     log "EVIDENCE lan duel log: $(grep -E "ModTest.*: lan" $LG | grep -E "duel|bay|round" | tail -10 | sed 's/^.*): //' | tr '\n' ' ')"
     put corsair_lan duel-off; sleep 8; shot lan_duel_over; put corsair_lan off; sleep 3; log "EVIDENCE lan bay exit: $(grep -E "ModTest.*: lan leaving" $LG | sed "s/^.*): //")"
-    timeout 10 adb forward --remove tcp:37001; rm -f $OUT/duel_stream.bin
-    grep -E "ModTest.*: lan|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v50l_events.txt
+    timeout 10 adb forward --remove tcp:37001; rm -f $OUT/duel_stream.bin $OUT/host_stream.bin
+    # v45 small stream (the internet format, forced on this TCP link by corsair_lean): the game hosts, then joins a replay of its own stream
+    put corsair_lean 1
+    timeout 10 adb forward tcp:37001 tcp:37001
+    put corsair_lan host; sleep 4
+    python3 tests/lan_peer.py guest 30 $OUT tests/lan_shot.txt > $OUT/lan_lean_guest_peer.txt 2>&1 & PEER=$!
+    for k in 1 2 3 4; do sleep 5; shot lan_leanhost_$k; need lan_leanhost_$k; done
+    wait $PEER; log "EVIDENCE lean host phase: $(cat $OUT/lan_lean_guest_peer.txt | tr '\n' ' ')"
+    put corsair_lan off; sleep 4; timeout 10 adb forward --remove tcp:37001
+    python3 tests/lan_peer.py host 35 $OUT > $OUT/lan_lean_host_peer.txt 2>&1 & PEER=$!
+    sleep 2; put corsair_lan join:10.0.2.2
+    for k in 1 2 3 4 5 6; do sleep 4; shot lan_leanguest_$k; need lan_leanguest_$k; done
+    wait $PEER; log "EVIDENCE lean guest phase: $(cat $OUT/lan_lean_host_peer.txt | tr '\n' ' ')"
+    log "EVIDENCE lean log: $(grep -E "ModTest.*: lan" $LG | tail -6 | sed 's/^.*): //' | tr '\n' ' ')"
+    put corsair_lan off; sleep 3; a shell "rm -f $T/corsair_lean"
+    grep -E "ModTest.*: lan|ModTest.*: lobby|ModTest.*: save|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v50l_events.txt
     rm -f $OUT/host_stream.bin
     a shell "rm -f $T/corsair_lan"
     finish; exit 0

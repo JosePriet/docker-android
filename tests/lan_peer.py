@@ -6,6 +6,15 @@
 #                                   (damage counter climbing), records what the guest sends
 import socket, struct, sys, time, threading, zlib
 MSG_DEF, MSG_FRAME, MSG_STATE, MSG_SHOT, MSG_BYE, MSG_Z, MSG_CHAT, MSG_KILL = 1, 2, 3, 4, 5, 6, 7, 8
+MSG_LFRAME, MSG_LSTATE, MSG_STYLE = 10, 11, 12   # v45 small stream (internet links; emulator switch corsair_lean)
+
+def lean_head(b):
+    """Small-format host frame: (level or None, hx, hy, record count)."""
+    fl = b[0]; hx, hy = struct.unpack_from('>ff', b, 1); o = 9; lv = None
+    if fl & 1:
+        lv, o = rd_utf(b, o); o += 4 + 8 + 1 + 4 + 2 + 2
+        _, o = rd_utf(b, o); o += 1
+    return lv, hx, hy, struct.unpack_from('>H', b, o)[0]
 
 def utf(s):
     b = s.encode('utf-8'); return struct.pack('>H', len(b)) + b
@@ -104,9 +113,12 @@ def guest(secs, out, shotfile, aim=False):
     while time.time() - t0 < secs:
         while done < len(got):
             t, body, at = got[done]; done += 1
-            if t in (MSG_DEF, MSG_FRAME): raw.write(msg(t, body))
+            if t in (MSG_DEF, MSG_FRAME, MSG_STYLE, MSG_LFRAME): raw.write(msg(t, body))
             if t == MSG_FRAME:
                 level, o = rd_utf(body, 0); hx, hy = struct.unpack_from('>ff', body, o)
+            if t == MSG_LFRAME:
+                lv, hx, hy, _ = lean_head(body)
+                if lv is not None: level = lv
         if level is not None:
             gx, gy = hx + 450.0, hy
             rec = struct.pack('>BHfff', 0, 1, 0.0, 0.0, (time.time() * 40) % 360) + bytes([255, 255, 255, 255, 0]) + struct.pack('>ff', 160.0, 160.0)
@@ -129,6 +141,10 @@ def guest(secs, out, shotfile, aim=False):
     recs = []
     for b in frames:
         lv, o = rd_utf(b, 0); o += 4 * 3 + 8; recs.append(struct.unpack_from('>H', b, o)[0])
+    lean = [b for t, b, _ in got if t == MSG_LFRAME]
+    if lean:
+        ln = [lean_head(b)[3] for b in lean]
+        print('GUEST lean frames=%d styles=%d recs(min/avg/max)=%s' % (len(lean), len([1 for t, b, _ in got if t == MSG_STYLE]), (min(ln), sum(ln) // len(ln), max(ln))))
     errs = [b for t, b, _ in got if t == -1]
     kills = [b for t, b, _ in got if t == MSG_KILL]
     print('GUEST v45 wire_bytes=%d raw_bytes=%d seconds=%d wire_Bps=%d raw_Bps=%d kills=%d chat=%d' % (WIRE[0], RAW[0], secs, WIRE[0] // max(1, secs), RAW[0] // max(1, secs), len(kills), len([1 for t, b, _ in got if t == MSG_CHAT])))
@@ -144,8 +160,9 @@ def host(secs, out):
     msgs, o = [], 0
     while o + 5 <= len(data):
         t, n = struct.unpack_from('>BI', data, o); msgs.append((t, data[o + 5:o + 5 + n])); o += 5 + n
-    defs = [m for m in msgs if m[0] == MSG_DEF]; frames = [m[1] for m in msgs if m[0] == MSG_FRAME]
-    print('HOST replaying defs=%d frames=%d' % (len(defs), len(frames)))
+    defs = [m for m in msgs if m[0] in (MSG_DEF, MSG_STYLE)]; frames = [m[1] for m in msgs if m[0] == MSG_FRAME]
+    lean = [m[1] for m in msgs if m[0] == MSG_LFRAME]
+    print('HOST replaying defs=%d frames=%d lean=%d' % (len(defs), len(frames), len(lean)))
     ls = socket.socket(); ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1); ls.bind(('0.0.0.0', 37001)); ls.listen(1)
     ls.settimeout(secs)
     try:
@@ -165,6 +182,9 @@ def host(secs, out):
     for t, b in defs: s.sendall(msg(t, b))
     t0 = time.time(); i = 0; dmg = 0.0
     try:
+        while time.time() - t0 < secs and lean and not frames:   # small-format stream, replayed as recorded, 15 a second
+            s.sendall(msg(MSG_LFRAME, lean[i % len(lean)])); i += 1
+            time.sleep(0.066)
         while time.time() - t0 < secs and frames:
             b = bytearray(frames[i % len(frames)]); i += 1
             lv, o = rd_utf(b, 0)
@@ -180,7 +200,7 @@ def host(secs, out):
     except Exception as e:
         print('HOST send error', e)
     stop[0] = True
-    states = [b for t, b, _ in got if t == MSG_STATE]; shots = [b for t, b, _ in got if t == MSG_SHOT]
+    states = [b for t, b, _ in got if t in (MSG_STATE, MSG_LSTATE)]; shots = [b for t, b, _ in got if t == MSG_SHOT]
     lives = []
     for b in states[-3:]:
         alive = b[0]; lv, o = rd_utf(b, 1); x, y, vx, vy, sp, life, mx, hw, hh = struct.unpack_from('>fffffffff', b, o)
