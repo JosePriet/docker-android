@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 494
+    .line 497
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$12;->val$mute:Landroid/widget/Button;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 4
 
     .prologue
-    .line 495
+    .line 498
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->muted:Z
 
     if-nez v0, :cond_17

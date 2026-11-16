@@ -396,6 +396,9 @@ final class ModLanUi {
         }
     }
 
+    /** The chat lines of this session (report button). */
+    static String chatText() { return allLines(); }
+
     private static String allLines() {
         StringBuilder sb = new StringBuilder();
         synchronized (lines) { for (String l : lines) { if (sb.length() > 0) sb.append('\n'); sb.append(l); } }

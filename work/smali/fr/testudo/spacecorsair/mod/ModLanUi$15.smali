@@ -43,7 +43,7 @@
     .end annotation
 
     .prologue
-    .line 525
+    .line 528
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->val$ic:Landroid/widget/Button;
@@ -58,7 +58,7 @@
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 526
+    .line 529
     const/4 v0, -0x1
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->shown:I
@@ -78,7 +78,7 @@
 
     const/4 v4, 0x0
 
-    .line 529
+    .line 532
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->val$a:Landroid/app/Activity;
 
     invoke-virtual {v2}, Landroid/app/Activity;->isFinishing()Z
@@ -96,7 +96,7 @@
 
     if-eq v2, v3, :cond_29
 
-    .line 530
+    .line 533
     :cond_14
     # getter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->chatAct:Landroid/app/Activity;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$800()Landroid/app/Activity;
@@ -119,17 +119,17 @@
     # setter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->chatText:Landroid/widget/TextView;
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$1102(Landroid/widget/TextView;)Landroid/widget/TextView;
 
-    .line 551
+    .line 554
     :cond_28
     :goto_28
     return-void
 
-    .line 534
+    .line 537
     :cond_29
     :try_start_29
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModLan;->connected:Z
 
-    .line 535
+    .line 538
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->val$ic:Landroid/widget/Button;
 
     if-eqz v2, :cond_30
@@ -139,7 +139,7 @@
     :cond_30
     invoke-virtual {v3, v1}, Landroid/widget/Button;->setVisibility(I)V
 
-    .line 536
+    .line 539
     if-nez v2, :cond_44
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->val$p:Landroid/widget/LinearLayout;
@@ -156,14 +156,14 @@
 
     invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->setVisibility(I)V
 
-    .line 537
+    .line 540
     :cond_44
     # getter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->unread:I
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$700()I
 
     move-result v1
 
-    .line 538
+    .line 541
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->val$p:Landroid/widget/LinearLayout;
 
     invoke-virtual {v2}, Landroid/widget/LinearLayout;->getVisibility()I
@@ -172,7 +172,7 @@
 
     if-nez v2, :cond_67
 
-    .line 539
+    .line 542
     if-lez v1, :cond_66
 
     const/4 v1, 0x0
@@ -198,16 +198,16 @@
     :cond_66
     move v1, v0
 
-    .line 542
+    .line 545
     :cond_67
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->shown:I
 
     if-eq v1, v0, :cond_80
 
-    .line 543
+    .line 546
     iput v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->shown:I
 
-    .line 544
+    .line 547
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->val$ic:Landroid/widget/Button;
 
     if-lez v1, :cond_88
@@ -217,7 +217,7 @@
     :goto_73
     invoke-virtual {v2, v0}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
 
-    .line 545
+    .line 548
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->val$ic:Landroid/widget/Button;
 
     if-lez v1, :cond_8b
@@ -229,7 +229,7 @@
     :try_end_80
     .catch Ljava/lang/Throwable; {:try_start_29 .. :try_end_80} :catch_8d
 
-    .line 550
+    .line 553
     :cond_80
     :goto_80
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$15;->val$ui:Landroid/os/Handler;
@@ -240,7 +240,7 @@
 
     goto :goto_28
 
-    .line 544
+    .line 547
     :cond_88
     :try_start_88
     const-string v0, "\u2709"
@@ -249,13 +249,13 @@
 
     goto :goto_73
 
-    .line 545
+    .line 548
     :cond_8b
     const/4 v0, -0x1
 
     goto :goto_7d
 
-    .line 547
+    .line 550
     :catch_8d
     move-exception v0
 

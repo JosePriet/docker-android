@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 240
+    .line 241
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->val$root:Landroid/view/View;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 2
 
     .prologue
-    .line 241
+    .line 242
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->val$root:Landroid/view/View;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->translateTree(Landroid/view/View;)V

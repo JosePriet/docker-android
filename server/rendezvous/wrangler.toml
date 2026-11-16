@@ -1,0 +1,19 @@
+# Space Corsair lobby service (SPEC-FINAL section 6). Cloudflare Workers free plan, one Durable Object.
+# Deploy: npx wrangler deploy   (needs CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID in the environment)
+# Relay:  npx wrangler secret put METERED_KEY   and set METERED_APP below (the "name" of name.metered.live)
+name = "sc-rendezvous"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+[[durable_objects.bindings]]
+name = "REG"
+class_name = "Registry"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Registry"]
+
+[vars]
+METERED_APP = "spacecsdev"
+RELAY_CAP_GB = "18"
+DAILY_REQUESTS = "90000"

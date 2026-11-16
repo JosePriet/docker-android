@@ -75,6 +75,7 @@ public class ModLang {
 
     /** Hook: SpaceCorsairApplication.onCreate (after super). */
     public static void applyApp(Context c) {
+        ModSaveSig.start(c);   // v45: save checksum, before the game touches its save
         try {
             app = c.getApplicationContext() != null ? c.getApplicationContext() : c;
             sysLocale();

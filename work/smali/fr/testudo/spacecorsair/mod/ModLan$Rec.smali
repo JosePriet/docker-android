@@ -25,13 +25,19 @@
 
 .field flags:I
 
+.field from:Lfr/testudo/spacecorsair/mod/ModLan$Rec;
+
 .field g:F
 
 .field h:F
 
 .field id:I
 
+.field key:I
+
 .field kind:I
+
+.field ord:I
 
 .field psize:F
 
@@ -41,7 +47,13 @@
 
 .field text:Ljava/lang/String;
 
+.field ts:F
+
 .field tsize:I
+
+.field tx:F
+
+.field ty:F
 
 .field u0:F
 
@@ -71,7 +83,7 @@
     .registers 1
 
     .prologue
-    .line 921
+    .line 1047
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void

@@ -48,7 +48,7 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 219
+    .line 220
     :try_start_1
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModLang;->app:Landroid/content/Context;
 
@@ -62,12 +62,12 @@
 
     move-result-object v0
 
-    .line 221
+    .line 222
     :cond_b
     :goto_b
     return-object v0
 
-    .line 220
+    .line 221
     :catch_c
     move-exception v1
 
@@ -78,7 +78,7 @@
     .registers 3
 
     .prologue
-    .line 90
+    .line 91
     :try_start_0
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->app:Landroid/content/Context;
 
@@ -90,16 +90,16 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->applyApp(Landroid/content/Context;)V
 
-    .line 91
+    .line 92
     :cond_b
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLang;->target(Landroid/content/Context;)Ljava/util/Locale;
 
     move-result-object v0
 
-    .line 92
+    .line 93
     invoke-static {v0}, Ljava/util/Locale;->setDefault(Ljava/util/Locale;)V
 
-    .line 93
+    .line 94
     invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v1
@@ -110,7 +110,7 @@
 
     invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModLang;->set(Landroid/content/res/Resources;Ljava/util/Locale;)V
 
-    .line 94
+    .line 95
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object v1
@@ -119,11 +119,11 @@
     :try_end_24
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_24} :catch_25
 
-    .line 96
+    .line 97
     :goto_24
     return-void
 
-    .line 95
+    .line 96
     :catch_25
     move-exception v0
 
@@ -134,35 +134,38 @@
     .registers 3
 
     .prologue
-    .line 79
-    :try_start_0
+    .line 78
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModSaveSig;->start(Landroid/content/Context;)V
+
+    .line 80
+    :try_start_3
     invoke-virtual {p0}, Landroid/content/Context;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v0
 
-    if-eqz v0, :cond_a
+    if-eqz v0, :cond_d
 
     invoke-virtual {p0}, Landroid/content/Context;->getApplicationContext()Landroid/content/Context;
 
     move-result-object p0
 
-    :cond_a
+    :cond_d
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModLang;->app:Landroid/content/Context;
 
-    .line 80
+    .line 81
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->sysLocale()Ljava/util/Locale;
 
-    .line 81
+    .line 82
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->app:Landroid/content/Context;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->target(Landroid/content/Context;)Ljava/util/Locale;
 
     move-result-object v0
 
-    .line 82
+    .line 83
     invoke-static {v0}, Ljava/util/Locale;->setDefault(Ljava/util/Locale;)V
 
-    .line 83
+    .line 84
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModLang;->app:Landroid/content/Context;
 
     invoke-virtual {v1}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
@@ -170,18 +173,18 @@
     move-result-object v1
 
     invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModLang;->set(Landroid/content/res/Resources;Ljava/util/Locale;)V
-    :try_end_21
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_21} :catch_22
+    :try_end_24
+    .catch Ljava/lang/Throwable; {:try_start_3 .. :try_end_24} :catch_25
 
-    .line 85
-    :goto_21
+    .line 86
+    :goto_24
     return-void
 
-    .line 84
-    :catch_22
+    .line 85
+    :catch_25
     move-exception v0
 
-    goto :goto_21
+    goto :goto_24
 .end method
 
 .method private static dict()Ljava/util/Map;
@@ -198,28 +201,28 @@
     .end annotation
 
     .prologue
-    .line 160
+    .line 161
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->dict:Ljava/util/Map;
 
     if-eqz v0, :cond_7
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->dict:Ljava/util/Map;
 
-    .line 174
+    .line 175
     :goto_6
     return-object v0
 
-    .line 161
+    .line 162
     :cond_7
     new-instance v1, Ljava/util/HashMap;
 
     invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
 
-    .line 163
+    .line 164
     :try_start_c
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->app:Landroid/content/Context;
 
-    .line 164
+    .line 165
     if-nez v0, :cond_1c
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModQol;->prefs()Landroid/content/SharedPreferences;
@@ -234,7 +237,7 @@
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/game/Game;->context:Landroid/content/Context;
 
-    .line 165
+    .line 166
     :cond_1c
     :goto_1c
     if-nez v0, :cond_22
@@ -243,13 +246,13 @@
 
     goto :goto_6
 
-    .line 164
+    .line 165
     :cond_20
     const/4 v0, 0x0
 
     goto :goto_1c
 
-    .line 166
+    .line 167
     :cond_22
     invoke-virtual {v0}, Landroid/content/Context;->getAssets()Landroid/content/res/AssetManager;
 
@@ -261,17 +264,17 @@
 
     move-result-object v0
 
-    .line 167
+    .line 168
     new-instance v2, Ljava/io/ByteArrayOutputStream;
 
     invoke-direct {v2}, Ljava/io/ByteArrayOutputStream;-><init>()V
 
-    .line 168
+    .line 169
     const/16 v3, 0x2000
 
     new-array v3, v3, [B
 
-    .line 169
+    .line 170
     :goto_35
     invoke-virtual {v0, v3}, Ljava/io/InputStream;->read([B)I
 
@@ -287,25 +290,25 @@
 
     goto :goto_35
 
-    .line 172
+    .line 173
     :catch_40
     move-exception v0
 
-    .line 173
+    .line 174
     :goto_41
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModLang;->dict:Ljava/util/Map;
 
     move-object v0, v1
 
-    .line 174
+    .line 175
     goto :goto_6
 
-    .line 170
+    .line 171
     :cond_45
     :try_start_45
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
 
-    .line 171
+    .line 172
     new-instance v0, Ljava/lang/String;
 
     invoke-virtual {v2}, Ljava/io/ByteArrayOutputStream;->toByteArray()[B
@@ -333,17 +336,17 @@
 
     const/4 v4, 0x0
 
-    .line 306
+    .line 307
     if-nez p0, :cond_7
 
-    .line 316
+    .line 317
     :goto_6
     return-object v0
 
     :cond_7
     move v3, v4
 
-    .line 308
+    .line 309
     :goto_8
     invoke-virtual {p0}, Ljava/lang/String;->length()I
 
@@ -351,12 +354,12 @@
 
     if-ge v3, v1, :cond_4e
 
-    .line 309
+    .line 310
     invoke-virtual {p0, v3}, Ljava/lang/String;->charAt(I)C
 
     move-result v2
 
-    .line 310
+    .line 311
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->glIndex(I)I
 
     move-result v1
@@ -367,7 +370,7 @@
 
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 308
+    .line 309
     :cond_1d
     :goto_1d
     add-int/lit8 v1, v3, 0x1
@@ -376,7 +379,7 @@
 
     goto :goto_8
 
-    .line 311
+    .line 312
     :cond_21
     if-nez v0, :cond_2c
 
@@ -388,7 +391,7 @@
 
     invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
-    .line 312
+    .line 313
     :cond_2c
     invoke-static {v2}, Ljava/lang/String;->valueOf(C)Ljava/lang/String;
 
@@ -400,7 +403,7 @@
 
     move-result-object v1
 
-    .line 313
+    .line 314
     invoke-virtual {v1}, Ljava/lang/String;->length()I
 
     move-result v5
@@ -411,7 +414,7 @@
 
     move-result v1
 
-    .line 314
+    .line 315
     :goto_40
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->glIndex(I)I
 
@@ -427,16 +430,16 @@
     :cond_4a
     move v1, v2
 
-    .line 313
+    .line 314
     goto :goto_40
 
     :cond_4c
     move v1, v2
 
-    .line 314
+    .line 315
     goto :goto_46
 
-    .line 316
+    .line 317
     :cond_4e
     if-nez v0, :cond_52
 
@@ -457,7 +460,7 @@
     .registers 2
 
     .prologue
-    .line 294
+    .line 295
     const/16 v0, 0x20
 
     if-lt p0, v0, :cond_b
@@ -468,11 +471,11 @@
 
     add-int/lit8 v0, p0, -0x20
 
-    .line 296
+    .line 297
     :goto_a
     return v0
 
-    .line 295
+    .line 296
     :cond_b
     const-string v0, "\u00e1\u00e9\u00ed\u00f3\u00fa\u00fc\u00f1\u00c1\u00c9\u00cd\u00d3\u00da\u00dc\u00d1\u00a1\u00bf\u00ba\u00aa\u00ab\u00bb"
 
@@ -480,7 +483,7 @@
 
     move-result v0
 
-    .line 296
+    .line 297
     if-ltz v0, :cond_16
 
     add-int/lit8 v0, v0, 0x5f
@@ -497,7 +500,7 @@
     .registers 5
 
     .prologue
-    .line 301
+    .line 302
     const/4 v1, 0x0
 
     const/16 v0, 0x5f
@@ -511,10 +514,10 @@
     :goto_8
     aput-char v0, p0, v1
 
-    .line 302
+    .line 303
     return-void
 
-    .line 301
+    .line 302
     :cond_b
     const-string v0, "\u00e1\u00e9\u00ed\u00f3\u00fa\u00fc\u00f1\u00c1\u00c9\u00cd\u00d3\u00da\u00dc\u00d1\u00a1\u00bf\u00ba\u00aa\u00ab\u00bb"
 
@@ -646,7 +649,7 @@
 
     const/4 v5, 0x0
 
-    .line 179
+    .line 180
     const/4 v0, 0x1
 
     new-array v3, v0, [I
@@ -655,7 +658,7 @@
 
     move-object v2, v1
 
-    .line 181
+    .line 182
     :goto_8
     aget v0, v3, v5
 
@@ -665,33 +668,33 @@
 
     if-ge v0, v4, :cond_37
 
-    .line 182
+    .line 183
     aget v0, v3, v5
 
     invoke-virtual {p0, v0}, Ljava/lang/String;->charAt(I)C
 
     move-result v0
 
-    .line 183
+    .line 184
     const/16 v4, 0x22
 
     if-ne v0, v4, :cond_27
 
-    .line 184
+    .line 185
     invoke-static {p0, v3}, Lfr/testudo/spacecorsair/mod/ModLang;->str(Ljava/lang/String;[I)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 185
+    .line 186
     if-nez v2, :cond_22
 
     :goto_20
     move-object v2, v0
 
-    .line 190
+    .line 191
     goto :goto_8
 
-    .line 185
+    .line 186
     :cond_22
     invoke-interface {p1, v2, v0}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
@@ -699,7 +702,7 @@
 
     goto :goto_20
 
-    .line 187
+    .line 188
     :cond_27
     const/16 v4, 0x2c
 
@@ -712,7 +715,7 @@
     :cond_2f
     move-object v0, v1
 
-    .line 188
+    .line 189
     :goto_30
     aget v2, v3, v5
 
@@ -722,7 +725,7 @@
 
     goto :goto_20
 
-    .line 191
+    .line 192
     :cond_37
     return-void
 
@@ -746,20 +749,20 @@
 
     const/4 v0, 0x0
 
-    .line 128
+    .line 129
     new-instance v1, Landroid/widget/LinearLayout;
 
     invoke-direct {v1, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 129
+    .line 130
     invoke-virtual {v1, v8}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 130
+    .line 131
     new-instance v2, Landroid/widget/TextView;
 
     invoke-direct {v2, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    .line 131
+    .line 132
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -786,26 +789,26 @@
 
     invoke-virtual {v2, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 132
+    .line 133
     invoke-virtual {v2, v9}, Landroid/widget/TextView;->setTextColor(I)V
 
-    .line 133
+    .line 134
     const/high16 v3, 0x41600000    # 14.0f
 
     invoke-virtual {v2, v6, v3}, Landroid/widget/TextView;->setTextSize(IF)V
 
-    .line 134
+    .line 135
     invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 135
+    .line 136
     new-instance v2, Landroid/widget/RadioGroup;
 
     invoke-direct {v2, p0}, Landroid/widget/RadioGroup;-><init>(Landroid/content/Context;)V
 
-    .line 136
+    .line 137
     invoke-virtual {v2, v0}, Landroid/widget/RadioGroup;->setOrientation(I)V
 
-    .line 137
+    .line 138
     new-array v3, v5, [Ljava/lang/String;
 
     const-string v4, "auto"
@@ -820,7 +823,7 @@
 
     aput-object v4, v3, v6
 
-    .line 138
+    .line 139
     new-array v4, v5, [Ljava/lang/String;
 
     const-string v5, "Auto"
@@ -839,41 +842,41 @@
 
     aput-object v5, v4, v6
 
-    .line 139
+    .line 140
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLang;->mode(Landroid/content/Context;)Ljava/lang/String;
 
     move-result-object v5
 
-    .line 140
+    .line 141
     :goto_65
     array-length v6, v3
 
     if-ge v0, v6, :cond_8d
 
-    .line 141
+    .line 142
     new-instance v6, Landroid/widget/RadioButton;
 
     invoke-direct {v6, p0}, Landroid/widget/RadioButton;-><init>(Landroid/content/Context;)V
 
-    .line 142
+    .line 143
     const v7, 0x4c41000
 
     add-int/2addr v7, v0
 
     invoke-virtual {v6, v7}, Landroid/widget/RadioButton;->setId(I)V
 
-    .line 143
+    .line 144
     aget-object v7, v4, v0
 
     invoke-virtual {v6, v7}, Landroid/widget/RadioButton;->setText(Ljava/lang/CharSequence;)V
 
-    .line 144
+    .line 145
     invoke-virtual {v6, v9}, Landroid/widget/RadioButton;->setTextColor(I)V
 
-    .line 145
+    .line 146
     invoke-virtual {v2, v6}, Landroid/widget/RadioGroup;->addView(Landroid/view/View;)V
 
-    .line 146
+    .line 147
     aget-object v7, v3, v0
 
     invoke-virtual {v7, v5}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -884,13 +887,13 @@
 
     invoke-virtual {v6, v8}, Landroid/widget/RadioButton;->setChecked(Z)V
 
-    .line 140
+    .line 141
     :cond_8a
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_65
 
-    .line 148
+    .line 149
     :cond_8d
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModLang$1;
 
@@ -898,10 +901,10 @@
 
     invoke-virtual {v2, v0}, Landroid/widget/RadioGroup;->setOnCheckedChangeListener(Landroid/widget/RadioGroup$OnCheckedChangeListener;)V
 
-    .line 154
+    .line 155
     invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 155
+    .line 156
     return-object v1
 .end method
 
@@ -909,12 +912,12 @@
     .registers 8
 
     .prologue
-    .line 99
+    .line 100
     invoke-virtual {p0}, Landroid/content/res/Resources;->getConfiguration()Landroid/content/res/Configuration;
 
     move-result-object v0
 
-    .line 100
+    .line 101
     iget-object v1, v0, Landroid/content/res/Configuration;->locale:Ljava/util/Locale;
 
     invoke-virtual {p1, v1}, Ljava/util/Locale;->equals(Ljava/lang/Object;)Z
@@ -923,17 +926,17 @@
 
     if-eqz v1, :cond_d
 
-    .line 109
+    .line 110
     :goto_c
     return-void
 
-    .line 101
+    .line 102
     :cond_d
     new-instance v1, Landroid/content/res/Configuration;
 
     invoke-direct {v1, v0}, Landroid/content/res/Configuration;-><init>(Landroid/content/res/Configuration;)V
 
-    .line 103
+    .line 104
     :try_start_12
     const-class v0, Landroid/content/res/Configuration;
 
@@ -953,7 +956,7 @@
 
     move-result-object v0
 
-    .line 104
+    .line 105
     const/4 v2, 0x1
 
     new-array v2, v2, [Ljava/lang/Object;
@@ -966,7 +969,7 @@
     :try_end_2b
     .catch Ljava/lang/Exception; {:try_start_12 .. :try_end_2b} :catch_33
 
-    .line 108
+    .line 109
     :goto_2b
     invoke-virtual {p0}, Landroid/content/res/Resources;->getDisplayMetrics()Landroid/util/DisplayMetrics;
 
@@ -976,11 +979,11 @@
 
     goto :goto_c
 
-    .line 105
+    .line 106
     :catch_33
     move-exception v0
 
-    .line 106
+    .line 107
     iput-object p1, v1, Landroid/content/res/Configuration;->locale:Ljava/util/Locale;
 
     goto :goto_2b
@@ -990,7 +993,7 @@
     .registers 5
 
     .prologue
-    .line 112
+    .line 113
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLang;->mode(Landroid/content/Context;)Ljava/lang/String;
 
     move-result-object v0
@@ -1001,21 +1004,21 @@
 
     if-eqz v0, :cond_b
 
-    .line 124
+    .line 125
     :cond_a
     :goto_a
     return-void
 
-    .line 113
+    .line 114
     :cond_b
     sput-object p1, Lfr/testudo/spacecorsair/mod/ModLang;->mode:Ljava/lang/String;
 
-    .line 114
+    .line 115
     const/4 v0, 0x0
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->dict:Ljava/util/Map;
 
-    .line 115
+    .line 116
     :try_start_10
     invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
 
@@ -1043,11 +1046,11 @@
     :try_end_28
     .catch Ljava/lang/Exception; {:try_start_10 .. :try_end_28} :catch_5a
 
-    .line 116
+    .line 117
     :goto_28
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLang;->apply(Landroid/app/Activity;)V
 
-    .line 118
+    .line 119
     :try_start_2b
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->spanish()Z
 
@@ -1057,21 +1060,21 @@
 
     const-string v0, "Idioma cambiado. Reinicia el juego para aplicarlo en todas las pantallas."
 
-    .line 119
+    .line 120
     :goto_33
     const/4 v1, 0x1
 
-    .line 118
+    .line 119
     invoke-static {p0, v0, v1}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
 
     move-result-object v0
 
-    .line 119
+    .line 120
     invoke-virtual {v0}, Landroid/widget/Toast;->show()V
     :try_end_3b
     .catch Ljava/lang/Exception; {:try_start_2b .. :try_end_3b} :catch_58
 
-    .line 121
+    .line 122
     :goto_3b
     sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
 
@@ -1079,7 +1082,7 @@
 
     if-lt v0, v1, :cond_a
 
-    .line 122
+    .line 123
     :try_start_41
     const-class v0, Landroid/app/Activity;
 
@@ -1108,7 +1111,7 @@
 
     goto :goto_a
 
-    .line 119
+    .line 120
     :cond_55
     :try_start_55
     const-string v0, "Language changed. Restart the game to apply it everywhere."
@@ -1117,13 +1120,13 @@
 
     goto :goto_33
 
-    .line 120
+    .line 121
     :catch_58
     move-exception v0
 
     goto :goto_3b
 
-    .line 115
+    .line 116
     :catch_5a
     move-exception v0
 
@@ -1160,17 +1163,17 @@
     .prologue
     const/4 v5, 0x0
 
-    .line 194
+    .line 195
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 195
+    .line 196
     aget v0, p1, v5
 
     add-int/lit8 v0, v0, 0x1
 
-    .line 196
+    .line 197
     :goto_a
     invoke-virtual {p0}, Ljava/lang/String;->length()I
 
@@ -1178,30 +1181,30 @@
 
     if-ge v0, v2, :cond_18
 
-    .line 197
+    .line 198
     invoke-virtual {p0, v0}, Ljava/lang/String;->charAt(I)C
 
     move-result v2
 
-    .line 198
+    .line 199
     const/16 v3, 0x22
 
     if-ne v2, v3, :cond_21
 
-    .line 212
+    .line 213
     :cond_18
     add-int/lit8 v0, v0, 0x1
 
     aput v0, p1, v5
 
-    .line 213
+    .line 214
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v0
 
     return-object v0
 
-    .line 199
+    .line 200
     :cond_21
     const/16 v3, 0x5c
 
@@ -1215,26 +1218,26 @@
 
     if-ge v3, v4, :cond_6f
 
-    .line 200
+    .line 201
     add-int/lit8 v0, v0, 0x1
 
     invoke-virtual {p0, v0}, Ljava/lang/String;->charAt(I)C
 
     move-result v2
 
-    .line 201
+    .line 202
     sparse-switch v2, :sswitch_data_74
 
-    .line 208
+    .line 209
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 196
+    .line 197
     :goto_39
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_a
 
-    .line 202
+    .line 203
     :sswitch_3c
     const/16 v2, 0xa
 
@@ -1242,7 +1245,7 @@
 
     goto :goto_39
 
-    .line 203
+    .line 204
     :sswitch_42
     const/16 v2, 0x9
 
@@ -1250,7 +1253,7 @@
 
     goto :goto_39
 
-    .line 204
+    .line 205
     :sswitch_48
     const/16 v2, 0xd
 
@@ -1258,7 +1261,7 @@
 
     goto :goto_39
 
-    .line 205
+    .line 206
     :sswitch_4e
     const/16 v2, 0x8
 
@@ -1266,7 +1269,7 @@
 
     goto :goto_39
 
-    .line 206
+    .line 207
     :sswitch_54
     const/16 v2, 0xc
 
@@ -1274,7 +1277,7 @@
 
     goto :goto_39
 
-    .line 207
+    .line 208
     :sswitch_5a
     add-int/lit8 v2, v0, 0x1
 
@@ -1298,13 +1301,13 @@
 
     goto :goto_39
 
-    .line 210
+    .line 211
     :cond_6f
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
     goto :goto_39
 
-    .line 201
+    .line 202
     nop
 
     :sswitch_data_74
@@ -1423,7 +1426,7 @@
     .registers 2
 
     .prologue
-    .line 227
+    .line 228
     if-eqz p0, :cond_8
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->spanish()Z
@@ -1435,12 +1438,12 @@
     :cond_8
     move-object v0, p0
 
-    .line 229
+    .line 230
     :cond_9
     :goto_9
     return-object v0
 
-    .line 228
+    .line 229
     :cond_a
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->dict()Ljava/util/Map;
 
@@ -1452,7 +1455,7 @@
 
     check-cast v0, Ljava/lang/String;
 
-    .line 229
+    .line 230
     if-nez v0, :cond_9
 
     move-object v0, p0
@@ -1470,32 +1473,32 @@
 
     const/4 v2, 0x0
 
-    .line 261
+    .line 262
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->dict()Ljava/util/Map;
 
     move-result-object v6
 
-    .line 262
+    .line 263
     invoke-interface {v6, p0}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/lang/String;
 
-    .line 263
+    .line 264
     if-eqz v0, :cond_10
 
-    .line 276
+    .line 277
     :goto_f
     return-object v0
 
-    .line 264
+    .line 265
     :cond_10
     invoke-virtual {p0}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v1
 
-    .line 265
+    .line 266
     invoke-virtual {v1}, Ljava/lang/String;->length()I
 
     move-result v0
@@ -1520,7 +1523,7 @@
 
     goto :goto_f
 
-    .line 266
+    .line 267
     :cond_2b
     const-string v0, " \u00b7 "
 
@@ -1534,7 +1537,7 @@
 
     goto :goto_f
 
-    .line 267
+    .line 268
     :cond_35
     const-string v0, " \u00b7 "
 
@@ -1548,13 +1551,13 @@
 
     move v3, v2
 
-    .line 269
+    .line 270
     :goto_3e
     array-length v0, v7
 
     if-ge v1, v0, :cond_5c
 
-    .line 270
+    .line 271
     aget-object v0, v7, v1
 
     invoke-virtual {v0}, Ljava/lang/String;->trim()Ljava/lang/String;
@@ -1567,7 +1570,7 @@
 
     check-cast v0, Ljava/lang/String;
 
-    .line 271
+    .line 272
     if-eqz v0, :cond_58
 
     aget-object v3, v7, v1
@@ -1580,7 +1583,7 @@
 
     move v3, v4
 
-    .line 269
+    .line 270
     :cond_58
     add-int/lit8 v0, v1, 0x1
 
@@ -1588,7 +1591,7 @@
 
     goto :goto_3e
 
-    .line 273
+    .line 274
     :cond_5c
     if-nez v3, :cond_60
 
@@ -1596,7 +1599,7 @@
 
     goto :goto_f
 
-    .line 274
+    .line 275
     :cond_60
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -1604,7 +1607,7 @@
 
     invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
-    .line 275
+    .line 276
     :goto_67
     array-length v1, v7
 
@@ -1624,7 +1627,7 @@
 
     goto :goto_67
 
-    .line 276
+    .line 277
     :cond_78
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -1637,15 +1640,15 @@
     .registers 4
 
     .prologue
-    .line 248
+    .line 249
     instance-of v0, p0, Landroid/view/ViewGroup;
 
     if-eqz v0, :cond_17
 
-    .line 249
+    .line 250
     check-cast p0, Landroid/view/ViewGroup;
 
-    .line 250
+    .line 251
     const/4 v0, 0x0
 
     :goto_7
@@ -1665,21 +1668,21 @@
 
     goto :goto_7
 
-    .line 251
+    .line 252
     :cond_17
     instance-of v0, p0, Landroid/widget/TextView;
 
     if-eqz v0, :cond_2e
 
-    .line 252
+    .line 253
     check-cast p0, Landroid/widget/TextView;
 
-    .line 253
+    .line 254
     invoke-virtual {p0}, Landroid/widget/TextView;->getText()Ljava/lang/CharSequence;
 
     move-result-object v0
 
-    .line 254
+    .line 255
     if-eqz v0, :cond_2e
 
     invoke-interface {v0}, Ljava/lang/CharSequence;->length()I
@@ -1694,12 +1697,12 @@
 
     if-eqz v1, :cond_2f
 
-    .line 258
+    .line 259
     :cond_2e
     :goto_2e
     return-void
 
-    .line 255
+    .line 256
     :cond_2f
     invoke-interface {v0}, Ljava/lang/CharSequence;->toString()Ljava/lang/String;
 
@@ -1709,7 +1712,7 @@
 
     move-result-object v1
 
-    .line 256
+    .line 257
     if-eqz v1, :cond_2e
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -1727,7 +1730,7 @@
     .registers 4
 
     .prologue
-    .line 282
+    .line 283
     :try_start_0
     sget-object v0, Ljava/util/Locale;->US:Ljava/util/Locale;
 
@@ -1741,15 +1744,15 @@
 
     move-result-object v0
 
-    .line 284
+    .line 285
     :goto_a
     return-object v0
 
-    .line 283
+    .line 284
     :catch_b
     move-exception v0
 
-    .line 284
+    .line 285
     sget-object v0, Ljava/util/Locale;->US:Ljava/util/Locale;
 
     invoke-static {v0, p0, p1}, Ljava/lang/String;->format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
@@ -1763,7 +1766,7 @@
     .registers 4
 
     .prologue
-    .line 236
+    .line 237
     :try_start_0
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->spanish()Z
 
@@ -1779,12 +1782,12 @@
 
     if-nez v0, :cond_f
 
-    .line 245
+    .line 246
     :cond_e
     :goto_e
     return-void
 
-    .line 237
+    .line 238
     :cond_f
     invoke-virtual {p0}, Landroid/app/Activity;->getWindow()Landroid/view/Window;
 
@@ -1794,7 +1797,7 @@
 
     move-result-object v0
 
-    .line 238
+    .line 239
     const v1, 0x4c41100
 
     invoke-virtual {v0, v1}, Landroid/view/View;->getTag(I)Ljava/lang/Object;
@@ -1803,14 +1806,14 @@
 
     if-nez v1, :cond_e
 
-    .line 239
+    .line 240
     const v1, 0x4c41100
 
     sget-object v2, Ljava/lang/Boolean;->TRUE:Ljava/lang/Boolean;
 
     invoke-virtual {v0, v1, v2}, Landroid/view/View;->setTag(ILjava/lang/Object;)V
 
-    .line 240
+    .line 241
     invoke-virtual {v0}, Landroid/view/View;->getViewTreeObserver()Landroid/view/ViewTreeObserver;
 
     move-result-object v1
@@ -1821,14 +1824,14 @@
 
     invoke-virtual {v1, v2}, Landroid/view/ViewTreeObserver;->addOnGlobalLayoutListener(Landroid/view/ViewTreeObserver$OnGlobalLayoutListener;)V
 
-    .line 243
+    .line 244
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->translateTree(Landroid/view/View;)V
     :try_end_37
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_37} :catch_38
 
     goto :goto_e
 
-    .line 244
+    .line 245
     :catch_38
     move-exception v0
 

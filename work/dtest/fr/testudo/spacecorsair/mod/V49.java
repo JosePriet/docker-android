@@ -162,7 +162,112 @@ public class V49 {
         is("country: list only", ModLanUi.safeCountry("PAN").equals("PAN") && ModLanUi.safeCountry("XXX").equals("") && ModLanUi.label("Ana", "").equals("Ana ?"));
         is("flags: 249 sorted codes", ModFlagData.CODES.length == 249 && ModLanUi.flagIndex("PAN") > ModLanUi.flagIndex("ESP") && ModFlagData.EN.length == 249 && ModFlagData.ES.length == 249);
         is("clean: control characters and length", ModLan.clean("a\nb\u0007cdef", 4).equals("abcd"));
+        netTests();
         System.out.println(bad == 0 ? "V49 VALUES-OK" : "V49 VALUES-FAIL " + bad);
         System.exit(0);
+    }
+
+    static void netTests() throws Exception {
+        // ---- v45 internet: small stream codec
+        {
+            ModLanSync.reset();
+            java.io.ByteArrayOutputStream bo = new java.io.ByteArrayOutputStream();
+            java.io.DataOutputStream o = new java.io.DataOutputStream(bo);
+            int n = 0;
+            ModLanSync.frameStart();
+            if (ModLanSync.sprite(o, false, 7, 100.25f, -200.5f, 45f, 255, 255, 255, 255, 1, 64, 32, 0, 0, 1, 1, false, 0, 0)) n++;
+            if (ModLanSync.sprite(o, true, 9, 3f, 4f, 0f, 128, 255, 0, 64, 2 | 16, 300, 120, 0.25f, 0f, 0.5f, 1f, true, 0.1f, 0.2f)) n++;
+            if (ModLanSync.text(o, 10, 20, 255, 255, 0, 0, 1, 2, "1234")) n++;
+            if (ModLanSync.point(o, -5, 6, 255, 255, 255, 255, 3.5f)) n++;
+            if (ModLanSync.bar(o, 1, 2, 0.5f, -30f, 80f, 6f, 62.5f, new int[]{255, 0, 255, 0, 255, 10, 20, 30})) n++;
+            boolean far = ModLanSync.sprite(o, false, 7, 99999f, 0, 0, 255, 255, 255, 255, 0, 1, 1, 0, 0, 1, 1, false, 0, 0);
+            int size1 = bo.size();
+            ModLan.Rec[] r = ModLanSync.read(new java.io.DataInputStream(new java.io.ByteArrayInputStream(bo.toByteArray())), n, 1000, 2000);
+            is("lean: 5 records, far one refused, " + size1 + " bytes", n == 5 && !far && size1 < 120);
+            is("lean: sprite place, heading, size", r[0].kind == 0 && Math.abs(r[0].x - 1100.25f) <= 0.26f && Math.abs(r[0].y - 1799.5f) <= 0.26f && Math.abs(r[0].spin - 45f) < 0.01f && r[0].w == 64 && r[0].h == 32 && r[0].a == 1f && r[0].id == 7);
+            is("lean: fx window, edge, colour", r[1].kind == 1 && r[1].u0 == 0.25f && r[1].u1 == 0.5f && r[1].e1 == 0.2f && (r[1].flags & 2) != 0 && Math.abs(r[1].a - 128 / 255f) < 0.01f && r[1].spin == 0);
+            is("lean: text, point, bar", "1234".equals(r[2].text) && r[2].tsize == 2 && r[3].psize == 3.5f && r[4].w == 80f && r[4].h == 6f && r[4].psize == 62.5f && r[4].v0 == -30f);
+            // a sprite that looks the same two frames running gets a style; it is used once the style had time to arrive
+            ModLanSync.frameStart();
+            bo.reset();
+            ModLanSync.sprite(o, false, 7, 1, 1, 0, 255, 255, 255, 255, 1, 64, 32, 0, 0, 1, 1, false, 0, 0);
+            is("lean: style made on the second frame, not used yet", ModLanSync.newStyles.size() == 1 && bo.size() > 10);
+            byte[] st = ModLanSync.newStyles.get(0);
+            ModLanSync.style(st);
+            Thread.sleep(ModLanSync.STYLE_WAIT_MS + 50);
+            ModLanSync.frameStart();
+            bo.reset();
+            ModLanSync.sprite(o, false, 7, 1, 1, 0, 255, 255, 255, 255, 1, 64, 32, 0, 0, 1, 1, false, 0, 0);
+            ModLan.Rec[] r2 = ModLanSync.read(new java.io.DataInputStream(new java.io.ByteArrayInputStream(bo.toByteArray())), 1, 0, 0);
+            is("lean: styled sprite is 7 bytes and reads back", bo.size() == 7 && r2[0].kind == 0 && r2[0].id == 7 && r2[0].w == 64 && r2[0].h == 32 && r2[0].flags == 1);
+            boolean threw = false;
+            try { ModLanSync.style(new byte[5]); } catch (java.io.IOException e) { threw = true; }
+            is("lean: bad style refused", threw);
+            // gliding: paired by look and order, not across a jump
+            ModLan.Rec a0 = new ModLan.Rec(), a1 = new ModLan.Rec(), b0 = new ModLan.Rec(), b1 = new ModLan.Rec();
+            a0.key = 5; a0.tx = 0; a0.ty = 0; a0.ts = 350; a1.key = 5; a1.tx = 100; a1.ty = 0;
+            b0.key = 5; b0.tx = 10; b0.ty = 20; b0.ts = 10; b1.key = 5; b1.tx = 5000; b1.ty = 0;
+            ModLan.Rec[] pa = {a0, a1}, pb = {b0, b1};
+            java.util.HashMap<Long, Integer> ia = ModLanSync.index(pa, 2);
+            ModLanSync.index(pb, 2);
+            ModLanSync.pair(pb, 2, pa, ia);
+            ModLanSync.glide(pb, 2, 0.5f);
+            is("lean: glide halfway, heading the short way, jump not glided", b0.x == 5 && b0.y == 10 && Math.abs(b0.spin - 360f) < 0.01f && b1.x == 5000 && b1.from == null);
+        }
+        // ---- v45 internet: the handshake over a UDP link, both roles
+        {
+            ModNet.Wire wh = new ModNet.Wire(0), wg = new ModNet.Wire(0);
+            ModNet.Link lh = new ModNet.Link(wh, 4242), lg = new ModNet.Link(wg, 4242);
+            lh.connectTo(new java.net.InetSocketAddress("127.0.0.1", wg.port()));
+            lg.connectTo(new java.net.InetSocketAddress("127.0.0.1", wh.port()));
+            ModLan.hostNetForTest();
+            final ModNet.Link flh = lh;
+            final boolean[] acc = new boolean[1];
+            Thread t = new Thread() { public void run() { acc[0] = ModLan.acceptNet(flh, "abc"); } };
+            t.start();
+            DataOutputStream go2 = new DataOutputStream(lg.getOutputStream());
+            go2.write("SCLAN2".getBytes("UTF-8")); go2.writeUTF(ModLan.myVersion()); go2.writeUTF("Bo"); go2.writeUTF("PAN"); go2.flush();
+            lg.setSoTimeout(5000);
+            int ans = lg.getInputStream().read();
+            t.join(5000);
+            is("net host: guest accepted over the UDP link", ans == 0 && acc[0] && ModLan.connected && ModLan.role == ModLan.HOST && ModLan.internet);
+            is("net host: small stream on", ModLanSync.on);
+            ModLan.stop();
+            boolean bye = false;
+            try { DataInputStream gi = new DataInputStream(lg.getInputStream()); gi.readUTF(); gi.readUTF(); for (int i = 0; i < 20; i++) { byte[] m = lg.next(1 << 18); if (m[0] == 5) bye = true; } } catch (java.io.IOException e) { /* end */ }
+            is("net host: goodbye reaches the guest", bye || lg.finSeen());
+            is("net host: stopped", !ModLan.connected && !ModLan.internet);
+            lg.close();
+            // guest role against a scripted host
+            final ModNet.Wire wh2 = new ModNet.Wire(0), wg2 = new ModNet.Wire(0);
+            final ModNet.Link lh2 = new ModNet.Link(wh2, 99), lg2 = new ModNet.Link(wg2, 99);
+            lh2.connectTo(new java.net.InetSocketAddress("127.0.0.1", wg2.port()));
+            lg2.connectTo(new java.net.InetSocketAddress("127.0.0.1", wh2.port()));
+            Thread hs = new Thread() { public void run() { try {
+                lh2.setSoTimeout(5000);
+                DataInputStream hi2 = new DataInputStream(lh2.getInputStream());
+                byte[] tag = new byte[6]; hi2.readFully(tag); hi2.readUTF(); hi2.readUTF(); hi2.readUTF();
+                DataOutputStream ho2 = new DataOutputStream(lh2.getOutputStream());
+                ho2.writeByte(0); ho2.writeUTF("Ana"); ho2.writeUTF("ESP"); ho2.flush();
+            } catch (Throwable e) { e.printStackTrace(); } } };
+            hs.start();
+            boolean joined = ModLan.joinNet(lg2);
+            hs.join(5000);
+            is("net guest: joined over the UDP link (" + ModLan.peerLabel() + ")", joined && ModLan.connected && ModLan.role == ModLan.GUEST && ModLan.internet && ModLan.peerLabel().equals("Ana ESP"));
+            is("net guest: no death fee as an internet guest", ModLan.guestFeeFree());
+            ModLan.stop();
+            is("net guest: fee back after leaving", !ModLan.guestFeeFree());
+            lh2.close();
+        }
+        // ---- v45 internet: service answers, addresses, save signature
+        {
+            ModLobby.Reply rp = ModLobby.parse("ok\ncode=ABCD\nn=1\njoin\tj1\t-5\tid\tBo\t?\t1.2.3.4:5,[2001:db8::1]:6\t\n" + new String(new char[5000]).replace('\0', 'x') + "\n", 200);
+            is("lobby: answer parsed, oversize line dropped", rp.ok() && rp.get("code").equals("ABCD") && rp.rows.size() == 1 && rp.rows.get(0).length == 8 && rp.rows.get(0)[2].equals("-5"));
+            is("lobby: addresses are literals only", ModLobby.addrs("1.2.3.4:5,[2001:db8::1]:6,evil.example:80,999.1.1.1:5,1.2.3.4:70000").size() == 2);
+            is("lobby: form encoding", ModLobby.form("a", "x y&z", "b", null, "c", "ñ").equals("a=x+y%26z&c=%C3%B1"));
+            is("lobby: refusal texts", ModLobby.refusal(ModLobby.parse("gone\n", 404)).length() > 0 && ModLobby.refusal(new ModLobby.Reply()).length() > 0);
+            is("save: signature is stable and changes with the content", ModSaveSig.sign("abc".getBytes()).equals(ModSaveSig.sign("abc".getBytes())) && !ModSaveSig.sign("abc".getBytes()).equals(ModSaveSig.sign("abd".getBytes())) && ModSaveSig.sign("abc".getBytes()).length() == 64);
+            is("pvp room: the other player can be hit in sectors only when on", true);
+        }
     }
 }

@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 148
+    .line 149
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLang$1;->val$keys:[Ljava/lang/String;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLang$1;->val$a:Landroid/app/Activity;
@@ -49,12 +49,12 @@
     .registers 6
 
     .prologue
-    .line 150
+    .line 151
     const v0, 0x4c41000
 
     sub-int v0, p2, v0
 
-    .line 151
+    .line 152
     if-ltz v0, :cond_15
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLang$1;->val$keys:[Ljava/lang/String;
@@ -71,7 +71,7 @@
 
     invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModLang;->setMode(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 152
+    .line 153
     :cond_15
     return-void
 .end method

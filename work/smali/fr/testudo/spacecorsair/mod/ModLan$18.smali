@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 2253
+    .line 2489
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -31,14 +31,23 @@
 
 # virtual methods
 .method public run()V
-    .registers 1
+    .registers 2
 
     .prologue
-    .line 2253
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->noRejoin()V
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1600()V
+    .line 2489
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->solo:Z
 
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->stop()V
+    if-nez v0, :cond_9
+
+    const/4 v0, 0x1
+
+    :goto_5
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->setSolo(Z)V
 
     return-void
+
+    :cond_9
+    const/4 v0, 0x0
+
+    goto :goto_5
 .end method

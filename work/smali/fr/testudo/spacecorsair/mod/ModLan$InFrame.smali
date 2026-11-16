@@ -15,6 +15,8 @@
 
 
 # instance fields
+.field at:J
+
 .field dmg:F
 
 .field guestWins:I
@@ -24,6 +26,20 @@
 .field hx:F
 
 .field hy:F
+
+.field idx:Ljava/util/HashMap;
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "Ljava/util/HashMap",
+            "<",
+            "Ljava/lang/Long;",
+            "Ljava/lang/Integer;",
+            ">;"
+        }
+    .end annotation
+.end field
+
+.field lean:Z
 
 .field level:Ljava/lang/String;
 
@@ -37,11 +53,17 @@
 
 .field n:I
 
+.field phx:F
+
+.field phy:F
+
 .field pvp:Z
 
 .field recs:[Lfr/testudo/spacecorsair/mod/ModLan$Rec;
 
 .field round:I
+
+.field span:J
 
 .field xp:J
 
@@ -51,7 +73,7 @@
     .registers 1
 
     .prologue
-    .line 927
+    .line 1057
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
