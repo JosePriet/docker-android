@@ -96,7 +96,7 @@ public final class ModLan {
     private static final String HELLO = "SCLAN2";   // v45: + version, nickname, country, and a host reply byte
     static final int MAX_MSG = 256 * 1024;
     private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3;
-    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6;   // v45: 6 = a deflated FRAME / STATE (type byte first)
+    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7;   // v45: 6 = a deflated FRAME / STATE (type byte first)
     private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
     private static final int MAX_REMOTE = 2200;   // render queue holds 2500 per frame
 
@@ -147,7 +147,7 @@ public final class ModLan {
                     while (gen == linkGen && !connected) {
                         String name = "Corsair";
                         try { name = ObjectRegistry.INSTANCE.game.currentLevel.id.levelName; } catch (Throwable t) { /* unnamed */ }
-                        byte[] b = (HELLO + " " + name + "  v" + myVersion()).getBytes("UTF-8");
+                        byte[] b = (HELLO + "|" + myVersion() + "|" + myNick() + "|" + myCountry() + "|" + name + "|" + (pvpRoom ? 1 : 0)).getBytes("UTF-8");
                         for (InetAddress a : broadcasts()) {
                             try { ds.send(new DatagramPacket(b, b.length, a, PORT)); } catch (Throwable t) { /* next address */ }
                         }
@@ -193,6 +193,9 @@ public final class ModLan {
                 ModDev.ev("lan", "join refused " + r);
                 return;
             }
+            s.setSoTimeout(5000);
+            readPeerId(hi);
+            s.setSoTimeout(0);
             lastAddr = ip;
             begin(s, gen);
         } catch (Throwable t) {
@@ -215,9 +218,35 @@ public final class ModLan {
         return verCache;
     }
 
-    static String myNick() { return ""; }      // filled by the nickname screen (later step of the plan)
+    static String myNick() { return ModLanUi.nick(); }
 
-    static String myCountry() { return ""; }
+    static String myCountry() { return ModLanUi.country(); }
+
+    /** After the OK byte the host names itself; the guest keeps it for the name tag and the chat. */
+    private static void readPeerId(DataInputStream in) throws IOException {
+        peerNick = ModLanUi.safeNick(clean(readShortUTF(in, 64), 12));
+        peerCtry = ModLanUi.safeCountry(clean(readShortUTF(in, 16), 3));
+    }
+
+    static String peerLabel() { return ModLanUi.label(peerNick.length() > 0 ? peerNick : ModLang.tr("Player"), peerCtry); }
+
+    // ------------------------------------------------------------------ v45: chat (reliable, one line a second)
+    private static long chatAt;
+
+    /** UI thread: false = not sent (no link, or too soon after the last line). */
+    static boolean sendChat(String text) {
+        long now = System.currentTimeMillis();
+        if (!connected || now - chatAt < 1000) return false;
+        chatAt = now;
+        try {
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();
+            new DataOutputStream(bo).writeUTF(clean(text, 120));
+            sendReliable(MSG_CHAT, bo);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
     /** Printable text of at most max characters (peer-supplied strings never reach the screen raw). */
     static String clean(String v, int max) {
@@ -231,7 +260,9 @@ public final class ModLan {
     }
 
     private static final java.util.HashSet<String> kicked = new java.util.HashSet<String>();
-    private static volatile String peerAddr = "", peerNick = "";
+    private static volatile String peerAddr = "";
+    static volatile String peerNick = "", peerCtry = "";
+    private static volatile long chatIn;
     private static volatile String rejoinAddr;
     private static volatile long rejoinUntil;
     private static volatile String lastAddr;
@@ -309,8 +340,12 @@ public final class ModLan {
                 DatagramPacket p = new DatagramPacket(buf, buf.length);
                 try { ds.receive(p); } catch (java.net.SocketTimeoutException e) { continue; }
                 String s = new String(p.getData(), 0, p.getLength(), "UTF-8");
-                if (!s.startsWith(HELLO)) continue;
-                String line = p.getAddress().getHostAddress() + "  " + s.substring(HELLO.length()).trim();
+                if (!s.startsWith(HELLO + "|")) continue;
+                String[] f = s.split("\\|", -1);   // tag, version, nickname, country, sector, pvp
+                if (f.length < 6) continue;
+                String line = p.getAddress().getHostAddress() + "  " + ModLanUi.label(ModLanUi.safeNick(clean(f[2], 12)), ModLanUi.safeCountry(clean(f[3], 3)))
+                    + "  \u00b7  " + clean(f[4], 40) + (f[5].equals("1") ? "  \u00b7  PvP" : "")
+                    + (clean(f[1], 40).equals(myVersion()) ? "" : "  \u00b7  " + ModLang.tr("other version"));
                 if (!out.contains(line)) out.add(line);
             }
         } catch (Throwable t) {
@@ -378,12 +413,14 @@ public final class ModLan {
             if (out3) { out.writeByte(KICKED); out.flush(); return false; }
             if (!ver.equals(myVersion())) { out.writeByte(VERSION); out.writeUTF(myVersion()); out.flush(); ModDev.ev("lan", "refused version " + ver); return false; }
             boolean back = addr.equals(rejoinAddr) && System.currentTimeMillis() < rejoinUntil;   // the same phone reconnecting
-            String who = (nick.length() > 0 ? nick : ModLang.tr("A player")) + (ctry.length() > 0 ? " (" + ctry + ")" : "") + " [" + addr + "]";
+            String who = ModLanUi.label(ModLanUi.safeNick(nick), ModLanUi.safeCountry(ctry));
             if (!back && !autoAccept && !askAccept(who, gen)) { out.writeByte(DECLINED); out.flush(); ModDev.ev("lan", "declined " + addr); return false; }
             out.writeByte(OK);
+            out.writeUTF(myNick()); out.writeUTF(myCountry());
             out.flush();
             peerAddr = addr;
-            peerNick = nick;
+            peerNick = ModLanUi.safeNick(nick);
+            peerCtry = ModLanUi.safeCountry(ctry);
             return true;
         } catch (Throwable t) {
             return false;
@@ -515,9 +552,11 @@ public final class ModLan {
             ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
             ho.flush();
             s.setSoTimeout(5000);
-            int r = new DataInputStream(s.getInputStream()).readUnsignedByte();
-            s.setSoTimeout(0);
+            DataInputStream hi = new DataInputStream(s.getInputStream());
+            int r = hi.readUnsignedByte();
             if (r != OK || linkGen != mark) { s.close(); return true; }   // refused, or the player moved on: stop trying
+            readPeerId(hi);
+            s.setSoTimeout(0);
             role = GUEST;
             long gen = ++linkGen;
             lastAddr = ip;
@@ -561,6 +600,7 @@ public final class ModLan {
         autoAccept = false;
         decision = 2;   // a pending join question is void
         peerAddr = "";
+        ModLanUi.clearChat();
     }
 
     private static void sendReliable(int type, ByteArrayOutputStream body) {
@@ -924,6 +964,12 @@ public final class ModLan {
             synchronized (inLock) { inState = s; }
             gotFrames++;
             lastRecs = s.n;
+        } else if (type == MSG_CHAT) {
+            long now = System.currentTimeMillis();
+            if (b.length > 512) throw new IOException("chat too large");
+            if (now - chatIn < 500) return;   // faster than anyone types: dropped
+            chatIn = now;
+            ModLanUi.onChat(peerLabel(), in.readUTF());
         } else if (type == MSG_SHOT && role == HOST) {
             if (b.length > 4096) throw new IOException("shot too large");
             synchronized (inLock) { if (inShots.size() < 400) inShots.add(b); }
@@ -1219,7 +1265,7 @@ public final class ModLan {
         ModDev.ev("lan", "test switch " + v);
         if (v.equals("host")) { host(); autoAccept = true; }   // the scripted peer has nobody to tap Accept
         else if (v.equals("off")) stop();
-        else if (v.equals("duel")) duel(true);
+        else if (v.equals("duel")) { pvpRoom = true; duel(true); }
         else if (v.equals("duel-off")) duel(false);
         else if (v.startsWith("join:")) new Thread(new Runnable() { public void run() { join(v.substring(5)); ModDev.ev("lan", "join -> connected=" + connected + " " + status); } }, "lan-join").start();
     }
@@ -1283,7 +1329,7 @@ public final class ModLan {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             if (dropProxy) { dropProxy = false; removeProxy(); }
             if (ps == null || ObjectRegistry.INSTANCE.game.currentLevel == null) return;
-            if (announce) { announce = false; Mod.floatText(ps, ModLang.tr("CO-OP CONNECTED"), 0.3f, 1.0f, 0.5f); }
+            if (announce) { announce = false; Mod.floatText(ps, ModLang.tr("CO-OP CONNECTED") + (peerNick.length() > 0 ? ": " + peerLabel() : ""), 0.3f, 1.0f, 0.5f); }
             if (lost) { lost = false; Mod.floatText(ps, ModLang.tr("CO-OP LINK LOST"), 1.0f, 0.4f, 0.3f); }
             testSwitch(now);
             if (joinAsk) { joinAsk = false; String w = pendingWho; if (w != null) Mod.floatText(ps, w + " " + ModLang.tr("wants to join your game."), 0.3f, 1.0f, 0.5f); }
@@ -1382,6 +1428,7 @@ public final class ModLan {
     }
 
     // v45 anti-cheat limits (host side). Generous: they stop impossible values, not good players.
+    static final float TAG_UP = 150f;            // the name tag sits this far above the other ship
     static final float MAX_SPEED = 6000f;        // world units per second
     static final float MAX_STEP = 100f;          // speed vector per frame
     static final int MAX_SHOTS_S = 80;
@@ -1478,6 +1525,7 @@ public final class ModLan {
         synchronized (inLock) { s = inState; }
         proxyFrom = queueSize();
         if (s != null) replay(s.recs, s.n, e.position.x, e.position.y);
+        ModLanUi.drawLabel(e.position.x, e.position.y + TAG_UP, peerNick, peerCtry);   // inside the range the stream leaves out
         proxyTo = queueSize();
         return true;
     }
@@ -1594,6 +1642,7 @@ public final class ModLan {
         }
         guestMission(ps, f);
         replay(f.recs, f.n, 0, 0);
+        ModLanUi.drawLabel(f.hx, f.hy + TAG_UP, peerNick, peerCtry);
     }
 
     private static long capAt;
@@ -1829,7 +1878,16 @@ public final class ModLan {
     private static boolean lostRound, restore;
 
     /** Host UI: start or end a duel. The host's game takes both ships to the player bay (FFA, off the map). */
+    static volatile boolean pvpRoom;   // v45 host room setting, off by default: no duel while off
+
+    static void setPvpRoom(boolean on) {
+        pvpRoom = on;
+        if (!on) pvpWanted = false;
+        ModDev.ev("lan", "pvp room " + on);
+    }
+
     static void duel(boolean on) {
+        if (on && !pvpRoom) return;
         pvpWanted = on;
         ModDev.ev("lan", "duel " + on);
     }
@@ -1927,7 +1985,7 @@ public final class ModLan {
 
     private static void roundText(PlayerShip ps, boolean won) {
         int mine = role == HOST ? hostWins : guestWins, theirs = role == HOST ? guestWins : hostWins;
-        Mod.floatText(ps, (won ? ModLang.tr("ROUND WON") : ModLang.tr("ROUND LOST")) + "  " + mine + " - " + theirs,
+        Mod.floatText(ps, (won ? ModLang.tr("ROUND WON") : ModLang.tr("ROUND LOST")) + "  " + myNick() + " " + mine + " - " + theirs + " " + peerNick,
             won ? 0.3f : 1.0f, won ? 1.0f : 0.4f, won ? 0.5f : 0.3f);
         ModDev.ev("lan", "duel round " + (won ? "won" : "lost") + " " + mine + "-" + theirs);
     }
@@ -1995,8 +2053,8 @@ public final class ModLan {
 
     // ------------------------------------------------------------------ UI (station toolbar button)
     static String buttonLabel() {
-        if (!connected && role == NONE) return ModLang.tr("LAN co-op");
-        return ModLang.tr("LAN co-op") + (connected ? " *" : " ...");
+        if (!connected && role == NONE) return ModLang.tr("Multiplayer");
+        return ModLang.tr("Multiplayer") + (connected ? " *" : " ...");
     }
 
     /** Dialog text: same mission = shared objective; different = each flies its own (guest: Fly my own missions). */
@@ -2012,42 +2070,62 @@ public final class ModLan {
         try {
             lastAct = a;
             if (role == HOST && pendingWho != null && decision == 0) { acceptDialog(a, pendingWho); return; }
-            String msg;
-            if (connected) msg = (role == HOST ? ModLang.tr("You are hosting. Your friend plays in your sector.") : ModLang.tr("You joined a friend's game. You follow the host between sectors."))
-                + "\n\n" + ModLang.tr("PvP duel: both ships go to the old multiplayer bay and fight rounds. A ship stops at 1 hull and loses the round; nobody dies or pays a death fee. Undock to start.")
-                + (pvp ? "\n\n" + ModLang.tr("Duel score") + " " + hostWins + " - " + guestWins : "")
-                + "\n\n" + missionLine();
-            else if (role == HOST) msg = status + "\n\n" + ModLang.tr("Your address:") + " " + myAddresses();
-            else msg = ModLang.tr("Play together on the same Wi-Fi, or with one phone's hotspot. One phone hosts, the other joins. The host's game runs the sector; the guest keeps its own ship, cargo and save, and shares the host's XP.")
-                + (status.length() > 0 ? "\n\n" + status : "");
-            AlertDialog.Builder b = new AlertDialog.Builder(a).setTitle(ModLang.tr("LAN co-op")).setMessage(msg);
-            if (connected || role != NONE) {
-                b.setPositiveButton(ModLang.tr("Disconnect"), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface d, int w) { stop(); }
+            final Runnable again = new Runnable() { public void run() { showMenu(a); } };
+            if (!ModLanUi.hasProfile()) { ModLanUi.whoAreYou(a, again); return; }   // first time: nickname and country
+            String title = ModLang.tr("Multiplayer");
+            if (connected && role == HOST) {
+                String msg = ModLang.tr("You are hosting.") + " " + peerLabel() + " " + ModLang.tr("plays in your sector.")
+                    + "\n\n" + ModLang.tr("PvP is") + " " + (pvpRoom ? ModLang.tr("ON") : ModLang.tr("OFF")) + ". "
+                    + ModLang.tr("PvP duel: both ships go to the old multiplayer bay and fight rounds. A ship stops at 1 hull and loses the round; nobody dies or pays a death fee. Undock to start.")
+                    + (pvp ? "\n\n" + ModLang.tr("Duel score") + " " + hostWins + " - " + guestWins : "")
+                    + "\n\n" + missionLine();
+                ModLanUi.menu(a, title, null, msg, new String[]{
+                    pvpRoom ? ModLang.tr("PvP: ON (tap to turn off)") : ModLang.tr("PvP: OFF (tap to turn on)"),
+                    !pvpRoom ? null : pvpWanted ? ModLang.tr("End duel") : ModLang.tr("PvP duel"),
+                    ModLang.tr("Kick player"), ModLang.tr("Disconnect"), ModLang.tr("Close")
+                }, new Runnable[]{
+                    new Runnable() { public void run() { setPvpRoom(!pvpRoom); showMenu(a); } },
+                    new Runnable() { public void run() { duel(!pvpWanted); } },
+                    new Runnable() { public void run() { kick(); } },
+                    new Runnable() { public void run() { noRejoin(); stop(); } },
+                    null
                 });
-                if (connected && role == GUEST) {
-                    b.setNeutralButton(solo ? ModLang.tr("Follow the host") : ModLang.tr("Fly my own missions"), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface d, int w) { setSolo(!solo); }
-                    });
-                }
-                if (connected && role == HOST) {
-                    b.setNeutralButton(pvpWanted ? ModLang.tr("End duel") : ModLang.tr("PvP duel"), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface d, int w) { duel(!pvpWanted); }
-                    });
-                    b.setNegativeButton(ModLang.tr("Kick player"), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface d, int w) { kick(); }
-                    });
-                } else b.setNegativeButton(ModLang.tr("Close"), null);
+            } else if (connected) {
+                String msg = ModLang.tr("You joined the game of") + " " + peerLabel() + ". " + ModLang.tr("You follow the host between sectors.")
+                    + (pvp ? "\n\n" + ModLang.tr("Duel score") + " " + hostWins + " - " + guestWins : "")
+                    + "\n\n" + missionLine();
+                ModLanUi.menu(a, title, null, msg, new String[]{
+                    solo ? ModLang.tr("Follow the host") : ModLang.tr("Fly my own missions"), ModLang.tr("Disconnect"), ModLang.tr("Close")
+                }, new Runnable[]{
+                    new Runnable() { public void run() { setSolo(!solo); } },
+                    new Runnable() { public void run() { noRejoin(); stop(); } },
+                    null
+                });
+            } else if (role == HOST) {
+                String msg = status + "\n\n" + ModLang.tr("Your address:") + " " + myAddresses();
+                ModLanUi.menu(a, title, null, msg, new String[]{
+                    pvpRoom ? ModLang.tr("PvP: ON (tap to turn off)") : ModLang.tr("PvP: OFF (tap to turn on)"), ModLang.tr("Stop hosting"), ModLang.tr("Close")
+                }, new Runnable[]{
+                    new Runnable() { public void run() { setPvpRoom(!pvpRoom); showMenu(a); } },
+                    new Runnable() { public void run() { noRejoin(); stop(); } },
+                    null
+                });
             } else {
-                b.setPositiveButton(ModLang.tr("Host"), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface d, int w) { host(); showMenu(a); }
+                String msg = status.length() > 0 ? status : "";
+                ModLanUi.menu(a, title, ModLanUi.profileRow(a, again), msg, new String[]{
+                    "#" + ModLang.tr("Local game (same Wi-Fi)") + "|" + ModLang.tr("Play with someone on the same Wi-Fi or phone hotspot. No internet needed. Hosts on your network appear here automatically."),
+                    ModLang.tr("Host local game"), ModLang.tr("Find local games"), ModLang.tr("Join by address"),
+                    "#" + ModLang.tr("Public games (internet)") + "|" + ModLang.tr("Play with anyone over the internet. Public games show up here for everyone; tap Join to enter. Private games are hidden and need the 4-character code. Uses mobile data or Wi-Fi."),
+                    ModLang.tr("Not available yet in this version"),
+                    ModLang.tr("Close")
+                }, new Runnable[]{
+                    null,
+                    new Runnable() { public void run() { host(); showMenu(a); } },
+                    new Runnable() { public void run() { findHosts(a); } },
+                    new Runnable() { public void run() { pickHost(a, Collections.<String>emptyList()); } },
+                    null, ModLanUi.DISABLED, null
                 });
-                b.setNeutralButton(ModLang.tr("Join"), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface d, int w) { findHosts(a); }
-                });
-                b.setNegativeButton(ModLang.tr("Close"), null);
             }
-            b.show();
         } catch (Throwable t) {
             // no dialog
         }
@@ -2076,7 +2154,7 @@ public final class ModLan {
         if (!found.isEmpty()) {
             final String[] items = found.toArray(new String[found.size()]);
             b.setItems(items, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface d, int w) { connectTo(a, items[w].split(" ")[0]); }
+                public void onClick(DialogInterface d, int w) { connectTo(a, items[w].split(" ")[0]); }   // one tap joins
             });
             b.setNegativeButton(ModLang.tr("Type address"), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface d, int w) { pickHost(a, Collections.<String>emptyList()); }

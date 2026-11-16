@@ -3,7 +3,7 @@
 .source "ModLan.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Ljava/lang/Runnable;
 
 
 # annotations
@@ -17,23 +17,12 @@
 .end annotation
 
 
-# instance fields
-.field final synthetic val$a:Landroid/app/Activity;
-
-
 # direct methods
-.method constructor <init>(Landroid/app/Activity;)V
-    .registers 2
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>()V
+    .registers 1
 
     .prologue
-    .line 2042
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$16;->val$a:Landroid/app/Activity;
-
+    .line 2090
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -41,16 +30,15 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 4
+.method public run()V
+    .registers 1
 
     .prologue
-    .line 2043
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->host()V
+    .line 2090
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->noRejoin()V
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1500()V
 
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$16;->val$a:Landroid/app/Activity;
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->stop()V
 
     return-void
 .end method

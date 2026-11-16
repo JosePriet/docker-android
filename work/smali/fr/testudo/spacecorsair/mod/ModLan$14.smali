@@ -3,7 +3,7 @@
 .source "ModLan.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Ljava/lang/Runnable;
 
 
 # annotations
@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 2034
+    .line 2088
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -30,11 +30,11 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 4
+.method public run()V
+    .registers 2
 
     .prologue
-    .line 2035
+    .line 2088
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->pvpWanted:Z
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1400()Z
 

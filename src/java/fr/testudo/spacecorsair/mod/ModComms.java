@@ -184,6 +184,7 @@ public final class ModComms {
     public static void attachUi(final Activity a) {
         try {
             if (!a.getClass().getName().endsWith(".Main")) return;
+            ModLanUi.attach(a);                // v45: multiplayer chat icon
             hailOpen = false;                  // back in the game: the HAIL mission screen has closed
             if (panel != null && act == a) return;
             act = a;

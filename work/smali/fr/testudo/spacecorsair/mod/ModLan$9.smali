@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 542
+    .line 581
     iput-boolean p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$bye:Z
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$old:Ljava/net/Socket;
@@ -49,7 +49,7 @@
     .registers 3
 
     .prologue
-    .line 544
+    .line 583
     :try_start_0
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$9;->val$bye:Z
 
@@ -79,7 +79,7 @@
     :try_end_1c
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_1c} :catch_24
 
-    .line 545
+    .line 584
     :cond_1c
     :goto_1c
     :try_start_1c
@@ -89,17 +89,17 @@
     :try_end_21
     .catch Ljava/lang/Throwable; {:try_start_1c .. :try_end_21} :catch_22
 
-    .line 546
+    .line 585
     :goto_21
     return-void
 
-    .line 545
+    .line 584
     :catch_22
     move-exception v0
 
     goto :goto_21
 
-    .line 544
+    .line 583
     :catch_24
     move-exception v0
 

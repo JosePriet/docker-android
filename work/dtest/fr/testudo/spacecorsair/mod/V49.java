@@ -83,10 +83,11 @@ public class V49 {
         is("link: guest opens with the HELLO tag", "SCLAN2".equals(new String(hb, "UTF-8")));
         String gv = hin.readUTF(); hin.readUTF(); hin.readUTF();
         is("link: guest sends its version (" + gv + ")", gv.equals(ModLan.myVersion()));
-        hs.getOutputStream().write(0); hs.getOutputStream().flush();   // host reply: accepted
+        { DataOutputStream ok = new DataOutputStream(hs.getOutputStream()); ok.writeByte(0); ok.writeUTF("Ana"); ok.writeUTF("ESP"); ok.flush(); }   // host reply: accepted, then its name
         j.join(6000);
         Thread.sleep(300);
         is("link: guest connected", ModLan.connected && ModLan.role == ModLan.GUEST);
+        is("link: host name kept (" + ModLan.peerLabel() + ")", ModLan.peerLabel().equals("Ana ESP"));
         ModLan.stop();
         int type = hin.readUnsignedByte();
         is("stop: guest says bye (" + type + ")", type == 5);
@@ -156,6 +157,10 @@ public class V49 {
             byte[] small = ModLan.packedForTest(3, new byte[40]);
             is("diet: small messages stay plain", small[0] == 3 && small.length == 45);
         }
+        is("nick: kept", ModLanUi.safeNick("Maykel_01").equals("Maykel_01") && ModLanUi.safeNick("  Ana  ").equals("Ana"));
+        is("nick: bad ones replaced", ModLanUi.safeNick("x").startsWith("Player") && ModLanUi.safeNick("p.u.t.a").startsWith("Player") && ModLanUi.safeNick("<b>!!</b>").equals("bb"));
+        is("country: list only", ModLanUi.safeCountry("PAN").equals("PAN") && ModLanUi.safeCountry("XXX").equals("") && ModLanUi.label("Ana", "").equals("Ana ?"));
+        is("flags: 249 sorted codes", ModFlagData.CODES.length == 249 && ModLanUi.flagIndex("PAN") > ModLanUi.flagIndex("ESP") && ModFlagData.EN.length == 249 && ModFlagData.ES.length == 249);
         is("clean: control characters and length", ModLan.clean("a\nb\u0007cdef", 4).equals("abcd"));
         System.out.println(bad == 0 ? "V49 VALUES-OK" : "V49 VALUES-FAIL " + bad);
         System.exit(0);
