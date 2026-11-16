@@ -341,6 +341,8 @@ public final class ModLan {
         dropProxy = true;
         pvp = false;
         pvpWanted = false;
+        seenRound = 0;
+        defeatRound = -1;
     }
 
     private static void sendReliable(int type, ByteArrayOutputStream body) {
@@ -1185,7 +1187,8 @@ public final class ModLan {
     private static LevelId duelFrom;
     private static final String ARENA_GATE = "VECTOR00_GATE";
     static int round, hostWins, guestWins, defeats;
-    private static int seenDefeats, seenRound;
+    private static int seenDefeats, seenRound, defeatRound = -1;
+    private static long jumpAt;
     private static boolean lostRound, restore;
 
     /** Host UI: start or end a duel. The host's game takes both ships to the player bay (FFA, off the map). */
@@ -1206,6 +1209,7 @@ public final class ModLan {
     private static void hostDuel(PlayerShip ps, Level lv, InState s) {
         if (pvpWanted && !pvp) {
             pvp = true;
+            duelFrom = null;
             round = 1; hostWins = 0; guestWins = 0;
             seenDefeats = s != null ? s.defeats : 0;
             jumpedIn = false;
@@ -1219,9 +1223,11 @@ public final class ModLan {
         }
         if (!pvp) return;
         if (!inBay()) {
-            if (!jumpedIn) {
+            long now = System.currentTimeMillis();
+            if (!jumpedIn || now - jumpAt > 6000) {   // also back in after a detour (the host left the bay)
                 jumpedIn = true;
-                duelFrom = lv.id;
+                jumpAt = now;
+                if (lv.id != LevelId.FFA_THE_PLAYER_PAY && duelFrom == null) duelFrom = lv.id;
                 lv.requestChangeLevel(LevelId.FFA_THE_PLAYER_PAY.levelName, ARENA_GATE);
                 ModDev.ev("lan", "host jumps to the duel bay from " + duelFrom);
             }
@@ -1247,7 +1253,11 @@ public final class ModLan {
     private static void guestDuel(PlayerShip ps, InFrame f) {
         pvp = f.pvp;
         if (!pvp) { seenRound = f.round; return; }
-        if (lostRound) { lostRound = false; defeats++; }
+        if (lostRound) {   // once per round: further hits at the floor before the host's next round count nothing
+            lostRound = false;
+            if (defeatRound != seenRound) { defeatRound = seenRound; defeats++; }
+            refill(ps);
+        }
         if (f.round != seenRound) {
             boolean won = f.guestWins > guestWins;
             boolean first = seenRound == 0;
