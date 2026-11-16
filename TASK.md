@@ -1,3 +1,13 @@
+# v49 LAN co-op + PvP duel (owner 2026-11-15 23:35 UTC, branch claude/project-thread-1oz5kt)
+Owner: "begin working in a co-op for normal sectors *then* after that PVP (the arena)"; time box 30 min to 5 h.
+Code: `ModLan.java` (transport, render-list stream, guest stand-in, shot mirror, duel), `src/patch/hooks49_lan.py` +
+`hooks49b_lan_count.py` (applied), small hooks in ModLive/Mod/ModPolice/ModPrologue/ModArt/ModUi, ES `i18n/gpt/v49_lan_es.json`,
+JVM test `work/dtest/fr/testudo/spacecorsair/mod/V49.java` (check.sh needs V49 VALUES-OK from build 49 on).
+Emulator: stage V50L (branch emulator-tests, `tests/lan_peer.py` plays the other phone). Changes: `/mnt/project-files/audits/v49-lan-changes.md`.
+Pending: owner two-phone test (station toolbar > LAN co-op > Host / Join; host: PvP duel), merge to sc-mod-workspace, release.
+
+---
+
 # v46 playable prologue (owner 2026-11-10 15:22, supersedes the v45 cinematic task below)
 
 Owner: "recreate this as a playable encounter vs a boss, rather than a cinematic ... It has to happen in a sector

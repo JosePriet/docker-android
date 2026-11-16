@@ -12,37 +12,37 @@
 
 
 # instance fields
-.field a:F
+.field public a:F
 
-.field b:F
+.field public b:F
 
-.field backgroundMode:Z
+.field public backgroundMode:Z
 
 .field public cameraRelative:Z
 
 .field public drawable:Lfr/testudo/spacecorsair/display/Drawable;
 
-.field g:F
+.field public g:F
 
 .field infoBar:Lfr/testudo/spacecorsair/display/hud/InfoBar;
 
 .field line:Lfr/testudo/spacecorsair/display/Line;
 
-.field pointSize:F
+.field public pointSize:F
 
-.field position:Lfr/testudo/spacecorsair/engine/Vector2;
+.field public position:Lfr/testudo/spacecorsair/engine/Vector2;
 
-.field r:F
+.field public r:F
 
-.field renderType:Lfr/testudo/spacecorsair/display/RenderElementType;
+.field public renderType:Lfr/testudo/spacecorsair/display/RenderElementType;
 
-.field spin:F
+.field public spin:F
 
-.field text:Ljava/lang/String;
+.field public text:Ljava/lang/String;
 
-.field textSize:Lfr/testudo/spacecorsair/textengine/TextSize;
+.field public textSize:Lfr/testudo/spacecorsair/textengine/TextSize;
 
-.field zoomInsensitive:Z
+.field public zoomInsensitive:Z
 
 
 # direct methods

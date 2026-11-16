@@ -216,6 +216,12 @@ public class ModUi {
                     refit.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { ModRefitScreen.show(activity); } });
                     bar.addView(refit, bl);
                 }
+                if (activity.getClass().getName().contains("StationActivity")) {
+                    Button lan = button(activity, "lan");   // v49 LAN co-op
+                    lan.setText(ModLan.buttonLabel());
+                    lan.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { ModLan.showMenu(activity); } });
+                    bar.addView(lan, bl);
+                }
                 Button rep = button(activity, "rep");
                 rep.setText(ModLang.tr("Standings"));
                 rep.setOnClickListener(new View.OnClickListener() { public void onClick(View v) { ModComms.showStandings(activity); } });

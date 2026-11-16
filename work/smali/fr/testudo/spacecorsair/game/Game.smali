@@ -32,7 +32,7 @@
 
 .field public started:Z
 
-.field textureLibrary:Lfr/testudo/spacecorsair/display/TextureLibrary;
+.field public textureLibrary:Lfr/testudo/spacecorsair/display/TextureLibrary;
 
 .field view:Lfr/testudo/spacecorsair/view/MainView;
 

@@ -336,6 +336,7 @@ public class ModPolice {
             policeGuns(toAdd);
         } finally {
             ModEnemyGuns.swap(toAdd);   // v43a-15: every other faction ship + signatures (after the police swap)
+            ModLan.added(toAdd);   // v49: the LAN guest mirrors its shots to the host
         }
     }
 

@@ -6,7 +6,7 @@
 # instance fields
 .field public dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
 
-.field private mCrop:[I
+.field public mCrop:[I
 
 .field public myTexture:Lfr/testudo/spacecorsair/display/Texture;
 

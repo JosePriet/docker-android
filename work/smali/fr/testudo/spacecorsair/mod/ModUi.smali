@@ -481,7 +481,7 @@
     .end annotation
 
     .prologue
-    .line 367
+    .line 373
     invoke-virtual {p0}, Landroid/view/View;->getId()I
 
     move-result v0
@@ -490,16 +490,16 @@
 
     invoke-interface {p2, p0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 368
+    .line 374
     :cond_9
     instance-of v0, p0, Landroid/view/ViewGroup;
 
     if-eqz v0, :cond_20
 
-    .line 369
+    .line 375
     check-cast p0, Landroid/view/ViewGroup;
 
-    .line 370
+    .line 376
     const/4 v0, 0x0
 
     :goto_10
@@ -519,7 +519,7 @@
 
     goto :goto_10
 
-    .line 372
+    .line 378
     :cond_20
     return-void
 .end method
@@ -531,7 +531,7 @@
     .line 163
     if-nez p0, :cond_3
 
-    .line 238
+    .line 244
     :cond_2
     :goto_2
     return-void
@@ -560,7 +560,7 @@
     check-cast v1, Landroid/widget/LinearLayout;
 
     .line 168
-    if-nez v1, :cond_118
+    if-nez v1, :cond_140
 
     .line 169
     new-instance v1, Landroid/widget/LinearLayout;
@@ -776,13 +776,55 @@
 
     .line 219
     :cond_de
+    invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/Class;->getName()Ljava/lang/String;
+
+    move-result-object v2
+
+    const-string v4, "StationActivity"
+
+    invoke-virtual {v2, v4}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_106
+
+    .line 220
+    const-string v2, "lan"
+
+    invoke-static {p0, v2}, Lfr/testudo/spacecorsair/mod/ModUi;->button(Landroid/app/Activity;Ljava/lang/String;)Landroid/widget/Button;
+
+    move-result-object v2
+
+    .line 221
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->buttonLabel()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v2, v4}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
+
+    .line 222
+    new-instance v4, Lfr/testudo/spacecorsair/mod/ModUi$7;
+
+    invoke-direct {v4, p0}, Lfr/testudo/spacecorsair/mod/ModUi$7;-><init>(Landroid/app/Activity;)V
+
+    invoke-virtual {v2, v4}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    .line 223
+    invoke-virtual {v1, v2, v5}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 225
+    :cond_106
     const-string v2, "rep"
 
     invoke-static {p0, v2}, Lfr/testudo/spacecorsair/mod/ModUi;->button(Landroid/app/Activity;Ljava/lang/String;)Landroid/widget/Button;
 
     move-result-object v2
 
-    .line 220
+    .line 226
     const-string v4, "Standings"
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -791,60 +833,60 @@
 
     invoke-virtual {v2, v4}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
 
-    .line 221
-    new-instance v4, Lfr/testudo/spacecorsair/mod/ModUi$7;
-
-    invoke-direct {v4, p0}, Lfr/testudo/spacecorsair/mod/ModUi$7;-><init>(Landroid/app/Activity;)V
-
-    invoke-virtual {v2, v4}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
-
-    .line 222
-    invoke-virtual {v1, v2, v5}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
-
-    .line 223
-    const-string v2, "inbox"
-
-    invoke-static {p0, v2}, Lfr/testudo/spacecorsair/mod/ModUi;->button(Landroid/app/Activity;Ljava/lang/String;)Landroid/widget/Button;
-
-    move-result-object v2
-
-    .line 224
+    .line 227
     new-instance v4, Lfr/testudo/spacecorsair/mod/ModUi$8;
 
     invoke-direct {v4, p0}, Lfr/testudo/spacecorsair/mod/ModUi$8;-><init>(Landroid/app/Activity;)V
 
     invoke-virtual {v2, v4}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 227
+    .line 228
     invoke-virtual {v1, v2, v5}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 228
+    .line 229
+    const-string v2, "inbox"
+
+    invoke-static {p0, v2}, Lfr/testudo/spacecorsair/mod/ModUi;->button(Landroid/app/Activity;Ljava/lang/String;)Landroid/widget/Button;
+
+    move-result-object v2
+
+    .line 230
+    new-instance v4, Lfr/testudo/spacecorsair/mod/ModUi$9;
+
+    invoke-direct {v4, p0}, Lfr/testudo/spacecorsair/mod/ModUi$9;-><init>(Landroid/app/Activity;)V
+
+    invoke-virtual {v2, v4}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    .line 233
+    invoke-virtual {v1, v2, v5}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 234
     invoke-virtual {v0, v1, v3}, Landroid/view/ViewGroup;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 229
+    .line 235
     invoke-virtual {v0}, Landroid/view/ViewGroup;->getViewTreeObserver()Landroid/view/ViewTreeObserver;
 
     move-result-object v0
 
-    new-instance v2, Lfr/testudo/spacecorsair/mod/ModUi$9;
+    new-instance v2, Lfr/testudo/spacecorsair/mod/ModUi$10;
 
-    invoke-direct {v2, p0}, Lfr/testudo/spacecorsair/mod/ModUi$9;-><init>(Landroid/app/Activity;)V
+    invoke-direct {v2, p0}, Lfr/testudo/spacecorsair/mod/ModUi$10;-><init>(Landroid/app/Activity;)V
 
     invoke-virtual {v0, v2}, Landroid/view/ViewTreeObserver;->addOnGlobalLayoutListener(Landroid/view/ViewTreeObserver$OnGlobalLayoutListener;)V
 
-    .line 233
-    :cond_118
+    .line 239
+    :cond_140
     invoke-virtual {v1}, Landroid/widget/LinearLayout;->bringToFront()V
 
-    .line 234
+    .line 240
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModUi;->update(Landroid/app/Activity;)V
-    :try_end_11e
-    .catch Ljava/lang/Exception; {:try_start_6 .. :try_end_11e} :catch_120
+    :try_end_146
+    .catch Ljava/lang/Exception; {:try_start_6 .. :try_end_146} :catch_148
 
     goto/16 :goto_2
 
-    .line 235
-    :catch_120
+    .line 241
+    :catch_148
     move-exception v0
 
     goto/16 :goto_2
@@ -854,7 +896,7 @@
     .registers 6
 
     .prologue
-    .line 285
+    .line 291
     :try_start_0
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
@@ -872,15 +914,15 @@
 
     move-result v0
 
-    .line 286
+    .line 292
     if-nez v0, :cond_13
 
-    .line 302
+    .line 308
     :cond_12
     :goto_12
     return-void
 
-    .line 287
+    .line 293
     :cond_13
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
@@ -900,15 +942,15 @@
 
     float-to-int v1, v1
 
-    .line 288
+    .line 294
     new-instance v2, Ljava/util/ArrayList;
 
     invoke-direct {v2}, Ljava/util/ArrayList;-><init>()V
 
-    .line 289
+    .line 295
     invoke-static {p1, v0, v2}, Lfr/testudo/spacecorsair/mod/ModUi;->collect(Landroid/view/View;ILjava/util/List;)V
 
-    .line 290
+    .line 296
     invoke-virtual {v2}, Ljava/util/ArrayList;->iterator()Ljava/util/Iterator;
 
     move-result-object v2
@@ -927,39 +969,39 @@
 
     check-cast v0, Landroid/view/View;
 
-    .line 291
+    .line 297
     instance-of v3, v0, Landroid/widget/TextView;
 
     if-eqz v3, :cond_2f
 
-    .line 292
+    .line 298
     check-cast v0, Landroid/widget/TextView;
 
-    .line 293
+    .line 299
     invoke-virtual {v0}, Landroid/widget/TextView;->getMaxHeight()I
 
     move-result v3
 
     if-eq v3, v1, :cond_2f
 
-    .line 294
+    .line 300
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setMaxHeight(I)V
 
-    .line 296
+    .line 302
     new-instance v3, Landroid/text/method/ScrollingMovementMethod;
 
     invoke-direct {v3}, Landroid/text/method/ScrollingMovementMethod;-><init>()V
 
     invoke-virtual {v0, v3}, Landroid/widget/TextView;->setMovementMethod(Landroid/text/method/MovementMethod;)V
 
-    .line 297
+    .line 303
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModScroll;->track(Landroid/widget/TextView;)V
     :try_end_55
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_55} :catch_56
 
     goto :goto_2f
 
-    .line 299
+    .line 305
     :catch_56
     move-exception v0
 
@@ -980,7 +1022,7 @@
     .end annotation
 
     .prologue
-    .line 360
+    .line 366
     :try_start_0
     invoke-virtual {p0, p1}, Ljava/lang/Class;->getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
     :try_end_3
@@ -988,15 +1030,15 @@
 
     move-result-object v0
 
-    .line 362
+    .line 368
     :goto_4
     return-object v0
 
-    .line 361
+    .line 367
     :catch_5
     move-exception v0
 
-    .line 362
+    .line 368
     const/4 v0, 0x0
 
     goto :goto_4
@@ -1139,7 +1181,7 @@
     .registers 9
 
     .prologue
-    .line 513
+    .line 519
     :try_start_0
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUi;->lastShips:Ljava/util/List;
 
@@ -1149,17 +1191,17 @@
 
     if-nez v0, :cond_12
 
-    .line 514
+    .line 520
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUi;->filters:Ljava/util/Map;
 
     const-string v1, "SHIPS"
 
     invoke-interface {v0, v1}, Ljava/util/Map;->remove(Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 515
+    .line 521
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModUi;->refresh(Landroid/app/Activity;)V
 
-    .line 517
+    .line 523
     :cond_12
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUi;->lastShips:Ljava/util/List;
 
@@ -1167,14 +1209,14 @@
 
     move-result v0
 
-    .line 518
+    .line 524
     if-gez v0, :cond_1b
 
-    .line 528
+    .line 534
     :goto_1a
     return-void
 
-    .line 519
+    .line 525
     :cond_1b
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
@@ -1186,17 +1228,17 @@
 
     move-result-object v1
 
-    .line 520
+    .line 526
     const/4 v2, 0x1
 
     invoke-virtual {v1, v2}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 521
+    .line 527
     invoke-virtual {v1, p0}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v1
 
-    .line 522
+    .line 528
     invoke-virtual {v1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v2
@@ -1217,7 +1259,7 @@
 
     move-result-object v2
 
-    .line 523
+    .line 529
     const/4 v3, 0x1
 
     new-array v3, v3, [Ljava/lang/Object;
@@ -1232,14 +1274,14 @@
 
     invoke-virtual {v2, v1, v3}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 524
+    .line 530
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModUi;->update(Landroid/app/Activity;)V
     :try_end_4f
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_4f} :catch_50
 
     goto :goto_1a
 
-    .line 525
+    .line 531
     :catch_50
     move-exception v0
 
@@ -1293,32 +1335,32 @@
     .registers 8
 
     .prologue
-    .line 489
+    .line 495
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUi;->prefs()Landroid/content/SharedPreferences;
 
     move-result-object v1
 
-    .line 490
+    .line 496
     if-nez v1, :cond_7
 
-    .line 497
+    .line 503
     :goto_6
     return-void
 
-    .line 491
+    .line 497
     :cond_7
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUi;->newShips()Ljava/util/Set;
 
     move-result-object v2
 
-    .line 492
+    .line 498
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
 
-    .line 493
+    .line 499
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->ALL_SHIPS:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
@@ -1379,13 +1421,13 @@
 
     goto :goto_17
 
-    .line 494
+    .line 500
     :cond_4b
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 495
+    .line 501
     invoke-interface {v2}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
 
     move-result-object v2
@@ -1413,7 +1455,7 @@
 
     goto :goto_54
 
-    .line 496
+    .line 502
     :cond_6a
     invoke-interface {v1}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
@@ -1447,24 +1489,24 @@
     .end annotation
 
     .prologue
-    .line 480
+    .line 486
     new-instance v0, Ljava/util/HashSet;
 
     invoke-direct {v0}, Ljava/util/HashSet;-><init>()V
 
-    .line 481
+    .line 487
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUi;->prefs()Landroid/content/SharedPreferences;
 
     move-result-object v1
 
-    .line 482
+    .line 488
     if-nez v1, :cond_c
 
-    .line 484
+    .line 490
     :cond_b
     return-object v0
 
-    .line 483
+    .line 489
     :cond_c
     const-string v2, "newShips"
 
@@ -1507,23 +1549,23 @@
     .registers 4
 
     .prologue
-    .line 397
+    .line 403
     invoke-static {}, Lfr/testudo/spacecorsair/business/loot/LootRarety;->values()[Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     move-result-object v0
 
-    .line 398
+    .line 404
     if-nez p0, :cond_a
 
     const/4 v1, 0x0
 
     aget-object v0, v0, v1
 
-    .line 400
+    .line 406
     :goto_9
     return-object v0
 
-    .line 399
+    .line 405
     :cond_a
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/loot/LootRarety;->ordinal()I
 
@@ -1539,7 +1581,7 @@
 
     goto :goto_9
 
-    .line 400
+    .line 406
     :cond_15
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/loot/LootRarety;->ordinal()I
 
@@ -1558,14 +1600,14 @@
     .prologue
     const/4 v2, 0x0
 
-    .line 375
+    .line 381
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v0
 
     move-object v3, v0
 
-    .line 376
+    .line 382
     :goto_6
     if-eqz v3, :cond_54
 
@@ -1573,7 +1615,7 @@
 
     if-eq v3, v0, :cond_54
 
-    .line 377
+    .line 383
     invoke-virtual {v3}, Ljava/lang/Class;->getDeclaredFields()[Ljava/lang/reflect/Field;
 
     move-result-object v4
@@ -1587,7 +1629,7 @@
 
     aget-object v0, v4, v1
 
-    .line 378
+    .line 384
     const-class v6, Landroid/widget/ListView;
 
     invoke-virtual {v0}, Ljava/lang/reflect/Field;->getType()Ljava/lang/Class;
@@ -1600,7 +1642,7 @@
 
     if-nez v6, :cond_26
 
-    .line 377
+    .line 383
     :cond_22
     :goto_22
     add-int/lit8 v0, v1, 0x1
@@ -1609,21 +1651,21 @@
 
     goto :goto_12
 
-    .line 380
+    .line 386
     :cond_26
     const/4 v6, 0x1
 
     :try_start_27
     invoke-virtual {v0, v6}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 381
+    .line 387
     invoke-virtual {v0, p0}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Landroid/widget/ListView;
 
-    .line 382
+    .line 388
     if-eqz v0, :cond_22
 
     invoke-virtual {v0}, Landroid/widget/ListView;->getPaddingBottom()I
@@ -1632,12 +1674,12 @@
 
     if-eq v6, p1, :cond_22
 
-    .line 383
+    .line 389
     const/4 v6, 0x0
 
     invoke-virtual {v0, v6}, Landroid/widget/ListView;->setClipToPadding(Z)V
 
-    .line 384
+    .line 390
     invoke-virtual {v0}, Landroid/widget/ListView;->getPaddingLeft()I
 
     move-result v6
@@ -1656,13 +1698,13 @@
 
     goto :goto_22
 
-    .line 385
+    .line 391
     :catch_4c
     move-exception v0
 
     goto :goto_22
 
-    .line 389
+    .line 395
     :cond_4e
     invoke-virtual {v3}, Ljava/lang/Class;->getSuperclass()Ljava/lang/Class;
 
@@ -1672,7 +1714,7 @@
 
     goto :goto_6
 
-    .line 391
+    .line 397
     :cond_54
     return-void
 .end method
@@ -1681,7 +1723,7 @@
     .registers 3
 
     .prologue
-    .line 473
+    .line 479
     :try_start_0
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -1699,15 +1741,15 @@
 
     move-result-object v0
 
-    .line 475
+    .line 481
     :goto_d
     return-object v0
 
-    .line 474
+    .line 480
     :catch_e
     move-exception v0
 
-    .line 475
+    .line 481
     const/4 v0, 0x0
 
     goto :goto_d
@@ -1719,7 +1761,7 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 404
+    .line 410
     const/4 v1, 0x3
 
     new-array v1, v1, [Ljava/lang/String;
@@ -1740,7 +1782,7 @@
 
     aput-object v3, v1, v2
 
-    .line 405
+    .line 411
     array-length v2, v1
 
     :goto_13
@@ -1748,7 +1790,7 @@
 
     aget-object v3, v1, v0
 
-    .line 407
+    .line 413
     :try_start_17
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
@@ -1762,7 +1804,7 @@
 
     move-result-object v3
 
-    .line 408
+    .line 414
     const/4 v4, 0x0
 
     new-array v4, v4, [Ljava/lang/Object;
@@ -1771,15 +1813,15 @@
     :try_end_28
     .catch Ljava/lang/Exception; {:try_start_17 .. :try_end_28} :catch_29
 
-    .line 414
+    .line 420
     :cond_28
     return-void
 
-    .line 410
+    .line 416
     :catch_29
     move-exception v3
 
-    .line 405
+    .line 411
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_13
@@ -1789,7 +1831,7 @@
     .registers 12
 
     .prologue
-    .line 419
+    .line 425
     :try_start_0
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
@@ -1801,25 +1843,25 @@
 
     move-result-object v0
 
-    .line 420
+    .line 426
     if-nez v0, :cond_d
 
-    .line 468
+    .line 474
     :goto_c
     return-void
 
-    .line 421
+    .line 427
     :cond_d
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 422
+    .line 428
     invoke-virtual {v0, p0}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v4
 
-    .line 423
+    .line 429
     invoke-virtual {v4}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v0
@@ -1830,19 +1872,19 @@
 
     move-result-object v0
 
-    .line 424
+    .line 430
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 425
+    .line 431
     invoke-virtual {v0, v4}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/util/Collection;
 
-    .line 426
+    .line 432
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -1851,15 +1893,15 @@
 
     iget v5, v1, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
 
-    .line 427
+    .line 433
     new-instance v6, Ljava/util/ArrayList;
 
     invoke-direct {v6}, Ljava/util/ArrayList;-><init>()V
 
-    .line 428
+    .line 434
     const-wide/16 v2, 0x0
 
-    .line 429
+    .line 435
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -1888,17 +1930,17 @@
 
     check-cast v1, Lfr/testudo/spacecorsair/business/loot/SpaceObject;
 
-    .line 430
+    .line 436
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/SpaceObject;->getSpaceObjectType()Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     move-result-object v8
 
-    .line 431
+    .line 437
     invoke-virtual {v8}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
     move-result-object v9
 
-    .line 432
+    .line 438
     invoke-interface {v0, v8}, Ljava/util/Collection;->contains(Ljava/lang/Object;)Z
 
     move-result v10
@@ -1913,7 +1955,7 @@
 
     if-eqz v10, :cond_46
 
-    .line 433
+    .line 439
     invoke-virtual {v8}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getRarety()Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     move-result-object v8
@@ -1926,10 +1968,10 @@
 
     if-ge v8, v5, :cond_46
 
-    .line 434
+    .line 440
     invoke-interface {v6, v1}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 435
+    .line 441
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/loot/SpaceObject;->getTotalSellPrice()I
 
     move-result v1
@@ -1938,10 +1980,10 @@
 
     add-long/2addr v2, v8
 
-    .line 436
+    .line 442
     goto :goto_46
 
-    .line 437
+    .line 443
     :cond_7e
     invoke-interface {v6}, Ljava/util/List;->isEmpty()Z
 
@@ -1949,7 +1991,7 @@
 
     if-eqz v0, :cond_ac
 
-    .line 438
+    .line 444
     new-instance v0, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {v0, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
@@ -1986,13 +2028,13 @@
 
     goto/16 :goto_c
 
-    .line 465
+    .line 471
     :catch_a9
     move-exception v0
 
     goto/16 :goto_c
 
-    .line 441
+    .line 447
     :cond_ac
     new-instance v0, Landroid/app/AlertDialog$Builder;
 
@@ -2014,7 +2056,7 @@
 
     const-string v7, "Sell "
 
-    .line 442
+    .line 448
     invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v7
@@ -2075,14 +2117,14 @@
 
     const-string v1, "Sell"
 
-    .line 443
+    .line 449
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
 
-    new-instance v2, Lfr/testudo/spacecorsair/mod/ModUi$11;
+    new-instance v2, Lfr/testudo/spacecorsair/mod/ModUi$12;
 
-    invoke-direct {v2, v4, v6, p0}, Lfr/testudo/spacecorsair/mod/ModUi$11;-><init>(Ljava/lang/Object;Ljava/util/List;Landroid/app/Activity;)V
+    invoke-direct {v2, v4, v6, p0}, Lfr/testudo/spacecorsair/mod/ModUi$12;-><init>(Ljava/lang/Object;Ljava/util/List;Landroid/app/Activity;)V
 
     invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
@@ -2090,7 +2132,7 @@
 
     const-string v1, "Cancel"
 
-    .line 464
+    .line 470
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -2112,7 +2154,7 @@
     .registers 3
 
     .prologue
-    .line 394
+    .line 400
     invoke-virtual {p0}, Landroid/widget/Button;->getText()Ljava/lang/CharSequence;
 
     move-result-object v0
@@ -2133,7 +2175,7 @@
     .registers 3
 
     .prologue
-    .line 393
+    .line 399
     invoke-virtual {p0}, Landroid/view/View;->getVisibility()I
 
     move-result v0
@@ -2387,14 +2429,14 @@
 
     const/4 v1, 0x0
 
-    .line 501
+    .line 507
     sget-object v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v2, v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
 
     iget-object v2, v2, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
 
-    .line 502
+    .line 508
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->playerGear:Lfr/testudo/spacecorsair/business/player/PlayerGear;
 
     iget-object v3, v3, Lfr/testudo/spacecorsair/business/player/PlayerGear;->playerShip:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
@@ -2403,12 +2445,12 @@
 
     move v0, v1
 
-    .line 507
+    .line 513
     :cond_f
     :goto_f
     return v0
 
-    .line 503
+    .line 509
     :cond_10
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->availShips:Ljava/util/List;
 
@@ -2418,7 +2460,7 @@
 
     if-nez v3, :cond_f
 
-    .line 504
+    .line 510
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModUi;->level(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
 
     move-result v3
@@ -2427,13 +2469,13 @@
 
     if-gt v3, v2, :cond_36
 
-    .line 505
+    .line 511
     :goto_20
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->licenceOk(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
 
     move-result v1
 
-    .line 506
+    .line 512
     sget-object v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v2, v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -2444,7 +2486,7 @@
 
     move-result v2
 
-    .line 507
+    .line 513
     if-eqz v0, :cond_38
 
     if-eqz v1, :cond_38
@@ -2458,10 +2500,10 @@
     :cond_36
     move v0, v1
 
-    .line 504
+    .line 510
     goto :goto_20
 
-    .line 507
+    .line 513
     :cond_38
     if-eqz v0, :cond_3e
 
@@ -2481,28 +2523,28 @@
     .registers 5
 
     .prologue
-    .line 344
+    .line 350
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUi;->testPaged:Landroid/app/Activity;
 
     if-ne p0, v0, :cond_5
 
-    .line 356
+    .line 362
     :cond_4
     :goto_4
     return-void
 
-    .line 345
+    .line 351
     :cond_5
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModUi;->testPaged:Landroid/app/Activity;
 
-    .line 346
+    .line 352
     const-string v0, "corsair_page"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testValue(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 347
+    .line 353
     if-eqz v1, :cond_4
 
     invoke-virtual {v1}, Ljava/lang/String;->length()I
@@ -2511,11 +2553,11 @@
 
     if-eqz v0, :cond_4
 
-    .line 349
+    .line 355
     :try_start_15
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShipTree;->hide(Landroid/app/Activity;)V
 
-    .line 350
+    .line 356
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->ALL_SHIPS:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
@@ -2535,7 +2577,7 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 351
+    .line 357
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->name()Ljava/lang/String;
 
     move-result-object v3
@@ -2552,7 +2594,7 @@
 
     goto :goto_4
 
-    .line 353
+    .line 359
     :catch_38
     move-exception v0
 
@@ -2569,7 +2611,7 @@
 
     const/4 v3, 0x0
 
-    .line 242
+    .line 248
     const v0, 0x1020002
 
     :try_start_7
@@ -2579,15 +2621,15 @@
 
     check-cast v0, Landroid/view/ViewGroup;
 
-    .line 243
+    .line 249
     if-nez v0, :cond_10
 
-    .line 280
+    .line 286
     :cond_f
     :goto_f
     return-void
 
-    .line 244
+    .line 250
     :cond_10
     const-string v1, "modToolbar"
 
@@ -2595,10 +2637,10 @@
 
     move-result-object v6
 
-    .line 245
+    .line 251
     if-eqz v6, :cond_f
 
-    .line 246
+    .line 252
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v1
@@ -2615,26 +2657,26 @@
 
     if-eqz v1, :cond_49
 
-    .line 247
+    .line 253
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShipTree;->attach(Landroid/app/Activity;)V
 
-    .line 248
+    .line 254
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModUi;->fitShipDescriptions(Landroid/app/Activity;Landroid/view/ViewGroup;)V
 
-    .line 249
+    .line 255
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModUi;->wireArrows(Landroid/app/Activity;Landroid/view/ViewGroup;)V
 
-    .line 250
+    .line 256
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShipTree;->decoratePages(Landroid/app/Activity;)V
 
-    .line 251
+    .line 257
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModUi;->inShips:Z
 
     if-nez v0, :cond_3b
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModUi;->testPage(Landroid/app/Activity;)V
 
-    .line 253
+    .line 259
     :cond_3b
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShipTree;->shown(Landroid/app/Activity;)Z
 
@@ -2648,19 +2690,19 @@
 
     goto :goto_f
 
-    .line 277
+    .line 283
     :catch_47
     move-exception v0
 
     goto :goto_f
 
-    .line 255
+    .line 261
     :cond_49
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModUi;->activeKey(Landroid/app/Activity;)Ljava/lang/String;
 
     move-result-object v7
 
-    .line 256
+    .line 262
     if-nez v7, :cond_11e
 
     move v0, v4
@@ -2668,15 +2710,15 @@
     :goto_50
     invoke-static {v6, v0}, Lfr/testudo/spacecorsair/mod/ModUi;->setVis(Landroid/view/View;I)V
 
-    .line 257
+    .line 263
     if-eqz v7, :cond_f
 
-    .line 259
+    .line 265
     invoke-virtual {v6}, Landroid/view/View;->getHeight()I
 
     move-result v0
 
-    .line 260
+    .line 266
     if-lez v0, :cond_6d
 
     const/high16 v1, 0x41400000    # 12.0f
@@ -2699,7 +2741,7 @@
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModUi;->padLists(Landroid/app/Activity;I)V
 
-    .line 261
+    .line 267
     :cond_6d
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUi;->filters:Ljava/util/Map;
 
@@ -2709,7 +2751,7 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
-    .line 262
+    .line 268
     const-string v1, "rarity"
 
     invoke-virtual {v6, v1}, Landroid/view/View;->findViewWithTag(Ljava/lang/Object;)Landroid/view/View;
@@ -2718,10 +2760,10 @@
 
     check-cast v1, Landroid/widget/Button;
 
-    .line 263
+    .line 269
     if-eqz v1, :cond_9b
 
-    .line 264
+    .line 270
     if-nez v0, :cond_121
 
     const-string v5, "Rarity: All"
@@ -2735,10 +2777,10 @@
     :try_end_8a
     .catch Ljava/lang/Exception; {:try_start_7 .. :try_end_8a} :catch_47
 
-    .line 266
+    .line 272
     if-eqz v0, :cond_169
 
-    .line 267
+    .line 273
     :try_start_8c
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
@@ -2754,12 +2796,12 @@
 
     move-result v0
 
-    .line 269
+    .line 275
     :goto_98
     :try_start_98
     invoke-virtual {v1, v0}, Landroid/widget/Button;->setTextColor(I)V
 
-    .line 271
+    .line 277
     :cond_9b
     const-string v0, "sort"
 
@@ -2769,7 +2811,7 @@
 
     check-cast v0, Landroid/widget/Button;
 
-    .line 272
+    .line 278
     if-eqz v0, :cond_ce
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModUi;->sorts:Ljava/util/Map;
@@ -2813,7 +2855,7 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModUi;->setText(Landroid/widget/Button;Ljava/lang/String;)V
 
-    .line 273
+    .line 279
     :cond_ce
     const-string v0, "junk"
 
@@ -2823,7 +2865,7 @@
 
     check-cast v0, Landroid/widget/Button;
 
-    .line 274
+    .line 280
     if-eqz v0, :cond_e4
 
     const-string v1, "SELL"
@@ -2839,7 +2881,7 @@
     :goto_e1
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModUi;->setVis(Landroid/view/View;I)V
 
-    .line 275
+    .line 281
     :cond_e4
     const-string v0, "inbox"
 
@@ -2849,7 +2891,7 @@
 
     check-cast v0, Landroid/widget/Button;
 
-    .line 276
+    .line 282
     if-eqz v0, :cond_f
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModQol;->unread()I
@@ -2901,10 +2943,10 @@
     :cond_11e
     move v0, v3
 
-    .line 256
+    .line 262
     goto/16 :goto_50
 
-    .line 264
+    .line 270
     :cond_121
     new-instance v5, Ljava/lang/StringBuilder;
 
@@ -2958,7 +3000,7 @@
 
     goto/16 :goto_87
 
-    .line 267
+    .line 273
     :catch_154
     move-exception v0
 
@@ -2966,7 +3008,7 @@
 
     goto/16 :goto_98
 
-    .line 272
+    .line 278
     :cond_158
     invoke-virtual {v1}, Ljava/lang/Integer;->intValue()I
 
@@ -2977,10 +3019,10 @@
     :cond_15e
     move v1, v4
 
-    .line 274
+    .line 280
     goto :goto_e1
 
-    .line 276
+    .line 282
     :cond_160
     const-string v1, "Inbox"
 
@@ -3009,7 +3051,7 @@
     .prologue
     const/4 v2, 0x1
 
-    .line 308
+    .line 314
     :try_start_1
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
@@ -3027,7 +3069,7 @@
 
     move-result v0
 
-    .line 309
+    .line 315
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object v1
@@ -3044,28 +3086,28 @@
 
     move-result v1
 
-    .line 310
+    .line 316
     new-instance v4, Ljava/util/ArrayList;
 
     invoke-direct {v4}, Ljava/util/ArrayList;-><init>()V
 
-    .line 311
+    .line 317
     if-eqz v0, :cond_2b
 
     invoke-static {p1, v0, v4}, Lfr/testudo/spacecorsair/mod/ModUi;->collect(Landroid/view/View;ILjava/util/List;)V
 
-    .line 312
+    .line 318
     :cond_2b
     invoke-virtual {v4}, Ljava/util/ArrayList;->size()I
 
     move-result v5
 
-    .line 313
+    .line 319
     if-eqz v1, :cond_34
 
     invoke-static {p1, v1, v4}, Lfr/testudo/spacecorsair/mod/ModUi;->collect(Landroid/view/View;ILjava/util/List;)V
 
-    .line 314
+    .line 320
     :cond_34
     const/4 v0, 0x0
 
@@ -3078,14 +3120,14 @@
 
     if-ge v3, v0, :cond_6e
 
-    .line 315
+    .line 321
     invoke-virtual {v4, v3}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Landroid/view/View;
 
-    .line 316
+    .line 322
     invoke-virtual {v0}, Landroid/view/View;->getTag()Ljava/lang/Object;
 
     move-result-object v1
@@ -3104,7 +3146,7 @@
 
     if-eqz v1, :cond_58
 
-    .line 314
+    .line 320
     :goto_54
     add-int/lit8 v0, v3, 0x1
 
@@ -3112,27 +3154,27 @@
 
     goto :goto_36
 
-    .line 317
+    .line 323
     :cond_58
     if-ge v3, v5, :cond_6f
 
     move v1, v2
 
-    .line 318
+    .line 324
     :goto_5b
     const-string v6, "modArrow"
 
     invoke-virtual {v0, v6}, Landroid/view/View;->setTag(Ljava/lang/Object;)V
 
-    .line 319
+    .line 325
     const/4 v6, 0x1
 
     invoke-virtual {v0, v6}, Landroid/view/View;->setClickable(Z)V
 
-    .line 320
-    new-instance v6, Lfr/testudo/spacecorsair/mod/ModUi$10;
+    .line 326
+    new-instance v6, Lfr/testudo/spacecorsair/mod/ModUi$11;
 
-    invoke-direct {v6, p0, v1}, Lfr/testudo/spacecorsair/mod/ModUi$10;-><init>(Landroid/app/Activity;I)V
+    invoke-direct {v6, p0, v1}, Lfr/testudo/spacecorsair/mod/ModUi$11;-><init>(Landroid/app/Activity;I)V
 
     invoke-virtual {v0, v6}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
     :try_end_6c
@@ -3140,15 +3182,15 @@
 
     goto :goto_54
 
-    .line 335
+    .line 341
     :catch_6d
     move-exception v0
 
-    .line 338
+    .line 344
     :cond_6e
     return-void
 
-    .line 317
+    .line 323
     :cond_6f
     const/4 v1, -0x1
 

@@ -1339,7 +1339,9 @@
     check-cast v0, Lfr/testudo/spacecorsair/business/Element;
 
     .line 615
-    instance-of v0, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->countsAsEnemy(Ljava/lang/Object;)Z
+
+    move-result v0
 
     if-eqz v0, :cond_1f
 
@@ -1848,7 +1850,9 @@
     check-cast v0, Lfr/testudo/spacecorsair/business/Element;
 
     .line 665
-    instance-of v5, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->countsAsEnemy(Ljava/lang/Object;)Z
+
+    move-result v5
 
     if-eqz v5, :cond_43
 
@@ -1954,7 +1958,9 @@
     check-cast v0, Lfr/testudo/spacecorsair/business/Element;
 
     .line 543
-    instance-of v4, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->countsAsEnemy(Ljava/lang/Object;)Z
+
+    move-result v4
 
     if-eqz v4, :cond_47
 
@@ -2074,7 +2080,9 @@
     check-cast v0, Lfr/testudo/spacecorsair/business/Element;
 
     .line 525
-    instance-of v4, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->countsAsEnemy(Ljava/lang/Object;)Z
+
+    move-result v4
 
     if-eqz v4, :cond_2a
 
@@ -2152,7 +2160,9 @@
     check-cast v0, Lfr/testudo/spacecorsair/business/Element;
 
     .line 461
-    instance-of v4, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->countsAsEnemy(Ljava/lang/Object;)Z
+
+    move-result v4
 
     if-eqz v4, :cond_1f
 

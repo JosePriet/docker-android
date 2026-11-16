@@ -3019,28 +3019,34 @@
     const/4 v1, 0x0
 
     .line 65
-    if-eqz p0, :cond_11
+    if-eqz p0, :cond_17
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/Mod;->drones:[Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     aget-object v2, v2, v1
 
-    if-eq p0, v2, :cond_10
+    if-eq p0, v2, :cond_16
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/Mod;->drones:[Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     aget-object v2, v2, v0
 
-    if-ne p0, v2, :cond_11
+    if-eq p0, v2, :cond_16
 
-    :cond_10
-    :goto_10
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLan;->isAlly(Lfr/testudo/spacecorsair/business/Element;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_17
+
+    :cond_16
+    :goto_16
     return v0
 
-    :cond_11
+    :cond_17
     move v0, v1
 
-    goto :goto_10
+    goto :goto_16
 .end method
 
 .method public static label(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;

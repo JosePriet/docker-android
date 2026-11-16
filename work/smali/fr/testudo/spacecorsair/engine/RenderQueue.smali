@@ -12,11 +12,11 @@
 
 .field public objectQueue:[[Lfr/testudo/spacecorsair/display/RenderElement;
 
-.field private queueSize:I
+.field public queueSize:I
 
 .field private renderQueueIndex:I
 
-.field private waitingQueueIndex:I
+.field public waitingQueueIndex:I
 
 
 # direct methods
@@ -639,6 +639,8 @@
     .registers 4
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLan;->beforeSwap(Lfr/testudo/spacecorsair/engine/RenderQueue;)V
+
     .line 122
     iget v0, p0, Lfr/testudo/spacecorsair/engine/RenderQueue;->waitingQueueIndex:I
 
