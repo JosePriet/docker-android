@@ -1,17 +1,17 @@
-# Task 1: independent bug hunt
+# Task 1: find gameplay bugs
 
 Read `AGENTS.md`, `codex/CONTEXT.md` and `codex/KNOWN.md` first. Do not change any code in this task: the only file you write is `codex/out/findings.md`.
 
-Find correctness bugs a player would hit, or that break a rule in CONTEXT.md, in `src/java/fr/testudo/spacecorsair/mod/*.java` and `server/rendezvous/src/index.js`. Hooks in the closed game call the mod's static methods (for example `ModPrologue.damage` runs at the top of `PlayerShip.applyDamage`). Priority, in order:
-1. Internet and LAN multiplayer (`ModNet`, `ModLan`, `ModLanUi`, `ModLobby`, `ModLanCheck`, the service): thread races (game thread vs network threads vs UI thread), state not reset between sessions, lost or duplicated messages, host/guest desync, punch/relay fallbacks that stall, service limits that can be bypassed or that lock honest players out.
-2. Anti-cheat and DEV rules: a public-build player must never bring DEV ships or DEV gear into an internet game; the test profile must never reach multiplayer.
+This is a code review of a hobby game mod. Find correctness bugs a player would run into, or places where the code does not do what CONTEXT.md says it should, in `src/java/fr/testudo/spacecorsair/mod/*.java` and `server/rendezvous/src/index.js`. Hooks in the base game call the mod's static methods (for example `ModPrologue.damage` runs at the top of `PlayerShip.applyDamage`). Priority, in order:
+1. Co-op and online play (`ModNet`, `ModLan`, `ModLanUi`, `ModLobby`, `ModLanCheck`, the lobby service): threading problems between the game thread, the network threads and the UI thread; state not reset between sessions; messages lost or handled twice; host and guest getting out of sync; connection fallbacks that hang; lobby limits that stop normal players from playing.
+2. Game rules from CONTEXT.md: developer-only ships and items must stay out of online games; the test profile must never reach multiplayer.
 3. Save and progress (`ModQol`, `ModIntro`, `ModSaveSig`, `ModV35`): anything that can wipe, duplicate or corrupt progress.
-4. Combat (`ModWarpOut`, `ModCaps`, `ModPolice`, `ModCapitals`, `ModEnemyGuns`, `ModStationGuns`, `ModShips`, `ModV34`): pooled objects that keep state, NaN/Infinity, division by zero, lists changed while iterated.
+4. Combat (`ModWarpOut`, `ModCaps`, `ModPolice`, `ModCapitals`, `ModEnemyGuns`, `ModStationGuns`, `ModShips`, `ModV34`): reused objects that keep old state, NaN/Infinity, division by zero, lists changed while being looped over.
 
-Rules:
-- Trace the code; do not guess. Quote the exact lines and give a concrete sequence of events that produces the wrong result.
-- Mark each finding CONFIRMED (every step traced in this repo) or SUSPECTED (depends on closed game code or timing you cannot see; say which part).
-- Where you can, prove it: run `node server/rendezvous/test/registry.test.mjs`-style snippets for the service, or compile the mod (command in AGENTS.md) and write a small throwaway JVM check. Say what you ran and what it printed.
+How to work:
+- Follow the code; do not guess. Quote the exact lines and give the sequence of events that leads to the wrong result.
+- Mark each finding CONFIRMED (every step followed in this repo) or SUSPECTED (depends on base game code or timing you cannot see; say which part).
+- Where you can, show it: run small Node snippets against the service like `server/rendezvous/test/registry.test.mjs` does, or compile the mod (command in AGENTS.md) and write a small throwaway Java check. Say what you ran and what it printed.
 - No style comments, refactors or "add logging". Only wrong behaviour. Ten real bugs beat fifty maybes.
 
-Output `codex/out/findings.md`: a table `ID | severity (high/medium/low) | CONFIRMED/SUSPECTED | file:line | defect | failure scenario | suggested fix`, then one section per finding with the quoted code and any proof you ran. Open a PR with only that file.
+Output `codex/out/findings.md`: a table `ID | severity (high/medium/low) | CONFIRMED/SUSPECTED | file:line | bug | what the player sees | suggested fix`, then one section per finding with the quoted code and anything you ran. Open a PR with only that file.

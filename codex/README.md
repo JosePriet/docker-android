@@ -4,8 +4,8 @@ Three independent tasks. Run each as its own Codex task on this repository (bran
 
 | Task | File | Output |
 |---|---|---|
-| 1 | TASK-1-bug-hunt.md | `codex/out/findings.md` (no code changes) |
+| 1 | TASK-1-bug-hunt.md (gameplay bugs) | `codex/out/findings.md` (no code changes) |
 | 2 | TASK-2-balance-sim.md | `tools/balance_sim/` (Python) + `codex/out/balance-report.md` |
-| 3 | TASK-3-attack-tests.md | `server/rendezvous/test/attack.test.mjs`, `work/dtest/fr/testudo/spacecorsair/mod/V52F.java`, `codex/out/attack-notes.md` |
+| 3 | TASK-3-robustness-tests.md | `server/rendezvous/test/stress.test.mjs`, `work/dtest/fr/testudo/spacecorsair/mod/V52F.java`, `codex/out/test-notes.md` |
 
 Shared inputs: `CONTEXT.md` (design rules), `KNOWN.md` (findings already fixed: do not report again), `data/` (game tables for task 2).

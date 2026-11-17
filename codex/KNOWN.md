@@ -1,67 +1,23 @@
-# v45 (build 52) second check, 2026-11-17
+# Already found and fixed (2026-11-17) — do not report these again
 
-Scope: `git diff 5a3cb48..13c85aa` (branch head 13c85aa), the 66 owner decisions, the v45 changes file (including the fix list), the directive audit, TASK.md and HANDOFF.md. The check was read-only: nothing was built, edited or pushed. Findings are traced in the Java and in the game smali. The shipped public APK (`space-corsair/v45/space-corsair-v45-build52-public.apk`, 16:43, matches 84c8d18) was opened to confirm S2.
+| ID | Where | What was wrong (now fixed) |
+|---|---|---|
+| S1 | ModWarpOut | enemies that warped out went back to the object pool still invincible |
+| S2 | build.sh, i18n | Spanish file not rebuilt on every build |
+| S3 | ModLan.hostFrame | an online host could equip developer items mid-session |
+| S4 | ModIntro | a damaged config file could wipe progress |
+| S5 | ModLanCheck | the per-session damage statistics left out refit, reload and the disintegrator ramp |
+| S6 | ModLan.duelFloor | a duel round could end while the shield would have absorbed the hit |
+| S7 | ModLobby | a guest waited 15 s while a slow host heartbeat could take 20 s |
+| S8 | ModLan | refusing a guest closed the host's own lobby silently |
+| S9 | ModLobby.list | the developer tag column was dropped from the public list |
+| S10 | service | removal and suspension records were never deleted |
+| S11 | service /sample | statistics samples were accepted without a joined lobby |
+| S12 | service admin CSV, scripts/sc_reports.py | cells starting with = + - @ were not quoted for spreadsheets |
+| S13 | service /admin/data | listed the oldest 1000 rows instead of the newest |
+| S14 | ModUi | the toolbar re-scanned the screen on every layout pass |
+| S15 | ModLobby | developer registration said "refused" when merely offline |
+| S16 | ModLobby | hosts retried every 5 s while the service was busy |
+| S17 | service | the admin page used the same key as the developer build |
 
-## Summary
-- **Critical: 0. High: 1. Medium: 6. Low: 9.**
-- The worst finding (S1) is new in v45. A ship that warps out (boss illusions or brood, the Kre'tari mirror swarm) goes back into the game's object pool still marked invincible. The next enemy that reuses that object cannot be killed.
-- 11 new player-facing strings have Spanish in `i18n/gpt/v45_audit_es.json`, but `i18n/lang/es_full.json` was not rebuilt, so the APK ships them in English (S2).
-- Fix-list items checked and holding:
-  - The public APK has no `corsair_dev.key`.
-  - `selfDev()` needs the asset, so a public build cannot become DEV.
-  - The /admin page escapes every value (no XSS found).
-  - The test profile is blocked in `ModLan.host/join` and `ModLobby.onlineBlock`.
-  - Police are skipped in `settleElites`.
-  - The station art wait re-scans every SCAN_MS, so stations do get turrets.
-  - The forced duel round now blows up the guest's ship.
-  - Every smali → mod reference (159) resolves to an existing method or field, so there is no NoSuchMethodError from the I2 removals.
-
-## Findings (most severe first)
-
-| id | sev | status | where | what is wrong | failure scenario | smallest fix |
-|---|---|---|---|---|---|---|
-| S1 | high | CONFIRMED | ModWarpOut.java:34 (start), with smali Element.reset / initializePoolObject | `start()` sets `e.invincible = true`, then `e.remove()` at 3 s, and `Level.commitChanges` calls `recycleToPool`. `Element.initializePoolObject → reset()` does not clear `invincible`. In the stock smali only the `Element` constructor sets it (no Ennemis class touches it). | A Kre'tari flagship enrage spawns 4 `AlienRat` mirrors; the fight ends, and they warp out and go back into the pool. Later an AlienRat enemy (or brood, or a UFO from boss illusions) is drawn from the pool, and `Element.applyDamage` skips it forever. Kill-count, zone-clear and bounty missions can soft-lock. `ModWarpOut.clear()` on a sector change leaves the flag set too. | In `tick()` before `e.remove()` (and in `clear()` for entries still held), set `e.invincible = false`. Or reset `invincible` in a hook on Ennemis init. |
-| S2 | medium | CONFIRMED | i18n/lang/es_full.json (last built 3bd9014 12:22); build.sh:41/52 only packs it | build.sh never runs `build_es_json.py`. Later edits to v45_audit_es.json (77fa7c2, a3e9dc5) never reached es_full.json. The shipped APK's `assets/lang/es.json` lacks them. | A Spanish player sees these in English: the C7 welcome post for new pilots, the E3 "Internet lobbies are down for today", the E4 privacy dialog and "Privacy" entry, "Multiplayer is off in the test profile...", "Test switches are in use...", and the DEV messages (11 keys). | Run `python3 i18n/lang/build_es_json.py .`, commit es_full.json, rebuild both APKs. Add the script (or a key-diff check) to check.sh. |
-| S3 | medium | CONFIRMED | ModLobby.java:191-199, 352, 404; ModLan.java:1315, 1859 | The DEV-gear check runs for the host only when the lobby opens. During a session only the guest re-checks its own gear (`declare`), and the host's own gear is never checked again. Guests never see the host's gear. | A v44 player who redeemed CORSAIRDEV (allowed for everyone in v44) opens an internet lobby in a normal ship, then docks and fits the DEV X-0 or DEV gear. The co-op or PvP session runs with DEV gear online (D1: "won't have access to that ship online"). | In `hostFrame` (every 2 s, like `declare`): `if (internet && !ModLobby.selfDev() && ModLanCheck.hasDev(ModLanCheck.mine())) { post msg; stop(); ModLobby.leave(); }` |
-| S4 | medium | CONFIRMED | ModIntro.java:16 → ModQol.clearProgress; smali ConfigStorage (corrupted config → `loadDefault` → `Config.getDefault` sets `isFirstStart=true`) → Main.onFirstStart | A10 wipes all `modqol` progress whenever the game thinks it is a first start. The game also takes that path when its config file fails to parse ("config file is corrupted ! Loading default"), while the game save (level, ships, credits) is kept. | A config write cut off by power loss or a crash: on the next start the player keeps their L30 save but loses standings, refits, story flags, Lance unlock, the co-op mission record and inbox. Before v45 this only reset settings. | Clear only when the save is really new, e.g. gate on the game save files being absent (StorageManager has nothing to restore). Or clear only when `modqol` has no `modVersion` older than the save. |
-| S5 | medium | CONFIRMED | ModLanCheck.java:197-201 (expShot/expDps); ModV35.java:417, ModShips.java:766 | The D4 "highest damage the build can really produce" includes the hull dmg factor only. It leaves out the refit damage multiplier, hull and refit reload rate (`milleSecBetweenShots`), the disintegrator +100% ramp and crits. The guest's shots carry all of these. | Any guest with a damage refit or the disintegrator gets `ratio > 1` and `flagged=true` in every sample. The data the owner wants for setting limits (decision 38) shows honest players as cheaters. | Compute the expected values with `ModV35.mults(...)` for the declared refit, the hull reload, and the ramp (x2 for DISINT). Or record per-shot damage before the multipliers. |
-| S6 | medium | CONFIRMED | ModLan.duelFloor 2623 (called from ModPrologue.damage, which the smali puts at the top of PlayerShip.applyDamage, before `Shield.applyDamage`) | A duel round is lost when the incoming damage, before shields, reaches hull-1. Since F11 the loser now explodes. `hurt()` forwards one frame's summed damage as one hit. | A guest with 1,000 hull and a full 3,000 shield takes a 1,100 hit (or several hits in one frame). The shield would absorb all of it, but the round is lost, the ship explodes and respawns. The host ship is treated the same way. | Compare `amount` with `ps.life - 1 + ps.shield.currentValue`. Or move the floor after the shield (clip what reaches the hull). |
-| S7 | medium | SUSPECTED | ModLobby.java:33/449 (beat 20 s after 2 min) vs 541 (guest direct window 15 s) | E2 slowed a waiting host's beat to 20 s. The host only learns of a join at its next beat, but the guest punches for only 15 s. Then it needs the relay, or it fails and files /unreach. | A public lobby has been open for 3 min, and a guest joins 2 s after a beat. The host starts punching at about 18 s, after the guest gave up. If the relay is full, refused or rate-limited, the guest gets "Could not reach the host" and posts /unreach. Two such guests delist a healthy lobby. If the relay works, every such join spends a relay allocation for nothing. | Guest direct window ≥ BEAT_SLOW_MS + 8 s (e.g. 28 s), or have the host poll `/beat` every 8 s while it has no guest (the decision's volume goal can use a lighter endpoint). Needs the phone or netcloud to confirm. |
-| S8 | low | CONFIRMED | ModLan.java:1315-1319 | When the host refuses a DEV-declaring guest, it sets `status = "...DEV gear..."` and then calls `stop()`, which sets `status = ""`. It does not call `hostNet()`, so `ModLobby.stillHost` turns false and the lobby closes. | The host sees no message, and their internet lobby silently ends. The guest only sees "link lost". | Call `stop()` first, then set the status. Then `if (ModLobby.hosting) hostNet();` as `kick()` does. |
-| S9 | low | CONFIRMED | ModLobby.java:686-687 vs ModLanUi.java:577 | `list()` builds 7-element rows and drops the service's 8th column (dev). The list UI tests `r.length > 7`. | The [DEV] tag never shows in the public games list (D1 "other players see a DEV tag"). It shows only after connecting. | Add `"1".equals(row.length > 7 ? row[7] : "") ? "1" : "0"` as the 8th element. |
-| S10 | low | CONFIRMED | server index.js:344-347, 147-153 | `kick:<installId>` records are never deleted, only filtered on read. `ban:<id>` is deleted only if that id joins again after expiry. | Install ids stay on disk indefinitely. That contradicts the E4 privacy text ("ban counters (24 hours)"). | In `kick()`, store with an expiry and drop empty lists. Sweep `kick:` and `ban:` older than a day in `sweep()` (prefix list, small limit). |
-| S11 | low | CONFIRMED | server index.js:442-456 (`/sample`) | No lobby, token or session check: anyone can post samples (6 an hour per address; the limit resets when the object sleeps). | Fake or garbage samples skew the D4 data set the owner plans to set limits from. | Require `code` + `token` of a live lobby with `full` seen, and accept one sample per lobby session. |
-| S12 | low | CONFIRMED | server index.js:496 (admin `csv()`), scripts/sc_reports.py | Report text (player-written chat lines) goes into CSV cells unescaped for formulas. | A report whose text starts with `=HYPERLINK(...)` or `=IMPORTXML(...)` runs when the owner opens reports.csv in Sheets or Excel. | Prefix cells starting with `= + - @` with `'` in both exporters. |
-| S13 | low | CONFIRMED | server index.js:462 | `/admin/data` lists at most 1,000 keys per prefix, in key order (`report:<ms>`, `sample:<ms>`), which is oldest first. | Once more than 1,000 samples exist within the 30 days, the newest ones (the ones the owner wants) are missing from the page and the CSV. | Page with `start`/`reverse` (list with `reverse: true`), or keep a rolling cap. |
-| S14 | low | SUSPECTED | ModUi.java:236-245 → update() 255+ | I4 "walk once per screen": the toolbar listener still calls `update()` on every layout pass. That is not just badges: `root.findViewWithTag` walks the tree, and on ShipsActivity it runs `ModShipTree.attach`, `fitShipDescriptions`, `wireArrows`, `decoratePages` and `padLists`. The changes file calls this "badges ... (cheap)". | Layout-heavy screens (Ships pager) still do full work per layout pass. This is worse than the changes file states. | Gate `update()` with `ModScroll.screenChanged(root, seen)`, like the Spanish watcher. |
-| S15 | low | CONFIRMED | ModLobby.java:150-161, 202-211 | In the DEV build, a registration attempt while offline or with the service away posts "DEV registration was refused." `devAutoSent` blocks retries until the app restarts. | The owner opens the lobby menu on a train with no signal, gets a false "refused", and stays non-DEV for the run. | Post "refused" only on a 403. Retry on status 0 or ≥500 (clear `devAutoSent`). |
-| S16 | low | CONFIRMED | ModLobby.java:400 | While the service answers "busy" (daily allowance used, E3), a host retries `/lobby` every 5 s for as long as the menu stays hosting. | Hosts left open keep hitting the platform's own daily request quota after our limit tripped. | Back off (30 s, then doubling) on "busy" or 429. |
-| S17 | low | CONFIRMED (note) | server devKeyOk used by /dev and /admin/data; build.sh:44 | The admin page key is the same secret that ships in plain text inside the private DEV APK (`assets/corsair_dev.key`). | Anyone who gets that APK (a lost phone, a shared file) can read every report (chat lines, install ids) and register any install as DEV. | Use a separate ADMIN_KEY_SHA256 secret for /admin/data. |
-
-## Decisions not really done
-- **Row 2 (D1)**: not fully met.
-  - The host's own DEV gear is not refused during a session (S3).
-  - The DEV tag is missing from the public list (S9).
-  - Deviation to confirm with the owner: the public build now refuses CORSAIRDEV offline for everyone. The decision's plan was "the code keeps working offline for everyone". The implementer marked this "not asked".
-- **Rows 28, 34, 40, 41 (C1, C7, E3, E4)** and the 3B/D2/D3 messages: the code is EN + ES, but the shipped APK has English only for 11 strings (S2), so "EN and ES" is not met in the build.
-- **Row 38 (D4)**: the "highest numbers players can actually replicate" leave out the refit, reload and ramp multipliers. Flags are not meaningful (S5). The samples endpoint is also open to anyone (S11).
-- **Row 41 (E4)**: the privacy text promises 24 h ban counters, but kick records with install ids are kept indefinitely (S10).
-- **Row 56a (F11)**: rounds can end ("destroyed") while the shield would have absorbed the hit (S6).
-- **Row 65 (I4)**: the toolbar listener still does per-layout tree work (S14).
-- **Rows 5 and 15 (A4, B4)**: coded as decided, but the warp-out leaves invincible pooled enemies (S1). It must be fixed before release.
-- **Row 11 (A10)**: coded, but it also fires on a corrupted config, wiping progress (S4).
-- Rows checked and found met in code (spot-traced): A2, A3 (paid and saved at the kill, then the Accept pop-up), A5, A7 (freeReq → GL thread), B2 (game thread, or the caller when paused), B3, B6, B7/B13 (PlayerShip stays in the level when dead, so `ModCaps.tick` sees `life<=0`), B9, B12, C8, E5, E6, E8, F3, F5 (hooks54 applied and logged), F6, F7 (with the 11A art wait), F8, F12, F16.1-5, I2 (shot limit wired; no dangling smali references).
-- Not re-traced here: A1, A6, B5, F10, C1 (closed by the earlier reviewer), B1 (all five tables), B8, B10, B11, B14-B16, C2-C6, F13. No faults were seen in the parts read.
-
-## Needs the phone
-- S7: a join to a public lobby waiting more than 2 minutes, wifi vs mobile data, with the relay available and unavailable.
-- E7: the two-phone test (private code, public game, Hide my IP). The relay works only since 17:01 (new Metered credential).
-- F11 duel: explosion and respawn look, the 2,400 respawn offset at the arena edge (known), and the shield-absorbed "loss" from S6.
-- A4/B4: the warp-out fade and shockwave look. After the S1 fix, check that later enemies of the same types can be killed.
-- F3: Reaver flak burst feel, Helion lance speed 16 and range 2,800, and the pierce visuals.
-- F7: generic stock-sprite pads at ±25% (do turrets sit on the hull?).
-- F12 radar colour; F13 Monolith and Leviathan tones (65% wing aura).
-- F16 balance after the elite-factor strip and the new patrol/wing scaling. Police keep the stock elite factors (6A), so check police titans (F15, untuned).
-- A3: the boss reward pop-up while hosting co-op (`Game.pause` freezes the guest's world).
-- I4: Spanish text changed in place deep in a screen is no longer re-translated.
-- Spanish text fit for the 11 strings once S2 is fixed (the privacy dialog is long).
+Known and accepted: a guest's declared loadout is trusted as declared; the in-memory list of just-closed lobbies is lost when the service restarts.
