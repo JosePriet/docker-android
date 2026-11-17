@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 550786 Realtime: 550786
+
+** MEMINFO in pid 2484 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    34070    34004        0        0    36456    44932    36476     4140
+  Dalvik Heap    11734    11604        0        0    15836    20869    10435    10434
+ Dalvik Other     1819     1056        0        0     3448                           
+        Stack      948      948        0        0      964                           
+       Ashmem     9621     8340        0        0    10968                           
+    Other dev      132        0      132        0      336                           
+     .so mmap     4485      248      428        0    43732                           
+    .jar mmap     1762        0       80        0    23940                           
+    .apk mmap     1172        0       68        0    25112                           
+    .ttf mmap      467        0      244        0     1084                           
+    .dex mmap     3015       12     2992        0     3144                           
+    .oat mmap     1025        0        8        0    15972                           
+    .art mmap     1906     1296        0        0    19988                           
+   Other mmap      342       36       60        0     2456                           
+      Unknown      399      384        0        0      840                           
+        TOTAL    72897    57928     4012        0    72897    65801    46911    14574
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    12900                          35824
+         Native Heap:    34004                          36456
+                Code:     4080                         114536

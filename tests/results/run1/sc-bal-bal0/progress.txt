@@ -1,0 +1,40 @@
+[6s] install
+[7s] launch fr.testudo.spacecorsair
+[27s] shot launch ok
+[32s] cancel exit prompt
+[38s] shot after_back ok
+[50s] shot steering ok
+[50s] direct: BuyInapp gift
+[66s] tap 'id/txtGift' at 620 926
+[76s] tap 'id/btnGift' at 1253 939
+[80s] shot gift_box_redeemed ok
+[86s] direct: Settings
+[91s] shot settings_v36 ok
+[92s] seekbars on settings: 3
+[107s] Leviathan page found=1
+[111s] tap '^(Use|USE)' at 1971 1008
+[132s] shot dmg_ready ok
+[139s] shot dmg_reaver_1 ok
+[176s] shot dmg_reaver_9 ok
+[213s] shot dmg_reaver_17 ok
+[250s] shot dmg_reaver_25 ok
+[263s] shot dmg_reaver_end ok
+[263s] EVIDENCE dmg start reaver player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=2550000 shot=2931 rate=1.0 police=false dmg end reaver result=killed t=104.057 hullLost=18.9% shieldLost=14998 pMaxHull=446656 tMaxHull=2550000 thull=0.0% dealt=2550001 gun=2563408/314 msl=0/0 ammo=0 bal=---- 
+[279s] shot dmg_kretari_1 ok
+[316s] shot dmg_kretari_9 ok
+[329s] shot dmg_kretari_end ok
+[329s] EVIDENCE dmg start kretari player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1870000 shot=2931 rate=1.0 police=false dmg end kretari result=killed t=38.89 hullLost=3.8% shieldLost=11712 pMaxHull=446656 tMaxHull=1870000 thull=0.0% dealt=1870001 gun=1875650/278 msl=0/0 ammo=0 bal=---- 
+[346s] shot dmg_varn_1 ok
+[383s] shot dmg_varn_9 ok
+[405s] shot dmg_varn_end ok
+[405s] EVIDENCE dmg start varn player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1190000 shot=2931 rate=1.0 police=false dmg end varn result=killed t=52.386 hullLost=9.3% shieldLost=11755 pMaxHull=446656 tMaxHull=1190000 thull=0.0% dealt=1190000 gun=1190942/331 msl=0/0 ammo=0 bal=---- 
+[421s] shot dmg_spartan_1 ok
+[459s] shot dmg_spartan_9 ok
+[471s] shot dmg_spartan_end ok
+[471s] EVIDENCE dmg start spartan player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1360000 shot=2931 rate=1.0 police=false dmg end spartan result=player_dead t=42.49 hullLost=99.7% shieldLost=12760 pMaxHull=446656 tMaxHull=1360000 thull=34.6% dealt=889893 gun=703977/207 msl=0/0 ammo=0 bal=---- 
+[487s] shot dmg_warden_1 ok
+[523s] shot dmg_warden_9 ok
+[560s] shot dmg_warden_end ok
+[561s] EVIDENCE dmg start warden player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1700000 shot=2931 rate=1.0 police=false dmg end warden result=killed t=65.31 hullLost=70.7% shieldLost=13302 pMaxHull=446656 tMaxHull=1700000 thull=0.0% dealt=1700000 gun=1708754/331 msl=0/0 ammo=0 bal=---- 
+[572s] done; errors: 145 lines
+129 frames

@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 638480 Realtime: 638480
+
+** MEMINFO in pid 2498 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    33645    33572        0        0    36052    45204    35807     4810
+  Dalvik Heap    16616    16480        0        0    20728    20931    10466    10465
+ Dalvik Other     1752      992        0        0     3376                           
+        Stack      924      924        0        0      940                           
+       Ashmem     9963     9024        0        0    10968                           
+    Other dev      116        0      116        0      320                           
+     .so mmap     4537      248      432        0    44088                           
+    .jar mmap     1760        0       68        0    23632                           
+    .apk mmap     1222        0      132        0    25104                           
+    .ttf mmap      403        0      200        0     1004                           
+    .dex mmap     3016       12     2992        0     3144                           
+    .oat mmap     1048        0        8        0    15976                           
+    .art mmap     1926     1296        0        0    19980                           
+   Other mmap      365       36       72        0     2684                           
+      Unknown      405      388        0        0      836                           
+        TOTAL    77698    62972     4020        0    77698    66135    46273    15275
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    17776                          40708
+         Native Heap:    33572                          36052
+                Code:     4092                         114492

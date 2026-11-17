@@ -1,0 +1,39 @@
+[6s] install
+[7s] launch fr.testudo.spacecorsair
+[29s] shot launch ok
+[37s] cancel exit prompt
+[44s] shot after_back ok
+[58s] shot steering ok
+[58s] direct: BuyInapp gift
+[75s] tap 'id/txtGift' at 620 926
+[84s] tap 'id/btnGift' at 1253 939
+[89s] shot gift_box_redeemed ok
+[95s] direct: Settings
+[103s] shot settings_v36 ok
+[105s] seekbars on settings: 3
+[119s] Leviathan page found=1
+[124s] tap '^(Use|USE)' at 1971 1008
+[144s] shot dmg_ready ok
+[152s] shot dmg_police_spartan_1 ok
+[188s] shot dmg_police_spartan_9 ok
+[224s] shot dmg_police_spartan_17 ok
+[252s] shot dmg_police_spartan_end ok
+[252s] EVIDENCE dmg start police_spartan player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1632000 shot=3517 rate=1.2 police=true dmg end police_spartan result=player_dead t=86.581 hullLost=98.8% shieldLost=13149 pMaxHull=446656 tMaxHull=1632000 thull=34.2% dealt=1073121 gun=1016042/341 msl=0/0 ammo=0 bal=---B 
+[268s] shot dmg_police_reaver_1 ok
+[303s] shot dmg_police_reaver_9 ok
+[340s] shot dmg_police_reaver_17 ok
+[377s] shot dmg_police_reaver_25 ok
+[412s] shot dmg_police_reaver_end ok
+[412s] EVIDENCE dmg start police_reaver player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=3060000 shot=3517 rate=1.2 police=true dmg end police_reaver result=player_dead t=133.046 hullLost=98.5% shieldLost=15665 pMaxHull=446656 tMaxHull=3060000 thull=37.1% dealt=1924261 gun=1770277/400 msl=0/0 ammo=0 bal=---B 
+[427s] shot dmg_police_warden_1 ok
+[463s] shot dmg_police_warden_9 ok
+[499s] shot dmg_police_warden_17 ok
+[512s] shot dmg_police_warden_end ok
+[512s] EVIDENCE dmg start police_warden player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=2040000 shot=3517 rate=1.2 police=true dmg end police_warden result=player_dead t=74.307 hullLost=89.9% shieldLost=12483 pMaxHull=446656 tMaxHull=2040000 thull=27.0% dealt=1489818 gun=1420012/329 msl=0/0 ammo=0 bal=---B 
+[528s] shot dmg_police_varn_1 ok
+[564s] shot dmg_police_varn_9 ok
+[601s] shot dmg_police_varn_17 ok
+[612s] shot dmg_police_varn_end ok
+[612s] EVIDENCE dmg start police_varn player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1428000 shot=3517 rate=1.2 police=true dmg end police_varn result=player_dead t=75.958 hullLost=99.6% shieldLost=12756 pMaxHull=446656 tMaxHull=1428000 thull=18.9% dealt=1158818 gun=1156726/310 msl=0/0 ammo=0 bal=---B 
+[623s] done; errors: 145 lines
+150 frames

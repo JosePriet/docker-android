@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 648899 Realtime: 648899
+
+** MEMINFO in pid 2519 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    34277    34212        0        0    36640    44956    36617     3967
+  Dalvik Heap    18492    18356        0        0    22600    21223    10628    10595
+ Dalvik Other     1760     1000        0        0     3384                           
+        Stack      900      900        0        0      916                           
+       Ashmem     9888     8540        0        0    11348                           
+    Other dev      128        0      128        0      332                           
+     .so mmap     4382      248      428        0    43436                           
+    .jar mmap     1872        0      176        0    23888                           
+    .apk mmap     1279        0      192        0    25128                           
+    .ttf mmap      390        0      172        0     1060                           
+    .dex mmap     2824       12     2800        0     2952                           
+    .oat mmap     1020        0        8        0    15732                           
+    .art mmap     1923     1292        0        0    19988                           
+   Other mmap      321       36       68        0     2584                           
+      Unknown      401      384        0        0      836                           
+        TOTAL    79857    64980     3972        0    79857    66179    47245    14562
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    19648                          42588
+         Native Heap:    34212                          36640
+                Code:     4036                         113740

@@ -1,0 +1,1 @@
+    mResumedActivity: ActivityRecord{7b2242 u0 fr.testudo.spacecorsair/.activity.Main t9}
