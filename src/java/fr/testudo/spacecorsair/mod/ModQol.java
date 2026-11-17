@@ -442,8 +442,10 @@ public class ModQol {
                     lifeA = l0;
                     lifeB = l1;
                 }
+                boolean low = l1 > 0 && l0 < l1 * 0.25f;   // QoL prototype P5: hull number pulses red under 25% (matches the hull alarm)
+                float la = low ? 0.55f + 0.45f * (float) Math.abs(Math.sin(System.currentTimeMillis() / 180.0d)) : 1.0f;
                 GameRenderer.drawText(gl, lifeText, x,
-                    GameRenderer.screenWidthY - (int) GameRenderer.lifeBar.centerPosition.y - 7, 1.0f, 1.0f, 0.55f, 0.55f, true, TextSize.LITTLE);
+                    GameRenderer.screenWidthY - (int) GameRenderer.lifeBar.centerPosition.y - 7, la, 1.0f, low ? 0.2f : 0.55f, low ? 0.15f : 0.55f, true, TextSize.LITTLE);
                 if (ps.shield != null && ps.shield.capacity > 0) {
                     int s0 = Math.max(0, Math.round(ps.shield.currentValue)), s1 = Math.round(ps.shield.capacity);
                     if (shieldText == null || s0 != shieldA || s1 != shieldB) {
