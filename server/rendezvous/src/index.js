@@ -461,6 +461,7 @@ export class Registry {
     if (!lob || !f.token || f.token !== lob.token) return reply("no", {}, null, 403);
     if ((lob.samples || 0) >= (lob.sessions || 0)) return reply("no", { why: "one per session" }, null, 403);
     lob.samples = (lob.samples || 0) + 1;
+    if (this.lobbies.get(code) === lob) await this.save(lob);   // the count survives a sleep
     const n = (k) => { const v = parseFloat(f[k]); return Number.isFinite(v) && v >= 0 ? Math.min(v, 1e12) : 0; };
     const s = {
       at: this.now(), ver: verOf(f.ver), level: num(f.level, 0, 999), ship: clean(f.ship, 64, /[^A-Za-z0-9_]/g), refit: num(f.refit, 0, 99),

@@ -181,7 +181,7 @@ final class ModLanCheck {
         float shot = top[0], dps = top[1] * 4, mShot = top[2], mDps = top[3], booster = top[4], shield = top[5];
         int cannons = 4;
         boolean doomsday = false;   // only a declared doomsday hull gets that allowance
-        float hullDmg = 1f, hullShield = 1f, hullRate = 1f;   // hullRate: shots a second against the stock gun (hull reload)
+        float hullDmg = 1f, hullShield = 1f, hullRate = 1f, misRate = 1f;   // hullRate: shots a second against the stock gun (hull reload)
         int refit = ModV35.REFIT_MAX;   // second check S5: no declaration = the top refit
         boolean ramp = d == null;       // the disintegrator's +100% ramp; unknown gun = allowed
         m.exact = false;
@@ -199,7 +199,7 @@ final class ModLanCheck {
                 cannons = Math.max(1, Math.max(ps.canonCount, ps.laserCount));
                 try {
                     ModShips.Hull h = ModShips.hullFor(ps);
-                    if (h != null) { hullDmg = Math.max(1f, h.dmg); hullShield = Math.max(1f, h.shieldCap); doomsday = h.doomsday; hullRate = 1f / Math.max(0.5f, Math.min(1f, h.reload)); }
+                    if (h != null) { hullDmg = Math.max(1f, h.dmg); hullShield = Math.max(1f, h.shieldCap); doomsday = h.doomsday; hullRate = 1f / Math.max(0.5f, Math.min(1f, h.reload)); misRate = 1f / Math.max(0.25f, Math.min(1f, h.missileReload)); }
                 } catch (Throwable t) { /* a stock hull */ }
             }
             refit = Math.max(0, Math.min(ModV35.REFIT_MAX, d.refit));
@@ -223,7 +223,7 @@ final class ModLanCheck {
         // and on reload (upper bound), the hull reload speeds the guns, and the disintegrator ramps to x2 on one target.
         float rf = ModV35.pickMult(refit) * ModV35.traitMult(refit), rp = ramp ? 2f : 1f;
         m.expShot = hullDmg * rf * Math.max(1f, Math.max(shot * rp, mShot));
-        m.expDps = hullDmg * rf * Math.max(1f, (dps * rp + mDps) * rf * hullRate);
+        m.expDps = hullDmg * rf * Math.max(1f, dps * rp * rf * hullRate + mDps * misRate);   // hull missile reload too (reviewer)
         if (doomsday) { m.shot = Math.max(m.shot, DOOMSDAY_DPS); m.dps += DOOMSDAY_DPS; m.expShot = Math.max(m.expShot, DOOMSDAY_DPS); m.expDps += DOOMSDAY_DPS; }
         m.hull = Math.max(1f, XpBuilder.PLAYER_SHIP_LIFE[L] * Math.max(0.1f, booster) * HULL_SLACK);
         m.shield = Math.max(1f, shield * hullShield * SHIELD_SLACK);

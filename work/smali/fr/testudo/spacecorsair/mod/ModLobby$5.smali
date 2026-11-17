@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 635
+    .line 638
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$5;->val$g:J
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 5
 
     .prologue
-    .line 638
+    .line 641
     :goto_0
     :try_start_0
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$5;->val$g:J
@@ -67,15 +67,15 @@
 
     if-eqz v0, :cond_1f
 
-    .line 639
+    .line 642
     const-wide/16 v0, 0x1388
 
     invoke-static {v0, v1}, Ljava/lang/Thread;->sleep(J)V
 
-    .line 640
+    .line 643
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->applySaver()V
 
-    .line 641
+    .line 644
     # invokes: Lfr/testudo/spacecorsair/mod/ModLobby;->reportRelay()V
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$500()V
     :try_end_1d
@@ -83,11 +83,11 @@
 
     goto :goto_0
 
-    .line 643
+    .line 646
     :catch_1e
     move-exception v0
 
-    .line 644
+    .line 647
     :cond_1f
     return-void
 .end method

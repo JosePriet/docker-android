@@ -270,8 +270,10 @@ final class ModLobby {
     static ModNet.Link link() { return link; }
 
     /** Second check S11: the service takes a sample only from the host of a lobby a guest joined (code + token). */
+    private static volatile String sampleCode = "";   // the last lobby this install hosted; leave() keeps it for the session's sample
+
     static String[] withLobby(String[] s) {
-        String c = code, t = token;
+        String c = code.length() > 0 ? code : sampleCode, t = token;
         if (s == null || c.length() == 0 || t.length() == 0) return null;
         String[] o = java.util.Arrays.copyOf(s, s.length + 4);
         o[s.length] = "code"; o[s.length + 1] = c; o[s.length + 2] = "token"; o[s.length + 3] = t;
@@ -426,6 +428,7 @@ final class ModLobby {
                     myTok = ModLan.clean(r.get("token"), 64);
                     code = myCode;
                     token = myTok;
+                    sampleCode = myCode;
                     openedAt = System.currentTimeMillis();
                     busy = false;
                     status = ModLang.tr("Waiting for a player to join...");
