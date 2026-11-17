@@ -134,6 +134,11 @@ public final class ModEvents {
             ((Ennemis) e).addToCurrentLevel();   // they hold near the trader until the player closes in
             hostiles.add(e);
         }
+        if (hostiles.isEmpty()) {   // verifier 1: no raiders spawned = no event (never a free payout)
+            c.removed = true;
+            victim = null;
+            return;
+        }
         engaged = false;
         kind = DISTRESS;
         ModQol.post(ModLang.tr("Distress call: the freighter ") + c.specificName + ModLang.tr(" is under pirate attack, ") + bearing(ps, at) + ".");
@@ -215,7 +220,7 @@ public final class ModEvents {
             end(null);
             return;
         }
-        if (now >= endsAt && wanted.position.distance(ps.position) > 2000) {
+        if (now >= endsAt + 60000 || (now >= endsAt && wanted.position.distance(ps.position) > 2000)) {   // verifier 2: hard stop 1 min after time-up
             ModQol.post(wanted.specificName + ModLang.tr(" jumped out of the sector."));
             wanted.removed = true;
             end(null);
@@ -237,6 +242,7 @@ public final class ModEvents {
     }
 
     private static void end(String why) {
+        if (kind != NONE) nextAt = ModSector.play() + GAP_MIN_MS + (long) (Math.random() * (GAP_MAX_MS - GAP_MIN_MS));   // gap runs from the end
         kind = NONE;
         victim = null;
         wanted = null;
