@@ -30,6 +30,7 @@ final class ModLobby {
     /** The lobby service address. Empty = internet games are not switched on in this build. */
     static final String SERVICE = "https://sc-rendezvous.spacecs-coop.workers.dev";
     static final String[][] STUN = {{"stun.cloudflare.com", "3478"}, {"stun.l.google.com", "19302"}};
+    private static long retryMs = 5000;   // second check S16: host retry while the service is away (reset on success)
     static final int BEAT_MS = 8000, BEAT_FULL_MS = 30000, BEAT_SLOW_MS = 20000, BEAT_FAST_FOR_MS = 2 * 60 * 1000;
     private static volatile long openedAt;
 
@@ -204,6 +205,11 @@ final class ModLobby {
             public void run() {
                 Reply r = call("POST", "/dev", "id", ModSaveSig.installId(), "key", key);
                 if (r.ok()) setSelfDev(r);
+                if (!r.ok() && (r.status == 0 || r.status >= 500 || r.status == 429)) {   // second check S15: offline or service away: try again later, say nothing
+                    devAutoSent = false;
+                    ModDev.ev("lobby", "dev register retry later " + r.status);
+                    return;
+                }
                 ModQol.post(r.ok() && selfDev() ? ModLang.tr("This install is registered as DEV. Other players see a DEV tag next to your name.")
                     : ModLang.tr("DEV registration was refused."));
                 ModDev.ev("lobby", "dev register " + r.first);
@@ -397,9 +403,14 @@ final class ModLobby {
                     if (!r.ok() || r.get("code").length() != 4) {
                         status = refusal(r);
                         busy = false;
-                        if (r.status == 0 || r.status >= 500 || "busy".equals(r.first)) { Thread.sleep(5000); continue; }   // the service is away: keep trying
+                        if (r.status == 0 || r.status >= 500 || "busy".equals(r.first) || r.status == 429) {   // the service is away or over its day: keep trying, less and less often (second check S16)
+                            Thread.sleep(retryMs);
+                            retryMs = Math.min(retryMs * 2, 300000);
+                            continue;
+                        }
                         break;
                     }
+                    retryMs = 5000;
                     setSelfDev(r);
                     if (onlineBlock() != null) { status = onlineBlock(); call("POST", "/lobby/" + ModLan.clean(r.get("code"), 4) + "/close", "token", ModLan.clean(r.get("token"), 64)); busy = false; break; }
                     myCode = ModLan.clean(r.get("code"), 4);
@@ -538,7 +549,7 @@ final class ModLobby {
             l = new ModNet.Link(w, sid);
             repeatJoin(g, jc, base, l);
             // direct first (also straight to a hidden host's relay address); the relay is asked for only when that fails
-            boolean ok = l.connect(addrs(r.get("cands")), ModNet.parse(r.get("relay")), hide, 6000, hide ? 40000 : 15000);
+            boolean ok = l.connect(addrs(r.get("cands")), ModNet.parse(r.get("relay")), hide, 6000, hide ? 40000 : BEAT_SLOW_MS + 8000);   // second check S7: longer than a waiting host's slow beat
             if (g != gen) { l.abandon(); return false; }
             if (!ok && !hide) {
                 l.abandon();
@@ -684,7 +695,8 @@ final class ModLobby {
         for (String[] row : r.rows) {
             if (row.length < 7 || row[0].length() != 4) continue;
             out.add(new String[]{ModLan.clean(row[0], 4), ModLanUi.safeNick(row[1]), "?".equals(row[2]) ? "" : ModLanUi.safeCountry(row[2]),
-                "1".equals(row[3]) ? "1" : "0", ModLan.clean(row[4], 40), ModLan.clean(row[5], 3), "2".equals(row[6]) ? "2" : "1"});
+                "1".equals(row[3]) ? "1" : "0", ModLan.clean(row[4], 40), ModLan.clean(row[5], 3), "2".equals(row[6]) ? "2" : "1",
+                row.length > 7 && "1".equals(row[7]) ? "1" : "0"});   // second check S9: the service's DEV mark for the list
         }
         return out;
     }

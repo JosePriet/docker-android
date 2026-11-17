@@ -1314,8 +1314,11 @@ public final class ModLan {
             ModLanCheck.Decl dc = ModLanCheck.decode(b);
             if (internet && !ModLobby.peerDev && ModLanCheck.hasDev(dc)) {   // audit D1 (owner): DEV gear is refused online
                 ModDev.ev("lan", "guest declared DEV gear: session ended");
-                status = ModLang.tr("The other player flies DEV gear, which is not allowed in internet games.");
+                String why = ModLang.tr("The other player flies DEV gear, which is not allowed in internet games.");
+                noRejoin();
                 stop();
+                if (ModLobby.hosting) hostNet();   // second check S8: the lobby stays open, as after a kick
+                status = why;
                 return;
             }
             ModLanCheck.Limits lm = ModLanCheck.limits(dc);   // always taken (two gear changes can follow each other closely)
@@ -1738,7 +1741,21 @@ public final class ModLan {
     }
 
     // ---------------------------------------------------------------- host
+    private static long devGearAt;
+
     private static void hostFrame(PlayerShip ps, long dt) {
+        long nowDg = System.currentTimeMillis();
+        if (internet && nowDg - devGearAt > 2000) {   // second check S3: the host's own DEV gear, every 2 s (not only at lobby open)
+            devGearAt = nowDg;
+            if (!ModLobby.selfDev() && ModLobby.devGear()) {
+                ModDev.ev("lan", "host fitted DEV gear: session ended");
+                noRejoin();
+                stop();
+                ModLobby.leave();
+                status = ModLang.tr("DEV ships and DEV gear cannot be used in internet games.");
+                return;
+            }
+        }
         InState s;
         ArrayList<byte[]> shots;
         synchronized (inLock) {
