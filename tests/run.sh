@@ -80,7 +80,7 @@ timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ]; then
-  NOPRO=""; { [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ]; } && NOPRO=/data/local/tmp/corsair_noprologue
+  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ]; } && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
@@ -178,6 +178,22 @@ elif [ $GAME = sc ]; then
   # the recorded host stream. Evidence: tests/lan_peer.py output, logcat "ModTest.*: lan ...", shots of both phases.
   # ---- v45 audit F14 (item 59): station turrets fire at a hostile flagship in an owned sector (the tutorial station is unowned,
   # so by the owner's rule it never fires at flagships); screen recordings as evidence
+  # ---- PROTOTYPE sector events + kill chain (proposal branch claude/project-thread-xe8uiq; not for release)
+  if [ "$STAGE" = P52E ]; then
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    put corsair_goto PIRATE_BAY; for i in $(seq 1 60); do sleep 4; need goto_pb; grep -q "goto arrived PIRATE_BAY" $LG && break; done
+    log "goto PIRATE_BAY arrived=$(grep -c "goto arrived PIRATE_BAY" $LG)"; sleep 6; shot sector_pb
+    for E in distress bounty salvage; do
+      put corsair_event ${E}1; sleep 6; shot ${E}_start
+      put corsair_near event_${E}; sleep 4; shot ${E}_near
+      for k in 1 2 3 4 5 6; do sleep 8; shot ${E}_$k; grep -q "event end kind" $LG && [ "$(grep -c "event end kind" $LG)" -ge "$(grep -c "event test start" $LG)" ] && break; done
+      log "EVIDENCE $E: $(grep -E "ModTest.*(event|chain)" $LG | tail -6 | sed 's/^.*): //' | tr '\n' ' ')"
+    done
+    grep -E "ModTest.*(event|chain)|FATAL|AndroidRuntime|VerifyError" $LG > $OUT/p52e_events.txt
+    a shell "rm -f $T/corsair_event $T/corsair_near $T/corsair_goto"
+    finish; exit 0
+  fi
   if [ "$STAGE" = V51T ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
     put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
