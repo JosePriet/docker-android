@@ -639,7 +639,7 @@ public class ModQol {
                 readCount = inbox.size();
                 saveInbox();
             }
-            new AlertDialog.Builder(a).setTitle(ModLang.tr("Inbox")).setMessage(sb.toString()).setPositiveButton("OK", null).show();
+            new AlertDialog.Builder(a).setTitle(ModLang.tr("Inbox")).setMessage(sb.toString()).setPositiveButton(ModLang.tr("OK"), null).show();
         } catch (Exception e) {
             // ignore
         }
@@ -735,7 +735,7 @@ public class ModQol {
             if (text == null) {
                 // every sector of the galaxy map, every frame: built and measured once
                 StringBuilder s = new StringBuilder();
-                if (id != LevelId.GALACTIC_ARENA && id != LevelId.FFA_THE_PLAYER_PAY) s.append(id.levelMin == id.levelMax ? "Lv " + id.levelMin : "Lv " + id.levelMin + "-" + id.levelMax);
+                if (id != LevelId.GALACTIC_ARENA && id != LevelId.FFA_THE_PLAYER_PAY) s.append(ModLang.tr("Lv") + " " + (id.levelMin == id.levelMax ? "" + id.levelMin : id.levelMin + "-" + id.levelMax));
                 for (LevelId sh : SHOPS) if (sh == id) { s.append(ModLang.tr("  $ shop")); break; }
                 text = s.toString();
                 mapHalf[o] = GameRenderer.glTextNormalPlus.getLength(text) / 2.0f;

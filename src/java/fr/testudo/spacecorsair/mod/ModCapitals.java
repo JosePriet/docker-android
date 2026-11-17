@@ -255,7 +255,7 @@ public final class ModCapitals {
         silenceStock(g);                            // v33: the drawn turrets fire instead (guns)
         c.shot = dmg * ModV34.curve(lvl) * DMG_MULT;   // v42: v34 level curve; v43a-6 (owner 11-14: L40 maxed titans lost <10% hull) x DMG_MULT
         c.lvl = lvl;
-        g.specificName = f.name + " flagship: " + f.ship;
+        g.specificName = ModLang.fmt("{0} flagship: {1}", ModLang.tr(f.name), ModLang.tr(f.ship));   // re-trace C4
         g.specificNameDecalX = -1;
         g.radarPointSize = 12.0f;
         g.radarColorR = f.r;

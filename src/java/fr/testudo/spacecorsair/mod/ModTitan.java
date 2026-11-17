@@ -54,6 +54,8 @@ public final class ModTitan {
     public static final float SHOT_DAMAGE = 2.5f, SHOT_RELOAD = 1.55f;
     /** Siege missiles (not the dev hull): damage, blast radius and reload multipliers. */
     public static final float MISSILE_DAMAGE = 1.9f, MISSILE_RANGE = 1.55f, MISSILE_RELOAD = 1.6f;
+    /** Doomsday lance: beam width as a share of the titan's width, and how fast the titan turns while it fires (deg/s). */
+    static final float BEAM_WIDTH = 0.6f, LANCE_TURN_DPS = 5.0f;
     public static final float BLAST = 350.0f;
 
     /** From ModShips.apply after the hull multipliers. */
@@ -499,7 +501,7 @@ public final class ModTitan {
         float d = desiredSpin - lockSpin;
         while (d > 180) d -= 360;
         while (d < -180) d += 360;
-        float step = 5.0f * j / 1000f;
+        float step = LANCE_TURN_DPS * j / 1000f;
         lockSpin = Element.normalizeSpin(lockSpin + Math.max(-step, Math.min(step, d)));
     }
 
@@ -551,7 +553,7 @@ public final class ModTitan {
         float sz = ps.shipSpec.drawableSize;
         ModCaps.Profile p = ModCaps.profile(ps);
         float w = p.data >= 0 ? (ModFxData.NAV[p.data][2] - ModFxData.NAV[p.data][0]) * sz : sz * 0.4f;
-        return Math.max(sz * 0.2f, w * 0.6f);
+        return Math.max(sz * 0.2f, w * BEAM_WIDTH);
     }
 
     /** Titan-class targets (mission bosses, faction capitals) tank doomsdays: each tick takes a small slice of their hull. */
@@ -831,19 +833,39 @@ public final class ModTitan {
 
     // ------------------------------------------------------------------ descriptions
     /** Audit B11 (owner 2026-11-17): the Leviathan skill text is built from the code's own numbers, EN and ES. */
-    public static String leviathanSkill() {
-        String d = ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): immobilizes the titan and disables its weapons for a {0} s charge, then fires a {1} s lance ({2} range, {3}% of hull width) that destroys everything in its path, taking up to {4}% of a titan's hull and {5}% of a capital's, flagship's or mission boss's hull per shot (ignores resistances), and {6} damage per second to any other ship. While firing, turn speed is limited to 5 deg/s; afterward, movement resumes, but weapons stay offline for {7} s while the titan vents. Cooldown: {8} s.");
-        d = fill(d, sec(ModLevDoom.CHARGE_MS), sec(ModLevDoom.FIRE_MS), String.valueOf(Math.round(REACH[LEVIATHAN])), "60",
+    public static String leviathanSkill(ModShips.Hull h) {
+        // re-trace B11: the titan's own passive line comes first, as before the audit fix (numbers from the hull and weapon code)
+        String ti = ModLang.tr("<b>Titan</b>: +{0}% laser damage, +{1}% shield capacity, heavy turrets ({2}x damage per shot), {3} siege-missile tubes ({4}x damage, {5}% wider blast, slower reload).");
+        ti = fill(ti, String.valueOf(Math.round((h.dmg - 1) * 100)), String.valueOf(Math.round((h.shieldCap - 1) * 100)), dec(SHOT_DAMAGE),
+            String.valueOf(h.spec == null ? 4 : h.spec.missileCount), dec(MISSILE_DAMAGE), String.valueOf(Math.round((MISSILE_RANGE - 1) * 100)));
+        String d = ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): immobilizes the titan and disables its weapons for a {0} s charge, then fires a {1} s lance ({2} range, {3}% of hull width) that destroys everything in its path, taking up to {4}% of a titan's hull and {5}% of a capital's, flagship's or mission boss's hull per shot (ignores resistances), and {6} damage per second to any other ship. While firing, turn speed is limited to {7} deg/s; afterward, movement resumes, but weapons stay offline for {8} s while the titan vents. Cooldown: {9} s.");
+        d = fill(d, sec(ModLevDoom.CHARGE_MS), sec(ModLevDoom.FIRE_MS), big(Math.round(REACH[LEVIATHAN])), String.valueOf(Math.round(BEAM_WIDTH * 100)),
             String.valueOf(Math.round(DOOM_TITAN_PCT * 100)), String.valueOf(Math.round(DOOM_BIG_PCT * 100)),
-            String.format(java.util.Locale.US, "%,d", Math.round(DOOM_FIXED_PER_S)), sec(ModLevDoom.OVER_MS), String.valueOf(COOL_MS[LEVIATHAN] / 1000));
+            big(Math.round(DOOM_FIXED_PER_S)), dec(LANCE_TURN_DPS), sec(ModLevDoom.OVER_MS), String.valueOf(COOL_MS[LEVIATHAN] / 1000));
         String an = ModLang.tr("<b>Anchor Stance</b> (passive): after {0} s at a complete stop, the titan anchors and raises a hex shield wall across its bow, blocking enemy shots and protecting ships behind it. The wall has a separate shield ({1}% of the equipped shield's capacity, takes {2}% less damage) that recharges in {3} s only while the wall is down; hold the stick for {4} s to lift the anchor, and the wall folds {5} s later.");
         an = fill(an, sec(ModAnchor.STILL_MS), String.valueOf(Math.round(ModAnchor.CAP_MUL * 100)), String.valueOf(Math.round((1 - ModAnchor.TAKEN) * 100)),
             String.valueOf(ModAnchor.REGEN_MS / 1000), sec(ModAnchor.TRY_MS), sec(ModAnchor.HOLD_MS));
-        return d + "<br>" + an + " " + ModLang.tr("Needs refit level 7+.");
+        return ti + "<br>" + d + "<br>" + an + " " + fill(ModLang.tr("Needs refit level {0}+."), String.valueOf(ModAnchor.MIN_STAGE * 2 - 1));
+    }
+
+    /** Numbers in the player's language: 5.4 / 100,000 in English, 5,4 / 100.000 in Spanish. */
+    private static java.util.Locale loc() {
+        return ModLang.spanish() ? new java.util.Locale("es", "ES") : java.util.Locale.US;
+    }
+
+    private static String dec(float v) {
+        return v == Math.round(v) ? String.valueOf(Math.round(v)) : String.format(loc(), "%.1f", v);
+    }
+
+    private static String big(long v) {
+        java.text.DecimalFormat f = (java.text.DecimalFormat) java.text.NumberFormat.getIntegerInstance(loc());
+        f.setGroupingUsed(true);
+        if (ModLang.spanish()) { java.text.DecimalFormatSymbols y = f.getDecimalFormatSymbols(); y.setGroupingSeparator('.'); f.setDecimalFormatSymbols(y); }
+        return f.format(v);
     }
 
     private static String sec(long ms) {
-        return ms % 1000 == 0 ? String.valueOf(ms / 1000) : String.format(java.util.Locale.US, "%.1f", ms / 1000f);
+        return ms % 1000 == 0 ? String.valueOf(ms / 1000) : String.format(loc(), "%.1f", ms / 1000f);
     }
 
     private static String fill(String t, String... v) {
