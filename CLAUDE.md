@@ -7,12 +7,22 @@ Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and mer
 - `work/modart/`: shipped art, lossless WebP only (`scripts/losslessify.py`). Never downscale or lossily compress art.
 - `i18n/`: Spanish (`i18n/lang/build_es_json.py` rebuilds `es_full.json`). New player-facing text needs EN and ES.
 - `incoming/`: ChatGPT art and data not yet integrated. `emulator-tests/`: CI test flow (branch `emulator-tests`).
-- Signing key: `work/key.p12` (not in git; the owner provides it; password `android`).
+- Signing key: `work/key.p12` (not in git; the owner does not keep a copy; one is at `/mnt/project-files/space-corsair/keys/key.p12`; password `android`).
+- `server/rendezvous/`: internet lobby service (Cloudflare Worker + Durable Object, live at sc-rendezvous.spacecs-coop.workers.dev). Tests: `node test/registry.test.mjs` (REGISTRY OK). Deploying it changes production: owner's word first. Credentials only in `/mnt/project-files/space-corsair/keys/` (never in git).
+- `work/smali/fr/testudo/spacecorsair/mod/`: the built mod smali is committed with each build.
+
+## Branches and versions (updated 2026-11-17, audit I1/I5)
+- `sc-mod-workspace`: the work branch; every update branches from it and merges back after the owner's OK. Released: v44 (build 51).
+- In progress: v45 (build 52) on `claude/project-thread-fuw6ke`: internet play + the whole-game audit fixes; not merged, not released.
+- `releases`: GitHub Release workflow (`.github/workflows/release.yml`); bump `release/VERSION` or nothing publishes. Links: releases/download/<ver>/space-corsair-mod.apk.
+- `emulator-tests` / `emulator-results`: CI emulator flow (also the two-runner internet check, `tests/netcloud/`).
+- `claude/project-thread-qs9twg`: titan damage-test harness; not merged by design (test code only).
+- `master`: unused, 52 commits apart from `sc-mod-workspace`; nothing deleted (owner 2026-11-17).
 
 ## Commands
-- Build + checks: `bash scripts/check.sh <version>` (e.g. 32). Runs `build.sh`: javac, dex, smali, JVM `-Xverify:all` tests (V17, V30), Spanish locale, version stamp, signing. Prints PASS/FAIL; full log in `out/build-v<version>.log`; the exit code is preserved.
+- Build + checks: `MODVER_NAME=v45 bash scripts/check.sh 52` (build number, shown name). Runs `build.sh`: javac, dex, smali, JVM `-Xverify:all` tests (V17, V30, V34, V35, V37W, V42, V44S, V49 ...), Spanish locale, version stamp, signing. Prints PASS/FAIL; full log in `out/build-v<version>.log`; the exit code is preserved.
 - Emulator test: copy the APK to `tests/apks/space-corsair.apk` on branch `emulator-tests`, set the matrix tag, push; results land on branch `emulator-results`. Free-tier minutes: batch fixes, one run per update.
-- Release: `scripts/release.sh v<version> <apk> "<notes>"` (needs a worktree of branch `releases`).
+- Release: `scripts/release.sh v<version> <apk> "<notes>"` (needs a worktree of branch `releases`), then bump `release/VERSION` so the workflow publishes. Only with the owner's word.
 
 ## Working rules
 - Start with the files relevant to the task; search for symbols or filenames before reading large files; widen only when needed or asked.

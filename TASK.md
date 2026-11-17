@@ -10,6 +10,17 @@ Acceptance criteria
   verifier + cross-check subagents; audit thread told; ONE emulator run on the final build, including a clip of a
   flagship's turrets (item 59). No merge or release without the owner's word.
 
+Status 2026-11-17: all 66 rows handled on claude/project-thread-fuw6ke (check.sh 52 PASS); list in the changes file.
+
+---
+
+# v45 internet multiplayer (owner 2026-11-16, branch claude/project-thread-fuw6ke, build 52)
+Spec: `/mnt/project-files/space-corsair/internet-mp/SPEC-FINAL.md` (wins over RESEARCH-AND-PLAN.md).
+Code: `ModLan` (transport, small stream, host checks), `ModLanCheck` (anti-cheat vs game tables), `ModLobby` (lobby service client,
+STUN, relay), `ModLanUi` (lobby menu, flags, chat), `ModNet`; service `server/rendezvous/` (live; deploy needs the owner's word).
+Changes: `/mnt/project-files/audits/v45-multiplayer-changes.md`. Final test build f57e818 + audit fixes. Cloud check: `tests/netcloud/`.
+Pending: owner two-phone test (wifi + mobile data: private code, public game, Hide my IP), merge to sc-mod-workspace, release.
+
 ---
 
 # v49 LAN co-op + PvP duel (owner 2026-11-15 23:35 UTC, branch claude/project-thread-1oz5kt)
