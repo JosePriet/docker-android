@@ -34,9 +34,44 @@ public class NetCloud {
             if (ip == null) return s + " no IPv4";
             ModNet.Turn t = new ModNet.Turn(new ModNet.Wire(0), new java.net.InetSocketAddress(ip, Integer.parseInt(r.get("port"))), r.get("user"), r.get("pass"));
             try { t.allocate(); return s + " allocate OK " + ModNet.show(t.relayed); }
-            catch (Throwable e) { return s + " allocate " + e.getMessage(); }
+            catch (Throwable e) { return s + " allocate " + e.getMessage() + " | raw: " + raw(new java.net.InetSocketAddress(ip, Integer.parseInt(r.get("port"))), r.get("user"), r.get("pass")); }
         }
         catch (Throwable t) { return "error " + t; }
+    }
+
+    /** Raw Allocate exchange: each answer's class, error code and reason phrase (no credentials printed). */
+    static String raw(java.net.InetSocketAddress srv, String user, String pass) {
+        StringBuilder b = new StringBuilder("user.len=" + (user == null ? -1 : user.length()) + " pass.len=" + (pass == null ? -1 : pass.length()));
+        try (java.net.DatagramSocket ds = new java.net.DatagramSocket()) {
+            ds.setSoTimeout(3000);
+            String realm = null, nonce = null;
+            for (int round = 0; round < 2; round++) {
+                java.util.ArrayList<byte[]> at = new java.util.ArrayList<byte[]>();
+                at.add(ModNet.attr(0x0019, new byte[]{17, 0, 0, 0}));
+                byte[] m;
+                if (realm != null) {
+                    at.add(ModNet.attr(0x0006, user.getBytes("UTF-8")));
+                    at.add(ModNet.attr(0x0014, realm.getBytes("UTF-8")));
+                    at.add(ModNet.attr(0x0015, nonce.getBytes("UTF-8")));
+                    byte[] key = java.security.MessageDigest.getInstance("MD5").digest((user + ":" + realm + ":" + pass).getBytes("UTF-8"));
+                    m = ModNet.withIntegrity(ModNet.stunMsg(0x0003, ModNet.txid(), at.toArray(new byte[0][])), key);
+                } else m = ModNet.stunMsg(0x0003, ModNet.txid(), at.toArray(new byte[0][]));
+                ds.send(new java.net.DatagramPacket(m, m.length, srv));
+                byte[] buf = new byte[2048];
+                java.net.DatagramPacket p = new java.net.DatagramPacket(buf, buf.length);
+                ds.receive(p);
+                java.util.HashMap<Integer, byte[]> a = ModNet.attrs(buf, p.getLength());
+                int rt = ((buf[0] & 255) << 8) | (buf[1] & 255);
+                byte[] ec = a.get(0x0009);
+                b.append(" | round").append(round).append(" type=0x").append(Integer.toHexString(rt));
+                if (ec != null && ec.length >= 4) b.append(" err=").append((ec[2] & 7) * 100 + (ec[3] & 255)).append(" '").append(new String(ec, 4, ec.length - 4, "UTF-8").trim()).append("'");
+                if (a.get(0x8022) != null) b.append(" sw='").append(new String(a.get(0x8022), "UTF-8")).append("'");
+                if (a.get(0x0014) != null) { realm = new String(a.get(0x0014), "UTF-8"); b.append(" realm=").append(realm); }
+                if (a.get(0x0015) != null) nonce = new String(a.get(0x0015), "UTF-8");
+                if (realm == null || nonce == null || (rt & 0x0110) == 0x0100) break;
+            }
+        } catch (Throwable t) { b.append(" error ").append(t); }
+        return b.toString();
     }
 
     static void set(Class<?> c, String f, Object v) throws Exception { Field x = c.getDeclaredField(f); x.setAccessible(true); x.set(null, v); }
