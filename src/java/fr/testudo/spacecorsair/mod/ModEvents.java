@@ -73,6 +73,7 @@ public final class ModEvents {
         if (ps == null || here == null || !enabled() || ModCalm.active() || ModPrologue.active) return;
         long now = ModSector.play();
         if (nextAt < 0) nextAt = now + FIRST_MS;
+        testForce(ps, here);
         try {
             switch (kind) {
                 case NONE:
@@ -84,8 +85,36 @@ public final class ModEvents {
                 default: break;
             }
         } catch (Throwable t) {
-            end(null);
+            ModDev.ev("event", "error " + t);
+            end("error");
         }
+    }
+
+    // ------------------------------------------------------------------ emulator switch
+    private static long testAt;
+    private static String testLast;
+
+    /** Emulator only: /data/local/tmp/corsair_event = distress|bounty|salvage[N] starts that event now (new value = new start). */
+    private static void testForce(PlayerShip ps, LevelId here) {
+        long t = System.currentTimeMillis();
+        if (t - testAt < 2000 || !ModDev.testFlag("corsair_nodialog")) return;
+        testAt = t;
+        String v = ModDev.testValue("corsair_event");
+        if (v == null || v.equals(testLast)) return;
+        testLast = v;
+        if (kind != NONE) end("test");
+        Vector2 field = ModSector.poiAt(ModSector.WRECKS);
+        if (v.startsWith("distress")) startDistress(ps, here);
+        else if (v.startsWith("bounty")) startBounty(ps, here);
+        else if (v.startsWith("salvage") && field != null) startSalvage(ps, field);
+        ModDev.ev("event", "test start " + v + " kind=" + kind + " target=" + testTarget());
+    }
+
+    /** Emulator: where the running event happens (ModDev corsair_near=event). */
+    static Vector2 testTarget() {
+        if (kind == DISTRESS && victim != null) return victim.position;
+        if (kind == BOUNTY && wanted != null) return wanted.position;
+        return target;
     }
 
     // ------------------------------------------------------------------ start
@@ -188,7 +217,7 @@ public final class ModEvents {
         for (int i = hostiles.size() - 1; i >= 0; i--) if (dead(hostiles.get(i))) hostiles.remove(i);
         if (dead(victim)) {
             ModQol.post(ModLang.tr("The freighter was lost."));
-            end(null);
+            end("lost");
             return;
         }
         if (hold != null) victim.position.setSameAs(hold);
@@ -205,7 +234,7 @@ public final class ModEvents {
         if (hostiles.isEmpty() && !engaged) {   // cross-check: raiders gone without a fight (despawn) = no payout
             ModQol.post(ModLang.tr("The raiders broke off."));
             victim.setActivity(new CivilActivity[] {CivilActivity.newMooveNextPortal(), CivilActivity.newDiseapear()});
-            end(null);
+            end("brokeoff");
             return;
         }
         if (hostiles.isEmpty()) {
@@ -215,7 +244,7 @@ public final class ModEvents {
             int owner = ModSector.baseFaction(ObjectRegistry.INSTANCE.game.currentLevel.id);
             if (owner >= 0) ModRep.change(ModCapitals.FACTIONS[owner].key, DISTRESS_STANDING, false);
             ModQol.post(ModLang.tr("Freighter saved. The crew sends their thanks."));
-            end(null);
+            end("saved pay=" + pay);
         }
     }
 
@@ -226,13 +255,13 @@ public final class ModEvents {
                 ModQol.addCredits(pay, wanted);
                 ModQol.post(ModLang.tr("Bounty collected."));
             }
-            end(null);
+            end("bountydead");
             return;
         }
         if (now >= endsAt + 60000 || (now >= endsAt && wanted.position.distance(ps.position) > 2000)) {   // verifier 2: hard stop 1 min after time-up
             ModQol.post(wanted.specificName + ModLang.tr(" jumped out of the sector."));
             wanted.removed = true;
-            end(null);
+            end("jumped");
         }
     }
 
@@ -241,16 +270,17 @@ public final class ModEvents {
         if (ps.position.distance(target) < SALVAGE_REACH) {
             salvageDouble = true;
             ModQol.post(ModLang.tr("You reached the wreck field first. Its salvage is yours, twice over."));
-            end(null);
+            end("salvagewon");
         } else if (rivalLeft <= SALVAGE_REACH || now >= endsAt) {
             ModSector.stripField();
             fieldStripped = true;
             ModQol.post(ModLang.tr("The scavengers stripped the wreck field."));
-            end(null);
+            end("salvagelost");
         }
     }
 
     private static void end(String why) {
+        if (kind != NONE) ModDev.ev("event", "end kind=" + kind + " why=" + why);
         if (kind != NONE) nextAt = ModSector.play() + GAP_MIN_MS + (long) (Math.random() * (GAP_MAX_MS - GAP_MIN_MS));   // gap runs from the end
         kind = NONE;
         victim = null;

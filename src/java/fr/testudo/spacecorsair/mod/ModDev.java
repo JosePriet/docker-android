@@ -435,8 +435,10 @@ public final class ModDev {
             else if (n.startsWith("station")) { fr.testudo.spacecorsair.business.world.station.Station st = ModPlace.farthestStation(ps.position, null); if (st != null) to = st.position; }
             else if (n.startsWith("boss")) { for (Element e : lvl.elements) if (!e.removed && ModBoss.isBoss(e)) { to = e.position; break; } }
             else if (n.startsWith("flagship")) for (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip c : ModCapitals.caps.keySet()) if (!c.removed) { to = c.position; break; }
+            float off = 1200;
+            if (n.startsWith("event")) { to = ModEvents.testTarget(); off = 300; }   // PROTOTYPE events test
             android.util.Log.i("ModDev", "near " + n + (to != null ? " ok" : " none"));
-            if (to != null) { ps.position.set(to.x + 1200, to.y); ps.speed.set(0, 0); }
+            if (to != null) { ps.position.set(to.x + off, to.y); ps.speed.set(0, 0); }
         }
         boolean dk = testFlag("corsair_dock");
         if (dk && !t37Dock) {

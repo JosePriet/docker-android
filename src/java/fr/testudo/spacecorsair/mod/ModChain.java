@@ -35,6 +35,7 @@ public final class ModChain {
             long now = ModSector.play();
             links = lastAt >= 0 && now - lastAt <= CHAIN_MS ? links + 1 : 1;
             lastAt = now;
+            ModDev.ev("chain", "links=" + links + " factor=" + factor(links));
             if (links >= 2) {
                 float f = factor(links);
                 Mod.floatText(ObjectRegistry.INSTANCE.playerShip, ModLang.tr("CHAIN x") + links + "  +" + Math.round((f - 1f) * 100) + "%", 1.0f, 0.85f, 0.3f);

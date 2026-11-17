@@ -93,7 +93,7 @@
 
     if-nez v1, :cond_9
 
-    .line 44
+    .line 45
     :goto_8
     return v0
 
@@ -111,7 +111,7 @@
 
     cmp-long v1, v4, v6
 
-    if-ltz v1, :cond_79
+    if-ltz v1, :cond_a4
 
     sget-wide v4, Lfr/testudo/spacecorsair/mod/ModChain;->lastAt:J
 
@@ -121,7 +121,7 @@
 
     cmp-long v1, v4, v6
 
-    if-gtz v1, :cond_79
+    if-gtz v1, :cond_a4
 
     sget v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
@@ -134,20 +134,61 @@
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModChain;->lastAt:J
 
     .line 38
+    const-string v1, "chain"
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "links="
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    sget v3, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const-string v3, " factor="
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    sget v3, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
+
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModChain;->factor(I)F
+
+    move-result v3
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(F)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-static {v1, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 39
     sget v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
     const/4 v2, 0x2
 
-    if-lt v1, v2, :cond_72
+    if-lt v1, v2, :cond_9c
 
-    .line 39
+    .line 40
     sget v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModChain;->factor(I)F
 
     move-result v1
 
-    .line 40
+    .line 41
     sget-object v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v2, v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
@@ -210,27 +251,27 @@
 
     invoke-static {v2, v1, v3, v4, v5}, Lfr/testudo/spacecorsair/mod/Mod;->floatText(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    .line 42
-    :cond_72
+    .line 43
+    :cond_9c
     sget v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModChain;->factor(I)F
-    :try_end_77
-    .catch Ljava/lang/Throwable; {:try_start_9 .. :try_end_77} :catch_7b
+    :try_end_a1
+    .catch Ljava/lang/Throwable; {:try_start_9 .. :try_end_a1} :catch_a7
 
     move-result v0
 
-    goto :goto_8
+    goto/16 :goto_8
 
     .line 36
-    :cond_79
+    :cond_a4
     const/4 v1, 0x1
 
-    goto :goto_23
+    goto/16 :goto_23
 
-    .line 43
-    :catch_7b
+    .line 44
+    :catch_a7
     move-exception v1
 
-    goto :goto_8
+    goto/16 :goto_8
 .end method
