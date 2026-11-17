@@ -1798,9 +1798,11 @@ public final class ModLan {
             for (Element e : lv.elements) {
                 if (!(e instanceof Ennemis) || e.removed || e == p || Mod.isDrone(e)) continue;
                 Ennemis en = (Ennemis) e;
-                if (en.attackTarget != ps) continue;
+                if (en.attackTarget != ps && en.attackTarget != p) continue;   // only enemies already after a player
+                // audit F11 (owner 2026-11-17): each enemy attacks the closest player
                 float dp = e.position.distance(p.position), dh = e.position.distance(ps.position);
-                if (dp < 2500 && dp < dh && Math.random() < 0.6) en.initAttackTarget(p);
+                Element want = dp < dh ? p : ps;
+                if (en.attackTarget != want) en.initAttackTarget(want);
             }
         }
     }
@@ -2518,6 +2520,7 @@ public final class ModLan {
             hostWins++;
             round++;
             restore = true;
+            if (proxy != null) explode(proxy.position.x, proxy.position.y);   // audit F11: the loser's ship blows up
             roundText(ps, true);
         }
         if (lostRound) {   // the host's hull hit its floor: guest wins the round
@@ -2526,6 +2529,8 @@ public final class ModLan {
             guestWins++;
             round++;
             restore = true;
+            explode(ps.position.x, ps.position.y);
+            if (proxy != null) respawnApart(ps, proxy.position.x, proxy.position.y);
             roundText(ps, false);
         }
         if (restore) { restore = false; refill(ps); }
@@ -2551,7 +2556,11 @@ public final class ModLan {
         if (!pvp) { seenRound = f.round; return; }
         if (lostRound) {   // once per round: further hits at the floor before the host's next round count nothing
             lostRound = false;
-            if (defeatRound != seenRound) { defeatRound = seenRound; defeats++; }
+            if (defeatRound != seenRound) {
+                defeatRound = seenRound; defeats++;
+                explode(ps.position.x, ps.position.y);   // audit F11: destroyed, back at full hull away from the host
+                respawnApart(ps, f.hx, f.hy);
+            }
             refill(ps);
         }
         if (f.round != seenRound) {
@@ -2560,6 +2569,7 @@ public final class ModLan {
             seenRound = f.round;
             hostWins = f.hostWins; guestWins = f.guestWins;
             refill(ps);
+            if (!first && won) explode(f.hx, f.hy);   // the host's ship blew up
             if (!first) roundText(ps, won);
         }
     }
@@ -2571,6 +2581,26 @@ public final class ModLan {
         ModDev.ev("lan", "duel round " + (won ? "won" : "lost") + " " + mine + "-" + theirs);
     }
 
+    /** Audit F11: the destroyed duel ship's explosion (fireball and the game's explosion sound). */
+    private static void explode(float x, float y) {
+        try {
+            ModFx.boom(x, y, 480, 900, 1.0f, 0.8f, 0.6f);
+            ObjectRegistry.INSTANCE.soundManager.playRandomExplode();
+        } catch (Throwable t) {
+            // no effect
+        }
+    }
+
+    /** Audit F11: the loser comes back at the duel's starting distance (2400) from the winner, standing still. */
+    private static void respawnApart(PlayerShip ps, float ox, float oy) {
+        float dx = ps.position.x - ox, dy = ps.position.y - oy;
+        float d = (float) Math.hypot(dx, dy);
+        if (d < 1) { dx = 1; dy = 0; d = 1; }
+        ps.position.set(ox + dx / d * 2400, oy + dy / d * 2400);
+        ps.speed.set(0, 0);
+        ps.updateSapCoords();
+    }
+
     private static void refill(PlayerShip ps) {
         ps.life = ps.maxLife;
         ps.lifeInPourc = 100.0f;
@@ -2578,7 +2608,8 @@ public final class ModLan {
 
     /**
      * ModPrologue.damage (start of PlayerShip.applyDamage, before shields): in a duel the hull stops at 1; reaching it
-     * loses the round instead of the ship (no death, no death fee, no respawn).
+     * loses the round. Audit F11 (owner 2026-11-17): the ship then explodes and respawns at full hull, away from the
+     * winner, with no death fee or loss (the game's own death never runs).
      */
     static float duelFloor(PlayerShip ps, float amount) {
         if (!pvp || !connected || ps == null || amount <= 0 || !inBay()) return amount;
