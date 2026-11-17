@@ -234,7 +234,18 @@ elif [ $GAME = sc ]; then
     log "EVIDENCE guest declared: $(grep -E "guest declared" $LG | tail -3 | sed 's/^.*): //' | tr '\n' ' ')"
     a shell "rm -f $T/corsair_spawn"; timeout 10 adb forward --remove tcp:37001
     put corsair_lan off; sleep 3; a shell "rm -f $T/corsair_lean"
-    grep -E "ModTest.*: lan|ModTest.*: lobby|ModTest.*: save|FATAL|AndroidRuntime|OutOfMemory" $LG > $OUT/v50l_events.txt
+    # v45 audit F14 (item 59): station turrets fire at a hostile flagship; screen recording as evidence
+    rec() { timeout 200 adb shell screenrecord --time-limit $2 --bit-rate 12000000 /sdcard/$1.mp4 >/dev/null 2>&1 & }
+    put corsair_near station; sleep 4; shot turret_station
+    for C in reaver kretari; do
+      put corsair_capital $C; sleep 3
+      rec turrets_$C 30; for k in 1 2 3; do sleep 9; shot turrets_${C}_$k; done; sleep 6
+      timeout 60 adb pull /sdcard/turrets_$C.mp4 $OUT/turrets_$C.mp4 >/dev/null 2>&1; log "pulled turrets_$C: $(stat -c %s $OUT/turrets_$C.mp4 2>/dev/null)"
+      grep -q "ModStationGuns.*fire at GuardianCivilShip" $LG && break
+    done
+    log "EVIDENCE station vs flagship: $(grep -E "ModStationGuns.*fire at|ModDev.*near station|ModTitanAI" $LG | tail -8 | sed 's/^.*): //' | tr '\n' ' ')"
+    a shell "rm -f $T/corsair_capital $T/corsair_near"
+    grep -E "ModTest.*: lan|ModTest.*: lobby|ModTest.*: save|FATAL|AndroidRuntime|OutOfMemory|ModStationGuns" $LG > $OUT/v50l_events.txt
     rm -f $OUT/host_stream.bin
     a shell "rm -f $T/corsair_lan"
     finish; exit 0
