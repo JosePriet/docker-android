@@ -80,7 +80,7 @@ public class ModQol {
         optDmg = p.getBoolean("damageNumbers", true);
         optBig = p.getBoolean("bigButtons", false);
         optThreat = p.getBoolean("threatReadout", false);
-        optEdge = p.getBoolean("radarEdge", false);   // QoL prototype P4 (default off)   // QoL prototype P3 (default off)
+        optEdge = p.getBoolean("radarEdge", false);   // QoL prototype P4 (default off)
         optShake = p.getFloat("shake", 0.6f);
         loadInbox(p);
         // audit C7 (owner 2026-11-17): a new pilot gets one summary post instead of the old changelog posts;
