@@ -368,6 +368,7 @@ public class ModV34 {
         float k = TIER_F[to] / TIER_F[from];
         if (k == 1.0f) return;
         e.bulletDamage *= k;
+        gunsMul(e, k);
         e.milleSecBetweenShots = (long) (e.milleSecBetweenShots / k);
         if (e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) {
             fr.testudo.spacecorsair.business.player.Shield sh = ((fr.testudo.spacecorsair.business.ennemis.FrelonShip) e).shield;
@@ -409,7 +410,8 @@ public class ModV34 {
             e.life = e.maxLife;
             e.xp = Math.round(e.xp * curve(lv));   // XP keeps pace with the +5% per level XP table
             e.bulletDamage *= c;
-            try { e.bulletDamage *= dmgClass(ModV35.enemyClass(e)); } catch (Throwable th2) { /* class unknown: x1 */ }   // v42 class split
+            gunsMul(e, c);   // audit F16: turret cannons follow the curve too
+            try { float dc = dmgClass(ModV35.enemyClass(e)); e.bulletDamage *= dc; gunsMul(e, dc); } catch (Throwable th2) { /* class unknown: x1 */ }   // v42 class split
             if (e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) {
                 fr.testudo.spacecorsair.business.player.Shield sh = ((fr.testudo.spacecorsair.business.ennemis.FrelonShip) e).shield;
                 if (sh != null) { sh.capacity *= c; sh.currentValue = sh.capacity; }
@@ -417,6 +419,7 @@ public class ModV34 {
             retier(e, 1, t);
             stockLvOf.put(e, stockLv);
             giveShield(e, stockLv, lv);   // v37: battlecruisers and up carry a shield
+            syncBeam(e);   // audit F16: the UFO / Blatte beam copied the raw row before this hook
         } catch (Throwable th) {
             // stock stats
         }
@@ -518,6 +521,89 @@ public class ModV34 {
     }
 
     /** Smali hook at the end of Ennemis.setElite: hull x2.5, damage x1.5, +1 tier, +150 pilot stats (once per spawn). */
+    // ------------------------------------------------------------------ audit F16 (owner 2026-11-17): every enemy stat follows the curve once
+    /** Turret cannons (EnnemisCanon) keep their own damage, copied from the raw stock row: they move with bulletDamage. */
+    static void gunsMul(Ennemis e, float k) {
+        if (k == 1.0f || e == null) return;
+        fr.testudo.spacecorsair.business.ennemis.EnnemisCanon[] cs = null;
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.Albatros) {
+            fr.testudo.spacecorsair.business.ennemis.Albatros a = (fr.testudo.spacecorsair.business.ennemis.Albatros) e;
+            cs = new fr.testudo.spacecorsair.business.ennemis.EnnemisCanon[] {a.canonCenter, a.canonProue, a.canonPoupe};
+        } else if (e instanceof fr.testudo.spacecorsair.business.ennemis.DefensorShip) {
+            cs = new fr.testudo.spacecorsair.business.ennemis.EnnemisCanon[] {((fr.testudo.spacecorsair.business.ennemis.DefensorShip) e).canonCenter};
+        }
+        if (cs == null) return;
+        for (fr.testudo.spacecorsair.business.ennemis.EnnemisCanon c : cs) if (c != null) c.shootDamage = Math.max(1, Math.round(c.shootDamage * k));
+    }
+
+    /** The UFO / Blatte beam (private fakeProjectile) carries bulletDamage, as the game's own setElite sets it. */
+    static void syncBeam(Ennemis e) {
+        try {
+            for (Class<?> k = e.getClass(); k != null && k != Ennemis.class; k = k.getSuperclass()) {
+                java.lang.reflect.Field f;
+                try { f = k.getDeclaredField("fakeProjectile"); } catch (NoSuchFieldException nf) { continue; }
+                f.setAccessible(true);
+                Object b = f.get(e);
+                if (b instanceof fr.testudo.spacecorsair.business.projectiles.LaserBeam) ((fr.testudo.spacecorsair.business.projectiles.LaserBeam) b).damage = e.bulletDamage;
+                return;
+            }
+        } catch (Throwable t) {
+            // keeps its beam
+        }
+    }
+
+    /** Elites whose stock setElite factors (applied after ModV34.elite) are still on them. */
+    private static final java.util.ArrayList<Ennemis> stockElite = new java.util.ArrayList<Ennemis>();
+
+    /** Stock setElite factors per type (smali): hull, damage, time between shots (1 = none). */
+    static float[] stockEliteFactors(Ennemis e) {
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.AlienBlatte) return new float[] {4.0f, 3.0f, 0.6f};
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.AlienRat) return new float[] {3.0f, 3.0f, 0.6f};
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.UfoAlienShip) return new float[] {3.0f, 2.0f, 0.6f};
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.AlienTourelle) return new float[] {3.0f, 1.3f, 0.3f};
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.FixedTourelle) return new float[] {3.0f, 1.3f, 0.3f};
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.RocketTourelle) return new float[] {3.0f, 1.0f, 0.8f};
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.Albatros) return new float[] {3.0f, 1.7f, 1.0f};
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.DefensorShip) return new float[] {3.0f, 1.7f, 1.0f};
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) return new float[] {3.0f, 1.5f, 0.8f};
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.TaupeShip) return new float[] {3.0f, 1.7f, 1.0f};
+        if (e instanceof fr.testudo.spacecorsair.business.ennemis.BasicEnnemyShip) return new float[] {4.0f, 1.3f, 1.0f};
+        return null;
+    }
+
+    /** ModCaps.tick: takes the game's own elite hull / damage / fire-rate / Frelon-shield factors back off, so an elite is
+     *  the mod's elite (hull x2.5, damage x1.5, +1 tier, class step) on the curve once. XP, speed and radar size stay. */
+    static void settleElites() {
+        Ennemis[] list;
+        synchronized (stockElite) {
+            if (stockElite.isEmpty()) return;
+            list = stockElite.toArray(new Ennemis[0]);
+            stockElite.clear();
+        }
+        for (Ennemis e : list) {
+            try {
+                float[] f = stockEliteFactors(e);
+                if (f == null || !e.elite) continue;
+                float frac = e.maxLife > 0 ? e.life / e.maxLife : 1;
+                e.maxLife /= f[0];
+                e.life = e.maxLife * frac;
+                e.bulletDamage /= f[1];
+                if (f[2] != 1.0f) e.milleSecBetweenShots = (long) (e.milleSecBetweenShots / f[2]);
+                if (e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) {
+                    fr.testudo.spacecorsair.business.player.Shield sh = ((fr.testudo.spacecorsair.business.ennemis.FrelonShip) e).shield;
+                    if (sh != null) { sh.capacity /= 2.0f; sh.currentValue = sh.capacity; }
+                }
+                if (e instanceof fr.testudo.spacecorsair.business.ennemis.DefensorShip) {   // its turret's burst gap x0.7
+                    fr.testudo.spacecorsair.business.ennemis.EnnemisCanon c = ((fr.testudo.spacecorsair.business.ennemis.DefensorShip) e).canonCenter;
+                    if (c != null) c.timeBewteenRafaleInMilli = Math.round(c.timeBewteenRafaleInMilli / 0.7f);
+                }
+                syncBeam(e);
+            } catch (Throwable t) {
+                // keeps the stacked factors
+            }
+        }
+    }
+
     public static void elite(Ennemis e) {
         try {
             int[] s = state.get(e);
@@ -528,6 +614,8 @@ public class ModV34 {
             e.maxLife *= 2.5f;
             e.life = e.maxLife;
             e.bulletDamage *= 1.5f;
+            gunsMul(e, 1.5f);
+            synchronized (stockElite) { stockElite.add(e); }   // audit F16: the game's own elite factors follow this call; undone next frame
             retier(e, s[0], t);
             // v37 (owner): an elite stock enemy is one class bigger: hull class step, and a shield from battlecruiser up
             int c = stockClass(e);
@@ -553,6 +641,7 @@ public class ModV34 {
             if (s != null && s.length > 2 && s[2] == 1) {   // undo the elite factors
                 e.maxLife /= 2.5f;
                 e.bulletDamage /= 1.5f;
+                gunsMul(e, 1 / 1.5f);
                 st -= 150;
                 // audit A2 (owner): boss = exactly x15; undo the elite class step and the elite shield
                 int c = stockClass(e);
@@ -567,6 +656,8 @@ public class ModV34 {
             e.maxLife *= 15f;
             e.life = e.maxLife;
             e.bulletDamage *= 2f;
+            gunsMul(e, 2f);
+            syncBeam(e);
             retier(e, t, 4);
         } catch (Throwable th) {
             // stock boss

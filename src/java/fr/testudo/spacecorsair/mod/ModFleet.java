@@ -142,6 +142,8 @@ public class ModFleet {
     static int classOf(String art) {
         if ("rv_warlord".equals(art)) return ModShips.BATTLECRUISER;
         if ("rv_dreadnought".equals(art)) return ModShips.BATTLESHIP;
+        if ("kt_battlecruiser".equals(art)) return ModShips.BATTLECRUISER;   // audit F16: off the raw Albatros row too
+        if ("kt_battleship".equals(art)) return ModShips.BATTLESHIP;
         return -1;
     }
 
@@ -179,18 +181,22 @@ public class ModFleet {
         e.life = e.maxLife;
         e.lifeInPourc = 100.0f;
         e.bulletDamage *= t.dmg;
+        ModV34.gunsMul(e, t.dmg);   // audit F16: turret cannons too
         e.xp = (int) (e.xp * t.hp);
         e.specificName = t.name;
         if (cls >= 0) {   // v43a-3: scale() ran before the name was set: redo the class damage split and the big-ship shield
             try {
                 float sz = e.getPhysicDimension().x / 0.7f;
                 int sc = sz <= 100 ? ModShips.FRIGATE : sz <= 200 ? ModShips.DESTROYER : sz <= 320 ? ModShips.CRUISER : sz <= 420 ? ModShips.BATTLECRUISER : sz <= 600 ? ModShips.BATTLESHIP : ModShips.CAPITAL;
-                e.bulletDamage *= ModV34.dmgClass(cls) / ModV34.dmgClass(sc);
+                float dk = ModV34.dmgClass(cls) / ModV34.dmgClass(sc);
+                e.bulletDamage *= dk;
+                ModV34.gunsMul(e, dk);
                 ModV34.giveShield(e, clampLvl(EnnemisSpecByLevel.albatrosSpec, lvl), e.getLevel());
             } catch (Throwable th) { /* keep */ }
         }
         e.specificNameDecalX = -1;
         if (e.lifeBar != null) e.lifeBar.setValue(100.0f);
+        ModV34.syncBeam(e);   // audit F16: beam ships carry their scaled damage
         return e;
     }
 

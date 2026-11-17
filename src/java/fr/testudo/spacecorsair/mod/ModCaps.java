@@ -142,6 +142,7 @@ public final class ModCaps {
         ModV35.prices();   // v35 (v34 req 12): stock gear priced by rarity
         try { ModWarpOut.tick(); } catch (Throwable t) { /* audit A4/B4 */ }
         ModGameQueue.drain();   // audit B2: refit purchase and gift redeem
+        ModV34.settleElites();  // audit F16: the game's own elite factors come back off
         // audit B7/B13: player death empties the drone bay; respawn resets the alert sounds
         boolean deadNow = ps == null || ps.removed || ps.life <= 0;
         if (deadNow && !deadSeen) { deadSeen = true; Mod.dronesOnDeath(); }

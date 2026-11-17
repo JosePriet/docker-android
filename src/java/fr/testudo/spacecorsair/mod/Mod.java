@@ -706,9 +706,10 @@ public class Mod {
         }
     }
 
-    /** Drones always fight at the pilot's level; enemy specs stop at 20, so scale beyond that. */
+    /** Drones always fight at the pilot's level. Audit F16 (owner 2026-11-17): the v34 level curve (ModV34.scale, when the
+     *  drone is built) is their only level scaling; the old x(1 + 0.15 per level above 20) on top of it is gone. */
     private static void attachToPilotLevel(Ennemis d, int lvl, int slot) {
-        float f = lvl > 20 ? 1.0f + ((lvl - 20) * 0.15f) : 1.0f;
+        float f = 1.0f;
         d.level = lvl;
         d.levelStr = lvl + "";
         d.maxLife *= f;

@@ -811,14 +811,23 @@ public class ModQol {
                 if (lvl != requested && lvl > p.level) {
                     p.level = lvl;
                 }
-                return;
+            } else {
+                p.level = lvl;
             }
-            float k = 1.0f + 0.12f * (lvl - max);
-            p.maxLife *= k;
-            p.life = p.maxLife;
-            p.bulletDamage *= 1.0f + 0.1f * (lvl - max);
-            p.level = lvl;
-            p.xp = (int) (p.xp * k);
+            // audit F16 (owner 2026-11-17): patrols and faction wings follow the enemy rule once: the destroyer base hull
+            // of the stock table level x the cruiser class factor x the v34 curve; damage x curve x cruiser damage class
+            int L = p.level;
+            float base = ModV34.baseHull(L);   // clamps to the stock tables
+            float c = ModV34.curve(L);
+            if (base > 0) {
+                p.maxLife = base * ModV34.classFactor(ModPolice.STOCK_POLICE_CLASS) * c;
+                p.life = p.maxLife;
+            }
+            float dk = c * ModV34.dmgClass(ModPolice.STOCK_POLICE_CLASS);
+            p.bulletDamage *= dk;
+            for (fr.testudo.spacecorsair.business.ennemis.EnnemisCanon cn : new fr.testudo.spacecorsair.business.ennemis.EnnemisCanon[] {p.canonProue, p.canonPoupe})
+                if (cn != null) cn.shootDamage = Math.max(1, Math.round(cn.shootDamage * dk));
+            p.xp = Math.round(p.xp * c);
         } catch (Exception e) {
             // keep the stock police
         }
