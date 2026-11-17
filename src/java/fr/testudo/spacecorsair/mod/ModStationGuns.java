@@ -228,7 +228,8 @@ public final class ModStationGuns {
             if (!(e instanceof Station) || e.removed || !poiClass(e) || post(e) != null) continue;
             Station st = (Station) e;
             String art = ModPoi.artFor(st);
-            float[] m = art == null || ModArt.ready(art) == null ? null : MOUNTS.get(art);
+            float[] m = art == null ? null : MOUNTS.get(art);
+            if (m != null && ModArt.ready(art) == null) continue;   // fix list 11A: drawn art still decoding: wait for it (next scan), no generic pads
             boolean stock = m == null;
             if (stock) { m = STOCK_MOUNTS; art = null; }   // audit F7: stock sprite, generic pads
             Drawable d = st.getDrawableObject();

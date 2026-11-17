@@ -2570,6 +2570,11 @@ public final class ModLan {
         if (f.round != seenRound) {
             boolean won = f.guestWins > guestWins;
             boolean first = seenRound == 0;
+            if (!first && !won && defeatRound != seenRound) {   // fix list 11A: a round the host forced also blows this ship up
+                defeatRound = seenRound;
+                explode(ps.position.x, ps.position.y);
+                respawnApart(ps, f.hx, f.hy);
+            }
             seenRound = f.round;
             hostWins = f.hostWins; guestWins = f.guestWins;
             refill(ps);
