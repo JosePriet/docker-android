@@ -337,12 +337,18 @@ public final class ModFx {
      */
     public static void part(String tex, float x, float y, float vx, float vy, float life, float size0, float size1,
                             float r, float g, float b, float a, boolean add, boolean over) {
+        if (!(life > 0)) return;   // audit B15: a zero-life particle would draw with an invalid transparency
         int i;
         if (live < MAX) {
             i = live++;
         } else {
-            // full: replace the oldest-looking (most used) slot
-            i = (int) (Math.random() * MAX);
+            // audit B15 (owner): full pool: replace the particle closest to its end, not a random one
+            i = 0;
+            float best = Float.MAX_VALUE;
+            for (int k = 0; k < MAX; k++) {
+                float left = pmax[k] > 0 ? plife[k] / pmax[k] : 0;
+                if (left < best) { best = left; i = k; }
+            }
         }
         ptex[i] = tex;
         px[i] = x; py[i] = y; pvx[i] = vx; pvy[i] = vy;
@@ -430,7 +436,7 @@ public final class ModFx {
         }
         for (int i = 0; i < live; i++) {
             if (pover[i] != over) continue;
-            float t = 1 - plife[i] / pmax[i];
+            float t = pmax[i] > 0 ? Math.max(0, Math.min(1, 1 - plife[i] / pmax[i])) : 1;
             float s = ps0[i] + (ps1[i] - ps0[i]) * t;
             float a = pa[i] * (t < 0.15f ? t / 0.15f : (1 - t) / 0.85f);
             if (pstretch[i] > 0) {

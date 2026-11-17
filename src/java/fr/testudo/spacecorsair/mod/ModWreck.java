@@ -519,7 +519,8 @@ public final class ModWreck extends Element {
     /** Cut the hull's sprite across its long axis into 2 (3 for capitals) pieces flying apart. */
     static ModWreck[] breakUp(Element e, Drawable d, int cls, boolean visualOnly, long lifeMs) {
         Texture t = d.myTexture;
-        if (t == null || t.name <= 0) return null;
+        // audit B15 (owner): a hull whose lazy texture is not uploaded yet still breaks up (the sprite uploads it on draw)
+        if (t == null || (t.name <= 0 && !(t instanceof ModArt.Lazy))) return null;
         float W, H;
         if (d instanceof ModFx.Sprite) { W = ((ModFx.Sprite) d).w; H = ((ModFx.Sprite) d).h; }
         else { W = d.dimensions.x; H = d.dimensions.y; }

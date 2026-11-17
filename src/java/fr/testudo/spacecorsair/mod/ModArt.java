@@ -393,8 +393,8 @@ public class ModArt {
 
     /** GL thread: uploads a bitmap into a new texture name for t, then recycles the bitmap. */
     private static boolean put(GL10 gl, Texture t, Bitmap bmp) {
+        int name = 0;
         try {
-            int name;
             gl.glGenTextures(1, ids, 0);
             name = ids[0];
             gl.glBindTexture(GL10.GL_TEXTURE_2D, name);
@@ -419,6 +419,8 @@ public class ModArt {
             measure(t, bmp);
             return true;
         } catch (Throwable e) {
+            // audit B15 (owner): a failed upload frees its texture name
+            if (name > 0 && t.name != name) { try { ids[0] = name; android.opengl.GLES10.glDeleteTextures(1, ids, 0); } catch (Throwable e2) { /* ignore */ } }
             return false;
         } finally {
             try { bmp.recycle(); } catch (Throwable e) { /* ignore */ }

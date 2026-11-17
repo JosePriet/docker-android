@@ -253,14 +253,17 @@ public final class ModRep {
             if (supportMs > 0) return;
             supportMs = 1500;
             List<Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
-            Ennemis best = null;
-            float bd = 2600;
+            // audit B16 (owner): ships first; carrier drones (and the player's own) only when no ship is in range
+            Ennemis best = null, bestDrone = null;
+            float bd = 2600, bdd = 2600;
             for (int i = 0; i < els.size(); i++) {
                 Element e = els.get(i);
-                if (!(e instanceof Ennemis) || e.removed || e.life <= 0) continue;
+                if (!(e instanceof Ennemis) || e.removed || e.life <= 0 || Mod.isDrone(e)) continue;
                 float de = e.position.distance(ps.position);
-                if (de < bd) { bd = de; best = (Ennemis) e; }
+                if (ModAegisDrones.isDrone(e)) { if (de < bdd) { bdd = de; bestDrone = (Ennemis) e; } }
+                else if (de < bd) { bd = de; best = (Ennemis) e; }
             }
+            if (best == null) best = bestDrone;
             if (best != null) {
                 float dmg = Math.max(30, best.maxLife * (r == HONORED ? 0.12f : 0.08f));
                 best.applyDamage(dmg, g, null);
