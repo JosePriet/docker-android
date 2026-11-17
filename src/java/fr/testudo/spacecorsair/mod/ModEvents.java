@@ -90,6 +90,14 @@ public final class ModEvents {
         }
     }
 
+    /** ModMap.radarPoint2: 1 = distress freighter (amber), 2 = bounty target (red), 0 = normal dot. */
+    static int mark(Element e) {
+        if (e == null || kind == NONE) return 0;
+        if (e == victim) return 1;
+        if (e == wanted) return 2;
+        return 0;
+    }
+
     // ------------------------------------------------------------------ emulator switch
     private static long testAt;
     private static String testLast;
