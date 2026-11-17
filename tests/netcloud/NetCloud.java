@@ -98,7 +98,45 @@ public class NetCloud {
 
     static void out(String role, String mode, String what) { System.out.println("NETCLOUD " + role + " " + mode + " " + what); }
 
+    /** Fix list 1B: our relay client against a relay we run ourselves (coturn on the runner, test credential).
+     *  Allocate, permission, channel, one packet out through the relay and one back. Prints SELFTURN OK or the failing step. */
+    static void selfTurn(String host, int port, String user, String pass) throws Exception {
+        final ModNet.Wire w = new ModNet.Wire(0);
+        final java.util.concurrent.atomic.AtomicInteger back = new java.util.concurrent.atomic.AtomicInteger();
+        w.handler = new ModNet.PeerHandler() {
+            public boolean onPeer(java.net.InetSocketAddress from, byte[] b, int n, boolean viaTurn) { if (viaTurn) back.incrementAndGet(); return true; }
+        };
+        java.net.DatagramSocket peer = new java.net.DatagramSocket(0, java.net.InetAddress.getByName("127.0.0.1"));
+        peer.setSoTimeout(4000);
+        java.net.InetSocketAddress pa = new java.net.InetSocketAddress("127.0.0.1", peer.getLocalPort());
+        ModNet.Turn t = new ModNet.Turn(w, new java.net.InetSocketAddress(java.net.InetAddress.getByName(host), port), user, pass);
+        String step = "allocate";
+        try {
+            t.allocate();
+            System.out.println("SELFTURN allocate OK " + ModNet.show(t.relayed));
+            step = "permission"; t.permit(pa.getAddress()); System.out.println("SELFTURN permission OK");
+            step = "channel"; t.bind(pa); System.out.println("SELFTURN channel OK");
+            step = "send out";
+            byte[] d = new byte[] {(byte) ModNet.MAGIC, 1, 2, 3};
+            t.send(pa, d, d.length);
+            byte[] buf = new byte[64];
+            java.net.DatagramPacket pk = new java.net.DatagramPacket(buf, buf.length);
+            peer.receive(pk);
+            System.out.println("SELFTURN out OK " + pk.getLength() + " bytes from " + pk.getSocketAddress());
+            step = "send back";
+            peer.send(new java.net.DatagramPacket(d, d.length, t.relayed));
+            for (int i = 0; i < 40 && back.get() == 0; i++) Thread.sleep(100);
+            if (back.get() == 0) throw new java.io.IOException("nothing came back through the relay");
+            System.out.println("SELFTURN OK (our relay client works end to end)");
+        } catch (Throwable e) {
+            System.out.println("SELFTURN FAIL at " + step + ": " + e.getMessage() + " | raw: " + raw(new java.net.InetSocketAddress(java.net.InetAddress.getByName(host), port), user, pass));
+            System.exit(1);
+        }
+        System.exit(0);
+    }
+
     public static void main(String[] a) throws Exception {
+        if (a[0].equals("selfturn")) { selfTurn(a[1], Integer.parseInt(a[2]), a[3], a[4]); return; }
         final String role = a[0], tag = a[1], mode = a[2];
         final String ver = "cloudcheck-" + tag + "-" + mode;
         final String id = hex(32);
