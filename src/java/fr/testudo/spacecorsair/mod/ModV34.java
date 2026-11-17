@@ -446,11 +446,13 @@ public class ModV34 {
     static final float UNDER_FIRE = 0.85f;
     static final long UNDER_FIRE_MS = 3000;
 
-    static void giveShield(Ennemis e, int stockLv, int lv) {
+    static void giveShield(Ennemis e, int stockLv, int lv) { giveShield(e, stockLv, lv, e.elite); }
+
+    static void giveShield(Ennemis e, int stockLv, int lv, boolean eliteUp) {
         bigShield.remove(e);
         int cls = ModV35.enemyClass(e);
         int sc = stockClass(e);
-        if (sc >= 0 && e.elite) cls = Math.min(ModShips.TITAN, sc + 1);   // elites: one class up
+        if (sc >= 0 && eliteUp) cls = Math.min(ModShips.TITAN, sc + 1);   // elites: one class up
         if (cls < ModShips.BATTLECRUISER || e instanceof fr.testudo.spacecorsair.business.ennemis.FrelonShip) return;
         float[] cr = shieldStats(stockLv, lv, cls);
         if (cr == null) return;
@@ -552,6 +554,13 @@ public class ModV34 {
                 e.maxLife /= 2.5f;
                 e.bulletDamage /= 1.5f;
                 st -= 150;
+                // audit A2 (owner): boss = exactly x15; undo the elite class step and the elite shield
+                int c = stockClass(e);
+                if (c >= 0 && c < ModShips.TITAN) {
+                    e.maxLife /= classFactor(c + 1) / classFactor(c);
+                    Integer sl = stockLvOf.get(e);
+                    giveShield(e, sl != null ? sl : e.getLevel(), e.getLevel(), false);
+                }
             }
             if (s != null && s.length > 2 && s[2] == 2) return;
             state.put(e, new int[] {4, Math.min(STAT_CAP, st + 300), 2});

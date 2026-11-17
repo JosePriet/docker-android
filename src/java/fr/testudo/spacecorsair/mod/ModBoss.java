@@ -656,6 +656,12 @@ public class ModBoss extends MissionListener {
         ModDev.ev("bossdead", NAMES[kind]);
         ModLoot.bossBonus(kind);
         markGates(true);
+        // audit A3 (owner): paid and saved at the kill; pop-up with Accept, reward shown after it
+        if (mission != null) {
+            Mission m = mission;
+            terminate();
+            ModClaim.payNow(m, ModLang.tr(MISSION_NAMES[kind]), ModLang.tr(NAMES[kind]) + ModLang.tr(" destroyed. The bounty has been paid."));
+        }
     }
 
     @Override
@@ -765,6 +771,11 @@ public class ModBoss extends MissionListener {
         if (boss != null && !boss.removed) {
             boss.remove();
         }
+        // audit A4 (owner): her illusions and brood warp out over 3 s
+        ModWarpOut.startAll(illusions);
+        ModWarpOut.startAll(brood);
+        illusions.clear();
+        brood.clear();
         terminate();
     }
 

@@ -220,6 +220,29 @@ public class ModArt {
         return BLANK;
     }
 
+    /** Audit A7 (owner): set on a sector change; the GL thread then frees every lazy texture not drawn this frame. */
+    static volatile boolean freeReq;
+
+    private static void freeUnused(GL10 gl) {
+        int n = 0;
+        try {
+            for (Texture t : textures.values()) {
+                if (!(t instanceof Lazy)) continue;
+                Lazy z = (Lazy) t;
+                if (!z.resident || z.lastUse >= frame - 1 || z.name <= 0 || z.name == blankName) continue;
+                ids[0] = z.name;
+                android.opengl.GLES10.glDeleteTextures(1, ids, 0);   // GL thread (the stub GL10 has no delete)
+                z.resident = false;
+                z.loaded = false;
+                z.name = blankName;
+                n++;
+            }
+        } catch (Throwable t) {
+            // the next draw uploads again
+        }
+        ModDev.ev("art", "freed " + n + " textures on sector change");
+    }
+
     private static Lazy lazy(String name, int fallback) {
         Texture e = textures.get(name);
         if (e instanceof Lazy) return (Lazy) e;
@@ -530,6 +553,7 @@ public class ModArt {
     /** End of every drawn frame (ModQol.drawHud): frame counter, player hull fallback, one prefetched upload. */
     public static void frameEnd(GL10 gl) {
         frame++;
+        if (freeReq) { freeReq = false; freeUnused(gl); }
         try {
             Texture b = PlayerShip.BASIC_TEXTURE;
             if (b instanceof Lazy) use(gl, (Lazy) b);

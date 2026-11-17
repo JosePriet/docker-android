@@ -138,6 +138,7 @@ public final class ModCaps {
     public static void tick(PlayerShip ps, long j) {
         ModV34.boot();
         ModV35.prices();   // v35 (v34 req 12): stock gear priced by rarity
+        try { ModWarpOut.tick(); } catch (Throwable t) { /* audit A4/B4 */ }
         now += j;
         if (ps.shipSpec == null || ps.removed) return;
         Profile p = profile(ps);
@@ -181,6 +182,8 @@ public final class ModCaps {
             level = lvl;
             ModFx.clear();
             ModCapitals.onLevel();
+            ModArt.freeReq = true;   // audit A7
+            ModWarpOut.clear();
             ModEnemyGuns.onLevel();
             ModLance.onLevel();
             ModWreck.onLevel();

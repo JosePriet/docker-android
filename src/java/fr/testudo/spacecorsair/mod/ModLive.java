@@ -96,7 +96,9 @@ public final class ModLive {
                 // visuals never break the frame
             }
         }
+        int wm = ModWarpOut.active(e) ? ModWarpOut.mark() : -1;
         e.registerYourselfToDrawQueue();
+        if (wm >= 0) ModWarpOut.fade(e, wm);   // audit A4/B4: warping out
         if (on) {
             try {
                 over(e);

@@ -331,7 +331,8 @@ public final class ModWeapons {
 
     // ------------------------------------------------------------------ impacts
     private static Element rampTarget, rampTargetE;
-    private static long rampSince, rampSinceE, rampLastE;
+    private static long rampSinceE, rampLastE, rampLast;
+    private static float rampLevel;
     private static final ArrayList<Element> near = new ArrayList<Element>();
     static final float[] arcs = new float[6 * 8];   // x1,y1,x2,y2,ttl,unused per arc
     static int arcCount;
@@ -356,8 +357,14 @@ public final class ModWeapons {
                         ModFx.part("fx_core", target.position.x, target.position.y, 0, 0, 160, 30, 90, 1.0f, 0.35f, 0.3f, 0.9f, true, true);
                         break;
                     }
-                    if (target != rampTarget) { rampTarget = target; rampSince = now; }
-                    float ramp = Math.min(1.0f, (now - rampSince) / 3000.0f);   // +100% after 3 s on the same target
+                    // audit A5 (owner): +100% after 3 s on the same target; the bonus drains to zero over 3 s of not
+                    // firing (a gap over 1 s, the enemy version's pause rule, counts as not firing)
+                    long gap = rampLast == 0 ? 0 : now - rampLast;
+                    if (target != rampTarget) { rampTarget = target; rampLevel = 0; }
+                    else if (gap <= 1000) rampLevel = Math.min(1.0f, rampLevel + gap / 3000.0f);
+                    else rampLevel = Math.max(0.0f, rampLevel - (gap - 1000) / 3000.0f);
+                    rampLast = now;
+                    float ramp = rampLevel;
                     b.damage *= 1 + ramp;
                     ModFx.part("fx_core", target.position.x, target.position.y, 0, 0, 160, 30, 60 + 80 * ramp, 1.0f, 0.25f + 0.2f * ramp, 0.3f, 0.9f, true, true);
                     break;

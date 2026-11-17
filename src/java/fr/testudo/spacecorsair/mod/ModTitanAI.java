@@ -79,7 +79,7 @@ public final class ModTitanAI {
         s.act2 = 0;
         s.enrageMs = 0;
         undome(s);
-        s.mirror.clear();
+        ModWarpOut.startAll(s.mirror); s.mirror.clear();   // audit B4: the swarm warps out with the fight
         s.trail.clear();
         g.a = 1.0f;
         if (s.baseForce >= 0) g.pouseeForce = s.baseForce;
@@ -301,7 +301,7 @@ public final class ModTitanAI {
             }
             if (s.enrageMs > 0) {
                 for (Ennemis r : s.mirror) if (!r.removed) { r.speed.setSameAs(ps.speed); r.spin = ps.spin; }
-            } else s.mirror.clear();
+            } else { ModWarpOut.startAll(s.mirror); s.mirror.clear(); }   // audit B4 (owner): warp out over 3 s
         } else if ("varn".equals(k)) {
             if (s.a <= 0 && dist < 2600) {           // contract mines along its path
                 s.a = 9000;

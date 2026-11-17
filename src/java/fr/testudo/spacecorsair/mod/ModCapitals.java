@@ -221,6 +221,7 @@ public final class ModCapitals {
         Faction f = police != null ? police : FACTIONS[fi];
         GuardianCivilShip g = CivilFactory.newGuardianCivilShip(lvl);
         ModTitanAI.forget(g);                       // pooled: no skill state from a previous life
+        CUT.remove(g);                              // audit B6: a reused ship can take the mission cut again
         g.a = 1.0f;
         Cap c = new Cap();
         c.f = f;
@@ -278,6 +279,8 @@ public final class ModCapitals {
 
     /** v21 missions: the faction's flagship in this sector, spawned now if needed (ignores the respawn timer). Mission
      *  fights use a 40% hull so they last minutes, not an hour. */
+    static final java.util.Map<GuardianCivilShip, Boolean> CUT = java.util.Collections.synchronizedMap(new java.util.WeakHashMap<GuardianCivilShip, Boolean>());
+
     static GuardianCivilShip ensure(String key, boolean missionFight) {
         try {
             GuardianCivilShip g = null;
@@ -289,7 +292,8 @@ public final class ModCapitals {
                     if (FACTIONS[i].key.equals(key)) { g = spawn(i, ObjectRegistry.INSTANCE.game.currentLevel.id); break; }
                 }
             }
-            if (g != null && missionFight && g.maxLife > 400000f) {
+            if (g != null && missionFight && g.maxLife > 400000f && !CUT.containsKey(g)) {   // audit B6: once per ship
+                CUT.put(g, Boolean.TRUE);
                 g.maxLife *= 0.4f;
                 g.life = Math.min(g.life, g.maxLife);
             }

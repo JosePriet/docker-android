@@ -84,7 +84,18 @@ final class ModSources {
     static final String[] SHOP_SECTORS = {"Eternity", "Galactic Speedway", "Genesis", "Heliostat", "Highway", "Lost Paradise", "Omicron Prime", "Ore Belt", "Pirate Bay", "Solar Field", "Spartan HQ", "Tutorial", "Ventohigh"};
 
     static String shop(String typeName) {
-        for (String[] r : SHOP) if (r[0].equals(typeName)) return r[1];
+        for (String[] r : SHOP) if (r[0].equals(typeName)) return realNames(r[1]);
         return null;
+    }
+
+    /** Audit A8 (owner): the two builder constants show as the stations' real names, EN and ES. */
+    static String realNames(String s) {
+        if (s.indexOf("STATION_SHIPYARD_NAME") >= 0) s = s.replace("STATION_SHIPYARD_NAME", ModLang.tr("Shipyard"));
+        if (s.indexOf("SPARTAN_MISSILE") >= 0) {
+            String m;
+            try { m = fr.testudo.spacecorsair.business.world.UniverseName.SPARTAN_MISSILE; } catch (Throwable t) { m = null; }
+            s = s.replace("SPARTAN_MISSILE", m != null && m.length() > 0 ? m : ModLang.tr("Spartan missiles"));
+        }
+        return s;
     }
 }
