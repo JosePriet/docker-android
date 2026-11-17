@@ -24,7 +24,7 @@ eq("titan wave alone",ModPolice.waveClasses(T,2).length,1,0);
 eq("cap 8",ModPolice.CAP,8,0);eq("room 6 active, 4 wanted",ModPolice.room(6,4),2,0);eq("room full",ModPolice.room(8,3),0,0);eq("room empty",ModPolice.room(0,4),4,0);
 // heat per kill, decay, leave/return
 eq("kill heat frigate",ModPolice.killHeat(F),1,0);eq("kill heat BS",ModPolice.killHeat(BS),6,0);eq("kill heat capital",ModPolice.killHeat(CAP),8,0);eq("kill heat titan",ModPolice.killHeat(T),0,0);
-eq("decay 19 s",ModPolice.decayed(10,19999),10,0);eq("decay 20 s",ModPolice.decayed(10,20000),9,0);eq("decay floor 0",ModPolice.decayed(2,600000),0,0);
+/* audit I2: ModPolice.decayed removed (unused in game; the decay runs in ModPolice.tick) */
 eq("leave halves",ModPolice.leaveHeat(47),23,0);eq("kept 10 min",ModPolice.keptOnReturn(0,600000)?1:0,1,0);eq("gone after 10 min",ModPolice.keptOnReturn(0,600001)?1:0,0,0);
 // level = sector top, never above
 eq("level = sector top",ModPolice.level(28),28,0);eq("level floor 1",ModPolice.level(0),1,0);
