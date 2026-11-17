@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 2840
+    .line 2844
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$41$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$41;
 
     iput-boolean p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$41$1;->val$ok:Z
@@ -49,7 +49,7 @@
     .registers 2
 
     .prologue
-    .line 2842
+    .line 2846
     :try_start_0
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$41$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$41;
 
@@ -59,7 +59,7 @@
     :try_end_7
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_7} :catch_2f
 
-    .line 2843
+    .line 2847
     :goto_7
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$41$1;->val$ok:Z
 
@@ -81,7 +81,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModLan;->status:Ljava/lang/String;
 
-    .line 2844
+    .line 2848
     :cond_1b
     :try_start_1b
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$41$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$41;
@@ -102,18 +102,18 @@
     :try_end_2c
     .catch Ljava/lang/Throwable; {:try_start_1b .. :try_end_2c} :catch_2d
 
-    .line 2845
+    .line 2849
     :cond_2c
     :goto_2c
     return-void
 
-    .line 2844
+    .line 2848
     :catch_2d
     move-exception v0
 
     goto :goto_2c
 
-    .line 2842
+    .line 2846
     :catch_2f
     move-exception v0
 

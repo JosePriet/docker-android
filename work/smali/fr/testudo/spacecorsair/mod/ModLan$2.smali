@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 149
+    .line 151
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$2;->val$gen:J
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -47,10 +47,10 @@
     .prologue
     const/4 v2, 0x1
 
-    .line 151
+    .line 153
     const/4 v0, 0x0
 
-    .line 153
+    .line 155
     :try_start_2
     new-instance v1, Ljava/net/DatagramSocket;
 
@@ -59,13 +59,13 @@
     .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_7} :catch_d3
     .catchall {:try_start_2 .. :try_end_7} :catchall_c6
 
-    .line 154
+    .line 156
     const/4 v0, 0x1
 
     :try_start_8
     invoke-virtual {v1, v0}, Ljava/net/DatagramSocket;->setBroadcast(Z)V
 
-    .line 155
+    .line 157
     iget-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModLan$2;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -80,23 +80,23 @@
 
     if-eqz v0, :cond_1b
 
-    .line 169
+    .line 171
     if-eqz v1, :cond_1a
 
     invoke-virtual {v1}, Ljava/net/DatagramSocket;->close()V
 
-    .line 171
+    .line 173
     :cond_1a
     :goto_1a
     return-void
 
-    .line 156
+    .line 158
     :cond_1b
     :try_start_1b
     # setter for: Lfr/testudo/spacecorsair/mod/ModLan;->beacon:Ljava/net/DatagramSocket;
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$502(Ljava/net/DatagramSocket;)Ljava/net/DatagramSocket;
 
-    .line 157
+    .line 159
     :goto_1e
     iget-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModLan$2;->val$gen:J
 
@@ -113,13 +113,13 @@
 
     if-nez v0, :cond_bf
 
-    .line 158
+    .line 160
     const-string v0, "Corsair"
     :try_end_2e
     .catch Ljava/lang/Throwable; {:try_start_1b .. :try_end_2e} :catch_b6
     .catchall {:try_start_1b .. :try_end_2e} :catchall_cf
 
-    .line 159
+    .line 161
     :try_start_2e
     sget-object v3, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -134,7 +134,7 @@
     .catch Ljava/lang/Throwable; {:try_start_2e .. :try_end_38} :catch_d5
     .catchall {:try_start_2e .. :try_end_38} :catchall_cf
 
-    .line 160
+    .line 162
     :goto_38
     :try_start_38
     new-instance v3, Ljava/lang/StringBuilder;
@@ -220,7 +220,7 @@
 
     move-result-object v3
 
-    .line 161
+    .line 163
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->broadcasts()Ljava/util/List;
 
     move-result-object v0
@@ -245,7 +245,7 @@
     .catch Ljava/lang/Throwable; {:try_start_38 .. :try_end_9e} :catch_b6
     .catchall {:try_start_38 .. :try_end_9e} :catchall_cf
 
-    .line 162
+    .line 164
     :try_start_9e
     new-instance v5, Ljava/net/DatagramPacket;
 
@@ -267,13 +267,13 @@
 
     goto :goto_92
 
-    .line 160
+    .line 162
     :cond_ad
     const/4 v0, 0x0
 
     goto :goto_7c
 
-    .line 164
+    .line 166
     :cond_af
     const-wide/16 v4, 0x3e8
 
@@ -285,13 +285,13 @@
 
     goto/16 :goto_1e
 
-    .line 166
+    .line 168
     :catch_b6
     move-exception v0
 
     move-object v0, v1
 
-    .line 169
+    .line 171
     :goto_b8
     if-eqz v0, :cond_1a
 
@@ -318,11 +318,11 @@
 
     invoke-virtual {v3}, Ljava/net/DatagramSocket;->close()V
 
-    .line 170
+    .line 172
     :cond_ce
     throw v2
 
-    .line 169
+    .line 171
     :catchall_cf
     move-exception v0
 
@@ -332,13 +332,13 @@
 
     goto :goto_c9
 
-    .line 166
+    .line 168
     :catch_d3
     move-exception v1
 
     goto :goto_b8
 
-    .line 159
+    .line 161
     :catch_d5
     move-exception v3
 

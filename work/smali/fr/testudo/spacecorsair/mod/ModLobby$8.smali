@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 666
+    .line 702
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$8;->val$c:Ljava/lang/String;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLobby$8;->val$text:Ljava/lang/String;
@@ -53,7 +53,7 @@
     .registers 6
 
     .prologue
-    .line 668
+    .line 704
     const-string v1, "POST"
 
     const-string v2, "/report"
@@ -131,7 +131,7 @@
 
     move-result-object v0
 
-    .line 669
+    .line 705
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/mod/ModLobby$Reply;->ok()Z
 
     move-result v0
@@ -147,7 +147,7 @@
     :goto_4e
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModLobby;->status:Ljava/lang/String;
 
-    .line 670
+    .line 706
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$8;->val$done:Ljava/lang/Runnable;
 
     if-eqz v0, :cond_59
@@ -156,17 +156,17 @@
 
     invoke-interface {v0}, Ljava/lang/Runnable;->run()V
 
-    .line 671
+    .line 707
     :cond_59
     return-void
 
-    .line 668
+    .line 704
     :cond_5a
     const-string v0, ""
 
     goto :goto_3c
 
-    .line 669
+    .line 705
     :cond_5d
     const-string v0, "The report could not be sent."
 

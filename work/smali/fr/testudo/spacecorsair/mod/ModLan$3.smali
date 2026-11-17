@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 357
+    .line 361
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$fa:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$who:Ljava/lang/String;
@@ -53,7 +53,7 @@
     .registers 4
 
     .prologue
-    .line 357
+    .line 361
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$fa:Landroid/app/Activity;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$3;->val$who:Ljava/lang/String;

@@ -4481,7 +4481,7 @@
     .line 582
     monitor-exit v4
     :try_end_21
-    .catchall {:try_start_6 .. :try_end_21} :catchall_35
+    .catchall {:try_start_6 .. :try_end_21} :catchall_3b
 
     .line 583
     array-length v7, v2
@@ -4500,17 +4500,23 @@
     move-result-object v8
 
     .line 586
-    if-eqz v8, :cond_31
+    if-eqz v8, :cond_37
 
     iget-boolean v3, v4, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->elite:Z
-    :try_end_2f
-    .catch Ljava/lang/Throwable; {:try_start_27 .. :try_end_2f} :catch_9e
 
-    if-nez v3, :cond_38
+    if-eqz v3, :cond_37
+
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModPolice;->isPolice(Lfr/testudo/spacecorsair/business/Element;)Z
+    :try_end_34
+    .catch Ljava/lang/Throwable; {:try_start_27 .. :try_end_34} :catch_a4
+
+    move-result v3
+
+    if-eqz v3, :cond_3e
 
     .line 583
-    :cond_31
-    :goto_31
+    :cond_37
+    :goto_37
     add-int/lit8 v3, v6, 0x1
 
     move v6, v3
@@ -4518,26 +4524,26 @@
     goto :goto_23
 
     .line 582
-    :catchall_35
+    :catchall_3b
     move-exception v2
 
-    :try_start_36
+    :try_start_3c
     monitor-exit v4
-    :try_end_37
-    .catchall {:try_start_36 .. :try_end_37} :catchall_35
+    :try_end_3d
+    .catchall {:try_start_3c .. :try_end_3d} :catchall_3b
 
     throw v2
 
     .line 587
-    :cond_38
-    :try_start_38
+    :cond_3e
+    :try_start_3e
     iget v3, v4, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->maxLife:F
 
     const/4 v9, 0x0
 
     cmpl-float v3, v3, v9
 
-    if-lez v3, :cond_a0
+    if-lez v3, :cond_a6
 
     iget v3, v4, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->life:F
 
@@ -4546,7 +4552,7 @@
     div-float/2addr v3, v9
 
     .line 588
-    :goto_44
+    :goto_4a
     iget v9, v4, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->maxLife:F
 
     const/4 v10, 0x0
@@ -4582,7 +4588,7 @@
 
     cmpl-float v3, v3, v5
 
-    if-eqz v3, :cond_6a
+    if-eqz v3, :cond_70
 
     iget-wide v10, v4, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->milleSecBetweenShots:J
 
@@ -4599,10 +4605,10 @@
     iput-wide v8, v4, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->milleSecBetweenShots:J
 
     .line 592
-    :cond_6a
+    :cond_70
     instance-of v3, v4, Lfr/testudo/spacecorsair/business/ennemis/FrelonShip;
 
-    if-eqz v3, :cond_81
+    if-eqz v3, :cond_87
 
     .line 593
     move-object v0, v4
@@ -4614,7 +4620,7 @@
     iget-object v3, v3, Lfr/testudo/spacecorsair/business/ennemis/FrelonShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     .line 594
-    if-eqz v3, :cond_81
+    if-eqz v3, :cond_87
 
     iget v8, v3, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
@@ -4629,10 +4635,10 @@
     iput v8, v3, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
 
     .line 596
-    :cond_81
+    :cond_87
     instance-of v3, v4, Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;
 
-    if-eqz v3, :cond_9a
+    if-eqz v3, :cond_a0
 
     .line 597
     move-object v0, v4
@@ -4644,7 +4650,7 @@
     iget-object v3, v3, Lfr/testudo/spacecorsair/business/ennemis/DefensorShip;->canonCenter:Lfr/testudo/spacecorsair/business/ennemis/EnnemisCanon;
 
     .line 598
-    if-eqz v3, :cond_9a
+    if-eqz v3, :cond_a0
 
     iget v8, v3, Lfr/testudo/spacecorsair/business/ennemis/EnnemisCanon;->timeBewteenRafaleInMilli:I
 
@@ -4661,24 +4667,24 @@
     iput v8, v3, Lfr/testudo/spacecorsair/business/ennemis/EnnemisCanon;->timeBewteenRafaleInMilli:I
 
     .line 600
-    :cond_9a
+    :cond_a0
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModV34;->syncBeam(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;)V
-    :try_end_9d
-    .catch Ljava/lang/Throwable; {:try_start_38 .. :try_end_9d} :catch_9e
+    :try_end_a3
+    .catch Ljava/lang/Throwable; {:try_start_3e .. :try_end_a3} :catch_a4
 
-    goto :goto_31
+    goto :goto_37
 
     .line 601
-    :catch_9e
+    :catch_a4
     move-exception v3
 
-    goto :goto_31
+    goto :goto_37
 
-    :cond_a0
+    :cond_a6
     move v3, v5
 
     .line 587
-    goto :goto_44
+    goto :goto_4a
 .end method
 
 .method static shieldAbsorb(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)F

@@ -41,7 +41,7 @@
     .end annotation
 
     .prologue
-    .line 184
+    .line 185
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModDev$2;->val$code:Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -60,7 +60,7 @@
     .end annotation
 
     .prologue
-    .line 184
+    .line 185
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModDev$2;->call()Ljava/lang/String;
 
     move-result-object v0
@@ -72,7 +72,7 @@
     .registers 2
 
     .prologue
-    .line 184
+    .line 185
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModDev$2;->val$code:Ljava/lang/String;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModDev;->redeemNow(Ljava/lang/String;)Ljava/lang/String;
