@@ -135,7 +135,7 @@ public final class ModWeapons {
     static final String[] ICONS = {"icon_railgun", "icon_autocannon", "icon_artillery", "icon_blaster", "icon_disintegrator", "icon_arc"};
 
     static String familyName(int f) {
-        return f >= 0 && f < COUNT ? FAMILY_NAMES[f] : "";
+        return f >= 0 && f < COUNT ? ModLang.re(FAMILY_NAMES[f]) : "";
     }
 
     static int familyOf(Object bullet) {
@@ -169,8 +169,8 @@ public final class ModWeapons {
         String lance = ModLance.label(t);   // v43a-17
         if (lance != null) return lance;
         int[] ft = parse(t.name());
-        if (ft != null && ft.length > 2) return TIER_NAME[ft[1]] + " " + RESKIN_NAME[ft[2]];
-        return ft == null ? null : TIER_NAME[ft[1]] + " " + NAME[ft[0]];
+        if (ft != null && ft.length > 2) return ModLang.re(TIER_NAME[ft[1]]) + " " + ModLang.re(RESKIN_NAME[ft[2]]);
+        return ft == null ? null : ModLang.re(TIER_NAME[ft[1]]) + " " + ModLang.re(NAME[ft[0]]);
     }
 
     public static String desc(SpaceObjectType t) {
@@ -182,7 +182,7 @@ public final class ModWeapons {
         if (ft.length > 2) {
             String[] rd = {ModLang.tr("A Reaver shell scatters jagged metal across the target's path."), ModLang.tr("A Helion focusing array channels its charge into a narrow, brilliant lance."),
                 ModLang.tr("Living Kre'tari weapons shed hardened spines grown within their own bodies.")};
-            return "<b>" + RESKIN_NAME[ft[2]] + "</b>: " + rd[ft[2]] + ModLang.tr("<br><br><font color='#6ad0ff'><b>Sold at:</b> ") + soldAt(ft[0], ft[1]) + "</font>";
+            return "<b>" + ModLang.re(RESKIN_NAME[ft[2]]) + "</b>: " + rd[ft[2]] + ModLang.tr("<br><br><font color='#6ad0ff'><b>Sold at:</b> ") + soldAt(ft[0], ft[1]) + "</font>";
         }
         switch (ft[0]) {
             case RAIL: d = ModLang.tr("<b>Railgun</b>: magnetic slug thrower. Very long range, near-instant slugs, heavy damage per shot, slow reload."); break;

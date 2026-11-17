@@ -396,7 +396,7 @@ public final class ModComms {
                 name.setTypeface(Typeface.DEFAULT_BOLD);
                 name.setTextColor(col);
                 name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-                name.setText(f.name + "  \u00b7  " + ModLang.tr(ModRepData.RANKS[i][r]) + "  (" + ModLang.tr(ModRep.RANK_NAMES[r]) + ", " + Math.round(v) + ")");
+                name.setText(f.name + "  \u00b7  " + ModLang.tr(ModRepData.RANKS[i][r]) + "  (" + ModLang.tr(ModLang.re(ModRep.RANK_NAMES[r])) + ", " + Math.round(v) + ")");
                 c.addView(name);
                 // bar: -100..+100, centre line at 0
                 FrameLayout bar = new FrameLayout(a);

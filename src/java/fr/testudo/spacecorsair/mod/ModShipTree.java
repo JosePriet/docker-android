@@ -212,7 +212,7 @@ public final class ModShipTree {
         try {
             String k = ModCapitals.FACTIONS[g].key;
             float v = ModRep.standing(k);
-            return ModRep.title(k) + " · " + ModLang.tr(ModRep.RANK_NAMES[ModRep.rankOf(v)]) + " (" + Math.round(v) + ")";
+            return ModRep.title(k) + " · " + ModLang.tr(ModLang.re(ModRep.RANK_NAMES[ModRep.rankOf(v)])) + " (" + Math.round(v) + ")";
         } catch (Exception e) {
             return "";
         }
@@ -591,7 +591,7 @@ public final class ModShipTree {
         names.setOrientation(LinearLayout.VERTICAL);
         names.addView(text(a, groupName(g), 13, groupColor(g), true));
         if (g < TAGLINE.length) {
-            TextView tg = text(a, TAGLINE[g], 9, GOLD, false);
+            TextView tg = text(a, ModLang.re(TAGLINE[g]), 9, GOLD, false);
             tg.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
             tg.setMaxLines(2);
             tg.setEllipsize(TextUtils.TruncateAt.END);
@@ -601,7 +601,7 @@ public final class ModShipTree {
         head.addView(names, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         o.facPanel.addView(head);
         if (g < PANEL_TEXT.length) {
-            TextView tl = text(a, PANEL_TEXT[g], 9, TEXT, false);
+            TextView tl = text(a, ModLang.re(PANEL_TEXT[g]), 9, TEXT, false);
             tl.setMaxLines(5);
             tl.setEllipsize(TextUtils.TruncateAt.END);
             tl.setPadding(0, (int) (4 * dp), 0, 0);
@@ -670,7 +670,7 @@ public final class ModShipTree {
             if (count[c] == 0) continue;
             int x = xOf[c];
             // header label + bar
-            TextView hl = text(a, COLS[c], 10, TEXT, true);
+            TextView hl = text(a, ModLang.re(COLS[c]), 10, TEXT, true);
             hl.setSingleLine(true);
             hl.setEllipsize(TextUtils.TruncateAt.END);
             FrameLayout.LayoutParams hp = new FrameLayout.LayoutParams(cardW, labelH);
@@ -742,7 +742,8 @@ public final class ModShipTree {
         int maxW = Math.max((int) (80 * dp), o.panelW);
         LinearLayout row = null;
         int used = 0;
-        for (String tag : tags) {
+        for (String tag0 : tags) {
+            String tag = ModLang.re(tag0);   // audit B10
             TextView c = text(a, ModLang.tr(tag).toUpperCase(), 7, color, true);
             c.setSingleLine(true);
             c.setPadding(padH, padV, padH, padV);

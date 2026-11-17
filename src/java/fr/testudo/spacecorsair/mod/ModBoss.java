@@ -135,7 +135,7 @@ public class ModBoss extends MissionListener {
         ModBoss engine = new ModBoss(kind, level, zone, hub, station);
         Mission m = new Mission(id, fr.testudo.spacecorsair.R.string.missionGenesisTuerChefPillard, TEXT_BASE + kind, TEXT_BASE + 10 + kind,
             false, level, engine, MissionReward.withObject(loot, xp, credits), true);   // v35: repeatable for faction cores
-        m.localizedName = MISSION_NAMES[kind];
+        m.localizedName = ModLang.re(MISSION_NAMES[kind]);
         engine.mission = m;
         return m;
     }
@@ -660,7 +660,7 @@ public class ModBoss extends MissionListener {
         if (mission != null) {
             Mission m = mission;
             terminate();
-            ModClaim.payNow(m, ModLang.tr(MISSION_NAMES[kind]), ModLang.tr(NAMES[kind]) + ModLang.tr(" destroyed. The bounty has been paid."));
+            ModClaim.payNow(m, ModLang.tr(ModLang.re(MISSION_NAMES[kind])), ModLang.tr(NAMES[kind]) + ModLang.tr(" destroyed. The bounty has been paid."));
         }
     }
 

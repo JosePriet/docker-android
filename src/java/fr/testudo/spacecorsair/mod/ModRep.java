@@ -101,7 +101,7 @@ public final class ModRep {
 
     static String title(String key) {
         int i = index(key);
-        return i < 0 ? ModLang.tr(RANK_NAMES[rank(key)]) : ModLang.tr(ModRepData.RANKS[i][rank(key)]);
+        return i < 0 ? ModLang.tr(ModLang.re(RANK_NAMES[rank(key)])) : ModLang.tr(ModRepData.RANKS[i][rank(key)]);
     }
 
     static float payoutBonus(String key) {
@@ -143,7 +143,7 @@ public final class ModRep {
         if (r1 > r0 && r1 >= FRIENDLY) msg = ModLang.tr(ModRepData.RANK_UP[i][r1 - FRIENDLY]);
         else if (r1 < r0 && r1 <= UNFRIENDLY) msg = ModLang.tr(ModRepData.RANK_DOWN[i][r1 == UNFRIENDLY ? 0 : 1]);
         ModCapitals.Faction f = ModCapitals.FACTIONS[ModFaction.faction(key)];
-        String head = f.name + ModLang.tr(": you are now ") + ModLang.tr(ModRepData.RANKS[i][r1]) + " (" + ModLang.tr(RANK_NAMES[r1]) + ").";
+        String head = f.name + ModLang.tr(": you are now ") + ModLang.tr(ModRepData.RANKS[i][r1]) + " (" + ModLang.tr(ModLang.re(RANK_NAMES[r1])) + ").";
         ModQol.post(head + (msg != null ? " " + ModFactionData.COMMANDER[ModFaction.commander(key)] + ": \"" + msg + "\"" : "")
             + (r1 == TRUSTED && r0 < TRUSTED ? " The " + ModRepData.SECRET_WEAPON[i][0] + ModLang.tr(" is now sold at ") + ModFaction.pretty(f.hq) + "." : "")
             + (r1 == HONORED && r0 < HONORED ? " The " + ModRepData.SECRET_SHIP[i][0] + ModLang.tr(" is now offered to you on the Ships screen.") : ""), key);

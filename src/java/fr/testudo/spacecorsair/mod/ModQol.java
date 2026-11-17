@@ -901,8 +901,10 @@ public class ModQol {
                             Method m = listener.getClass().getMethod("onItemPick", int.class, SpaceObject.class, fr.testudo.spacecorsair.activity.adapters.SpaceObjectAdapter.ItemContext.class);
                             m.setAccessible(true);
                             m.invoke(listener, qty, so, ctx);
-                        } catch (Exception e) {
-                            // ignore
+                        } catch (Throwable e) {
+                            // audit B9 (owner): a failed sale says so, EN and ES, and is logged
+                            ModDev.ev("sell", "failed " + so.getSpaceObjectType().name() + " x" + qty + ": " + e);
+                            try { android.widget.Toast.makeText(a, ModLang.tr("The sale failed. Nothing was sold."), android.widget.Toast.LENGTH_LONG).show(); } catch (Throwable t2) { /* no toast */ }
                         } finally {
                             sellBypass = false;
                         }

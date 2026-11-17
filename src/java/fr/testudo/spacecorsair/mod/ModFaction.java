@@ -909,7 +909,8 @@ public class ModFaction extends MissionListener {
             scanMs = new int[goal];
             for (int k = 0; k < goal; k++) {
                 if (k < progress) { scanMs[k] = -1; civs.add(null); continue; }   // already scanned (Q11)
-                scanTarget(away(center, 300, 2600), center);
+                // audit B8 (owner): a failed spawn keeps its slot (null, still to scan) so ships and timers stay aligned
+                if (scanTarget(away(center, 300, 2600), center) == null) { civs.add(null); scanMs[k] = 0; }
             }
         } else if ("KILL_FLAGSHIP".equals(obj)) {
             GuardianCivilShip g = ModCapitals.ensure(str(idx, 8), true);
@@ -1047,7 +1048,11 @@ public class ModFaction extends MissionListener {
         } else if ("BOUNTY".equals(obj) || "DESTROY_STATION".equals(obj)) {
             if (target != null && target.removed) {
                 if (target.life <= 0) complete();
-                else { setupDone = false; zoneMs = 0; target = null; }
+                else {   // audit B8 (owner): the old escort pack goes before the re-setup spawns a new one
+                    for (Element e : spawned) if (e != null && !e.removed) e.remove();
+                    spawned.clear();
+                    setupDone = false; zoneMs = 0; target = null;
+                }
             }
         } else if ("KILL_ENEMY_TYPE".equals(obj)) {
             if (progress >= goal) { complete(); return; }
@@ -1082,8 +1087,8 @@ public class ModFaction extends MissionListener {
         } else if ("SCAN_CIVIL".equals(obj)) {
             for (int k = 0; k < civs.size() && k < scanMs.length; k++) {
                 CivilShip c = civs.get(k);
-                if (c == null || scanMs[k] < 0) continue;
-                if (c.removed || c.life <= 0) {
+                if (scanMs[k] < 0) continue;
+                if (c == null || c.removed || c.life <= 0) {   // audit B8: an empty slot is refilled like a lost one
                     // Q9: a lost target is replaced; the new one comes in from off-screen (R4)
                     CivilShip n = scanTarget(ModPlace.ambushPoint(ps.position), center);
                     if (n != null) {

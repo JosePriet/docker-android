@@ -275,7 +275,7 @@ public class ModUi {
                 rar.setTextColor(color);
             }
             Button sort = (Button) bar.findViewWithTag("sort");
-            if (sort != null) { Integer m = sorts.get(k); setText(sort, ModLang.tr("Sort: ") + SORT_NAMES[m == null ? 0 : m]); }
+            if (sort != null) { Integer m = sorts.get(k); setText(sort, ModLang.tr("Sort: ") + ModLang.re(SORT_NAMES[m == null ? 0 : m])); }
             Button junk = (Button) bar.findViewWithTag("junk");
             if (junk != null) setVis(junk, "SELL".equals(k) ? View.VISIBLE : View.GONE);
             Button inbox = (Button) bar.findViewWithTag("inbox");

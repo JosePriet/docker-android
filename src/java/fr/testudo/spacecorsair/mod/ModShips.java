@@ -611,7 +611,7 @@ public class ModShips {
         String lic = licenceText(t);
         Hull hh = hull(t);
         String fac = hh != null && hh.faction.length() > 0 ? "<br><font color='#c8c8c8'>" + hh.faction + "</font>" : "";
-        return "<font color='#6ad0ff'><b>" + CLASS_NAMES[c] + " - " + TECH[tech(t)] + " - " + role(t) + "</b></font>" + fac
+        return "<font color='#6ad0ff'><b>" + ModLang.re(CLASS_NAMES[c]) + " - " + ModLang.re(TECH[tech(t)]) + " - " + role(t) + "</b></font>" + fac
             + (lic != null ? ModLang.tr("<br><font color='#ffd93f'>Hull licence: ") + lic + "</font>" : "") + "<br><br>";
     }
 
@@ -630,8 +630,8 @@ public class ModShips {
     /** v34 (J1): stat block generated from the hull data, so it is always correct. */
     static String statBlock(Hull h) {
         StringBuilder b = new StringBuilder(ModLang.tr("<br><br><font color='#6ad0ff'><b>STATS</b></font>"));
-        b.append("<br>").append(ModLang.tr("Class")).append(": ").append(CLASS_NAMES[h.cls]);
-        if (h.tech > 0) b.append(" ").append(TECH[Math.min(3, h.tech)]);
+        b.append("<br>").append(ModLang.tr("Class")).append(": ").append(ModLang.re(CLASS_NAMES[h.cls]));
+        if (h.tech > 0) b.append(" ").append(ModLang.re(TECH[Math.min(3, h.tech)]));
         b.append("<br>").append(ModLang.tr("Faction")).append(": ").append(h.faction == null || h.faction.length() == 0 ? ModLang.tr("Neutral") : ModLang.tr(h.faction));
         b.append("<br>").append(ModLang.tr("Slot size")).append(": ").append(ModV34.SLOT_NAMES[ModV34.slotOf(h.cls)]);
         PlayerShipSpec s = h.spec;
@@ -670,9 +670,9 @@ public class ModShips {
         if (h.secret != null) return ModLang.tr("Honored with the ") + ModCapitals.FACTIONS[ModFaction.faction(h.secret)].name;
         if (h.cls == TITAN || h.cls == CAPITAL) return ModLang.tr("own any Battleship");
         if (h.cls == INDUSTRIAL) return h.tech == 1 ? ModLang.tr("own any Destroyer") : ModLang.tr("own a Tech I Industrial");
-        if (h.tech == 2) return ModLang.tr("own a Tech I ") + CLASS_NAMES[h.cls];
+        if (h.tech == 2) return ModLang.tr("own a Tech I ") + ModLang.re(CLASS_NAMES[h.cls]);
         if (h.cls == FRIGATE) return null;
-        return ModLang.tr("own any ") + CLASS_NAMES[prevClass(h.cls)];
+        return ModLang.tr("own any ") + ModLang.re(CLASS_NAMES[prevClass(h.cls)]);
     }
 
     private static int prevClass(int c) {
@@ -703,8 +703,8 @@ public class ModShips {
     }
 
     public static String licenceTextOf(SpaceObjectType t) { return licenceText(t); }
-    public static String className(SpaceObjectType t) { int c = cls(t); return c < 0 ? ModLang.tr("Other") : CLASS_NAMES[c]; }
-    public static String techName(SpaceObjectType t) { return TECH[Math.max(0, Math.min(3, tech(t)))]; }
+    public static String className(SpaceObjectType t) { int c = cls(t); return c < 0 ? ModLang.tr("Other") : ModLang.re(CLASS_NAMES[c]); }
+    public static String techName(SpaceObjectType t) { return ModLang.re(TECH[Math.max(0, Math.min(3, tech(t)))]); }
 
     /** Hook at the start of PlayerInfo.buyShipAndEquip. */
     public static boolean canBuy(SpaceObjectType t) {

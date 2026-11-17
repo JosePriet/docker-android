@@ -632,7 +632,7 @@ public class ModPolice {
     static String className(int cls) {
         if (cls == CAPITAL) return ModLang.tr("Capital");
         if (cls == TITAN) return ModLang.tr("Titan");
-        return ModShips.CLASS_NAMES[Math.max(0, Math.min(ModShips.CLASS_NAMES.length - 1, cls))];
+        return ModLang.re(ModShips.CLASS_NAMES[Math.max(0, Math.min(ModShips.CLASS_NAMES.length - 1, cls))]);
     }
 
     /** "<Faction> Police <class>"; the Reavers and the Kre'tari fly militia. */

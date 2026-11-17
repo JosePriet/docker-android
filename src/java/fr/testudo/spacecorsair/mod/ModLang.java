@@ -239,6 +239,20 @@ public class ModLang {
         return s != null ? s : shown;
     }
 
+    /** Audit B10 (owner): re-looks up a label fixed when its class loaded (either language) in the current language.
+     *  Screens call it when they open, so a language switch shows at once. */
+    public static String re(String shown) {
+        if (shown == null) return null;
+        Map<String, String> b = back;
+        if (b == null) {
+            b = new java.util.HashMap<String, String>();
+            for (Map.Entry<String, String> e : dict().entrySet()) if (!b.containsKey(e.getValue())) b.put(e.getValue(), e.getKey());
+            if (!b.isEmpty()) back = b;
+        }
+        String k = b.get(shown);
+        return tr(k != null ? k : shown);
+    }
+
     public static String tr(String en) {
         if (en == null || !spanish()) return en;
         String s = dict().get(en);

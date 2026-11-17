@@ -1403,7 +1403,7 @@ public final class ModFitting {
                 head.setOrientation(LinearLayout.HORIZONTAL);
                 head.setGravity(Gravity.CENTER_VERTICAL);
                 TextView title = text(a, 15, SLOT_COLOR[slot], true);
-                title.setText(SLOT_GROUP[slot] + "  ·  " + ModLang.tr(SLOT_NAME[slot]));
+                title.setText(ModLang.re(SLOT_GROUP[slot]) + "  ·  " + ModLang.tr(SLOT_NAME[slot]));
                 head.addView(title, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
                 Button close = button(a, ModLang.tr("CLOSE"), GREY);
                 head.addView(close);
