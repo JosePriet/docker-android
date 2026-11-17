@@ -139,6 +139,7 @@ public final class ModCaps {
         ModV34.boot();
         ModV35.prices();   // v35 (v34 req 12): stock gear priced by rarity
         try { ModWarpOut.tick(); } catch (Throwable t) { /* audit A4/B4 */ }
+        ModGameQueue.drain();   // audit B2: refit purchase and gift redeem
         now += j;
         if (ps.shipSpec == null || ps.removed) return;
         Profile p = profile(ps);

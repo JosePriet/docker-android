@@ -174,7 +174,15 @@ public final class ModDev {
         return true;
     }
 
-    public static String redeem(String code) {
+    public static String redeem(final String code) {
+        try {   // audit B2 (owner): applied on the game thread
+            return ModGameQueue.run(new java.util.concurrent.Callable<String>() { public String call() { return redeemNow(code); } });
+        } catch (Exception e) {
+            return ModLang.tr("Gift code failed: ") + e.getMessage();
+        }
+    }
+
+    private static String redeemNow(String code) {
         String c = code == null ? "" : code.replace(" ", "").replace("-", "").toUpperCase();
         if (!CODE.equals(c)) return ModLang.tr("Unknown gift code.");
         try {

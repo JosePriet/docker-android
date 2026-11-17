@@ -511,6 +511,34 @@ public class ModQol {
     private static final List<String> inbox = new ArrayList<String>();
     private static int readCount;
 
+    /** Settings that are not progress: kept when a fresh save clears the mod's progress (audit A10). */
+    private static final String[] KEEP = {"fixedStick", "barNumbers", "damageNumbers", "bigButtons", "shake", ModPrologue.DONE};
+
+    /** Audit A10 (owner 2026-11-17): a fresh save (Main.onFirstStart) clears all mod progress: standings, refits,
+     *  Lance unlock, inbox and every other mod record; the settings above stay. */
+    static synchronized void clearProgress() {
+        SharedPreferences p = prefs();
+        if (p == null) return;
+        try {
+            java.util.Map<String, ?> all = p.getAll();
+            SharedPreferences.Editor e = p.edit();
+            int n = 0;
+            outer:
+            for (String k : all.keySet()) {
+                for (String keep : KEEP) if (keep.equals(k)) continue outer;
+                e.remove(k);
+                n++;
+            }
+            e.commit();
+            inbox.clear();
+            readCount = 0;
+            loaded = false;
+            ModDev.ev("fresh", "mod progress cleared: " + n + " keys");
+        } catch (Throwable t) {
+            ModDev.ev("fresh", "clear failed " + t);
+        }
+    }
+
     private static synchronized void loadInbox(SharedPreferences p) {
         inbox.clear();
         String all = p.getString("inbox", "");

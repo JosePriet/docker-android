@@ -41,6 +41,7 @@ public class Mod {
     private static int shockTimer = 0;
     private static int antiMissileTimer = 0;
     private static final Vector2 tmp = new Vector2();
+    private static final Vector2 drawTmp = new Vector2();   // audit B1: the beam drawing has its own scratch vector
     private static final Vector2 calc = new Vector2();
     private static final Vector2 beamEnd = new Vector2();
     private static int beamFlash = 0;
@@ -260,8 +261,8 @@ public class Mod {
             return;
         }
         for (int i = 0; i < 3; i++) {
-            tmp.setSameAs(end).add((float) ((Math.random() * 40.0d) - 20.0d), (float) ((Math.random() * 40.0d) - 20.0d));
-            ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(tmp, ps.position, false, 1.0f, ps.bulletR, ps.bulletG, ps.bulletB);
+            drawTmp.setSameAs(end).add((float) ((Math.random() * 40.0d) - 20.0d), (float) ((Math.random() * 40.0d) - 20.0d));
+            ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(drawTmp, ps.position, false, 1.0f, ps.bulletR, ps.bulletG, ps.bulletB);
         }
     }
 

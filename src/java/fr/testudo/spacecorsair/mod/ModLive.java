@@ -240,7 +240,7 @@ public final class ModLive {
     }
 
     // ------------------------------------------------------------------ living ships
-    private static final WeakHashMap<Element, float[]> state = new WeakHashMap<Element, float[]>();
+    private static final java.util.Map<Element, float[]> state = java.util.Collections.synchronizedMap(new WeakHashMap<Element, float[]>());   // audit B1: draw + game threads
     // per element: 0 last life, 1 heal-until (ms, low bits), 2 hit-until, 3 last spin, 4 phase
     private static final java.util.HashMap<String, Boolean> ALIEN = new java.util.HashMap<String, Boolean>();
     static {

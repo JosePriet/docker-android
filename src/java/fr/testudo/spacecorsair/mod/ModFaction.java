@@ -387,7 +387,7 @@ public class ModFaction extends MissionListener {
     private final Vector2 endAt = new Vector2();
     private boolean courierMoving, secondLegPlaced;
     private final ArrayList<Element> spawned = new ArrayList<Element>();
-    private final ArrayList<CivilShip> civs = new ArrayList<CivilShip>();
+    private final java.util.List<CivilShip> civs = new java.util.concurrent.CopyOnWriteArrayList<CivilShip>();   // audit B1: drawn on the GL thread
     private float[] markers;                  // x, y pairs
     private int testTicks;                    // v37 emulator test drive
     private boolean[] taken;

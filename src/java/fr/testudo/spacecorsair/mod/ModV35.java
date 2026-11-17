@@ -501,6 +501,14 @@ public class ModV35 {
 
     /** Buys the next refit level of the current ship (docked only). Returns the message to show. */
     public static String buy() {
+        try {   // audit B2 (owner): applied on the game thread
+            return ModGameQueue.run(new java.util.concurrent.Callable<String>() { public String call() { return buyNow(); } });
+        } catch (Throwable th) {
+            return null;
+        }
+    }
+
+    private static String buyNow() {
         try {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             SpaceObjectType t = currentShip();
@@ -529,9 +537,10 @@ public class ModV35 {
     }
 
     // ------------------------------------------------------------------ refit stage art (hidden until GPT delivers it)
-    private static final HashMap<String, Boolean> ART = new HashMap<String, Boolean>();
-    private static final HashMap<String, Drawable> SKINS = new HashMap<String, Drawable>();
-    private static final HashMap<String, String[]> RESOLVED = new HashMap<String, String[]>();
+    // audit B1: read by the draw thread and the game thread
+    private static final java.util.Map<String, Boolean> ART = new java.util.concurrent.ConcurrentHashMap<String, Boolean>();
+    private static final java.util.Map<String, Drawable> SKINS = new java.util.concurrent.ConcurrentHashMap<String, Drawable>();
+    private static final java.util.Map<String, String[]> RESOLVED = new java.util.concurrent.ConcurrentHashMap<String, String[]>();
 
     static boolean art(String name) {
         Boolean b = ART.get(name);
@@ -585,7 +594,7 @@ public class ModV35 {
         }
     }
 
-    private static final WeakHashMap<Element, Integer> enemyStage = new WeakHashMap<Element, Integer>();
+    private static final java.util.Map<Element, Integer> enemyStage = java.util.Collections.synchronizedMap(new WeakHashMap<Element, Integer>());
 
     /** Enemy refit stage from its tech tier [P]: T1 1, T2 2, T3 3-4, T4 5. */
     public static int stageOfTier(int tier, boolean high) {

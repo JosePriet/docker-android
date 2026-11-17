@@ -12,7 +12,10 @@ public final class ModIntro {
     private ModIntro() {}
 
     /** Main.onFirstStart: a fresh save opens on the playable prologue. */
-    public static void firstStart() { ModPrologue.firstStart(); }
+    public static void firstStart() {
+        ModQol.clearProgress();   // audit A10: a fresh save starts with no mod progress
+        ModPrologue.firstStart();
+    }
 
     public static boolean isActive() { return false; }
 

@@ -118,7 +118,7 @@ final class ModPoliceData {
         }
     }
 
-    private static final Map<String, Drawable> drawables = new HashMap<String, Drawable>();
+    private static final Map<String, Drawable> drawables = new java.util.concurrent.ConcurrentHashMap<String, Drawable>();   // audit B1
 
     /** Police livery drawable for a hull: pol_<art>, else the tinted plain art, else null (art not loaded). */
     static Drawable drawable(Hull h) {
