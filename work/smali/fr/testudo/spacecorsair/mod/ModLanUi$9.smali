@@ -75,6 +75,10 @@
 
     const-string v1, "OK"
 
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     const/4 v2, 0x0
 
     invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
@@ -82,16 +86,16 @@
     move-result-object v0
 
     invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
-    :try_end_1d
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_1d} :catch_1e
+    :try_end_21
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_21} :catch_22
 
     .line 340
-    :goto_1d
+    :goto_21
     return-void
 
     .line 339
-    :catch_1e
+    :catch_22
     move-exception v0
 
-    goto :goto_1d
+    goto :goto_21
 .end method

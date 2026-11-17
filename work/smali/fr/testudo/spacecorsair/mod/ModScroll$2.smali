@@ -18,6 +18,8 @@
 
 
 # instance fields
+.field private seen:J
+
 .field final synthetic val$decor:Landroid/view/View;
 
 
@@ -42,25 +44,44 @@
 
 # virtual methods
 .method public onGlobalLayout()V
-    .registers 2
+    .registers 5
 
     .prologue
-    .line 69
+    .line 70
     :try_start_0
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModScroll$2;->val$decor:Landroid/view/View;
+
+    iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModScroll$2;->seen:J
+
+    invoke-static {v0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModScroll;->screenChanged(Landroid/view/View;J)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_17
+
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModScroll$2;->val$decor:Landroid/view/View;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModScroll;->screenKey(Landroid/view/View;)J
+
+    move-result-wide v0
+
+    iput-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModScroll$2;->seen:J
+
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModScroll$2;->val$decor:Landroid/view/View;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModScroll;->scan(Landroid/view/View;)V
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModScroll;->access$100(Landroid/view/View;)V
-    :try_end_5
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_5} :catch_6
+    :try_end_17
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_17} :catch_18
 
-    .line 70
-    :goto_5
+    .line 71
+    :cond_17
+    :goto_17
     return-void
 
-    .line 69
-    :catch_6
+    .line 70
+    :catch_18
     move-exception v0
 
-    goto :goto_5
+    goto :goto_17
 .end method

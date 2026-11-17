@@ -38,17 +38,7 @@
 
 .field public static final TITAN:I = 0x6
 
-.field private static doomsdayTimer:I
-
-.field private static lance:Lfr/testudo/spacecorsair/business/projectiles/LaserBeam;
-
-.field private static final lanceEnd:Lfr/testudo/spacecorsair/engine/Vector2;
-
-.field private static lanceFlash:I
-
 .field private static volatile lastHull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
-
-.field private static final tmp:Lfr/testudo/spacecorsair/engine/Vector2;
 
 
 # direct methods
@@ -140,7 +130,7 @@
 
     new-array v0, v0, [I
 
-    fill-array-data v0, :array_1304
+    fill-array-data v0, :array_12ee
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->CLASS_RANK:[I
 
@@ -187,14 +177,14 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->TECH:[Ljava/lang/String;
 
-    .line 50
+    .line 55
     const/16 v0, 0x2f
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
-    .line 52
+    .line 57
     const/16 v0, 0x9
 
     new-array v0, v0, [[Ljava/lang/String;
@@ -227,7 +217,7 @@
 
     const-string v4, "Generalist"
 
-    .line 53
+    .line 58
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -264,7 +254,7 @@
 
     const-string v4, "Gunship"
 
-    .line 54
+    .line 59
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -301,7 +291,7 @@
 
     const-string v4, "Alien interceptor"
 
-    .line 55
+    .line 60
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -338,7 +328,7 @@
 
     const-string v4, "Rammer"
 
-    .line 56
+    .line 61
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -375,7 +365,7 @@
 
     const-string v4, "Alien beam skirmisher"
 
-    .line 57
+    .line 62
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -412,7 +402,7 @@
 
     const-string v4, "Pursuit cruiser"
 
-    .line 58
+    .line 63
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -449,7 +439,7 @@
 
     const-string v4, "Line battlecruiser"
 
-    .line 59
+    .line 64
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -486,7 +476,7 @@
 
     const-string v4, "SPARTAN battleship"
 
-    .line 60
+    .line 65
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -523,7 +513,7 @@
 
     const-string v4, "Alien carrier"
 
-    .line 61
+    .line 66
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -534,10 +524,10 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->ORIGINAL:[[Ljava/lang/String;
 
-    .line 65
+    .line 70
     const/4 v13, 0x0
 
-    .line 68
+    .line 73
     sget-object v14, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/4 v15, 0x1
@@ -570,7 +560,7 @@
 
     const-string v11, "<b>Assault frigate</b>: +15% laser damage."
 
-    .line 69
+    .line 74
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -585,12 +575,12 @@
 
     aput-object v0, v14, v13
 
-    .line 70
+    .line 75
     const v1, 0x3f933333    # 1.15f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 71
+    .line 76
     const v1, 0x3f1eb852    # 0.62f
 
     const v2, 0x3f81cac1    # 1.014f
@@ -607,7 +597,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 72
+    .line 77
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/4 v14, 0x2
@@ -636,7 +626,7 @@
 
     const-string v11, "<b>Interceptor</b>: fastest hull in its class, very agile, -10% laser reload time. Thin armour."
 
-    .line 73
+    .line 78
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -651,12 +641,12 @@
 
     aput-object v0, v13, v15
 
-    .line 74
+    .line 79
     const v1, 0x3f666666    # 0.9f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 75
+    .line 80
     const v1, 0x3f51eb85    # 0.82f
 
     const v2, 0x3f820c4a    # 1.016f
@@ -673,7 +663,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 77
+    .line 82
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/4 v15, 0x3
@@ -706,7 +696,7 @@
 
     const-string v11, "<b>Defender</b>: +20% shield capacity, one rotating cannon."
 
-    .line 78
+    .line 83
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -721,12 +711,12 @@
 
     aput-object v0, v13, v14
 
-    .line 79
+    .line 84
     const v1, 0x3f99999a    # 1.2f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 80
+    .line 85
     const v1, 0x3ecccccd    # 0.4f
 
     const v2, 0x3f8147ae    # 1.01f
@@ -743,7 +733,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1318
+    fill-array-data v7, :array_1302
 
     const v8, 0x3fe66666    # 1.8f
 
@@ -753,7 +743,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 81
+    .line 86
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/4 v14, 0x4
@@ -786,7 +776,7 @@
 
     const-string v11, "<b>Shield tank</b>: +50% shield regeneration and 30% shorter shield recovery delay. Two rotating cannons."
 
-    .line 82
+    .line 87
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -801,17 +791,17 @@
 
     aput-object v0, v13, v15
 
-    .line 83
+    .line 88
     const/high16 v1, 0x3fc00000    # 1.5f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
-    .line 84
+    .line 89
     const v1, 0x3f333333    # 0.7f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldDelay:F
 
-    .line 85
+    .line 90
     const v1, 0x3ec28f5c    # 0.38f
 
     const v2, 0x3f810625    # 1.008f
@@ -828,7 +818,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1320
+    fill-array-data v7, :array_130a
 
     const v8, 0x3fe66666    # 1.8f
 
@@ -838,14 +828,14 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 87
+    .line 92
     const/4 v0, 0x6
 
     new-array v13, v0, [F
 
-    fill-array-data v13, :array_132c
+    fill-array-data v13, :array_1316
 
-    .line 88
+    .line 93
     sget-object v15, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v16, 0x5
@@ -878,7 +868,7 @@
 
     const-string v11, "<b>Line cruiser</b>: three rotating heavy turrets and twin missile tubes. Good at everything, best at nothing."
 
-    .line 89
+    .line 94
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -893,7 +883,7 @@
 
     aput-object v0, v15, v14
 
-    .line 90
+    .line 95
     const v1, 0x3e99999a    # 0.3f
 
     const v2, 0x3f80e560    # 1.007f
@@ -916,7 +906,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 91
+    .line 96
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42340000    # 45.0f
@@ -925,7 +915,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 92
+    .line 97
     sget-object v14, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/4 v15, 0x6
@@ -958,7 +948,7 @@
 
     const-string v11, "<b>Assault cruiser</b>: +30% laser damage and 10% faster laser reload."
 
-    .line 93
+    .line 98
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -973,17 +963,17 @@
 
     aput-object v0, v14, v16
 
-    .line 94
+    .line 99
     const v1, 0x3fa66666    # 1.3f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 95
+    .line 100
     const v1, 0x3f666666    # 0.9f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 96
+    .line 101
     const v1, 0x3e9eb852    # 0.31f
 
     const v2, 0x3f80e560    # 1.007f
@@ -1006,7 +996,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 97
+    .line 102
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42340000    # 45.0f
@@ -1015,7 +1005,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 98
+    .line 103
     sget-object v14, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v16, 0x7
@@ -1048,7 +1038,7 @@
 
     const-string v11, "<b>Logistics cruiser</b>: repairs 1% of its hull every second and +40% shield regeneration."
 
-    .line 99
+    .line 104
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -1063,17 +1053,17 @@
 
     aput-object v0, v14, v15
 
-    .line 100
+    .line 105
     const v1, 0x3c23d70a    # 0.01f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
-    .line 101
+    .line 106
     const v1, 0x3fb33333    # 1.4f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
-    .line 102
+    .line 107
     const v1, 0x3e99999a    # 0.3f
 
     const v2, 0x3f80e560    # 1.007f
@@ -1096,7 +1086,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 104
+    .line 109
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x8
@@ -1129,7 +1119,7 @@
 
     const-string v11, "<b>Hauler</b>: cargo hold x2."
 
-    .line 105
+    .line 110
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -1144,12 +1134,12 @@
 
     aput-object v0, v13, v16
 
-    .line 106
+    .line 111
     const/high16 v1, 0x40000000    # 2.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
-    .line 107
+    .line 112
     const v1, 0x3eb33333    # 0.35f
 
     const v2, 0x3f8147ae    # 1.01f
@@ -1166,7 +1156,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_133c
+    fill-array-data v7, :array_1326
 
     const/high16 v8, 0x3fc00000    # 1.5f
 
@@ -1176,7 +1166,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 108
+    .line 113
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x9
@@ -1209,7 +1199,7 @@
 
     const-string v11, "<b>Armoured hauler</b>: cargo hold x1.6 and a hull three times thicker than a frigate\'s."
 
-    .line 109
+    .line 114
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -1224,12 +1214,12 @@
 
     aput-object v0, v13, v14
 
-    .line 110
+    .line 115
     const v1, 0x3fcccccd    # 1.6f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
-    .line 111
+    .line 116
     const v1, 0x3e851eb8    # 0.26f
 
     const v2, 0x3f8126e9    # 1.009f
@@ -1246,7 +1236,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1344
+    fill-array-data v7, :array_132e
 
     const v8, 0x3fb33333    # 1.4f
 
@@ -1256,7 +1246,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 112
+    .line 117
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0xa
@@ -1289,7 +1279,7 @@
 
     const-string v11, "<b>Freighter</b>: cargo hold x3.5, two rotating cannons."
 
-    .line 113
+    .line 118
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -1304,12 +1294,12 @@
 
     aput-object v0, v13, v15
 
-    .line 114
+    .line 119
     const/high16 v1, 0x40600000    # 3.5f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
-    .line 115
+    .line 120
     const/high16 v1, 0x3e800000    # 0.25f
 
     const v2, 0x3f8126e9    # 1.009f
@@ -1326,7 +1316,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_134c
+    fill-array-data v7, :array_1336
 
     const v8, 0x3fb33333    # 1.4f
 
@@ -1336,14 +1326,14 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 117
+    .line 122
     const/4 v0, 0x6
 
     new-array v13, v0, [F
 
-    fill-array-data v13, :array_1358
+    fill-array-data v13, :array_1342
 
-    .line 118
+    .line 123
     sget-object v15, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v16, 0xb
@@ -1376,7 +1366,7 @@
 
     const-string v11, "<b>Brawler</b>: +15% laser damage and +20% shield capacity."
 
-    .line 119
+    .line 124
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -1391,17 +1381,17 @@
 
     aput-object v0, v15, v14
 
-    .line 120
+    .line 125
     const v1, 0x3f933333    # 1.15f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 121
+    .line 126
     const v1, 0x3f99999a    # 1.2f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 122
+    .line 127
     const v1, 0x3e4ccccd    # 0.2f
 
     const v2, 0x3f80e560    # 1.007f
@@ -1424,7 +1414,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 123
+    .line 128
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42c80000    # 100.0f
@@ -1433,7 +1423,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 124
+    .line 129
     sget-object v14, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0xc
@@ -1466,7 +1456,7 @@
 
     const-string v11, "<b>Missile boat</b>: four missile tubes and 40% faster missile reload."
 
-    .line 125
+    .line 130
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -1481,12 +1471,12 @@
 
     aput-object v0, v14, v16
 
-    .line 126
+    .line 131
     const v1, 0x3f19999a    # 0.6f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
 
-    .line 127
+    .line 132
     const v1, 0x3e428f5c    # 0.19f
 
     const v2, 0x3f80e560    # 1.007f
@@ -1509,14 +1499,14 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 128
+    .line 133
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/4 v2, 0x4
 
     iput v2, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileCount:I
 
-    .line 129
+    .line 134
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/4 v1, 0x4
@@ -1573,14 +1563,14 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileExitPoint:[Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 131
+    .line 136
     const/4 v0, 0x6
 
     new-array v13, v0, [F
 
-    fill-array-data v13, :array_1368
+    fill-array-data v13, :array_1352
 
-    .line 132
+    .line 137
     sget-object v14, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v16, 0xd
@@ -1613,7 +1603,7 @@
 
     const-string v11, "<b>Line battleship</b>: +30% shield capacity and an enormous hull."
 
-    .line 133
+    .line 138
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -1628,12 +1618,12 @@
 
     aput-object v0, v14, v15
 
-    .line 134
+    .line 139
     const v1, 0x3fa66666    # 1.3f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 135
+    .line 140
     const v1, 0x3e2e147b    # 0.17f
 
     const v2, 0x3f80c49c    # 1.006f
@@ -1656,7 +1646,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 136
+    .line 141
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42b40000    # 90.0f
@@ -1665,7 +1655,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 137
+    .line 142
     sget-object v14, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0xe
@@ -1698,7 +1688,7 @@
 
     const-string v11, "<b>Artillery</b>: +45% laser damage but 10% slower reload."
 
-    .line 138
+    .line 143
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -1713,17 +1703,17 @@
 
     aput-object v0, v14, v16
 
-    .line 139
+    .line 144
     const v1, 0x3fb9999a    # 1.45f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 140
+    .line 145
     const v1, 0x3f8ccccd    # 1.1f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 141
+    .line 146
     const v1, 0x3e23d70a    # 0.16f
 
     const v2, 0x3f80c49c    # 1.006f
@@ -1746,7 +1736,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 142
+    .line 147
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42b40000    # 90.0f
@@ -1755,7 +1745,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 144
+    .line 149
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0xf
@@ -1788,14 +1778,14 @@
 
     const-string v11, "<b>Titan</b>: +25% laser damage, +50% shield capacity, six heavy turrets (2.5x damage per shot), four siege-missile tubes (1.9x damage, 55% wider blast, slower reload).<br><b>Doomsday Lance</b> (DOOMSDAY button): 2.5 s charge, then a 4 s lance straight ahead (2800 range, 60% as wide as the hull) that wipes everything in its path; mission bosses lose ~8% of their hull per lance and titan-class capitals ~2.5% (they take dozens). The titan cannot move, turn or fire while it charges and fires. 90 s cooldown."
 
-    .line 145
+    .line 150
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
 
     const-string v12, "The Leviathan anchors a Republic defense line; its lance waits until every civilian convoy is clear."
 
-    .line 148
+    .line 153
     invoke-static {v12}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v12
@@ -1804,22 +1794,22 @@
 
     aput-object v0, v13, v15
 
-    .line 149
+    .line 154
     const/high16 v1, 0x3fa00000    # 1.25f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 150
+    .line 155
     const/high16 v1, 0x3fc00000    # 1.5f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 151
+    .line 156
     const/4 v1, 0x1
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->doomsday:Z
 
-    .line 153
+    .line 158
     const v1, 0x3df5c28f    # 0.12f
 
     const v2, 0x3f80a3d7    # 1.005f
@@ -1836,7 +1826,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1378
+    fill-array-data v7, :array_1362
 
     const v8, 0x3f8ccccd    # 1.1f
 
@@ -1846,14 +1836,14 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 155
+    .line 160
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/4 v2, 0x4
 
     iput v2, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileCount:I
 
-    .line 156
+    .line 161
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/4 v1, 0x4
@@ -1910,7 +1900,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileExitPoint:[Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 159
+    .line 164
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x10
@@ -1943,7 +1933,7 @@
 
     const-string v11, "<b>Racer</b>: the fastest Tech I hull in the game."
 
-    .line 160
+    .line 165
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -1956,14 +1946,14 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 159
+    .line 164
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hel(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 161
+    .line 166
     const v1, 0x3f428f5c    # 0.76f
 
     const v2, 0x3f81eb85    # 1.015f
@@ -1980,7 +1970,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 162
+    .line 167
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x11
@@ -2013,7 +2003,7 @@
 
     const-string v11, "<b>Escort</b>: +15% shield capacity."
 
-    .line 163
+    .line 168
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2026,19 +2016,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 162
+    .line 167
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hel(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 164
+    .line 169
     const v1, 0x3f933333    # 1.15f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 165
+    .line 170
     const v1, 0x3f19999a    # 0.6f
 
     const v2, 0x3f81eb85    # 1.015f
@@ -2055,7 +2045,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 166
+    .line 171
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x12
@@ -2084,7 +2074,7 @@
 
     const-string v11, "<b>Interceptor</b>: +10% laser damage, extreme agility."
 
-    .line 167
+    .line 172
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2097,19 +2087,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 166
+    .line 171
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hel(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 168
+    .line 173
     const v1, 0x3f8ccccd    # 1.1f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 169
+    .line 174
     const v1, 0x3f59999a    # 0.85f
 
     const v2, 0x3f820c4a    # 1.016f
@@ -2126,7 +2116,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 170
+    .line 175
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x13
@@ -2159,7 +2149,7 @@
 
     const-string v11, "<b>Strike craft</b>: +30% laser damage, -25% hull."
 
-    .line 171
+    .line 176
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2172,19 +2162,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 170
+    .line 175
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hel(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 172
+    .line 177
     const v1, 0x3fa66666    # 1.3f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 173
+    .line 178
     const v1, 0x3f3851ec    # 0.72f
 
     const v2, 0x3f81eb85    # 1.015f
@@ -2201,7 +2191,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 174
+    .line 179
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x14
@@ -2234,7 +2224,7 @@
 
     const-string v11, "<b>Escort destroyer</b>: +15% shield capacity, one rotating cannon."
 
-    .line 175
+    .line 180
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2247,19 +2237,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 174
+    .line 179
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hel(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 176
+    .line 181
     const v1, 0x3f933333    # 1.15f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 177
+    .line 182
     const v1, 0x3ee66666    # 0.45f
 
     const v2, 0x3f816873    # 1.011f
@@ -2276,7 +2266,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1394
+    fill-array-data v7, :array_137e
 
     const v8, 0x3fe66666    # 1.8f
 
@@ -2286,7 +2276,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 178
+    .line 183
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x15
@@ -2319,7 +2309,7 @@
 
     const-string v11, "<b>Shield destroyer</b>: +40% shield capacity and +20% shield regeneration."
 
-    .line 179
+    .line 184
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2332,24 +2322,24 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 178
+    .line 183
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hel(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 180
+    .line 185
     const v1, 0x3fb33333    # 1.4f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 181
+    .line 186
     const v1, 0x3f99999a    # 1.2f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
-    .line 182
+    .line 187
     const v1, 0x3edc28f6    # 0.43f
 
     const v2, 0x3f816873    # 1.011f
@@ -2366,7 +2356,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_139c
+    fill-array-data v7, :array_1386
 
     const v8, 0x3fe66666    # 1.8f
 
@@ -2376,7 +2366,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 183
+    .line 188
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x16
@@ -2409,7 +2399,7 @@
 
     const-string v11, "<b>Bomber</b>: twin missile tubes and 35% faster missile reload."
 
-    .line 184
+    .line 189
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2422,19 +2412,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 183
+    .line 188
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hel(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 185
+    .line 190
     const v1, 0x3f266666    # 0.65f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
 
-    .line 186
+    .line 191
     const v1, 0x3ef5c28f    # 0.48f
 
     const v2, 0x3f818937    # 1.012f
@@ -2451,7 +2441,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 187
+    .line 192
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x420c0000    # 35.0f
@@ -2460,7 +2450,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 189
+    .line 194
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x17
@@ -2493,7 +2483,7 @@
 
     const-string v11, "<b>Brawler</b>: double hull plating and two rotating cannons."
 
-    .line 190
+    .line 195
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2506,14 +2496,14 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 189
+    .line 194
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->iron(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 191
+    .line 196
     const v1, 0x3ec28f5c    # 0.38f
 
     const v2, 0x3f8147ae    # 1.01f
@@ -2530,7 +2520,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_13a4
+    fill-array-data v7, :array_138e
 
     const v8, 0x3fcccccd    # 1.6f
 
@@ -2540,7 +2530,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 192
+    .line 197
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x18
@@ -2573,7 +2563,7 @@
 
     const-string v11, "<b>Gun cruiser</b>: three cannon turrets, +10% laser damage, heavy armour."
 
-    .line 193
+    .line 198
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2586,19 +2576,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 192
+    .line 197
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->iron(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 194
+    .line 199
     const v1, 0x3f8ccccd    # 1.1f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 195
+    .line 200
     const v1, 0x3e8f5c29    # 0.28f
 
     const v2, 0x3f810625    # 1.008f
@@ -2615,7 +2605,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_13b0
+    fill-array-data v7, :array_139a
 
     const v8, 0x3fa66666    # 1.3f
 
@@ -2625,7 +2615,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 196
+    .line 201
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x19
@@ -2658,7 +2648,7 @@
 
     const-string v11, "<b>Foundry</b>: cargo hold x2.5 and on-board repair works (0.5% hull per second)."
 
-    .line 197
+    .line 202
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2671,24 +2661,24 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 196
+    .line 201
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->iron(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 198
+    .line 203
     const/high16 v1, 0x40200000    # 2.5f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
-    .line 199
+    .line 204
     const v1, 0x3ba3d70a    # 0.005f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
-    .line 200
+    .line 205
     const/high16 v1, 0x3e800000    # 0.25f
 
     const v2, 0x3f8126e9    # 1.009f
@@ -2705,7 +2695,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_13c0
+    fill-array-data v7, :array_13aa
 
     const v8, 0x3fb33333    # 1.4f
 
@@ -2715,7 +2705,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 202
+    .line 207
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x1a
@@ -2748,7 +2738,7 @@
 
     const-string v11, "<b>Picket</b>: 8% faster laser reload, one rotating cannon."
 
-    .line 203
+    .line 208
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2761,19 +2751,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 202
+    .line 207
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 204
+    .line 209
     const v1, 0x3f6b851f    # 0.92f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 205
+    .line 210
     const v1, 0x3eeb851f    # 0.46f
 
     const v2, 0x3f816873    # 1.011f
@@ -2790,7 +2780,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_13cc
+    fill-array-data v7, :array_13b6
 
     const v8, 0x3ff33333    # 1.9f
 
@@ -2800,7 +2790,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 206
+    .line 211
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x1b
@@ -2833,7 +2823,7 @@
 
     const-string v11, "<b>Gunboat</b>: +20% laser damage, two wing turrets."
 
-    .line 207
+    .line 212
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2846,19 +2836,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 206
+    .line 211
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 208
+    .line 213
     const v1, 0x3f99999a    # 1.2f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 209
+    .line 214
     const v1, 0x3ed70a3d    # 0.42f
 
     const v2, 0x3f8147ae    # 1.01f
@@ -2875,7 +2865,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_13d4
+    fill-array-data v7, :array_13be
 
     const v8, 0x3fe66666    # 1.8f
 
@@ -2885,7 +2875,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 210
+    .line 215
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x1c
@@ -2918,7 +2908,7 @@
 
     const-string v11, "<b>Strike cruiser</b>: +5% damage, 5% faster reload, three laser turrets."
 
-    .line 211
+    .line 216
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -2931,24 +2921,24 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 210
+    .line 215
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 212
+    .line 217
     const v1, 0x3f866666    # 1.05f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 213
+    .line 218
     const v1, 0x3f733333    # 0.95f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 214
+    .line 219
     const v1, 0x3ea3d70a    # 0.32f
 
     const v2, 0x3f80e560    # 1.007f
@@ -2965,7 +2955,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_13e0
+    fill-array-data v7, :array_13ca
 
     const/high16 v8, 0x3fc00000    # 1.5f
 
@@ -2975,7 +2965,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 215
+    .line 220
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x1d
@@ -3008,7 +2998,7 @@
 
     const-string v11, "<b>Support cruiser</b>: repairs 0.8% hull per second and +30% shield regeneration."
 
-    .line 216
+    .line 221
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -3021,24 +3011,24 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 215
+    .line 220
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 217
+    .line 222
     const v1, 0x3c03126f    # 0.008f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
-    .line 218
+    .line 223
     const v1, 0x3fa66666    # 1.3f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
-    .line 219
+    .line 224
     const v1, 0x3e99999a    # 0.3f
 
     const v2, 0x3f80e560    # 1.007f
@@ -3055,7 +3045,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_13f0
+    fill-array-data v7, :array_13da
 
     const v8, 0x3fb33333    # 1.4f
 
@@ -3065,7 +3055,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 220
+    .line 225
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x1e
@@ -3098,7 +3088,7 @@
 
     const-string v11, "<b>Heavy assault</b>: +35% laser damage."
 
-    .line 221
+    .line 226
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -3111,19 +3101,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 220
+    .line 225
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 222
+    .line 227
     const v1, 0x3faccccd    # 1.35f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 223
+    .line 228
     const v1, 0x3e99999a    # 0.3f
 
     const v2, 0x3f80e560    # 1.007f
@@ -3140,7 +3130,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1400
+    fill-array-data v7, :array_13ea
 
     const/high16 v8, 0x3fc00000    # 1.5f
 
@@ -3150,7 +3140,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 224
+    .line 229
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x1f
@@ -3183,7 +3173,7 @@
 
     const-string v11, "<b>Line battlecruiser</b>: +15% shield, +5% damage, twin missile tubes."
 
-    .line 225
+    .line 230
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -3196,24 +3186,24 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 224
+    .line 229
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 226
+    .line 231
     const v1, 0x3f933333    # 1.15f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 227
+    .line 232
     const v1, 0x3f866666    # 1.05f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 228
+    .line 233
     const v1, 0x3e570a3d    # 0.21f
 
     const v2, 0x3f80e560    # 1.007f
@@ -3230,7 +3220,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1410
+    fill-array-data v7, :array_13fa
 
     const v8, 0x3fa66666    # 1.3f
 
@@ -3240,7 +3230,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 229
+    .line 234
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42700000    # 60.0f
@@ -3249,7 +3239,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 230
+    .line 235
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x20
@@ -3282,7 +3272,7 @@
 
     const-string v11, "<b>Command ship</b>: +35% shield capacity and +30% shield regeneration."
 
-    .line 231
+    .line 236
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -3295,24 +3285,24 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 230
+    .line 235
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 232
+    .line 237
     const v1, 0x3faccccd    # 1.35f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 233
+    .line 238
     const v1, 0x3fa66666    # 1.3f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
-    .line 234
+    .line 239
     const v1, 0x3e4ccccd    # 0.2f
 
     const v2, 0x3f80e560    # 1.007f
@@ -3329,7 +3319,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1420
+    fill-array-data v7, :array_140a
 
     const v8, 0x3fa66666    # 1.3f
 
@@ -3339,7 +3329,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 235
+    .line 240
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x428c0000    # 70.0f
@@ -3348,7 +3338,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 236
+    .line 241
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x21
@@ -3381,7 +3371,7 @@
 
     const-string v11, "<b>Artillery</b>: +40% laser damage, 10% slower reload."
 
-    .line 237
+    .line 242
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -3394,24 +3384,24 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 236
+    .line 241
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 238
+    .line 243
     const v1, 0x3fb33333    # 1.4f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 239
+    .line 244
     const v1, 0x3f8ccccd    # 1.1f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 240
+    .line 245
     const v1, 0x3e4ccccd    # 0.2f
 
     const v2, 0x3f80e560    # 1.007f
@@ -3428,7 +3418,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1430
+    fill-array-data v7, :array_141a
 
     const v8, 0x3f99999a    # 1.2f
 
@@ -3438,7 +3428,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 241
+    .line 246
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x22
@@ -3471,7 +3461,7 @@
 
     const-string v11, "<b>Bulk freighter</b>: cargo hold x5."
 
-    .line 242
+    .line 247
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -3484,19 +3474,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 241
+    .line 246
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 243
+    .line 248
     const/high16 v1, 0x40a00000    # 5.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
-    .line 244
+    .line 249
     const v1, 0x3e6147ae    # 0.22f
 
     const v2, 0x3f8126e9    # 1.009f
@@ -3513,7 +3503,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1440
+    fill-array-data v7, :array_142a
 
     const v8, 0x3fb33333    # 1.4f
 
@@ -3523,7 +3513,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 245
+    .line 250
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x23
@@ -3556,7 +3546,7 @@
 
     const-string v11, "<b>Line battleship</b>: +20% shield capacity and an enormous hull. Twin missile tubes."
 
-    .line 246
+    .line 251
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -3569,19 +3559,19 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 245
+    .line 250
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 247
+    .line 252
     const v1, 0x3f99999a    # 1.2f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 248
+    .line 253
     const v1, 0x3e2e147b    # 0.17f
 
     const v2, 0x3f80c49c    # 1.006f
@@ -3598,7 +3588,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_144c
+    fill-array-data v7, :array_1436
 
     const v8, 0x3f99999a    # 1.2f
 
@@ -3608,7 +3598,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 249
+    .line 254
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42c80000    # 100.0f
@@ -3617,7 +3607,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 250
+    .line 255
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x24
@@ -3650,7 +3640,7 @@
 
     const-string v11, "<b>Strike battleship</b>: +35% laser damage and 10% faster reload."
 
-    .line 251
+    .line 256
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -3663,24 +3653,24 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 250
+    .line 255
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 252
+    .line 257
     const v1, 0x3faccccd    # 1.35f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 253
+    .line 258
     const v1, 0x3f666666    # 0.9f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 254
+    .line 259
     const v1, 0x3e3851ec    # 0.18f
 
     const v2, 0x3f80c49c    # 1.006f
@@ -3697,7 +3687,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_145c
+    fill-array-data v7, :array_1446
 
     const/high16 v8, 0x3fa00000    # 1.25f
 
@@ -3707,7 +3697,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 255
+    .line 260
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42b40000    # 90.0f
@@ -3716,7 +3706,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 256
+    .line 261
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x25
@@ -3749,7 +3739,7 @@
 
     const-string v11, "<b>Siege fortress</b>: +60% shield capacity, +40% shield regeneration, the thickest battleship hull."
 
-    .line 257
+    .line 262
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -3762,24 +3752,24 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 256
+    .line 261
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v15
 
-    .line 258
+    .line 263
     const v1, 0x3fcccccd    # 1.6f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 259
+    .line 264
     const v1, 0x3fb33333    # 1.4f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
-    .line 260
+    .line 265
     const v1, 0x3e19999a    # 0.15f
 
     const v2, 0x3f80c49c    # 1.006f
@@ -3796,7 +3786,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_146c
+    fill-array-data v7, :array_1456
 
     const v8, 0x3f933333    # 1.15f
 
@@ -3806,7 +3796,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 261
+    .line 266
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42dc0000    # 110.0f
@@ -3815,7 +3805,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 262
+    .line 267
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x26
@@ -3848,7 +3838,7 @@
 
     const-string v11, "<b>Carrier</b>: can mount any Regent Hive Bay and its drones deal +30% damage. Huge hull, +25% shield capacity."
 
-    .line 263
+    .line 268
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -3861,24 +3851,24 @@
 
     invoke-direct/range {v0 .. v12}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;-><init>(Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;Ljava/lang/String;IIILfr/testudo/spacecorsair/business/loot/LootRarety;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 262
+    .line 267
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->varn(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
     aput-object v0, v13, v14
 
-    .line 264
+    .line 269
     const/4 v1, 0x1
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->carrier:Z
 
-    .line 265
+    .line 270
     const/high16 v1, 0x3fa00000    # 1.25f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 266
+    .line 271
     const v1, 0x3e051eb8    # 0.13f
 
     const v2, 0x3f80c49c    # 1.006f
@@ -3895,7 +3885,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_147c
+    fill-array-data v7, :array_1466
 
     const v8, 0x3f8ccccd    # 1.1f
 
@@ -3905,7 +3895,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 267
+    .line 272
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x43480000    # 200.0f
@@ -3914,7 +3904,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 269
+    .line 274
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x27
@@ -3947,14 +3937,14 @@
 
     const-string v11, "<b>Raider titan</b>: +45% laser damage, 10% faster reload, six heavy plasma cannons (2.5x damage per shot), four siege-missile tubes (1.9x damage, 55% wider blast, slower reload).<br><b>Furnace Nova</b> (DOOMSDAY button): 2 s charge, then a 3.5 s ring of fire that grows to 1400 around the hull and burns everything inside. The titan cannot move, turn or fire while it charges and burns. 75 s cooldown.<br><b>Furnace core</b>: the hull slowly repairs itself in combat (0.4% per second)."
 
-    .line 270
+    .line 275
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
 
     const-string v12, "The Reavers\' throne-ship. A furnace with a hull bolted around it, and a crew that likes it that way."
 
-    .line 274
+    .line 279
     invoke-static {v12}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v12
@@ -3963,42 +3953,42 @@
 
     aput-object v0, v13, v15
 
-    .line 275
+    .line 280
     const-string v1, "Crimson Reavers"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 276
+    .line 281
     const v1, 0x3fb9999a    # 1.45f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 277
+    .line 282
     const v1, 0x3f666666    # 0.9f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 278
+    .line 283
     const v1, 0x3f4ccccd    # 0.8f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
 
-    .line 279
+    .line 284
     const v1, 0x3f666666    # 0.9f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 280
+    .line 285
     const v1, 0x3b83126f    # 0.004f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
-    .line 281
+    .line 286
     const-string v1, "turret_cannon"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->turretArt:Ljava/lang/String;
 
-    .line 282
+    .line 287
     const v1, 0x3e051eb8    # 0.13f
 
     const v2, 0x3f80a3d7    # 1.005f
@@ -4015,7 +4005,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_148c
+    fill-array-data v7, :array_1476
 
     const v8, 0x3f933333    # 1.15f
 
@@ -4025,14 +4015,14 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 284
+    .line 289
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/4 v2, 0x4
 
     iput v2, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileCount:I
 
-    .line 285
+    .line 290
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/4 v1, 0x4
@@ -4089,7 +4079,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileExitPoint:[Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 287
+    .line 292
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x28
@@ -4122,14 +4112,14 @@
 
     const-string v11, "<b>DEV ONLY</b> (gift code): 3x laser damage, half reload time, 4x shield, 2.5x missile reload speed, 10x cargo.<br><b>Doomsday Lance</b> (DOOMSDAY button, 12 s test cooldown) and <b>carrier bays</b>.<br><b>Phase Pulse</b>: every 6 seconds a green shockwave hits enemies within range.<br><b>Self-repair</b>: 2% hull per second."
 
-    .line 288
+    .line 293
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
 
     const-string v12, "A test bed bolted together by the mod\'s developers. It should not exist, and nobody will sell you one."
 
-    .line 292
+    .line 297
     invoke-static {v12}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v12
@@ -4138,7 +4128,7 @@
 
     aput-object v0, v13, v14
 
-    .line 293
+    .line 298
     const-string v1, "Developers"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -4147,62 +4137,62 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 294
+    .line 299
     const/4 v1, 0x1
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dev:Z
 
-    .line 295
+    .line 300
     const/4 v1, 0x1
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->doomsday:Z
 
-    .line 296
+    .line 301
     const/4 v1, 0x1
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->carrier:Z
 
-    .line 297
+    .line 302
     const/high16 v1, 0x40400000    # 3.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 298
+    .line 303
     const/high16 v1, 0x3f000000    # 0.5f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 299
+    .line 304
     const/high16 v1, 0x40800000    # 4.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 300
+    .line 305
     const/high16 v1, 0x40800000    # 4.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
-    .line 301
+    .line 306
     const v1, 0x3ecccccd    # 0.4f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->missileReload:F
 
-    .line 302
+    .line 307
     const/high16 v1, 0x41200000    # 10.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
-    .line 303
+    .line 308
     const v1, 0x3ca3d70a    # 0.02f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
-    .line 304
+    .line 309
     const-string v1, "turret_dev"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->turretArt:Ljava/lang/String;
 
-    .line 306
+    .line 311
     const v1, 0x3e99999a    # 0.3f
 
     const v2, 0x3f8147ae    # 1.01f
@@ -4219,7 +4209,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_14a8
+    fill-array-data v7, :array_1492
 
     const v8, 0x3f99999a    # 1.2f
 
@@ -4229,14 +4219,14 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 308
+    .line 313
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/4 v2, 0x4
 
     iput v2, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileCount:I
 
-    .line 309
+    .line 314
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/4 v1, 0x4
@@ -4293,7 +4283,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileExitPoint:[Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 311
+    .line 316
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x29
@@ -4326,7 +4316,7 @@
 
     const-string v11, "<b>Fleet escort</b> (Honored with the Spartan Republic): +60% shield capacity, +40% shield regeneration, +10% laser damage."
 
-    .line 312
+    .line 317
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -4341,32 +4331,32 @@
 
     aput-object v0, v13, v15
 
-    .line 313
+    .line 318
     const-string v1, "Spartan Republic"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 314
+    .line 319
     const-string v1, "spartan"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->secret:Ljava/lang/String;
 
-    .line 315
+    .line 320
     const v1, 0x3fcccccd    # 1.6f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 316
+    .line 321
     const v1, 0x3fb33333    # 1.4f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
-    .line 317
+    .line 322
     const v1, 0x3f8ccccd    # 1.1f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 318
+    .line 323
     const v1, 0x3e6147ae    # 0.22f
 
     const v2, 0x3f80e560    # 1.007f
@@ -4383,7 +4373,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_14c4
+    fill-array-data v7, :array_14ae
 
     const v8, 0x3fa66666    # 1.3f
 
@@ -4393,7 +4383,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 319
+    .line 324
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x428c0000    # 70.0f
@@ -4402,7 +4392,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 320
+    .line 325
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x2a
@@ -4435,7 +4425,7 @@
 
     const-string v11, "<b>Close-range raider</b> (Honored with the Crimson Reavers): +50% laser damage, 10% faster reload, slow hull self-repair."
 
-    .line 321
+    .line 326
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -4450,32 +4440,32 @@
 
     aput-object v0, v13, v14
 
-    .line 322
+    .line 327
     const-string v1, "Crimson Reavers"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 323
+    .line 328
     const-string v1, "reaver"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->secret:Ljava/lang/String;
 
-    .line 324
+    .line 329
     const/high16 v1, 0x3fc00000    # 1.5f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 325
+    .line 330
     const v1, 0x3f666666    # 0.9f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 326
+    .line 331
     const v1, 0x3ba3d70a    # 0.005f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
-    .line 327
+    .line 332
     const v1, 0x3e428f5c    # 0.19f
 
     const v2, 0x3f80c49c    # 1.006f
@@ -4492,7 +4482,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_14dc
+    fill-array-data v7, :array_14c6
 
     const v8, 0x3fa66666    # 1.3f
 
@@ -4502,7 +4492,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 328
+    .line 333
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42b40000    # 90.0f
@@ -4511,7 +4501,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 329
+    .line 334
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x2b
@@ -4544,7 +4534,7 @@
 
     const-string v11, "<b>Brood courier</b> (Honored with the Kre\'tari Brood): repairs 1.5% of its hull every second, +30% shield regeneration, can mount any Regent Hive Bay (+30% drone damage)."
 
-    .line 330
+    .line 335
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -4559,32 +4549,32 @@
 
     aput-object v0, v13, v15
 
-    .line 331
+    .line 336
     const-string v1, "Kre\'tari Brood"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 332
+    .line 337
     const-string v1, "kretari"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->secret:Ljava/lang/String;
 
-    .line 333
+    .line 338
     const v1, 0x3c75c28f    # 0.015f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
-    .line 334
+    .line 339
     const v1, 0x3fa66666    # 1.3f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldRegen:F
 
-    .line 335
+    .line 340
     const/4 v1, 0x1
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->carrier:Z
 
-    .line 336
+    .line 341
     const v1, 0x3eae147b    # 0.34f
 
     const v2, 0x3f80e560    # 1.007f
@@ -4601,7 +4591,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_14f8
+    fill-array-data v7, :array_14e2
 
     const v8, 0x3fa66666    # 1.3f
 
@@ -4611,7 +4601,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 337
+    .line 342
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42700000    # 60.0f
@@ -4620,7 +4610,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 338
+    .line 343
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x2c
@@ -4653,7 +4643,7 @@
 
     const-string v11, "<b>Convoy interdiction</b> (Honored with the Varn Syndicate): cargo hold x3, +25% laser damage, +30% shield capacity."
 
-    .line 339
+    .line 344
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -4668,32 +4658,32 @@
 
     aput-object v0, v13, v14
 
-    .line 340
+    .line 345
     const-string v1, "Varn Syndicate"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 341
+    .line 346
     const-string v1, "varn"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->secret:Ljava/lang/String;
 
-    .line 342
+    .line 347
     const/high16 v1, 0x40400000    # 3.0f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
-    .line 343
+    .line 348
     const/high16 v1, 0x3fa00000    # 1.25f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 344
+    .line 349
     const v1, 0x3fa66666    # 1.3f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 345
+    .line 350
     const v1, 0x3e570a3d    # 0.21f
 
     const v2, 0x3f80e560    # 1.007f
@@ -4710,7 +4700,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_150c
+    fill-array-data v7, :array_14f6
 
     const v8, 0x3fa66666    # 1.3f
 
@@ -4720,7 +4710,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 346
+    .line 351
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x428c0000    # 70.0f
@@ -4729,7 +4719,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 347
+    .line 352
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v14, 0x2d
@@ -4762,7 +4752,7 @@
 
     const-string v11, "<b>Settlement defender</b> (Honored with the Ironclad Militia): repairs 1.5% of its hull every second, +40% shield capacity, +10% laser damage."
 
-    .line 348
+    .line 353
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -4777,32 +4767,32 @@
 
     aput-object v0, v13, v15
 
-    .line 349
+    .line 354
     const-string v1, "Ironclad Militia"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 350
+    .line 355
     const-string v1, "ironclad"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->secret:Ljava/lang/String;
 
-    .line 351
+    .line 356
     const v1, 0x3c75c28f    # 0.015f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hullRegen:F
 
-    .line 352
+    .line 357
     const v1, 0x3fb33333    # 1.4f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 353
+    .line 358
     const v1, 0x3f8ccccd    # 1.1f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 354
+    .line 359
     const v1, 0x3e3851ec    # 0.18f
 
     const v2, 0x3f80c49c    # 1.006f
@@ -4819,7 +4809,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1524
+    fill-array-data v7, :array_150e
 
     const v8, 0x3fa66666    # 1.3f
 
@@ -4829,7 +4819,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 355
+    .line 360
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x42c80000    # 100.0f
@@ -4838,7 +4828,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 356
+    .line 361
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     const/16 v15, 0x2e
@@ -4871,7 +4861,7 @@
 
     const-string v11, "<b>Long-range route runner</b> (Honored with the Helion Combine): the fastest battlecruiser, +20% laser damage, 10% faster reload."
 
-    .line 357
+    .line 362
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -4886,27 +4876,27 @@
 
     aput-object v0, v13, v14
 
-    .line 358
+    .line 363
     const-string v1, "Helion Combine"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 359
+    .line 364
     const-string v1, "helion"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->secret:Ljava/lang/String;
 
-    .line 360
+    .line 365
     const v1, 0x3f99999a    # 1.2f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 361
+    .line 366
     const v1, 0x3f666666    # 0.9f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
 
-    .line 362
+    .line 367
     const v1, 0x3e947ae1    # 0.29f
 
     const v2, 0x3f80e560    # 1.007f
@@ -4923,7 +4913,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1540
+    fill-array-data v7, :array_152a
 
     const v8, 0x3fa66666    # 1.3f
 
@@ -4933,7 +4923,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 363
+    .line 368
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x428c0000    # 70.0f
@@ -4942,7 +4932,7 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 364
+    .line 369
     sget-object v13, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;
@@ -4973,7 +4963,7 @@
 
     const-string v11, "<b>Deep-range patrol</b> (Honored with the Frontier Authority): +30% shield capacity, +25% laser damage, very fast for a cruiser."
 
-    .line 365
+    .line 370
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -4988,27 +4978,27 @@
 
     aput-object v0, v13, v15
 
-    .line 366
+    .line 371
     const-string v1, "Frontier Authority"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 367
+    .line 372
     const-string v1, "warden"
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->secret:Ljava/lang/String;
 
-    .line 368
+    .line 373
     const v1, 0x3fa66666    # 1.3f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
 
-    .line 369
+    .line 374
     const/high16 v1, 0x3fa00000    # 1.25f
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    .line 370
+    .line 375
     const v1, 0x3eb851ec    # 0.36f
 
     const v2, 0x3f80e560    # 1.007f
@@ -5025,7 +5015,7 @@
 
     new-array v7, v7, [F
 
-    fill-array-data v7, :array_1550
+    fill-array-data v7, :array_153a
 
     const v8, 0x3fa66666    # 1.3f
 
@@ -5035,7 +5025,7 @@
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 371
+    .line 376
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     const/high16 v1, 0x425c0000    # 55.0f
@@ -5044,39 +5034,14 @@
 
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModShips;->twinMissiles(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;FF)V
 
-    .line 372
+    .line 377
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModShips;->applyHardpoints()V
 
-    .line 781
-    const/16 v0, 0x7530
-
-    sput v0, Lfr/testudo/spacecorsair/mod/ModShips;->doomsdayTimer:I
-
-    .line 782
-    new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
-
-    invoke-direct {v0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>()V
-
-    sput-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceEnd:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    .line 783
-    const/4 v0, 0x0
-
-    sput v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceFlash:I
-
-    .line 800
-    new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
-
-    invoke-direct {v0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>()V
-
-    sput-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->tmp:Lfr/testudo/spacecorsair/engine/Vector2;
-
+    .line 378
     return-void
 
     .line 25
-    nop
-
-    :array_1304
+    :array_12ee
     .array-data 4
         0x0
         0x1
@@ -5088,15 +5053,15 @@
         0x3
     .end array-data
 
-    .line 80
-    :array_1318
+    .line 85
+    :array_1302
     .array-data 4
         0x0
         0x0
     .end array-data
 
-    .line 85
-    :array_1320
+    .line 90
+    :array_130a
     .array-data 4
         0x0
         -0x3de00000    # -40.0f
@@ -5104,8 +5069,8 @@
         0x42340000    # 45.0f
     .end array-data
 
-    .line 87
-    :array_132c
+    .line 92
+    :array_1316
     .array-data 4
         0x0
         -0x3d560000    # -85.0f
@@ -5115,22 +5080,22 @@
         0x42b40000    # 90.0f
     .end array-data
 
-    .line 107
-    :array_133c
+    .line 112
+    :array_1326
     .array-data 4
         0x0
         0x41700000    # 15.0f
     .end array-data
 
-    .line 111
-    :array_1344
+    .line 116
+    :array_132e
     .array-data 4
         0x0
         0x41a00000    # 20.0f
     .end array-data
 
-    .line 115
-    :array_134c
+    .line 120
+    :array_1336
     .array-data 4
         0x0
         -0x3dcc0000    # -45.0f
@@ -5138,8 +5103,8 @@
         0x42700000    # 60.0f
     .end array-data
 
-    .line 117
-    :array_1358
+    .line 122
+    :array_1342
     .array-data 4
         0x0
         0x42b40000    # 90.0f
@@ -5149,8 +5114,8 @@
         -0x3de00000    # -40.0f
     .end array-data
 
-    .line 131
-    :array_1368
+    .line 136
+    :array_1352
     .array-data 4
         0x0
         0x41000000    # 8.0f
@@ -5160,8 +5125,8 @@
         0x43070000    # 135.0f
     .end array-data
 
-    .line 153
-    :array_1378
+    .line 158
+    :array_1362
     .array-data 4
         -0x3d1c0000    # -114.0f
         0x43000000    # 128.0f
@@ -5177,22 +5142,22 @@
         -0x3c7f8000    # -257.0f
     .end array-data
 
-    .line 177
-    :array_1394
-    .array-data 4
-        0x0
-        0x41700000    # 15.0f
-    .end array-data
-
     .line 182
-    :array_139c
+    :array_137e
     .array-data 4
         0x0
         0x41700000    # 15.0f
     .end array-data
 
-    .line 191
-    :array_13a4
+    .line 187
+    :array_1386
+    .array-data 4
+        0x0
+        0x41700000    # 15.0f
+    .end array-data
+
+    .line 196
+    :array_138e
     .array-data 4
         0x0
         -0x3e100000    # -30.0f
@@ -5200,8 +5165,8 @@
         0x42000000    # 32.0f
     .end array-data
 
-    .line 195
-    :array_13b0
+    .line 200
+    :array_139a
     .array-data 4
         0x0
         -0x3d420000    # -95.0f
@@ -5211,8 +5176,8 @@
         0x42b40000    # 90.0f
     .end array-data
 
-    .line 200
-    :array_13c0
+    .line 205
+    :array_13aa
     .array-data 4
         0x0
         -0x3d900000    # -60.0f
@@ -5220,15 +5185,15 @@
         0x428c0000    # 70.0f
     .end array-data
 
-    .line 205
-    :array_13cc
+    .line 210
+    :array_13b6
     .array-data 4
         0x0
         0x40a00000    # 5.0f
     .end array-data
 
-    .line 209
-    :array_13d4
+    .line 214
+    :array_13be
     .array-data 4
         -0x3db80000    # -50.0f
         0x40a00000    # 5.0f
@@ -5236,19 +5201,8 @@
         0x40a00000    # 5.0f
     .end array-data
 
-    .line 214
-    :array_13e0
-    .array-data 4
-        0x0
-        -0x3d600000    # -80.0f
-        0x0
-        0x0
-        0x0
-        0x42a00000    # 80.0f
-    .end array-data
-
     .line 219
-    :array_13f0
+    :array_13ca
     .array-data 4
         0x0
         -0x3d600000    # -80.0f
@@ -5258,8 +5212,19 @@
         0x42a00000    # 80.0f
     .end array-data
 
-    .line 223
-    :array_1400
+    .line 224
+    :array_13da
+    .array-data 4
+        0x0
+        -0x3d600000    # -80.0f
+        0x0
+        0x0
+        0x0
+        0x42a00000    # 80.0f
+    .end array-data
+
+    .line 228
+    :array_13ea
     .array-data 4
         0x0
         -0x3d560000    # -85.0f
@@ -5269,8 +5234,8 @@
         0x42aa0000    # 85.0f
     .end array-data
 
-    .line 228
-    :array_1410
+    .line 233
+    :array_13fa
     .array-data 4
         0x0
         -0x3d240000    # -110.0f
@@ -5280,8 +5245,8 @@
         0x42200000    # 40.0f
     .end array-data
 
-    .line 234
-    :array_1420
+    .line 239
+    :array_140a
     .array-data 4
         0x0
         -0x3d100000    # -120.0f
@@ -5291,8 +5256,8 @@
         0x42480000    # 50.0f
     .end array-data
 
-    .line 240
-    :array_1430
+    .line 245
+    :array_141a
     .array-data 4
         0x0
         -0x3de00000    # -40.0f
@@ -5302,8 +5267,8 @@
         0x41a00000    # 20.0f
     .end array-data
 
-    .line 244
-    :array_1440
+    .line 249
+    :array_142a
     .array-data 4
         -0x3d900000    # -60.0f
         0x0
@@ -5311,8 +5276,8 @@
         0x0
     .end array-data
 
-    .line 248
-    :array_144c
+    .line 253
+    :array_1436
     .array-data 4
         0x0
         -0x3cd60000    # -170.0f
@@ -5322,8 +5287,8 @@
         0x42200000    # 40.0f
     .end array-data
 
-    .line 254
-    :array_145c
+    .line 259
+    :array_1446
     .array-data 4
         0x0
         -0x3cea0000    # -150.0f
@@ -5333,8 +5298,8 @@
         0x42700000    # 60.0f
     .end array-data
 
-    .line 260
-    :array_146c
+    .line 265
+    :array_1456
     .array-data 4
         0x0
         -0x3ce00000    # -160.0f
@@ -5344,8 +5309,8 @@
         0x42480000    # 50.0f
     .end array-data
 
-    .line 266
-    :array_147c
+    .line 271
+    :array_1466
     .array-data 4
         0x0
         -0x3d900000    # -60.0f
@@ -5355,8 +5320,8 @@
         0x42200000    # 40.0f
     .end array-data
 
-    .line 282
-    :array_148c
+    .line 287
+    :array_1476
     .array-data 4
         -0x3dc40000    # -47.0f
         0x43610000    # 225.0f
@@ -5372,8 +5337,8 @@
         -0x3c7d8000    # -261.0f
     .end array-data
 
-    .line 306
-    :array_14a8
+    .line 311
+    :array_1492
     .array-data 4
         -0x3d100000    # -120.0f
         0x42700000    # 60.0f
@@ -5389,8 +5354,8 @@
         0x41000000    # 8.0f
     .end array-data
 
-    .line 318
-    :array_14c4
+    .line 323
+    :array_14ae
     .array-data 4
         -0x3db80000    # -50.0f
         -0x3d900000    # -60.0f
@@ -5404,8 +5369,8 @@
         0x42b60000    # 91.0f
     .end array-data
 
-    .line 327
-    :array_14dc
+    .line 332
+    :array_14c6
     .array-data 4
         -0x3d780000    # -68.0f
         -0x3d560000    # -85.0f
@@ -5421,8 +5386,8 @@
         0x42d40000    # 106.0f
     .end array-data
 
-    .line 336
-    :array_14f8
+    .line 341
+    :array_14e2
     .array-data 4
         -0x3df00000    # -36.0f
         -0x3dd00000    # -44.0f
@@ -5434,8 +5399,8 @@
         0x41f80000    # 31.0f
     .end array-data
 
-    .line 345
-    :array_150c
+    .line 350
+    :array_14f6
     .array-data 4
         0x0
         -0x3d120000    # -119.0f
@@ -5449,8 +5414,8 @@
         0x428e0000    # 71.0f
     .end array-data
 
-    .line 354
-    :array_1524
+    .line 359
+    :array_150e
     .array-data 4
         -0x3cfc0000    # -132.0f
         -0x3d980000    # -58.0f
@@ -5466,8 +5431,8 @@
         0x430c0000    # 140.0f
     .end array-data
 
-    .line 362
-    :array_1540
+    .line 367
+    :array_152a
     .array-data 4
         -0x3d9c0000    # -57.0f
         -0x3d880000    # -62.0f
@@ -5477,8 +5442,8 @@
         0x42a00000    # 80.0f
     .end array-data
 
-    .line 370
-    :array_1550
+    .line 375
+    :array_153a
     .array-data 4
         -0x3e100000    # -30.0f
         -0x3e100000    # -30.0f
@@ -5507,21 +5472,21 @@
     .prologue
     const/high16 v5, 0x3f800000    # 1.0f
 
-    .line 751
+    .line 756
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shipSpec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hullFor(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v3
 
-    .line 752
+    .line 757
     if-nez v3, :cond_b
 
-    .line 779
+    .line 784
     :goto_a
     return-void
 
-    .line 753
+    .line 758
     :cond_b
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->offFaction(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Z
 
@@ -5529,16 +5494,16 @@
 
     if-eqz v0, :cond_69
 
-    .line 754
+    .line 759
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->offFactionRate(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 758
+    .line 763
     :goto_14
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->offFaction(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Z
 
     move-result v4
 
-    .line 759
+    .line 764
     if-eqz v4, :cond_6d
 
     iget v0, v3, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
@@ -5560,7 +5525,7 @@
 
     move v1, v0
 
-    .line 760
+    .line 765
     :goto_2a
     cmpl-float v0, v2, v5
 
@@ -5570,7 +5535,7 @@
 
     if-eqz v0, :cond_75
 
-    .line 761
+    .line 766
     :cond_32
     iget v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->bulletDamage:F
 
@@ -5578,7 +5543,7 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->bulletDamage:F
 
-    .line 762
+    .line 767
     iget-wide v6, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenShots:J
 
     long-to-float v0, v6
@@ -5589,12 +5554,12 @@
 
     iput-wide v6, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenShots:J
 
-    .line 763
+    .line 768
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
 
     if-eqz v0, :cond_75
 
-    .line 764
+    .line 769
     const/4 v0, 0x0
 
     :goto_43
@@ -5604,7 +5569,7 @@
 
     if-ge v0, v5, :cond_75
 
-    .line 765
+    .line 770
     iget-object v5, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
 
     aget-object v5, v5, v0
@@ -5623,7 +5588,7 @@
 
     iput v6, v5, Lfr/testudo/spacecorsair/business/player/PlayerCanon;->shootDamage:I
 
-    .line 766
+    .line 771
     iget-object v5, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->playerCannons:[Lfr/testudo/spacecorsair/business/player/PlayerCanon;
 
     aget-object v5, v5, v0
@@ -5642,18 +5607,18 @@
 
     iput v6, v5, Lfr/testudo/spacecorsair/business/player/PlayerCanon;->timeBewteenShootInMilli:I
 
-    .line 764
+    .line 769
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_43
 
-    .line 756
+    .line 761
     :cond_69
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->railReload(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
     goto :goto_14
 
-    .line 759
+    .line 764
     :cond_6d
     iget v0, v3, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
@@ -5668,13 +5633,13 @@
 
     goto :goto_2a
 
-    .line 770
+    .line 775
     :cond_75
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     if-eqz v0, :cond_a8
 
-    .line 771
+    .line 776
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     iget v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
@@ -5685,7 +5650,7 @@
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->capacity:F
 
-    .line 772
+    .line 777
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     iget v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadUnitBySec:F
@@ -5696,7 +5661,7 @@
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadUnitBySec:F
 
-    .line 773
+    .line 778
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     iget v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadTime:F
@@ -5707,7 +5672,7 @@
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->reloadTime:F
 
-    .line 774
+    .line 779
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     iget v0, v0, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
@@ -5728,7 +5693,7 @@
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
 
-    .line 776
+    .line 781
     :cond_a8
     iget-wide v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenMissileShots:J
 
@@ -5742,10 +5707,10 @@
 
     iput-wide v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->milleSecBetweenMissileShots:J
 
-    .line 777
+    .line 782
     invoke-static {p0, v3, v4}, Lfr/testudo/spacecorsair/mod/ModV35;->apply(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/mod/ModShips$Hull;Z)V
 
-    .line 778
+    .line 783
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTitan;->apply(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
     goto/16 :goto_a
@@ -5765,7 +5730,7 @@
 
     const/4 v1, 0x0
 
-    .line 378
+    .line 383
     new-array v3, v14, [[Ljava/lang/String;
 
     new-array v0, v13, [Ljava/lang/String;
@@ -5872,7 +5837,7 @@
 
     aput-object v0, v3, v12
 
-    .line 380
+    .line 385
     array-length v4, v3
 
     move v2, v1
@@ -5882,7 +5847,7 @@
 
     aget-object v5, v3, v2
 
-    .line 381
+    .line 386
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     array-length v7, v6
@@ -5923,7 +5888,7 @@
 
     goto :goto_76
 
-    .line 380
+    .line 385
     :cond_95
     add-int/lit8 v0, v2, 0x1
 
@@ -5931,7 +5896,7 @@
 
     goto :goto_6e
 
-    .line 385
+    .line 390
     :cond_99
     const/16 v0, 0x10
 
@@ -6151,7 +6116,7 @@
 
     aput-object v2, v3, v0
 
-    .line 392
+    .line 397
     array-length v4, v3
 
     move v2, v1
@@ -6161,7 +6126,7 @@
 
     aget-object v5, v3, v2
 
-    .line 393
+    .line 398
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     array-length v7, v6
@@ -6194,7 +6159,7 @@
 
     goto :goto_179
 
-    .line 392
+    .line 397
     :cond_190
     add-int/lit8 v0, v2, 0x1
 
@@ -6202,13 +6167,13 @@
 
     goto :goto_171
 
-    .line 396
+    .line 401
     :cond_194
     new-array v2, v14, [F
 
     fill-array-data v2, :array_23c
 
-    .line 397
+    .line 402
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     array-length v4, v3
@@ -6244,7 +6209,7 @@
     :cond_1b3
     move v2, v1
 
-    .line 398
+    .line 403
     :goto_1b4
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModHardpoints;->ARTS:[Ljava/lang/String;
 
@@ -6252,7 +6217,7 @@
 
     if-ge v2, v0, :cond_235
 
-    .line 399
+    .line 404
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     array-length v5, v4
@@ -6264,7 +6229,7 @@
 
     aget-object v6, v4, v3
 
-    .line 400
+    .line 405
     if-eqz v6, :cond_1d3
 
     iget-object v0, v6, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->art:Ljava/lang/String;
@@ -6283,7 +6248,7 @@
 
     if-nez v0, :cond_1d7
 
-    .line 399
+    .line 404
     :cond_1d3
     add-int/lit8 v0, v3, 0x1
 
@@ -6291,7 +6256,7 @@
 
     goto :goto_1bd
 
-    .line 401
+    .line 406
     :cond_1d7
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModHardpoints;->TURRETS:[[F
 
@@ -6299,7 +6264,7 @@
 
     move v0, v1
 
-    .line 402
+    .line 407
     :goto_1dc
     add-int/lit8 v8, v0, 0x1
 
@@ -6337,13 +6302,13 @@
 
     goto :goto_1dc
 
-    .line 403
+    .line 408
     :cond_1ff
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModHardpoints;->MISSILES:[[F
 
     aget-object v7, v0, v2
 
-    .line 404
+    .line 409
     array-length v0, v7
 
     if-lt v0, v13, :cond_1d3
@@ -6356,7 +6321,7 @@
 
     move v0, v1
 
-    .line 405
+    .line 410
     :goto_20d
     add-int/lit8 v8, v0, 0x1
 
@@ -6396,7 +6361,7 @@
 
     goto :goto_20d
 
-    .line 398
+    .line 403
     :cond_231
     add-int/lit8 v0, v2, 0x1
 
@@ -6404,16 +6369,16 @@
 
     goto :goto_1b4
 
-    .line 409
+    .line 414
     :cond_235
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModV38;->initSpecs([Lfr/testudo/spacecorsair/mod/ModShips$Hull;)V
 
-    .line 410
+    .line 415
     return-void
 
-    .line 396
+    .line 401
     nop
 
     :array_23c
@@ -6437,34 +6402,34 @@
 
     const/16 v4, 0x64
 
-    .line 446
+    .line 451
     new-instance v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     invoke-direct {v1}, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;-><init>()V
 
-    .line 447
+    .line 452
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->level:I
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->level:I
 
-    .line 448
+    .line 453
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->image(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;
 
     move-result-object v0
 
     iput-object v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->image:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;
 
-    .line 449
+    .line 454
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->rarity:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
     iput-object v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->rarety:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
-    .line 450
+    .line 455
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->drawableSize:I
 
-    .line 451
+    .line 456
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
     int-to-float v0, v0
@@ -6477,7 +6442,7 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->drawableSizeOfShield:I
 
-    .line 452
+    .line 457
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
     int-to-float v0, v0
@@ -6490,7 +6455,7 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->physicSizeWithoutShield:I
 
-    .line 453
+    .line 458
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
     int-to-float v0, v0
@@ -6503,30 +6468,30 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->physicSizeWithShield:I
 
-    .line 454
+    .line 459
     iput p5, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->mass:I
 
-    .line 455
+    .line 460
     iput p1, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->maxPouseeForce:F
 
-    .line 456
+    .line 461
     iput p2, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->deperditionFactor:F
 
-    .line 457
+    .line 462
     iput p3, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->maxTurnFactor:F
 
-    .line 458
+    .line 463
     iput p4, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->lifeBooster:F
 
-    .line 459
+    .line 464
     sget-object v0, Lfr/testudo/spacecorsair/business/player/PlayerGazDrawable;->simpleGaz:Lfr/testudo/spacecorsair/business/player/PlayerGazDrawable;
 
     iput-object v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->gazDrawable:Lfr/testudo/spacecorsair/business/player/PlayerGazDrawable;
 
-    .line 460
+    .line 465
     iput-boolean v3, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->gazBehindImage:Z
 
-    .line 461
+    .line 466
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
     int-to-float v0, v0
@@ -6539,7 +6504,7 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->gazDecal:I
 
-    .line 462
+    .line 467
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
     int-to-float v0, v0
@@ -6552,7 +6517,7 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->drawableSizeOfGaz:I
 
-    .line 463
+    .line 468
     const/16 v0, 0x32
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
@@ -6565,10 +6530,10 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->lootDistance:I
 
-    .line 464
+    .line 469
     iput-boolean v3, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->tirGroupe:Z
 
-    .line 465
+    .line 470
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
     if-ge v0, v4, :cond_c4
@@ -6578,7 +6543,7 @@
     :goto_70
     iput-object v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->sizeInformational:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;
 
-    .line 466
+    .line 471
     const v0, 0x3e23d70a    # 0.16f
 
     mul-float/2addr v0, p1
@@ -6593,7 +6558,7 @@
 
     div-float/2addr v0, v2
 
-    .line 467
+    .line 472
     const/high16 v2, 0x40e00000    # 7.0f
 
     mul-float/2addr v0, v2
@@ -6606,7 +6571,7 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->maxSpeedInformational:I
 
-    .line 468
+    .line 473
     const/high16 v0, 0x41c80000    # 25.0f
 
     mul-float/2addr v0, p3
@@ -6619,7 +6584,7 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->agilityInformational:I
 
-    .line 469
+    .line 474
     const/high16 v0, 0x41400000    # 12.0f
 
     mul-float/2addr v0, p4
@@ -6632,7 +6597,7 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->armorInformational:I
 
-    .line 470
+    .line 475
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
     int-to-float v0, v0
@@ -6649,12 +6614,12 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->playerNameDecalY:I
 
-    .line 471
+    .line 476
     const/16 v0, -0x41
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->playerLifeBarDecalY:I
 
-    .line 472
+    .line 477
     const/16 v0, 0x12c
 
     const/16 v2, 0x5a
@@ -6673,15 +6638,15 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->playerLifeBarWidth:I
 
-    .line 473
+    .line 478
     const/4 v0, 0x7
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->playerLifeBarHeight:I
 
-    .line 474
+    .line 479
     return-object v1
 
-    .line 465
+    .line 470
     :cond_c4
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
@@ -6718,21 +6683,21 @@
 
     const/4 v0, 0x1
 
-    .line 712
+    .line 717
     :try_start_2
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v2
 
-    .line 713
+    .line 718
     if-nez v2, :cond_9
 
-    .line 733
+    .line 738
     :cond_8
     :goto_8
     return v0
 
-    .line 714
+    .line 719
     :cond_9
     iget v3, v2, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
 
@@ -6744,7 +6709,7 @@
 
     goto :goto_8
 
-    .line 715
+    .line 720
     :cond_10
     iget-boolean v2, v2, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dev:Z
     :try_end_12
@@ -6752,7 +6717,7 @@
 
     if-eqz v2, :cond_2a
 
-    .line 717
+    .line 722
     :try_start_14
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -6779,10 +6744,10 @@
     :goto_28
     move v0, v1
 
-    .line 721
+    .line 726
     goto :goto_8
 
-    .line 723
+    .line 728
     :cond_2a
     :try_start_2a
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->licenceOk(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
@@ -6791,10 +6756,10 @@
 
     move-result v0
 
-    .line 724
+    .line 729
     if-nez v0, :cond_8
 
-    .line 726
+    .line 731
     :try_start_30
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -6846,19 +6811,19 @@
 
     goto :goto_8
 
-    .line 727
+    .line 732
     :catch_60
     move-exception v1
 
     goto :goto_8
 
-    .line 732
+    .line 737
     :catch_62
     move-exception v1
 
     goto :goto_8
 
-    .line 718
+    .line 723
     :catch_64
     move-exception v0
 
@@ -6871,26 +6836,26 @@
     .prologue
     const/high16 v0, 0x3f800000    # 1.0f
 
-    .line 741
+    .line 746
     :try_start_2
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
-    .line 742
+    .line 747
     if-nez v1, :cond_c
 
     const/4 v1, 0x0
 
-    .line 743
+    .line 748
     :goto_9
     if-nez v1, :cond_13
 
-    .line 745
+    .line 750
     :goto_b
     return v0
 
-    .line 742
+    .line 747
     :cond_c
     iget-object v1, v1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shipSpec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
@@ -6900,7 +6865,7 @@
 
     goto :goto_9
 
-    .line 743
+    .line 748
     :cond_13
     iget v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cargo:F
 
@@ -6914,7 +6879,7 @@
 
     goto :goto_b
 
-    .line 744
+    .line 749
     :catch_1b
     move-exception v1
 
@@ -6925,33 +6890,33 @@
     .registers 6
 
     .prologue
-    .line 609
+    .line 614
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->cls(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
 
     move-result v1
 
-    .line 610
+    .line 615
     if-gez v1, :cond_8
 
     const/4 v0, 0x0
 
-    .line 614
+    .line 619
     :goto_7
     return-object v0
 
-    .line 611
+    .line 616
     :cond_8
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->licenceText(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v2
 
-    .line 612
+    .line 617
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
-    .line 613
-    if-eqz v0, :cond_a1
+    .line 618
+    if-eqz v0, :cond_a9
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
@@ -6959,7 +6924,7 @@
 
     move-result v3
 
-    if-lez v3, :cond_a1
+    if-lez v3, :cond_a9
 
     new-instance v3, Ljava/lang/StringBuilder;
 
@@ -6987,7 +6952,7 @@
 
     move-result-object v0
 
-    .line 614
+    .line 619
     :goto_35
     new-instance v3, Ljava/lang/StringBuilder;
 
@@ -7002,6 +6967,10 @@
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModShips;->CLASS_NAMES:[Ljava/lang/String;
 
     aget-object v1, v4, v1
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -7020,6 +6989,10 @@
     move-result v4
 
     aget-object v3, v3, v4
+
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
 
     invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -7049,8 +7022,8 @@
 
     move-result-object v1
 
-    .line 615
-    if-eqz v2, :cond_a4
+    .line 620
+    if-eqz v2, :cond_ac
 
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -7080,7 +7053,7 @@
 
     move-result-object v0
 
-    :goto_91
+    :goto_99
     invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
@@ -7097,24 +7070,24 @@
 
     goto/16 :goto_7
 
-    .line 613
-    :cond_a1
+    .line 618
+    :cond_a9
     const-string v0, ""
 
     goto :goto_35
 
-    .line 615
-    :cond_a4
+    .line 620
+    :cond_ac
     const-string v0, ""
 
-    goto :goto_91
+    goto :goto_99
 .end method
 
 .method public static className(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
     .registers 3
 
     .prologue
-    .line 706
+    .line 711
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->cls(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
 
     move-result v0
@@ -7135,6 +7108,10 @@
 
     aget-object v0, v1, v0
 
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
     goto :goto_c
 .end method
 
@@ -7144,21 +7121,21 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 575
+    .line 580
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
-    .line 576
+    .line 581
     if-eqz v0, :cond_a
 
     iget v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
 
-    .line 580
+    .line 585
     :goto_9
     return v0
 
-    .line 577
+    .line 582
     :cond_a
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModShips;->ORIGINAL:[[Ljava/lang/String;
 
@@ -7171,7 +7148,7 @@
 
     aget-object v4, v2, v0
 
-    .line 578
+    .line 583
     aget-object v5, v4, v1
 
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->name()Ljava/lang/String;
@@ -7194,13 +7171,13 @@
 
     goto :goto_9
 
-    .line 577
+    .line 582
     :cond_26
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_e
 
-    .line 580
+    .line 585
     :cond_29
     const/4 v0, -0x1
 
@@ -7211,21 +7188,21 @@
     .registers 4
 
     .prologue
-    .line 624
+    .line 629
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v1
 
-    .line 625
+    .line 630
     if-nez v1, :cond_8
 
     const/4 v0, 0x0
 
-    .line 627
+    .line 632
     :goto_7
     return-object v0
 
-    .line 626
+    .line 631
     :cond_8
     iget-object v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->id:Ljava/lang/String;
 
@@ -7233,12 +7210,12 @@
 
     move-result-object v0
 
-    .line 627
+    .line 632
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
 
-    if-eqz v0, :cond_36
+    if-eqz v0, :cond_38
 
     :goto_15
     invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -7255,7 +7232,9 @@
 
     move-result-object v0
 
-    iget-object v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
+    invoke-virtual {v1}, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skillText()Ljava/lang/String;
+
+    move-result-object v2
 
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -7275,103 +7254,17 @@
 
     goto :goto_7
 
-    :cond_36
+    :cond_38
     iget-object v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->lore:Ljava/lang/String;
 
     goto :goto_15
-.end method
-
-.method public static draw(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
-    .registers 15
-
-    .prologue
-    const/4 v3, 0x0
-
-    const/high16 v4, 0x3f800000    # 1.0f
-
-    const-wide/high16 v12, 0x404e000000000000L    # 60.0
-
-    const-wide/high16 v10, 0x403e000000000000L    # 30.0
-
-    .line 803
-    sget v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceFlash:I
-
-    if-gtz v0, :cond_c
-
-    .line 808
-    :cond_b
-    return-void
-
-    :cond_c
-    move v8, v3
-
-    .line 804
-    :goto_d
-    const/4 v0, 0x6
-
-    if-ge v8, v0, :cond_b
-
-    .line 805
-    sget-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->tmp:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    sget-object v1, Lfr/testudo/spacecorsair/mod/ModShips;->lanceEnd:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
-
-    move-result-object v0
-
-    invoke-static {}, Ljava/lang/Math;->random()D
-
-    move-result-wide v6
-
-    mul-double/2addr v6, v12
-
-    sub-double/2addr v6, v10
-
-    double-to-float v1, v6
-
-    invoke-static {}, Ljava/lang/Math;->random()D
-
-    move-result-wide v6
-
-    mul-double/2addr v6, v12
-
-    sub-double/2addr v6, v10
-
-    double-to-float v2, v6
-
-    invoke-virtual {v0, v1, v2}, Lfr/testudo/spacecorsair/engine/Vector2;->add(FF)Lfr/testudo/spacecorsair/engine/Vector2;
-
-    .line 806
-    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
-    iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->renderQueue:Lfr/testudo/spacecorsair/engine/RenderQueue;
-
-    sget-object v1, Lfr/testudo/spacecorsair/mod/ModShips;->tmp:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    iget-object v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
-
-    const v6, 0x3f59999a    # 0.85f
-
-    const v7, 0x3e99999a    # 0.3f
-
-    move v5, v4
-
-    invoke-virtual/range {v0 .. v7}, Lfr/testudo/spacecorsair/engine/RenderQueue;->addToWaitingQueue(Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/engine/Vector2;ZFFFF)V
-
-    .line 804
-    add-int/lit8 v0, v8, 0x1
-
-    move v8, v0
-
-    goto :goto_d
 .end method
 
 .method public static factionKey(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Ljava/lang/String;
     .registers 2
 
     .prologue
-    .line 525
+    .line 530
     if-nez p0, :cond_8
 
     const/4 v0, 0x0
@@ -7397,7 +7290,7 @@
     .registers 7
 
     .prologue
-    .line 529
+    .line 534
     if-eqz p0, :cond_e
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
@@ -7415,11 +7308,11 @@
     :cond_e
     const-string v0, ""
 
-    .line 531
+    .line 536
     :goto_10
     return-object v0
 
-    .line 530
+    .line 535
     :cond_11
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
@@ -7462,7 +7355,7 @@
 
     goto :goto_15
 
-    .line 531
+    .line 536
     :cond_33
     const-string v0, ""
 
@@ -7473,7 +7366,7 @@
     .registers 3
 
     .prologue
-    .line 812
+    .line 802
     const-string v0, "turret_heavy"
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->turretArt(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Ljava/lang/String;
@@ -7491,12 +7384,12 @@
     .registers 2
 
     .prologue
-    .line 413
+    .line 418
     const-string v0, "Helion Combine"
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 414
+    .line 419
     return-object p0
 .end method
 
@@ -7506,21 +7399,21 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 515
+    .line 520
     if-nez p0, :cond_4
 
-    .line 520
+    .line 525
     :cond_3
     :goto_3
     return-object v0
 
-    .line 516
+    .line 521
     :cond_4
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->name()Ljava/lang/String;
 
     move-result-object v3
 
-    .line 517
+    .line 522
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     array-length v5, v4
@@ -7534,7 +7427,7 @@
 
     aget-object v1, v4, v2
 
-    .line 518
+    .line 523
     if-eqz v1, :cond_1d
 
     iget-object v6, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->id:Ljava/lang/String;
@@ -7549,7 +7442,7 @@
 
     goto :goto_3
 
-    .line 517
+    .line 522
     :cond_1d
     add-int/lit8 v1, v2, 0x1
 
@@ -7562,10 +7455,10 @@
     .registers 6
 
     .prologue
-    .line 537
+    .line 542
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->lastHull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
-    .line 538
+    .line 543
     if-eqz p0, :cond_b
 
     if-eqz v0, :cond_b
@@ -7574,12 +7467,12 @@
 
     if-ne v1, p0, :cond_b
 
-    .line 545
+    .line 550
     :cond_a
     :goto_a
     return-object v0
 
-    .line 539
+    .line 544
     :cond_b
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
@@ -7594,21 +7487,21 @@
 
     aget-object v0, v2, v1
 
-    .line 540
+    .line 545
     if-eqz v0, :cond_1f
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     if-ne v4, p0, :cond_1f
 
-    .line 541
+    .line 546
     if-eqz p0, :cond_a
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->lastHull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     goto :goto_a
 
-    .line 539
+    .line 544
     :cond_1f
     add-int/lit8 v0, v1, 0x1
 
@@ -7616,7 +7509,7 @@
 
     goto :goto_10
 
-    .line 545
+    .line 550
     :cond_23
     const/4 v0, 0x0
 
@@ -7627,7 +7520,7 @@
     .registers 3
 
     .prologue
-    .line 503
+    .line 508
     :try_start_0
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -7659,15 +7552,15 @@
 
     move-result-object v0
 
-    .line 505
+    .line 510
     :goto_1d
     return-object v0
 
-    .line 504
+    .line 509
     :catch_1e
     move-exception v0
 
-    .line 505
+    .line 510
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;->DEFAULT:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Image;
 
     goto :goto_1d
@@ -7677,17 +7570,17 @@
     .registers 2
 
     .prologue
-    .line 418
+    .line 423
     const-string v0, "Ironclad Militia"
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 419
+    .line 424
     const-string v0, "turret_cannon"
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->turretArt:Ljava/lang/String;
 
-    .line 420
+    .line 425
     return-object p0
 .end method
 
@@ -7695,12 +7588,12 @@
     .registers 2
 
     .prologue
-    .line 430
+    .line 435
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hullFor(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
-    .line 431
+    .line 436
     if-eqz v0, :cond_c
 
     iget-boolean v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->carrier:Z
@@ -7722,12 +7615,12 @@
     .registers 2
 
     .prologue
-    .line 619
+    .line 624
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
-    .line 620
+    .line 625
     if-nez v0, :cond_8
 
     const/4 v0, 0x0
@@ -7753,21 +7646,21 @@
 
     const/4 v0, 0x1
 
-    .line 692
+    .line 697
     :try_start_4
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v2
 
-    .line 693
+    .line 698
     if-nez v2, :cond_b
 
-    .line 701
+    .line 706
     :cond_a
     :goto_a
     return v0
 
-    .line 694
+    .line 699
     :cond_b
     iget-object v3, v2, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->secret:Ljava/lang/String;
 
@@ -7785,7 +7678,7 @@
 
     goto :goto_a
 
-    .line 695
+    .line 700
     :cond_19
     iget v3, v2, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
 
@@ -7810,7 +7703,7 @@
 
     goto :goto_a
 
-    .line 696
+    .line 701
     :cond_2a
     iget v3, v2, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
 
@@ -7845,7 +7738,7 @@
 
     goto :goto_a
 
-    .line 697
+    .line 702
     :cond_42
     iget v3, v2, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->tech:I
 
@@ -7889,13 +7782,13 @@
 
     goto :goto_a
 
-    .line 698
+    .line 703
     :cond_61
     iget v1, v2, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
 
     if-eqz v1, :cond_a
 
-    .line 699
+    .line 704
     iget v1, v2, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModShips;->prevClass(I)I
@@ -7914,7 +7807,7 @@
 
     goto :goto_a
 
-    .line 700
+    .line 705
     :catch_72
     move-exception v1
 
@@ -7927,20 +7820,20 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 667
+    .line 672
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v1
 
-    .line 668
+    .line 673
     if-nez v1, :cond_8
 
-    .line 675
+    .line 680
     :cond_7
     :goto_7
     return-object v0
 
-    .line 669
+    .line 674
     :cond_8
     iget-boolean v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dev:Z
 
@@ -7954,7 +7847,7 @@
 
     goto :goto_7
 
-    .line 670
+    .line 675
     :cond_13
     iget-object v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->secret:Ljava/lang/String;
 
@@ -7996,7 +7889,7 @@
 
     goto :goto_7
 
-    .line 671
+    .line 676
     :cond_3b
     iget v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
 
@@ -8019,7 +7912,7 @@
 
     goto :goto_7
 
-    .line 672
+    .line 677
     :cond_4c
     iget v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
 
@@ -8050,13 +7943,13 @@
 
     goto :goto_7
 
-    .line 673
+    .line 678
     :cond_64
     iget v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->tech:I
 
     const/4 v3, 0x2
 
-    if-ne v2, v3, :cond_87
+    if-ne v2, v3, :cond_8c
 
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -8078,6 +7971,10 @@
 
     aget-object v1, v2, v1
 
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
@@ -8086,15 +7983,15 @@
 
     move-result-object v0
 
-    goto :goto_7
+    goto/16 :goto_7
 
-    .line 674
-    :cond_87
+    .line 679
+    :cond_8c
     iget v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
 
     if-eqz v2, :cond_7
 
-    .line 675
+    .line 680
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -8119,6 +8016,10 @@
 
     aget-object v1, v2, v1
 
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
@@ -8134,7 +8035,7 @@
     .registers 2
 
     .prologue
-    .line 705
+    .line 710
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->licenceText(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
 
     move-result-object v0
@@ -8148,8 +8049,8 @@
     .prologue
     const/4 v2, 0x0
 
-    .line 550
-    .line 551
+    .line 555
+    .line 556
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     array-length v4, v3
@@ -8184,7 +8085,7 @@
 
     goto :goto_6
 
-    .line 552
+    .line 557
     :cond_1d
     return v0
 .end method
@@ -8193,12 +8094,12 @@
     .registers 2
 
     .prologue
-    .line 564
+    .line 569
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->typeOf(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     move-result-object v0
 
-    .line 565
+    .line 570
     if-nez v0, :cond_8
 
     const/4 v0, -0x1
@@ -8218,12 +8119,12 @@
     .registers 2
 
     .prologue
-    .line 569
+    .line 574
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->typeOf(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     move-result-object v0
 
-    .line 570
+    .line 575
     if-nez v0, :cond_8
 
     const/4 v0, 0x1
@@ -8243,14 +8144,14 @@
     .registers 6
 
     .prologue
-    .line 656
+    .line 661
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
 
-    .line 657
+    .line 662
     iget-object v0, v0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->availShips:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
@@ -8270,22 +8171,22 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 658
+    .line 663
     if-eqz v0, :cond_c
 
-    .line 659
+    .line 664
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->cls(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
 
     move-result v2
 
     if-ne v2, p0, :cond_c
 
-    .line 660
+    .line 665
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->tech(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
 
     move-result v0
 
-    .line 661
+    .line 666
     if-lez p2, :cond_2a
 
     if-ne v0, p2, :cond_c
@@ -8293,17 +8194,17 @@
     :goto_28
     const/4 v0, 0x1
 
-    .line 663
+    .line 668
     :goto_29
     return v0
 
-    .line 661
+    .line 666
     :cond_2a
     if-lt v0, p1, :cond_c
 
     goto :goto_28
 
-    .line 663
+    .line 668
     :cond_2d
     const/4 v0, 0x0
 
@@ -8316,39 +8217,39 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 679
+    .line 684
     packed-switch p0, :pswitch_data_e
 
-    .line 685
+    .line 690
     :goto_4
     :pswitch_4
     return v0
 
-    .line 681
+    .line 686
     :pswitch_5
     const/4 v0, 0x1
 
     goto :goto_4
 
-    .line 682
+    .line 687
     :pswitch_7
     const/4 v0, 0x2
 
     goto :goto_4
 
-    .line 683
+    .line 688
     :pswitch_9
     const/4 v0, 0x3
 
     goto :goto_4
 
-    .line 684
+    .line 689
     :pswitch_b
     const/4 v0, 0x4
 
     goto :goto_4
 
-    .line 679
+    .line 684
     nop
 
     :pswitch_data_e
@@ -8365,17 +8266,17 @@
     .registers 3
 
     .prologue
-    .line 603
+    .line 608
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->cls(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
 
     move-result v0
 
-    .line 604
+    .line 609
     if-gez v0, :cond_10
 
     const/16 v0, 0x63
 
-    .line 605
+    .line 610
     :goto_8
     mul-int/lit8 v0, v0, 0xa
 
@@ -8387,7 +8288,7 @@
 
     return v0
 
-    .line 604
+    .line 609
     :cond_10
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModShips;->CLASS_RANK:[I
 
@@ -8402,21 +8303,21 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 593
+    .line 598
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
-    .line 594
+    .line 599
     if-eqz v0, :cond_a
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->role:Ljava/lang/String;
 
-    .line 598
+    .line 603
     :goto_9
     return-object v0
 
-    .line 595
+    .line 600
     :cond_a
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModShips;->ORIGINAL:[[Ljava/lang/String;
 
@@ -8429,7 +8330,7 @@
 
     aget-object v4, v2, v0
 
-    .line 596
+    .line 601
     aget-object v5, v4, v1
 
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->name()Ljava/lang/String;
@@ -8448,13 +8349,13 @@
 
     goto :goto_9
 
-    .line 595
+    .line 600
     :cond_22
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_e
 
-    .line 598
+    .line 603
     :cond_25
     const-string v0, ""
 
@@ -8465,22 +8366,22 @@
     .registers 8
 
     .prologue
-    .line 478
+    .line 483
     invoke-static/range {p0 .. p5}, Lfr/testudo/spacecorsair/mod/ModShips;->base(Lfr/testudo/spacecorsair/mod/ModShips$Hull;FFFFI)Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     move-result-object v0
 
-    .line 479
+    .line 484
     sget-object v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;->FIXED:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;
 
     iput-object v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserType:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;
 
-    .line 480
+    .line 485
     const/4 v1, 0x2
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserCount:I
 
-    .line 481
+    .line 486
     return-object v0
 .end method
 
@@ -8488,7 +8389,7 @@
     .registers 2
 
     .prologue
-    .line 511
+    .line 516
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->HULLS:[Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     aget-object v0, v0, p0
@@ -8504,7 +8405,7 @@
     .prologue
     const/high16 v5, 0x42c80000    # 100.0f
 
-    .line 632
+    .line 637
     new-instance v1, Ljava/lang/StringBuilder;
 
     const-string v0, "<br><br><font color=\'#6ad0ff\'><b>STATS</b></font>"
@@ -8515,7 +8416,7 @@
 
     invoke-direct {v1, v0}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
-    .line 633
+    .line 638
     const-string v0, "<br>"
 
     invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8544,12 +8445,16 @@
 
     aget-object v2, v2, v3
 
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 634
+    .line 639
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->tech:I
 
-    if-lez v0, :cond_44
+    if-lez v0, :cond_4c
 
     const-string v0, " "
 
@@ -8569,10 +8474,14 @@
 
     aget-object v2, v2, v3
 
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 635
-    :cond_44
+    .line 640
+    :cond_4c
     const-string v0, "<br>"
 
     invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8597,7 +8506,7 @@
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    if-eqz v0, :cond_66
+    if-eqz v0, :cond_6e
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
@@ -8605,19 +8514,19 @@
 
     move-result v0
 
-    if-nez v0, :cond_193
+    if-nez v0, :cond_19b
 
-    :cond_66
+    :cond_6e
     const-string v0, "Neutral"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    :goto_6c
+    :goto_74
     invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 636
+    .line 641
     const-string v0, "<br>"
 
     invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8652,13 +8561,13 @@
 
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 637
+    .line 642
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->spec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    .line 638
-    if-eqz v0, :cond_16c
+    .line 643
+    if-eqz v0, :cond_174
 
-    .line 639
+    .line 644
     const-string v2, "<br>"
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8695,7 +8604,7 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(F)Ljava/lang/StringBuilder;
 
-    .line 640
+    .line 645
     const-string v2, "<br>"
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8728,7 +8637,7 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 641
+    .line 646
     const-string v2, "<br>"
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8761,7 +8670,7 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 642
+    .line 647
     const-string v2, "<br>"
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8820,7 +8729,7 @@
 
     invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    .line 643
+    .line 648
     const-string v0, "hornet"
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->art:Ljava/lang/String;
@@ -8829,9 +8738,9 @@
 
     move-result v0
 
-    if-eqz v0, :cond_16c
+    if-eqz v0, :cond_174
 
-    .line 644
+    .line 649
     const-string v0, "<br>"
 
     invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8846,7 +8755,7 @@
 
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 645
+    .line 650
     const-string v0, "<br>"
 
     invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8861,7 +8770,7 @@
 
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 646
+    .line 651
     const-string v0, "<br>"
 
     invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8876,8 +8785,8 @@
 
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 649
-    :cond_16c
+    .line 654
+    :cond_174
     const-string v0, "<br>"
 
     invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -8914,22 +8823,22 @@
 
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(F)Ljava/lang/StringBuilder;
 
-    .line 650
+    .line 655
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v0
 
     return-object v0
 
-    .line 635
-    :cond_193
+    .line 640
+    :cond_19b
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    goto/16 :goto_6c
+    goto/16 :goto_74
 .end method
 
 .method public static tech(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
@@ -8938,21 +8847,21 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 584
+    .line 589
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v0
 
-    .line 585
+    .line 590
     if-eqz v0, :cond_a
 
     iget v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->tech:I
 
-    .line 589
+    .line 594
     :goto_9
     return v0
 
-    .line 586
+    .line 591
     :cond_a
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModShips;->ORIGINAL:[[Ljava/lang/String;
 
@@ -8965,7 +8874,7 @@
 
     aget-object v4, v2, v0
 
-    .line 587
+    .line 592
     aget-object v5, v4, v1
 
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->name()Ljava/lang/String;
@@ -8988,13 +8897,13 @@
 
     goto :goto_9
 
-    .line 586
+    .line 591
     :cond_26
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_e
 
-    .line 589
+    .line 594
     :cond_29
     const/4 v0, 0x1
 
@@ -9005,7 +8914,7 @@
     .registers 5
 
     .prologue
-    .line 707
+    .line 712
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModShips;->TECH:[Ljava/lang/String;
 
     const/4 v1, 0x0
@@ -9026,6 +8935,10 @@
 
     aget-object v0, v0, v1
 
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
     return-object v0
 .end method
 
@@ -9033,47 +8946,31 @@
     .registers 8
 
     .prologue
-    .line 788
+    .line 789
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shipSpec:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hullFor(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v1
 
-    .line 789
-    if-eqz v1, :cond_29
+    .line 790
+    if-eqz v1, :cond_1e
 
     iget-boolean v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dev:Z
 
-    if-eqz v0, :cond_29
+    if-eqz v0, :cond_1e
 
     const/4 v0, 0x1
 
     :goto_d
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModArt;->devActive:Z
 
-    .line 790
-    sget v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceFlash:I
-
-    if-lez v0, :cond_1a
-
-    sget v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceFlash:I
-
-    int-to-long v2, v0
-
-    sub-long/2addr v2, p1
-
-    long-to-int v0, v2
-
-    sput v0, Lfr/testudo/spacecorsair/mod/ModShips;->lanceFlash:I
-
     .line 791
-    :cond_1a
-    if-eqz v1, :cond_28
+    if-eqz v1, :cond_1d
 
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->removed:Z
 
-    if-nez v0, :cond_28
+    if-nez v0, :cond_1d
 
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -9081,21 +8978,21 @@
 
     iget-boolean v0, v0, Lfr/testudo/spacecorsair/game/Game;->mapMode:Z
 
-    if-eqz v0, :cond_2b
+    if-eqz v0, :cond_20
 
     .line 798
-    :cond_28
-    :goto_28
+    :cond_1d
+    :goto_1d
     return-void
 
-    .line 789
-    :cond_29
+    .line 790
+    :cond_1e
     const/4 v0, 0x0
 
     goto :goto_d
 
     .line 792
-    :cond_2b
+    :cond_20
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModV35;->repair(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)F
 
     move-result v0
@@ -9105,7 +9002,7 @@
 
     cmpl-float v2, v0, v2
 
-    if-lez v2, :cond_47
+    if-lez v2, :cond_3c
 
     iget v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->life:F
 
@@ -9113,7 +9010,7 @@
 
     cmpg-float v2, v2, v3
 
-    if-gez v2, :cond_47
+    if-gez v2, :cond_3c
 
     .line 794
     iget v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
@@ -9131,41 +9028,41 @@
     invoke-virtual {p0, v0}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->addLife(F)V
 
     .line 796
-    :cond_47
+    :cond_3c
     iget-boolean v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dev:Z
 
-    if-eqz v0, :cond_28
+    if-eqz v0, :cond_1d
 
     invoke-static {p0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModDev;->tick(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
 
-    goto :goto_28
+    goto :goto_1d
 .end method
 
 .method private static turret(Lfr/testudo/spacecorsair/mod/ModShips$Hull;FFFFILfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;[FF)Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
     .registers 15
 
     .prologue
-    .line 485
+    .line 490
     invoke-static/range {p0 .. p5}, Lfr/testudo/spacecorsair/mod/ModShips;->base(Lfr/testudo/spacecorsair/mod/ModShips$Hull;FFFFI)Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     move-result-object v1
 
-    .line 486
+    .line 491
     iput-object p6, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserType:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$LaserType;
 
-    .line 487
+    .line 492
     array-length v0, p7
 
     div-int/lit8 v0, v0, 0x2
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonCount:I
 
-    .line 488
+    .line 493
     iget v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonCount:I
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserCount:I
 
-    .line 489
+    .line 494
     const/4 v0, 0x0
 
     :goto_10
@@ -9173,7 +9070,7 @@
 
     if-ge v0, v2, :cond_2a
 
-    .line 490
+    .line 495
     iget-object v2, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonPos:[Lfr/testudo/spacecorsair/engine/Vector2;
 
     new-instance v3, Lfr/testudo/spacecorsair/engine/Vector2;
@@ -9192,16 +9089,16 @@
 
     aput-object v3, v2, v0
 
-    .line 489
+    .line 494
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_10
 
-    .line 492
+    .line 497
     :cond_2a
     iput p8, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonSpeed:F
 
-    .line 493
+    .line 498
     return-object v1
 .end method
 
@@ -9211,20 +9108,20 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 436
+    .line 441
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModShips;->hullFor(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v1
 
-    .line 437
+    .line 442
     if-nez v1, :cond_8
 
-    .line 440
+    .line 445
     :cond_7
     :goto_7
     return-object v0
 
-    .line 438
+    .line 443
     :cond_8
     iget-object v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->hwTurret:Ljava/lang/String;
 
@@ -9238,7 +9135,7 @@
 
     goto :goto_7
 
-    .line 439
+    .line 444
     :cond_13
     iget-object v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->turretArt:Ljava/lang/String;
 
@@ -9248,7 +9145,7 @@
 
     goto :goto_7
 
-    .line 440
+    .line 445
     :cond_1a
     iget v2, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
 
@@ -9280,10 +9177,10 @@
     .prologue
     const/4 v0, 0x2
 
-    .line 497
+    .line 502
     iput v0, p0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileCount:I
 
-    .line 498
+    .line 503
     new-array v0, v0, [Lfr/testudo/spacecorsair/engine/Vector2;
 
     const/4 v1, 0x0
@@ -9306,7 +9203,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileExitPoint:[Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 499
+    .line 504
     return-void
 .end method
 
@@ -9314,7 +9211,7 @@
     .registers 4
 
     .prologue
-    .line 556
+    .line 561
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->ALL_SHIPS:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
@@ -9334,14 +9231,14 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 557
+    .line 562
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->getGearSpec()Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;
 
     move-result-object v2
 
     if-ne v2, p0, :cond_6
 
-    .line 559
+    .line 564
     :goto_18
     return-object v0
 
@@ -9355,16 +9252,16 @@
     .registers 2
 
     .prologue
-    .line 424
+    .line 429
     const-string v0, "Varn Syndicate"
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->faction:Ljava/lang/String;
 
-    .line 425
+    .line 430
     const-string v0, "turret_laser"
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->turretArt:Ljava/lang/String;
 
-    .line 426
+    .line 431
     return-object p0
 .end method

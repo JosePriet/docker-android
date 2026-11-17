@@ -6,18 +6,12 @@
 # static fields
 .field static final SHOP:[[Ljava/lang/String;
 
-.field static final SHOP_SECTORS:[Ljava/lang/String;
-
 
 # direct methods
 .method static constructor <clinit>()V
-    .registers 9
+    .registers 7
 
     .prologue
-    const/4 v8, 0x4
-
-    const/4 v7, 0x3
-
     const/4 v6, 0x2
 
     const/4 v5, 0x1
@@ -65,29 +59,33 @@
 
     aput-object v1, v0, v6
 
-    new-array v1, v6, [Ljava/lang/String;
+    const/4 v1, 0x3
 
-    const-string v2, "argonLaserLevel10"
+    new-array v2, v6, [Ljava/lang/String;
 
-    aput-object v2, v1, v4
+    const-string v3, "argonLaserLevel10"
 
-    const-string v2, "Laser shop (Spartan HQ)"
+    aput-object v3, v2, v4
 
-    aput-object v2, v1, v5
+    const-string v3, "Laser shop (Spartan HQ)"
 
-    aput-object v1, v0, v7
+    aput-object v3, v2, v5
 
-    new-array v1, v6, [Ljava/lang/String;
+    aput-object v2, v0, v1
 
-    const-string v2, "argonLaserLevel13"
+    const/4 v1, 0x4
 
-    aput-object v2, v1, v4
+    new-array v2, v6, [Ljava/lang/String;
 
-    const-string v2, "Omicron goods station (Omicron Prime)"
+    const-string v3, "argonLaserLevel13"
 
-    aput-object v2, v1, v5
+    aput-object v3, v2, v4
 
-    aput-object v1, v0, v8
+    const-string v3, "Omicron goods station (Omicron Prime)"
+
+    aput-object v3, v2, v5
+
+    aput-object v2, v0, v1
 
     const/4 v1, 0x5
 
@@ -1099,81 +1097,6 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModSources;->SHOP:[[Ljava/lang/String;
 
-    .line 84
-    const/16 v0, 0xd
-
-    new-array v0, v0, [Ljava/lang/String;
-
-    const-string v1, "Eternity"
-
-    aput-object v1, v0, v4
-
-    const-string v1, "Galactic Speedway"
-
-    aput-object v1, v0, v5
-
-    const-string v1, "Genesis"
-
-    aput-object v1, v0, v6
-
-    const-string v1, "Heliostat"
-
-    aput-object v1, v0, v7
-
-    const-string v1, "Highway"
-
-    aput-object v1, v0, v8
-
-    const/4 v1, 0x5
-
-    const-string v2, "Lost Paradise"
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x6
-
-    const-string v2, "Omicron Prime"
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x7
-
-    const-string v2, "Ore Belt"
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x8
-
-    const-string v2, "Pirate Bay"
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x9
-
-    const-string v2, "Solar Field"
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0xa
-
-    const-string v2, "Spartan HQ"
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0xb
-
-    const-string v2, "Tutorial"
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0xc
-
-    const-string v2, "Ventohigh"
-
-    aput-object v2, v0, v1
-
-    sput-object v0, Lfr/testudo/spacecorsair/mod/ModSources;->SHOP_SECTORS:[Ljava/lang/String;
-
     return-void
 .end method
 
@@ -1187,13 +1110,94 @@
     return-void
 .end method
 
+.method static realNames(Ljava/lang/String;)Ljava/lang/String;
+    .registers 4
+
+    .prologue
+    .line 92
+    const-string v0, "STATION_SHIPYARD_NAME"
+
+    invoke-virtual {p0, v0}, Ljava/lang/String;->indexOf(Ljava/lang/String;)I
+
+    move-result v0
+
+    if-ltz v0, :cond_14
+
+    const-string v0, "STATION_SHIPYARD_NAME"
+
+    const-string v1, "Shipyard"
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {p0, v0, v1}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+
+    move-result-object p0
+
+    .line 93
+    :cond_14
+    const-string v0, "SPARTAN_MISSILE"
+
+    invoke-virtual {p0, v0}, Ljava/lang/String;->indexOf(Ljava/lang/String;)I
+
+    move-result v0
+
+    if-ltz v0, :cond_2c
+
+    .line 95
+    :try_start_1c
+    sget-object v0, Lfr/testudo/spacecorsair/business/world/UniverseName;->SPARTAN_MISSILE:Ljava/lang/String;
+    :try_end_1e
+    .catch Ljava/lang/Throwable; {:try_start_1c .. :try_end_1e} :catch_2d
+
+    .line 96
+    :goto_1e
+    const-string v1, "SPARTAN_MISSILE"
+
+    if-eqz v0, :cond_30
+
+    invoke-virtual {v0}, Ljava/lang/String;->length()I
+
+    move-result v2
+
+    if-lez v2, :cond_30
+
+    :goto_28
+    invoke-virtual {p0, v1, v0}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+
+    move-result-object p0
+
+    .line 98
+    :cond_2c
+    return-object p0
+
+    .line 95
+    :catch_2d
+    move-exception v0
+
+    const/4 v0, 0x0
+
+    goto :goto_1e
+
+    .line 96
+    :cond_30
+    const-string v0, "Spartan missiles"
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    goto :goto_28
+.end method
+
 .method static shop(Ljava/lang/String;)Ljava/lang/String;
     .registers 7
 
     .prologue
     const/4 v1, 0x0
 
-    .line 87
+    .line 86
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModSources;->SHOP:[[Ljava/lang/String;
 
     array-length v3, v2
@@ -1201,7 +1205,7 @@
     move v0, v1
 
     :goto_5
-    if-ge v0, v3, :cond_18
+    if-ge v0, v3, :cond_1c
 
     aget-object v4, v2, v0
 
@@ -1211,25 +1215,29 @@
 
     move-result v5
 
-    if-eqz v5, :cond_15
+    if-eqz v5, :cond_19
 
     const/4 v0, 0x1
 
     aget-object v0, v4, v0
 
-    .line 88
-    :goto_14
-    return-object v0
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSources;->realNames(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
 
     .line 87
-    :cond_15
+    :goto_18
+    return-object v0
+
+    .line 86
+    :cond_19
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_5
 
-    .line 88
-    :cond_18
+    .line 87
+    :cond_1c
     const/4 v0, 0x0
 
-    goto :goto_14
+    goto :goto_18
 .end method

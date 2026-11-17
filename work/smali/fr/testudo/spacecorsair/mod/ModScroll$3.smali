@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 72
+    .line 73
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,20 +34,20 @@
     .registers 2
 
     .prologue
-    .line 74
+    .line 75
     :try_start_0
     # invokes: Lfr/testudo/spacecorsair/mod/ModScroll;->place()V
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModScroll;->access$200()V
     :try_end_3
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_3} :catch_5
 
-    .line 75
+    .line 76
     :goto_3
     const/4 v0, 0x1
 
     return v0
 
-    .line 74
+    .line 75
     :catch_5
     move-exception v0
 

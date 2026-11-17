@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 944
+    .line 945
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$8;->val$o:Lfr/testudo/spacecorsair/mod/ModShipTree$Overlay;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$8;->val$t:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
@@ -49,7 +49,7 @@
     .registers 4
 
     .prologue
-    .line 945
+    .line 946
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$8;->val$o:Lfr/testudo/spacecorsair/mod/ModShipTree$Overlay;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$8;->val$t:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;

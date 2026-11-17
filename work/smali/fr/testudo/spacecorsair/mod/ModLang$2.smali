@@ -18,6 +18,8 @@
 
 
 # instance fields
+.field private seen:J
+
 .field final synthetic val$root:Landroid/view/View;
 
 
@@ -31,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 256
+    .line 313
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->val$root:Landroid/view/View;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -42,13 +44,32 @@
 
 # virtual methods
 .method public onGlobalLayout()V
-    .registers 2
+    .registers 5
 
     .prologue
-    .line 257
+    .line 315
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->val$root:Landroid/view/View;
+
+    iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->seen:J
+
+    invoke-static {v0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModScroll;->screenChanged(Landroid/view/View;J)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_17
+
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->val$root:Landroid/view/View;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModScroll;->screenKey(Landroid/view/View;)J
+
+    move-result-wide v0
+
+    iput-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->seen:J
+
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->val$root:Landroid/view/View;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->translateTree(Landroid/view/View;)V
 
+    :cond_17
     return-void
 .end method

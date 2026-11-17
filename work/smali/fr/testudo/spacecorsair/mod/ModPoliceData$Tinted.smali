@@ -23,15 +23,15 @@
     .registers 4
 
     .prologue
-    .line 111
+    .line 129
     iget-object v0, p2, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
     invoke-direct {p0, p1, v0}, Lfr/testudo/spacecorsair/display/Drawable;-><init>(Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/display/Texture;)V
 
-    .line 112
+    .line 130
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModPoliceData$Tinted;->base:Lfr/testudo/spacecorsair/display/Drawable;
 
-    .line 113
+    .line 131
     return-void
 .end method
 
@@ -41,7 +41,7 @@
     .registers 22
 
     .prologue
-    .line 117
+    .line 135
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModPoliceData$Tinted;->base:Lfr/testudo/spacecorsair/display/Drawable;
 
     const v1, 0x3f0ccccd    # 0.55f
@@ -72,6 +72,6 @@
 
     invoke-virtual/range {v0 .. v10}, Lfr/testudo/spacecorsair/display/Drawable;->draw(Ljavax/microedition/khronos/opengles/GL10;Lfr/testudo/spacecorsair/engine/Vector2;FZFFFFZZ)V
 
-    .line 118
+    .line 136
     return-void
 .end method

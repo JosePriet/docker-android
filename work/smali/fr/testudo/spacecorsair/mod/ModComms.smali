@@ -1167,21 +1167,25 @@
 
     const-string v1, "OK"
 
+    .line 367
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     const/4 v2, 0x0
 
-    .line 367
     invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
     move-result-object v0
 
     invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
-    :try_end_48
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_48} :catch_49
+    :try_end_4c
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_4c} :catch_4d
 
     goto :goto_16
 
     .line 368
-    :catch_49
+    :catch_4d
     move-exception v0
 
     goto :goto_16
@@ -1408,7 +1412,7 @@
 
     array-length v0, v0
 
-    if-ge v1, v0, :cond_273
+    if-ge v1, v0, :cond_2a4
 
     .line 381
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModRepData;->KEYS:[Ljava/lang/String;
@@ -1627,6 +1631,10 @@
 
     aget-object v11, v11, v7
 
+    invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v11
+
     invoke-static {v11}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v11
@@ -1699,9 +1707,9 @@
 
     cmpl-float v11, v6, v11
 
-    if-ltz v11, :cond_200
+    if-ltz v11, :cond_23b
 
-    :goto_134
+    :goto_138
     invoke-virtual {v10, v0}, Landroid/view/View;->setBackgroundColor(I)V
 
     .line 409
@@ -1752,11 +1760,11 @@
 
     cmpl-float v6, v6, v13
 
-    if-ltz v6, :cond_205
+    if-ltz v6, :cond_240
 
     div-int/lit8 v0, v11, 0x2
 
-    :goto_15d
+    :goto_161
     iput v0, v12, Landroid/widget/FrameLayout$LayoutParams;->leftMargin:I
 
     .line 413
@@ -1833,7 +1841,7 @@
     invoke-direct {v6}, Ljava/lang/StringBuilder;-><init>()V
 
     .line 424
-    if-nez v7, :cond_20b
+    if-nez v7, :cond_246
 
     const-string v0, "Flagship and patrols attack on sight. The commander will not answer."
 
@@ -1844,11 +1852,27 @@
     invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 430
-    :cond_1ac
-    :goto_1ac
-    const-string v0, "\nTrusted: "
+    :cond_1b0
+    :goto_1b0
+    const-string v0, "\n"
 
     invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v4, "Trusted:"
+
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v4, " "
+
+    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -1866,17 +1890,55 @@
 
     const/4 v0, 0x4
 
-    if-lt v7, v0, :cond_260
+    if-lt v7, v0, :cond_291
 
-    const-string v0, " (unlocked)"
+    new-instance v0, Ljava/lang/StringBuilder;
 
-    :goto_1c2
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v10, " "
+
+    invoke-virtual {v0, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v10, "(unlocked)"
+
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v10
+
+    invoke-virtual {v0, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    :goto_1ed
     invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 431
-    const-string v0, "   Honored: "
+    const-string v0, "   "
 
     invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v4, "Honored:"
+
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v4, " "
+
+    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -1894,7 +1956,7 @@
 
     const/4 v0, 0x5
 
-    if-lt v7, v0, :cond_264
+    if-lt v7, v0, :cond_295
 
     const-string v0, " (for sale)"
 
@@ -1902,7 +1964,7 @@
 
     move-result-object v0
 
-    :goto_1df
+    :goto_21a
     invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 432
@@ -1939,24 +2001,24 @@
     goto/16 :goto_28
 
     .line 408
-    :cond_200
+    :cond_23b
     const v0, -0x3fc6d5
 
-    goto/16 :goto_134
+    goto/16 :goto_138
 
     .line 412
-    :cond_205
+    :cond_240
     div-int/lit8 v6, v11, 0x2
 
     sub-int v0, v6, v0
 
-    goto/16 :goto_15d
+    goto/16 :goto_161
 
     .line 425
-    :cond_20b
+    :cond_246
     const/4 v0, 0x1
 
-    if-ne v7, v0, :cond_21a
+    if-ne v7, v0, :cond_256
 
     const-string v0, "Only amends contracts are offered."
 
@@ -1966,53 +2028,45 @@
 
     invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    goto :goto_1ac
+    goto/16 :goto_1b0
 
     .line 446
-    :catch_218
+    :catch_254
     move-exception v0
 
     .line 449
-    :goto_219
+    :goto_255
     return-void
 
     .line 427
-    :cond_21a
-    const-string v0, "Payout +"
+    :cond_256
+    const-string v0, "Payout +{0}%  \u00b7  flagship forgives {1}% friendly fire"
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    const/4 v10, 0x2
 
-    move-result-object v0
+    new-array v10, v10, [Ljava/lang/Object;
 
-    invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    const/4 v11, 0x0
 
-    move-result-object v0
+    sget-object v12, Lfr/testudo/spacecorsair/mod/ModRep;->PAYOUT:[F
 
-    sget-object v10, Lfr/testudo/spacecorsair/mod/ModRep;->PAYOUT:[F
+    aget v12, v12, v7
 
-    aget v10, v10, v7
+    const/high16 v13, 0x42c80000    # 100.0f
 
-    const/high16 v11, 0x42c80000    # 100.0f
+    mul-float/2addr v12, v13
 
-    mul-float/2addr v10, v11
+    invoke-static {v12}, Ljava/lang/Math;->round(F)I
 
-    invoke-static {v10}, Ljava/lang/Math;->round(F)I
+    move-result v12
 
-    move-result v10
+    invoke-static {v12}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
-    invoke-virtual {v0, v10}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    move-result-object v12
 
-    move-result-object v0
+    aput-object v12, v10, v11
 
-    const-string v10, "%  \u00b7  flagship forgives "
-
-    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v10
-
-    invoke-virtual {v0, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
+    const/4 v11, 0x1
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModRep;->tolerance(Ljava/lang/String;)F
 
@@ -2022,22 +2076,22 @@
 
     move-result v4
 
-    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const-string v4, "% friendly fire"
-
-    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
     move-result-object v4
 
-    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    aput-object v4, v10, v11
+
+    invoke-static {v0, v10}, Lfr/testudo/spacecorsair/mod/ModLang;->fmt(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 428
     const/4 v0, 0x4
 
-    if-lt v7, v0, :cond_1ac
+    if-lt v7, v0, :cond_1b0
 
     const-string v0, "  \u00b7  flagship fire support"
 
@@ -2047,19 +2101,19 @@
 
     invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    goto/16 :goto_1ac
+    goto/16 :goto_1b0
 
     .line 430
-    :cond_260
+    :cond_291
     const-string v0, ""
 
-    goto/16 :goto_1c2
+    goto/16 :goto_1ed
 
     .line 431
-    :cond_264
+    :cond_295
     const/4 v0, 0x4
 
-    if-lt v7, v0, :cond_26f
+    if-lt v7, v0, :cond_2a0
 
     const-string v0, " (listed, locked)"
 
@@ -2067,15 +2121,15 @@
 
     move-result-object v0
 
-    goto/16 :goto_1df
+    goto/16 :goto_21a
 
-    :cond_26f
+    :cond_2a0
     const-string v0, ""
 
-    goto/16 :goto_1df
+    goto/16 :goto_21a
 
     .line 437
-    :cond_273
+    :cond_2a4
     new-instance v0, Landroid/widget/TextView;
 
     invoke-direct {v0, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
@@ -2133,6 +2187,10 @@
 
     const-string v1, "OK"
 
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     const/4 v2, 0x0
 
     invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
@@ -2140,10 +2198,10 @@
     move-result-object v0
 
     invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
-    :try_end_2b5
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_2b5} :catch_218
+    :try_end_2ea
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_2ea} :catch_254
 
-    goto/16 :goto_219
+    goto/16 :goto_255
 .end method
 
 .method static tick(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V

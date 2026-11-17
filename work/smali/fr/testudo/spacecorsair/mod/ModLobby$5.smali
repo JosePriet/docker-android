@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLobby;->rejoin()V
+    value = Lfr/testudo/spacecorsair/mod/ModLobby;->startGuestWatch(JLjava/lang/String;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -18,12 +18,12 @@
 
 
 # instance fields
-.field final synthetic val$jc:Ljava/lang/String;
+.field final synthetic val$g:J
 
 
 # direct methods
-.method constructor <init>(Ljava/lang/String;)V
-    .registers 2
+.method constructor <init>(J)V
+    .registers 4
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -31,8 +31,8 @@
     .end annotation
 
     .prologue
-    .line 528
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$5;->val$jc:Ljava/lang/String;
+    .line 579
+    iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$5;->val$g:J
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -42,54 +42,52 @@
 
 # virtual methods
 .method public run()V
-    .registers 3
+    .registers 5
 
     .prologue
-    .line 530
-    const-wide/16 v0, 0xbb8
+    .line 582
+    :goto_0
+    :try_start_0
+    iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$5;->val$g:J
 
-    :try_start_2
+    # getter for: Lfr/testudo/spacecorsair/mod/ModLobby;->gen:J
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$300()J
+
+    move-result-wide v2
+
+    cmp-long v0, v0, v2
+
+    if-nez v0, :cond_1f
+
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->connected:Z
+
+    if-eqz v0, :cond_1f
+
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->internet:Z
+
+    if-eqz v0, :cond_1f
+
+    .line 583
+    const-wide/16 v0, 0x1388
+
     invoke-static {v0, v1}, Ljava/lang/Thread;->sleep(J)V
-    :try_end_5
-    .catch Ljava/lang/InterruptedException; {:try_start_2 .. :try_end_5} :catch_1f
 
-    .line 531
-    sget v0, Lfr/testudo/spacecorsair/mod/ModLan;->role:I
+    .line 584
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->applySaver()V
 
-    if-nez v0, :cond_d
+    .line 585
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLobby;->reportRelay()V
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$400()V
+    :try_end_1d
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_1d} :catch_1e
 
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLobby;->busy:Z
+    goto :goto_0
 
-    if-eqz v0, :cond_e
-
-    .line 533
-    :cond_d
-    :goto_d
-    return-void
-
-    .line 532
-    :cond_e
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$5;->val$jc:Ljava/lang/String;
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLobby;->join(Ljava/lang/String;)Z
-
-    move-result v0
-
-    if-nez v0, :cond_d
-
-    const-string v0, "Co-op link lost"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    sput-object v0, Lfr/testudo/spacecorsair/mod/ModLan;->status:Ljava/lang/String;
-
-    goto :goto_d
-
-    .line 530
-    :catch_1f
+    .line 587
+    :catch_1e
     move-exception v0
 
-    goto :goto_d
+    .line 588
+    :cond_1f
+    return-void
 .end method

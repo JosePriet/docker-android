@@ -174,7 +174,7 @@
     .line 62
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModScroll;->scan(Landroid/view/View;)V
 
-    .line 82
+    .line 83
     :goto_1f
     return-void
 
@@ -198,21 +198,21 @@
 
     invoke-virtual {v1, v2}, Landroid/view/ViewTreeObserver;->addOnGlobalLayoutListener(Landroid/view/ViewTreeObserver$OnGlobalLayoutListener;)V
 
-    .line 72
+    .line 73
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModScroll$3;
 
     invoke-direct {v2}, Lfr/testudo/spacecorsair/mod/ModScroll$3;-><init>()V
 
     invoke-virtual {v1, v2}, Landroid/view/ViewTreeObserver;->addOnPreDrawListener(Landroid/view/ViewTreeObserver$OnPreDrawListener;)V
 
-    .line 78
+    .line 79
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModScroll;->scan(Landroid/view/View;)V
     :try_end_3e
     .catch Ljava/lang/Throwable; {:try_start_c .. :try_end_3e} :catch_3f
 
     goto :goto_1f
 
-    .line 79
+    .line 80
     :catch_3f
     move-exception v0
 
@@ -225,7 +225,7 @@
     .prologue
     const/4 v4, 0x0
 
-    .line 115
+    .line 144
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModScroll;->thumbs:Ljava/util/Map;
 
     invoke-interface {v0}, Ljava/util/Map;->isEmpty()Z
@@ -234,11 +234,11 @@
 
     if-eqz v0, :cond_a
 
-    .line 144
+    .line 173
     :cond_9
     return-void
 
-    .line 117
+    .line 146
     :cond_a
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModScroll;->thumbs:Ljava/util/Map;
 
@@ -264,21 +264,21 @@
 
     check-cast v0, Ljava/util/Map$Entry;
 
-    .line 118
+    .line 147
     invoke-interface {v0}, Ljava/util/Map$Entry;->getKey()Ljava/lang/Object;
 
     move-result-object v1
 
     check-cast v1, Landroid/widget/TextView;
 
-    .line 119
+    .line 148
     invoke-interface {v0}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Landroid/graphics/drawable/Drawable;
 
-    .line 120
+    .line 149
     if-eqz v1, :cond_14
 
     if-eqz v0, :cond_14
@@ -289,28 +289,28 @@
 
     if-eqz v2, :cond_14
 
-    .line 121
+    .line 150
     invoke-virtual {v1}, Landroid/widget/TextView;->getLayout()Landroid/text/Layout;
 
     move-result-object v2
 
-    .line 122
+    .line 151
     invoke-virtual {v1}, Landroid/widget/TextView;->getHeight()I
 
     move-result v6
 
-    .line 123
+    .line 152
     if-nez v2, :cond_b5
 
     move v5, v4
 
-    .line 125
+    .line 154
     :goto_41
     add-int/lit8 v2, v6, 0x2
 
     if-le v5, v2, :cond_c6
 
-    .line 126
+    .line 155
     invoke-virtual {v1}, Landroid/widget/TextView;->getResources()Landroid/content/res/Resources;
 
     move-result-object v2
@@ -321,19 +321,19 @@
 
     iget v8, v2, Landroid/util/DisplayMetrics;->density:F
 
-    .line 127
+    .line 156
     const/high16 v2, 0x40c00000    # 6.0f
 
     mul-float/2addr v2, v8
 
     float-to-int v9, v2
 
-    .line 128
+    .line 157
     mul-int/lit8 v2, v9, 0x2
 
     sub-int v3, v6, v2
 
-    .line 129
+    .line 158
     const/high16 v2, 0x41c00000    # 24.0f
 
     mul-float/2addr v2, v8
@@ -348,12 +348,12 @@
 
     move-result v2
 
-    .line 130
+    .line 159
     if-le v2, v3, :cond_65
 
     move v2, v3
 
-    .line 131
+    .line 160
     :cond_65
     const/4 v10, 0x0
 
@@ -379,7 +379,7 @@
 
     move-result v5
 
-    .line 133
+    .line 162
     invoke-virtual {v1}, Landroid/widget/TextView;->getScrollY()I
 
     move-result v6
@@ -396,10 +396,10 @@
 
     add-int v5, v6, v3
 
-    .line 134
+    .line 163
     add-int/2addr v2, v5
 
-    .line 135
+    .line 164
     invoke-virtual {v1}, Landroid/widget/TextView;->getScrollX()I
 
     move-result v3
@@ -418,7 +418,7 @@
 
     sub-int/2addr v3, v6
 
-    .line 136
+    .line 165
     const/high16 v6, 0x40800000    # 4.0f
 
     mul-float/2addr v6, v8
@@ -427,13 +427,13 @@
 
     sub-int v6, v3, v6
 
-    .line 138
+    .line 167
     :goto_99
     invoke-virtual {v0}, Landroid/graphics/drawable/Drawable;->getBounds()Landroid/graphics/Rect;
 
     move-result-object v8
 
-    .line 139
+    .line 168
     iget v9, v8, Landroid/graphics/Rect;->left:I
 
     if-ne v9, v6, :cond_ad
@@ -450,16 +450,16 @@
 
     if-eq v8, v2, :cond_14
 
-    .line 140
+    .line 169
     :cond_ad
     invoke-virtual {v0, v6, v5, v3, v2}, Landroid/graphics/drawable/Drawable;->setBounds(IIII)V
 
-    .line 141
+    .line 170
     invoke-virtual {v1}, Landroid/widget/TextView;->invalidate()V
 
     goto/16 :goto_14
 
-    .line 123
+    .line 152
     :cond_b5
     invoke-virtual {v2}, Landroid/text/Layout;->getHeight()I
 
@@ -499,7 +499,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 85
+    .line 114
     instance-of v0, p0, Landroid/widget/ScrollView;
 
     if-nez v0, :cond_9
@@ -508,7 +508,7 @@
 
     if-eqz v0, :cond_2f
 
-    .line 87
+    .line 116
     :cond_9
     invoke-virtual {p0}, Landroid/view/View;->isVerticalScrollBarEnabled()Z
 
@@ -524,19 +524,19 @@
 
     invoke-virtual {p0, v1}, Landroid/view/View;->setScrollbarFadingEnabled(Z)V
 
-    .line 91
+    .line 120
     :cond_18
     :goto_18
     instance-of v0, p0, Landroid/view/ViewGroup;
 
     if-eqz v0, :cond_45
 
-    .line 92
+    .line 121
     check-cast p0, Landroid/view/ViewGroup;
 
     move v0, v1
 
-    .line 93
+    .line 122
     :goto_1f
     invoke-virtual {p0}, Landroid/view/ViewGroup;->getChildCount()I
 
@@ -554,7 +554,7 @@
 
     goto :goto_1f
 
-    .line 88
+    .line 117
     :cond_2f
     instance-of v0, p0, Landroid/widget/TextView;
 
@@ -574,23 +574,227 @@
 
     move-object v0, p0
 
-    .line 89
+    .line 118
     check-cast v0, Landroid/widget/TextView;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModScroll;->track(Landroid/widget/TextView;)V
 
     goto :goto_18
 
-    .line 95
+    .line 124
     :cond_45
     return-void
+.end method
+
+.method static screenChanged(Landroid/view/View;J)Z
+    .registers 6
+
+    .prologue
+    .line 110
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModScroll;->screenKey(Landroid/view/View;)J
+
+    move-result-wide v0
+
+    cmp-long v0, v0, p1
+
+    if-eqz v0, :cond_a
+
+    const/4 v0, 0x1
+
+    :goto_9
+    return v0
+
+    :cond_a
+    const/4 v0, 0x0
+
+    goto :goto_9
+.end method
+
+.method static screenKey(Landroid/view/View;)J
+    .registers 15
+
+    .prologue
+    const/4 v6, 0x1
+
+    const-wide/16 v12, 0x1f
+
+    const/4 v3, 0x0
+
+    .line 90
+    const-wide/16 v0, 0x11
+
+    .line 91
+    instance-of v2, p0, Landroid/view/ViewGroup;
+
+    if-nez v2, :cond_b
+
+    .line 106
+    :goto_a
+    return-wide v0
+
+    .line 92
+    :cond_b
+    check-cast p0, Landroid/view/ViewGroup;
+
+    move v2, v3
+
+    move-wide v4, v0
+
+    .line 93
+    :goto_f
+    invoke-virtual {p0}, Landroid/view/ViewGroup;->getChildCount()I
+
+    move-result v0
+
+    if-ge v2, v0, :cond_6b
+
+    .line 94
+    invoke-virtual {p0, v2}, Landroid/view/ViewGroup;->getChildAt(I)Landroid/view/View;
+
+    move-result-object v0
+
+    .line 95
+    mul-long/2addr v4, v12
+
+    invoke-static {v0}, Ljava/lang/System;->identityHashCode(Ljava/lang/Object;)I
+
+    move-result v1
+
+    int-to-long v8, v1
+
+    add-long/2addr v4, v8
+
+    invoke-virtual {v0}, Landroid/view/View;->getVisibility()I
+
+    move-result v1
+
+    if-nez v1, :cond_62
+
+    move v1, v6
+
+    :goto_27
+    int-to-long v8, v1
+
+    add-long/2addr v4, v8
+
+    .line 96
+    instance-of v1, v0, Landroid/view/ViewGroup;
+
+    if-eqz v1, :cond_67
+
+    .line 97
+    check-cast v0, Landroid/view/ViewGroup;
+
+    .line 98
+    mul-long/2addr v4, v12
+
+    invoke-virtual {v0}, Landroid/view/ViewGroup;->getChildCount()I
+
+    move-result v1
+
+    int-to-long v8, v1
+
+    add-long/2addr v8, v4
+
+    move v4, v3
+
+    .line 99
+    :goto_37
+    invoke-virtual {v0}, Landroid/view/ViewGroup;->getChildCount()I
+
+    move-result v1
+
+    if-ge v4, v1, :cond_66
+
+    .line 100
+    invoke-virtual {v0, v4}, Landroid/view/ViewGroup;->getChildAt(I)Landroid/view/View;
+
+    move-result-object v1
+
+    .line 101
+    mul-long/2addr v8, v12
+
+    invoke-static {v1}, Ljava/lang/System;->identityHashCode(Ljava/lang/Object;)I
+
+    move-result v5
+
+    int-to-long v10, v5
+
+    add-long/2addr v8, v10
+
+    invoke-virtual {v1}, Landroid/view/View;->getVisibility()I
+
+    move-result v5
+
+    if-nez v5, :cond_64
+
+    move v5, v6
+
+    :goto_4f
+    int-to-long v10, v5
+
+    add-long/2addr v8, v10
+
+    .line 102
+    instance-of v5, v1, Landroid/view/ViewGroup;
+
+    if-eqz v5, :cond_5e
+
+    mul-long/2addr v8, v12
+
+    check-cast v1, Landroid/view/ViewGroup;
+
+    invoke-virtual {v1}, Landroid/view/ViewGroup;->getChildCount()I
+
+    move-result v1
+
+    int-to-long v10, v1
+
+    add-long/2addr v8, v10
+
+    .line 99
+    :cond_5e
+    add-int/lit8 v1, v4, 0x1
+
+    move v4, v1
+
+    goto :goto_37
+
+    :cond_62
+    move v1, v3
+
+    .line 95
+    goto :goto_27
+
+    :cond_64
+    move v5, v3
+
+    .line 101
+    goto :goto_4f
+
+    :cond_66
+    move-wide v4, v8
+
+    .line 93
+    :cond_67
+    add-int/lit8 v0, v2, 0x1
+
+    move v2, v0
+
+    goto :goto_f
+
+    :cond_6b
+    move-wide v0, v4
+
+    .line 106
+    goto :goto_a
 .end method
 
 .method public static track(Landroid/widget/TextView;)V
     .registers 8
 
     .prologue
-    .line 100
+    .line 129
     :try_start_0
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModScroll;->thumbs:Ljava/util/Map;
 
@@ -600,11 +804,11 @@
 
     if-eqz v0, :cond_9
 
-    .line 112
+    .line 141
     :goto_8
     return-void
 
-    .line 101
+    .line 130
     :cond_9
     invoke-virtual {p0}, Landroid/widget/TextView;->getResources()Landroid/content/res/Resources;
 
@@ -616,7 +820,7 @@
 
     iget v0, v0, Landroid/util/DisplayMetrics;->density:F
 
-    .line 102
+    .line 131
     new-instance v1, Landroid/graphics/drawable/GradientDrawable;
 
     sget-object v2, Landroid/graphics/drawable/GradientDrawable$Orientation;->LEFT_RIGHT:Landroid/graphics/drawable/GradientDrawable$Orientation;
@@ -629,14 +833,14 @@
 
     invoke-direct {v1, v2, v3}, Landroid/graphics/drawable/GradientDrawable;-><init>(Landroid/graphics/drawable/GradientDrawable$Orientation;[I)V
 
-    .line 103
+    .line 132
     const/high16 v2, 0x40400000    # 3.0f
 
     mul-float/2addr v0, v2
 
     invoke-virtual {v1, v0}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
 
-    .line 104
+    .line 133
     const/4 v0, 0x0
 
     const/4 v2, 0x0
@@ -647,7 +851,7 @@
 
     invoke-virtual {v1, v0, v2, v3, v4}, Landroid/graphics/drawable/GradientDrawable;->setBounds(IIII)V
 
-    .line 105
+    .line 134
     const-class v0, Landroid/view/View;
 
     const-string v2, "getOverlay"
@@ -668,7 +872,7 @@
 
     move-result-object v0
 
-    .line 106
+    .line 135
     invoke-virtual {v0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v2
@@ -689,7 +893,7 @@
 
     move-result-object v2
 
-    .line 107
+    .line 136
     const/4 v3, 0x1
 
     new-array v3, v3, [Ljava/lang/Object;
@@ -700,7 +904,7 @@
 
     invoke-virtual {v2, v0, v3}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 108
+    .line 137
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModScroll;->thumbs:Ljava/util/Map;
 
     invoke-interface {v0, p0, v1}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
@@ -709,11 +913,11 @@
 
     goto :goto_8
 
-    .line 109
+    .line 138
     :catch_60
     move-exception v0
 
-    .line 110
+    .line 139
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModScroll;->thumbs:Ljava/util/Map;
 
     const/4 v1, 0x0
@@ -722,7 +926,7 @@
 
     goto :goto_8
 
-    .line 102
+    .line 131
     :array_68
     .array-data 4
         -0x8f3410

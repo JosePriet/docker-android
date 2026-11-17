@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLobby;->kicked()V
+    value = Lfr/testudo/spacecorsair/mod/ModLobby;->rejoin()V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -18,16 +18,12 @@
 
 
 # instance fields
-.field final synthetic val$c:Ljava/lang/String;
-
-.field final synthetic val$id:Ljava/lang/String;
-
-.field final synthetic val$tok:Ljava/lang/String;
+.field final synthetic val$jc:Ljava/lang/String;
 
 
 # direct methods
-.method constructor <init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-    .registers 4
+.method constructor <init>(Ljava/lang/String;)V
+    .registers 2
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -35,12 +31,8 @@
     .end annotation
 
     .prologue
-    .line 589
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$c:Ljava/lang/String;
-
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$tok:Ljava/lang/String;
-
-    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$id:Ljava/lang/String;
+    .line 598
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$jc:Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -50,67 +42,54 @@
 
 # virtual methods
 .method public run()V
-    .registers 6
+    .registers 3
 
     .prologue
-    .line 589
-    const-string v0, "POST"
+    .line 600
+    const-wide/16 v0, 0xbb8
 
-    new-instance v1, Ljava/lang/StringBuilder;
+    :try_start_2
+    invoke-static {v0, v1}, Ljava/lang/Thread;->sleep(J)V
+    :try_end_5
+    .catch Ljava/lang/InterruptedException; {:try_start_2 .. :try_end_5} :catch_1f
 
-    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+    .line 601
+    sget v0, Lfr/testudo/spacecorsair/mod/ModLan;->role:I
 
-    const-string v2, "/lobby/"
+    if-nez v0, :cond_d
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLobby;->busy:Z
 
-    move-result-object v1
+    if-eqz v0, :cond_e
 
-    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$c:Ljava/lang/String;
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, "/kick"
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v1
-
-    const/4 v2, 0x4
-
-    new-array v2, v2, [Ljava/lang/String;
-
-    const/4 v3, 0x0
-
-    const-string v4, "token"
-
-    aput-object v4, v2, v3
-
-    const/4 v3, 0x1
-
-    iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$tok:Ljava/lang/String;
-
-    aput-object v4, v2, v3
-
-    const/4 v3, 0x2
-
-    const-string v4, "id"
-
-    aput-object v4, v2, v3
-
-    const/4 v3, 0x3
-
-    iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$id:Ljava/lang/String;
-
-    aput-object v4, v2, v3
-
-    invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModLobby;->call(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;)Lfr/testudo/spacecorsair/mod/ModLobby$Reply;
-
+    .line 603
+    :cond_d
+    :goto_d
     return-void
+
+    .line 602
+    :cond_e
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$jc:Ljava/lang/String;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLobby;->join(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_d
+
+    const-string v0, "Co-op link lost"
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModLan;->status:Ljava/lang/String;
+
+    goto :goto_d
+
+    .line 600
+    :catch_1f
+    move-exception v0
+
+    goto :goto_d
 .end method

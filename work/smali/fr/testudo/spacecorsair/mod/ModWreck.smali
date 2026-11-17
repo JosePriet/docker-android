@@ -367,7 +367,7 @@
 
     const/4 v2, 0x0
 
-    .line 583
+    .line 584
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v0, v0, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -376,7 +376,7 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->lastVx:F
 
-    .line 584
+    .line 585
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v0, v0, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
@@ -385,12 +385,12 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->lastVy:F
 
-    .line 585
+    .line 586
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModWreck;->visualOnly:Z
 
     if-eqz v0, :cond_23
 
-    .line 586
+    .line 587
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -401,11 +401,11 @@
 
     invoke-interface {v0, p0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 600
+    .line 601
     :goto_22
     return-void
 
-    .line 589
+    .line 590
     :cond_23
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
 
@@ -413,7 +413,7 @@
 
     move v3, v2
 
-    .line 590
+    .line 591
     :goto_29
     const/4 v0, 0x2
 
@@ -429,7 +429,7 @@
 
     move v1, v2
 
-    .line 592
+    .line 593
     :goto_35
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
 
@@ -447,7 +447,7 @@
 
     if-le v0, v6, :cond_73
 
-    .line 593
+    .line 594
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
 
     invoke-virtual {v0, v1}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
@@ -456,7 +456,7 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModWreck;
 
-    .line 594
+    .line 595
     iget-boolean v4, v0, Lfr/testudo/spacecorsair/mod/ModWreck;->poi:Z
 
     if-nez v4, :cond_69
@@ -486,7 +486,7 @@
 
     if-nez v4, :cond_6d
 
-    .line 592
+    .line 593
     :cond_69
     :goto_69
     add-int/lit8 v0, v1, 0x1
@@ -495,16 +495,16 @@
 
     goto :goto_35
 
-    .line 595
+    .line 596
     :cond_6d
     invoke-direct {v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->vanish()V
 
-    .line 596
+    .line 597
     add-int/lit8 v1, v1, -0x1
 
     goto :goto_69
 
-    .line 590
+    .line 591
     :cond_73
     add-int/lit8 v0, v3, 0x1
 
@@ -512,7 +512,7 @@
 
     goto :goto_29
 
-    .line 599
+    .line 600
     :cond_77
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -978,29 +978,35 @@
 
     move-object/from16 v21, v0
 
-    .line 522
-    if-eqz v21, :cond_e
+    .line 523
+    if-eqz v21, :cond_14
 
     move-object/from16 v0, v21
 
     iget v4, v0, Lfr/testudo/spacecorsair/display/Texture;->name:I
 
-    if-gtz v4, :cond_10
+    if-gtz v4, :cond_16
 
-    :cond_e
+    move-object/from16 v0, v21
+
+    instance-of v4, v0, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
+
+    if-nez v4, :cond_16
+
+    :cond_14
     const/4 v4, 0x0
 
-    .line 552
-    :goto_f
+    .line 553
+    :goto_15
     return-object v4
 
-    .line 524
-    :cond_10
+    .line 525
+    :cond_16
     move-object/from16 v0, p1
 
     instance-of v4, v0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
-    if-eqz v4, :cond_106
+    if-eqz v4, :cond_10c
 
     move-object/from16 v4, p1
 
@@ -1018,25 +1024,25 @@
 
     move/from16 v20, v5
 
-    .line 526
-    :goto_26
+    .line 527
+    :goto_2c
     const/4 v4, 0x3
 
     move/from16 v0, p2
 
-    if-lt v0, v4, :cond_118
+    if-lt v0, v4, :cond_11e
 
     const/4 v4, 0x3
 
     move/from16 v18, v4
 
-    .line 527
-    :goto_2e
+    .line 528
+    :goto_34
     const/4 v4, 0x2
 
     move/from16 v0, v18
 
-    if-ne v0, v4, :cond_11d
+    if-ne v0, v4, :cond_123
 
     const/4 v4, 0x3
 
@@ -1074,22 +1080,22 @@
 
     move-object/from16 v16, v4
 
-    .line 529
-    :goto_51
+    .line 530
+    :goto_57
     move/from16 v0, v18
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/mod/ModWreck;
 
     move-object/from16 v17, v0
 
-    .line 530
+    .line 531
     const/4 v4, 0x1
 
     new-array v0, v4, [Z
 
     move-object/from16 v22, v0
 
-    .line 531
+    .line 532
     move/from16 v0, v20
 
     move/from16 v1, v19
@@ -1098,7 +1104,7 @@
 
     move-result v23
 
-    .line 532
+    .line 533
     const-string v4, "fx_explosion_big_sheet"
 
     const/16 v5, 0x8
@@ -1133,7 +1139,7 @@
 
     invoke-static/range {v4 .. v15}, Lfr/testudo/spacecorsair/mod/ModLive;->fx(Ljava/lang/String;IIFFFJFFFZ)V
 
-    .line 533
+    .line 534
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1148,32 +1154,32 @@
 
     invoke-static {v4, v5, v0, v6}, Lfr/testudo/spacecorsair/mod/ModWreck;->debris(Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/engine/Vector2;FI)V
 
-    .line 534
+    .line 535
     const/4 v4, 0x0
 
     move v5, v4
 
-    :goto_99
+    :goto_9f
     move/from16 v0, v18
 
-    if-ge v5, v0, :cond_157
+    if-ge v5, v0, :cond_15d
 
-    .line 535
+    .line 536
     new-instance v6, Lfr/testudo/spacecorsair/mod/ModWreck;
 
     invoke-direct {v6}, Lfr/testudo/spacecorsair/mod/ModWreck;-><init>()V
 
-    .line 536
+    .line 537
     move-object/from16 v0, v22
 
     iput-object v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->group:[Z
 
-    .line 537
+    .line 538
     move-object/from16 v0, v21
 
     iput-object v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->tex:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 538
+    .line 539
     const/4 v4, 0x0
 
     iput v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->u0:F
@@ -1182,7 +1188,7 @@
 
     iput v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->u1:F
 
-    .line 539
+    .line 540
     aget v4, v16, v5
 
     iput v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->v0:F
@@ -1193,30 +1199,30 @@
 
     iput v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->v1:F
 
-    .line 540
-    if-lez v5, :cond_14d
+    .line 541
+    if-lez v5, :cond_153
 
     const/4 v4, 0x1
 
-    :goto_be
+    :goto_c4
     iput-boolean v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->cutTop:Z
 
-    .line 541
+    .line 542
     add-int/lit8 v4, v18, -0x1
 
-    if-ge v5, v4, :cond_150
+    if-ge v5, v4, :cond_156
 
     const/4 v4, 0x1
 
-    :goto_c5
+    :goto_cb
     iput-boolean v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->cutBottom:Z
 
-    .line 542
+    .line 543
     move/from16 v0, v20
 
     iput v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->w:F
 
-    .line 543
+    .line 544
     iget v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->v1:F
 
     iget v7, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->v0:F
@@ -1227,35 +1233,35 @@
 
     iput v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->h:F
 
-    .line 544
+    .line 545
     iget-object v7, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->burnA:[F
 
     const/4 v8, 0x0
 
     iget-boolean v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->cutTop:Z
 
-    if-eqz v4, :cond_153
+    if-eqz v4, :cond_159
 
     const v4, 0x3f666666    # 0.9f
 
-    :goto_de
+    :goto_e4
     aput v4, v7, v8
 
-    .line 545
+    .line 546
     iget-object v7, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->burnA:[F
 
     const/4 v8, 0x1
 
     iget-boolean v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->cutBottom:Z
 
-    if-eqz v4, :cond_155
+    if-eqz v4, :cond_15b
 
     const v4, 0x3f666666    # 0.9f
 
-    :goto_ea
+    :goto_f0
     aput v4, v7, v8
 
-    .line 546
+    .line 547
     move-object/from16 v0, p0
 
     move/from16 v1, v19
@@ -1264,31 +1270,31 @@
 
     invoke-static {v6, v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModWreck;->place(Lfr/testudo/spacecorsair/mod/ModWreck;Lfr/testudo/spacecorsair/business/Element;FF)V
 
-    .line 547
+    .line 548
     move/from16 v0, p3
 
     iput-boolean v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->visualOnly:Z
 
-    .line 548
+    .line 549
     move-wide/from16 v0, p4
 
     iput-wide v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->lifeMs:J
 
-    .line 549
+    .line 550
     aput-object v6, v17, v5
 
-    .line 550
+    .line 551
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModWreck;->add(Lfr/testudo/spacecorsair/mod/ModWreck;)V
 
-    .line 534
+    .line 535
     add-int/lit8 v4, v5, 0x1
 
     move v5, v4
 
-    goto :goto_99
+    goto :goto_9f
 
-    .line 525
-    :cond_106
+    .line 526
+    :cond_10c
     move-object/from16 v0, p1
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1305,18 +1311,18 @@
 
     move/from16 v20, v5
 
-    goto/16 :goto_26
+    goto/16 :goto_2c
 
-    .line 526
-    :cond_118
+    .line 527
+    :cond_11e
     const/4 v4, 0x2
 
     move/from16 v18, v4
 
-    goto/16 :goto_2e
+    goto/16 :goto_34
 
-    .line 528
-    :cond_11d
+    .line 529
+    :cond_123
     const/4 v4, 0x4
 
     new-array v4, v4, [F
@@ -1371,37 +1377,37 @@
 
     move-object/from16 v16, v4
 
-    goto/16 :goto_51
-
-    .line 540
-    :cond_14d
-    const/4 v4, 0x0
-
-    goto/16 :goto_be
+    goto/16 :goto_57
 
     .line 541
-    :cond_150
-    const/4 v4, 0x0
-
-    goto/16 :goto_c5
-
-    .line 544
     :cond_153
     const/4 v4, 0x0
 
-    goto :goto_de
+    goto/16 :goto_c4
 
-    .line 545
-    :cond_155
+    .line 542
+    :cond_156
     const/4 v4, 0x0
 
-    goto :goto_ea
+    goto/16 :goto_cb
 
-    :cond_157
+    .line 545
+    :cond_159
+    const/4 v4, 0x0
+
+    goto :goto_e4
+
+    .line 546
+    :cond_15b
+    const/4 v4, 0x0
+
+    goto :goto_f0
+
+    :cond_15d
     move-object/from16 v4, v17
 
-    .line 552
-    goto/16 :goto_f
+    .line 553
+    goto/16 :goto_15
 .end method
 
 .method private static breakUpArt(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/display/Drawable;Ljava/lang/String;)[Lfr/testudo/spacecorsair/mod/ModWreck;
@@ -2164,22 +2170,22 @@
 
     const/4 v4, 0x0
 
-    .line 557
+    .line 558
     iget-object v5, p1, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 558
+    .line 559
     if-eqz v5, :cond_d
 
     iget v0, v5, Lfr/testudo/spacecorsair/display/Texture;->name:I
 
     if-gtz v0, :cond_e
 
-    .line 580
+    .line 581
     :cond_d
     :goto_d
     return-void
 
-    .line 560
+    .line 561
     :cond_e
     instance-of v0, p1, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
@@ -2197,23 +2203,23 @@
 
     move v1, v0
 
-    .line 563
+    .line 564
     :goto_1c
     new-instance v6, Lfr/testudo/spacecorsair/mod/ModWreck;
 
     invoke-direct {v6}, Lfr/testudo/spacecorsair/mod/ModWreck;-><init>()V
 
-    .line 564
+    .line 565
     new-array v0, v3, [Z
 
     aput-boolean v4, v0, v4
 
     iput-object v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->group:[Z
 
-    .line 565
+    .line 566
     iput-boolean v3, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->husk:Z
 
-    .line 566
+    .line 567
     const-string v0, "husk"
 
     new-instance v7, Ljava/lang/StringBuilder;
@@ -2244,10 +2250,10 @@
 
     invoke-static {v0, v7}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 567
+    .line 568
     iput v3, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->srcClass:I
 
-    .line 568
+    .line 569
     instance-of v0, p0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     if-eqz v0, :cond_a3
@@ -2265,10 +2271,10 @@
     :goto_57
     iput-boolean v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->srcElite:Z
 
-    .line 569
+    .line 570
     iput-object v5, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->tex:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 570
+    .line 571
     iput v9, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->u0:F
 
     iput v10, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->u1:F
@@ -2277,32 +2283,32 @@
 
     iput v10, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->v1:F
 
-    .line 571
+    .line 572
     iput v2, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->w:F
 
-    .line 572
+    .line 573
     iput v1, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->h:F
 
-    .line 573
+    .line 574
     const v0, 0x3ecccccd    # 0.4f
 
     iput v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->tint:F
 
-    .line 574
+    .line 575
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModWreck;->lifeMs(I)J
 
     move-result-wide v4
 
     iput-wide v4, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->fadeMs:J
 
-    .line 575
+    .line 576
     invoke-static {v2, v1}, Ljava/lang/Math;->max(FF)F
 
     move-result v0
 
     invoke-static {v6, p0, v1, v0}, Lfr/testudo/spacecorsair/mod/ModWreck;->place(Lfr/testudo/spacecorsair/mod/ModWreck;Lfr/testudo/spacecorsair/business/Element;FF)V
 
-    .line 576
+    .line 577
     const/high16 v0, 0x42c80000    # 100.0f
 
     iget v1, p0, Lfr/testudo/spacecorsair/business/Element;->maxLife:F
@@ -2317,22 +2323,22 @@
 
     iput v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->maxLife:F
 
-    .line 577
+    .line 578
     iget v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->maxLife:F
 
     iput v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->life:F
 
-    .line 578
+    .line 579
     iget v0, p0, Lfr/testudo/spacecorsair/business/Element;->level:I
 
     iput v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->srcLevel:I
 
-    .line 579
+    .line 580
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModWreck;->add(Lfr/testudo/spacecorsair/mod/ModWreck;)V
 
     goto/16 :goto_d
 
-    .line 561
+    .line 562
     :cond_94
     iget-object v0, p1, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -2353,7 +2359,7 @@
     :cond_a3
     move v0, v4
 
-    .line 568
+    .line 569
     goto :goto_57
 .end method
 
@@ -2881,12 +2887,12 @@
     .registers 1
 
     .prologue
-    .line 604
+    .line 605
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWreck;->live:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->clear()V
 
-    .line 605
+    .line 606
     return-void
 .end method
 

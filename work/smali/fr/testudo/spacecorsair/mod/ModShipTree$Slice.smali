@@ -39,10 +39,10 @@
     .registers 9
 
     .prologue
-    .line 785
+    .line 786
     invoke-direct {p0}, Landroid/graphics/drawable/Drawable;-><init>()V
 
-    .line 781
+    .line 782
     new-instance v0, Landroid/graphics/Paint;
 
     const/4 v1, 0x3
@@ -51,21 +51,21 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->p:Landroid/graphics/Paint;
 
-    .line 782
+    .line 783
     new-instance v0, Landroid/graphics/Rect;
 
     invoke-direct {v0}, Landroid/graphics/Rect;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->sr:Landroid/graphics/Rect;
 
-    .line 783
+    .line 784
     new-instance v0, Landroid/graphics/RectF;
 
     invoke-direct {v0}, Landroid/graphics/RectF;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->dr:Landroid/graphics/RectF;
 
-    .line 786
+    .line 787
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->bmp:Landroid/graphics/Bitmap;
 
     iput p2, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->l:I
@@ -78,7 +78,7 @@
 
     iput-boolean p6, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->fitHeight:Z
 
-    .line 787
+    .line 788
     return-void
 .end method
 
@@ -98,12 +98,12 @@
 
     const/4 v1, 0x0
 
-    .line 791
+    .line 792
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->getBounds()Landroid/graphics/Rect;
 
     move-result-object v2
 
-    .line 792
+    .line 793
     invoke-virtual {v2}, Landroid/graphics/Rect;->width()I
 
     move-result v3
@@ -124,7 +124,7 @@
 
     move-result v6
 
-    .line 793
+    .line 794
     if-lez v3, :cond_29
 
     if-lez v4, :cond_29
@@ -137,11 +137,11 @@
 
     if-eqz v0, :cond_2a
 
-    .line 809
+    .line 810
     :cond_29
     return-void
 
-    .line 794
+    .line 795
     :cond_2a
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->fitHeight:Z
 
@@ -153,7 +153,7 @@
 
     div-float/2addr v0, v7
 
-    .line 795
+    .line 796
     :goto_31
     iget v7, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->l:I
 
@@ -183,7 +183,7 @@
 
     div-float/2addr v0, v3
 
-    .line 796
+    .line 797
     :cond_45
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->t:I
 
@@ -217,7 +217,7 @@
 
     move-result v0
 
-    .line 797
+    .line 798
     :cond_5d
     new-array v3, v11, [I
 
@@ -251,7 +251,7 @@
 
     aput v6, v4, v12
 
-    .line 798
+    .line 799
     new-array v5, v11, [F
 
     iget v6, v2, Landroid/graphics/Rect;->left:I
@@ -294,7 +294,7 @@
 
     aput v6, v5, v12
 
-    .line 799
+    .line 800
     new-array v6, v11, [F
 
     iget v7, v2, Landroid/graphics/Rect;->top:I
@@ -337,7 +337,7 @@
 
     aput v7, v6, v12
 
-    .line 800
+    .line 801
     iget-boolean v7, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->fitHeight:Z
 
     if-eqz v7, :cond_d6
@@ -373,17 +373,17 @@
     :cond_d6
     move v2, v1
 
-    .line 801
+    .line 802
     :goto_d7
     if-ge v2, v12, :cond_29
 
     move v0, v1
 
-    .line 802
+    .line 803
     :goto_da
     if-ge v0, v12, :cond_13e
 
-    .line 803
+    .line 804
     add-int/lit8 v7, v2, 0x1
 
     aget v7, v3, v7
@@ -420,14 +420,14 @@
 
     if-gtz v7, :cond_110
 
-    .line 802
+    .line 803
     :cond_100
     :goto_100
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_da
 
-    .line 794
+    .line 795
     :cond_103
     invoke-static {v3, v4}, Ljava/lang/Math;->min(II)I
 
@@ -445,7 +445,7 @@
 
     goto/16 :goto_31
 
-    .line 804
+    .line 805
     :cond_110
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->sr:Landroid/graphics/Rect;
 
@@ -463,7 +463,7 @@
 
     invoke-virtual {v7, v8, v9, v10, v11}, Landroid/graphics/Rect;->set(IIII)V
 
-    .line 805
+    .line 806
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->dr:Landroid/graphics/RectF;
 
     aget v8, v5, v2
@@ -480,7 +480,7 @@
 
     invoke-virtual {v7, v8, v9, v10, v11}, Landroid/graphics/RectF;->set(FFFF)V
 
-    .line 806
+    .line 807
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->bmp:Landroid/graphics/Bitmap;
 
     iget-object v8, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->sr:Landroid/graphics/Rect;
@@ -493,7 +493,7 @@
 
     goto :goto_100
 
-    .line 801
+    .line 802
     :cond_13e
     add-int/lit8 v0, v2, 0x1
 
@@ -506,7 +506,7 @@
     .registers 2
 
     .prologue
-    .line 813
+    .line 814
     const/4 v0, -0x3
 
     return v0
@@ -516,7 +516,7 @@
     .registers 3
 
     .prologue
-    .line 811
+    .line 812
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->p:Landroid/graphics/Paint;
 
     invoke-virtual {v0, p1}, Landroid/graphics/Paint;->setAlpha(I)V
@@ -528,7 +528,7 @@
     .registers 3
 
     .prologue
-    .line 812
+    .line 813
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$Slice;->p:Landroid/graphics/Paint;
 
     invoke-virtual {v0, p1}, Landroid/graphics/Paint;->setColorFilter(Landroid/graphics/ColorFilter;)Landroid/graphics/ColorFilter;

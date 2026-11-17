@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 1102
+    .line 1103
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$9;->val$o:Lfr/testudo/spacecorsair/mod/ModShipTree$Overlay;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 3
 
     .prologue
-    .line 1102
+    .line 1103
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$9;->val$o:Lfr/testudo/spacecorsair/mod/ModShipTree$Overlay;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModShipTree;->hideInfo(Lfr/testudo/spacecorsair/mod/ModShipTree$Overlay;)V

@@ -2314,7 +2314,17 @@
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v2, "Lv "
+    const-string v2, "Lv"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " "
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -2333,7 +2343,7 @@
     .line 327
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    if-eqz v2, :cond_8c
+    if-eqz v2, :cond_97
 
     .line 328
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
@@ -2366,7 +2376,7 @@
 
     move-result-object v4
 
-    if-eq v3, v2, :cond_87
+    if-eq v3, v2, :cond_92
 
     new-instance v1, Ljava/lang/StringBuilder;
 
@@ -2390,7 +2400,7 @@
 
     move-result-object v1
 
-    :goto_5c
+    :goto_66
     invoke-virtual {v4, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v1
@@ -2433,20 +2443,20 @@
 
     move-result-object v0
 
-    goto :goto_9
+    goto/16 :goto_9
 
-    :cond_87
+    :cond_92
     invoke-static {v2}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
 
     move-result-object v1
 
-    goto :goto_5c
+    goto :goto_66
 
     .line 333
-    :cond_8c
+    :cond_97
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    if-eqz v2, :cond_ef
+    if-eqz v2, :cond_fa
 
     .line 334
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
@@ -2456,7 +2466,7 @@
 
     move-result v2
 
-    if-eqz v2, :cond_a0
+    if-eqz v2, :cond_ab
 
     const-string v0, "No launcher fitted"
 
@@ -2467,7 +2477,7 @@
     goto/16 :goto_9
 
     .line 336
-    :cond_a0
+    :cond_ab
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -2551,10 +2561,10 @@
     goto/16 :goto_9
 
     .line 338
-    :cond_ef
+    :cond_fa
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/shield/ShieldSpec;
 
-    if-eqz v2, :cond_138
+    if-eqz v2, :cond_143
 
     .line 339
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/shield/ShieldSpec;
@@ -2629,10 +2639,10 @@
     goto/16 :goto_9
 
     .line 342
-    :cond_138
+    :cond_143
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
 
-    if-eqz v2, :cond_187
+    if-eqz v2, :cond_192
 
     .line 343
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
@@ -2640,7 +2650,7 @@
     .line 344
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;->boosterEnabled:Z
 
-    if-nez v2, :cond_14a
+    if-nez v2, :cond_155
 
     const-string v0, "No booster fitted"
 
@@ -2651,7 +2661,7 @@
     goto/16 :goto_9
 
     .line 345
-    :cond_14a
+    :cond_155
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -2713,10 +2723,10 @@
     goto/16 :goto_9
 
     .line 347
-    :cond_187
+    :cond_192
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
 
-    if-eqz v2, :cond_1c2
+    if-eqz v2, :cond_1cd
 
     .line 348
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
@@ -2724,7 +2734,7 @@
     .line 349
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;->enabled:Z
 
-    if-nez v2, :cond_199
+    if-nez v2, :cond_1a4
 
     const-string v0, "No hyperdrive fitted"
 
@@ -2735,7 +2745,7 @@
     goto/16 :goto_9
 
     .line 350
-    :cond_199
+    :cond_1a4
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -2777,10 +2787,10 @@
     goto/16 :goto_9
 
     .line 352
-    :cond_1c2
+    :cond_1cd
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    if-eqz v2, :cond_213
+    if-eqz v2, :cond_21e
 
     .line 353
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
@@ -2860,7 +2870,7 @@
 
     goto/16 :goto_9
 
-    :cond_213
+    :cond_21e
     move-object v0, v1
 
     .line 356

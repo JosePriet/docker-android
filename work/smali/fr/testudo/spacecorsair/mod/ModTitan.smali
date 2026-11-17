@@ -24,8 +24,6 @@
 
 .field static final DOOM_BIG_PCT:F = 0.15f
 
-.field static final DOOM_BIG_PCT_ALIEN:F = 0.2f
-
 .field static final DOOM_BIG_PCT_OTHER:F = 0.1f
 
 .field static final DOOM_FIXED_PER_S:F = 100000.0f
@@ -33,8 +31,6 @@
 .field static final DOOM_LANCE_TICKS:I = 0x16
 
 .field static final DOOM_TITAN_PCT:F = 0.1f
-
-.field static final DOOM_TITAN_PCT_ALIEN:F = 0.15f
 
 .field static final DOOM_TITAN_PCT_OTHER:F = 0.07f
 
@@ -4597,6 +4593,57 @@
     goto :goto_178
 .end method
 
+.method private static varargs fill(Ljava/lang/String;[Ljava/lang/String;)Ljava/lang/String;
+    .registers 5
+
+    .prologue
+    .line 850
+    const/4 v0, 0x0
+
+    :goto_1
+    array-length v1, p1
+
+    if-ge v0, v1, :cond_26
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v2, "{"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "}"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    aget-object v2, p1, v0
+
+    invoke-virtual {p0, v1, v2}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+
+    move-result-object p0
+
+    add-int/lit8 v0, v0, 0x1
+
+    goto :goto_1
+
+    .line 851
+    :cond_26
+    return-object p0
+.end method
+
 .method private static fireFx(Lfr/testudo/spacecorsair/business/player/PlayerShip;I)V
     .registers 19
 
@@ -5313,6 +5360,267 @@
     const/4 v0, 0x1
 
     goto :goto_b
+.end method
+
+.method public static leviathanSkill()Ljava/lang/String;
+    .registers 12
+
+    .prologue
+    const/4 v11, 0x4
+
+    const/4 v10, 0x3
+
+    const/4 v9, 0x2
+
+    const/4 v8, 0x0
+
+    const/4 v7, 0x1
+
+    .line 835
+    const-string v0, "<b>Doomsday Lance</b> (DOOMSDAY button): immobilizes the titan and disables its weapons for a {0} s charge, then fires a {1} s lance ({2} range, {3}% of hull width) that destroys everything in its path, taking up to {4}% of a titan\'s hull and {5}% of a capital\'s, flagship\'s or mission boss\'s hull per shot (ignores resistances), and {6} damage per second to any other ship. While firing, turn speed is limited to 5 deg/s; afterward, movement resumes, but weapons stay offline for {7} s while the titan vents. Cooldown: {8} s."
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 836
+    const/16 v1, 0x9
+
+    new-array v1, v1, [Ljava/lang/String;
+
+    const-wide/16 v2, 0x1518
+
+    invoke-static {v2, v3}, Lfr/testudo/spacecorsair/mod/ModTitan;->sec(J)Ljava/lang/String;
+
+    move-result-object v2
+
+    aput-object v2, v1, v8
+
+    const-wide/16 v2, 0x11f8
+
+    invoke-static {v2, v3}, Lfr/testudo/spacecorsair/mod/ModTitan;->sec(J)Ljava/lang/String;
+
+    move-result-object v2
+
+    aput-object v2, v1, v7
+
+    sget-object v2, Lfr/testudo/spacecorsair/mod/ModTitan;->REACH:[F
+
+    aget v2, v2, v7
+
+    invoke-static {v2}, Ljava/lang/Math;->round(F)I
+
+    move-result v2
+
+    invoke-static {v2}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+
+    move-result-object v2
+
+    aput-object v2, v1, v9
+
+    const-string v2, "60"
+
+    aput-object v2, v1, v10
+
+    const/high16 v2, 0x41200000    # 10.0f
+
+    .line 837
+    invoke-static {v2}, Ljava/lang/Math;->round(F)I
+
+    move-result v2
+
+    invoke-static {v2}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+
+    move-result-object v2
+
+    aput-object v2, v1, v11
+
+    const/4 v2, 0x5
+
+    const v3, 0x41700001    # 15.000001f
+
+    invoke-static {v3}, Ljava/lang/Math;->round(F)I
+
+    move-result v3
+
+    invoke-static {v3}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+
+    move-result-object v3
+
+    aput-object v3, v1, v2
+
+    const/4 v2, 0x6
+
+    sget-object v3, Ljava/util/Locale;->US:Ljava/util/Locale;
+
+    const-string v4, "%,d"
+
+    new-array v5, v7, [Ljava/lang/Object;
+
+    const v6, 0x47c35000    # 100000.0f
+
+    .line 838
+    invoke-static {v6}, Ljava/lang/Math;->round(F)I
+
+    move-result v6
+
+    invoke-static {v6}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v6
+
+    aput-object v6, v5, v8
+
+    invoke-static {v3, v4, v5}, Ljava/lang/String;->format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v3
+
+    aput-object v3, v1, v2
+
+    const/4 v2, 0x7
+
+    const-wide/16 v4, 0x898
+
+    invoke-static {v4, v5}, Lfr/testudo/spacecorsair/mod/ModTitan;->sec(J)Ljava/lang/String;
+
+    move-result-object v3
+
+    aput-object v3, v1, v2
+
+    const/16 v2, 0x8
+
+    sget-object v3, Lfr/testudo/spacecorsair/mod/ModTitan;->COOL_MS:[I
+
+    aget v3, v3, v7
+
+    div-int/lit16 v3, v3, 0x3e8
+
+    invoke-static {v3}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+
+    move-result-object v3
+
+    aput-object v3, v1, v2
+
+    .line 836
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModTitan;->fill(Ljava/lang/String;[Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 839
+    const-string v1, "<b>Anchor Stance</b> (passive): after {0} s at a complete stop, the titan anchors and raises a hex shield wall across its bow, blocking enemy shots and protecting ships behind it. The wall has a separate shield ({1}% of the equipped shield\'s capacity, takes {2}% less damage) that recharges in {3} s only while the wall is down; hold the stick for {4} s to lift the anchor, and the wall folds {5} s later."
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    .line 840
+    const/4 v2, 0x6
+
+    new-array v2, v2, [Ljava/lang/String;
+
+    const-wide/16 v4, 0x9c4
+
+    invoke-static {v4, v5}, Lfr/testudo/spacecorsair/mod/ModTitan;->sec(J)Ljava/lang/String;
+
+    move-result-object v3
+
+    aput-object v3, v2, v8
+
+    const/high16 v3, 0x43160000    # 150.0f
+
+    invoke-static {v3}, Ljava/lang/Math;->round(F)I
+
+    move-result v3
+
+    invoke-static {v3}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+
+    move-result-object v3
+
+    aput-object v3, v2, v7
+
+    const v3, 0x420c0001    # 35.000004f
+
+    invoke-static {v3}, Ljava/lang/Math;->round(F)I
+
+    move-result v3
+
+    invoke-static {v3}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+
+    move-result-object v3
+
+    aput-object v3, v2, v9
+
+    const-wide/16 v4, 0x19
+
+    .line 841
+    invoke-static {v4, v5}, Ljava/lang/String;->valueOf(J)Ljava/lang/String;
+
+    move-result-object v3
+
+    aput-object v3, v2, v10
+
+    const-wide/16 v4, 0x5dc
+
+    invoke-static {v4, v5}, Lfr/testudo/spacecorsair/mod/ModTitan;->sec(J)Ljava/lang/String;
+
+    move-result-object v3
+
+    aput-object v3, v2, v11
+
+    const/4 v3, 0x5
+
+    const-wide/16 v4, 0x9c4
+
+    invoke-static {v4, v5}, Lfr/testudo/spacecorsair/mod/ModTitan;->sec(J)Ljava/lang/String;
+
+    move-result-object v4
+
+    aput-object v4, v2, v3
+
+    .line 840
+    invoke-static {v1, v2}, Lfr/testudo/spacecorsair/mod/ModTitan;->fill(Ljava/lang/String;[Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    .line 842
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v2, "<br>"
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v1, " "
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v1, "Needs refit level 7+."
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    return-object v0
 .end method
 
 .method private static lock(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
@@ -6168,101 +6476,58 @@
     goto :goto_4
 .end method
 
-.method public static skillText(I)Ljava/lang/String;
-    .registers 3
+.method private static sec(J)Ljava/lang/String;
+    .registers 8
 
     .prologue
-    .line 834
-    packed-switch p0, :pswitch_data_48
+    const-wide/16 v4, 0x3e8
 
-    .line 845
-    const-string v0, ""
+    .line 846
+    rem-long v0, p0, v4
 
-    :goto_5
+    const-wide/16 v2, 0x0
+
+    cmp-long v0, v0, v2
+
+    if-nez v0, :cond_11
+
+    div-long v0, p0, v4
+
+    invoke-static {v0, v1}, Ljava/lang/String;->valueOf(J)Ljava/lang/String;
+
+    move-result-object v0
+
+    :goto_10
     return-object v0
 
-    .line 837
-    :pswitch_6
-    new-instance v0, Ljava/lang/StringBuilder;
+    :cond_11
+    sget-object v0, Ljava/util/Locale;->US:Ljava/util/Locale;
 
-    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+    const-string v1, "%.1f"
 
-    const-string v1, "<b>Doomsday Lance</b> (DOOMSDAY button): immobilizes the titan and disables its weapons for a 5.4 s charge, then fires a 4.4 s lance (2800 range, 60% of hull width) that destroys everything in its path, taking up to 10% of a titan\'s hull and 15% of a capital\'s, flagship\'s or mission boss\'s hull per shot (ignores resistances), and 100,000 damage per second to any other ship. While firing, turn speed is limited to 5 deg/s; afterward, movement resumes, but weapons stay offline for 2.2 s while the titan vents. Cooldown: 90 s."
+    const/4 v2, 0x1
 
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    new-array v2, v2, [Ljava/lang/Object;
 
-    move-result-object v1
+    const/4 v3, 0x0
 
-    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    long-to-float v4, p0
 
-    move-result-object v0
+    const/high16 v5, 0x447a0000    # 1000.0f
 
-    const-string v1, "<br>"
+    div-float/2addr v4, v5
 
-    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-static {v4}, Ljava/lang/Float;->valueOf(F)Ljava/lang/Float;
 
-    move-result-object v0
+    move-result-object v4
 
-    const-string v1, "<b>Anchor Stance</b> (passive): after 2.5 s at a complete stop, the titan anchors and raises a hex shield wall across its bow, blocking enemy shots and protecting ships behind it. The wall has a separate shield (150% of the equipped shield\'s capacity, takes 35% less damage) that recharges in 25 s only while the wall is down; hold the stick for 1.5 s to lift the anchor, and the wall folds 2.5 s later."
+    aput-object v4, v2, v3
 
-    .line 838
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-static {v0, v1, v2}, Ljava/lang/String;->format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v0
 
-    const-string v1, " "
-
-    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const-string v1, "Needs refit level 7+."
-
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v0
-
-    goto :goto_5
-
-    .line 840
-    :pswitch_3a
-    const-string v0, "<b>Furnace Nova</b> (DOOMSDAY button): 2 s charge, then a 3.5 s ring of fire that grows to 1400 around the hull and burns everything inside. The titan cannot move, turn or fire while it charges and burns. 75 s cooldown."
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    goto :goto_5
-
-    .line 843
-    :pswitch_41
-    const-string v0, "<b>Doomsday Lance</b> (DOOMSDAY button): test lance, 12 s cooldown."
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    goto :goto_5
-
-    .line 834
-    :pswitch_data_48
-    .packed-switch 0x1
-        :pswitch_6
-        :pswitch_3a
-        :pswitch_41
-    .end packed-switch
+    goto :goto_10
 .end method
 
 .method public static tick(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V

@@ -21,6 +21,10 @@
 
 .field exact:Z
 
+.field expDps:F
+
+.field expShot:F
+
 .field flags:I
 
 .field hull:F

@@ -53,10 +53,10 @@
     .registers 2
 
     .prologue
-    .line 87
+    .line 90
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 90
+    .line 93
     const/4 v0, -0x1
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->f:I

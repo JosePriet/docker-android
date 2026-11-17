@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 2702
+    .line 2781
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$34;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,8 +45,8 @@
     .registers 2
 
     .prologue
-    .line 2702
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->saverPref()Z
+    .line 2781
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->hideIp()Z
 
     move-result v0
 
@@ -55,7 +55,7 @@
     const/4 v0, 0x1
 
     :goto_7
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLobby;->setSaver(Z)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLobby;->setHideIp(Z)V
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$34;->val$a:Landroid/app/Activity;
 

@@ -79,6 +79,10 @@
 
 .field final rnd:Ljava/util/Random;
 
+.field private rowsCache:[[F
+
+.field private rowsFor:[Ljava/lang/String;
+
 .field ship:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
 .field final spark:[[F
@@ -105,7 +109,7 @@
 
     const/4 v2, 0x3
 
-    .line 84
+    .line 86
     invoke-direct {p0, p1}, Landroid/view/View;-><init>(Landroid/content/Context;)V
 
     .line 58
@@ -144,7 +148,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->closeBtn:Landroid/graphics/RectF;
 
-    .line 75
+    .line 77
     const/16 v0, 0x30
 
     filled-new-array {v0, v3}, [I
@@ -161,7 +165,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->weld:[[F
 
-    .line 77
+    .line 79
     filled-new-array {v2, v3}, [I
 
     move-result-object v0
@@ -176,7 +180,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->edge:[[F
 
-    .line 79
+    .line 81
     const/16 v0, 0xa0
 
     const/4 v1, 0x6
@@ -195,34 +199,34 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->spark:[[F
 
-    .line 81
+    .line 83
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
 
     iput-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->born:J
 
-    .line 818
+    .line 817
     new-instance v0, Landroid/graphics/Paint;
 
     invoke-direct {v0, v2}, Landroid/graphics/Paint;-><init>(I)V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->bp:Landroid/graphics/Paint;
 
-    .line 819
+    .line 818
     new-instance v0, Ljava/util/HashMap;
 
     invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->resCache:Ljava/util/HashMap;
 
-    .line 85
+    .line 87
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->act:Landroid/app/Activity;
 
-    .line 86
+    .line 88
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dlg:Landroid/app/Dialog;
 
-    .line 87
+    .line 89
     invoke-virtual {p1}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object v0
@@ -235,22 +239,22 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
 
-    .line 88
+    .line 90
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     sget-object v1, Landroid/graphics/Typeface;->DEFAULT_BOLD:Landroid/graphics/Typeface;
 
     invoke-virtual {v0, v1}, Landroid/text/TextPaint;->setTypeface(Landroid/graphics/Typeface;)Landroid/graphics/Typeface;
 
-    .line 89
+    .line 91
     const v0, -0xfaf4ea
 
     invoke-virtual {p0, v0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->setBackgroundColor(I)V
 
-    .line 90
+    .line 92
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->reload()V
 
-    .line 91
+    .line 93
     return-void
 .end method
 
@@ -264,7 +268,7 @@
 
     const/4 v1, 0x0
 
-    .line 876
+    .line 875
     const/4 v0, 0x5
 
     new-array v4, v0, [Ljava/lang/String;
@@ -295,12 +299,12 @@
 
     aput-object v2, v4, v0
 
-    .line 877
+    .line 876
     long-to-double v2, p0
 
     move v0, v1
 
-    .line 879
+    .line 878
     :goto_23
     invoke-static {v2, v3}, Ljava/lang/Math;->abs(D)D
 
@@ -322,7 +326,7 @@
 
     goto :goto_23
 
-    .line 880
+    .line 879
     :cond_34
     if-nez v0, :cond_3b
 
@@ -330,7 +334,7 @@
 
     move-result-object v0
 
-    .line 881
+    .line 880
     :goto_3a
     return-object v0
 
@@ -408,7 +412,7 @@
 
     const/high16 v2, 0x3f800000    # 1.0f
 
-    .line 427
+    .line 429
     invoke-virtual {p0}, Landroid/graphics/RectF;->width()F
 
     move-result v0
@@ -429,7 +433,7 @@
 
     div-float/2addr v1, v3
 
-    .line 428
+    .line 430
     new-instance v2, Landroid/graphics/RectF;
 
     iget v3, p0, Landroid/graphics/RectF;->left:F
@@ -461,7 +465,7 @@
     .prologue
     const/high16 v6, 0x437f0000    # 255.0f
 
-    .line 463
+    .line 465
     :try_start_2
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
@@ -469,7 +473,7 @@
 
     move-result-object v1
 
-    .line 464
+    .line 466
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     array-length v3, v2
@@ -513,21 +517,21 @@
 
     move-result v0
 
-    .line 466
+    .line 468
     :goto_28
     return v0
 
-    .line 464
+    .line 466
     :cond_29
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_c
 
-    .line 465
+    .line 467
     :catch_2c
     move-exception v0
 
-    .line 466
+    .line 468
     :cond_2d
     const v0, -0x952f01
 
@@ -538,7 +542,7 @@
     .registers 5
 
     .prologue
-    .line 162
+    .line 164
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->animStart:J
 
     const-wide/16 v2, 0x0
@@ -576,7 +580,7 @@
     .registers 4
 
     .prologue
-    .line 129
+    .line 131
     if-nez p1, :cond_4
 
     const/4 v0, 0x0
@@ -602,19 +606,19 @@
     .registers 10
 
     .prologue
-    .line 934
+    .line 933
     const/high16 v0, 0x41200000    # 10.0f
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
 
     mul-float/2addr v0, v1
 
-    .line 935
+    .line 934
     new-instance v1, Landroid/graphics/Path;
 
     invoke-direct {v1}, Landroid/graphics/Path;-><init>()V
 
-    .line 936
+    .line 935
     iget v2, p2, Landroid/graphics/RectF;->left:F
 
     add-float/2addr v2, v0
@@ -645,17 +649,17 @@
 
     invoke-virtual {v1}, Landroid/graphics/Path;->close()V
 
-    .line 937
+    .line 936
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {v0, p4}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 938
+    .line 937
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {p1, v1, v0}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 939
+    .line 938
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     const/high16 v1, 0x41400000    # 12.0f
@@ -666,12 +670,12 @@
 
     invoke-virtual {v0, v1}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 940
+    .line 939
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {v0, p5}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 941
+    .line 940
     invoke-virtual {p2}, Landroid/graphics/RectF;->centerX()F
 
     move-result v0
@@ -704,7 +708,7 @@
 
     invoke-virtual {p1, p3, v0, v1, v2}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 942
+    .line 941
     return-void
 .end method
 
@@ -716,7 +720,7 @@
 
     const/high16 v9, 0x40c00000    # 6.0f
 
-    .line 471
+    .line 473
     const/high16 v0, 0x41200000    # 10.0f
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -729,12 +733,12 @@
 
     mul-float v7, v0, v1
 
-    .line 472
+    .line 474
     new-instance v8, Landroid/graphics/Path;
 
     invoke-direct {v8}, Landroid/graphics/Path;-><init>()V
 
-    .line 473
+    .line 475
     iget v0, p2, Landroid/graphics/RectF;->left:F
 
     add-float/2addr v0, v6
@@ -771,39 +775,39 @@
 
     invoke-virtual {v8}, Landroid/graphics/Path;->close()V
 
-    .line 474
+    .line 476
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->FILL:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 475
+    .line 477
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, -0x1ff4e5d2
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 476
+    .line 478
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {p1, v8, v0}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 477
+    .line 479
     invoke-virtual {p1}, Landroid/graphics/Canvas;->save()I
 
-    .line 478
+    .line 480
     invoke-virtual {p1, v8}, Landroid/graphics/Canvas;->clipPath(Landroid/graphics/Path;)Z
 
-    .line 479
+    .line 481
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, -0xefdcc6
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 480
+    .line 482
     iget v1, p2, Landroid/graphics/RectF;->left:F
 
     iget v2, p2, Landroid/graphics/RectF;->top:F
@@ -820,21 +824,21 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 481
+    .line 483
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, 0x146ad0ff
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 482
+    .line 484
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/high16 v1, 0x3f800000    # 1.0f
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 483
+    .line 485
     iget v0, p2, Landroid/graphics/RectF;->right:F
 
     const/high16 v1, 0x428c0000    # 70.0f
@@ -874,18 +878,18 @@
 
     goto :goto_87
 
-    .line 484
+    .line 486
     :cond_a0
     invoke-virtual {p1}, Landroid/graphics/Canvas;->restore()V
 
-    .line 485
+    .line 487
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 486
+    .line 488
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, 0x3f99999a    # 1.2f
@@ -896,31 +900,31 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 487
+    .line 489
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, -0xdbc7b1
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 488
+    .line 490
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {p1, v8, v0}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 489
+    .line 491
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->FILL:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 490
+    .line 492
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {v0, p4}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 491
+    .line 493
     iget v0, p2, Landroid/graphics/RectF;->left:F
 
     add-float/2addr v0, v6
@@ -967,7 +971,7 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 492
+    .line 494
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     const/high16 v1, 0x41180000    # 9.5f
@@ -978,12 +982,12 @@
 
     invoke-virtual {v0, v1}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 493
+    .line 495
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {v0, p4}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 494
+    .line 496
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {p2}, Landroid/graphics/RectF;->width()F
@@ -1038,7 +1042,7 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 495
+    .line 497
     iget v0, p2, Landroid/graphics/RectF;->top:F
 
     add-float/2addr v0, v7
@@ -1058,7 +1062,7 @@
     .prologue
     const v3, 0x3e19999a    # 0.15f
 
-    .line 805
+    .line 804
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, 0xffffff
@@ -1071,17 +1075,17 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 806
+    .line 805
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {p1, p2, p3, p4, v0}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 807
+    .line 806
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {v0, p5}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 808
+    .line 807
     const v0, 0x3f0ccccd    # 0.55f
 
     mul-float/2addr v0, p4
@@ -1090,14 +1094,14 @@
 
     invoke-virtual {p1, p2, p3, v0, v1}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 809
+    .line 808
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/4 v1, -0x1
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 810
+    .line 809
     mul-float v0, p4, v3
 
     sub-float v0, p2, v0
@@ -1114,14 +1118,14 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 811
+    .line 810
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 812
+    .line 811
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, 0x3f99999a    # 1.2f
@@ -1132,12 +1136,12 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 813
+    .line 812
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {v0, p5}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 814
+    .line 813
     const v0, 0x3f59999a    # 0.85f
 
     mul-float/2addr v0, p4
@@ -1146,14 +1150,14 @@
 
     invoke-virtual {p1, p2, p3, v0, v1}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 815
+    .line 814
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->FILL:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 816
+    .line 815
     return-void
 .end method
 
@@ -1161,14 +1165,14 @@
     .registers 17
 
     .prologue
-    .line 325
+    .line 327
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->FILL:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 326
+    .line 328
     const/4 v0, -0x1
 
     move v8, v0
@@ -1178,7 +1182,7 @@
 
     if-gt v8, v0, :cond_117
 
-    .line 327
+    .line 329
     const/4 v0, 0x0
 
     move v7, v0
@@ -1188,7 +1192,7 @@
 
     if-ge v7, v0, :cond_112
 
-    .line 328
+    .line 330
     iget v0, p3, Landroid/graphics/RectF;->top:F
 
     invoke-virtual {p3}, Landroid/graphics/RectF;->height()F
@@ -1209,7 +1213,7 @@
 
     add-float v9, v0, v1
 
-    .line 329
+    .line 331
     if-gez v8, :cond_f0
 
     iget v0, p2, Landroid/graphics/RectF;->left:F
@@ -1224,7 +1228,7 @@
 
     move v6, v0
 
-    .line 330
+    .line 332
     :goto_2c
     if-gez v8, :cond_fb
 
@@ -1254,7 +1258,7 @@
 
     sub-float/2addr v0, v1
 
-    .line 331
+    .line 333
     :goto_43
     sub-float/2addr v0, v6
 
@@ -1262,21 +1266,21 @@
 
     add-float v10, v6, v0
 
-    .line 332
+    .line 334
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, -0xe4d5c4
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 333
+    .line 335
     const/high16 v0, 0x40e00000    # 7.0f
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
 
     mul-float v11, v0, v1
 
-    .line 334
+    .line 336
     invoke-static {v6, v10}, Ljava/lang/Math;->min(FF)F
 
     move-result v1
@@ -1303,14 +1307,14 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 335
+    .line 337
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, -0xc5af98
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 336
+    .line 338
     invoke-static {v6, v10}, Ljava/lang/Math;->min(FF)F
 
     move-result v1
@@ -1345,14 +1349,14 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 338
+    .line 340
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, -0xd5c3ae
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 339
+    .line 341
     const/high16 v0, 0x40c00000    # 6.0f
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -1391,21 +1395,21 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 340
+    .line 342
     const v0, 0x3f733333    # 0.95f
 
     cmpl-float v0, p4, v0
 
     if-lez v0, :cond_eb
 
-    .line 341
+    .line 343
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/16 v1, -0x1960
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 342
+    .line 344
     mul-int/lit8 v0, v8, -0x7
 
     int-to-float v0, v0
@@ -1438,7 +1442,7 @@
 
     invoke-virtual {p1, v0, v9, v1, v2}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 327
+    .line 329
     :cond_eb
     add-int/lit8 v0, v7, 0x1
 
@@ -1446,7 +1450,7 @@
 
     goto/16 :goto_e
 
-    .line 329
+    .line 331
     :cond_f0
     iget v0, p2, Landroid/graphics/RectF;->right:F
 
@@ -1462,7 +1466,7 @@
 
     goto/16 :goto_2c
 
-    .line 330
+    .line 332
     :cond_fb
     iget v0, p3, Landroid/graphics/RectF;->left:F
 
@@ -1492,7 +1496,7 @@
 
     goto/16 :goto_43
 
-    .line 326
+    .line 328
     :cond_112
     add-int/lit8 v0, v8, 0x2
 
@@ -1500,7 +1504,7 @@
 
     goto/16 :goto_9
 
-    .line 346
+    .line 348
     :cond_117
     return-void
 .end method
@@ -1509,7 +1513,7 @@
     .registers 23
 
     .prologue
-    .line 220
+    .line 222
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -1518,7 +1522,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 221
+    .line 223
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -1527,7 +1531,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 222
+    .line 224
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -1536,7 +1540,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 223
+    .line 225
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -1545,7 +1549,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 224
+    .line 226
     const/high16 v4, 0x42000000    # 32.0f
 
     move-object/from16 v0, p0
@@ -1568,7 +1572,7 @@
 
     rem-float v11, v4, v10
 
-    .line 225
+    .line 227
     move-object/from16 v0, p2
 
     iget v5, v0, Landroid/graphics/RectF;->left:F
@@ -1604,7 +1608,7 @@
 
     goto :goto_3c
 
-    .line 226
+    .line 228
     :cond_58
     move-object/from16 v0, p2
 
@@ -1645,7 +1649,7 @@
 
     goto :goto_5f
 
-    .line 227
+    .line 229
     :cond_7b
     move-object/from16 v0, p0
 
@@ -1655,7 +1659,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 228
+    .line 230
     move-object/from16 v0, p0
 
     iget-object v11, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -1694,7 +1698,7 @@
 
     invoke-virtual {v11, v4}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 229
+    .line 231
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -1705,7 +1709,7 @@
 
     invoke-virtual {v0, v1, v4}, Landroid/graphics/Canvas;->drawRect(Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 230
+    .line 232
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -1714,7 +1718,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 232
+    .line 234
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -1723,7 +1727,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 233
+    .line 235
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -1738,7 +1742,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 234
+    .line 236
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -1747,7 +1751,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 235
+    .line 237
     const/high16 v4, 0x41400000    # 12.0f
 
     move-object/from16 v0, p0
@@ -1764,144 +1768,6 @@
 
     mul-float v11, v4, v5
 
-    .line 236
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->left:F
-
-    add-float v5, v4, v10
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->top:F
-
-    add-float v6, v4, v10
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->left:F
-
-    add-float/2addr v4, v10
-
-    add-float v7, v4, v11
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->top:F
-
-    add-float v8, v4, v10
-
-    move-object/from16 v0, p0
-
-    iget-object v9, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
-
-    move-object/from16 v4, p1
-
-    invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->left:F
-
-    add-float v5, v4, v10
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->top:F
-
-    add-float v6, v4, v10
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->left:F
-
-    add-float v7, v4, v10
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->top:F
-
-    add-float/2addr v4, v10
-
-    add-float v8, v4, v11
-
-    move-object/from16 v0, p0
-
-    iget-object v9, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
-
-    move-object/from16 v4, p1
-
-    invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
-
-    .line 237
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->right:F
-
-    sub-float v5, v4, v10
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->top:F
-
-    add-float v6, v4, v10
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->right:F
-
-    sub-float/2addr v4, v10
-
-    sub-float v7, v4, v11
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->top:F
-
-    add-float v8, v4, v10
-
-    move-object/from16 v0, p0
-
-    iget-object v9, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
-
-    move-object/from16 v4, p1
-
-    invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->right:F
-
-    sub-float v5, v4, v10
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->top:F
-
-    add-float v6, v4, v10
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->right:F
-
-    sub-float v7, v4, v10
-
-    move-object/from16 v0, p2
-
-    iget v4, v0, Landroid/graphics/RectF;->top:F
-
-    add-float/2addr v4, v10
-
-    add-float v8, v4, v11
-
-    move-object/from16 v0, p0
-
-    iget-object v9, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
-
-    move-object/from16 v4, p1
-
-    invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
-
     .line 238
     move-object/from16 v0, p2
 
@@ -1911,9 +1777,9 @@
 
     move-object/from16 v0, p2
 
-    iget v4, v0, Landroid/graphics/RectF;->bottom:F
+    iget v4, v0, Landroid/graphics/RectF;->top:F
 
-    sub-float v6, v4, v10
+    add-float v6, v4, v10
 
     move-object/from16 v0, p2
 
@@ -1925,9 +1791,9 @@
 
     move-object/from16 v0, p2
 
-    iget v4, v0, Landroid/graphics/RectF;->bottom:F
+    iget v4, v0, Landroid/graphics/RectF;->top:F
 
-    sub-float v8, v4, v10
+    add-float v8, v4, v10
 
     move-object/from16 v0, p0
 
@@ -1945,9 +1811,9 @@
 
     move-object/from16 v0, p2
 
-    iget v4, v0, Landroid/graphics/RectF;->bottom:F
+    iget v4, v0, Landroid/graphics/RectF;->top:F
 
-    sub-float v6, v4, v10
+    add-float v6, v4, v10
 
     move-object/from16 v0, p2
 
@@ -1957,11 +1823,11 @@
 
     move-object/from16 v0, p2
 
-    iget v4, v0, Landroid/graphics/RectF;->bottom:F
+    iget v4, v0, Landroid/graphics/RectF;->top:F
 
-    sub-float/2addr v4, v10
+    add-float/2addr v4, v10
 
-    sub-float v8, v4, v11
+    add-float v8, v4, v11
 
     move-object/from16 v0, p0
 
@@ -1980,6 +1846,144 @@
 
     move-object/from16 v0, p2
 
+    iget v4, v0, Landroid/graphics/RectF;->top:F
+
+    add-float v6, v4, v10
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->right:F
+
+    sub-float/2addr v4, v10
+
+    sub-float v7, v4, v11
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->top:F
+
+    add-float v8, v4, v10
+
+    move-object/from16 v0, p0
+
+    iget-object v9, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
+
+    move-object/from16 v4, p1
+
+    invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->right:F
+
+    sub-float v5, v4, v10
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->top:F
+
+    add-float v6, v4, v10
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->right:F
+
+    sub-float v7, v4, v10
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->top:F
+
+    add-float/2addr v4, v10
+
+    add-float v8, v4, v11
+
+    move-object/from16 v0, p0
+
+    iget-object v9, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
+
+    move-object/from16 v4, p1
+
+    invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
+
+    .line 240
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->left:F
+
+    add-float v5, v4, v10
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->bottom:F
+
+    sub-float v6, v4, v10
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->left:F
+
+    add-float/2addr v4, v10
+
+    add-float v7, v4, v11
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->bottom:F
+
+    sub-float v8, v4, v10
+
+    move-object/from16 v0, p0
+
+    iget-object v9, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
+
+    move-object/from16 v4, p1
+
+    invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->left:F
+
+    add-float v5, v4, v10
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->bottom:F
+
+    sub-float v6, v4, v10
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->left:F
+
+    add-float v7, v4, v10
+
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->bottom:F
+
+    sub-float/2addr v4, v10
+
+    sub-float v8, v4, v11
+
+    move-object/from16 v0, p0
+
+    iget-object v9, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
+
+    move-object/from16 v4, p1
+
+    invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
+
+    .line 241
+    move-object/from16 v0, p2
+
+    iget v4, v0, Landroid/graphics/RectF;->right:F
+
+    sub-float v5, v4, v10
+
+    move-object/from16 v0, p2
+
     iget v4, v0, Landroid/graphics/RectF;->bottom:F
 
     sub-float v6, v4, v10
@@ -2040,7 +2044,7 @@
 
     invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
 
-    .line 240
+    .line 242
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -2049,7 +2053,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 242
+    .line 244
     const/high16 v4, 0x3f000000    # 0.5f
 
     const/high16 v5, 0x3f000000    # 0.5f
@@ -2076,14 +2080,14 @@
 
     add-float v11, v4, v5
 
-    .line 243
+    .line 245
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->crest:Landroid/graphics/Bitmap;
 
     if-eqz v4, :cond_28e
 
-    .line 244
+    .line 246
     invoke-virtual/range {p2 .. p2}, Landroid/graphics/RectF;->height()F
 
     move-result v4
@@ -2092,7 +2096,7 @@
 
     mul-float/2addr v4, v5
 
-    .line 245
+    .line 247
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -2109,7 +2113,7 @@
 
     invoke-virtual {v5, v6}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 246
+    .line 248
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->crest:Landroid/graphics/Bitmap;
@@ -2188,7 +2192,7 @@
 
     invoke-virtual {v0, v5, v6, v7, v4}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 247
+    .line 249
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -2197,7 +2201,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 249
+    .line 251
     :cond_28e
     move-object/from16 v0, p0
 
@@ -2205,7 +2209,7 @@
 
     if-eqz v4, :cond_3ae
 
-    .line 250
+    .line 252
     invoke-virtual/range {p2 .. p2}, Landroid/graphics/RectF;->width()F
 
     move-result v4
@@ -2222,7 +2226,7 @@
 
     mul-float v12, v4, v5
 
-    .line 251
+    .line 253
     new-instance v13, Landroid/graphics/RectF;
 
     invoke-virtual/range {p2 .. p2}, Landroid/graphics/RectF;->centerX()F
@@ -2267,10 +2271,10 @@
 
     invoke-direct {v13, v4, v5, v6, v7}, Landroid/graphics/RectF;-><init>(FFFF)V
 
-    .line 252
+    .line 254
     invoke-virtual/range {p1 .. p1}, Landroid/graphics/Canvas;->save()I
 
-    .line 253
+    .line 255
     move-object/from16 v0, p0
 
     iget-wide v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->born:J
@@ -2299,7 +2303,7 @@
 
     invoke-virtual {v0, v4, v5, v6}, Landroid/graphics/Canvas;->rotate(FFF)V
 
-    .line 254
+    .line 256
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -2308,7 +2312,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 255
+    .line 257
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -2323,7 +2327,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 256
+    .line 258
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -2332,7 +2336,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 257
+    .line 259
     invoke-virtual/range {p2 .. p2}, Landroid/graphics/RectF;->centerX()F
 
     move-result v4
@@ -2353,7 +2357,7 @@
 
     invoke-virtual {v0, v4, v5, v6, v7}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 258
+    .line 260
     const/4 v4, 0x0
 
     move v10, v4
@@ -2363,7 +2367,7 @@
 
     if-ge v10, v4, :cond_37d
 
-    .line 259
+    .line 261
     int-to-double v4, v10
 
     const-wide v6, 0x400921fb54442d18L    # Math.PI
@@ -2374,7 +2378,7 @@
 
     div-double v8, v4, v6
 
-    .line 260
+    .line 262
     const v4, 0x3f0f5c29    # 0.56f
 
     mul-float v6, v12, v4
@@ -2388,7 +2392,7 @@
     :goto_33e
     mul-float/2addr v4, v12
 
-    .line 261
+    .line 263
     invoke-virtual/range {p2 .. p2}, Landroid/graphics/RectF;->centerX()F
 
     move-result v5
@@ -2453,20 +2457,20 @@
 
     invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
 
-    .line 258
+    .line 260
     add-int/lit8 v4, v10, 0x1
 
     move v10, v4
 
     goto :goto_323
 
-    .line 260
+    .line 262
     :cond_379
     const v4, 0x3f147ae1    # 0.58f
 
     goto :goto_33e
 
-    .line 263
+    .line 265
     :cond_37d
     move-object/from16 v0, p0
 
@@ -2476,10 +2480,10 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 264
+    .line 266
     invoke-virtual/range {p1 .. p1}, Landroid/graphics/Canvas;->restore()V
 
-    .line 265
+    .line 267
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -2496,7 +2500,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 266
+    .line 268
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->emblem:Landroid/graphics/Bitmap;
@@ -2511,7 +2515,7 @@
 
     invoke-virtual {v0, v4, v5, v13, v6}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 267
+    .line 269
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -2520,7 +2524,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 269
+    .line 271
     :cond_3ae
     move-object/from16 v0, p0
 
@@ -2528,16 +2532,16 @@
 
     if-nez v4, :cond_3b5
 
-    .line 322
+    .line 324
     :cond_3b4
     :goto_3b4
     return-void
 
-    .line 270
+    .line 272
     :cond_3b5
     invoke-virtual/range {p0 .. p4}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hexPad(Landroid/graphics/Canvas;Landroid/graphics/RectF;J)V
 
-    .line 272
+    .line 274
     invoke-virtual/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->animating()Z
 
     move-result v4
@@ -2562,7 +2566,7 @@
 
     move v10, v4
 
-    .line 273
+    .line 275
     :goto_3cc
     invoke-virtual/range {p2 .. p2}, Landroid/graphics/RectF;->width()F
 
@@ -2608,7 +2612,7 @@
 
     move-result v4
 
-    .line 274
+    .line 276
     move-object/from16 v0, p0
 
     iget-wide v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->born:J
@@ -2637,7 +2641,7 @@
 
     mul-float/2addr v5, v6
 
-    .line 275
+    .line 277
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
@@ -2662,7 +2666,7 @@
 
     mul-float/2addr v4, v7
 
-    .line 276
+    .line 278
     new-instance v11, Landroid/graphics/RectF;
 
     invoke-virtual/range {p2 .. p2}, Landroid/graphics/RectF;->centerX()F
@@ -2711,7 +2715,7 @@
 
     invoke-direct {v11, v7, v8, v6, v4}, Landroid/graphics/RectF;-><init>(FFFF)V
 
-    .line 279
+    .line 281
     const/4 v4, 0x0
 
     cmpg-float v4, v10, v4
@@ -2720,7 +2724,7 @@
 
     const/4 v4, 0x0
 
-    .line 280
+    .line 282
     :goto_451
     mul-float v5, v4, v4
 
@@ -2734,7 +2738,7 @@
 
     mul-float/2addr v4, v5
 
-    .line 281
+    .line 283
     move-object/from16 v0, p0
 
     move-object/from16 v1, p1
@@ -2743,7 +2747,7 @@
 
     invoke-virtual {v0, v1, v2, v11, v4}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawArms(Landroid/graphics/Canvas;Landroid/graphics/RectF;Landroid/graphics/RectF;F)V
 
-    .line 284
+    .line 286
     const/high16 v4, 0x3f000000    # 0.5f
 
     const/high16 v5, 0x3f000000    # 0.5f
@@ -2770,7 +2774,7 @@
 
     add-float/2addr v4, v5
 
-    .line 285
+    .line 287
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
@@ -2799,7 +2803,7 @@
 
     invoke-virtual/range {v4 .. v9}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawTinted(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;II)V
 
-    .line 287
+    .line 289
     const/4 v4, 0x0
 
     cmpl-float v4, v10, v4
@@ -2818,7 +2822,7 @@
 
     if-eqz v4, :cond_52b
 
-    .line 288
+    .line 290
     move-object/from16 v0, p0
 
     move-object/from16 v1, p1
@@ -2827,7 +2831,7 @@
 
     invoke-virtual {v0, v1, v11, v2, v10}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawStageMorph(Landroid/graphics/Canvas;Landroid/graphics/RectF;Landroid/graphics/RectF;F)V
 
-    .line 298
+    .line 300
     :goto_4b2
     const/4 v4, 0x0
 
@@ -2847,7 +2851,7 @@
 
     if-lez v4, :cond_566
 
-    .line 299
+    .line 301
     move-object/from16 v0, p0
 
     iget-boolean v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->stageAnim:Z
@@ -2856,14 +2860,14 @@
 
     const/4 v4, 0x6
 
-    .line 300
+    .line 302
     :goto_4cb
     const/4 v5, 0x0
 
     :goto_4cc
     if-ge v5, v4, :cond_566
 
-    .line 301
+    .line 303
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->weld:[[F
@@ -2882,7 +2886,7 @@
 
     aget-object v6, v6, v7
 
-    .line 302
+    .line 304
     iget v7, v11, Landroid/graphics/RectF;->left:F
 
     const/4 v8, 0x0
@@ -2917,12 +2921,12 @@
 
     invoke-virtual {v0, v7, v6, v8}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->emit(FFI)V
 
-    .line 300
+    .line 302
     add-int/lit8 v5, v5, 0x1
 
     goto :goto_4cc
 
-    .line 272
+    .line 274
     :cond_4ff
     const/high16 v4, -0x40800000    # -1.0f
 
@@ -2930,7 +2934,7 @@
 
     goto/16 :goto_3cc
 
-    .line 279
+    .line 281
     :cond_504
     const v4, 0x3e19999a    # 0.15f
 
@@ -2972,7 +2976,7 @@
 
     goto/16 :goto_451
 
-    .line 290
+    .line 292
     :cond_52b
     move-object/from16 v0, p0
 
@@ -2982,7 +2986,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setColorFilter(Landroid/graphics/ColorFilter;)Landroid/graphics/ColorFilter;
 
-    .line 291
+    .line 293
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -2991,7 +2995,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 292
+    .line 294
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
@@ -3006,7 +3010,7 @@
 
     invoke-virtual {v0, v4, v5, v11, v6}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 293
+    .line 295
     const/4 v4, 0x0
 
     cmpl-float v4, v10, v4
@@ -3021,7 +3025,7 @@
 
     goto/16 :goto_4b2
 
-    .line 294
+    .line 296
     :cond_558
     move-object/from16 v0, p0
 
@@ -3033,13 +3037,13 @@
 
     goto/16 :goto_4b2
 
-    .line 299
+    .line 301
     :cond_563
     const/4 v4, 0x4
 
     goto/16 :goto_4cb
 
-    .line 305
+    .line 307
     :cond_566
     move-object/from16 v0, p0
 
@@ -3049,14 +3053,14 @@
 
     invoke-virtual {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawSparks(Landroid/graphics/Canvas;F)V
 
-    .line 308
+    .line 310
     const/4 v4, 0x0
 
     cmpl-float v4, v10, v4
 
     if-ltz v4, :cond_3b4
 
-    .line 309
+    .line 311
     move-object/from16 v0, p0
 
     iget-boolean v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->stageAnim:Z
@@ -3071,7 +3075,7 @@
 
     div-float/2addr v4, v5
 
-    .line 310
+    .line 312
     :goto_583
     const/4 v5, 0x0
 
@@ -3079,7 +3083,7 @@
 
     if-lez v5, :cond_3b4
 
-    .line 311
+    .line 313
     const v5, 0x3e4ccccd    # 0.2f
 
     cmpg-float v5, v4, v5
@@ -3090,7 +3094,7 @@
 
     div-float/2addr v4, v5
 
-    .line 312
+    .line 314
     :goto_593
     move-object/from16 v0, p0
 
@@ -3134,7 +3138,7 @@
 
     move-result-object v5
 
-    .line 313
+    .line 315
     :goto_5bd
     move-object/from16 v0, p0
 
@@ -3157,7 +3161,7 @@
     :goto_5ce
     invoke-virtual {v7, v6}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 314
+    .line 316
     move-object/from16 v0, p0
 
     iget-object v7, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -3173,7 +3177,7 @@
     :goto_5de
     invoke-virtual {v7, v6}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 315
+    .line 317
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -3198,7 +3202,7 @@
 
     invoke-virtual {v6, v4}, Landroid/text/TextPaint;->setAlpha(I)V
 
-    .line 316
+    .line 318
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -3226,7 +3230,7 @@
     :goto_60c
     invoke-virtual {v6, v7, v8, v9, v4}, Landroid/text/TextPaint;->setShadowLayer(FFFI)V
 
-    .line 317
+    .line 319
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -3235,7 +3239,7 @@
 
     move-result v4
 
-    .line 318
+    .line 320
     invoke-virtual/range {p2 .. p2}, Landroid/graphics/RectF;->centerX()F
 
     move-result v6
@@ -3268,7 +3272,7 @@
 
     invoke-virtual {v0, v5, v4, v6, v7}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 319
+    .line 321
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -3285,7 +3289,7 @@
 
     goto/16 :goto_3b4
 
-    .line 309
+    .line 311
     :cond_642
     const v4, 0x3ee66666    # 0.45f
 
@@ -3297,7 +3301,7 @@
 
     goto/16 :goto_583
 
-    .line 311
+    .line 313
     :cond_64d
     const v5, 0x3f4ccccd    # 0.8f
 
@@ -3320,7 +3324,7 @@
 
     goto/16 :goto_593
 
-    .line 312
+    .line 314
     :cond_662
     new-instance v5, Ljava/lang/StringBuilder;
 
@@ -3350,7 +3354,7 @@
 
     goto/16 :goto_5bd
 
-    .line 313
+    .line 315
     :cond_67f
     const/high16 v6, 0x41a00000    # 20.0f
 
@@ -3362,13 +3366,13 @@
 
     goto/16 :goto_5ce
 
-    .line 314
+    .line 316
     :cond_688
     const v6, -0x952f01
 
     goto/16 :goto_5de
 
-    .line 316
+    .line 318
     :cond_68d
     const v4, -0xd56501
 
@@ -3383,7 +3387,7 @@
 
     const/4 v1, 0x0
 
-    .line 349
+    .line 351
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->born:J
 
     sub-long v2, p3, v2
@@ -3398,7 +3402,7 @@
 
     div-float/2addr v0, v2
 
-    .line 350
+    .line 352
     iget v2, p2, Landroid/graphics/RectF;->top:F
 
     invoke-virtual {p2}, Landroid/graphics/RectF;->height()F
@@ -3409,7 +3413,7 @@
 
     add-float v4, v2, v0
 
-    .line 351
+    .line 353
     iget-object v8, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     new-instance v0, Landroid/graphics/LinearGradient;
@@ -3432,7 +3436,7 @@
 
     invoke-virtual {v8, v0}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 352
+    .line 354
     iget v1, p2, Landroid/graphics/RectF;->left:F
 
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -3449,14 +3453,14 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 353
+    .line 355
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 354
+    .line 356
     return-void
 .end method
 
@@ -3464,7 +3468,7 @@
     .registers 42
 
     .prologue
-    .line 499
+    .line 501
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3473,7 +3477,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 500
+    .line 502
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3482,7 +3486,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 501
+    .line 503
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3493,7 +3497,7 @@
 
     invoke-virtual {v0, v1, v4}, Landroid/graphics/Canvas;->drawRect(Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 503
+    .line 505
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3502,7 +3506,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 504
+    .line 506
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3511,7 +3515,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 505
+    .line 507
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3520,7 +3524,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 506
+    .line 508
     const/high16 v4, 0x41b00000    # 22.0f
 
     move-object/from16 v0, p0
@@ -3529,7 +3533,7 @@
 
     mul-float v6, v4, v5
 
-    .line 507
+    .line 509
     move-object/from16 v0, p2
 
     iget v4, v0, Landroid/graphics/RectF;->top:F
@@ -3545,7 +3549,7 @@
 
     if-gez v5, :cond_84
 
-    .line 508
+    .line 510
     move-object/from16 v0, p2
 
     iget v5, v0, Landroid/graphics/RectF;->top:F
@@ -3560,7 +3564,7 @@
 
     float-to-int v5, v5
 
-    .line 509
+    .line 511
     move-object/from16 v0, p2
 
     iget v7, v0, Landroid/graphics/RectF;->left:F
@@ -3604,7 +3608,7 @@
 
     goto :goto_66
 
-    .line 507
+    .line 509
     :cond_7e
     const v5, 0x3f5db22d    # 0.866f
 
@@ -3614,7 +3618,7 @@
 
     goto :goto_45
 
-    .line 511
+    .line 513
     :cond_84
     move-object/from16 v0, p0
 
@@ -3624,7 +3628,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 512
+    .line 514
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3633,7 +3637,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 513
+    .line 515
     move-object/from16 v0, p2
 
     iget v5, v0, Landroid/graphics/RectF;->left:F
@@ -3668,24 +3672,24 @@
 
     invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 514
+    .line 516
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rf:[Ljava/lang/String;
 
     if-nez v4, :cond_bf
 
-    .line 684
+    .line 688
     :goto_be
     return-void
 
-    .line 515
+    .line 517
     :cond_bf
     invoke-virtual/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->accent()I
 
     move-result v16
 
-    .line 516
+    .line 518
     const/high16 v4, 0x41600000    # 14.0f
 
     move-object/from16 v0, p0
@@ -3716,7 +3720,7 @@
 
     add-float v4, v4, v36
 
-    .line 517
+    .line 519
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rf:[Ljava/lang/String;
@@ -3725,7 +3729,7 @@
 
     aget-object v5, v5, v6
 
-    invoke-static {v5}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModRefitScreen;->num(Ljava/lang/String;)I
 
     move-result v17
 
@@ -3737,11 +3741,11 @@
 
     aget-object v5, v5, v6
 
-    invoke-static {v5}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModRefitScreen;->num(Ljava/lang/String;)I
 
     move-result v35
 
-    .line 518
+    .line 520
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rf:[Ljava/lang/String;
@@ -3758,7 +3762,7 @@
 
     const/16 v18, 0x1
 
-    .line 521
+    .line 523
     :goto_106
     new-instance v12, Landroid/graphics/RectF;
 
@@ -3778,7 +3782,7 @@
 
     invoke-direct {v12, v0, v4, v5, v6}, Landroid/graphics/RectF;-><init>(FFFF)V
 
-    .line 522
+    .line 524
     move-object/from16 v0, p0
 
     iget-object v13, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3809,7 +3813,7 @@
 
     invoke-virtual {v13, v4}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 523
+    .line 525
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3818,7 +3822,7 @@
 
     invoke-virtual {v0, v12, v4}, Landroid/graphics/Canvas;->drawRect(Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 524
+    .line 526
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3827,7 +3831,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 525
+    .line 527
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -3836,7 +3840,7 @@
 
     invoke-virtual {v4, v0}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 526
+    .line 528
     iget v5, v12, Landroid/graphics/RectF;->left:F
 
     iget v6, v12, Landroid/graphics/RectF;->top:F
@@ -3863,7 +3867,7 @@
 
     invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 527
+    .line 529
     iget v4, v12, Landroid/graphics/RectF;->left:F
 
     const/high16 v5, 0x41200000    # 10.0f
@@ -3876,14 +3880,14 @@
 
     add-float v7, v4, v5
 
-    .line 528
+    .line 530
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->emblem:Landroid/graphics/Bitmap;
 
     if-eqz v4, :cond_1b1
 
-    .line 529
+    .line 531
     const/high16 v4, 0x42180000    # 38.0f
 
     move-object/from16 v0, p0
@@ -3892,7 +3896,7 @@
 
     mul-float/2addr v4, v5
 
-    .line 530
+    .line 532
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->emblem:Landroid/graphics/Bitmap;
@@ -3933,7 +3937,7 @@
 
     invoke-virtual {v0, v5, v6, v8, v9}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 531
+    .line 533
     const/high16 v5, 0x41000000    # 8.0f
 
     move-object/from16 v0, p0
@@ -3946,7 +3950,7 @@
 
     add-float/2addr v7, v4
 
-    .line 533
+    .line 535
     :cond_1b1
     const-string v4, "RETROFIT BAY"
 
@@ -3976,7 +3980,7 @@
 
     invoke-virtual/range {v4 .. v10}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    .line 534
+    .line 536
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->name:Ljava/lang/String;
@@ -4008,7 +4012,7 @@
 
     invoke-virtual/range {v4 .. v10}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    .line 535
+    .line 537
     iget v4, v12, Landroid/graphics/RectF;->bottom:F
 
     const/high16 v5, 0x41200000    # 10.0f
@@ -4021,7 +4025,7 @@
 
     add-float v11, v4, v5
 
-    .line 538
+    .line 540
     const-string v4, "PROGRESS TO ELITE"
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -4050,7 +4054,7 @@
 
     invoke-virtual/range {v4 .. v10}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    .line 539
+    .line 541
     new-instance v4, Ljava/lang/StringBuilder;
 
     invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
@@ -4077,7 +4081,7 @@
 
     move-result-object v4
 
-    .line 540
+    .line 542
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -4092,7 +4096,7 @@
 
     invoke-virtual {v5, v6}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 541
+    .line 543
     add-float v5, v21, v23
 
     const/high16 v6, 0x42680000    # 58.0f
@@ -4133,7 +4137,7 @@
 
     invoke-virtual {v0, v4, v5, v6, v7}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 542
+    .line 544
     const/high16 v4, 0x41800000    # 16.0f
 
     move-object/from16 v0, p0
@@ -4144,7 +4148,7 @@
 
     add-float v12, v11, v4
 
-    .line 543
+    .line 545
     const/high16 v4, 0x42500000    # 52.0f
 
     move-object/from16 v0, p0
@@ -4173,12 +4177,12 @@
 
     mul-float v14, v5, v6
 
-    .line 544
+    .line 546
     const/high16 v5, 0x41200000    # 10.0f
 
     div-float v15, v4, v5
 
-    .line 545
+    .line 547
     const/4 v4, 0x0
 
     move v6, v4
@@ -4188,19 +4192,19 @@
 
     if-ge v6, v4, :cond_32e
 
-    .line 546
+    .line 548
     int-to-float v4, v6
 
     mul-float/2addr v4, v15
 
     add-float v4, v4, v21
 
-    .line 547
+    .line 549
     new-instance v7, Landroid/graphics/Path;
 
     invoke-direct {v7}, Landroid/graphics/Path;-><init>()V
 
-    .line 548
+    .line 550
     invoke-virtual {v7, v4, v12}, Landroid/graphics/Path;->moveTo(FF)V
 
     add-float v5, v4, v15
@@ -4253,7 +4257,7 @@
 
     invoke-virtual {v7, v5, v8}, Landroid/graphics/Path;->lineTo(FF)V
 
-    .line 549
+    .line 551
     add-float v5, v12, v14
 
     invoke-virtual {v7, v4, v5}, Landroid/graphics/Path;->lineTo(FF)V
@@ -4278,7 +4282,7 @@
 
     invoke-virtual {v7}, Landroid/graphics/Path;->close()V
 
-    .line 550
+    .line 552
     move/from16 v0, v17
 
     if-ge v6, v0, :cond_312
@@ -4296,7 +4300,7 @@
 
     const/4 v4, 0x1
 
-    .line 551
+    .line 553
     :goto_2eb
     move-object/from16 v0, p0
 
@@ -4309,7 +4313,7 @@
     :goto_2f4
     invoke-virtual {v8, v4}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 552
+    .line 554
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4318,20 +4322,20 @@
 
     invoke-virtual {v0, v7, v4}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 545
+    .line 547
     add-int/lit8 v4, v6, 0x1
 
     move v6, v4
 
     goto :goto_288
 
-    .line 518
+    .line 520
     :cond_304
     const/16 v18, 0x0
 
     goto/16 :goto_106
 
-    .line 534
+    .line 536
     :cond_308
     move-object/from16 v0, p0
 
@@ -4343,7 +4347,7 @@
 
     goto/16 :goto_1d5
 
-    .line 550
+    .line 552
     :cond_312
     const/4 v4, 0x0
 
@@ -4356,7 +4360,7 @@
 
     goto :goto_2eb
 
-    .line 551
+    .line 553
     :cond_317
     if-eqz v4, :cond_32a
 
@@ -4383,11 +4387,11 @@
 
     goto :goto_2f4
 
-    .line 554
+    .line 556
     :cond_32e
     if-lez v17, :cond_39e
 
-    .line 555
+    .line 557
     move/from16 v0, v17
 
     int-to-float v4, v0
@@ -4412,17 +4416,17 @@
 
     div-float/2addr v4, v5
 
-    .line 556
+    .line 558
     sub-float v5, v19, v21
 
     mul-float/2addr v4, v5
 
     add-float v7, v21, v4
 
-    .line 557
+    .line 559
     invoke-virtual/range {p1 .. p1}, Landroid/graphics/Canvas;->save()I
 
-    .line 558
+    .line 560
     add-float v4, v12, v14
 
     move-object/from16 v0, p1
@@ -4433,7 +4437,7 @@
 
     invoke-virtual {v0, v1, v12, v2, v4}, Landroid/graphics/Canvas;->clipRect(FFFF)Z
 
-    .line 559
+    .line 561
     move-object/from16 v0, p0
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4470,7 +4474,7 @@
 
     new-array v9, v9, [I
 
-    fill-array-data v9, :array_cfe
+    fill-array-data v9, :array_d2e
 
     const/4 v10, 0x0
 
@@ -4482,7 +4486,7 @@
 
     invoke-virtual {v0, v4}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 560
+    .line 562
     add-float v8, v12, v14
 
     move-object/from16 v0, p0
@@ -4499,7 +4503,7 @@
 
     invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 561
+    .line 563
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4508,10 +4512,10 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 562
+    .line 564
     invoke-virtual/range {p1 .. p1}, Landroid/graphics/Canvas;->restore()V
 
-    .line 564
+    .line 566
     :cond_39e
     const/4 v4, 0x1
 
@@ -4522,7 +4526,7 @@
 
     if-gt v10, v4, :cond_486
 
-    .line 565
+    .line 567
     mul-int/lit8 v4, v10, 0x2
 
     int-to-float v4, v4
@@ -4549,10 +4553,10 @@
 
     add-float v19, v4, v5
 
-    .line 566
+    .line 568
     invoke-virtual/range {p1 .. p1}, Landroid/graphics/Canvas;->save()I
 
-    .line 567
+    .line 569
     const/high16 v4, 0x42340000    # 45.0f
 
     move-object/from16 v0, p1
@@ -4561,7 +4565,7 @@
 
     invoke-virtual {v0, v4, v11, v1}, Landroid/graphics/Canvas;->rotate(FFF)V
 
-    .line 568
+    .line 570
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4575,7 +4579,7 @@
     :goto_3d0
     invoke-virtual {v5, v4}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 569
+    .line 571
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4590,7 +4594,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 570
+    .line 572
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4604,7 +4608,7 @@
     :goto_3ec
     invoke-virtual {v5, v4}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 571
+    .line 573
     const/high16 v4, 0x40e00000    # 7.0f
 
     move-object/from16 v0, p0
@@ -4653,10 +4657,10 @@
 
     invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 572
+    .line 574
     invoke-virtual/range {p1 .. p1}, Landroid/graphics/Canvas;->restore()V
 
-    .line 573
+    .line 575
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4665,7 +4669,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 574
+    .line 576
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -4680,7 +4684,7 @@
 
     invoke-virtual {v4, v5}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 575
+    .line 577
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -4694,7 +4698,7 @@
     :goto_441
     invoke-virtual {v5, v4}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 576
+    .line 578
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModRefitScreen;->ROMAN:[Ljava/lang/String;
 
     aget-object v4, v4, v10
@@ -4735,20 +4739,20 @@
 
     invoke-virtual {v0, v4, v5, v6, v7}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 564
+    .line 566
     add-int/lit8 v4, v10, 0x1
 
     move v10, v4
 
     goto/16 :goto_3a0
 
-    .line 568
+    .line 570
     :cond_470
     sget-object v4, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     goto/16 :goto_3d0
 
-    .line 570
+    .line 572
     :cond_474
     add-int/lit8 v4, v35, 0x1
 
@@ -4763,13 +4767,13 @@
 
     goto/16 :goto_3ec
 
-    .line 575
+    .line 577
     :cond_482
     const v4, -0x4f3b26
 
     goto :goto_441
 
-    .line 578
+    .line 580
     :cond_486
     new-instance v5, Landroid/graphics/RectF;
 
@@ -4803,8 +4807,8 @@
 
     invoke-direct {v5, v4, v6, v7, v8}, Landroid/graphics/RectF;-><init>(FFFF)V
 
-    .line 579
-    if-eqz v18, :cond_70b
+    .line 581
+    if-eqz v18, :cond_733
 
     const v4, 0x3f19999a    # 0.6f
 
@@ -4832,11 +4836,11 @@
 
     add-float/2addr v4, v6
 
-    .line 580
+    .line 582
     :goto_4bc
     if-eqz v18, :cond_4f9
 
-    .line 581
+    .line 583
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4845,7 +4849,7 @@
 
     invoke-virtual {v6, v7}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 582
+    .line 584
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4858,7 +4862,7 @@
 
     invoke-virtual {v6, v4}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 583
+    .line 585
     const/high16 v4, 0x3fa00000    # 1.25f
 
     invoke-static {v5, v4}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->grow(Landroid/graphics/RectF;F)Landroid/graphics/RectF;
@@ -4889,7 +4893,7 @@
 
     invoke-virtual {v0, v4, v6, v7, v8}, Landroid/graphics/Canvas;->drawRoundRect(Landroid/graphics/RectF;FFLandroid/graphics/Paint;)V
 
-    .line 584
+    .line 586
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4898,20 +4902,20 @@
 
     invoke-virtual {v4, v6}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 586
+    .line 588
     :cond_4f9
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
-    if-eqz v18, :cond_70e
+    if-eqz v18, :cond_736
 
     const v4, -0x1747b6
 
     :goto_502
     invoke-virtual {v6, v4}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 587
+    .line 589
     const/high16 v4, 0x40800000    # 4.0f
 
     move-object/from16 v0, p0
@@ -4936,7 +4940,7 @@
 
     invoke-virtual {v0, v5, v4, v6, v7}, Landroid/graphics/Canvas;->drawRoundRect(Landroid/graphics/RectF;FFLandroid/graphics/Paint;)V
 
-    .line 588
+    .line 590
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4945,19 +4949,19 @@
 
     invoke-virtual {v4, v6}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 589
+    .line 591
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
-    if-eqz v18, :cond_713
+    if-eqz v18, :cond_73b
 
     const/4 v4, -0x1
 
     :goto_52c
     invoke-virtual {v6, v4}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 590
+    .line 592
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -4972,7 +4976,7 @@
 
     invoke-virtual {v4, v6}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 591
+    .line 593
     const/high16 v4, 0x40800000    # 4.0f
 
     move-object/from16 v0, p0
@@ -4997,7 +5001,7 @@
 
     invoke-virtual {v0, v5, v4, v6, v7}, Landroid/graphics/Canvas;->drawRoundRect(Landroid/graphics/RectF;FFLandroid/graphics/Paint;)V
 
-    .line 592
+    .line 594
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -5006,7 +5010,7 @@
 
     invoke-virtual {v4, v6}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 593
+    .line 595
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -5021,26 +5025,26 @@
 
     invoke-virtual {v4, v6}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 594
+    .line 596
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
-    if-eqz v18, :cond_718
+    if-eqz v18, :cond_740
 
     const v4, -0xfaf4ea
 
     :goto_575
     invoke-virtual {v6, v4}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 595
+    .line 597
     const-string v4, "ELITE"
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
 
-    .line 596
+    .line 598
     invoke-virtual {v5}, Landroid/graphics/RectF;->centerX()F
 
     move-result v6
@@ -5081,7 +5085,7 @@
 
     invoke-virtual {v0, v4, v6, v5, v7}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 597
+    .line 599
     const/high16 v4, 0x41f00000    # 30.0f
 
     move-object/from16 v0, p0
@@ -5094,17 +5098,17 @@
 
     add-float v5, v12, v4
 
-    .line 601
+    .line 603
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModV38;->turretPlan(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)[I
 
-    move-result-object v25
+    move-result-object v29
 
-    .line 602
-    if-eqz v25, :cond_71d
+    .line 604
+    if-eqz v29, :cond_745
 
     const/4 v4, 0x5
 
@@ -5114,55 +5118,55 @@
 
     move-result v4
 
-    aget v4, v25, v4
+    aget v4, v29, v4
 
-    move/from16 v24, v4
+    move/from16 v25, v4
 
-    .line 603
+    .line 605
     :goto_5c2
-    if-eqz v18, :cond_725
+    if-eqz v18, :cond_74d
 
-    move/from16 v22, v35
+    move/from16 v24, v35
 
-    .line 604
+    .line 606
     :goto_5c6
-    if-eqz v25, :cond_72f
+    if-eqz v29, :cond_757
 
-    if-nez v18, :cond_72f
+    if-nez v18, :cond_757
 
     const/4 v4, 0x5
 
-    move/from16 v0, v22
+    move/from16 v0, v24
 
     invoke-static {v4, v0}, Ljava/lang/Math;->min(II)I
 
     move-result v4
 
-    aget v4, v25, v4
+    aget v4, v29, v4
 
-    move/from16 v0, v24
+    move/from16 v0, v25
 
-    if-le v4, v0, :cond_72f
+    if-le v4, v0, :cond_757
 
     const/4 v4, 0x1
 
-    move/from16 v20, v4
+    move/from16 v22, v4
 
-    .line 605
+    .line 607
     :goto_5da
-    if-nez v18, :cond_734
+    if-nez v18, :cond_75c
 
-    move/from16 v0, v22
+    move/from16 v0, v24
 
     move/from16 v1, v35
 
-    if-le v0, v1, :cond_734
+    if-le v0, v1, :cond_75c
 
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->next:Landroid/graphics/Bitmap;
 
-    if-eqz v4, :cond_734
+    if-eqz v4, :cond_75c
 
     move-object/from16 v0, p0
 
@@ -5170,15 +5174,15 @@
 
     add-int/lit8 v6, v17, 0x1
 
-    if-ne v4, v6, :cond_734
+    if-ne v4, v6, :cond_75c
 
     const/4 v4, 0x1
 
     move/from16 v34, v4
 
-    .line 608
+    .line 610
     :goto_5f3
-    if-eqz v18, :cond_739
+    if-eqz v18, :cond_761
 
     const-string v4, "This hull has reached ELITE: every refit and form is unlocked."
 
@@ -5186,40 +5190,84 @@
 
     move-result-object v6
 
-    .line 611
+    .line 614
     :goto_5fb
+    move-object/from16 v0, p0
+
+    iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rowsFor:[Ljava/lang/String;
+
+    move-object/from16 v0, p0
+
+    iget-object v7, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rf:[Ljava/lang/String;
+
+    if-ne v4, v7, :cond_60b
+
+    move-object/from16 v0, p0
+
+    iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rowsCache:[[F
+
+    if-nez v4, :cond_61b
+
+    :cond_60b
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->preview()[[F
 
-    move-result-object v26
+    move-result-object v4
 
-    .line 612
-    move-object/from16 v0, v26
+    move-object/from16 v0, p0
+
+    iput-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rowsCache:[[F
+
+    move-object/from16 v0, p0
+
+    iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rf:[Ljava/lang/String;
+
+    move-object/from16 v0, p0
+
+    iput-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rowsFor:[Ljava/lang/String;
+
+    .line 615
+    :cond_61b
+    move-object/from16 v0, p0
+
+    iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rowsCache:[[F
+
+    if-eqz v4, :cond_769
+
+    move-object/from16 v0, p0
+
+    iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rowsCache:[[F
+
+    move-object/from16 v19, v4
+
+    .line 616
+    :goto_627
+    move-object/from16 v0, v19
 
     array-length v7, v0
 
-    if-eqz v20, :cond_741
+    if-eqz v22, :cond_770
 
     const/4 v4, 0x1
 
-    :goto_605
+    :goto_62d
     add-int v13, v7, v4
 
-    .line 613
+    .line 617
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
-    if-eqz v4, :cond_744
+    if-eqz v4, :cond_773
 
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->next:Landroid/graphics/Bitmap;
 
-    if-nez v4, :cond_615
+    if-nez v4, :cond_63d
 
-    if-eqz v18, :cond_744
+    if-eqz v18, :cond_773
 
-    :cond_615
+    :cond_63d
     const/high16 v4, 0x42300000    # 44.0f
 
     move-object/from16 v0, p0
@@ -5230,8 +5278,8 @@
 
     move v12, v4
 
-    .line 614
-    :goto_61d
+    .line 618
+    :goto_645
     move-object/from16 v0, p2
 
     iget v4, v0, Landroid/graphics/RectF;->bottom:F
@@ -5258,7 +5306,7 @@
 
     sub-float v14, v4, v7
 
-    .line 615
+    .line 619
     const/high16 v4, 0x42080000    # 34.0f
 
     move-object/from16 v0, p0
@@ -5285,7 +5333,7 @@
 
     cmpg-float v4, v4, v14
 
-    if-gtz v4, :cond_cfb
+    if-gtz v4, :cond_d2a
 
     const/high16 v4, 0x40000000    # 2.0f
 
@@ -5323,8 +5371,8 @@
 
     add-float/2addr v4, v5
 
-    .line 617
-    :goto_66c
+    .line 621
+    :goto_694
     const/high16 v5, 0x41e00000    # 28.0f
 
     move-object/from16 v0, p0
@@ -5371,29 +5419,29 @@
 
     mul-float v10, v5, v6
 
-    .line 618
-    move-object/from16 v0, v26
+    .line 622
+    move-object/from16 v0, v19
 
     array-length v0, v0
 
-    move/from16 v27, v0
+    move/from16 v26, v0
 
     const/4 v5, 0x0
 
-    move/from16 v19, v5
+    move/from16 v20, v5
 
     move v7, v4
 
-    :goto_69d
-    move/from16 v0, v19
+    :goto_6c5
+    move/from16 v0, v20
 
-    move/from16 v1, v27
+    move/from16 v1, v26
 
-    if-ge v0, v1, :cond_797
+    if-ge v0, v1, :cond_7c6
 
-    aget-object v5, v26, v19
+    aget-object v5, v19, v20
 
-    .line 619
+    .line 623
     const/4 v4, 0x0
 
     aget v4, v5, v4
@@ -5406,10 +5454,10 @@
 
     float-to-int v6, v4
 
-    .line 620
+    .line 624
     const/4 v4, 0x1
 
-    if-ne v6, v4, :cond_748
+    if-ne v6, v4, :cond_777
 
     new-instance v4, Ljava/lang/StringBuilder;
 
@@ -5435,15 +5483,15 @@
 
     aget v15, v5, v15
 
-    const/16 v28, 0x2
+    const/16 v27, 0x2
 
-    aget v28, v5, v28
+    aget v27, v5, v27
 
-    sub-float v15, v15, v28
+    sub-float v15, v15, v27
 
-    const/high16 v28, 0x447a0000    # 1000.0f
+    const/high16 v27, 0x447a0000    # 1000.0f
 
-    div-float v15, v15, v28
+    div-float v15, v15, v27
 
     invoke-static {v15}, Ljava/lang/Float;->valueOf(F)Ljava/lang/Float;
 
@@ -5463,8 +5511,8 @@
 
     move-result-object v4
 
-    .line 622
-    :goto_6e2
+    .line 626
+    :goto_70a
     const/4 v8, 0x1
 
     aget v5, v5, v8
@@ -5483,11 +5531,11 @@
 
     move-result-object v13
 
-    if-eqz v18, :cond_794
+    if-eqz v18, :cond_7c3
 
     const-string v14, ""
 
-    :goto_6f7
+    :goto_71f
     const v15, -0x830074
 
     move-object/from16 v4, p0
@@ -5500,80 +5548,80 @@
 
     invoke-virtual/range {v4 .. v18}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->statRow(Landroid/graphics/Canvas;FFFFFILjava/lang/String;Ljava/lang/String;Ljava/lang/String;IIIZ)V
 
-    .line 623
+    .line 627
     add-float/2addr v7, v9
 
-    .line 618
-    add-int/lit8 v4, v19, 0x1
+    .line 622
+    add-int/lit8 v4, v20, 0x1
 
-    move/from16 v19, v4
+    move/from16 v20, v4
 
-    goto :goto_69d
+    goto :goto_6c5
 
-    .line 579
-    :cond_70b
+    .line 581
+    :cond_733
     const/4 v4, 0x0
 
     goto/16 :goto_4bc
 
-    .line 586
-    :cond_70e
+    .line 588
+    :cond_736
     const v4, -0xe4d5c4
 
     goto/16 :goto_502
 
-    .line 589
-    :cond_713
+    .line 591
+    :cond_73b
     const v4, -0x1747b6
 
     goto/16 :goto_52c
 
-    .line 594
-    :cond_718
+    .line 596
+    :cond_740
     const v4, -0x1747b6
 
     goto/16 :goto_575
 
-    .line 602
-    :cond_71d
+    .line 604
+    :cond_745
     invoke-virtual/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->guns()I
 
     move-result v4
 
-    move/from16 v24, v4
+    move/from16 v25, v4
 
     goto/16 :goto_5c2
 
-    .line 603
-    :cond_725
+    .line 605
+    :cond_74d
     add-int/lit8 v4, v17, 0x1
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModV35;->stage(I)I
 
     move-result v4
 
-    move/from16 v22, v4
+    move/from16 v24, v4
 
     goto/16 :goto_5c6
 
-    .line 604
-    :cond_72f
+    .line 606
+    :cond_757
     const/4 v4, 0x0
 
-    move/from16 v20, v4
+    move/from16 v22, v4
 
     goto/16 :goto_5da
 
-    .line 605
-    :cond_734
+    .line 607
+    :cond_75c
     const/4 v4, 0x0
 
     move/from16 v34, v4
 
     goto/16 :goto_5f3
 
-    .line 609
-    :cond_739
+    .line 611
+    :cond_761
     const-string v4, "Each refit strengthens this hull. Every second refit evolves it into a new form."
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -5582,25 +5630,35 @@
 
     goto/16 :goto_5fb
 
-    .line 612
-    :cond_741
+    .line 615
+    :cond_769
     const/4 v4, 0x0
 
-    goto/16 :goto_605
+    new-array v4, v4, [[F
 
-    .line 613
-    :cond_744
+    move-object/from16 v19, v4
+
+    goto/16 :goto_627
+
+    .line 616
+    :cond_770
+    const/4 v4, 0x0
+
+    goto/16 :goto_62d
+
+    .line 617
+    :cond_773
     const/4 v4, 0x0
 
     move v12, v4
 
-    goto/16 :goto_61d
+    goto/16 :goto_645
 
-    .line 621
-    :cond_748
+    .line 625
+    :cond_777
     const/4 v4, 0x2
 
-    if-ne v6, v4, :cond_771
+    if-ne v6, v4, :cond_7a0
 
     new-instance v4, Ljava/lang/StringBuilder;
 
@@ -5640,9 +5698,9 @@
 
     move-result-object v4
 
-    goto/16 :goto_6e2
+    goto/16 :goto_70a
 
-    :cond_771
+    :cond_7a0
     new-instance v4, Ljava/lang/StringBuilder;
 
     invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
@@ -5679,19 +5737,19 @@
 
     move-result-object v4
 
-    goto/16 :goto_6e2
+    goto/16 :goto_70a
 
-    :cond_794
+    :cond_7c3
     move-object v14, v4
 
-    .line 622
-    goto/16 :goto_6f7
-
-    .line 625
-    :cond_797
-    if-eqz v20, :cond_cf8
-
     .line 626
+    goto/16 :goto_71f
+
+    .line 629
+    :cond_7c6
+    if-eqz v22, :cond_d27
+
+    .line 630
     const v4, 0x3f19999a    # 0.6f
 
     const v5, 0x3ecccccd    # 0.4f
@@ -5718,7 +5776,7 @@
 
     add-float/2addr v4, v5
 
-    .line 627
+    .line 631
     const/high16 v5, 0x437f0000    # 255.0f
 
     mul-float/2addr v4, v5
@@ -5747,10 +5805,10 @@
 
     move-result v30
 
-    .line 628
+    .line 632
     const/16 v26, -0x1
 
-    invoke-static/range {v24 .. v24}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+    invoke-static/range {v25 .. v25}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
 
     move-result-object v27
 
@@ -5772,15 +5830,15 @@
 
     const/4 v5, 0x5
 
-    move/from16 v0, v22
+    move/from16 v0, v24
 
     invoke-static {v5, v0}, Ljava/lang/Math;->min(II)I
 
     move-result v5
 
-    aget v5, v25, v5
+    aget v5, v29, v5
 
-    sub-int v5, v5, v24
+    sub-int v5, v5, v25
 
     invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
@@ -5824,29 +5882,29 @@
 
     invoke-virtual/range {v19 .. v33}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->statRow(Landroid/graphics/Canvas;FFFFFILjava/lang/String;Ljava/lang/String;Ljava/lang/String;IIIZ)V
 
-    .line 629
+    .line 633
     add-float/2addr v7, v9
 
     move v13, v7
 
-    .line 631
-    :goto_820
+    .line 635
+    :goto_84f
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
-    if-eqz v4, :cond_c67
+    if-eqz v4, :cond_c96
 
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->next:Landroid/graphics/Bitmap;
 
-    if-nez v4, :cond_82e
+    if-nez v4, :cond_85d
 
-    if-eqz v18, :cond_c67
+    if-eqz v18, :cond_c96
 
-    .line 632
-    :cond_82e
+    .line 636
+    :cond_85d
     const/high16 v4, 0x42300000    # 44.0f
 
     move-object/from16 v0, p0
@@ -5865,7 +5923,7 @@
 
     sub-float v5, v14, v4
 
-    .line 633
+    .line 637
     sub-float v4, v14, v10
 
     const/high16 v6, 0x40000000    # 2.0f
@@ -5876,11 +5934,11 @@
 
     const/4 v11, -0x2
 
-    if-eqz v34, :cond_c03
+    if-eqz v34, :cond_c32
 
     const v12, -0x1747b6
 
-    :goto_84c
+    :goto_87b
     move-object/from16 v6, p0
 
     move-object/from16 v7, p1
@@ -5889,7 +5947,7 @@
 
     invoke-virtual/range {v6 .. v12}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->statIcon(Landroid/graphics/Canvas;FFFII)V
 
-    .line 634
+    .line 638
     new-instance v4, Ljava/lang/StringBuilder;
 
     invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
@@ -5910,13 +5968,13 @@
 
     move-result-object v6
 
-    if-lez v35, :cond_c07
+    if-lez v35, :cond_c36
 
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModRefitScreen;->ROMAN:[Ljava/lang/String;
 
     aget-object v4, v4, v35
 
-    :goto_870
+    :goto_89f
     invoke-virtual {v6, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v4
@@ -5963,14 +6021,14 @@
 
     invoke-virtual/range {v24 .. v30}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    .line 635
+    .line 639
     add-float v6, v21, v23
 
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->next:Landroid/graphics/Bitmap;
 
-    if-eqz v4, :cond_c0b
+    if-eqz v4, :cond_c3a
 
     const/high16 v4, 0x40000000    # 2.0f
 
@@ -5986,10 +6044,10 @@
 
     add-float/2addr v4, v7
 
-    :goto_8af
+    :goto_8de
     sub-float/2addr v6, v4
 
-    .line 636
+    .line 640
     move-object/from16 v0, p0
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
@@ -6038,14 +6096,14 @@
 
     invoke-virtual/range {v25 .. v32}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->holo(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;IJZ)V
 
-    .line 637
+    .line 641
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->next:Landroid/graphics/Bitmap;
 
-    if-eqz v4, :cond_c3a
+    if-eqz v4, :cond_c69
 
-    .line 638
+    .line 642
     add-float v4, v6, v5
 
     const/high16 v7, 0x41000000    # 8.0f
@@ -6074,12 +6132,12 @@
 
     add-float/2addr v7, v8
 
-    .line 639
+    .line 643
     new-instance v8, Landroid/graphics/Path;
 
     invoke-direct {v8}, Landroid/graphics/Path;-><init>()V
 
-    .line 640
+    .line 644
     const/high16 v9, 0x40800000    # 4.0f
 
     move-object/from16 v0, p0
@@ -6138,19 +6196,19 @@
 
     invoke-virtual {v8}, Landroid/graphics/Path;->close()V
 
-    .line 641
+    .line 645
     move-object/from16 v0, p0
 
     iget-object v7, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
-    if-eqz v34, :cond_c0e
+    if-eqz v34, :cond_c3d
 
     const v4, -0x1747b6
 
-    :goto_93f
+    :goto_96e
     invoke-virtual {v7, v4}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 642
+    .line 646
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -6159,7 +6217,7 @@
 
     invoke-virtual {v0, v8, v4}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 643
+    .line 647
     move-object/from16 v0, p0
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->next:Landroid/graphics/Bitmap;
@@ -6222,11 +6280,11 @@
 
     invoke-direct {v0, v4, v7, v6, v5}, Landroid/graphics/RectF;-><init>(FFFF)V
 
-    if-eqz v34, :cond_c13
+    if-eqz v34, :cond_c42
 
     const v29, -0x1747b6
 
-    :goto_984
+    :goto_9b3
     const/16 v32, 0x1
 
     move-object/from16 v25, p0
@@ -6237,8 +6295,8 @@
 
     invoke-virtual/range {v25 .. v32}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->holo(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;IJZ)V
 
-    .line 644
-    if-eqz v34, :cond_c18
+    .line 648
+    if-eqz v34, :cond_c47
 
     const-string v4, "Evolves at the next refit"
 
@@ -6246,8 +6304,8 @@
 
     move-result-object v6
 
-    .line 645
-    :goto_997
+    .line 649
+    :goto_9c6
     add-float v4, v21, v10
 
     const/high16 v5, 0x41000000    # 8.0f
@@ -6278,24 +6336,24 @@
 
     const/16 v9, 0x8
 
-    if-eqz v34, :cond_c35
+    if-eqz v34, :cond_c64
 
     const v10, -0x1747b6
 
-    :goto_9b7
+    :goto_9e6
     move-object/from16 v4, p0
 
     move-object/from16 v5, p1
 
     invoke-virtual/range {v4 .. v10}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    .line 649
-    :goto_9be
+    .line 653
+    :goto_9ed
     add-float v4, v13, v14
 
-    .line 655
-    :cond_9c0
-    :goto_9c0
+    .line 659
+    :cond_9ef
+    :goto_9ef
     const/high16 v4, 0x42180000    # 38.0f
 
     move-object/from16 v0, p0
@@ -6312,14 +6370,14 @@
 
     sub-float v19, v4, v36
 
-    .line 656
-    if-nez v18, :cond_ae6
+    .line 660
+    if-nez v18, :cond_b15
 
-    .line 657
+    .line 661
     const-wide/16 v4, 0x0
 
-    .line 658
-    :try_start_9d3
+    .line 662
+    :try_start_a02
     sget-object v6, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v6, v6, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -6327,15 +6385,15 @@
     iget-object v6, v6, Lfr/testudo/spacecorsair/game/Game;->playerCurrentShipInventory:Lfr/testudo/spacecorsair/business/player/Inventory;
 
     invoke-virtual {v6}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCredit()J
-    :try_end_9dc
-    .catch Ljava/lang/Throwable; {:try_start_9d3 .. :try_end_9dc} :catch_c98
+    :try_end_a0b
+    .catch Ljava/lang/Throwable; {:try_start_a02 .. :try_end_a0b} :catch_cc7
 
     move-result-wide v4
 
     move-wide v12, v4
 
-    .line 659
-    :goto_9de
+    .line 663
+    :goto_a0d
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rf:[Ljava/lang/String;
@@ -6344,11 +6402,11 @@
 
     aget-object v4, v4, v5
 
-    invoke-static {v4}, Ljava/lang/Long;->parseLong(Ljava/lang/String;)J
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModRefitScreen;->numL(Ljava/lang/String;)J
 
     move-result-wide v24
 
-    .line 660
+    .line 664
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rf:[Ljava/lang/String;
@@ -6357,7 +6415,7 @@
 
     aget-object v4, v4, v5
 
-    invoke-static {v4}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModRefitScreen;->num(Ljava/lang/String;)I
 
     move-result v20
 
@@ -6369,7 +6427,7 @@
 
     aget-object v4, v4, v5
 
-    invoke-static {v4}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModRefitScreen;->num(Ljava/lang/String;)I
 
     move-result v22
 
@@ -6377,13 +6435,13 @@
 
     const/16 v5, 0xa
 
-    if-ne v4, v5, :cond_c9c
+    if-ne v4, v5, :cond_ccb
 
     const/4 v4, 0x1
 
     move v14, v4
 
-    :goto_a07
+    :goto_a36
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rf:[Ljava/lang/String;
@@ -6392,11 +6450,11 @@
 
     aget-object v4, v4, v5
 
-    invoke-static {v4}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModRefitScreen;->num(Ljava/lang/String;)I
 
     move-result v17
 
-    .line 661
+    .line 665
     const/high16 v4, 0x41400000    # 12.0f
 
     move-object/from16 v0, p0
@@ -6407,7 +6465,7 @@
 
     sub-float v8, v19, v4
 
-    .line 662
+    .line 666
     const-string v4, "REQUIRED"
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -6426,7 +6484,7 @@
 
     invoke-virtual/range {v4 .. v10}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    .line 663
+    .line 667
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -6441,7 +6499,7 @@
 
     invoke-virtual {v4, v5}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 664
+    .line 668
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -6468,7 +6526,7 @@
 
     add-float v7, v21, v4
 
-    .line 665
+    .line 669
     const/4 v9, 0x0
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -6503,11 +6561,11 @@
 
     cmp-long v4, v12, v24
 
-    if-ltz v4, :cond_ca0
+    if-ltz v4, :cond_ccf
 
     const/4 v11, 0x1
 
-    :goto_a7a
+    :goto_aa9
     const v12, -0x1747b6
 
     move-object/from16 v5, p0
@@ -6518,8 +6576,8 @@
 
     move-result v7
 
-    .line 666
-    if-lez v20, :cond_ab5
+    .line 670
+    if-lez v20, :cond_ae4
 
     const/4 v9, 0x1
 
@@ -6553,11 +6611,11 @@
 
     move/from16 v1, v20
 
-    if-lt v0, v1, :cond_ca3
+    if-lt v0, v1, :cond_cd2
 
     const/4 v11, 0x1
 
-    :goto_aaa
+    :goto_ad9
     const v12, -0x952f01
 
     move-object/from16 v5, p0
@@ -6568,9 +6626,9 @@
 
     move-result v7
 
-    .line 667
-    :cond_ab5
-    if-lez v14, :cond_ae6
+    .line 671
+    :cond_ae4
+    if-lez v14, :cond_b15
 
     const/4 v9, 0x2
 
@@ -6608,11 +6666,11 @@
 
     move/from16 v0, v17
 
-    if-lt v0, v14, :cond_ca6
+    if-lt v0, v14, :cond_cd5
 
     const/4 v11, 0x1
 
-    :goto_add
+    :goto_b0c
     move-object/from16 v5, p0
 
     move-object/from16 v6, p1
@@ -6621,13 +6679,13 @@
 
     invoke-virtual/range {v5 .. v12}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->need(Landroid/graphics/Canvas;FFILjava/lang/String;ZI)F
 
-    .line 669
-    :cond_ae6
+    .line 673
+    :cond_b15
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->status:Ljava/lang/String;
 
-    if-eqz v4, :cond_b11
+    if-eqz v4, :cond_b40
 
     move-object/from16 v0, p0
 
@@ -6635,7 +6693,7 @@
 
     cmp-long v4, p3, v4
 
-    if-gez v4, :cond_b11
+    if-gez v4, :cond_b40
 
     move-object/from16 v0, p0
 
@@ -6665,13 +6723,13 @@
 
     invoke-virtual/range {v4 .. v11}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->para(Landroid/graphics/Canvas;Ljava/lang/String;FFFII)F
 
-    .line 670
-    :cond_b11
+    .line 674
+    :cond_b40
     const v4, 0x3f333333    # 0.7f
 
     mul-float v4, v4, v23
 
-    .line 671
+    .line 675
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->refitBtn:Landroid/graphics/RectF;
@@ -6698,24 +6756,24 @@
 
     invoke-virtual {v5, v6, v0, v4, v7}, Landroid/graphics/RectF;->set(FFFF)V
 
-    .line 672
-    if-nez v18, :cond_ca9
+    .line 676
+    if-nez v18, :cond_cd8
 
     invoke-virtual/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->animating()Z
 
     move-result v4
 
-    if-nez v4, :cond_ca9
+    if-nez v4, :cond_cd8
 
     const/4 v4, 0x1
 
-    .line 673
-    :goto_b38
+    .line 677
+    :goto_b67
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->refitBtn:Landroid/graphics/RectF;
 
-    if-eqz v18, :cond_cac
+    if-eqz v18, :cond_cdb
 
     const-string v5, "ELITE"
 
@@ -6723,24 +6781,24 @@
 
     move-result-object v7
 
-    :goto_b44
-    if-eqz v4, :cond_cee
+    :goto_b73
+    if-eqz v4, :cond_d1d
 
     const v8, -0x1747b6
 
-    :goto_b49
-    if-eqz v4, :cond_cf3
+    :goto_b78
+    if-eqz v4, :cond_d22
 
     const v9, -0xfaf4ea
 
-    :goto_b4e
+    :goto_b7d
     move-object/from16 v4, p0
 
     move-object/from16 v5, p1
 
     invoke-virtual/range {v4 .. v9}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->button(Landroid/graphics/Canvas;Landroid/graphics/RectF;Ljava/lang/String;II)V
 
-    .line 675
+    .line 679
     const/high16 v4, 0x41d00000    # 26.0f
 
     move-object/from16 v0, p0
@@ -6749,7 +6807,7 @@
 
     mul-float/2addr v4, v5
 
-    .line 676
+    .line 680
     move-object/from16 v0, p0
 
     iget-object v5, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->closeBtn:Landroid/graphics/RectF;
@@ -6784,7 +6842,7 @@
 
     invoke-virtual {v5, v6, v7, v8, v4}, Landroid/graphics/RectF;->set(FFFF)V
 
-    .line 677
+    .line 681
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -6793,7 +6851,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 678
+    .line 682
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -6808,7 +6866,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 679
+    .line 683
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -6817,7 +6875,7 @@
 
     invoke-virtual {v4, v5}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 680
+    .line 684
     const/high16 v4, 0x41000000    # 8.0f
 
     move-object/from16 v0, p0
@@ -6826,7 +6884,7 @@
 
     mul-float v10, v4, v5
 
-    .line 681
+    .line 685
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->closeBtn:Landroid/graphics/RectF;
@@ -6867,7 +6925,7 @@
 
     invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
 
-    .line 682
+    .line 686
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->closeBtn:Landroid/graphics/RectF;
@@ -6908,7 +6966,7 @@
 
     invoke-virtual/range {v4 .. v9}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
 
-    .line 683
+    .line 687
     move-object/from16 v0, p0
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
@@ -6919,38 +6977,38 @@
 
     goto/16 :goto_be
 
-    :cond_c03
+    :cond_c32
     move/from16 v12, v16
 
-    .line 633
-    goto/16 :goto_84c
+    .line 637
+    goto/16 :goto_87b
 
-    .line 634
-    :cond_c07
+    .line 638
+    :cond_c36
     const-string v4, "0"
 
-    goto/16 :goto_870
+    goto/16 :goto_89f
 
-    :cond_c0b
+    :cond_c3a
     move v4, v5
 
-    .line 635
-    goto/16 :goto_8af
+    .line 639
+    goto/16 :goto_8de
 
-    .line 641
-    :cond_c0e
+    .line 645
+    :cond_c3d
     const v4, -0x952f01
 
-    goto/16 :goto_93f
+    goto/16 :goto_96e
 
-    .line 643
-    :cond_c13
+    .line 647
+    :cond_c42
     const v29, -0x952f01
 
-    goto/16 :goto_984
+    goto/16 :goto_9b3
 
-    .line 644
-    :cond_c18
+    .line 648
+    :cond_c47
     new-instance v4, Ljava/lang/StringBuilder;
 
     invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
@@ -6977,16 +7035,16 @@
 
     move-result-object v6
 
-    goto/16 :goto_997
+    goto/16 :goto_9c6
 
-    .line 645
-    :cond_c35
+    .line 649
+    :cond_c64
     const v10, -0x952f01
 
-    goto/16 :goto_9b7
+    goto/16 :goto_9e6
 
-    .line 647
-    :cond_c3a
+    .line 651
+    :cond_c69
     const-string v4, "Final form reached"
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -7031,10 +7089,10 @@
 
     invoke-virtual/range {v4 .. v10}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    goto/16 :goto_9be
+    goto/16 :goto_9ed
 
-    .line 650
-    :cond_c67
+    .line 654
+    :cond_c96
     move-object/from16 v0, p2
 
     iget v4, v0, Landroid/graphics/RectF;->bottom:F
@@ -7051,9 +7109,9 @@
 
     cmpg-float v4, v13, v4
 
-    if-gez v4, :cond_9c0
+    if-gez v4, :cond_9ef
 
-    .line 651
+    .line 655
     const-string v4, "This hull keeps its shape (no new form art yet)"
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -7084,55 +7142,55 @@
 
     invoke-virtual/range {v4 .. v11}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->para(Landroid/graphics/Canvas;Ljava/lang/String;FFFII)F
 
-    goto/16 :goto_9c0
+    goto/16 :goto_9ef
 
-    .line 658
-    :catch_c98
+    .line 662
+    :catch_cc7
     move-exception v6
 
     move-wide v12, v4
 
-    goto/16 :goto_9de
+    goto/16 :goto_a0d
 
-    .line 660
-    :cond_c9c
+    .line 664
+    :cond_ccb
     const/4 v4, 0x0
 
     move v14, v4
 
-    goto/16 :goto_a07
+    goto/16 :goto_a36
 
-    .line 665
-    :cond_ca0
+    .line 669
+    :cond_ccf
     const/4 v11, 0x0
 
-    goto/16 :goto_a7a
+    goto/16 :goto_aa9
 
-    .line 666
-    :cond_ca3
+    .line 670
+    :cond_cd2
     const/4 v11, 0x0
 
-    goto/16 :goto_aaa
+    goto/16 :goto_ad9
 
-    .line 667
-    :cond_ca6
+    .line 671
+    :cond_cd5
     const/4 v11, 0x0
 
-    goto/16 :goto_add
+    goto/16 :goto_b0c
 
-    .line 672
-    :cond_ca9
+    .line 676
+    :cond_cd8
     const/4 v4, 0x0
 
-    goto/16 :goto_b38
+    goto/16 :goto_b67
 
-    .line 673
-    :cond_cac
+    .line 677
+    :cond_cdb
     invoke-virtual/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->animating()Z
 
     move-result v5
 
-    if-eqz v5, :cond_cba
+    if-eqz v5, :cond_ce9
 
     const-string v5, "Refitting..."
 
@@ -7140,9 +7198,9 @@
 
     move-result-object v7
 
-    goto/16 :goto_b44
+    goto/16 :goto_b73
 
-    :cond_cba
+    :cond_ce9
     new-instance v5, Ljava/lang/StringBuilder;
 
     invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
@@ -7171,7 +7229,7 @@
 
     aget-object v7, v7, v8
 
-    invoke-static {v7}, Ljava/lang/Long;->parseLong(Ljava/lang/String;)J
+    invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModRefitScreen;->numL(Ljava/lang/String;)J
 
     move-result-wide v8
 
@@ -7193,30 +7251,32 @@
 
     move-result-object v7
 
-    goto/16 :goto_b44
+    goto/16 :goto_b73
 
-    :cond_cee
+    :cond_d1d
     const v8, -0xc5b9aa
 
-    goto/16 :goto_b49
+    goto/16 :goto_b78
 
-    :cond_cf3
+    :cond_d22
     const v9, -0x807160
 
-    goto/16 :goto_b4e
+    goto/16 :goto_b7d
 
-    :cond_cf8
+    :cond_d27
     move v13, v7
 
-    goto/16 :goto_820
+    goto/16 :goto_84f
 
-    :cond_cfb
+    :cond_d2a
     move v4, v5
 
-    goto/16 :goto_66c
+    goto/16 :goto_694
 
-    .line 559
-    :array_cfe
+    .line 561
+    nop
+
+    :array_d2e
     .array-data 4
         0xffffff
         -0x6f000001
@@ -7234,7 +7294,7 @@
 
     const/high16 v6, 0x3f800000    # 1.0f
 
-    .line 358
+    .line 360
     const/high16 v0, 0x3f400000    # 0.75f
 
     div-float v0, p3, v0
@@ -7243,7 +7303,7 @@
 
     move-result v0
 
-    .line 359
+    .line 361
     iget v1, p2, Landroid/graphics/RectF;->bottom:F
 
     invoke-virtual {p2}, Landroid/graphics/RectF;->height()F
@@ -7254,10 +7314,10 @@
 
     sub-float/2addr v1, v2
 
-    .line 360
+    .line 362
     invoke-virtual {p1}, Landroid/graphics/Canvas;->save()I
 
-    .line 361
+    .line 363
     iget v2, p2, Landroid/graphics/RectF;->left:F
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -7276,7 +7336,7 @@
 
     invoke-virtual {p1, v2, v3, v4, v1}, Landroid/graphics/Canvas;->clipRect(FFFF)Z
 
-    .line 362
+    .line 364
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
     const v4, -0x952f01
@@ -7305,10 +7365,10 @@
 
     invoke-virtual/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawTinted(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;II)V
 
-    .line 363
+    .line 365
     invoke-virtual {p1}, Landroid/graphics/Canvas;->restore()V
 
-    .line 364
+    .line 366
     cmpl-float v0, p3, v7
 
     if-lez v0, :cond_67
@@ -7345,7 +7405,7 @@
 
     invoke-virtual/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawTinted(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;II)V
 
-    .line 365
+    .line 367
     :cond_67
     return-void
 .end method
@@ -7354,7 +7414,7 @@
     .registers 12
 
     .prologue
-    .line 444
+    .line 446
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, 0x3fcccccd    # 1.6f
@@ -7365,7 +7425,7 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 445
+    .line 447
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->spark:[[F
 
     array-length v8, v7
@@ -7379,7 +7439,7 @@
 
     aget-object v4, v7, v6
 
-    .line 446
+    .line 448
     const/4 v0, 0x4
 
     aget v0, v4, v0
@@ -7390,7 +7450,7 @@
 
     if-gtz v0, :cond_20
 
-    .line 445
+    .line 447
     :goto_1c
     add-int/lit8 v0, v6, 0x1
 
@@ -7398,7 +7458,7 @@
 
     goto :goto_10
 
-    .line 447
+    .line 449
     :cond_20
     const/4 v0, 0x4
 
@@ -7408,7 +7468,7 @@
 
     aput v1, v4, v0
 
-    .line 448
+    .line 450
     const/4 v0, 0x3
 
     aget v1, v4, v0
@@ -7425,7 +7485,7 @@
 
     aput v1, v4, v0
 
-    .line 449
+    .line 451
     const/4 v0, 0x0
 
     aget v1, v4, v0
@@ -7434,7 +7494,7 @@
 
     aget v2, v4, v0
 
-    .line 450
+    .line 452
     const/4 v0, 0x0
 
     aget v3, v4, v0
@@ -7449,7 +7509,7 @@
 
     aput v3, v4, v0
 
-    .line 451
+    .line 453
     const/4 v0, 0x1
 
     aget v3, v4, v0
@@ -7464,7 +7524,7 @@
 
     aput v3, v4, v0
 
-    .line 452
+    .line 454
     const/4 v0, 0x0
 
     const/4 v3, 0x4
@@ -7481,7 +7541,7 @@
 
     move-result v3
 
-    .line 453
+    .line 455
     iget-object v5, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v0, 0x3f19999a    # 0.6f
@@ -7495,7 +7555,7 @@
     :goto_63
     invoke-virtual {v5, v0}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 454
+    .line 456
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/high16 v5, 0x437f0000    # 255.0f
@@ -7506,7 +7566,7 @@
 
     invoke-virtual {v0, v3}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 455
+    .line 457
     const/4 v0, 0x0
 
     aget v3, v4, v0
@@ -7523,13 +7583,13 @@
 
     goto :goto_1c
 
-    .line 453
+    .line 455
     :cond_7c
     const/16 v0, -0x4fc0
 
     goto :goto_63
 
-    .line 457
+    .line 459
     :cond_7f
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
@@ -7537,7 +7597,7 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 458
+    .line 460
     return-void
 .end method
 
@@ -7545,21 +7605,21 @@
     .registers 15
 
     .prologue
-    .line 368
+    .line 370
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColorFilter(Landroid/graphics/ColorFilter;)Landroid/graphics/ColorFilter;
 
-    .line 369
+    .line 371
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/16 v1, 0xff
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 370
+    .line 372
     invoke-virtual {p3}, Landroid/graphics/RectF;->width()F
 
     move-result v0
@@ -7600,7 +7660,7 @@
 
     move-result v0
 
-    .line 371
+    .line 373
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->old:Landroid/graphics/Bitmap;
 
     invoke-virtual {v1}, Landroid/graphics/Bitmap;->getWidth()I
@@ -7621,7 +7681,7 @@
 
     mul-float/2addr v0, v2
 
-    .line 372
+    .line 374
     new-instance v3, Landroid/graphics/RectF;
 
     invoke-virtual {p2}, Landroid/graphics/RectF;->centerX()F
@@ -7666,14 +7726,14 @@
 
     invoke-direct {v3, v2, v4, v1, v0}, Landroid/graphics/RectF;-><init>(FFFF)V
 
-    .line 373
+    .line 375
     const v0, 0x3e3851ec    # 0.18f
 
     cmpg-float v0, p4, v0
 
     if-gez v0, :cond_8a
 
-    .line 374
+    .line 376
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->old:Landroid/graphics/Bitmap;
 
     const/4 v1, 0x0
@@ -7682,7 +7742,7 @@
 
     invoke-virtual {p1, v0, v1, v3, v2}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 375
+    .line 377
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->old:Landroid/graphics/Bitmap;
 
     const v4, -0x952f01
@@ -7703,12 +7763,12 @@
 
     invoke-virtual/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawTinted(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;II)V
 
-    .line 415
+    .line 417
     :cond_89
     :goto_89
     return-void
 
-    .line 378
+    .line 380
     :cond_8a
     const v0, 0x3f3851ec    # 0.72f
 
@@ -7716,7 +7776,7 @@
 
     if-gez v0, :cond_197
 
-    .line 380
+    .line 382
     const v0, 0x3e3851ec    # 0.18f
 
     sub-float v0, p4, v0
@@ -7725,7 +7785,7 @@
 
     div-float/2addr v0, v1
 
-    .line 381
+    .line 383
     iget v1, p2, Landroid/graphics/RectF;->top:F
 
     iget v2, v3, Landroid/graphics/RectF;->top:F
@@ -7742,17 +7802,17 @@
 
     move-result v2
 
-    .line 382
+    .line 384
     sub-float/2addr v2, v1
 
     mul-float/2addr v0, v2
 
     add-float v8, v1, v0
 
-    .line 383
+    .line 385
     invoke-virtual {p1}, Landroid/graphics/Canvas;->save()I
 
-    .line 384
+    .line 386
     iget v0, p3, Landroid/graphics/RectF;->left:F
 
     iget v1, p3, Landroid/graphics/RectF;->right:F
@@ -7761,7 +7821,7 @@
 
     invoke-virtual {p1, v0, v8, v1, v2}, Landroid/graphics/Canvas;->clipRect(FFFF)Z
 
-    .line 385
+    .line 387
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->old:Landroid/graphics/Bitmap;
 
     const/4 v1, 0x0
@@ -7770,7 +7830,7 @@
 
     invoke-virtual {p1, v0, v1, v3, v2}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 386
+    .line 388
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->old:Landroid/graphics/Bitmap;
 
     const v4, -0x952f01
@@ -7783,13 +7843,13 @@
 
     invoke-virtual/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawTinted(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;II)V
 
-    .line 387
+    .line 389
     invoke-virtual {p1}, Landroid/graphics/Canvas;->restore()V
 
-    .line 388
+    .line 390
     invoke-virtual {p1}, Landroid/graphics/Canvas;->save()I
 
-    .line 389
+    .line 391
     iget v0, p3, Landroid/graphics/RectF;->left:F
 
     iget v1, p3, Landroid/graphics/RectF;->top:F
@@ -7798,7 +7858,7 @@
 
     invoke-virtual {p1, v0, v1, v2, v8}, Landroid/graphics/Canvas;->clipRect(FFFF)Z
 
-    .line 390
+    .line 392
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
     const/4 v1, 0x0
@@ -7807,13 +7867,13 @@
 
     invoke-virtual {p1, v0, v1, p2, v2}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 391
+    .line 393
     invoke-virtual {p1}, Landroid/graphics/Canvas;->restore()V
 
-    .line 392
+    .line 394
     invoke-virtual {p1}, Landroid/graphics/Canvas;->save()I
 
-    .line 393
+    .line 395
     iget v0, p3, Landroid/graphics/RectF;->left:F
 
     const/high16 v1, 0x42200000    # 40.0f
@@ -7836,7 +7896,7 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->clipRect(FFFF)Z
 
-    .line 394
+    .line 396
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
     const/4 v4, -0x1
@@ -7851,10 +7911,10 @@
 
     invoke-virtual/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawTinted(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;II)V
 
-    .line 395
+    .line 397
     invoke-virtual {p1}, Landroid/graphics/Canvas;->restore()V
 
-    .line 396
+    .line 398
     iget-object v9, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     new-instance v0, Landroid/graphics/LinearGradient;
@@ -7889,7 +7949,7 @@
 
     invoke-virtual {v9, v0}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 397
+    .line 399
     iget v0, p3, Landroid/graphics/RectF;->left:F
 
     const/high16 v1, 0x41a00000    # 20.0f
@@ -7932,21 +7992,21 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 398
+    .line 400
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 399
+    .line 401
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/4 v1, -0x1
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 400
+    .line 402
     iget v0, p3, Landroid/graphics/RectF;->left:F
 
     const/high16 v1, 0x41a00000    # 20.0f
@@ -7983,7 +8043,7 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 401
+    .line 403
     const/4 v0, 0x0
 
     :goto_17f
@@ -8015,7 +8075,7 @@
 
     goto :goto_17f
 
-    .line 405
+    .line 407
     :cond_197
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
@@ -8025,7 +8085,7 @@
 
     invoke-virtual {p1, v0, v1, p2, v2}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 406
+    .line 408
     const v0, 0x3f3851ec    # 0.72f
 
     sub-float v0, p4, v0
@@ -8034,7 +8094,7 @@
 
     div-float v6, v0, v1
 
-    .line 407
+    .line 409
     const/high16 v0, 0x3f000000    # 0.5f
 
     cmpg-float v0, v6, v0
@@ -8067,7 +8127,7 @@
 
     invoke-virtual/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawTinted(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;II)V
 
-    .line 408
+    .line 410
     :cond_1c3
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
@@ -8075,7 +8135,7 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 409
+    .line 411
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/high16 v1, 0x41200000    # 10.0f
@@ -8092,14 +8152,14 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 410
+    .line 412
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, -0x1747b6
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 411
+    .line 413
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/high16 v1, 0x43480000    # 200.0f
@@ -8114,7 +8174,7 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 412
+    .line 414
     invoke-virtual {p2}, Landroid/graphics/RectF;->centerX()F
 
     move-result v0
@@ -8149,14 +8209,14 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 413
+    .line 415
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->FILL:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 414
+    .line 416
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/16 v1, 0xff
@@ -8174,17 +8234,17 @@
 
     const/16 v3, 0xff
 
-    .line 418
+    .line 420
     if-eqz p2, :cond_7
 
     if-gtz p5, :cond_8
 
-    .line 424
+    .line 426
     :cond_7
     :goto_7
     return-void
 
-    .line 419
+    .line 421
     :cond_8
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
@@ -8196,7 +8256,7 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColorFilter(Landroid/graphics/ColorFilter;)Landroid/graphics/ColorFilter;
 
-    .line 420
+    .line 422
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-static {v3, p5}, Ljava/lang/Math;->min(II)I
@@ -8205,17 +8265,17 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setAlpha(I)V
 
-    .line 421
+    .line 423
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {p1, p2, v4, p3, v0}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 422
+    .line 424
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {v0, v4}, Landroid/graphics/Paint;->setColorFilter(Landroid/graphics/ColorFilter;)Landroid/graphics/ColorFilter;
 
-    .line 423
+    .line 425
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {v0, v3}, Landroid/graphics/Paint;->setAlpha(I)V
@@ -8233,7 +8293,7 @@
 
     const/high16 v10, 0x42200000    # 40.0f
 
-    .line 432
+    .line 434
     move v0, v1
 
     :goto_5
@@ -8245,12 +8305,12 @@
 
     if-lez p3, :cond_66
 
-    .line 433
+    .line 435
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->spark:[[F
 
     aget-object v2, v2, v0
 
-    .line 434
+    .line 436
     aget v3, v2, v11
 
     const/4 v4, 0x0
@@ -8259,13 +8319,13 @@
 
     if-lez v3, :cond_1a
 
-    .line 432
+    .line 434
     :goto_17
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_5
 
-    .line 435
+    .line 437
     :cond_1a
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rnd:Ljava/util/Random;
 
@@ -8281,7 +8341,7 @@
 
     mul-double/2addr v4, v6
 
-    .line 436
+    .line 438
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rnd:Ljava/util/Random;
 
     invoke-virtual {v3}, Ljava/util/Random;->nextFloat()F
@@ -8298,7 +8358,7 @@
 
     mul-float/2addr v3, v6
 
-    .line 437
+    .line 439
     aput p1, v2, v1
 
     const/4 v6, 0x1
@@ -8335,7 +8395,7 @@
 
     aput v3, v2, v6
 
-    .line 438
+    .line 440
     const/4 v3, 0x5
 
     const v4, 0x3e99999a    # 0.3f
@@ -8356,12 +8416,12 @@
 
     aput v4, v2, v3
 
-    .line 439
+    .line 441
     add-int/lit8 p3, p3, -0x1
 
     goto :goto_17
 
-    .line 441
+    .line 443
     :cond_66
     return-void
 .end method
@@ -8370,7 +8430,7 @@
     .registers 7
 
     .prologue
-    .line 886
+    .line 885
     invoke-static {}, Ljava/util/Locale;->getDefault()Ljava/util/Locale;
 
     move-result-object v0
@@ -8383,7 +8443,7 @@
 
     move-result-object v0
 
-    .line 887
+    .line 886
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {v1, v0}, Landroid/text/TextPaint;->measureText(Ljava/lang/String;)F
@@ -8411,7 +8471,7 @@
     .prologue
     const/4 v0, 0x2
 
-    .line 868
+    .line 867
     :try_start_1
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
@@ -8431,12 +8491,12 @@
     :try_end_11
     .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_11} :catch_12
 
-    .line 870
+    .line 869
     :cond_11
     :goto_11
     return v0
 
-    .line 869
+    .line 868
     :catch_12
     move-exception v1
 
@@ -8447,12 +8507,12 @@
     .registers 12
 
     .prologue
-    .line 727
+    .line 731
     new-instance v1, Landroid/graphics/Path;
 
     invoke-direct {v1}, Landroid/graphics/Path;-><init>()V
 
-    .line 728
+    .line 732
     const/4 v0, 0x0
 
     :goto_6
@@ -8460,7 +8520,7 @@
 
     if-ge v0, v2, :cond_33
 
-    .line 729
+    .line 733
     const-wide v2, 0x3fe0c152382d7365L    # 0.5235987755982988
 
     int-to-double v4, v0
@@ -8475,7 +8535,7 @@
 
     add-double/2addr v2, v4
 
-    .line 730
+    .line 734
     invoke-static {v2, v3}, Ljava/lang/Math;->cos(D)D
 
     move-result-wide v4
@@ -8496,28 +8556,28 @@
 
     add-float/2addr v2, p2
 
-    .line 731
+    .line 735
     if-nez v0, :cond_2f
 
     invoke-virtual {v1, v4, v2}, Landroid/graphics/Path;->moveTo(FF)V
 
-    .line 728
+    .line 732
     :goto_2c
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_6
 
-    .line 731
+    .line 735
     :cond_2f
     invoke-virtual {v1, v4, v2}, Landroid/graphics/Path;->lineTo(FF)V
 
     goto :goto_2c
 
-    .line 733
+    .line 737
     :cond_33
     invoke-virtual {v1}, Landroid/graphics/Path;->close()V
 
-    .line 734
+    .line 738
     return-object v1
 .end method
 
@@ -8529,12 +8589,12 @@
 
     const v10, 0xffffff
 
-    .line 710
+    .line 714
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->accent()I
 
     move-result v7
 
-    .line 711
+    .line 715
     invoke-virtual {p2}, Landroid/graphics/RectF;->centerX()F
 
     move-result v1
@@ -8559,7 +8619,7 @@
 
     mul-float/2addr v3, v0
 
-    .line 712
+    .line 716
     iget-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->born:J
 
     sub-long v4, p3, v4
@@ -8580,7 +8640,7 @@
 
     add-float v8, v6, v0
 
-    .line 713
+    .line 717
     iget-object v9, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     new-instance v0, Landroid/graphics/RadialGradient;
@@ -8599,7 +8659,7 @@
 
     invoke-virtual {v9, v0}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 714
+    .line 718
     invoke-virtual {p0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hex(FFF)Landroid/graphics/Path;
 
     move-result-object v0
@@ -8608,21 +8668,21 @@
 
     invoke-virtual {p1, v0, v4}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 715
+    .line 719
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/4 v4, 0x0
 
     invoke-virtual {v0, v4}, Landroid/graphics/Paint;->setShader(Landroid/graphics/Shader;)Landroid/graphics/Shader;
 
-    .line 716
+    .line 720
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v4, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v4}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 717
+    .line 721
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/high16 v4, 0x40400000    # 3.0f
@@ -8633,7 +8693,7 @@
 
     invoke-virtual {v0, v4}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 718
+    .line 722
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     and-int v4, v7, v10
@@ -8654,7 +8714,7 @@
 
     invoke-virtual {v0, v4}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 719
+    .line 723
     invoke-virtual {p0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hex(FFF)Landroid/graphics/Path;
 
     move-result-object v0
@@ -8663,7 +8723,7 @@
 
     invoke-virtual {p1, v0, v4}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 720
+    .line 724
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/high16 v4, 0x3fc00000    # 1.5f
@@ -8674,7 +8734,7 @@
 
     invoke-virtual {v0, v4}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 721
+    .line 725
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     and-int v4, v7, v10
@@ -8685,7 +8745,7 @@
 
     invoke-virtual {v0, v4}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 722
+    .line 726
     const v0, 0x3f51eb85    # 0.82f
 
     mul-float/2addr v0, v3
@@ -8698,14 +8758,14 @@
 
     invoke-virtual {p1, v0, v1}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 723
+    .line 727
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v1, Landroid/graphics/Paint$Style;->FILL:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 724
+    .line 728
     return-void
 .end method
 
@@ -8713,14 +8773,14 @@
     .registers 23
 
     .prologue
-    .line 850
+    .line 849
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v3, -0xf8efe4
 
     invoke-virtual {v2, v3}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 851
+    .line 850
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     move-object/from16 v0, p1
@@ -8729,14 +8789,14 @@
 
     invoke-virtual {v0, v1, v2}, Landroid/graphics/Canvas;->drawRect(Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 852
+    .line 851
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v3, 0x206ad0ff
 
     invoke-virtual {v2, v3}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 853
+    .line 852
     move-object/from16 v0, p3
 
     iget v4, v0, Landroid/graphics/RectF;->top:F
@@ -8778,7 +8838,7 @@
 
     goto :goto_1d
 
-    .line 854
+    .line 853
     :cond_3f
     invoke-virtual/range {p3 .. p3}, Landroid/graphics/RectF;->width()F
 
@@ -8816,7 +8876,7 @@
 
     move-result v2
 
-    .line 855
+    .line 854
     invoke-virtual/range {p2 .. p2}, Landroid/graphics/Bitmap;->getWidth()I
 
     move-result v3
@@ -8833,7 +8893,7 @@
 
     mul-float/2addr v2, v4
 
-    .line 856
+    .line 855
     new-instance v8, Landroid/graphics/RectF;
 
     invoke-virtual/range {p3 .. p3}, Landroid/graphics/RectF;->centerX()F
@@ -8878,7 +8938,7 @@
 
     invoke-direct {v8, v4, v5, v3, v2}, Landroid/graphics/RectF;-><init>(FFFF)V
 
-    .line 857
+    .line 856
     const v2, 0x3f87ae14    # 1.06f
 
     invoke-static {v8, v2}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->grow(Landroid/graphics/RectF;F)Landroid/graphics/RectF;
@@ -8920,7 +8980,7 @@
 
     invoke-virtual/range {v2 .. v7}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawTinted(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;II)V
 
-    .line 858
+    .line 857
     const v6, -0xebcdb6
 
     const/16 v7, 0xff
@@ -8935,28 +8995,28 @@
 
     invoke-virtual/range {v2 .. v7}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawTinted(Landroid/graphics/Canvas;Landroid/graphics/Bitmap;Landroid/graphics/RectF;II)V
 
-    .line 859
+    .line 858
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v3, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v2, v3}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 860
+    .line 859
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/high16 v3, 0x3f800000    # 1.0f
 
     invoke-virtual {v2, v3}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 861
+    .line 860
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v3, -0xdbc7b1
 
     invoke-virtual {v2, v3}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 862
+    .line 861
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     move-object/from16 v0, p1
@@ -8965,17 +9025,17 @@
 
     invoke-virtual {v0, v1, v2}, Landroid/graphics/Canvas;->drawRect(Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 863
+    .line 862
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     sget-object v3, Landroid/graphics/Paint$Style;->FILL:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v2, v3}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 864
+    .line 863
     return-void
 
-    .line 857
+    .line 856
     :cond_f1
     const/16 v7, 0x50
 
@@ -8986,7 +9046,7 @@
     .registers 16
 
     .prologue
-    .line 787
+    .line 786
     const v0, 0x3e3851ec    # 0.18f
 
     mul-float/2addr v0, p4
@@ -9007,12 +9067,12 @@
 
     sub-float v8, v2, v0
 
-    .line 788
+    .line 787
     new-instance v0, Landroid/graphics/Path;
 
     invoke-direct {v0}, Landroid/graphics/Path;-><init>()V
 
-    .line 789
+    .line 788
     add-float v2, v1, v6
 
     invoke-virtual {v0, v2, v7}, Landroid/graphics/Path;->moveTo(FF)V
@@ -9033,7 +9093,7 @@
 
     invoke-virtual {v0, v2, v8}, Landroid/graphics/Path;->lineTo(FF)V
 
-    .line 790
+    .line 789
     add-float v2, v1, v6
 
     invoke-virtual {v0, v2, v8}, Landroid/graphics/Path;->lineTo(FF)V
@@ -9048,31 +9108,31 @@
 
     invoke-virtual {v0}, Landroid/graphics/Path;->close()V
 
-    .line 791
+    .line 790
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {v2, p5}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 792
+    .line 791
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     invoke-virtual {p1, v0, v2}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 793
+    .line 792
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const/high16 v2, 0x66000000
 
     invoke-virtual {v0, v2}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 794
+    .line 793
     add-float v0, v7, v8
 
     const/high16 v2, 0x40000000    # 2.0f
 
     div-float/2addr v0, v2
 
-    .line 795
+    .line 794
     const v2, 0x3f19999a    # 0.6f
 
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -9095,7 +9155,7 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 796
+    .line 795
     const v0, 0x3d4ccccd    # 0.05f
 
     mul-float/2addr v0, p4
@@ -9104,7 +9164,7 @@
 
     mul-float/2addr v2, v6
 
-    .line 797
+    .line 796
     add-float v4, v1, v2
 
     add-float v5, v7, v2
@@ -9121,7 +9181,7 @@
 
     invoke-virtual {p1, v4, v5, v0, v9}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 798
+    .line 797
     add-float v4, v1, v2
 
     sub-float v5, v8, v2
@@ -9138,14 +9198,14 @@
 
     invoke-virtual {p1, v4, v2, v0, v5}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
 
-    .line 799
+    .line 798
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v2, 0x55ffffff    # 3.518437E13f
 
     invoke-virtual {v0, v2}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 800
+    .line 799
     add-float/2addr v1, v6
 
     const/high16 v0, 0x3f800000    # 1.0f
@@ -9172,7 +9232,7 @@
 
     invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 801
+    .line 800
     return-void
 .end method
 
@@ -9180,7 +9240,7 @@
     .registers 2
 
     .prologue
-    .line 125
+    .line 127
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->ship:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModV35;->level(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I
@@ -9194,7 +9254,7 @@
     .registers 24
 
     .prologue
-    .line 892
+    .line 891
     const-string v12, ""
 
     move-object v1, p0
@@ -9226,7 +9286,7 @@
     .registers 21
 
     .prologue
-    .line 896
+    .line 895
     const/high16 v2, 0x41200000    # 10.0f
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -9245,19 +9305,19 @@
 
     sub-float v4, v2, v4
 
-    .line 897
+    .line 896
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {v2, v3}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 898
+    .line 897
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     move/from16 v0, p10
 
     invoke-virtual {v2, v0}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 899
+    .line 898
     iget v2, p2, Landroid/graphics/RectF;->left:F
 
     const/high16 v5, 0x41000000    # 8.0f
@@ -9280,17 +9340,17 @@
 
     invoke-virtual {p1, p4, v2, v5, v6}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 900
+    .line 899
     const/4 v2, 0x0
 
-    .line 901
+    .line 900
     const-wide/16 v6, 0x0
 
     cmp-long v5, p7, v6
 
     if-ltz v5, :cond_92
 
-    .line 902
+    .line 901
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     const/high16 v5, 0x41100000    # 9.0f
@@ -9301,7 +9361,7 @@
 
     invoke-virtual {v2, v5}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 903
+    .line 902
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -9330,7 +9390,7 @@
 
     move-result-object v5
 
-    .line 904
+    .line 903
     iget-object v6, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     if-eqz p9, :cond_e5
@@ -9340,7 +9400,7 @@
     :goto_64
     invoke-virtual {v6, v2}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 905
+    .line 904
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {v2, v5}, Landroid/text/TextPaint;->measureText(Ljava/lang/String;)F
@@ -9355,7 +9415,7 @@
 
     add-float/2addr v2, v6
 
-    .line 906
+    .line 905
     iget v6, p2, Landroid/graphics/RectF;->right:F
 
     const/high16 v7, 0x41000000    # 8.0f
@@ -9386,12 +9446,12 @@
 
     invoke-virtual {p1, v5, v6, v7, v8}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 907
+    .line 906
     iget-object v5, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {v5, v3}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 909
+    .line 908
     :cond_92
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
@@ -9399,14 +9459,14 @@
 
     invoke-virtual {v3, v5}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 910
+    .line 909
     sub-float v3, v4, v2
 
     invoke-virtual {p0, p5, p6, v3}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->fit(JF)Ljava/lang/String;
 
     move-result-object v3
 
-    .line 911
+    .line 910
     invoke-virtual/range {p11 .. p11}, Ljava/lang/String;->length()I
 
     move-result v5
@@ -9451,7 +9511,7 @@
 
     move-result-object v2
 
-    .line 912
+    .line 911
     :goto_cb
     iget v3, p2, Landroid/graphics/RectF;->left:F
 
@@ -9475,7 +9535,7 @@
 
     invoke-virtual {p1, v2, v3, v4, v5}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 913
+    .line 912
     const/high16 v2, 0x41800000    # 16.0f
 
     iget v3, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -9486,7 +9546,7 @@
 
     return v2
 
-    .line 904
+    .line 903
     :cond_e5
     const v2, -0x9495
 
@@ -9502,7 +9562,7 @@
     .registers 16
 
     .prologue
-    .line 834
+    .line 833
     const/high16 v0, 0x41500000    # 13.0f
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -9515,7 +9575,7 @@
 
     sub-float v3, p3, v0
 
-    .line 835
+    .line 834
     if-nez p4, :cond_5a
 
     const-string v0, "ic_credits"
@@ -9526,7 +9586,7 @@
 
     move-object v1, v0
 
-    .line 836
+    .line 835
     :goto_15
     const/4 v0, 0x2
 
@@ -9556,7 +9616,7 @@
 
     invoke-virtual/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->coreIcon(Landroid/graphics/Canvas;FFFI)V
 
-    .line 842
+    .line 841
     :goto_2d
     add-float v0, p2, v7
 
@@ -9568,7 +9628,7 @@
 
     add-float v3, v0, v1
 
-    .line 843
+    .line 842
     const/16 v5, 0x9
 
     if-eqz p6, :cond_b1
@@ -9586,7 +9646,7 @@
 
     invoke-virtual/range {v0 .. v6}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    .line 844
+    .line 843
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     const/high16 v1, 0x41100000    # 9.0f
@@ -9597,7 +9657,7 @@
 
     invoke-virtual {v0, v1}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 845
+    .line 844
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {v0, p5}, Landroid/text/TextPaint;->measureText(Ljava/lang/String;)F
@@ -9616,7 +9676,7 @@
 
     return v0
 
-    .line 835
+    .line 834
     :cond_5a
     const/4 v0, 0x1
 
@@ -9639,11 +9699,11 @@
 
     goto :goto_15
 
-    .line 837
+    .line 836
     :cond_68
     if-eqz v1, :cond_9f
 
-    .line 839
+    .line 838
     const/4 v0, 0x1
 
     if-ne p4, v0, :cond_9d
@@ -9680,7 +9740,7 @@
 
     invoke-direct {v0, v2, v4, v5, v6}, Landroid/graphics/Rect;-><init>(IIII)V
 
-    .line 840
+    .line 839
     :goto_8e
     new-instance v2, Landroid/graphics/RectF;
 
@@ -9696,13 +9756,13 @@
 
     goto :goto_2d
 
-    .line 839
+    .line 838
     :cond_9d
     const/4 v0, 0x0
 
     goto :goto_8e
 
-    .line 841
+    .line 840
     :cond_9f
     if-nez p4, :cond_ae
 
@@ -9730,7 +9790,7 @@
 
     goto :goto_a3
 
-    .line 843
+    .line 842
     :cond_b1
     const v6, -0x9495
 
@@ -9747,12 +9807,12 @@
 
     const/4 v9, 0x0
 
-    .line 206
+    .line 208
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v4
 
-    .line 207
+    .line 209
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->lastFrame:J
 
     const-wide/16 v2, 0x0
@@ -9763,11 +9823,11 @@
 
     const v6, 0x3c83126f    # 0.016f
 
-    .line 208
+    .line 210
     :goto_15
     iput-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->lastFrame:J
 
-    .line 209
+    .line 211
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->getWidth()I
 
     move-result v1
@@ -9776,12 +9836,12 @@
 
     move-result v2
 
-    .line 210
+    .line 212
     if-le v1, v2, :cond_55
 
     const/4 v0, 0x1
 
-    .line 211
+    .line 213
     :goto_22
     if-eqz v0, :cond_57
 
@@ -9795,7 +9855,7 @@
 
     invoke-direct {v3, v9, v9, v7, v8}, Landroid/graphics/RectF;-><init>(FFFF)V
 
-    .line 212
+    .line 214
     :goto_2c
     if-eqz v0, :cond_60
 
@@ -9816,21 +9876,21 @@
 
     move-object v2, p1
 
-    .line 213
+    .line 215
     invoke-virtual/range {v1 .. v6}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawBay(Landroid/graphics/Canvas;Landroid/graphics/RectF;JF)V
 
-    .line 214
+    .line 216
     invoke-virtual {p0, p1, v0, v4, v5}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->drawInfo(Landroid/graphics/Canvas;Landroid/graphics/RectF;J)V
 
-    .line 215
+    .line 217
     const-wide/16 v0, 0x10
 
     invoke-virtual {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->postInvalidateDelayed(J)V
 
-    .line 216
+    .line 218
     return-void
 
-    .line 207
+    .line 209
     :cond_45
     const v0, 0x3d4ccccd    # 0.05f
 
@@ -9850,13 +9910,13 @@
 
     goto :goto_15
 
-    .line 210
+    .line 212
     :cond_55
     const/4 v0, 0x0
 
     goto :goto_22
 
-    .line 211
+    .line 213
     :cond_57
     new-instance v3, Landroid/graphics/RectF;
 
@@ -9870,7 +9930,7 @@
 
     goto :goto_2c
 
-    .line 212
+    .line 214
     :cond_60
     new-instance v0, Landroid/graphics/RectF;
 
@@ -9893,14 +9953,14 @@
     .prologue
     const/4 v3, 0x1
 
-    .line 195
+    .line 197
     invoke-virtual {p1}, Landroid/view/MotionEvent;->getAction()I
 
     move-result v0
 
     if-ne v0, v3, :cond_1c
 
-    .line 196
+    .line 198
     invoke-virtual {p1}, Landroid/view/MotionEvent;->getX()F
 
     move-result v0
@@ -9909,7 +9969,7 @@
 
     move-result v1
 
-    .line 197
+    .line 199
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->closeBtn:Landroid/graphics/RectF;
 
     invoke-virtual {v2, v0, v1}, Landroid/graphics/RectF;->contains(FF)Z
@@ -9922,12 +9982,12 @@
 
     invoke-virtual {v0}, Landroid/app/Dialog;->dismiss()V
 
-    .line 200
+    .line 202
     :cond_1c
     :goto_1c
     return v3
 
-    .line 198
+    .line 200
     :cond_1d
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->refitBtn:Landroid/graphics/RectF;
 
@@ -9946,7 +10006,7 @@
     .registers 16
 
     .prologue
-    .line 923
+    .line 922
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     int-to-float v1, p6
@@ -9957,12 +10017,12 @@
 
     invoke-virtual {v0, v1}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 924
+    .line 923
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {v0, p7}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 925
+    .line 924
     new-instance v0, Landroid/text/StaticLayout;
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -9987,10 +10047,10 @@
 
     invoke-direct/range {v0 .. v7}, Landroid/text/StaticLayout;-><init>(Ljava/lang/CharSequence;Landroid/text/TextPaint;ILandroid/text/Layout$Alignment;FFZ)V
 
-    .line 926
+    .line 925
     invoke-virtual {p1}, Landroid/graphics/Canvas;->save()I
 
-    .line 927
+    .line 926
     int-to-float v1, p6
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -10001,13 +10061,13 @@
 
     invoke-virtual {p1, p3, v1}, Landroid/graphics/Canvas;->translate(FF)V
 
-    .line 928
+    .line 927
     invoke-virtual {v0, p1}, Landroid/text/StaticLayout;->draw(Landroid/graphics/Canvas;)V
 
-    .line 929
+    .line 928
     invoke-virtual {p1}, Landroid/graphics/Canvas;->restore()V
 
-    .line 930
+    .line 929
     invoke-virtual {v0}, Landroid/text/StaticLayout;->getHeight()I
 
     move-result v0
@@ -10027,7 +10087,7 @@
 
     const v4, 0x3f4ccccd    # 0.8f
 
-    .line 166
+    .line 168
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->animating()Z
 
     move-result v0
@@ -10050,34 +10110,34 @@
 
     if-nez v0, :cond_1a
 
-    .line 191
+    .line 193
     :cond_19
     :goto_19
     return-void
 
-    .line 167
+    .line 169
     :cond_1a
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->level()I
 
     move-result v5
 
-    .line 168
+    .line 170
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModV35;->stage(I)I
 
     move-result v6
 
-    .line 169
+    .line 171
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
-    .line 170
+    .line 172
     iget-object v7, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->curArt:Ljava/lang/String;
 
-    .line 171
+    .line 173
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->buy()Ljava/lang/String;
 
     move-result-object v1
 
-    .line 172
+    .line 174
     const-string v0, "refitscreen"
 
     invoke-static {v1}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
@@ -10086,7 +10146,7 @@
 
     invoke-static {v0, v8}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 174
+    .line 176
     :try_start_33
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->act:Landroid/app/Activity;
 
@@ -10102,17 +10162,17 @@
     :try_end_40
     .catch Ljava/lang/Throwable; {:try_start_33 .. :try_end_40} :catch_b2
 
-    .line 176
+    .line 178
     :cond_40
     :goto_40
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->level()I
 
     move-result v0
 
-    .line 177
+    .line 179
     if-gt v0, v5, :cond_5c
 
-    .line 178
+    .line 180
     if-eqz v1, :cond_55
 
     move-object v0, v1
@@ -10120,7 +10180,7 @@
     :goto_49
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->status:Ljava/lang/String;
 
-    .line 179
+    .line 181
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
@@ -10133,7 +10193,7 @@
 
     goto :goto_19
 
-    .line 178
+    .line 180
     :cond_55
     const-string v0, "Refit failed."
 
@@ -10143,21 +10203,21 @@
 
     goto :goto_49
 
-    .line 182
+    .line 184
     :cond_5c
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->reload()V
 
-    .line 183
+    .line 185
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->animLevel:I
 
-    .line 184
+    .line 186
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModV35;->stage(I)I
 
     move-result v0
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->animStage:I
 
-    .line 185
+    .line 187
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->animStage:I
 
     if-le v0, v6, :cond_a5
@@ -10181,7 +10241,7 @@
     :goto_7a
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->stageAnim:Z
 
-    .line 186
+    .line 188
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->stageAnim:Z
 
     if-eqz v0, :cond_a7
@@ -10191,7 +10251,7 @@
     :goto_81
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->old:Landroid/graphics/Bitmap;
 
-    .line 187
+    .line 189
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->stageAnim:Z
 
     if-eqz v0, :cond_a9
@@ -10201,14 +10261,14 @@
     :goto_89
     iput-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->animMs:J
 
-    .line 188
+    .line 190
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
 
     iput-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->animStart:J
 
-    .line 189
+    .line 191
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->stageAnim:Z
 
     if-eqz v0, :cond_ac
@@ -10227,12 +10287,12 @@
 
     invoke-static {v0, v4, v1, v6, v7}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    .line 190
+    .line 192
     iput-object v3, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->status:Ljava/lang/String;
 
     goto/16 :goto_19
 
-    .line 185
+    .line 187
     :cond_a5
     const/4 v0, 0x0
 
@@ -10241,16 +10301,16 @@
     :cond_a7
     move-object v0, v3
 
-    .line 186
+    .line 188
     goto :goto_81
 
-    .line 187
+    .line 189
     :cond_a9
     const-wide/16 v0, 0x960
 
     goto :goto_89
 
-    .line 189
+    .line 191
     :cond_ac
     const-string v0, "repair"
 
@@ -10261,7 +10321,7 @@
 
     goto :goto_9c
 
-    .line 175
+    .line 177
     :catch_b2
     move-exception v0
 
@@ -10274,21 +10334,21 @@
     .prologue
     const/4 v2, 0x0
 
-    .line 94
+    .line 96
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->summary()[Ljava/lang/String;
 
     move-result-object v0
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rf:[Ljava/lang/String;
 
-    .line 95
+    .line 97
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->currentShip()Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     move-result-object v0
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->ship:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 96
+    .line 98
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->ship:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
@@ -10297,7 +10357,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
-    .line 97
+    .line 99
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->ship:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->label(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;
@@ -10306,7 +10366,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->name:Ljava/lang/String;
 
-    .line 98
+    .line 100
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->name:Ljava/lang/String;
 
     if-nez v0, :cond_29
@@ -10322,26 +10382,26 @@
     :try_end_29
     .catch Ljava/lang/Throwable; {:try_start_21 .. :try_end_29} :catch_f1
 
-    .line 99
+    .line 101
     :cond_29
     :goto_29
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->level()I
 
     move-result v3
 
-    .line 100
+    .line 102
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->emblem:Landroid/graphics/Bitmap;
 
     if-nez v0, :cond_94
 
-    .line 101
+    .line 103
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->factionKey(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 102
+    .line 104
     invoke-virtual {v0}, Ljava/lang/String;->length()I
 
     move-result v1
@@ -10373,7 +10433,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->emblem:Landroid/graphics/Bitmap;
 
-    .line 103
+    .line 105
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     if-eqz v0, :cond_94
@@ -10434,7 +10494,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->crest:Landroid/graphics/Bitmap;
 
-    .line 105
+    .line 107
     :cond_94
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
@@ -10442,7 +10502,7 @@
 
     move-object v1, v2
 
-    .line 106
+    .line 108
     :goto_99
     if-eqz v1, :cond_a3
 
@@ -10454,18 +10514,18 @@
 
     if-nez v0, :cond_ba
 
-    .line 107
+    .line 109
     :cond_a3
     iput-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->curArt:Ljava/lang/String;
 
-    .line 108
+    .line 110
     invoke-virtual {p0, v1}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->bitmap(Ljava/lang/String;)Landroid/graphics/Bitmap;
 
     move-result-object v0
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
-    .line 109
+    .line 111
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
     if-nez v0, :cond_b5
@@ -10476,30 +10536,30 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
-    .line 110
+    .line 112
     :cond_b5
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->cur:Landroid/graphics/Bitmap;
 
     invoke-virtual {p0, v0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->sampleWeld(Landroid/graphics/Bitmap;)V
 
-    .line 112
+    .line 114
     :cond_ba
     const/4 v0, 0x0
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->nextAt:I
 
-    .line 113
+    .line 115
     iput-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->nextArt:Ljava/lang/String;
 
-    .line 114
+    .line 116
     iput-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->next:Landroid/graphics/Bitmap;
 
-    .line 115
+    .line 117
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     if-eqz v0, :cond_f0
 
-    .line 116
+    .line 118
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModV35;->stage(I)I
 
     move-result v0
@@ -10511,14 +10571,14 @@
 
     if-gt v0, v2, :cond_e4
 
-    .line 117
+    .line 119
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     invoke-static {v2, v0}, Lfr/testudo/spacecorsair/mod/ModV35;->stageArt(Lfr/testudo/spacecorsair/mod/ModShips$Hull;I)Ljava/lang/String;
 
     move-result-object v2
 
-    .line 118
+    .line 120
     if-eqz v2, :cond_108
 
     invoke-virtual {v2, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -10535,7 +10595,7 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->nextAt:I
 
-    .line 120
+    .line 122
     :cond_e4
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->nextArt:Ljava/lang/String;
 
@@ -10549,11 +10609,11 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->next:Landroid/graphics/Bitmap;
 
-    .line 122
+    .line 124
     :cond_f0
     return-void
 
-    .line 98
+    .line 100
     :catch_f1
     move-exception v0
 
@@ -10563,13 +10623,13 @@
 
     goto/16 :goto_29
 
-    .line 102
+    .line 104
     :cond_f8
     const-string v0, "emblem_independent"
 
     goto/16 :goto_50
 
-    .line 105
+    .line 107
     :cond_fc
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
@@ -10585,7 +10645,7 @@
 
     goto :goto_99
 
-    .line 116
+    .line 118
     :cond_108
     add-int/lit8 v0, v0, 0x1
 
@@ -10596,7 +10656,7 @@
     .registers 6
 
     .prologue
-    .line 822
+    .line 821
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->resCache:Ljava/util/HashMap;
 
     invoke-virtual {v0, p1}, Ljava/util/HashMap;->containsKey(Ljava/lang/Object;)Z
@@ -10613,15 +10673,15 @@
 
     check-cast v0, Landroid/graphics/Bitmap;
 
-    .line 829
+    .line 828
     :goto_10
     return-object v0
 
-    .line 823
+    .line 822
     :cond_11
     const/4 v0, 0x0
 
-    .line 825
+    .line 824
     :try_start_12
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->getResources()Landroid/content/res/Resources;
 
@@ -10641,7 +10701,7 @@
 
     move-result v1
 
-    .line 826
+    .line 825
     if-eqz v1, :cond_2e
 
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->getResources()Landroid/content/res/Resources;
@@ -10654,7 +10714,7 @@
 
     move-result-object v0
 
-    .line 828
+    .line 827
     :cond_2e
     :goto_2e
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->resCache:Ljava/util/HashMap;
@@ -10663,7 +10723,7 @@
 
     goto :goto_10
 
-    .line 827
+    .line 826
     :catch_34
     move-exception v1
 
@@ -10684,12 +10744,12 @@
 
     const/4 v1, 0x0
 
-    .line 141
+    .line 143
     iput v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->weldN:I
 
     move v0, v1
 
-    .line 142
+    .line 144
     :goto_9
     if-ge v0, v11, :cond_20
 
@@ -10713,22 +10773,22 @@
 
     goto :goto_9
 
-    .line 143
+    .line 145
     :cond_20
     if-nez p1, :cond_23
 
-    .line 158
+    .line 160
     :cond_22
     return-void
 
     :cond_23
     move v5, v1
 
-    .line 144
+    .line 146
     :goto_24
     if-ge v5, v11, :cond_6a
 
-    .line 145
+    .line 147
     invoke-virtual {p1}, Landroid/graphics/Bitmap;->getHeight()I
 
     move-result v0
@@ -10751,7 +10811,7 @@
 
     move v4, v3
 
-    .line 147
+    .line 149
     :goto_33
     invoke-virtual {p1}, Landroid/graphics/Bitmap;->getWidth()I
 
@@ -10781,7 +10841,7 @@
 
     goto :goto_33
 
-    .line 148
+    .line 150
     :cond_4a
     if-ltz v4, :cond_66
 
@@ -10817,7 +10877,7 @@
 
     aput v2, v0, v9
 
-    .line 144
+    .line 146
     :cond_66
     add-int/lit8 v0, v5, 0x1
 
@@ -10828,7 +10888,7 @@
     :cond_6a
     move v0, v1
 
-    .line 150
+    .line 152
     :goto_6b
     const/16 v2, 0x258
 
@@ -10842,7 +10902,7 @@
 
     if-ge v2, v3, :cond_22
 
-    .line 151
+    .line 153
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->rnd:Ljava/util/Random;
 
     invoke-virtual {p1}, Landroid/graphics/Bitmap;->getWidth()I
@@ -10863,7 +10923,7 @@
 
     move-result v3
 
-    .line 152
+    .line 154
     invoke-virtual {p1, v2, v3}, Landroid/graphics/Bitmap;->getPixel(II)I
 
     move-result v4
@@ -10874,7 +10934,7 @@
 
     if-le v4, v5, :cond_b8
 
-    .line 153
+    .line 155
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->weld:[[F
 
     iget v5, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->weldN:I
@@ -10893,7 +10953,7 @@
 
     aput v2, v4, v1
 
-    .line 154
+    .line 156
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->weld:[[F
 
     iget v4, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->weldN:I
@@ -10912,14 +10972,14 @@
 
     aput v3, v2, v9
 
-    .line 155
+    .line 157
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->weldN:I
 
     add-int/lit8 v2, v2, 0x1
 
     iput v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->weldN:I
 
-    .line 150
+    .line 152
     :cond_b8
     add-int/lit8 v0, v0, 0x1
 
@@ -10930,7 +10990,7 @@
     .registers 15
 
     .prologue
-    .line 744
+    .line 743
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v1, 0xffffff
@@ -10943,7 +11003,7 @@
 
     invoke-virtual {v0, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 745
+    .line 744
     new-instance v0, Landroid/graphics/RectF;
 
     add-float v1, p2, p4
@@ -10968,7 +11028,7 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawRoundRect(Landroid/graphics/RectF;FFLandroid/graphics/Paint;)V
 
-    .line 746
+    .line 745
     const/4 v0, 0x2
 
     if-eq p5, v0, :cond_2a
@@ -10977,7 +11037,7 @@
 
     if-ne p5, v0, :cond_7c
 
-    .line 747
+    .line 746
     :cond_2a
     const-string v0, "ic_shield"
 
@@ -10985,15 +11045,15 @@
 
     move-result-object v0
 
-    .line 748
+    .line 747
     if-eqz v0, :cond_7c
 
-    .line 749
+    .line 748
     const v1, 0x3e23d70a    # 0.16f
 
     mul-float/2addr v1, p4
 
-    .line 750
+    .line 749
     const/4 v2, 0x0
 
     new-instance v3, Landroid/graphics/RectF;
@@ -11016,7 +11076,7 @@
 
     invoke-virtual {p1, v0, v2, v3, v1}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
 
-    .line 751
+    .line 750
     const/4 v0, 0x3
 
     if-ne p5, v0, :cond_7b
@@ -11067,12 +11127,12 @@
 
     invoke-virtual {p1, v0, v1, v2, v3}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 774
+    .line 773
     :cond_7b
     :goto_7b
     return-void
 
-    .line 755
+    .line 754
     :cond_7c
     const/4 v0, 0x7
 
@@ -11094,14 +11154,14 @@
 
     goto :goto_7b
 
-    .line 757
+    .line 756
     :cond_89
     packed-switch p5, :pswitch_data_d8
 
-    .line 769
+    .line 768
     const-string v0, "\u25c6"
 
-    .line 771
+    .line 770
     :goto_8e
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
@@ -11111,12 +11171,12 @@
 
     invoke-virtual {v1, v2}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 772
+    .line 771
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {v1, p6}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 773
+    .line 772
     const/high16 v1, 0x40000000    # 2.0f
 
     div-float v1, p4, v1
@@ -11147,73 +11207,73 @@
 
     goto :goto_7b
 
-    .line 758
+    .line 757
     :pswitch_b6
     const-string v0, "\u25b2"
 
     goto :goto_8e
 
-    .line 759
+    .line 758
     :pswitch_b9
     const-string v0, "\u21bb"
 
     goto :goto_8e
 
-    .line 760
+    .line 759
     :pswitch_bc
     const-string v0, "\u25c9"
 
     goto :goto_8e
 
-    .line 761
+    .line 760
     :pswitch_bf
     const-string v0, "+"
 
     goto :goto_8e
 
-    .line 762
+    .line 761
     :pswitch_c2
     const-string v0, "\u25ba"
 
     goto :goto_8e
 
-    .line 763
+    .line 762
     :pswitch_c5
     const-string v0, "\u25a3"
 
     goto :goto_8e
 
-    .line 764
+    .line 763
     :pswitch_c8
     const-string v0, "\u271a"
 
     goto :goto_8e
 
-    .line 765
+    .line 764
     :pswitch_cb
     const-string v0, "\u25c8"
 
     goto :goto_8e
 
-    .line 766
+    .line 765
     :pswitch_ce
     const-string v0, "\u00bb"
 
     goto :goto_8e
 
-    .line 767
+    .line 766
     :pswitch_d1
     const-string v0, "\u21ba"
 
     goto :goto_8e
 
-    .line 768
+    .line 767
     :pswitch_d4
     const-string v0, "\u25ce"
 
     goto :goto_8e
 
-    .line 757
+    .line 756
     nop
 
     :pswitch_data_d8
@@ -11236,7 +11296,7 @@
     .registers 27
 
     .prologue
-    .line 688
+    .line 692
     sub-float v1, p5, p6
 
     const/high16 v2, 0x40000000    # 2.0f
@@ -11267,7 +11327,7 @@
 
     invoke-virtual/range {v1 .. v7}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->statIcon(Landroid/graphics/Canvas;FFFII)V
 
-    .line 689
+    .line 693
     add-float v1, p2, p6
 
     const/high16 v2, 0x41000000    # 8.0f
@@ -11278,7 +11338,7 @@
 
     add-float v4, v1, v2
 
-    .line 690
+    .line 694
     const/high16 v1, 0x41600000    # 14.0f
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -11299,7 +11359,7 @@
 
     invoke-virtual/range {v1 .. v7}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    .line 691
+    .line 695
     const/high16 v1, 0x41c80000    # 25.0f
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->dp:F
@@ -11320,14 +11380,14 @@
 
     invoke-virtual/range {v1 .. v7}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    .line 692
+    .line 696
     invoke-virtual/range {p10 .. p10}, Ljava/lang/String;->length()I
 
     move-result v1
 
     if-lez v1, :cond_74
 
-    .line 693
+    .line 697
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     const/high16 v2, 0x41300000    # 11.0f
@@ -11338,7 +11398,7 @@
 
     invoke-virtual {v1, v2}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 694
+    .line 698
     add-float v1, p2, p4
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
@@ -11371,16 +11431,16 @@
 
     invoke-virtual/range {v5 .. v11}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
 
-    .line 696
+    .line 700
     :cond_74
     if-gez p13, :cond_77
 
-    .line 706
+    .line 710
     :cond_76
     :goto_76
     return-void
 
-    .line 697
+    .line 701
     :cond_77
     add-float v1, p3, p5
 
@@ -11396,14 +11456,14 @@
 
     sub-float v2, v1, v4
 
-    .line 698
+    .line 702
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v3, -0xe4d5c4
 
     invoke-virtual {v1, v3}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 699
+    .line 703
     add-float v6, p2, p4
 
     const/high16 v1, 0x40000000    # 2.0f
@@ -11420,7 +11480,7 @@
 
     invoke-virtual/range {v3 .. v8}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 700
+    .line 704
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     if-eqz p14, :cond_e5
@@ -11430,7 +11490,7 @@
     :goto_a2
     invoke-virtual {v3, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 701
+    .line 705
     move/from16 v0, p13
 
     int-to-float v1, v0
@@ -11457,17 +11517,17 @@
 
     invoke-virtual/range {v3 .. v8}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
 
-    .line 702
+    .line 706
     if-nez p14, :cond_76
 
-    .line 703
+    .line 707
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
 
     const v3, -0x830074
 
     invoke-virtual {v1, v3}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 704
+    .line 708
     move/from16 v0, p13
 
     int-to-float v1, v0
@@ -11510,7 +11570,7 @@
 
     goto :goto_76
 
-    .line 700
+    .line 704
     :cond_e5
     const v1, -0x952f01
 
@@ -11521,7 +11581,7 @@
     .registers 3
 
     .prologue
-    .line 134
+    .line 136
     :try_start_0
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->getResources()Landroid/content/res/Resources;
 
@@ -11539,66 +11599,25 @@
 
     move-result-object v0
 
-    .line 136
+    .line 138
     :goto_e
     return-object v0
 
-    .line 135
+    .line 137
     :catch_f
     move-exception v0
 
-    .line 136
+    .line 138
     const/4 v0, 0x0
 
     goto :goto_e
-.end method
-
-.method stripe(Landroid/graphics/Canvas;FFFFI)V
-    .registers 13
-
-    .prologue
-    .line 738
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
-
-    rem-int/lit8 v0, p6, 0x2
-
-    if-nez v0, :cond_19
-
-    const v0, 0x14ffffff
-
-    :goto_9
-    invoke-virtual {v1, v0}, Landroid/graphics/Paint;->setColor(I)V
-
-    .line 739
-    add-float v3, p2, p4
-
-    add-float v4, p3, p5
-
-    iget-object v5, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->p:Landroid/graphics/Paint;
-
-    move-object v0, p1
-
-    move v1, p2
-
-    move v2, p3
-
-    invoke-virtual/range {v0 .. v5}, Landroid/graphics/Canvas;->drawRect(FFFFLandroid/graphics/Paint;)V
-
-    .line 740
-    return-void
-
-    .line 738
-    :cond_19
-    const v0, 0x6ffffff
-
-    goto :goto_9
 .end method
 
 .method text(Landroid/graphics/Canvas;Ljava/lang/String;FFII)V
     .registers 10
 
     .prologue
-    .line 917
+    .line 916
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     int-to-float v1, p5
@@ -11609,17 +11628,17 @@
 
     invoke-virtual {v0, v1}, Landroid/text/TextPaint;->setTextSize(F)V
 
-    .line 918
+    .line 917
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {v0, p6}, Landroid/text/TextPaint;->setColor(I)V
 
-    .line 919
+    .line 918
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModRefitScreen$Bay;->tp:Landroid/text/TextPaint;
 
     invoke-virtual {p1, p2, p3, p4, v0}, Landroid/graphics/Canvas;->drawText(Ljava/lang/String;FFLandroid/graphics/Paint;)V
 
-    .line 920
+    .line 919
     return-void
 .end method
 
@@ -11631,7 +11650,7 @@
 
     const/4 v2, 0x1
 
-    .line 778
+    .line 777
     if-ne p2, v2, :cond_19
 
     sget-object v0, Ljava/util/Locale;->US:Ljava/util/Locale;
@@ -11654,11 +11673,11 @@
 
     move-result-object v0
 
-    .line 782
+    .line 781
     :goto_18
     return-object v0
 
-    .line 779
+    .line 778
     :cond_19
     const/4 v0, 0x2
 
@@ -11694,7 +11713,7 @@
 
     goto :goto_18
 
-    .line 780
+    .line 779
     :cond_3a
     const/high16 v0, 0x42c80000    # 100.0f
 
@@ -11720,7 +11739,7 @@
 
     goto :goto_18
 
-    .line 781
+    .line 780
     :cond_51
     invoke-static {p1}, Ljava/lang/Math;->round(F)I
 
@@ -11728,7 +11747,7 @@
 
     int-to-long v0, v0
 
-    .line 782
+    .line 781
     const-wide/32 v2, 0xf4240
 
     cmp-long v2, v0, v2

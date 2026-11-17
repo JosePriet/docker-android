@@ -29,7 +29,7 @@
     .registers 5
 
     .prologue
-    .line 60
+    .line 78
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModPoliceData$Hull;->art:Ljava/lang/String;

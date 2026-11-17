@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 326
+    .line 334
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUi$11;->val$a:Landroid/app/Activity;
 
     iput p2, p0, Lfr/testudo/spacecorsair/mod/ModUi$11;->val$step:I
@@ -49,10 +49,10 @@
     .registers 5
 
     .prologue
-    .line 329
+    .line 337
     const/4 v1, 0x0
 
-    .line 330
+    .line 338
     :try_start_1
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$11;->val$a:Landroid/app/Activity;
 
@@ -78,22 +78,22 @@
 
     goto :goto_7
 
-    .line 331
+    .line 339
     :cond_16
     if-nez v1, :cond_19
 
-    .line 338
+    .line 346
     :cond_18
     :goto_18
     return-void
 
-    .line 332
+    .line 340
     :cond_19
     const/4 v0, 0x1
 
     invoke-virtual {v1, v0}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 333
+    .line 341
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$11;->val$a:Landroid/app/Activity;
 
     invoke-virtual {v1, v0}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -102,7 +102,7 @@
 
     check-cast v0, Landroid/support/v4/view/ViewPager;
 
-    .line 334
+    .line 342
     if-eqz v0, :cond_18
 
     invoke-virtual {v0}, Landroid/support/v4/view/ViewPager;->getCurrentItem()I
@@ -119,7 +119,7 @@
 
     goto :goto_18
 
-    .line 335
+    .line 343
     :catch_32
     move-exception v0
 

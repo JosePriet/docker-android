@@ -23,6 +23,8 @@
 
 .field static final CLASS_SIZE:[I
 
+.field static final HULL_NAMES:[[Ljava/lang/String;
+
 .field static final PREFIX:Ljava/lang/String; = "pol_"
 
 .field static final ROSTER:[[[Ljava/lang/String;
@@ -64,28 +66,28 @@
     .line 23
     new-array v0, v10, [I
 
-    fill-array-data v0, :array_1ec
+    fill-array-data v0, :array_2bc
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->CLASS_SIZE:[I
 
     .line 25
     new-array v0, v10, [I
 
-    fill-array-data v0, :array_1fc
+    fill-array-data v0, :array_2cc
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->CLASS_MIN:[I
 
     .line 26
     new-array v0, v10, [I
 
-    fill-array-data v0, :array_20c
+    fill-array-data v0, :array_2dc
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->CLASS_MAX:[I
 
     .line 28
     new-array v0, v10, [I
 
-    fill-array-data v0, :array_21c
+    fill-array-data v0, :array_2ec
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->AI:[I
 
@@ -96,7 +98,11 @@
 
     new-array v1, v10, [[Ljava/lang/String;
 
-    new-array v2, v6, [Ljava/lang/String;
+    new-array v2, v7, [Ljava/lang/String;
+
+    const-string v3, "spartan_frigate_1:95"
+
+    aput-object v3, v2, v6
 
     aput-object v2, v1, v6
 
@@ -326,7 +332,11 @@
 
     new-array v1, v10, [[Ljava/lang/String;
 
-    new-array v2, v6, [Ljava/lang/String;
+    new-array v2, v7, [Ljava/lang/String;
+
+    const-string v3, "varn_frigate_1:95"
+
+    aput-object v3, v2, v6
 
     aput-object v2, v1, v6
 
@@ -396,11 +406,19 @@
 
     new-array v2, v10, [[Ljava/lang/String;
 
-    new-array v3, v6, [Ljava/lang/String;
+    new-array v3, v7, [Ljava/lang/String;
+
+    const-string v4, "ironclad_frigate_1:95"
+
+    aput-object v4, v3, v6
 
     aput-object v3, v2, v6
 
-    new-array v3, v6, [Ljava/lang/String;
+    new-array v3, v7, [Ljava/lang/String;
+
+    const-string v4, "ironclad_destroyer_1:160"
+
+    aput-object v4, v3, v6
 
     aput-object v3, v2, v7
 
@@ -416,7 +434,11 @@
 
     aput-object v3, v2, v8
 
-    new-array v3, v6, [Ljava/lang/String;
+    new-array v3, v7, [Ljava/lang/String;
+
+    const-string v4, "ironclad_battlecruiser_1:410"
+
+    aput-object v4, v3, v6
 
     aput-object v3, v2, v9
 
@@ -440,7 +462,11 @@
 
     const/4 v3, 0x5
 
-    new-array v4, v6, [Ljava/lang/String;
+    new-array v4, v7, [Ljava/lang/String;
+
+    const-string v5, "ironclad_capital_1:800"
+
+    aput-object v5, v4, v6
 
     aput-object v4, v2, v3
 
@@ -478,7 +504,11 @@
 
     aput-object v3, v2, v7
 
-    new-array v3, v6, [Ljava/lang/String;
+    new-array v3, v7, [Ljava/lang/String;
+
+    const-string v4, "helion_cruiser_1:300"
+
+    aput-object v4, v3, v6
 
     aput-object v3, v2, v8
 
@@ -492,13 +522,21 @@
 
     const/4 v3, 0x4
 
-    new-array v4, v6, [Ljava/lang/String;
+    new-array v4, v7, [Ljava/lang/String;
+
+    const-string v5, "helion_battleship_1:580"
+
+    aput-object v5, v4, v6
 
     aput-object v4, v2, v3
 
     const/4 v3, 0x5
 
-    new-array v4, v6, [Ljava/lang/String;
+    new-array v4, v7, [Ljava/lang/String;
+
+    const-string v5, "helion_capital_1:800"
+
+    aput-object v5, v4, v6
 
     aput-object v4, v2, v3
 
@@ -538,19 +576,31 @@
 
     aput-object v2, v1, v8
 
-    new-array v2, v6, [Ljava/lang/String;
+    new-array v2, v7, [Ljava/lang/String;
+
+    const-string v3, "warden_battlecruiser_1:410"
+
+    aput-object v3, v2, v6
 
     aput-object v2, v1, v9
 
     const/4 v2, 0x4
 
-    new-array v3, v6, [Ljava/lang/String;
+    new-array v3, v7, [Ljava/lang/String;
+
+    const-string v4, "warden_battleship_1:580"
+
+    aput-object v4, v3, v6
 
     aput-object v3, v1, v2
 
     const/4 v2, 0x5
 
-    new-array v3, v6, [Ljava/lang/String;
+    new-array v3, v7, [Ljava/lang/String;
+
+    const-string v4, "warden_capital_1:800"
+
+    aput-object v4, v3, v6
 
     aput-object v3, v1, v2
 
@@ -558,19 +608,182 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->ROSTER:[[[Ljava/lang/String;
 
-    .line 121
-    new-instance v0, Ljava/util/HashMap;
+    .line 61
+    const/16 v0, 0xc
 
-    invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
+    new-array v0, v0, [[Ljava/lang/String;
+
+    new-array v1, v8, [Ljava/lang/String;
+
+    const-string v2, "spartan_frigate_1"
+
+    aput-object v2, v1, v6
+
+    const-string v2, "Sentry"
+
+    aput-object v2, v1, v7
+
+    aput-object v1, v0, v6
+
+    new-array v1, v8, [Ljava/lang/String;
+
+    const-string v2, "varn_frigate_1"
+
+    aput-object v2, v1, v6
+
+    const-string v2, "Codicil"
+
+    aput-object v2, v1, v7
+
+    aput-object v1, v0, v7
+
+    new-array v1, v8, [Ljava/lang/String;
+
+    const-string v2, "ironclad_frigate_1"
+
+    aput-object v2, v1, v6
+
+    const-string v2, "Rivet"
+
+    aput-object v2, v1, v7
+
+    aput-object v1, v0, v8
+
+    new-array v1, v8, [Ljava/lang/String;
+
+    const-string v2, "ironclad_destroyer_1"
+
+    aput-object v2, v1, v6
+
+    const-string v2, "Anvil"
+
+    aput-object v2, v1, v7
+
+    aput-object v1, v0, v9
+
+    const/4 v1, 0x4
+
+    new-array v2, v8, [Ljava/lang/String;
+
+    const-string v3, "ironclad_battlecruiser_1"
+
+    aput-object v3, v2, v6
+
+    const-string v3, "Rampart"
+
+    aput-object v3, v2, v7
+
+    aput-object v2, v0, v1
+
+    const/4 v1, 0x5
+
+    new-array v2, v8, [Ljava/lang/String;
+
+    const-string v3, "ironclad_capital_1"
+
+    aput-object v3, v2, v6
+
+    const-string v3, "Crucible"
+
+    aput-object v3, v2, v7
+
+    aput-object v2, v0, v1
+
+    new-array v1, v8, [Ljava/lang/String;
+
+    const-string v2, "helion_cruiser_1"
+
+    aput-object v2, v1, v6
+
+    const-string v2, "Sundart"
+
+    aput-object v2, v1, v7
+
+    aput-object v1, v0, v10
+
+    const/4 v1, 0x7
+
+    new-array v2, v8, [Ljava/lang/String;
+
+    const-string v3, "helion_battleship_1"
+
+    aput-object v3, v2, v6
+
+    const-string v3, "Daybreak"
+
+    aput-object v3, v2, v7
+
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x8
+
+    new-array v2, v8, [Ljava/lang/String;
+
+    const-string v3, "helion_capital_1"
+
+    aput-object v3, v2, v6
+
+    const-string v3, "Solstice"
+
+    aput-object v3, v2, v7
+
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x9
+
+    new-array v2, v8, [Ljava/lang/String;
+
+    const-string v3, "warden_battlecruiser_1"
+
+    aput-object v3, v2, v6
+
+    const-string v3, "Lodestar"
+
+    aput-object v3, v2, v7
+
+    aput-object v2, v0, v1
+
+    const/16 v1, 0xa
+
+    new-array v2, v8, [Ljava/lang/String;
+
+    const-string v3, "warden_battleship_1"
+
+    aput-object v3, v2, v6
+
+    const-string v3, "Gatekeeper"
+
+    aput-object v3, v2, v7
+
+    aput-object v2, v0, v1
+
+    const/16 v1, 0xb
+
+    new-array v2, v8, [Ljava/lang/String;
+
+    const-string v3, "warden_capital_1"
+
+    aput-object v3, v2, v6
+
+    const-string v3, "Haven"
+
+    aput-object v3, v2, v7
+
+    aput-object v2, v0, v1
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->HULL_NAMES:[[Ljava/lang/String;
+
+    .line 139
+    new-instance v0, Ljava/util/concurrent/ConcurrentHashMap;
+
+    invoke-direct {v0}, Ljava/util/concurrent/ConcurrentHashMap;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->drawables:Ljava/util/Map;
 
     return-void
 
     .line 23
-    nop
-
-    :array_1ec
+    :array_2bc
     .array-data 4
         0x5f
         0xa0
@@ -581,7 +794,7 @@
     .end array-data
 
     .line 25
-    :array_1fc
+    :array_2cc
     .array-data 4
         0x3c
         0x6e
@@ -592,7 +805,7 @@
     .end array-data
 
     .line 26
-    :array_20c
+    :array_2dc
     .array-data 4
         0x64
         0xc8
@@ -603,7 +816,7 @@
     .end array-data
 
     .line 28
-    :array_21c
+    :array_2ec
     .array-data 4
         0x0
         0x2
@@ -639,12 +852,12 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 97
+    .line 115
     new-instance v4, Ljava/util/ArrayList;
 
     invoke-direct {v4}, Ljava/util/ArrayList;-><init>()V
 
-    .line 98
+    .line 116
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModPoliceData;->ROSTER:[[[Ljava/lang/String;
 
     array-length v6, v5
@@ -674,7 +887,7 @@
 
     aget-object v11, v9, v0
 
-    .line 99
+    .line 117
     const/16 v12, 0x3a
 
     invoke-virtual {v11, v12}, Ljava/lang/String;->indexOf(I)I
@@ -685,7 +898,7 @@
 
     move-result-object v11
 
-    .line 100
+    .line 118
     invoke-virtual {v4, v11}, Ljava/util/ArrayList;->contains(Ljava/lang/Object;)Z
 
     move-result v12
@@ -694,7 +907,7 @@
 
     invoke-virtual {v4, v11}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 98
+    .line 116
     :cond_2d
     add-int/lit8 v0, v0, 0x1
 
@@ -714,7 +927,7 @@
 
     goto :goto_a
 
-    .line 102
+    .line 120
     :cond_38
     return-object v4
 .end method
@@ -723,7 +936,7 @@
     .registers 7
 
     .prologue
-    .line 125
+    .line 143
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -748,23 +961,23 @@
 
     move-result-object v2
 
-    .line 126
+    .line 144
     if-eqz v2, :cond_20
 
     move-object v1, v2
 
-    .line 127
+    .line 145
     :goto_1c
     if-nez v1, :cond_28
 
     const/4 v0, 0x0
 
-    .line 136
+    .line 154
     :cond_1f
     :goto_1f
     return-object v0
 
-    .line 126
+    .line 144
     :cond_20
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModPoliceData$Hull;->art:Ljava/lang/String;
 
@@ -776,7 +989,7 @@
 
     goto :goto_1c
 
-    .line 128
+    .line 146
     :cond_28
     new-instance v3, Ljava/lang/StringBuilder;
 
@@ -813,7 +1026,7 @@
 
     move-result-object v3
 
-    .line 129
+    .line 147
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->drawables:Ljava/util/Map;
 
     invoke-interface {v0, v3}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -822,14 +1035,14 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/display/Drawable;
 
-    .line 130
+    .line 148
     if-eqz v0, :cond_59
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
     if-eq v4, v1, :cond_1f
 
-    .line 131
+    .line 149
     :cond_59
     new-instance v4, Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -843,17 +1056,17 @@
 
     invoke-direct {v4, v0, v5}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>(FF)V
 
-    .line 132
+    .line 150
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModArt$Art;
 
     const/4 v5, 0x0
 
     invoke-direct {v0, v4, v1, v5}, Lfr/testudo/spacecorsair/mod/ModArt$Art;-><init>(Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/display/Texture;Z)V
 
-    .line 133
+    .line 151
     if-eqz v2, :cond_75
 
-    .line 134
+    .line 152
     :goto_6c
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModPoliceData;->drawables:Ljava/util/Map;
 
@@ -861,13 +1074,13 @@
 
     goto :goto_1f
 
-    .line 128
+    .line 146
     :cond_72
     const-string v0, "tint:"
 
     goto :goto_31
 
-    .line 133
+    .line 151
     :cond_75
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModPoliceData$Tinted;
 
@@ -896,21 +1109,21 @@
     .prologue
     const/4 v4, 0x0
 
-    .line 81
+    .line 99
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModPoliceData;->sourceClass(II)I
 
     move-result v1
 
-    .line 82
+    .line 100
     if-gez v1, :cond_9
 
     const/4 v0, 0x0
 
-    .line 86
+    .line 104
     :goto_8
     return-object v0
 
-    .line 83
+    .line 101
     :cond_9
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->ROSTER:[[[Ljava/lang/String;
 
@@ -918,7 +1131,7 @@
 
     aget-object v0, v0, v1
 
-    .line 84
+    .line 102
     invoke-static {v4, p2}, Ljava/lang/Math;->max(II)I
 
     move-result v2
@@ -929,14 +1142,14 @@
 
     aget-object v2, v0, v2
 
-    .line 85
+    .line 103
     const/16 v0, 0x3a
 
     invoke-virtual {v2, v0}, Ljava/lang/String;->indexOf(I)I
 
     move-result v3
 
-    .line 86
+    .line 104
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModPoliceData$Hull;
 
     invoke-virtual {v2, v4, v3}, Ljava/lang/String;->substring(II)Ljava/lang/String;
@@ -962,21 +1175,68 @@
     goto :goto_8
 .end method
 
+.method static hullName(Ljava/lang/String;)Ljava/lang/String;
+    .registers 7
+
+    .prologue
+    const/4 v1, 0x0
+
+    .line 70
+    sget-object v2, Lfr/testudo/spacecorsair/mod/ModPoliceData;->HULL_NAMES:[[Ljava/lang/String;
+
+    array-length v3, v2
+
+    move v0, v1
+
+    :goto_5
+    if-ge v0, v3, :cond_18
+
+    aget-object v4, v2, v0
+
+    aget-object v5, v4, v1
+
+    invoke-virtual {v5, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v5
+
+    if-eqz v5, :cond_15
+
+    const/4 v0, 0x1
+
+    aget-object v0, v4, v0
+
+    .line 71
+    :goto_14
+    return-object v0
+
+    .line 70
+    :cond_15
+    add-int/lit8 v0, v0, 0x1
+
+    goto :goto_5
+
+    .line 71
+    :cond_18
+    const/4 v0, 0x0
+
+    goto :goto_14
+.end method
+
 .method static randomHull(II)Lfr/testudo/spacecorsair/mod/ModPoliceData$Hull;
     .registers 6
 
     .prologue
-    .line 90
+    .line 108
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModPoliceData;->sourceClass(II)I
 
     move-result v0
 
-    .line 91
+    .line 109
     if-gez v0, :cond_8
 
     const/4 v0, 0x0
 
-    .line 92
+    .line 110
     :goto_7
     return-object v0
 
@@ -1010,14 +1270,14 @@
     .registers 5
 
     .prologue
-    .line 75
+    .line 93
     if-eq p1, p0, :cond_7
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->CLASS_SIZE:[I
 
     aget v0, v0, p0
 
-    .line 76
+    .line 94
     :goto_6
     return v0
 
@@ -1047,7 +1307,7 @@
     .prologue
     const/4 v1, -0x1
 
-    .line 65
+    .line 83
     if-ltz p0, :cond_8
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->ROSTER:[[[Ljava/lang/String;
@@ -1059,25 +1319,25 @@
     :cond_8
     move p1, v1
 
-    .line 70
+    .line 88
     :cond_9
     :goto_9
     return p1
 
-    .line 66
+    .line 84
     :cond_a
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceData;->ROSTER:[[[Ljava/lang/String;
 
     aget-object v2, v0, p0
 
-    .line 67
+    .line 85
     aget-object v0, v2, p1
 
     array-length v0, v0
 
     if-gtz v0, :cond_9
 
-    .line 68
+    .line 86
     add-int/lit8 v0, p1, -0x1
 
     :goto_15
@@ -1098,7 +1358,7 @@
 
     goto :goto_15
 
-    .line 69
+    .line 87
     :cond_21
     add-int/lit8 p1, p1, 0x1
 
@@ -1120,6 +1380,6 @@
     :cond_2e
     move p1, v1
 
-    .line 70
+    .line 88
     goto :goto_9
 .end method

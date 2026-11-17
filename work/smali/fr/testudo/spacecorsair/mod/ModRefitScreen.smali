@@ -98,6 +98,84 @@
     return-void
 .end method
 
+.method static num(Ljava/lang/String;)I
+    .registers 3
+
+    .prologue
+    const/4 v0, 0x0
+
+    .line 946
+    if-eqz p0, :cond_9
+
+    :try_start_3
+    invoke-virtual {p0}, Ljava/lang/String;->length()I
+
+    move-result v1
+
+    if-nez v1, :cond_a
+
+    :cond_9
+    :goto_9
+    return v0
+
+    :cond_a
+    invoke-virtual {p0}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v1}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+    :try_end_11
+    .catch Ljava/lang/NumberFormatException; {:try_start_3 .. :try_end_11} :catch_13
+
+    move-result v0
+
+    goto :goto_9
+
+    :catch_13
+    move-exception v1
+
+    goto :goto_9
+.end method
+
+.method static numL(Ljava/lang/String;)J
+    .registers 4
+
+    .prologue
+    const-wide/16 v0, 0x0
+
+    .line 950
+    if-eqz p0, :cond_a
+
+    :try_start_4
+    invoke-virtual {p0}, Ljava/lang/String;->length()I
+
+    move-result v2
+
+    if-nez v2, :cond_b
+
+    :cond_a
+    :goto_a
+    return-wide v0
+
+    :cond_b
+    invoke-virtual {p0}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-static {v2}, Ljava/lang/Long;->parseLong(Ljava/lang/String;)J
+    :try_end_12
+    .catch Ljava/lang/NumberFormatException; {:try_start_4 .. :try_end_12} :catch_14
+
+    move-result-wide v0
+
+    goto :goto_a
+
+    :catch_14
+    move-exception v2
+
+    goto :goto_a
+.end method
+
 .method public static show(Landroid/app/Activity;)V
     .registers 3
 

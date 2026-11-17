@@ -156,3 +156,37 @@
     .line 47
     return-void
 .end method
+
+
+# virtual methods
+.method skillText()Ljava/lang/String;
+    .registers 3
+
+    .prologue
+    .line 51
+    const-string v0, "hullLeviathan"
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->id:Ljava/lang/String;
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_f
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTitan;->leviathanSkill()Ljava/lang/String;
+
+    move-result-object v0
+
+    :goto_e
+    return-object v0
+
+    :cond_f
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    goto :goto_e
+.end method

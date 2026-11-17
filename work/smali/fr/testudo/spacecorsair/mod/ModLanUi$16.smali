@@ -63,7 +63,7 @@
     .line 575
     instance-of v0, p2, Landroid/widget/TextView;
 
-    if-eqz v0, :cond_ce
+    if-eqz v0, :cond_f0
 
     check-cast p2, Landroid/widget/TextView;
 
@@ -108,21 +108,58 @@
     invoke-virtual {p2, v5, v1}, Landroid/widget/TextView;->setTextSize(IF)V
 
     .line 579
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    const/4 v2, 0x1
+    const/4 v3, 0x1
 
-    aget-object v2, v0, v2
+    aget-object v3, v0, v3
+
+    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    array-length v1, v0
+
+    const/4 v4, 0x7
+
+    if-le v1, v4, :cond_f9
+
+    const-string v1, "1"
+
+    const/4 v4, 0x7
+
+    aget-object v4, v0, v4
+
+    invoke-virtual {v1, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_f9
+
+    const-string v1, " [DEV]"
+
+    :goto_4d
+    invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
 
     aget-object v3, v0, v5
 
-    invoke-static {v2, v3}, Lfr/testudo/spacecorsair/mod/ModLanUi;->label(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {v1, v3}, Lfr/testudo/spacecorsair/mod/ModLanUi;->label(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v1
 
@@ -201,7 +238,7 @@
 
     move-result v1
 
-    if-eqz v1, :cond_d7
+    if-eqz v1, :cond_fd
 
     const-string v1, "PvP on"
 
@@ -209,7 +246,7 @@
 
     move-result-object v1
 
-    :goto_8b
+    :goto_ad
     invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v1
@@ -273,18 +310,18 @@
 
     move-result v0
 
-    if-eqz v0, :cond_de
+    if-eqz v0, :cond_104
 
     const/high16 v0, 0x3f000000    # 0.5f
 
-    :goto_ca
+    :goto_ec
     invoke-virtual {p2, v0}, Landroid/widget/TextView;->setAlpha(F)V
 
     .line 584
     return-object p2
 
     .line 575
-    :cond_ce
+    :cond_f0
     new-instance p2, Landroid/widget/TextView;
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$a:Landroid/app/Activity;
@@ -293,19 +330,25 @@
 
     goto/16 :goto_d
 
+    .line 579
+    :cond_f9
+    const-string v1, ""
+
+    goto/16 :goto_4d
+
     .line 580
-    :cond_d7
+    :cond_fd
     const-string v1, "PvP off"
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
 
-    goto :goto_8b
+    goto :goto_ad
 
     .line 583
-    :cond_de
+    :cond_104
     const/high16 v0, 0x3f800000    # 1.0f
 
-    goto :goto_ca
+    goto :goto_ec
 .end method

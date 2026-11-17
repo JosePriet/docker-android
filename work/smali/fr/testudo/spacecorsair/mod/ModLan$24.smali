@@ -17,23 +17,12 @@
 .end annotation
 
 
-# instance fields
-.field final synthetic val$a:Landroid/app/Activity;
-
-
 # direct methods
-.method constructor <init>(Landroid/app/Activity;)V
-    .registers 2
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>()V
+    .registers 1
 
     .prologue
-    .line 2670
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$24;->val$a:Landroid/app/Activity;
-
+    .line 2741
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -42,27 +31,16 @@
 
 # virtual methods
 .method public run()V
-    .registers 2
+    .registers 1
 
     .prologue
-    .line 2670
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->pvpRoom:Z
+    .line 2741
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->noRejoin()V
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1700()V
 
-    if-nez v0, :cond_e
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->leave()V
 
-    const/4 v0, 0x1
-
-    :goto_5
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->setPvpRoom(Z)V
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$24;->val$a:Landroid/app/Activity;
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->stop()V
 
     return-void
-
-    :cond_e
-    const/4 v0, 0x0
-
-    goto :goto_5
 .end method

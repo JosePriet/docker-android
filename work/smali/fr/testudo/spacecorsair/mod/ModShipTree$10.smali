@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 1107
+    .line 1108
     iput-boolean p1, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$10;->val$canOpen:Z
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$10;->val$a:Landroid/app/Activity;
@@ -53,7 +53,7 @@
     .registers 4
 
     .prologue
-    .line 1107
+    .line 1108
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModShipTree$10;->val$canOpen:Z
 
     if-eqz v0, :cond_b

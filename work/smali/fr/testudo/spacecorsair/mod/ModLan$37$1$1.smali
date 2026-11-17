@@ -1,4 +1,4 @@
-.class Lfr/testudo/spacecorsair/mod/ModLan$35$1$1;
+.class Lfr/testudo/spacecorsair/mod/ModLan$37$1$1;
 .super Ljava/lang/Object;
 .source "ModLan.java"
 
@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan$35$1;->run()V
+    value = Lfr/testudo/spacecorsair/mod/ModLan$37$1;->run()V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -18,16 +18,16 @@
 
 
 # instance fields
-.field final synthetic this$1:Lfr/testudo/spacecorsair/mod/ModLan$35$1;
+.field final synthetic this$1:Lfr/testudo/spacecorsair/mod/ModLan$37$1;
 
 
 # direct methods
-.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModLan$35$1;)V
+.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModLan$37$1;)V
     .registers 2
 
     .prologue
-    .line 2726
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$35$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLan$35$1;
+    .line 2817
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$37$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLan$37$1;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -40,13 +40,13 @@
     .registers 4
 
     .prologue
-    .line 2727
+    .line 2818
     :try_start_0
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$35$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLan$35$1;
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$37$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLan$37$1;
 
-    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$35$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$35;
+    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$37$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$37;
 
-    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$35;->val$a:Landroid/app/Activity;
+    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$37;->val$a:Landroid/app/Activity;
 
     invoke-virtual {v0}, Landroid/app/Activity;->isFinishing()Z
 
@@ -54,11 +54,11 @@
 
     if-nez v0, :cond_1c
 
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$35$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLan$35$1;
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$37$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLan$37$1;
 
-    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$35$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$35;
+    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$37$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$37;
 
-    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$35;->val$a:Landroid/app/Activity;
+    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$37;->val$a:Landroid/app/Activity;
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModLobby;->status:Ljava/lang/String;
 
@@ -72,12 +72,12 @@
     :try_end_1c
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_1c} :catch_1d
 
-    .line 2728
+    .line 2819
     :cond_1c
     :goto_1c
     return-void
 
-    .line 2727
+    .line 2818
     :catch_1d
     move-exception v0
 
