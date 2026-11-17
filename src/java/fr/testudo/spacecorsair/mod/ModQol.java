@@ -55,7 +55,7 @@ public class ModQol {
 
     // ================================================================== options (SharedPreferences, defaults below)
     private static SharedPreferences prefs;
-    private static boolean optStick = true, optBars = true, optDmg = true, optBig = false, optThreat = false;
+    private static boolean optStick = true, optBars = true, optDmg = true, optBig = false, optThreat = false, optEdge = false;
     private static float optShake = 0.6f;
     private static boolean loaded;
 
@@ -79,7 +79,8 @@ public class ModQol {
         optBars = p.getBoolean("barNumbers", true);
         optDmg = p.getBoolean("damageNumbers", true);
         optBig = p.getBoolean("bigButtons", false);
-        optThreat = p.getBoolean("threatReadout", false);   // QoL prototype P3 (default off)
+        optThreat = p.getBoolean("threatReadout", false);
+        optEdge = p.getBoolean("radarEdge", false);   // QoL prototype P4 (default off)   // QoL prototype P3 (default off)
         optShake = p.getFloat("shake", 0.6f);
         loadInbox(p);
         // audit C7 (owner 2026-11-17): a new pilot gets one summary post instead of the old changelog posts;
@@ -216,6 +217,7 @@ public class ModQol {
     public static boolean damageNumbers() { load(); return optDmg; }
     public static boolean bigButtons() { load(); return optBig; }
     public static boolean threatReadout() { load(); return optThreat; }
+    public static boolean radarEdge() { load(); return optEdge; }
     public static float shakeLevel() { load(); return optShake; }
 
     // ---- economy (v16.5)
@@ -300,6 +302,7 @@ public class ModQol {
             box.addView(check(a, ModLang.tr("Damage numbers"), "damageNumbers", optDmg));
             box.addView(check(a, ModLang.tr("Bigger buttons"), "bigButtons", optBig));
             box.addView(check(a, ModLang.tr("Threat readout (engaging enemies, top level)"), "threatReadout", optThreat));   // QoL prototype P3
+            box.addView(check(a, ModLang.tr("Radar edge pointers (bosses, hostile flagships)"), "radarEdge", optEdge));   // QoL prototype P4
             final TextView st = new TextView(a);
             st.setTextColor(Color.WHITE);
             st.setText(ModLang.tr("Screen shake: ") + Math.round(optShake * 100) + "%");
@@ -336,6 +339,7 @@ public class ModQol {
                 else if ("damageNumbers".equals(key)) optDmg = v;
                 else if ("bigButtons".equals(key)) { optBig = v; buttonsDirty = true; }
                 else if ("threatReadout".equals(key)) optThreat = v;
+                else if ("radarEdge".equals(key)) optEdge = v;
                 save(key, v);
             }
         });

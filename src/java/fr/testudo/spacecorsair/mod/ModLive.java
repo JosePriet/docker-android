@@ -85,6 +85,9 @@ public final class ModLive {
             return;
         }
         boolean on = !ObjectRegistry.INSTANCE.game.mapMode && !e.isPlayer;
+        if (e.isPlayer && e == ObjectRegistry.INSTANCE.playerShip && !ObjectRegistry.INSTANCE.game.mapMode && ModQol.radarEdge()) {
+            try { radarEdge((PlayerShip) e); } catch (Throwable t) { /* QoL prototype P4 is cosmetic */ }
+        }
         if (on) {
             try {
                 frame();
@@ -254,6 +257,41 @@ public final class ModLive {
         float y = e.position.y + h / 2.0f + 8.0f + sh * 0.35f;
         float pulse = 0.8f + 0.2f * (float) Math.sin(nowMs / 220.0d);
         upright("icon_skull", x, y, sw, sh, SKULL_R, SKULL_G, SKULL_B, pulse, false);
+    }
+
+    // ------------------------------------------------------------------ QoL prototype P4: radar-edge pointers
+    /** Bosses, hostile flagships and police titans outside radar range (up to RADAR_EDGE_MAX x range) are pinned to the radar rim. */
+    static final float RADAR_EDGE_MAX = 4.0f, RADAR_EDGE_H = 12.0f;
+    private static final Vector2 edgeAt = new Vector2();
+
+    private static void radarEdge(PlayerShip ps) {
+        float range = ps.radarPortee;
+        if (range <= 0 || fr.testudo.spacecorsair.display.hud.Radar.drawPosition == null) return;
+        java.util.List<Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
+        float rim = fr.testudo.spacecorsair.display.hud.Radar.DEMI_DIM - 14;
+        for (int i = 0; i < els.size(); i++) {
+            Element e = els.get(i);
+            if (e == null || e.removed || e.life <= 0) continue;
+            boolean boss = false, cap = false;
+            if (e instanceof GuardianCivilShip) {
+                ModCapitals.Cap c = ModCapitals.cap(e);
+                cap = c != null && (c.police || titanHostile((GuardianCivilShip) e, c));
+            } else if (e instanceof Ennemis && !Mod.isDrone(e)) boss = ModBoss.kindOf(e) >= 0;
+            if (!boss && !cap) continue;
+            float dx = e.position.x - ps.position.x, dy = e.position.y - ps.position.y;
+            float d2 = dx * dx + dy * dy;
+            if (d2 < range * range || d2 > range * range * RADAR_EDGE_MAX * RADAR_EDGE_MAX) continue;
+            float d = (float) Math.sqrt(d2);
+            edgeAt.setSameAs(fr.testudo.spacecorsair.display.hud.Radar.drawPosition).add(dx / d * rim, dy / d * rim);
+            boolean skull = outlevels(e);
+            Texture t = ModArt.ready(skull ? "icon_skull" : "icon_boss");
+            if (t == null) continue;
+            float h = skull ? SKULL_RADAR_H : RADAR_EDGE_H, w = skull ? h * SKULL_ASPECT : h;
+            float a = 0.55f + 0.45f * (1.0f - Math.min(1.0f, (d - range) / (range * (RADAR_EDGE_MAX - 1.0f))));   // nearer = brighter
+            if (skull) ModFx.hudTex(t, edgeAt.x, edgeAt.y, w, h, SKULL_R, SKULL_G, SKULL_B, a);
+            else if (boss) ModFx.hudTex(t, edgeAt.x, edgeAt.y, w, h, 0.78f, 0.45f, 1.0f, a);
+            else ModFx.hudTex(t, edgeAt.x, edgeAt.y, w, h, 1.0f, 0.35f, 0.25f, a);
+        }
     }
 
     // ------------------------------------------------------------------ living ships
