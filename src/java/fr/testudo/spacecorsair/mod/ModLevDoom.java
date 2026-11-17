@@ -153,7 +153,7 @@ public final class ModLevDoom {
     public static void drawUnder(PlayerShip ps) {
         if (!on || !ModTitan.isLeviathanSeq(ps)) return;
         float t = sec();
-        float dim = 0.5f * sm(t, 3.2f, 4.9f) * (1 - sm(t, 5.6f, 7.0f));
+        float dim = 0.55f * sm(t, 3.2f, 4.9f) * (1 - sm(t, 5.6f, 7.0f));   // audit F13: the preview's 0.55 (doomsday.py bgd)
         if (dim > 0.01f) {
             float s = ps.shipSpec.drawableSize * 7;
             ModFx.spr("fx_glow", ps.position.x, ps.position.y, s, s, 0, 0, 0, 0, dim, false);

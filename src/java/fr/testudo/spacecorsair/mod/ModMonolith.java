@@ -259,14 +259,14 @@ public final class ModMonolith {
                             boolean left = w == 0;
                             wingPt(left, 512, 512, wdeg, a);
                             toScreen(ps, a, b);
-                            aura("mfx_mono_aura_wing", b.x + c.x, b.y + c.y, sz, ps.spin + (left ? wdeg : -wdeg), !left, lv, al);
+                            aura("mfx_mono_aura_wing", b.x + c.x, b.y + c.y, sz, ps.spin + (left ? wdeg : -wdeg), !left, lv, al * JOINT_TONE);
                         }
                     } else {
                         aura(stage == 5 ? "mfx_mono_aura_hull" : "mfx_mono_aura_s4", sc.x + c.x, sc.y + c.y, sz, ps.spin, false, lv, al);
                     }
                 }
                 if (!parts) return;
-                plasma(ps, t, wdeg, true);   // 60% share + trail under the wings (preview: 40% / 10% over the ship)
+                plasma(ps, t, wdeg, true);   // 60% share + trail under the wings; 40% + 10% of the trail over the ship (over())
                 // wings under the hull, heated with the plates, lights on
                 for (int w = 0; w < 2; w++) {
                     boolean left = w == 0;
@@ -307,12 +307,23 @@ public final class ModMonolith {
     /** One flat-colour additive mask tile (texture alpha x a), w may be negative (mirrored). */
     private static void mask(String tex, float x, float y, float w, float h, float rot, float r, float g, float bl, float al,
                              float u0, float v0, float u1, float v1) {
+        mask(tex, x, y, w, h, rot, r, g, bl, al, u0, v0, u1, v1, true);
+    }
+
+    private static void mask(String tex, float x, float y, float w, float h, float rot, float r, float g, float bl, float al,
+                             float u0, float v0, float u1, float v1, boolean additive) {
         if (al <= 0.004f) return;
         Texture tx = ModArt.ready(tex);
         if (tx == null) return;
         ModFx.flatNext = true;
-        ModFx.sprTex(tx, x, y, w, h, rot, Math.min(1, r), Math.min(1, g), Math.min(1, bl), Math.min(1, al), true, u0 + HT, v0 + htv, u1 - HT, v1 - htv);
+        ModFx.sprTex(tx, x, y, w, h, rot, Math.min(1, r), Math.min(1, g), Math.min(1, bl), Math.min(1, al), additive, u0 + HT, v0 + htv, u1 - HT, v1 - htv);
     }
+
+    /** Audit F13 (owner 2026-11-17): the preview darkens the background under the aura by 0.55 x A. */
+    static final float AURA_DARKEN = 0.55f;
+    /** Audit F13: the per-part auras overlap at the hull/wing joints (up to ~2x the preview's glow there); the wing
+     *  auras are drawn at this share to tone the joints down. Owner phone check. */
+    static final float JOINT_TONE = 0.65f;
 
     /**
      * The preview's aura for one part: col x A with col = core x I + edge x (1 - I), drawn additively as
@@ -335,6 +346,8 @@ public final class ModMonolith {
             float u0 = (i % ModMonoFx.A_COLS) * ModMonoFx.A_TILE, v0 = (i / ModMonoFx.A_COLS) * ModMonoFx.A_TILE;
             float u1 = u0 + ModMonoFx.A_TILE, v1 = v0 + ModMonoFx.A_TILE;
             // alpha above 1 (heavy-hit pulse at full shield) goes into a second pass instead of being clamped away
+            // audit F13: background darkening first (black, normal blend), then the additive glow
+            mask(base + "_a", x, y, w, sz, rot, 0, 0, 0, Math.min(1, AURA_DARKEN * Math.min(1, al) * wt), u0, v0, u1, v1, false);
             for (float rest = al * wt; rest > 0.004f; rest -= 1) {
                 float pa = Math.min(1, rest);
                 mask(base + "_a", x, y, w, sz, rot, edge[0], edge[1], edge[2], pa, u0, v0, u1, v1);
@@ -392,13 +405,14 @@ public final class ModMonolith {
                 float fw = (q == 0 ? 1 - ff : ff) * wt * gi;
                 plasmaTile(fr, b.x, b.y, tww, th, rot, fw, true);
             }
-            if (!under) continue;
+            // audit F13 (owner 2026-11-17): the preview adds the trail over the hull too, at 10% (img + TRAIL x (1 - 0.9 ha))
+            float tw8 = under ? 1.0f : 0.1f;
             for (int k = 0; k < GHOST_AGE.length; k++) {
                 float back = GHOST_AGE[k] * shift * px2w;
                 c.set(0, back).applyRotatation(Math.toRadians(ps.spin));
                 int fr = (int) (((t - (long) (GHOST_AGE[k] * 1000)) % ModMonoFx.P_LOOP_MS + ModMonoFx.P_LOOP_MS) % ModMonoFx.P_LOOP_MS
                         / (float) ModMonoFx.P_LOOP_MS * ModMonoFx.P_NF) % ModMonoFx.P_NF;
-                plasmaTile(fr, b.x + c.x, b.y + c.y, tww, th, rot, GHOST_W[k] * gi, false);
+                plasmaTile(fr, b.x + c.x, b.y + c.y, tww, th, rot, GHOST_W[k] * gi * tw8, false);
             }
         }
     }
