@@ -13,7 +13,7 @@ Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and mer
 
 ## Branches and versions (updated 2026-11-17, audit I1/I5)
 - `sc-mod-workspace`: the work branch; every update branches from it and merges back after the owner's OK. Released: v44 (build 51).
-- In progress: v45 (build 52) on `claude/project-thread-fuw6ke`: internet play + the whole-game audit fixes; not merged, not released.
+- v45 (build 52): internet play + the whole-game audit fixes + the owner's fix list; merged into sc-mod-workspace 2026-11-17 (owner OK), not released. Two builds: public, and a private DEV build (`DEV_KEY_FILE=<key> bash build.sh`; key in /mnt/project-files/space-corsair/keys/dev.key; never publish the DEV APK).
 - `releases`: GitHub Release workflow (`.github/workflows/release.yml`); bump `release/VERSION` or nothing publishes. Links: releases/download/<ver>/space-corsair-mod.apk.
 - `emulator-tests` / `emulator-results`: CI emulator flow (also the two-runner internet check, `tests/netcloud/`).
 - `claude/project-thread-qs9twg`: titan damage-test harness; not merged by design (test code only).
