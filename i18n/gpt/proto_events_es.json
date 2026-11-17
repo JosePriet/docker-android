@@ -23,5 +23,6 @@
  "south": "sur",
  "south-east": "sureste",
  "south-west": "suroeste",
- "west": "oeste"
+ "west": "oeste",
+ "CHAIN x": "CADENA x"
 }
