@@ -253,6 +253,13 @@ public class ModLang {
         return tr(k != null ? k : shown);
     }
 
+    /** Audit C6: one whole translated sentence per case; {0}, {1}... are filled after translation. */
+    public static String fmt(String enTemplate, Object... v) {
+        String t = tr(enTemplate);
+        for (int i = 0; i < v.length; i++) t = t.replace("{" + i + "}", String.valueOf(v[i]));
+        return t;
+    }
+
     public static String tr(String en) {
         if (en == null || !spanish()) return en;
         String s = dict().get(en);

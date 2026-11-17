@@ -169,7 +169,7 @@ public class ModBoss extends MissionListener {
         ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(pos, false, arrow, ang, pulse, 1.0f, 0.15f, 0.15f);
         int kind = ((ModBoss) l).kind, m = (int) b.position.distance(ps.position);
         if (distText == null || kind != distKind || m != distM) {
-            distText = NAMES[kind] + " " + m + "m";
+            distText = ModLang.tr(NAMES[kind]) + " " + m + "m";
             distKind = kind;
             distM = m;
         }
@@ -652,7 +652,7 @@ public class ModBoss extends MissionListener {
         for (Ennemis f : illusions) if (!f.removed) { wave(f.position, 0.7f, 0.2f, 0.9f, 300.0f); f.remove(); }
         illusions.clear();
         boss = null;
-        WelcomeMessage.setText(ObjectRegistry.INSTANCE.getStringRessource(fr.testudo.spacecorsair.R.string.missionSuccess), NAMES[kind] + " destroyed");
+        WelcomeMessage.setText(ObjectRegistry.INSTANCE.getStringRessource(fr.testudo.spacecorsair.R.string.missionSuccess), ModLang.fmt("{0} destroyed", ModLang.tr(NAMES[kind])));
         ModDev.ev("bossdead", NAMES[kind]);
         ModLoot.bossBonus(kind);
         markGates(true);
@@ -660,7 +660,7 @@ public class ModBoss extends MissionListener {
         if (mission != null) {
             Mission m = mission;
             terminate();
-            ModClaim.payNow(m, ModLang.tr(ModLang.re(MISSION_NAMES[kind])), ModLang.tr(NAMES[kind]) + ModLang.tr(" destroyed. The bounty has been paid."));
+            ModClaim.payNow(m, ModLang.tr(ModLang.re(MISSION_NAMES[kind])), ModLang.fmt("{0} destroyed. The bounty has been paid.", ModLang.tr(NAMES[kind])));
         }
     }
 
@@ -713,11 +713,11 @@ public class ModBoss extends MissionListener {
             return inHub ? ModLang.tr("Dock at ") + station + ModLang.tr(" to claim your reward") : ModLang.tr("Return to ") + hub.levelName;
         }
         if (!inZone) {
-            return "Go to " + zone.levelName + ModLang.tr(" and hunt the ") + NAMES[kind];
+            return ModLang.fmt("Go to {0} and hunt the {1}", zone.levelName, ModLang.tr(NAMES[kind]));
         }
         Ennemis boss = this.boss;
         if (boss == null || boss.removed) {
-            return ModLang.tr("Destroy the ") + NAMES[kind];
+            return ModLang.fmt("Destroy the {0}", ModLang.tr(NAMES[kind]));
         }
         PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
         int pct = (int) Math.ceil(100.0f * boss.life / boss.maxLife);
@@ -727,13 +727,13 @@ public class ModBoss extends MissionListener {
         String cached = instr;
         if (cached != null && pct == instrPct && dist == instrDist && inv == instrInv) return cached;
         StringBuilder sb = new StringBuilder();
-        sb.append(NAMES[kind].toUpperCase()).append("  HP ").append(pct).append("%  ");
+        sb.append(ModLang.tr(NAMES[kind]).toUpperCase()).append("  ").append(ModLang.tr("HP")).append(" ").append(pct).append("%  ");
         int filled = Math.max(0, Math.min(10, pct / 10));
         for (int i = 0; i < 10; i++) sb.append(i < filled ? '|' : '.');
         if (ps != null) {
             sb.append("  ").append(dist).append(" m");
         }
-        if (inv) sb.append("  [SHIELDED]");
+        if (inv) sb.append("  ").append(ModLang.tr("[SHIELDED]"));
         String out = sb.toString();
         instrPct = pct;
         instrDist = dist;

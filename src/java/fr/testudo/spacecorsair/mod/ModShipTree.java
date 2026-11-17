@@ -62,7 +62,7 @@ public final class ModShipTree {
     private static final int BG = 0xFF050B16, CYAN = 0xFF6AD0FF, GREEN = 0xFF41FF16, YELLOW = 0xFFFFD93F, GREY = 0xFF4A5868,
         TEXT = 0xFFB0C4DA, DIM = 0xFF7F8EA0, GOLD = 0xFFE8B84A, CARD = 0xE60B1A2E, ORANGE = 0xFFE0A040, RED = 0xFFFF6B6B,
         PURPLE = 0xFFD21AFF, PANEL = 0xCC0A1626, EDGE = 0xFF24384F;
-    private static final String[] COLS = {ModLang.tr("FRIGATE"), ModLang.tr("DESTROYER"), ModLang.tr("CRUISER"), ModLang.tr("BATTLECRUISER"), ModLang.tr("BATTLESHIP"), ModLang.tr("CAPITAL / TITAN"), "INDUSTRIAL"};
+    private static final String[] COLS = {ModLang.tr("FRIGATE"), ModLang.tr("DESTROYER"), ModLang.tr("CRUISER"), ModLang.tr("BATTLECRUISER"), ModLang.tr("BATTLESHIP"), ModLang.tr("CAPITAL / TITAN"), ModLang.tr("INDUSTRIAL")};
     // v24 faction texts, generated from src/data/lore_v24.json (factions.<key> in ModCapitals.FACTIONS order, then independent = IND)
     private static final String[] TAGLINE = {
         ModLang.tr("Disciplined fleets; safe passage is a public duty."),
@@ -614,7 +614,7 @@ public final class ModShipTree {
         } catch (Exception e) {
             owned = 0;
         }
-        TextView cnt = text(a, ships.size() + ModLang.tr(" ships  ·  ") + owned + " owned", 9, DIM, false);
+        TextView cnt = text(a, ships.size() + ModLang.tr(" ships  ·  ") + owned + " " + ModLang.tr("owned"), 9, DIM, false);
         cnt.setPadding(0, (int) (4 * dp), 0, 0);
         o.facPanel.addView(cnt);
 
@@ -905,7 +905,7 @@ public final class ModShipTree {
         else if (st == 1) { tag = ModLang.tr("OWNED"); tc = GREEN; }
         else if (st == 2) { tag = ModLang.tr("BUY"); tc = YELLOW; }
         else if (st == 3) { tag = ModLang.tr("CREDITS"); tc = ORANGE; }
-        else if (!levelOk(t)) { tag = "LV " + ModUi.level(t); tc = RED; }
+        else if (!levelOk(t)) { tag = ModLang.tr("LV") + " " + ModUi.level(t); tc = RED; }
         else if (ModDev.isDev(t)) { tag = ModLang.tr("GIFT"); tc = DIM; }
         else { tag = ModLang.tr("LICENCE"); tc = DIM; }
         TextView tg = text(a, tag, 8, tc, true);
@@ -922,7 +922,7 @@ public final class ModShipTree {
         FrameLayout.LayoutParams nl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);
         nl.bottomMargin = (int) (17 * dp);
         card.addView(nm, nl);
-        TextView sub = text(a, "Lv " + ModUi.level(t) + "  ·  " + shortPrice(t), 9, TEXT, false);
+        TextView sub = text(a, ModLang.tr("Lv") + " " + ModUi.level(t) + "  ·  " + shortPrice(t), 9, TEXT, false);
         sub.setSingleLine(true);
         sub.setGravity(Gravity.CENTER_HORIZONTAL);
         FrameLayout.LayoutParams sl2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);

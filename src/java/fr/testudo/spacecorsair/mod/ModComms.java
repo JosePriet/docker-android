@@ -364,7 +364,7 @@ public final class ModComms {
             p.edit().putBoolean("v37_hail_help", true).apply();
             new android.app.AlertDialog.Builder(a).setTitle(ModLang.tr("Faction flagship"))
                 .setMessage(ModLang.tr("You are near a faction flagship. Tap TALK TO COMMANDER to speak with its commander for story missions, contracts and turn-ins. The line below the button shows if anything is available for you."))
-                .setPositiveButton("OK", null).show();
+                .setPositiveButton(ModLang.tr("OK"), null).show();
         } catch (Throwable t) {
             // help is a convenience
         }
@@ -424,11 +424,11 @@ public final class ModComms {
                 if (r == ModRep.HOSTILE) sb.append(ModLang.tr("Flagship and patrols attack on sight. The commander will not answer."));
                 else if (r == ModRep.UNFRIENDLY) sb.append(ModLang.tr("Only amends contracts are offered."));
                 else {
-                    sb.append(ModLang.tr("Payout +")).append(Math.round(ModRep.PAYOUT[r] * 100)).append(ModLang.tr("%  \u00b7  flagship forgives ")).append(Math.round(ModRep.tolerance(k))).append(ModLang.tr("% friendly fire"));
+                    sb.append(ModLang.fmt("Payout +{0}%  \u00b7  flagship forgives {1}% friendly fire", Math.round(ModRep.PAYOUT[r] * 100), Math.round(ModRep.tolerance(k))));   // audit C6
                     if (r >= ModRep.TRUSTED) sb.append(ModLang.tr("  \u00b7  flagship fire support"));
                 }
-                sb.append("\nTrusted: ").append(ModRepData.SECRET_WEAPON[i][0]).append(r >= ModRep.TRUSTED ? " (unlocked)" : "");
-                sb.append("   Honored: ").append(ModRepData.SECRET_SHIP[i][0]).append(r >= ModRep.HONORED ? ModLang.tr(" (for sale)") : r >= ModRep.TRUSTED ? ModLang.tr(" (listed, locked)") : "");
+                sb.append("\n").append(ModLang.tr("Trusted:")).append(" ").append(ModRepData.SECRET_WEAPON[i][0]).append(r >= ModRep.TRUSTED ? " " + ModLang.tr("(unlocked)") : "");
+                sb.append("   ").append(ModLang.tr("Honored:")).append(" ").append(ModRepData.SECRET_SHIP[i][0]).append(r >= ModRep.HONORED ? ModLang.tr(" (for sale)") : r >= ModRep.TRUSTED ? ModLang.tr(" (listed, locked)") : "");
                 perks.setText(sb.toString());
                 c.addView(perks);
                 row.addView(c, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
@@ -442,7 +442,7 @@ public final class ModComms {
             list.addView(foot);
             android.widget.ScrollView sv = new android.widget.ScrollView(a);
             sv.addView(list);
-            new android.app.AlertDialog.Builder(a).setTitle(ModLang.tr("Faction standings")).setView(sv).setPositiveButton("OK", null).show();
+            new android.app.AlertDialog.Builder(a).setTitle(ModLang.tr("Faction standings")).setView(sv).setPositiveButton(ModLang.tr("OK"), null).show();
         } catch (Throwable t) {
             // ignore
         }

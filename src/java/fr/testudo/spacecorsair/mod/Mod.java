@@ -896,7 +896,7 @@ public class Mod {
         if (hullName != null) {
             return hullName;
         }
-        String base = baseLabel(t);
+        String base = ModLang.tr(baseLabel(t));   // audit C5: item base names in the player's language
         if (base == null || "megatronShip".equals(t.name())) {
             return base;
         }

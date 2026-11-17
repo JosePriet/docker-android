@@ -50,7 +50,7 @@ final class ModClaim {
                                 public void onClick(DialogInterface d, int w) {
                                     new AlertDialog.Builder(a).setTitle(ModLang.tr("Reward received"))
                                         .setMessage(reward.length() > 0 ? reward : "-").setCancelable(false)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        .setPositiveButton(ModLang.tr("OK"), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface d2, int w2) { ObjectRegistry.resume(); }
                                         }).show();
                                 }

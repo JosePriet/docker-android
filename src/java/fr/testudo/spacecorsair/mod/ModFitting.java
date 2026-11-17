@@ -323,7 +323,7 @@ public final class ModFitting {
     static String statLine(SpaceObjectType t) {
         GearSpec g = t == null ? null : t.getGearSpec();
         if (g == null) return "";
-        String lv = "Lv " + g.level;
+        String lv = ModLang.tr("Lv") + " " + g.level;
         if (g instanceof LaserSpec) {
             LaserSpec l = (LaserSpec) g;
             // weapon fit (2026-11-14): the H1 loss on the selected hull shows as "DPS base -> real"
@@ -810,7 +810,7 @@ public final class ModFitting {
             creditsInApp.setText(nf.format(inv.getCreditInApp()));
             setIcon(credits, "imgCredits");
             setIcon(creditsInApp, "imgCreditsInApp");
-            level.setText("LV " + pi.level);
+            level.setText(ModLang.tr("LV") + " " + pi.level);
 
             // left bars
             if (ps != null) {
@@ -1455,7 +1455,7 @@ public final class ModFitting {
                     boolean ok = so.getSpaceObjectType().canEquip();
                     if (!ok) {
                         fit.setEnabled(false);
-                        fit.setText("LV " + so.getSpaceObjectType().getGearSpec().level);
+                        fit.setText(ModLang.tr("LV") + " " + so.getSpaceObjectType().getGearSpec().level);
                         fit.setTextColor(DIM);
                     }
                     fit.setOnClickListener(new View.OnClickListener() {
@@ -1476,7 +1476,7 @@ public final class ModFitting {
                 }
                 if (items.isEmpty()) {
                     TextView none = text(a, 12, GREY, false);
-                    none.setText(ModLang.tr("No ") + ModLang.tr(SLOT_NAME[slot]).toLowerCase() + ModLang.tr(" in your cargo hold. Buy one at a station market or the cash shop."));
+                    none.setText(ModLang.fmt("No {0} in your cargo hold. Buy one at a station market or the cash shop.", ModLang.tr(SLOT_NAME[slot]).toLowerCase()));   // audit C6
                     none.setPadding(0, (int) (8 * d), 0, (int) (8 * d));
                     list.addView(none);
                 }

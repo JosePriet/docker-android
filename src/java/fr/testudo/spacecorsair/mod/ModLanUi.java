@@ -336,7 +336,7 @@ final class ModLanUi {
             q.setMinimumWidth(0);
             q.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    try { new AlertDialog.Builder(a).setTitle(head).setMessage(help).setPositiveButton("OK", null).show(); } catch (Throwable t) { /* no help */ }
+                    try { new AlertDialog.Builder(a).setTitle(head).setMessage(help).setPositiveButton(ModLang.tr("OK"), null).show(); } catch (Throwable t) { /* no help */ }
                 }
             });
             row.addView(q, new LinearLayout.LayoutParams((int) (48 * d), ViewGroup.LayoutParams.WRAP_CONTENT));

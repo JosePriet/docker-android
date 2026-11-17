@@ -441,7 +441,7 @@ public class ModQol {
             int unread = ModPrologue.active ? 0 : unread();   // v46: no inbox banner during the prologue
             if (unread > 0) {
                 if (inboxText == null || unread != inboxN || GameRenderer.glTextLittle != inboxFont) {
-                    inboxText = "INBOX: " + unread + ModLang.tr(" new  (open from the Ships or Station screen)");
+                    inboxText = ModLang.fmt("INBOX: {0} new  (open from the Ships or Station screen)", unread);   // audit C3
                     inboxN = unread;
                     inboxFont = GameRenderer.glTextLittle;
                     inboxHalf = GameRenderer.glTextLittle.getLength(inboxText) / 2.0f;
@@ -599,9 +599,10 @@ public class ModQol {
                     ships.append(n);
                 }
             }
-            String msg = ModLang.tr("Level ") + lvl + " reached.";
-            if (ships.length() > 0) msg += ModLang.tr(" New ships you can fly: ") + ships + ".";
-            msg += " Level " + lvl + ModLang.tr(" lasers, shields and missiles can now be equipped.");
+            // audit C3 (owner): whole translated sentences
+            String msg = ModLang.fmt("Level {0} reached.", lvl);
+            if (ships.length() > 0) msg += " " + ModLang.fmt("New ships you can fly: {0}.", ships);
+            msg += " " + ModLang.fmt("Level {0} lasers, shields and missiles can now be equipped.", lvl);
             post(msg);
             if (lvl == ModV34.STAT_LEVEL) {
                 post(ModLang.tr("Pilot stats unlock at level 10. They are automatic.") + " "
@@ -624,7 +625,7 @@ public class ModQol {
             synchronized (ModQol.class) {
                 if (inbox.isEmpty()) sb.append(ModLang.tr("No messages yet. Level-ups and new unlocks are listed here."));
                 for (int i = inbox.size() - 1; i >= 0; i--) {
-                    sb.append(i >= readCount ? "NEW  " : "").append(inbox.get(i)).append("\n\n");
+                    sb.append(i >= readCount ? ModLang.tr("NEW") + "  " : "").append(inbox.get(i)).append("\n\n");
                 }
                 readCount = inbox.size();
                 saveInbox();
@@ -892,8 +893,8 @@ public class ModQol {
             outer.setAccessible(true);
             Activity a = (Activity) outer.get(listener);
             String name = so.getSpaceObjectType().getLocalizedLabel();
-            new AlertDialog.Builder(a).setTitle(ModLang.tr("Sell ") + r.name().toLowerCase() + " item?")
-                .setMessage(ModLang.tr("Sell ") + qty + " x " + name + ModLang.tr("? This cannot be undone."))
+            new AlertDialog.Builder(a).setTitle(ModLang.fmt("Sell {0} item?", ModLang.tr(r.name().toLowerCase())))   // audit C6
+                .setMessage(ModLang.fmt("Sell {0} x {1}? This cannot be undone.", qty, name))
                 .setPositiveButton(ModLang.tr("Sell"), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface d, int w) {
                         sellBypass = true;

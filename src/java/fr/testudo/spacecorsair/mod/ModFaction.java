@@ -153,7 +153,7 @@ public class ModFaction extends MissionListener {
         if ("KILL_ENEMY_TYPE".equals(obj)) return ModLang.tr("Destroy ") + count + ModLang.tr(" hostile ships.");
         if ("DESTROY_STATION".equals(obj)) return ModLang.tr("Destroy the marked station and its guards.");
         if ("ESCORT".equals(obj)) return ModLang.tr("Escort the ship to its jump point.");
-        if ("SCAN_CIVIL".equals(obj)) return ModLang.tr("Scan ") + count + ModLang.tr(" civilian ships.");
+        if ("SCAN_CIVIL".equals(obj)) return ModLang.fmt("Scan {0} civilian ships.", count);
         if ("RESCUE".equals(obj)) return ModLang.tr("Recover the ") + count + ModLang.tr(" stranded crews.");
         return "";
     }
@@ -650,7 +650,7 @@ public class ModFaction extends MissionListener {
     }
 
     private static void name(Element e, String n) {
-        e.specificName = n;
+        e.specificName = ModLang.tr(n);   // audit C4: enemy and objective names in the player's language
         e.specificNameDecalX = -1;
     }
 
@@ -1110,7 +1110,7 @@ public class ModFaction extends MissionListener {
                         scanMs[k] = -1;
                         progress++;
                         c.isMissionObjective = false;
-                        Mod.floatText(c, "SCANNED " + progress + "/" + goal, 0.5f, 0.9f, 1.0f);
+                        Mod.floatText(c, ModLang.tr("SCANNED") + " " + progress + "/" + goal, 0.5f, 0.9f, 1.0f);
                         if (progress == goal - 1 && !ambushed) {
                             ambushed = true;
                             Mod.floatText(c, ModLang.tr("FALSE TRANSPONDER: RAIDERS!"), 1.0f, 0.4f, 0.3f);
@@ -1237,7 +1237,7 @@ public class ModFaction extends MissionListener {
             bx = f.center.x; by = f.center.y;
             int sec = Math.max(0, (f.goal - f.holdMs) / 1000);
             if (holdLabel == null || sec != holdSec) {
-                holdLabel = "HOLD " + sec + "s";
+                holdLabel = ModLang.tr("HOLD") + " " + sec + "s";
                 holdSec = sec;
             }
             label = holdLabel;
@@ -1265,7 +1265,7 @@ public class ModFaction extends MissionListener {
                 float d = c.position.distance(ps.position);
                 if (d < bestD) { bestD = d; bx = c.position.x; by = c.position.y; }
             }
-            label = "SCAN";
+            label = ModLang.tr("SCAN");
         }
         if (label == null || bestD == Float.MAX_VALUE || bestD < 1100) return;
         fr.testudo.spacecorsair.display.Texture tex = fr.testudo.spacecorsair.display.Fleche.MAIN_TEXTURE;
@@ -1335,7 +1335,7 @@ public class ModFaction extends MissionListener {
             progress++;
             save();
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
-            if (ps != null) Mod.floatText(ps, "TARGETS " + Math.min(progress, goal) + "/" + goal, 1.0f, 0.8f, 0.4f);
+            if (ps != null) Mod.floatText(ps, ModLang.tr("TARGETS") + " " + Math.min(progress, goal) + "/" + goal, 1.0f, 0.8f, 0.4f);
         }
     }
 
@@ -1408,7 +1408,7 @@ public class ModFaction extends MissionListener {
         switch (branch) {
             case 0: out = ModLang.tr("Return to ") + pretty(f.hq) + ModLang.tr(" and talk to the commander of ") + f.ship; break;
             case 1: out = (phase == 1 && "DELIVERY".equals(obj) ? ModLang.tr("Deliver the crate to ") : phase == 1 && "GATHER_AND_SELL".equals(obj) ? ModLang.tr("Sell the cargo at ")
-                : "Go to ") + pretty(where) + ": " + str(idx, 2); break;
+                : ModLang.tr("Go to ")) + pretty(where) + ": " + str(idx, 2); break;
             case 2: out = ModLang.tr("Hold the outpost zone: ") + val + ModLang.tr(" s left"); break;
             case 3: out = ModLang.tr("Protect the transports. Waves left: ") + val; break;
             case 4: out = ModLang.tr("Escort ") + tg.specificName + ": " + val + " m"; break;

@@ -445,7 +445,7 @@ public class ModUi {
                 return;
             }
             new AlertDialog.Builder(a).setTitle(ModLang.tr("Sell junk"))
-                .setMessage(ModLang.tr("Sell ") + junk.size() + ModLang.tr(" stacks of Common gear below level ") + lvl + ModLang.tr(" for about ") + total + " credits?")
+                .setMessage(ModLang.fmt("Sell {0} stacks of Common gear below level {1} for about {2} credits?", junk.size(), lvl, total))   // audit C6
                 .setPositiveButton(ModLang.tr("Sell"), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface d, int w) {
                         try {
