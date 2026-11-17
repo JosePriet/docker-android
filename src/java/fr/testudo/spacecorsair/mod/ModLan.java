@@ -1677,6 +1677,7 @@ public final class ModLan {
     private static void exitFrame() {
         try {
             if (role == GUEST) { if (connected && !solo) exitReload = false; return; }   // following again (that wipes it anyway), or still joining
+            if (role == HOST || ModTestMode.on || System.currentTimeMillis() > exitReloadAt + 60000) { exitReload = false; return; }   // cross-check: hosting now, another profile, or too late
             if (System.currentTimeMillis() < exitReloadAt && (rejoinUntil > System.currentTimeMillis() || lastAddr != null || ModLobby.joined())) return;
             fr.testudo.spacecorsair.game.levels.Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
