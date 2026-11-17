@@ -705,6 +705,7 @@ public final class ModLan {
             if (s != null) new Thread(new Runnable() { public void run() { ModLobby.call("POST", "/sample", s); } }, "lobby-sample").start();
         }
         lastDecl = null;
+        if (role == GUEST && connected && !solo) { exitReload = true; exitReloadAt = System.currentTimeMillis() + 31000; }   // GPT check BH03: the emptied sector comes back once no reconnect is pending
         linkGen++;
         final Socket old = sock;
         final java.util.concurrent.locks.ReentrantLock wlOld = writeLock;
@@ -740,6 +741,8 @@ public final class ModLan {
         pvpWanted = false;
         seenRound = 0;
         defeatRound = -1;
+        lostRound = false;   // GPT check BH07: a round lost between frames does not carry into the next duel
+        restore = false;
         solo = false;
         marksOut = null;
         autoAccept = false;
@@ -1648,7 +1651,11 @@ public final class ModLan {
      * its own missions, so its sector is rebuilt through the stock gate-travel path (LevelBuilder.jumpToLevel), which
      * spawns the sector's own ships again. The player comes out at the sector's closest gate.
      */
+    static volatile boolean exitReload;
+    private static volatile long exitReloadAt;
+
     static void preFrame() {
+        if (exitReload) exitFrame();
         if (!soloReload) return;
         soloReload = false;
         try {
@@ -1662,6 +1669,27 @@ public final class ModLan {
             ModDev.ev("lan", "solo: sector reloaded at " + p.portalName);
         } catch (Throwable t) {
             ModDev.ev("lan", "solo reload failed " + t);
+        }
+    }
+
+    /** GPT check BH03: a guest that stopped following the host gets its own sector rebuilt (stock gate travel), once no
+     *  reconnect is pending; kept for later while docked, on the map or in the prologue. */
+    private static void exitFrame() {
+        try {
+            if (role == GUEST) { if (connected && !solo) exitReload = false; return; }   // following again (that wipes it anyway), or still joining
+            if (System.currentTimeMillis() < exitReloadAt && (rejoinUntil > System.currentTimeMillis() || lastAddr != null || ModLobby.joined())) return;
+            fr.testudo.spacecorsair.game.levels.Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
+            PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+            if (lv == null || ps == null || ps.removed || ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode || ModPrologue.active) return;   // retried next frame
+            exitReload = false;
+            if (lv.id == LevelId.FFA_THE_PLAYER_PAY) return;   // the duel bay: leaveBay takes the ship home, which rebuilds it
+            fr.testudo.spacecorsair.business.world.Portal p = lv.findClosestPortal(ps.position);
+            if (p == null || p.portalName == null) { ModDev.ev("lan", "exit reload skipped: no gate"); return; }
+            fr.testudo.spacecorsair.game.levels.builders.LevelBuilder.jumpToLevel(lv.name, p.portalName);
+            ModDev.ev("lan", "guest exit: sector reloaded at " + p.portalName);
+        } catch (Throwable t) {
+            exitReload = false;
+            ModDev.ev("lan", "exit reload failed " + t);
         }
     }
 
@@ -1720,6 +1748,12 @@ public final class ModLan {
             if (joinAsk) { joinAsk = false; String w = pendingWho; if (w != null) Mod.floatText(ps, w + " " + ModLang.tr("wants to join your game."), 0.3f, 1.0f, 0.5f); }
             if (now - persistAt > 2000) { persistAt = now; persistedMission(ps); }
             guestPos(ps, now);
+            if (ModLobby.switchLocked() && (internet || ModLobby.hosting || ModLobby.joined())) {   // GPT check BH05
+                ModDev.ev("lan", "test switch seen: internet session ended");
+                if (internet) { noRejoin(); stop(); }
+                ModLobby.leave();
+                status = ModLang.tr("Test switches are in use. Internet games are off until the game restarts; local games still work.");
+            }
             if (!connected) {
                 leaveBay();
                 return;
@@ -2304,9 +2338,16 @@ public final class ModLan {
                 o.writeUTF(lv.id != null ? lv.id.levelName : "");
                 o.writeFloat(ps.position.x); o.writeFloat(ps.position.y);
                 o.writeFloat(dmgSent);
-                long xp = ObjectRegistry.INSTANCE.game.playerInfo.curXp;
-                if (xpLastHost >= 0 && xp > xpLastHost) xpSent += xp - xpLastHost;   // a level-up lowers curXp: only gains count
+                fr.testudo.spacecorsair.business.player.PlayerInfo pinf = ObjectRegistry.INSTANCE.game.playerInfo;
+                long xp = pinf.curXp;
+                if (xpLastHost >= 0) {
+                    if (pinf.level == xpLastLevel && xp > xpLastHost) xpSent += xp - xpLastHost;
+                    else if (pinf.level == xpLastLevel + 1 && xpLastNext > 0) xpSent += Math.max(0, xpLastNext - xpLastHost) + Math.max(0, xp);   // GPT check BH08: the award that levelled the host up counts
+                    // anything else (several levels at once, a lower level): baseline only
+                }
                 xpLastHost = xp;
+                xpLastLevel = pinf.level;
+                xpLastNext = pinf.nextLevelXp;
                 if (ModLanSync.on) { leanHost(q, size, ps, lv, nowMs); return; }
                 o.writeLong(xpSent);
                 ByteArrayOutputStream rb = new ByteArrayOutputStream(32768);
@@ -2355,7 +2396,8 @@ public final class ModLan {
         }
     }
 
-    private static long xpLastHost = -1, lastSendMs, idleAt;
+    private static long xpLastHost = -1, lastSendMs, idleAt, xpLastNext;
+    private static int xpLastLevel;
     static final float FAR_FX = 1100f, FAR_FX_SIZE = 400f;
     static volatile long fxDropped;
 
@@ -2480,6 +2522,7 @@ public final class ModLan {
     private static int seenDefeats, seenRound, defeatRound = -1;
     private static long jumpAt;
     private static boolean lostRound, restore;
+    private static long roundAt;   // GPT check BH06: start of the current duel round
 
     /** Host UI: start or end a duel. The host's game takes both ships to the player bay (FFA, off the map). */
     static volatile boolean pvpRoom;   // v45 host room setting, off by default: no duel while off
@@ -2509,7 +2552,8 @@ public final class ModLan {
         if (pvpWanted && !pvp) {
             pvp = true;
             duelFrom = null;
-            round = 1; hostWins = 0; guestWins = 0; roundDmg = 0;
+            round = 1; hostWins = 0; guestWins = 0; roundDmg = 0; roundAt = System.currentTimeMillis();
+            lostRound = false; restore = false;   // GPT check BH07
             seenDefeats = s != null ? s.defeats : 0;
             jumpedIn = false;
             removeProxy();   // re-spawned on the duel side
@@ -2533,10 +2577,13 @@ public final class ModLan {
             return;
         }
         // v45: the host decides. A guest that soaked 4 hulls of damage without reporting a lost round has lost it.
-        boolean soaked = s != null && s.maxLife > 0 && roundDmg > 4.0f * s.maxLife + 2000f;
+        // GPT check BH06: what the declared shield can absorb and regenerate during this round counts too
+        ModLanCheck.Limits lmS = limits != null ? limits : undeclared();
+        float secs = Math.max(0f, (System.currentTimeMillis() - roundAt) / 1000f);
+        boolean soaked = s != null && s.maxLife > 0 && roundDmg > 4.0f * s.maxLife + 2000f + lmS.shield + lmS.regen * secs;
         if (soaked) { flags++; ModDev.ev("lan", "duel round forced, dmg " + roundDmg); }
         if (s != null && (s.defeats > seenDefeats || soaked)) {   // the guest's hull hit its floor: host wins the round
-            roundDmg = 0;
+            roundDmg = 0; roundAt = System.currentTimeMillis();
             seenDefeats = s.defeats;
             hostWins++;
             round++;
@@ -2546,7 +2593,7 @@ public final class ModLan {
         }
         if (lostRound) {   // the host's hull hit its floor: guest wins the round
             lostRound = false;
-            roundDmg = 0;
+            roundDmg = 0; roundAt = System.currentTimeMillis();
             guestWins++;
             round++;
             restore = true;

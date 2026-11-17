@@ -171,6 +171,9 @@ final class ModLobby {
 
     static void switchSeen() { switchUsed = true; }
 
+    /** An internet lobby joined or being rejoined (GPT checks BH03/BH05). */
+    static boolean joined() { return joinedCode.length() > 0 || busy; }
+
     static boolean switchLocked() { return switchUsed; }
 
     /** Fix list 3B: the test profile never plays with others, DEV install or not (LAN and internet). */
@@ -435,6 +438,10 @@ final class ModLobby {
                     status = ModLang.tr("Waiting for a player to join...");
                     ModDev.ev("lobby", "hosting " + (pub ? "public" : "private"));
                 }
+                if (turn != null) {   // GPT check BH10: a waiting hidden host renews its relay too; a dead one is replaced
+                    if (turn.dead) turn = null;
+                    else turn.keep();
+                }
                 if (hide && turn == null && System.currentTimeMillis() >= relayAt) {
                     turn = relay(w, myCode, myTok);
                     if (turn == null) { relayAt = System.currentTimeMillis() + relayWait; relayWait = Math.min(relayWait * 2, 600000); }   // refused or away: ask less and less often
@@ -655,9 +662,11 @@ final class ModLobby {
     static void rejoin() {
         final String jc = joinedCode;
         if (jc.length() != 4) return;
+        final long g = gen;   // GPT check BH01: leaving, hosting or joining meanwhile cancels this reconnect
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try { Thread.sleep(3000); } catch (InterruptedException e) { return; }
+                if (g != gen || !jc.equals(joinedCode)) return;
                 if (ModLan.role != ModLan.NONE || busy) return;   // the player hosted or joined something else meanwhile
                 if (!join(jc)) ModLan.status = ModLang.tr("Co-op link lost");
             }

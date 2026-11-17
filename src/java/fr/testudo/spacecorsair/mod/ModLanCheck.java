@@ -52,6 +52,7 @@ final class ModLanCheck {
 
     static final class Limits {
         float shot, dps, hull, shield;
+        float regen;      // GPT check BH06: shield points a second the declared build can regenerate (with slack)
         float shotPvp, dpsPvp;   // without the doomsday allowance: used while the players can hit each other
         float expShot, expDps;   // audit D4: the highest the declared build can really produce (no slack)
         int shotsPerSec;
@@ -179,6 +180,7 @@ final class ModLanCheck {
         float[] top = bs[L];
         if (d != null && d.level != L) m.flags++;
         float shot = top[0], dps = top[1] * 4, mShot = top[2], mDps = top[3], booster = top[4], shield = top[5];
+        float regen = -1;   // unknown shield: a full recharge every 4 s stands in (generous)
         int cannons = 4;
         boolean doomsday = false;   // only a declared doomsday hull gets that allowance
         float hullDmg = 1f, hullShield = 1f, hullRate = 1f, misRate = 1f;   // hullRate: shots a second against the stock gun (hull reload)
@@ -212,7 +214,7 @@ final class ModLanCheck {
                 mShot = Math.max(((MissileSpec) missile).damage, ((MissileSpec) missile).radiusDamage);
                 mDps = missileDps((MissileSpec) missile);
             } else if (d.missile.length() > 0) m.flags++;
-            if (sh instanceof ShieldSpec) shield = ((ShieldSpec) sh).capacity;
+            if (sh instanceof ShieldSpec) { shield = ((ShieldSpec) sh).capacity; regen = Math.max(0, ((ShieldSpec) sh).reloadBySec); }
             else if (d.shield.length() > 0) m.flags++;
             m.exact = okShip && okLaser;
         }
@@ -227,6 +229,8 @@ final class ModLanCheck {
         if (doomsday) { m.shot = Math.max(m.shot, DOOMSDAY_DPS); m.dps += DOOMSDAY_DPS; m.expShot = Math.max(m.expShot, DOOMSDAY_DPS); m.expDps += DOOMSDAY_DPS; }
         m.hull = Math.max(1f, XpBuilder.PLAYER_SHIP_LIFE[L] * Math.max(0.1f, booster) * HULL_SLACK);
         m.shield = Math.max(1f, shield * hullShield * SHIELD_SLACK);
+        m.regen = regen >= 0 ? regen * hullShield * SHIELD_SLACK : m.shield / 4f;
+        if (!(m.regen >= 0) || Float.isInfinite(m.regen)) m.regen = 0;
         m.shotsPerSec = 300;
         m.shot = sane(m.shot); m.dps = sane(m.dps); m.shotPvp = sane(m.shotPvp); m.dpsPvp = sane(m.dpsPvp); m.hull = sane(m.hull); m.shield = sane(m.shield);
         if (d != null) {   // the numbers the guest's game shows, against the tables
