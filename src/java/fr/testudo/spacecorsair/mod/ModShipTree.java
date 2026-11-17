@@ -1089,7 +1089,7 @@ public final class ModShipTree {
             TextView sk = new TextView(a);
             sk.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
             sk.setTextColor(TEXT);
-            sk.setText(Html.fromHtml(ModLang.tr("<font color='#d21aff'><b>SKILL</b></font> ") + h.skill));
+            sk.setText(Html.fromHtml(ModLang.tr("<font color='#d21aff'><b>SKILL</b></font> ") + h.skillText()));
             sk.setMaxLines(5);
             sk.setEllipsize(TextUtils.TruncateAt.END);
             sk.setPadding(0, (int) (4 * dp), 0, 0);

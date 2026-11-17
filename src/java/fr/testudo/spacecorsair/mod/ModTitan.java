@@ -830,19 +830,24 @@ public final class ModTitan {
     }
 
     // ------------------------------------------------------------------ descriptions
-    public static String skillText(int k) {
-        switch (k) {
-            case LEVIATHAN:
-                // v38 doomsday + v39 anchor stance (GPT EN/ES 2026-11-03; anchor from refit level 7 = stage 4)
-                return ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): immobilizes the titan and disables its weapons for a 5.4 s charge, then fires a 4.4 s lance (2800 range, 60% of hull width) that destroys everything in its path, taking up to 10% of a titan's hull and 15% of a capital's, flagship's or mission boss's hull per shot (ignores resistances), and 100,000 damage per second to any other ship. While firing, turn speed is limited to 5 deg/s; afterward, movement resumes, but weapons stay offline for 2.2 s while the titan vents. Cooldown: 90 s.")
-                    + "<br>" + ModLang.tr("<b>Anchor Stance</b> (passive): after 2.5 s at a complete stop, the titan anchors and raises a hex shield wall across its bow, blocking enemy shots and protecting ships behind it. The wall has a separate shield (150% of the equipped shield's capacity, takes 35% less damage) that recharges in 25 s only while the wall is down; hold the stick for 1.5 s to lift the anchor, and the wall folds 2.5 s later.") + " " + ModLang.tr("Needs refit level 7+.");
-            case THRONE:
-                return ModLang.tr("<b>Furnace Nova</b> (DOOMSDAY button): 2 s charge, then a 3.5 s ring of fire that grows to 1400 around the hull and burns everything inside. "
-                    + "The titan cannot move, turn or fire while it charges and burns. 75 s cooldown.");
-            case DEV:
-                return ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): test lance, 12 s cooldown.");
-            default:
-                return "";
-        }
+    /** Audit B11 (owner 2026-11-17): the Leviathan skill text is built from the code's own numbers, EN and ES. */
+    public static String leviathanSkill() {
+        String d = ModLang.tr("<b>Doomsday Lance</b> (DOOMSDAY button): immobilizes the titan and disables its weapons for a {0} s charge, then fires a {1} s lance ({2} range, {3}% of hull width) that destroys everything in its path, taking up to {4}% of a titan's hull and {5}% of a capital's, flagship's or mission boss's hull per shot (ignores resistances), and {6} damage per second to any other ship. While firing, turn speed is limited to 5 deg/s; afterward, movement resumes, but weapons stay offline for {7} s while the titan vents. Cooldown: {8} s.");
+        d = fill(d, sec(ModLevDoom.CHARGE_MS), sec(ModLevDoom.FIRE_MS), String.valueOf(Math.round(REACH[LEVIATHAN])), "60",
+            String.valueOf(Math.round(DOOM_TITAN_PCT * 100)), String.valueOf(Math.round(DOOM_BIG_PCT * 100)),
+            String.format(java.util.Locale.US, "%,d", Math.round(DOOM_FIXED_PER_S)), sec(ModLevDoom.OVER_MS), String.valueOf(COOL_MS[LEVIATHAN] / 1000));
+        String an = ModLang.tr("<b>Anchor Stance</b> (passive): after {0} s at a complete stop, the titan anchors and raises a hex shield wall across its bow, blocking enemy shots and protecting ships behind it. The wall has a separate shield ({1}% of the equipped shield's capacity, takes {2}% less damage) that recharges in {3} s only while the wall is down; hold the stick for {4} s to lift the anchor, and the wall folds {5} s later.");
+        an = fill(an, sec(ModAnchor.STILL_MS), String.valueOf(Math.round(ModAnchor.CAP_MUL * 100)), String.valueOf(Math.round((1 - ModAnchor.TAKEN) * 100)),
+            String.valueOf(ModAnchor.REGEN_MS / 1000), sec(ModAnchor.TRY_MS), sec(ModAnchor.HOLD_MS));
+        return d + "<br>" + an + " " + ModLang.tr("Needs refit level 7+.");
+    }
+
+    private static String sec(long ms) {
+        return ms % 1000 == 0 ? String.valueOf(ms / 1000) : String.format(java.util.Locale.US, "%.1f", ms / 1000f);
+    }
+
+    private static String fill(String t, String... v) {
+        for (int i = 0; i < v.length; i++) t = t.replace("{" + i + "}", v[i]);
+        return t;
     }
 }

@@ -964,7 +964,7 @@ public final class ModFitting {
                     }
                     if (hull.skill != null && hull.skill.length() > 0) {
                         TextView t = text(c, 10, GREY, false);
-                        t.setText(Html.fromHtml(hull.skill));
+                        t.setText(Html.fromHtml(hull.skillText()));
                         t.setPadding(0, (int) (4 * d), 0, 0);
                         stats.addView(t);
                     }
@@ -1440,7 +1440,12 @@ public final class ModFitting {
                 for (final SpaceObject so : items) {
                     LinearLayout r = itemRow(a, so.getSpaceObjectType(), so, d);
                     float hv = headline(so.getSpaceObjectType());
-                    if (!Float.isNaN(hv) && !Float.isNaN(curH) && hv != curH) {
+                    if (Float.isNaN(hv)) {   // audit B12: no comparable value: marked with a dash
+                        TextView dash = text(a, 11, DIM, true);
+                        dash.setText("-");
+                        dash.setPadding(0, 0, (int) (8 * d), 0);
+                        r.addView(dash);
+                    } else if (!Float.isNaN(curH) && hv != curH) {
                         TextView delta = text(a, 11, hv > curH ? GOOD : BAD, true);
                         delta.setText((hv > curH ? "+" : "") + f1(hv - curH));
                         delta.setPadding(0, 0, (int) (8 * d), 0);
@@ -1524,10 +1529,15 @@ public final class ModFitting {
                     SpaceObjectType a = x.getSpaceObjectType(), b = y.getSpaceObjectType();
                     boolean ea = a.canEquip(), eb = b.canEquip();
                     if (ea != eb) return ea ? -1 : 1;
+                    // audit B12 (owner): items with no headline value sort last (consistent order, no sort failure)
                     float ha = headline(a), hb = headline(b);
-                    if (!Float.isNaN(ha) && !Float.isNaN(hb) && ha != hb) return hb > ha ? 1 : -1;
-                    int r = b.getRarety().getRaretySort() - a.getRarety().getRaretySort();
-                    return r != 0 ? r : b.getGearSpec().level - a.getGearSpec().level;
+                    boolean na = Float.isNaN(ha), nb = Float.isNaN(hb);
+                    if (na != nb) return na ? 1 : -1;
+                    if (!na && ha != hb) return hb > ha ? 1 : -1;
+                    int ra = a.getRarety() == null ? 0 : a.getRarety().getRaretySort(), rb = b.getRarety() == null ? 0 : b.getRarety().getRaretySort();
+                    if (ra != rb) return rb - ra;
+                    int la = a.getGearSpec() == null ? 0 : a.getGearSpec().level, lb = b.getGearSpec() == null ? 0 : b.getGearSpec().level;
+                    return lb - la;
                 }
             });
             return out;

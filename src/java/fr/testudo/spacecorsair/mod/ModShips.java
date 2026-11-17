@@ -45,6 +45,11 @@ public class ModShips {
             this.size = size; this.level = level; this.price = price; this.rarity = rarity; this.skill = skill; this.lore = lore;
             this.hwTurret = "hw_turret_" + art;
         }
+
+        /** Skill text in the current language; the Leviathan's is built from the code's numbers (audit B11). */
+        String skillText() {
+            return "hullLeviathan".equals(id) ? ModTitan.leviathanSkill() : ModLang.re(skill);
+        }
     }
 
     public static final Hull[] HULLS = new Hull[47];
@@ -624,7 +629,7 @@ public class ModShips {
         Hull h = hull(t);
         if (h == null) return null;
         String f = ModShipFlavour.of(h.id);
-        return (f != null ? f : h.lore) + ModLang.tr("<br><br><font color='#d21aff'><b>SPECIAL SKILL</b></font><br>") + h.skill + statBlock(h);
+        return (f != null ? f : h.lore) + ModLang.tr("<br><br><font color='#d21aff'><b>SPECIAL SKILL</b></font><br>") + h.skillText() + statBlock(h);
     }
 
     /** v34 (J1): stat block generated from the hull data, so it is always correct. */

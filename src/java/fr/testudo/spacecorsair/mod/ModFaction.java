@@ -135,8 +135,8 @@ public class ModFaction extends MissionListener {
             "Ashmaw slipped away. The council's offer stands when you are ready to try again.",
             900000, ModLance.BASE, 0, false, false, true},
         {"spartan", LANCE_ORDER, "Tithe of the Phoenix", "DONATE", "SPARTAN_HQ", "SPARTAN_HQ", 1, 0, "", "", "",
-            "Captain, the council honours your phoenix. If you would rather serve the Republic's forges than its front line, a tithe of 2,000,000 credits and 5 rare parts will fund the next Lance, and the first one will be yours. The tithe is taken when you are in Spartan HQ with the full amount aboard.",
-            "Bring 2,000,000 credits and 5 rare parts to Spartan HQ.",
+            "Captain, the council honours your phoenix. If you would rather serve the Republic's forges than its front line, a tithe of {TC} credits and {TP} rare parts will fund the next Lance, and the first one will be yours. The tithe is taken when you are in Spartan HQ with the full amount aboard.",
+            "Bring {TC} credits and {TP} rare parts to Spartan HQ.",
             "The forges are lit with your tithe. The Phoenix Lance is yours, Captain. Wear its fire well.",
             "The tithe was not paid. The council's offer stands.",
             0, ModLance.BASE, 0, false, false, true},
@@ -162,7 +162,13 @@ public class ModFaction extends MissionListener {
     /** Text columns (title, target name, briefing, details, success, failure) come back in Spanish when it is active. */
     static String str(int i, int f) {
         String v = (String) rows()[i][f];
-        return f == 2 || f == 9 || (f >= 11 && f <= 14) ? ModLang.tr(v) : v;
+        String o = f == 2 || f == 9 || (f >= 11 && f <= 14) ? ModLang.tr(v) : v;
+        return o != null && o.indexOf("{T") >= 0 ? tithe(o) : o;
+    }
+
+    /** Audit B14 (owner): the tithe texts are filled from the real values. */
+    static String tithe(String t) {
+        return t.replace("{TC}", credits(TITHE_CREDITS)).replace("{TP}", String.valueOf(TITHE_PARTS));
     }
     static int num(int i, int f) { return (Integer) rows()[i][f]; }
     static boolean contract(int i) { return order(i) == 0; }
@@ -1169,7 +1175,7 @@ public class ModFaction extends MissionListener {
         }
         if (!donateTold) {
             donateTold = true;
-            ModComms.show(key(idx), ModLang.tr("The tithe is 2,000,000 credits and 5 rare parts. You carry ") + credits((int) Math.min(Integer.MAX_VALUE, inv.getCredit()))
+            ModComms.show(key(idx), tithe(ModLang.tr("The tithe is {TC} credits and {TP} rare parts. You carry ")) + credits((int) Math.min(Integer.MAX_VALUE, inv.getCredit()))
                 + ModLang.tr(" credits and ") + parts + ModLang.tr(" rare parts."), 9000);
         }
     }
