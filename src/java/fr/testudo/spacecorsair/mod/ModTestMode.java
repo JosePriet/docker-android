@@ -43,7 +43,7 @@ import java.util.Set;
  *
  * Profiles: the game's save files (getFilesDir) and the "spacecorsair" + "modqol" preferences are swapped at process
  * start, before StorageManager.restore reads them (hook hooks40). Copies live in app_corsair_profiles/main and /test.
- * The sound settings ("corsair_audio") are shared. The first login seeds the test profile with a copy of the save.
+ * Audit F5: the sound settings ("corsair_audio") are kept per profile too. The first login seeds the test profile with a copy of the save.
  */
 public final class ModTestMode {
     private ModTestMode() {}
@@ -54,7 +54,7 @@ public final class ModTestMode {
     static final int LEVEL = ModV34.CAP;
     static final long CREDITS = 1000000000L, CREDITS_LOW = 900000000L;
     static final int PARTS = 999, CORES = 9;
-    static final String[] PREFS = {"spacecorsair", "modqol"};
+    static final String[] PREFS = {"spacecorsair", "modqol", "corsair_audio"};   // audit F5 (owner 2026-11-17): sound settings per profile
     static final int TAPS = 10;
     static final long TAP_WINDOW_MS = 10000;
 
@@ -115,6 +115,7 @@ public final class ModTestMode {
         copyTree(new File(dir, "files"), live);
         for (String n : PREFS) {
             File f = new File(dir, "prefs_" + n + ".ser");
+            if (!f.exists() && n.equals("corsair_audio")) continue;   // a copy made before v45: keep the live sound settings
             Map<String, Object> m = new HashMap<String, Object>();
             if (f.exists()) {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(f));
@@ -333,6 +334,10 @@ public final class ModTestMode {
 
     /** Start of PathFinder.jumpCost: 0 energy cells in test mode, -1 = stock cost. */
     public static int jumpCost(LevelId to) { return on ? 0 : -1; }
+
+    /** hooks54_testjump: PlayerShip.initHyperdriveJumpRequest, the mission's canHyperdriveJump answer. Audit F5 (owner
+     *  2026-11-17): the test-mode teleport ignores missions that forbid jumping. The prologue keeps its own block. */
+    public static boolean missionAllowsJump(boolean stock) { return stock || (on && !ModPrologue.active); }
 
     /** PlayerShip.initHyperdriveJumpRequest: hyperdrive charge time in ms (stock 5000, test mode 0 = next frame). */
     public static int jumpTime() { return on ? 0 : 5000; }

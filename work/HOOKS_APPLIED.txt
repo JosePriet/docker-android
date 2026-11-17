@@ -24,3 +24,4 @@ hooks49_lan 2026-11-15: RenderQueue.swapQueues -> ModLan.beforeSwap, GameThread.
 hooks49b_lan_count 2026-11-16: Level enemy counts (zone cleared, counts, attackers) -> ModLan.countsAsEnemy (v49 LAN stand-in not counted)
 hooks48_lance 2026-11-15: SpaceObjectType +3 constants modPhoenixLance/Mk2/Mk3 0x157-0x159 (v43a-17 Phoenix Lance)
 hooks53_lan_nopause 2026-11-16: GameThread.showGameMenu -> ModLan.menuOpening, Game.pause -> skipped while ModLan.keepRunning (v45 multiplayer menu does not pause)
+hooks54_testjump 2026-11-17: PlayerShip.initHyperdriveJumpRequest canHyperdriveJump -> ModTestMode.missionAllowsJump (v45 audit F5 test teleport ignores no-jump missions)

@@ -3346,6 +3346,10 @@
 
     move-result v0
 
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->missionAllowsJump(Z)Z
+
+    move-result v0
+
     if-nez v0, :cond_16
 
     .line 1063
