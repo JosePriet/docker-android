@@ -9,6 +9,7 @@ lets the owner read reports/samples. Secrets: keys/cloudflare.env, keys/metered.
 Checks: run 132 no crash; F14 proven in run sc-v45f (stage V51T, Spartan HQ station guns hit a Reaver flagship); netcloud direct OK, Metered relay Allocate gets 400 after auth (changes file, section Emulator and cloud checks).
 Fix list (owner picks 2026-11-17) done: see the changes file, section Fix list. Two builds: public (space-corsair/v45/space-corsair-v45-build52-public.apk) and private DEV (space-corsair/private/, DEV_KEY_FILE=keys/dev.key; never publish it). Service deployed with /admin. Emulator sc-v45g passed.
 Second check (2026-11-17, /mnt/project-files/audits/2026-11-17-v45-second-check.md): S1-S17 fixed on claude/project-thread-fuw6ke (head a714759), service deployed. DEV code works offline in every build (owner). Admin page key is now keys/admin.key (secret ADMIN_KEY_SHA256), not the DEV key. GPT coding tasks: /mnt/project-files/space-corsair/gpt-coding/ (bug hunt, balance simulator, attack tests); verify anything GPT returns before merging.
+Re-trace (2026-11-17 evening): rows B10 B11 B15 C2 C4 C5 C6 fixed on claude/project-thread-fuw6ke (a7f5293), emulator sc-v45i clean; NOT merged yet (needs owner OK). Codex tasks: repo codex/ + AGENTS.md (Codex PRs need review). GPT art #16/#17 packages in gpt-catchup.
  Open: Metered relay 400 (credential/plan side; our client passes vs coturn).
 
 # Handoff (state at v35, 2026-10-22)
