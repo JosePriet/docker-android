@@ -34,7 +34,7 @@ final class ModPoliceData {
     /** FACTIONS order (spartan, reaver, kretari, varn, ironclad, helion, warden); per class "art:size" entries. */
     static final String[][][] ROSTER = {
         {   // spartan
-            {}, {"bastion:130", "hornet:200"}, {"mantis:300"}, {"verdant:420", "secret_spartan:460"}, {"monolith:600"}, {"leviathan:880"}},   // v43: Leviathan (stage 5) as the Spartan capital
+            {"spartan_frigate_1:95"}, {"bastion:130", "hornet:200"}, {"mantis:300"}, {"verdant:420", "secret_spartan:460"}, {"monolith:600"}, {"leviathan:880"}},   // v43: Leviathan (stage 5) as the Spartan capital
         {   // reaver
             {"viper:80", "rv_raider:90", "rv_gunship:100"}, {"bulldog:150", "rv_hunter:120", "rv_marauder:150"},
             {"albatros:300", "raptor:300", "rv_corsair:160", "rv_lancer:190"}, {"warlord:400", "rv_warlord:300"},
@@ -43,15 +43,33 @@ final class ModPoliceData {
             {"kt_scout:90", "kt_bomber:100", "kt_frigate:150"}, {"kt_destroyer:180"}, {"secret_kretari:330", "kt_cruiser:260", "kt_heavycruiser:300"},
             {"harbinger:420", "kt_battlecruiser:380"}, {"kt_battleship:450"}, {"kt_mothership:700"}},
         {   // varn
-            {}, {"cobalt:190"}, {"hydra:300", "cardinal:320"}, {"sovereign:440", "sunlance:460", "secret_varn:460"},
+            {"varn_frigate_1:95"}, {"cobalt:190"}, {"hydra:300", "cardinal:320"}, {"sovereign:440", "sunlance:460", "secret_varn:460"},
             {"wraith:600", "bastille:660"}, {"moth:800"}},
         {   // ironclad
-            {}, {}, {"sanctum:300", "ironside:320"}, {}, {"tempest:600", "imperator:640", "secret_ironclad:640"}, {}},
+            {"ironclad_frigate_1:95"}, {"ironclad_destroyer_1:160"}, {"sanctum:300", "ironside:320"}, {"ironclad_battlecruiser_1:410"},
+            {"tempest:600", "imperator:640", "secret_ironclad:640"}, {"ironclad_capital_1:800"}},
         {   // helion
-            {"comet:90", "talon:85", "nightjar:95"}, {"aurora:150", "raven:150"}, {}, {"secret_helion:460"}, {}, {}},
+            {"comet:90", "talon:85", "nightjar:95"}, {"aurora:150", "raven:150"}, {"helion_cruiser_1:300"}, {"secret_helion:460"},
+            {"helion_battleship_1:580"}, {"helion_capital_1:800"}},
         {   // warden
-            {"shade:70", "kite:90"}, {"seraph:140", "tidewarden:130"}, {"secret_warden:330"}, {}, {}, {}},
+            {"shade:70", "kite:90"}, {"seraph:140", "tidewarden:130"}, {"secret_warden:330"}, {"warden_battlecruiser_1:410"},
+            {"warden_battleship_1:580"}, {"warden_capital_1:800"}},
     };
+
+    /** Audit F8 (owner 2026-11-17): the 12 staged GPT hulls (incoming/gpt-v34-s1-*) fill the class gaps that flew stand-ins;
+     *  drawn at the class size. Their names: incoming/gpt-v44-names/hull_names.csv (proper names, the same in Spanish). */
+    static final String[][] HULL_NAMES = {
+        {"spartan_frigate_1", "Sentry"}, {"varn_frigate_1", "Codicil"}, {"ironclad_frigate_1", "Rivet"}, {"ironclad_destroyer_1", "Anvil"},
+        {"ironclad_battlecruiser_1", "Rampart"}, {"ironclad_capital_1", "Crucible"}, {"helion_cruiser_1", "Sundart"},
+        {"helion_battleship_1", "Daybreak"}, {"helion_capital_1", "Solstice"}, {"warden_battlecruiser_1", "Lodestar"},
+        {"warden_battleship_1", "Gatekeeper"}, {"warden_capital_1", "Haven"},
+    };
+
+    /** The staged hull's name, null for the older hulls (their police label stays faction + class). */
+    static String hullName(String art) {
+        for (String[] n : HULL_NAMES) if (n[0].equals(art)) return n[1];
+        return null;
+    }
 
     /** One police hull: art key (without pol_), drawn size, ModFleet AI kind. */
     static final class Hull {

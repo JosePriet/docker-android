@@ -694,7 +694,8 @@ public class ModPolice {
             }
         }
         try { e.setElite(); } catch (Throwable th) { /* stock stats */ }   // owner 23:10: police / council ships are always elite
-        e.specificName = name(fi, cls);
+        String hn = ModPoliceData.hullName(h.art);   // audit F8: the staged hulls carry their own names
+        e.specificName = hn == null ? name(fi, cls) : name(fi, cls) + " " + hn;
         e.specificNameDecalX = -1;
         if (e.lifeBar != null) e.lifeBar.setValue(100.0f);
         police.put(e, new long[] {cls, cls == FRIGATE ? MISSILE_MS / 2 : MISSILE_MS_BIG, 0});
