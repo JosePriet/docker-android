@@ -23,7 +23,19 @@ public class NetCloud {
 
     /** The service's own answer to a relay request, for the log (credentials are not printed). */
     static String why(String code, String id, String tok) {
-        try { ModLobby.Reply r = ModLobby.call("POST", "/turn", "code", code, "id", id, "token", tok); return r.first + " " + r.status + (r.ok() ? " host=" + r.get("host") : ""); }
+        try {
+            ModLobby.Reply r = ModLobby.call("POST", "/turn", "code", code, "id", id, "token", tok);
+            String s = r.first + " " + r.status;
+            if (!r.ok()) return s;
+            s += " host=" + r.get("host") + " port=" + r.get("port");
+            // the allocation itself, with its error (ModLobby.relay swallows it)
+            java.net.InetAddress ip = null;
+            for (java.net.InetAddress x : java.net.InetAddress.getAllByName(r.get("host"))) if (x instanceof java.net.Inet4Address) { ip = x; break; }
+            if (ip == null) return s + " no IPv4";
+            ModNet.Turn t = new ModNet.Turn(new ModNet.Wire(0), new java.net.InetSocketAddress(ip, Integer.parseInt(r.get("port"))), r.get("user"), r.get("pass"));
+            try { t.allocate(); return s + " allocate OK " + ModNet.show(t.relayed); }
+            catch (Throwable e) { return s + " allocate " + e.getMessage(); }
+        }
         catch (Throwable t) { return "error " + t; }
     }
 
