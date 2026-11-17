@@ -47,6 +47,8 @@ public final class ModAlerts {
             engaged.clear();
             combat = false;
             clearAt = 0;
+            threatN = 0;
+            threatTop = 0;
         }
         // shield collapse (any time)
         if (ps.shield != null && ps.shield.capacity > 0) {
@@ -62,7 +64,7 @@ public final class ModAlerts {
         scanMs -= j;
         if (scanMs > 0) return;
         scanMs = 250;
-        if (ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode) return;
+        if (ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode) { threatN = 0; threatTop = 0; return; }   // QoL P3: no stale readout
         int near = 0, top = 0;
         List<Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
         for (int i = 0; i < els.size(); i++) {
