@@ -56,12 +56,12 @@ jobs:
           javac --release 8 -nowarn -cp $CP -d /tmp/c src/java/fr/testudo/spacecorsair/mod/*.java tests/netcloud/NetCloud.java 2>&1 | grep -v '^Note:' || true
       - name: Own relay
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq coturn >/dev/null
-          turnserver -n --listening-ip=127.0.0.1 --relay-ip=127.0.0.1 --listening-port=3478 --lt-cred-mech --user=sctest:sctestpass \
+          sudo apt-get update -qq && sudo apt-get install -y -qq coturn >/dev/null; sudo systemctl stop coturn 2>/dev/null || true   # the package starts its own server on 3478
+          turnserver -n --listening-ip=127.0.0.1 --relay-ip=127.0.0.1 --listening-port=3479 --lt-cred-mech --user=sctest:sctestpass \
             --realm=sc.test --no-tls --no-dtls --allow-loopback-peers --no-cli --log-file=stdout > turn.log 2>&1 &
           sleep 3
           CP=/tmp/c:work/game_v168.jar:tools/android-4.1.1.4.jar
-          java -cp $CP fr.testudo.spacecorsair.mod.NetCloud selfturn 127.0.0.1 3478 sctest sctestpass | tee self.txt || true
+          java -cp $CP fr.testudo.spacecorsair.mod.NetCloud selfturn 127.0.0.1 3479 sctest sctestpass | tee self.txt || true
           echo "## own relay" >> $GITHUB_STEP_SUMMARY
           grep -h SELFTURN self.txt >> $GITHUB_STEP_SUMMARY
           grep -q 'SELFTURN OK' self.txt || { tail -30 turn.log; exit 1; }
