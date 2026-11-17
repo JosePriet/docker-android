@@ -250,7 +250,7 @@ public final class ModDev {
     public static boolean testFlag(String name) {
         try {
             boolean on = new java.io.File("/data/local/tmp/" + name).exists();
-            if (on) ModLobby.switchSeen();   // audit D3: switch use locks internet play for 24 h
+            if (on) ModLobby.switchSeen();   // audit D3 / fix list 3B: internet games off until restart
             return on;
         } catch (Throwable t) {
             return false;

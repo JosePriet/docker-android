@@ -583,7 +583,7 @@ public class ModV34 {
         for (Ennemis e : list) {
             try {
                 float[] f = stockEliteFactors(e);
-                if (f == null || !e.elite) continue;
+                if (f == null || !e.elite || ModPolice.isPolice(e)) continue;   // fix list 6A (owner 2026-11-17): police keep the stock elite factors
                 float frac = e.maxLife > 0 ? e.life / e.maxLife : 1;
                 e.maxLife /= f[0];
                 e.life = e.maxLife * frac;

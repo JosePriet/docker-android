@@ -128,19 +128,17 @@ final class ModLobby {
         try { if (r != null && r.ok() && r.get("dev").length() > 0) prefs().edit().putBoolean("dev_ok", "1".equals(r.get("dev"))).commit(); } catch (Throwable t) { /* kept */ }
     }
 
-    /** Audit D3 (owner): any test switch file seen locks internet play on this phone for 24 h (switches keep working). */
-    static final long SWITCH_LOCK_MS = 24L * 60 * 60 * 1000;
-    private static volatile long switchSeenWrite;
+    /** Audit D3, owner 2026-11-17 (fix list 3B): no 24 h lock. A test switch file seen in this run turns internet games off
+     *  until the game restarts (local games still work); the test profile cannot play multiplayer at all (ModLan too). */
+    private static volatile boolean switchUsed;
 
-    static void switchSeen() {
-        long now = System.currentTimeMillis();
-        if (now - switchSeenWrite < 60000) return;   // written at most once a minute
-        switchSeenWrite = now;
-        try { prefs().edit().putLong("switch_at", now).commit(); } catch (Throwable t) { switchSeenWrite = 0; }
-    }
+    static void switchSeen() { switchUsed = true; }
 
-    static boolean switchLocked() {
-        try { return System.currentTimeMillis() - prefs().getLong("switch_at", 0) < SWITCH_LOCK_MS; } catch (Throwable t) { return false; }
+    static boolean switchLocked() { return switchUsed; }
+
+    /** Fix list 3B: the test profile never plays with others, DEV install or not (LAN and internet). */
+    static String testProfileBlock() {
+        return ModTestMode.on ? ModLang.tr("Multiplayer is off in the test profile. Log out of test mode to play with others.") : null;
     }
 
     /** Audit D1: the DEV hull or a DEV item is fitted. */
@@ -155,9 +153,10 @@ final class ModLobby {
 
     /** Why this phone may not play an internet game now, or null. */
     static String onlineBlock() {
-        if (switchLocked()) return ModLang.tr("Test switches were used on this phone. Internet games are locked for 24 hours; local games still work.");
+        String tp = testProfileBlock();
+        if (tp != null) return tp;
+        if (switchLocked()) return ModLang.tr("Test switches are in use. Internet games are off until the game restarts; local games still work.");
         boolean dev = selfDev();
-        if (ModTestMode.on && !dev) return ModLang.tr("The test profile stays offline. Log out of test mode to play online.");
         if (devGear() && !dev) return ModLang.tr("DEV ships and DEV gear cannot be used in internet games.");
         return null;
     }

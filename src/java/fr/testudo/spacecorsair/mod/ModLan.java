@@ -118,6 +118,8 @@ public final class ModLan {
 
     /** Host: starts listening and announcing. UI thread. */
     static void host() {
+        String tp = ModLobby.testProfileBlock();   // fix list 3B
+        if (tp != null) { status = tp; return; }
         ModLobby.leave();
         stop();
         role = HOST;
@@ -235,6 +237,8 @@ public final class ModLan {
     private static volatile String netJoinId = "", netPeerId = "", rejoinId = "";
 
     static void join(String ip) {
+        String tp = ModLobby.testProfileBlock();   // fix list 3B
+        if (tp != null) { status = tp; return; }
         ModLobby.leave();
         stop();
         role = GUEST;
