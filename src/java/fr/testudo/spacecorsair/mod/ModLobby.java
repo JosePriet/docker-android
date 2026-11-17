@@ -121,8 +121,44 @@ final class ModLobby {
     // ------------------------------------------------------------------ audit D1/D2/D3: who may play online
     static volatile boolean peerDev;   // host: the service marks the joining guest as the registered DEV install
 
-    /** True once the lobby service confirmed this install as the owner's registered DEV install (D1). */
-    static boolean selfDev() { try { return prefs().getBoolean("dev_ok", false); } catch (Throwable t) { return false; } }
+    /** True once the lobby service confirmed this install as the owner's registered DEV install (D1). Only the private
+     *  DEV build counts (fix list 2A): a public APK installed over it is not DEV. */
+    static boolean selfDev() { try { return devBuild() && prefs().getBoolean("dev_ok", false); } catch (Throwable t) { return false; } }
+
+    /** Fix list 2A (owner 2026-11-17): the private DEV build carries assets/corsair_dev.key, added by build.sh from
+     *  DEV_KEY_FILE at build time (never in git or in the public APK). The public build has no key: no DEV anything. */
+    private static volatile String devKeyCache;
+    private static volatile boolean devKeyRead;
+
+    static String devKey() {
+        if (devKeyRead) return devKeyCache;
+        String k = null;
+        try {
+            java.io.InputStream in = ObjectRegistry.INSTANCE.game.context.getAssets().open("corsair_dev.key");
+            try { k = new java.io.BufferedReader(new java.io.InputStreamReader(in, "UTF-8")).readLine(); } finally { in.close(); }
+            k = k == null ? null : k.trim();
+        } catch (Throwable t) {
+            k = null;
+        }
+        devKeyCache = k != null && k.length() >= 16 ? k : null;
+        devKeyRead = true;
+        return devKeyCache;
+    }
+
+    static boolean devBuild() { return devKey() != null; }
+
+    private static volatile boolean devAutoSent;
+
+    /** The DEV build registers its install with the service by itself, once per run, until the service confirms it. */
+    static void autoDev() {
+        try {
+            if (devAutoSent || !devBuild() || prefs().getBoolean("dev_ok", false)) return;
+            devAutoSent = true;
+            registerDev(devKey());
+        } catch (Throwable t) {
+            // tried again next run
+        }
+    }
 
     private static void setSelfDev(Reply r) {
         try { if (r != null && r.ok() && r.get("dev").length() > 0) prefs().edit().putBoolean("dev_ok", "1".equals(r.get("dev"))).commit(); } catch (Throwable t) { /* kept */ }
@@ -153,6 +189,7 @@ final class ModLobby {
 
     /** Why this phone may not play an internet game now, or null. */
     static String onlineBlock() {
+        autoDev();   // fix list 2A
         String tp = testProfileBlock();
         if (tp != null) return tp;
         if (switchLocked()) return ModLang.tr("Test switches are in use. Internet games are off until the game restarts; local games still work.");

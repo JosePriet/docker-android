@@ -206,6 +206,8 @@ export class Registry {
     } else if (request.method !== "GET") return reply("no", {}, null, 405);
 
     if (request.method === "GET" && parts.length === 1 && parts[0] === "lobbies") return this.list(verOf(url.searchParams.get("ver")));
+    if (request.method === "GET" && parts.length === 1 && parts[0] === "admin") return new Response(ADMIN_PAGE, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store", "x-robots-tag": "noindex" } });
+    if (request.method === "POST" && parts.length === 2 && parts[0] === "admin" && parts[1] === "data") return this.adminData(f, ik);
     if (request.method !== "POST") return reply("no", {}, null, 404);
     if (parts.length === 1 && parts[0] === "lobby") return this.create(f, ik);
     if (parts.length === 1 && parts[0] === "turn") return this.turn(f, ik);
@@ -415,14 +417,18 @@ export class Registry {
 
   /** Audit D1 (owner 2026-11-17): the owner registers his install once with a private key. Only the key's SHA-256 is
    *  a service secret (DEV_KEY_SHA256); nothing secret is in the app. The registered install id is marked "dev". */
+  /** True when key hashes to the DEV_KEY_SHA256 service secret. */
+  async devKeyOk(key) {
+    const want = String(this.env.DEV_KEY_SHA256 || "").toLowerCase();
+    if (!/^[0-9a-f]{64}$/.test(want)) return false;
+    const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(String(key || "").slice(0, 200)));
+    return Array.from(new Uint8Array(d), (x) => x.toString(16).padStart(2, "0")).join("") === want;
+  }
+
   async dev(f, ik) {
     if (!this.allow("dev:" + ik, 5, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
     const id = idOf(f.id);
-    const want = String(this.env.DEV_KEY_SHA256 || "").toLowerCase();
-    if (id.length < 16 || !/^[0-9a-f]{64}$/.test(want)) return reply("no", {}, null, 403);
-    const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(String(f.key || "").slice(0, 200)));
-    const got = Array.from(new Uint8Array(d), (x) => x.toString(16).padStart(2, "0")).join("");
-    if (got !== want) return reply("no", {}, null, 403);
+    if (id.length < 16 || !(await this.devKeyOk(f.key))) return reply("no", {}, null, 403);
     await this.ctx.storage.put("dev:" + id, { at: this.now() });
     return reply("ok", { dev: 1 });
   }
@@ -449,6 +455,15 @@ export class Registry {
     return reply("ok");
   }
 
+  /** Fix list 4A/4B (owner 2026-11-17): the owner reads the stored reports and samples with the DEV key (JSON). */
+  async adminData(f, ik) {
+    if (!this.allow("adm:" + ik, 20, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
+    if (!(await this.devKeyOk(f.key))) return reply("no", {}, null, 403);
+    const rows = async (prefix) => Array.from((await this.ctx.storage.list({ prefix, limit: 1000 })).values()).sort((a, b) => b.at - a.at);
+    const body = JSON.stringify({ reports: await rows("report:"), samples: await rows("sample:") });
+    return new Response(body, { headers: { "content-type": "application/json", "cache-control": "no-store" } });
+  }
+
   /** A player's report: the last chat lines and what the checks flagged. Kept 30 days. */
   async report(f, ik) {
     const l = this.lobbies.get(clean(String(f.code || "").toUpperCase(), 4, /[^A-Z2-9]/g));
@@ -465,6 +480,30 @@ export class Registry {
     return reply("ok");
   }
 }
+
+// Fix list 4A: the owner's page. It holds no data: it asks for the DEV key and fetches /admin/data.
+const ADMIN_PAGE = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Space Corsair reports</title><style>
+body{font:14px system-ui,sans-serif;margin:16px;background:#111;color:#eee}input,button{font:inherit;padding:6px;margin:2px}
+table{border-collapse:collapse;width:100%;margin:8px 0 24px}td,th{border:1px solid #444;padding:4px;vertical-align:top;text-align:left}
+th{background:#222}.f{color:#f77}pre{white-space:pre-wrap;margin:0}.w{overflow-x:auto}</style></head><body>
+<h1>Space Corsair reports and samples</h1>
+<p><input id="k" type="password" placeholder="DEV key" size="40"> <button id="go">Load</button> <span id="st"></span></p>
+<div id="out"></div>
+<script>
+const esc=(s)=>String(s==null?"":s).replace(/[&<>"]/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const day=(t)=>new Date(t).toISOString().replace("T"," ").slice(0,16);
+function csv(rows,cols){return [cols.join(",")].concat(rows.map((r)=>cols.map((c)=>'"'+String(c==="at"?day(r.at):r[c]==null?"":r[c]).replace(/"/g,'""')+'"').join(","))).join("\n");}
+function dl(name,text){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:"text/csv"}));a.download=name;a.click();}
+function table(title,rows,cols,file){let h="<h2>"+title+" ("+rows.length+") <button data-f='"+file+"'>Download CSV</button></h2><div class='w'><table><tr>"+cols.map((c)=>"<th>"+c+"</th>").join("")+"</tr>";
+for(const r of rows)h+="<tr"+(r.flagged?" class='f'":"")+">"+cols.map((c)=>"<td>"+(c==="text"?"<pre>"+esc(r[c])+"</pre>":esc(c==="at"?day(r.at):r[c]))+"</td>").join("")+"</tr>";return h+"</table></div>";}
+let data=null;const RC=["at","by","about","text"],SC=["at","ver","level","ship","refit","laser","missile","peakShot","expShot","peakDps","expDps","ratio","flagged","pvp"];
+document.getElementById("go").onclick=async()=>{const st=document.getElementById("st");st.textContent="Loading...";
+const r=await fetch("/admin/data",{method:"POST",headers:{"content-type":"application/x-www-form-urlencoded"},body:"key="+encodeURIComponent(document.getElementById("k").value)});
+if(!r.ok){st.textContent="Refused ("+r.status+")";return;}data=await r.json();st.textContent="";
+document.getElementById("out").innerHTML=table("Reports",data.reports,RC,"reports.csv")+table("Samples (red = above what the build can do)",data.samples,SC,"samples.csv");
+for(const b of document.querySelectorAll("button[data-f]"))b.onclick=()=>b.dataset.f==="reports.csv"?dl("reports.csv",csv(data.reports,RC)):dl("samples.csv",csv(data.samples,SC));};
+</script></body></html>`;
 
 export default {
   async fetch(request, env) {

@@ -40,6 +40,8 @@ shopt -u nullglob
 # v30: Spanish resources (es locale in resources.arsc) + mod dictionary
 test -f i18n/values-es/strings.xml && test -f i18n/lang/es_full.json
 # v30: the phone's app info shows the mod version (versionName = app_version string) and versionCode climbs per release
+# fix list 2A (owner 2026-11-17): DEV_KEY_FILE=<path> builds the private DEV APK (the key ships as an asset; never in git)
+if [ -n "$DEV_KEY_FILE" ]; then test -f "$DEV_KEY_FILE" || { echo "DEV_KEY_FILE missing"; exit 1; }; ADDS="$ADDS +assets/corsair_dev.key=$DEV_KEY_FILE"; fi
 MODVER=$V
 # v43a: the release tag can differ from the build number (the owner keeps the number small).
 # MODVER_NAME overrides only what the phone shows; versionCode still climbs with the build number.

@@ -162,10 +162,15 @@ public final class ModDev {
             .show();
     }
 
+    /** Fix list 2A: CORSAIRDEV works in the private DEV build, and on the emulator (a test switch file is present). */
+    static boolean devCodeAllowed() {
+        return ModLobby.devBuild() || new java.io.File("/data/local/tmp/corsair_titans").exists() || new java.io.File("/data/local/tmp/corsair_nodialog").exists();
+    }
+
     /** Hook: start of BuyInapp.getGift (the game's own gift-code box). True = handled here. */
     public static boolean giftHook(Activity a, String code) {
         String c = code == null ? "" : code.replace(" ", "").replace("-", "").toUpperCase();
-        if (!CODE.equals(c)) return false;
+        if (!CODE.equals(c) || !devCodeAllowed()) return false;   // fix list 2A: the DEV code works only in the private DEV build (and emulator runs)
         try {
             Toast.makeText(a, redeem(code), Toast.LENGTH_LONG).show();
         } catch (Exception e) {
@@ -175,11 +180,7 @@ public final class ModDev {
     }
 
     public static String redeem(final String code) {
-        // audit D1 (owner): one-time DEV registration of the owner's install; the lobby service checks the key
-        if (code != null && code.trim().toUpperCase(java.util.Locale.US).startsWith("DEVKEY ")) {
-            ModLobby.registerDev(code.trim().substring(7).trim());
-            return ModLang.tr("DEV registration sent. The answer arrives in your Inbox.");
-        }
+        // audit D1 / fix list 2A: DEV registration is automatic in the private DEV build (ModLobby.autoDev); no typed key
         try {   // audit B2 (owner): applied on the game thread
             return ModGameQueue.run(new java.util.concurrent.Callable<String>() { public String call() { return redeemNow(code); } });
         } catch (Exception e) {
@@ -189,7 +190,7 @@ public final class ModDev {
 
     private static String redeemNow(String code) {
         String c = code == null ? "" : code.replace(" ", "").replace("-", "").toUpperCase();
-        if (!CODE.equals(c)) return ModLang.tr("Unknown gift code.");
+        if (!CODE.equals(c) || !devCodeAllowed()) return ModLang.tr("Unknown gift code.");
         try {
             PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
             SpaceObjectType hull = SpaceObjectType.valueOf(HULL);

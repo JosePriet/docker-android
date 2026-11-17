@@ -241,6 +241,14 @@ is("garbage does not crash", (await call(reg, "POST", "/lobby/%00%ff/join", { id
   const ss = [...s4.m].filter(([k]) => k.startsWith("sample:"));
   is("D4 sample stored with ratio and flag", sm.first === "ok" && ss.length === 1 && ss[0][1].flagged === true && Math.abs(ss[0][1].ratio - 1.5) < 1e-6);
   is("D4 sample keeps no install id or nickname", JSON.stringify(ss[0][1]).indexOf(ID("z")) < 0 && JSON.stringify(ss[0][1]).indexOf("Me") < 0);
+  // fix list 4A/4B: the owner's page and data, DEV key only
+  const pg = await rd.fetch(new Request("https://x/admin", { method: "GET", headers: { "x-sc-ip": "23.0.0.1" } }));
+  is("4A admin page is served and holds no data", pg.status === 200 && (await pg.text()).indexOf("owner-secret") < 0);
+  is("4A admin data refused without the key", (await call(rd, "POST", "/admin/data", { key: "guess" }, "23.0.0.1")).status === 403);
+  const ad = await rd.fetch(new Request("https://x/admin/data", { method: "POST", headers: { "x-sc-ip": "23.0.0.1" }, body: "key=owner-secret" }));
+  const aj = ad.status === 200 ? await ad.json() : null;
+  is("4A admin data lists the stored report", aj && aj.reports.length === 1 && aj.reports[0].about === ID("e") && Array.isArray(aj.samples));
+  is("4A admin data refused with no key configured", (await call(rd2, "POST", "/admin/data", { key: "owner-secret" }, "23.0.0.1")).status === 403);
 }
 
 console.log(bad === 0 ? "REGISTRY OK" : "REGISTRY FAILED " + bad);
