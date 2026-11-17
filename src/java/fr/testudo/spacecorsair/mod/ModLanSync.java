@@ -245,7 +245,7 @@ final class ModLanSync {
                 colour(in, r, white);
                 r.flags = in.readUnsignedByte();
                 r.tsize = in.readUnsignedByte();
-                r.text = ModLang.tr(ModLan.clean(in.readUTF(), 200));   // sent in English, shown in this phone's language
+                r.text = ModLang.fromWire(ModLan.clean(in.readUTF(), 200));   // sent in English, shown in this phone's language
                 r.key = 0x80000 | (r.text.hashCode() & 0xFFFF);
             } else if (kind == 3) {
                 colour(in, r, white);

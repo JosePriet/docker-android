@@ -260,6 +260,42 @@ public class ModLang {
         return t;
     }
 
+    // ------------------------------------------------------------------ audit C8: stock text in multiplayer
+    private static volatile Map<String, Integer> stockIds;
+
+    /** Host: a stock game string goes as its text id ("@@s<id>"), mod text in English; the guest shows its own language. */
+    public static String forWire(String shown) {
+        if (shown == null) return null;
+        try {
+            Map<String, Integer> m = stockIds;
+            if (m == null) {
+                m = new HashMap<String, Integer>();
+                fr.testudo.spacecorsair.engine.ObjectRegistry r = fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE;
+                for (java.lang.reflect.Field f : fr.testudo.spacecorsair.R.string.class.getFields()) {
+                    if (f.getType() != int.class) continue;
+                    try {
+                        String v = r.getLocalizedString(f.getInt(null));
+                        if (v != null && v.length() > 1 && !m.containsKey(v)) m.put(v, f.getInt(null));
+                    } catch (Throwable t) { /* skip */ }
+                }
+                stockIds = m;
+            }
+            Integer id = m.get(shown);
+            if (id != null) return "@@s" + id;
+        } catch (Throwable t) {
+            if (stockIds == null) stockIds = new HashMap<String, Integer>();   // plain text from now on
+        }
+        return en(shown);
+    }
+
+    /** Guest: the text of a stream record in this phone's language. */
+    public static String fromWire(String s) {
+        if (s != null && s.startsWith("@@s")) {
+            try { return fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.getLocalizedString(Integer.parseInt(s.substring(3))); } catch (Throwable t) { return ""; }
+        }
+        return tr(s);
+    }
+
     public static String tr(String en) {
         if (en == null || !spanish()) return en;
         String s = dict().get(en);

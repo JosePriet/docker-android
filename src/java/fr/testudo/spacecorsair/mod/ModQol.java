@@ -81,6 +81,15 @@ public class ModQol {
         optBig = p.getBoolean("bigButtons", false);
         optShake = p.getFloat("shake", 0.6f);
         loadInbox(p);
+        // audit C7 (owner 2026-11-17): a new pilot gets one summary post instead of the old changelog posts;
+        // existing profiles keep their inbox as it is
+        if (p.getInt("modVersion", 0) == 0 && !ModPrologue.active) {
+            p.edit().putInt("modVersion", 31).commit();
+            note(ModLang.tr("Welcome, pilot. This version of Space Corsair adds faction standings and faction missions (Standings button), "
+                + "refits at every station (REFIT), new hulls up to titans, faction flagships and sector police, bosses and elite enemies, "
+                + "the Ship tree on the Ships screen, and options in Settings such as damage numbers, bar numbers, screen shake and a floating joystick. "
+                + "New notices arrive here in the Inbox (Ships or Station screen)."));
+        }
         if (p.getInt("modVersion", 0) < 16) {
             p.edit().putInt("modVersion", 16).commit();
             note(ModLang.tr("Mod v16: Ship tree (Ships screen), Inbox, Sort and Sell junk buttons in shops, confirm before selling Rare+ items, "

@@ -1000,13 +1000,13 @@ public final class ModLan {
                 String txt = (String) fText.get(re);
                 TextSize ts = (TextSize) fTSize.get(re);
                 if (txt == null || ts == null || txt.length() > 200) continue;
-                if (ModLanSync.on) { if (ModLanSync.text(o, p.x - ox, p.y - oy, b255(a), b255(r), b255(g), b255(b), zoom ? 1 : 0, ts.ordinal(), ModLang.en(txt))) n++; continue; }
+                if (ModLanSync.on) { if (ModLanSync.text(o, p.x - ox, p.y - oy, b255(a), b255(r), b255(g), b255(b), zoom ? 1 : 0, ts.ordinal(), ModLang.forWire(txt))) n++; continue; }
                 o.writeByte(R_TEXT);
                 o.writeFloat(p.x - ox); o.writeFloat(p.y - oy);
                 o.writeByte(b255(a)); o.writeByte(b255(r)); o.writeByte(b255(g)); o.writeByte(b255(b));
                 o.writeByte(zoom ? 1 : 0);
                 o.writeByte(ts.ordinal());
-                o.writeUTF(txt);
+                o.writeUTF(ModLang.forWire(txt));   // audit C8
                 n++;
             } else if (type == RenderElementType.POINT) {
                 if (ModLanSync.on) { if (ModLanSync.point(o, p.x - ox, p.y - oy, b255(a), b255(r), b255(g), b255(b), fPSize.getFloat(re))) n++; continue; }
@@ -1369,7 +1369,7 @@ public final class ModLan {
                 r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
                 r.flags = in.readUnsignedByte();
                 r.tsize = in.readUnsignedByte();
-                r.text = clean(in.readUTF(), 200);   // v45: printable, bounded
+                r.text = ModLang.fromWire(clean(in.readUTF(), 200));   // v45: printable, bounded; audit C8: guest translates
             } else if (r.kind == R_POINT) {
                 r.x = fin(in.readFloat()); r.y = fin(in.readFloat());
                 r.a = in.readUnsignedByte() / 255.0f; r.r = in.readUnsignedByte() / 255.0f; r.g = in.readUnsignedByte() / 255.0f; r.b = in.readUnsignedByte() / 255.0f;
