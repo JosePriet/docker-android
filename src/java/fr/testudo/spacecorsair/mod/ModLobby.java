@@ -398,6 +398,7 @@ final class ModLobby {
         boolean wasConnected = false;
         int beats = 0;
         long relayAt = 0, relayWait = 30000;
+        retryMs = 5000;   // a new hosting run starts at 5 s again (cross-check)
         try {
             while (stillHost(g)) {
                 boolean hide = hideIp();
@@ -415,7 +416,7 @@ final class ModLobby {
                         status = refusal(r);
                         busy = false;
                         if (r.status == 0 || r.status >= 500 || "busy".equals(r.first) || r.status == 429) {   // the service is away or over its day: keep trying, less and less often (second check S16)
-                            Thread.sleep(retryMs);
+                            for (long end = System.currentTimeMillis() + retryMs; System.currentTimeMillis() < end && g == gen; ) Thread.sleep(500);   // leaving the menu ends the wait
                             retryMs = Math.min(retryMs * 2, 300000);
                             continue;
                         }
