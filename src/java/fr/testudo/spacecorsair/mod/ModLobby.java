@@ -272,7 +272,7 @@ final class ModLobby {
     }
 
     /** Relay credentials from the service and an allocation on this socket. Null = no relay (off, full, or it does not answer). */
-    private static ModNet.Turn relay(ModNet.Wire w, String lobby, String tok) {
+    static ModNet.Turn relay(ModNet.Wire w, String lobby, String tok) {   // package: the cloud network check (E7) uses it
         try {
             Reply r = call("POST", "/turn", "code", lobby, "id", ModSaveSig.installId(), "token", tok);
             if ("full".equals(r.first)) { relayFull = true; return null; }

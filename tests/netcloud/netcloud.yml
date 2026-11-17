@@ -1,0 +1,40 @@
+# Audit E7 (owner 2026-11-17): two-player internet check on two separate GitHub runners against the real lobby service,
+# STUN servers and relay. JVM only, no emulator, no secrets. Copy to .github/workflows/ on branch emulator-tests.
+# It does not prove the path between two home networks. If the runners block UDP, the log says "no path" / "relay refused".
+name: netcloud
+on:
+  push:
+    branches: [emulator-tests]
+    paths: ['.github/workflows/netcloud.yml', 'tests/netcloud/**']
+  workflow_dispatch:
+jobs:
+  peer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        role: [host, guest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ vars.NETCLOUD_REF || 'claude/project-thread-fuw6ke' }}
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - name: Compile
+        run: |
+          CP=work/game_v168.jar:tools/android-4.1.1.4.jar:work/stubcls
+          mkdir -p /tmp/c
+          javac --release 8 -nowarn -cp $CP -d /tmp/c src/java/fr/testudo/spacecorsair/mod/*.java tests/netcloud/NetCloud.java 2>&1 | grep -v '^Note:' || true
+      - name: Direct, then relay
+        run: |
+          CP=/tmp/c:work/game_v168.jar:tools/android-4.1.1.4.jar
+          T=${{ github.run_id }}-${{ github.run_attempt }}
+          [ "${{ matrix.role }}" = guest ] && sleep 10
+          java -cp $CP fr.testudo.spacecorsair.mod.NetCloud ${{ matrix.role }} $T direct | tee direct.txt || true
+          sleep 15
+          [ "${{ matrix.role }}" = guest ] && sleep 10
+          java -cp $CP fr.testudo.spacecorsair.mod.NetCloud ${{ matrix.role }} $T relay | tee relay.txt || true
+          echo "## ${{ matrix.role }}" >> $GITHUB_STEP_SUMMARY
+          grep -h NETCLOUD direct.txt relay.txt >> $GITHUB_STEP_SUMMARY
+          grep -q ' OK ' direct.txt && grep -q ' OK ' relay.txt
