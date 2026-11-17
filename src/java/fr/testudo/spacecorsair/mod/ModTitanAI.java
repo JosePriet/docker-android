@@ -196,6 +196,7 @@ public final class ModTitanAI {
             if (g == null || g.removed || ps.removed) continue;
             try {
                 ModCapitals.guns(g, e.getValue(), ps, j);
+                ModBal.holdRange(g, e.getValue(), ps, j);   // 2026-11-17 proposal switch corsair_bal_range (off by default)
                 run(g, e.getValue(), t(g), ps, j);
             } catch (Throwable x) {
                 // a skill never breaks the frame

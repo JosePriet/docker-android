@@ -47,7 +47,7 @@ public final class ModAegisDrones {
     static void tick(GuardianCivilShip g, float batteryShot, int lvl, PlayerShip ps, long j) {
         try {
             Wing w = wings.get(g);
-            if (w == null) { w = new Wing(); wings.put(g, w); }
+            if (w == null) { w = new Wing(); w.count = ModBal.maxDrones(g, MAX_DRONES); wings.put(g, w); }
             for (int i = w.drones.size() - 1; i >= 0; i--) {
                 Ennemis e = w.drones.get(i);
                 if (e.removed || e.life <= 0) { w.drones.remove(i); reload.remove(e); shotOf.remove(e); }
@@ -56,7 +56,8 @@ public final class ModAegisDrones {
                 w.next -= j;
                 if (w.next <= 0) {   // refill the whole wing at once, then wait for the next loss
                     w.next = RESPAWN_MS;
-                    w.count = MIN_DRONES + (int) (Math.random() * (MAX_DRONES - MIN_DRONES + 1));   // owner: 2..5 per launch
+                    int mx = ModBal.maxDrones(g, MAX_DRONES);   // 2026-11-17 proposal switch corsair_bal_aegis (off = 2..5)
+                    w.count = MIN_DRONES + (int) (Math.random() * (mx - MIN_DRONES + 1));   // owner: 2..5 per launch
                     while (w.drones.size() < w.count) {
                         Ennemis e = spawn(g, lvl, ps);
                         if (e == null) break;

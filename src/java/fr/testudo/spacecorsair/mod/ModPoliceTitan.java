@@ -94,7 +94,7 @@ public final class ModPoliceTitan {
             ModArt.prefetch("pol_cap_" + f.key);
             titan = g;
             name = g.specificName;
-            overCap = over = g.maxLife * OVER_FRAC;
+            overCap = over = g.maxLife * ModBal.overFrac(OVER_FRAC);
             overQuietMs = 0;
             overLastLife = g.life;
             overBar = null;

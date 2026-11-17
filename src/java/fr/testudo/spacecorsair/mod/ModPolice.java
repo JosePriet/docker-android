@@ -320,7 +320,7 @@ public class ModPolice {
     /** ModLive.hit, before the shields: the police damage reduction. */
     public static float armor(Element target, float dmg) {
         if (dmg <= 0 || target == null) return dmg;
-        if (ModPoliceTitan.isPoliceTitan(target)) return dmg * (1 - TITAN_ARMOR);
+        if (ModPoliceTitan.isPoliceTitan(target)) return dmg * (1 - ModBal.titanArmor(TITAN_ARMOR));
         if (isPolice(target)) return dmg * (1 - ARMOR);   // v43a-13 (owner item 6 = A): stock sector patrols too
         return dmg;
     }

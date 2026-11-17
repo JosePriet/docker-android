@@ -513,6 +513,7 @@ public final class ModLive {
             out = ModV34.shieldAbsorb(target, out, p);   // v37: big enemies' default shield
             out = ModPolice.hit(target, out, p);   // v42: police heat from player hits, police-only weapons on the player
             out = ModHornet.damageIn(target, out, p);   // v43a-16: Hornet s5 wing shields
+            ModBal.recordHit(target, out, p);   // 2026-11-17: emulator damage split (gun / missile), records only
             onHit(target);
             if (target.isPlayer && p != null) {
                 PlayerShip ps = (PlayerShip) target;

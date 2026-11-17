@@ -485,7 +485,7 @@ public final class ModCapitals {
         }
         boolean hostile = !ps.removed && ModLive.titanHostile(g, c);
         if (c.police || "spartan".equals(c.f.key)) {   // v43a-6 (owner 11-14): drone skill = SRS Aegis + every police titan; recalled when calm
-            if (hostile) ModAegisDrones.tick(g, c.shot * GUNS[0][0].dmg, c.lvl, ps, j);   // rail = 60% of an Aegis-type rail shot at this carrier's damage
+            if (hostile) ModAegisDrones.tick(g, c.shot * GUNS[0][0].dmg * ModBal.shotMult(c), c.lvl, ps, j);   // rail = 60% of an Aegis-type rail shot at this carrier's damage
             else ModAegisDrones.drop(g);
         }
         Gun[] gs = GUNS[indexOf(c.f)];
@@ -523,7 +523,7 @@ public final class ModCapitals {
         for (int i = 0; i < gun.shots; i++) {
             float deg = ang + (gun.shots > 1 ? (i - (gun.shots - 1) / 2.0f) * gun.spread : (float) (Math.random() - 0.5) * 2 * gun.spread);
             fr.testudo.spacecorsair.business.projectiles.EnergyBullet p = fr.testudo.spacecorsair.business.factory.GamePools.newEnnergyBullet()
-                .init(c.shot * gun.dmg, 6, g, 1.0f, gun.r, gun.g, gun.b, ModWeapons.TAG[gun.fam]);
+                .init(c.shot * gun.dmg * ModBal.shotMult(c), 6, g, 1.0f, gun.r, gun.g, gun.b, ModWeapons.TAG[gun.fam]);
             p.position.set(mx, my);
             p.speed.set(0.0f, -gun.speed).applyRotatation(Math.toRadians(deg));
             p.speed.add(g.speed);
