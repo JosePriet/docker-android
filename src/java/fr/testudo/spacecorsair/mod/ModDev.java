@@ -162,15 +162,16 @@ public final class ModDev {
             .show();
     }
 
-    /** Fix list 2A: CORSAIRDEV works in the private DEV build, and on the emulator (a test switch file is present). */
+    /** Owner 2026-11-17: the DEV code works offline in every build. Internet games still refuse DEV ships and gear
+     *  unless the private DEV build's key is present (ModLobby.selfDev / devGear checks). */
     static boolean devCodeAllowed() {
-        return ModLobby.devBuild() || new java.io.File("/data/local/tmp/corsair_titans").exists() || new java.io.File("/data/local/tmp/corsair_nodialog").exists();
+        return true;
     }
 
     /** Hook: start of BuyInapp.getGift (the game's own gift-code box). True = handled here. */
     public static boolean giftHook(Activity a, String code) {
         String c = code == null ? "" : code.replace(" ", "").replace("-", "").toUpperCase();
-        if (!CODE.equals(c) || !devCodeAllowed()) return false;   // fix list 2A: the DEV code works only in the private DEV build (and emulator runs)
+        if (!CODE.equals(c) || !devCodeAllowed()) return false;   // offline in every build; online refusal lives in ModLobby/ModLan
         try {
             Toast.makeText(a, redeem(code), Toast.LENGTH_LONG).show();
         } catch (Exception e) {

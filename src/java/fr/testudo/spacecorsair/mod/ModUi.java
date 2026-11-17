@@ -235,13 +235,19 @@ public class ModUi {
                 final ViewGroup lroot = root;
                 final View lbar = bar;
                 root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    long seen;
+                    // second check S14: update() walks the tree (ship pager decorations, list padding). A new screen runs it
+                    // at once; other layout passes are folded into one run 300 ms after the last of them.
+                    final Runnable later = new Runnable() { public void run() { if (!activity.isFinishing() && lbar.getParent() != null) update(activity); } };
                     public void onGlobalLayout() {
                         // audit I4: the listener goes when its screen does (it held the activity for good before)
                         if (activity.isFinishing() || lbar.getParent() == null) {   // fix list 11A: no view-tree walk on every layout pass
                             try { lroot.getViewTreeObserver().removeGlobalOnLayoutListener(this); } catch (Throwable t) { /* gone with the view */ }
                             return;
                         }
-                        update(activity);
+                        lroot.removeCallbacks(later);
+                        if (ModScroll.screenChanged(lroot, seen)) { seen = ModScroll.screenKey(lroot); update(activity); }
+                        else lroot.postDelayed(later, 300);
                     }
                 });
             }
