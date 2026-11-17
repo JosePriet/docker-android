@@ -768,6 +768,7 @@ public class ModV35 {
 
     /** Per enemy: {stock disengage distance, mode, next evaluation (ms)}. */
     private static final WeakHashMap<Ennemis, float[]> ai = new WeakHashMap<Ennemis, float[]>();
+    private static final long AI_T0 = System.currentTimeMillis();
 
     private static boolean still(Ennemis e) {
         return e instanceof FixedTourelle || e instanceof RocketTourelle || e instanceof AlienTourelle || e.maxTurnFactor <= 0;
@@ -780,7 +781,7 @@ public class ModV35 {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             if (tg == null || !tg.isPlayer || ps == null || ps.removed || e.removed || still(e) || Mod.isDrone(e)) return;
             float[] st = ai.get(e);
-            long now = System.currentTimeMillis();
+            long now = System.currentTimeMillis() - AI_T0;   // since class load: small enough for the float slot (clock time is not)
             if (st == null) {
                 st = new float[] {e.desengagementDistance, HOLD, 0};
                 ai.put(e, st);
