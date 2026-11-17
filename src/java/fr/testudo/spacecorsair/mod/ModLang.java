@@ -308,10 +308,11 @@ public class ModLang {
         try {
             if (!spanish() || a == null || a.getWindow() == null) return;
             final View root = a.getWindow().getDecorView();
-            if (root.getTag(0x4c41100) != null) return;
+            if (root.getTag(0x4c41100) != null) { translateTree(root); return; }   // audit I4: screen (re)opened
             root.setTag(0x4c41100, Boolean.TRUE);
             root.getViewTreeObserver().addOnGlobalLayoutListener(new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
-                public void onGlobalLayout() { translateTree(root); }
+                private long seen;
+                public void onGlobalLayout() { if (ModScroll.screenChanged(root, seen)) { seen = ModScroll.screenKey(root); translateTree(root); } }   // audit I4: once per screen
             });
             translateTree(root);
         } catch (Throwable e) { }

@@ -232,8 +232,16 @@ public class ModUi {
                 });
                 bar.addView(inbox, bl);
                 root.addView(bar, lp);
+                final ViewGroup lroot = root;
                 root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    public void onGlobalLayout() { update(activity); }
+                    public void onGlobalLayout() {
+                        // audit I4: the listener goes when its screen does (it held the activity for good before)
+                        if (activity.isFinishing() || lroot.findViewWithTag(TAG) == null) {
+                            try { lroot.getViewTreeObserver().removeGlobalOnLayoutListener(this); } catch (Throwable t) { /* gone with the view */ }
+                            return;
+                        }
+                        update(activity);
+                    }
                 });
             }
             bar.bringToFront();

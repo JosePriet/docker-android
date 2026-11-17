@@ -65,8 +65,9 @@ public final class ModScroll {
             decors.put(decor, Boolean.TRUE);
             ViewTreeObserver vto = decor.getViewTreeObserver();
             vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                private long seen;
                 public void onGlobalLayout() {
-                    try { scan(decor); } catch (Throwable t) { /* cosmetic */ }
+                    try { if (screenChanged(decor, seen)) { seen = screenKey(decor); scan(decor); } } catch (Throwable t) { /* cosmetic */ }   // audit I4
                 }
             });
             vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -79,6 +80,34 @@ public final class ModScroll {
         } catch (Throwable t) {
             // cosmetic
         }
+    }
+
+    /**
+     * Audit I4 (owner 2026-11-17): the view-tree walks run when the screen opens or changes, not on every layout pass.
+     * A screen's key: its content views (identity and child count) two levels down from the decor. O(children), no walk.
+     */
+    static long screenKey(View root) {
+        long k = 17;
+        if (!(root instanceof ViewGroup)) return k;
+        ViewGroup g = (ViewGroup) root;
+        for (int i = 0; i < g.getChildCount(); i++) {
+            View c = g.getChildAt(i);
+            k = k * 31 + System.identityHashCode(c) + (c.getVisibility() == View.VISIBLE ? 1 : 0);
+            if (c instanceof ViewGroup) {
+                ViewGroup cg = (ViewGroup) c;
+                k = k * 31 + cg.getChildCount();
+                for (int j = 0; j < cg.getChildCount(); j++) {
+                    View cc = cg.getChildAt(j);
+                    k = k * 31 + System.identityHashCode(cc) + (cc.getVisibility() == View.VISIBLE ? 1 : 0);
+                    if (cc instanceof ViewGroup) k = k * 31 + ((ViewGroup) cc).getChildCount();
+                }
+            }
+        }
+        return k;
+    }
+
+    static boolean screenChanged(View root, long seen) {
+        return screenKey(root) != seen;
     }
 
     private static void scan(View v) {
