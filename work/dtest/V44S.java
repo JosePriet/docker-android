@@ -26,6 +26,12 @@ is("wing: spartan vs reaver wing",ModStationGuns.rule(0,W,"reaver",false,false),
 is("wing: spartan vs varn wing (neutral)",ModStationGuns.rule(0,W,"varn",false,false),false);
 is("wing: spartan vs warden wing (ally)",ModStationGuns.rule(0,W,"warden",false,false),false);
 is("wing: neutral station never",ModStationGuns.rule(-1,W,"reaver",false,false),false);
+final int F=ModStationGuns.FLAGSHIP;
+is("flagship: spartan vs reaver flagship (enemy)",ModStationGuns.rule(0,F,"reaver",false,false),true);
+is("flagship: spartan vs own flagship",ModStationGuns.rule(0,F,"spartan",false,false),false);
+is("flagship: spartan vs ironclad flagship (ally)",ModStationGuns.rule(0,F,"ironclad",false,false),false);
+is("flagship: spartan vs varn flagship (neutral)",ModStationGuns.rule(0,F,"varn",false,false),false);
+is("flagship: neutral station never",ModStationGuns.rule(-1,F,"reaver",false,false),false);
 float d1=ModStationGuns.destroyerDps(1),d16=ModStationGuns.destroyerDps(16),d40=ModStationGuns.destroyerDps(40);
 System.out.println("info V44S destroyer dps L1="+d1+" L16="+d16+" L40="+d40);
 is("dps grows with level",d1>0&&d16>d1&&d40>d16,true);

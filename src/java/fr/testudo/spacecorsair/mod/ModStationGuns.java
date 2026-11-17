@@ -33,15 +33,16 @@ import java.util.Map;
  * v44 station turrets (owner 2026-11-04 21:26: "only attack enemy entities (enemies of the faction or non-allied ships)
  * or the player if he's being hostile by attacking civilians or police").
  *
- * Which stations: the ones drawing GPT poi_* art (ModPoi), on the pads of that art (MOUNTS). A station still on its stock
- * sprite has no turrets. Tutorial, arena and multiplayer sectors never get them (ModSector.excluded).
+ * Which stations: every station ModPoi draws, on the pads of its GPT poi_* art (MOUNTS). Audit F7 (owner 2026-11-17):
+ * a station still on its stock sprite gets turrets too (STOCK_MOUNTS, the existing turret art) until the GPT art ships. Tutorial, arena and multiplayer sectors never get them (ModSector.excluded).
  *
  * Station faction: Kre'tari trade stations = Kre'tari; the v35 sector base = that base's faction (ModSector.baseFaction);
  * every other station = the sector owner (ModMap.owner), or neutral in unclaimed sectors.
  *
  * Targets (hostile()): the player and the player's drones only while the sector's police heat is above 0 (the player
  * attacked civilians or police, ModPolice); enemy NPCs that are not of the station's faction or an ally (ModRep.REL);
- * faction wing / pursuit ships of an enemy faction. Never civilians, freighters, police, flagships or allied ships.
+ * faction wing / pursuit ships of an enemy faction; audit F7 (owner 2026-11-17): flagships of an enemy faction (never
+ * the station's own faction or an ally). Never civilians, freighters, police (police titans included) or allied ships.
  * Station shots pass through everything else (Mod.sideCheck / Mod.ignoreCollision) and never shoot down missiles.
  *
  * Guns: the station faction's flagship battery types (ModCapitals.GUNS: family, reload, speed, range, colour); neutral
@@ -82,6 +83,8 @@ public final class ModStationGuns {
         MOUNTS.put("poi_outpost_2", new float[]{-0.0948f, -0.0949f, 0.0896f, -0.0952f, -0.0946f, 0.0881f, 0.0890f, 0.0871f});
         MOUNTS.put("poi_outpost_3", new float[]{-0.1033f, -0.1330f, 0.1035f, -0.1331f, -0.0002f, 0.0469f});
     }
+    /** Audit F7: four pads on a stock station sprite (no pads drawn on it), inside the hull. Owner phone check. */
+    static final float[] STOCK_MOUNTS = {-0.25f, -0.25f, 0.25f, -0.25f, -0.25f, 0.25f, 0.25f, 0.25f};
 
     // ------------------------------------------------------------------ state (game thread only)
     static final class Post {
@@ -137,7 +140,7 @@ public final class ModStationGuns {
     }
 
     /** Target kinds for rule(). */
-    public static final int PLAYER = 0, DRONE = 1, PROTECTED = 2, ENEMY_NPC = 3, FACTION_WING = 4, CIVIL = 5;
+    public static final int PLAYER = 0, DRONE = 1, PROTECTED = 2, ENEMY_NPC = 3, FACTION_WING = 4, CIVIL = 5, FLAGSHIP = 6;
 
     /** true = a station of faction f (-1 neutral) may shoot e. */
     static boolean hostile(int f, Element e, LevelId id) {
@@ -145,7 +148,9 @@ public final class ModStationGuns {
         if (e instanceof PlayerShip) return rule(f, PLAYER, "", playerWanted(), ((PlayerShip) e).isDocked);
         if (e.isPlayer) return false;
         if (Mod.isDrone(e)) return rule(f, DRONE, "", playerWanted(), false);
-        if (ModPolice.isPolice(e) || ModCapitals.cap(e) != null) return false;
+        if (ModPolice.isPolice(e)) return false;
+        ModCapitals.Cap c = ModCapitals.cap(e);
+        if (c != null) return !c.police && rule(f, FLAGSHIP, c.f.key, false, false);   // audit F7
         if (e instanceof Ennemis) return rule(f, ENEMY_NPC, npcFaction(e, id), false, false);
         if (e instanceof CivilShip && ModSector.factionShip(e)) return rule(f, FACTION_WING, ModV34.factionOf(e), false, false);
         return false;
@@ -160,6 +165,7 @@ public final class ModStationGuns {
                 if (key == null || key.length() == 0 || f < 0) return true;  // unaligned raiders: everyone's enemy
                 return rel(f, key) < 1;                                      // not own (2), not an ally (1)
             case FACTION_WING: return f >= 0 && rel(f, key) == -1;           // only an enemy faction's wing / pursuer
+            case FLAGSHIP: return f >= 0 && rel(f, key) == -1;               // audit F7: only an enemy faction's flagship
             default: return false;                                           // police, flagships, civilians, freighters
         }
     }
@@ -222,8 +228,9 @@ public final class ModStationGuns {
             if (!(e instanceof Station) || e.removed || !poiClass(e) || post(e) != null) continue;
             Station st = (Station) e;
             String art = ModPoi.artFor(st);
-            float[] m = art == null ? null : MOUNTS.get(art);
-            if (m == null || ModArt.ready(art) == null) continue;   // stock sprite: no pads, no turrets
+            float[] m = art == null || ModArt.ready(art) == null ? null : MOUNTS.get(art);
+            boolean stock = m == null;
+            if (stock) { m = STOCK_MOUNTS; art = null; }   // audit F7: stock sprite, generic pads
             Drawable d = st.getDrawableObject();
             if (d == null || d.dimensions == null) continue;
             Post p = new Post();
@@ -236,7 +243,9 @@ public final class ModStationGuns {
             p.guns = p.f >= 0 ? ModCapitals.GUNS[p.f] : new ModCapitals.Gun[]{NEUTRAL};
             p.tex = p.f >= 0 ? ModCapitals.FACTIONS[p.f].turretTex : NEUTRAL_TEX;
             ModArt.prefetch(p.tex);
-            float mult = art.startsWith("poi_base_") ? BASE_DPS : OUTPOST_DPS;
+            boolean base = stock ? (st instanceof AlienTradeStation || (ModMap.isHome(id) && ModMap.owner(id) >= 0 && !(st instanceof ThreeDockStation)))
+                : art.startsWith("poi_base_");
+            float mult = base ? BASE_DPS : OUTPOST_DPS;
             p.shot = destroyerDps(Math.max(1, id.levelMax)) * mult;
             for (ModCapitals.Gun g : p.guns) p.range = Math.max(p.range, g.range);
             int n = m.length / 2;
@@ -299,7 +308,8 @@ public final class ModStationGuns {
             ModFx.local(p.st.position, p.st.spin, p.mounts[2 * k] * p.side, p.mounts[2 * k + 1] * p.side, mz);
             float want = outward(p, k);
             float dist = tg == null ? Float.MAX_VALUE : tg.position.distance(mz);
-            boolean engage = tg != null && dist < gun.range;
+            float reach = tg != null && ModCapitals.cap(tg) != null ? ModCapitals.SIZE * 0.4f : 0;   // audit F7: a flagship's hull edge
+            boolean engage = tg != null && dist - reach < gun.range;
             if (engage) {
                 float t = dist / (gun.speed * 100.0f);                    // flight time in s (speed is per 10 ms)
                 aim.set(tg.position.x + tg.speed.x * 100.0f * t, tg.position.y + tg.speed.y * 100.0f * t);
@@ -334,6 +344,13 @@ public final class ModStationGuns {
             Element e = enemies.get(i);
             float d = e.position.distance(p.st.position);
             if (d < bd && hostile(p.f, e, id)) { best = e; bd = d; }
+        }
+        if (p.f >= 0) {   // audit F7: enemy faction flagships
+            for (Element e : ModCapitals.caps.keySet()) {
+                if (e == null) continue;
+                float d = e.position.distance(p.st.position) - ModCapitals.SIZE * 0.4f;   // its hull edge, not its centre
+                if (d < bd && hostile(p.f, e, id)) { best = e; bd = d; }
+            }
         }
         if (p.f >= 0) {   // enemy faction wings / pursuers and (while wanted) the player's drones
             List<Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
@@ -375,7 +392,7 @@ public final class ModStationGuns {
     static void draw(Element e) {
         if (!(e instanceof Station) || posts.isEmpty()) return;
         Post p = post(e);
-        if (p == null || ModArt.ready(p.art) == null) return;
+        if (p == null || (p.art != null && ModArt.ready(p.art) == null)) return;
         int n = p.mounts.length / 2;
         for (int k = 0; k < n; k++) {
             ModFx.local(p.st.position, p.st.spin, p.mounts[2 * k] * p.side, p.mounts[2 * k + 1] * p.side, a);
