@@ -274,7 +274,9 @@ public class ModPolice {
             if (p == null || p.sender == null || target == null) return dmg;
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             if (target == ps || target.isPlayer) {
-                if (police.containsKey(p.sender)) policeWeapon(ps, p.sender, dmg);
+                // audit F6 (owner 2026-11-17): a shot the anchor wall stopped (lifetime and damage zeroed, it can still touch
+                // the hull before the game drops it) no longer snares, pins or drains
+                if (police.containsKey(p.sender) && dmg > 0 && (p.lifeTimeInMilli > 0 || p instanceof fr.testudo.spacecorsair.business.projectiles.LaserBeam)) policeWeapon(ps, p.sender, dmg);
                 return dmg;
             }
             boolean byPlayer = p.sender.isPlayer || p.sender == ps || Mod.isDrone(p.sender);
@@ -380,7 +382,7 @@ public class ModPolice {
     }
 
     // ================================================================== police-only weapons
-    /** v44: ModAnchor, a police shot stopped by the Leviathan anchor wall: the police tech still reaches the player. */
+    /** v44: ModAnchor, a police shot stopped by the Leviathan anchor wall. Off (TECH_THROUGH_WALL false): the wall stops the tech too. */
     public static final boolean TECH_THROUGH_WALL = false;   // v43a-4 (open owner call, picked): the wall stops the tech too
     public static void wallHit(Element shooter, float dmg) {
         if (!TECH_THROUGH_WALL) return;
