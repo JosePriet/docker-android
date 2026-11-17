@@ -507,13 +507,13 @@
     .prologue
     const/high16 v5, 0x40000000    # 2.0f
 
-    .line 279
+    .line 280
     :try_start_2
     sget-object v0, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->alienRatSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
 
     sget-object v1, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpecByLevel;->UfoSpec:[Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;
 
-    .line 280
+    .line 281
     const/4 v2, 0x0
 
     array-length v3, v0
@@ -534,7 +534,7 @@
 
     move-result v2
 
-    .line 281
+    .line 282
     aget-object v3, v0, v2
 
     iget v3, v3, Lfr/testudo/spacecorsair/business/ennemis/EnnemisSpec;->shootDamage:I
@@ -549,7 +549,7 @@
 
     div-float/2addr v3, v5
 
-    .line 282
+    .line 283
     const/high16 v4, 0x42c80000    # 100.0f
 
     aget-object v0, v0, v2
@@ -570,7 +570,7 @@
 
     move-result v0
 
-    .line 283
+    .line 284
     const/high16 v1, 0x447a0000    # 1000.0f
 
     mul-float/2addr v1, v3
@@ -585,15 +585,15 @@
 
     mul-float/2addr v0, v1
 
-    .line 285
+    .line 286
     :goto_3d
     return v0
 
-    .line 284
+    .line 285
     :catch_3e
     move-exception v0
 
-    .line 285
+    .line 286
     const/high16 v0, 0x41a00000    # 20.0f
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->curve(I)F
@@ -613,7 +613,7 @@
 
     const/high16 v6, 0x3f800000    # 1.0f
 
-    .line 393
+    .line 394
     instance-of v0, p0, Lfr/testudo/spacecorsair/business/world/station/Station;
 
     if-eqz v0, :cond_f
@@ -626,17 +626,17 @@
 
     if-eqz v0, :cond_10
 
-    .line 407
+    .line 408
     :cond_f
     return-void
 
-    .line 394
+    .line 395
     :cond_10
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStationGuns;->post(Lfr/testudo/spacecorsair/business/Element;)Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;
 
     move-result-object v12
 
-    .line 395
+    .line 396
     if-eqz v12, :cond_f
 
     iget-object v0, v12, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->art:Ljava/lang/String;
@@ -651,7 +651,7 @@
 
     if-eqz v0, :cond_f
 
-    .line 396
+    .line 397
     :cond_22
     iget-object v0, v12, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->mounts:[F
 
@@ -661,11 +661,11 @@
 
     move v11, v10
 
-    .line 397
+    .line 398
     :goto_28
     if-ge v11, v13, :cond_f
 
-    .line 398
+    .line 399
     iget-object v0, v12, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->st:Lfr/testudo/spacecorsair/business/world/station/Station;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/business/world/station/Station;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -700,19 +700,19 @@
 
     invoke-static {v0, v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 399
+    .line 400
     iget-object v0, v12, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->ang:[F
 
     aget v5, v0, v11
 
-    .line 400
+    .line 401
     iget-object v0, v12, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->kick:[I
 
     aget v0, v0, v11
 
     if-lez v0, :cond_7b
 
-    .line 401
+    .line 402
     iget v0, v12, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->ts:F
 
     const v1, 0x3e3851ec    # 0.18f
@@ -731,14 +731,14 @@
 
     div-float/2addr v0, v1
 
-    .line 402
+    .line 403
     float-to-double v2, v5
 
     invoke-static {v2, v3}, Ljava/lang/Math;->toRadians(D)D
 
     move-result-wide v2
 
-    .line 403
+    .line 404
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModStationGuns;->a:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-static {v2, v3}, Ljava/lang/Math;->sin(D)D
@@ -761,7 +761,7 @@
 
     invoke-virtual {v1, v4, v0}, Lfr/testudo/spacecorsair/engine/Vector2;->add(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 405
+    .line 406
     :cond_7b
     iget-object v0, v12, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->tex:Ljava/lang/String;
 
@@ -785,7 +785,7 @@
 
     invoke-static/range {v0 .. v10}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 397
+    .line 398
     add-int/lit8 v0, v11, 0x1
 
     move v11, v0
@@ -797,7 +797,7 @@
     .registers 4
 
     .prologue
-    .line 270
+    .line 271
     instance-of v0, p0, Lfr/testudo/spacecorsair/business/world/station/AlienTradeStation;
 
     if-eqz v0, :cond_b
@@ -808,17 +808,17 @@
 
     move-result v0
 
-    .line 273
+    .line 274
     :goto_a
     return v0
 
-    .line 271
+    .line 272
     :cond_b
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModSector;->basePoint(Lfr/testudo/spacecorsair/game/levels/LevelId;)Lfr/testudo/spacecorsair/engine/Vector2;
 
     move-result-object v0
 
-    .line 272
+    .line 273
     if-eqz v0, :cond_22
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/world/station/Station;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -839,7 +839,7 @@
 
     goto :goto_a
 
-    .line 273
+    .line 274
     :cond_22
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModMap;->owner(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
 
@@ -911,7 +911,7 @@
     .registers 28
 
     .prologue
-    .line 369
+    .line 370
     move/from16 v0, p3
 
     float-to-double v2, v0
@@ -920,7 +920,7 @@
 
     move-result-wide v2
 
-    .line 370
+    .line 371
     invoke-static {v2, v3}, Ljava/lang/Math;->sin(D)D
 
     move-result-wide v4
@@ -939,7 +939,7 @@
 
     move/from16 v17, v0
 
-    .line 371
+    .line 372
     move-object/from16 v0, p2
 
     iget v2, v0, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -972,7 +972,7 @@
 
     add-float v19, v2, v3
 
-    .line 372
+    .line 373
     const/4 v2, 0x0
 
     move v11, v2
@@ -984,7 +984,7 @@
 
     if-ge v11, v2, :cond_d7
 
-    .line 373
+    .line 374
     move-object/from16 v0, p1
 
     iget v2, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->shots:I
@@ -1018,7 +1018,7 @@
     :goto_56
     add-float v12, p3, v2
 
-    .line 374
+    .line 375
     invoke-static {}, Lfr/testudo/spacecorsair/business/factory/GamePools;->newEnnergyBullet()Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;
 
     move-result-object v2
@@ -1053,19 +1053,19 @@
 
     move/from16 v3, p5
 
-    .line 375
+    .line 376
     invoke-virtual/range {v2 .. v10}, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->init(FILfr/testudo/spacecorsair/business/Element;FFFFLfr/testudo/spacecorsair/business/loot/stuff/alteration/AlterationSpecs;)Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;
 
     move-result-object v2
 
-    .line 376
+    .line 377
     invoke-virtual/range {p6 .. p6}, Lfr/testudo/spacecorsair/business/Element;->getLevel()I
 
     move-result v3
 
     iput v3, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->level:I
 
-    .line 377
+    .line 378
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     move/from16 v0, v18
@@ -1074,7 +1074,7 @@
 
     invoke-virtual {v3, v0, v1}, Lfr/testudo/spacecorsair/engine/Vector2;->set(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 378
+    .line 379
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
 
     const/4 v4, 0x0
@@ -1097,10 +1097,10 @@
 
     invoke-virtual {v3, v4, v5}, Lfr/testudo/spacecorsair/engine/Vector2;->applyRotatation(D)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 379
+    .line 380
     iput v12, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->spin:F
 
-    .line 380
+    .line 381
     move-object/from16 v0, p1
 
     iget v3, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->range:F
@@ -1123,7 +1123,7 @@
 
     iput-wide v4, v2, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->lifeTimeInMilli:J
 
-    .line 381
+    .line 382
     sget-object v3, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v3, v3, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -1134,14 +1134,14 @@
 
     invoke-interface {v3, v2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 372
+    .line 373
     add-int/lit8 v2, v11, 0x1
 
     move v11, v2
 
     goto/16 :goto_38
 
-    .line 373
+    .line 374
     :cond_c6
     invoke-static {}, Ljava/lang/Math;->random()D
 
@@ -1165,7 +1165,7 @@
 
     goto :goto_56
 
-    .line 383
+    .line 384
     :cond_d7
     move-object/from16 v0, p1
 
@@ -1177,7 +1177,7 @@
 
     const/high16 v9, 0x43200000    # 160.0f
 
-    .line 384
+    .line 385
     :goto_e0
     const-string v2, "fx_core"
 
@@ -1215,7 +1215,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 385
+    .line 386
     const-string v2, "fx_glow"
 
     const/high16 v3, 0x42200000    # 40.0f
@@ -1268,7 +1268,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 386
+    .line 387
     const/4 v2, 0x0
 
     const/high16 v3, 0x3f800000    # 1.0f
@@ -1293,7 +1293,7 @@
 
     move-result v2
 
-    .line 387
+    .line 388
     const v3, 0x3d4ccccd    # 0.05f
 
     cmpl-float v3, v2, v3
@@ -1347,11 +1347,11 @@
 
     invoke-static {v3, v4, v2, v6, v7}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    .line 388
+    .line 389
     :cond_185
     return-void
 
-    .line 383
+    .line 384
     :cond_186
     move-object/from16 v0, p1
 
@@ -1368,7 +1368,7 @@
 
     goto/16 :goto_e0
 
-    .line 387
+    .line 388
     :cond_194
     const/high16 v2, 0x3f800000    # 1.0f
 
@@ -1379,7 +1379,7 @@
     .registers 22
 
     .prologue
-    .line 297
+    .line 298
     move-object/from16 v0, p0
 
     iget-wide v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->aimLeft:J
@@ -1390,7 +1390,7 @@
 
     iput-wide v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->aimLeft:J
 
-    .line 298
+    .line 299
     move-object/from16 v0, p0
 
     iget-wide v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->aimLeft:J
@@ -1423,7 +1423,7 @@
 
     if-nez v2, :cond_38
 
-    .line 299
+    .line 300
     :cond_2a
     const-wide/16 v2, 0x190
 
@@ -1431,7 +1431,7 @@
 
     iput-wide v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->aimLeft:J
 
-    .line 300
+    .line 301
     invoke-static/range {p0 .. p2}, Lfr/testudo/spacecorsair/mod/ModStationGuns;->pick(Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/game/levels/LevelId;)Lfr/testudo/spacecorsair/business/Element;
 
     move-result-object v2
@@ -1440,13 +1440,13 @@
 
     iput-object v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->target:Lfr/testudo/spacecorsair/business/Element;
 
-    .line 302
+    .line 303
     :cond_38
     move-object/from16 v0, p0
 
     iget-object v8, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->target:Lfr/testudo/spacecorsair/business/Element;
 
-    .line 303
+    .line 304
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->mounts:[F
@@ -1455,7 +1455,7 @@
 
     div-int/lit8 v11, v2, 0x2
 
-    .line 304
+    .line 305
     const/4 v2, 0x0
 
     move v10, v2
@@ -1463,7 +1463,7 @@
     :goto_45
     if-ge v10, v11, :cond_205
 
-    .line 305
+    .line 306
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->guns:[Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;
@@ -1478,7 +1478,7 @@
 
     aget-object v3, v2, v3
 
-    .line 306
+    .line 307
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->reload:[I
@@ -1501,7 +1501,7 @@
 
     aput v4, v2, v10
 
-    .line 307
+    .line 308
     :cond_68
     move-object/from16 v0, p0
 
@@ -1525,7 +1525,7 @@
 
     aput v4, v2, v10
 
-    .line 308
+    .line 309
     :cond_7c
     move-object/from16 v0, p0
 
@@ -1573,19 +1573,19 @@
 
     invoke-static {v2, v4, v5, v6, v7}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 309
+    .line 310
     move-object/from16 v0, p0
 
     invoke-static {v0, v10}, Lfr/testudo/spacecorsair/mod/ModStationGuns;->outward(Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;I)F
 
     move-result v2
 
-    .line 310
+    .line 311
     if-nez v8, :cond_158
 
     const v6, 0x7f7fffff    # Float.MAX_VALUE
 
-    .line 311
+    .line 312
     :goto_b4
     if-eqz v8, :cond_162
 
@@ -1597,7 +1597,7 @@
 
     const/high16 v4, 0x44160000    # 600.0f
 
-    .line 312
+    .line 313
     :goto_be
     if-eqz v8, :cond_165
 
@@ -1611,11 +1611,11 @@
 
     const/4 v4, 0x1
 
-    .line 313
+    .line 314
     :goto_c9
     if-eqz v4, :cond_111
 
-    .line 314
+    .line 315
     iget v2, v3, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->speed:F
 
     const/high16 v5, 0x42c80000    # 100.0f
@@ -1624,7 +1624,7 @@
 
     div-float v2, v6, v2
 
-    .line 315
+    .line 316
     sget-object v5, Lfr/testudo/spacecorsair/mod/ModStationGuns;->aim:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v7, v8, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1661,7 +1661,7 @@
 
     invoke-virtual {v5, v7, v2}, Lfr/testudo/spacecorsair/engine/Vector2;->set(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 316
+    .line 317
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModStationGuns;->aim:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v2, v2, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
@@ -1700,7 +1700,7 @@
 
     add-float/2addr v2, v5
 
-    .line 318
+    .line 319
     :cond_111
     move-object/from16 v0, p0
 
@@ -1714,7 +1714,7 @@
 
     move-result v2
 
-    .line 319
+    .line 320
     iget v5, v3, Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;->turn:F
 
     move-wide/from16 v0, p3
@@ -1727,7 +1727,7 @@
 
     div-float/2addr v5, v7
 
-    .line 320
+    .line 321
     move-object/from16 v0, p0
 
     iget-object v7, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->ang:[F
@@ -1756,7 +1756,7 @@
 
     aput v5, v7, v10
 
-    .line 321
+    .line 322
     if-eqz v4, :cond_153
 
     move-object/from16 v0, p0
@@ -1777,7 +1777,7 @@
 
     if-lez v2, :cond_168
 
-    .line 304
+    .line 305
     :cond_153
     :goto_153
     add-int/lit8 v2, v10, 0x1
@@ -1786,7 +1786,7 @@
 
     goto/16 :goto_45
 
-    .line 310
+    .line 311
     :cond_158
     iget-object v4, v8, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -1798,19 +1798,19 @@
 
     goto/16 :goto_b4
 
-    .line 311
+    .line 312
     :cond_162
     const/4 v4, 0x0
 
     goto/16 :goto_be
 
-    .line 312
+    .line 313
     :cond_165
     const/4 v4, 0x0
 
     goto/16 :goto_c9
 
-    .line 322
+    .line 323
     :cond_168
     move-object/from16 v0, p0
 
@@ -1840,7 +1840,7 @@
 
     aput v4, v2, v10
 
-    .line 323
+    .line 324
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->kick:[I
@@ -1849,7 +1849,7 @@
 
     aput v4, v2, v10
 
-    .line 325
+    .line 326
     move-object/from16 v0, p0
 
     iget v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->shot:F
@@ -1876,7 +1876,7 @@
 
     div-float v7, v2, v4
 
-    .line 326
+    .line 327
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModStationGuns;->mz:Lfr/testudo/spacecorsair/engine/Vector2;
 
     move-object/from16 v0, p0
@@ -1891,7 +1891,7 @@
 
     invoke-static/range {v2 .. v9}, Lfr/testudo/spacecorsair/mod/ModStationGuns;->fire(Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 327
+    .line 328
     move-object/from16 v0, p0
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->logged:Z
@@ -1906,14 +1906,14 @@
 
     if-eqz v2, :cond_153
 
-    .line 328
+    .line 329
     const/4 v2, 0x1
 
     move-object/from16 v0, p0
 
     iput-boolean v2, v0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->logged:Z
 
-    .line 329
+    .line 330
     const-string v2, "ModStationGuns"
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -1982,7 +1982,7 @@
 
     goto/16 :goto_153
 
-    .line 332
+    .line 333
     :cond_205
     return-void
 .end method
@@ -2334,7 +2334,7 @@
     .registers 7
 
     .prologue
-    .line 290
+    .line 291
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->mounts:[F
 
     mul-int/lit8 v1, p1, 0x2
@@ -2349,7 +2349,7 @@
 
     aget v1, v1, v2
 
-    .line 291
+    .line 292
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->st:Lfr/testudo/spacecorsair/business/world/station/Station;
 
     iget-object v2, v2, Lfr/testudo/spacecorsair/business/world/station/Station;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2370,7 +2370,7 @@
 
     invoke-static {v2, v3, v0, v1, v4}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 292
+    .line 293
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModStationGuns;->mz:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v0, v0, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
@@ -2422,10 +2422,10 @@
     .prologue
     const/4 v5, 0x0
 
-    .line 336
+    .line 337
     const/4 v2, 0x0
 
-    .line 337
+    .line 338
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->range:F
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->side:F
@@ -2436,7 +2436,7 @@
 
     add-float/2addr v1, v0
 
-    .line 338
+    .line 339
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->f:I
 
     invoke-static {v0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModStationGuns;->hostile(ILfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/game/levels/LevelId;)Z
@@ -2445,7 +2445,7 @@
 
     if-eqz v0, :cond_d3
 
-    .line 339
+    .line 340
     iget-object v0, p1, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->st:Lfr/testudo/spacecorsair/business/world/station/Station;
@@ -2456,12 +2456,12 @@
 
     move-result v0
 
-    .line 340
+    .line 341
     cmpg-float v3, v0, v1
 
     if-gez v3, :cond_d3
 
-    .line 342
+    .line 343
     :goto_20
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModStationGuns;->enemies:Ljava/util/ArrayList;
 
@@ -2473,7 +2473,7 @@
 
     move-object v3, p1
 
-    .line 343
+    .line 344
     :goto_28
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModStationGuns;->enemies:Ljava/util/ArrayList;
 
@@ -2483,7 +2483,7 @@
 
     if-ge v4, v0, :cond_53
 
-    .line 344
+    .line 345
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModStationGuns;->enemies:Ljava/util/ArrayList;
 
     invoke-virtual {v0, v4}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
@@ -2492,7 +2492,7 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/Element;
 
-    .line 345
+    .line 346
     iget-object v1, v0, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v6, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->st:Lfr/testudo/spacecorsair/business/world/station/Station;
@@ -2503,7 +2503,7 @@
 
     move-result v1
 
-    .line 346
+    .line 347
     cmpg-float v6, v1, v2
 
     if-gez v6, :cond_cf
@@ -2516,7 +2516,7 @@
 
     if-eqz v6, :cond_cf
 
-    .line 343
+    .line 344
     :goto_4e
     add-int/lit8 v4, v4, 0x1
 
@@ -2526,13 +2526,13 @@
 
     goto :goto_28
 
-    .line 348
+    .line 349
     :cond_53
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->f:I
 
     if-ltz v0, :cond_8b
 
-    .line 349
+    .line 350
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModCapitals;->caps:Ljava/util/Map;
 
     invoke-interface {v0}, Ljava/util/Map;->keySet()Ljava/util/Set;
@@ -2557,10 +2557,10 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/Element;
 
-    .line 350
+    .line 351
     if-eqz v0, :cond_61
 
-    .line 351
+    .line 352
     iget-object v1, v0, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v6, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->st:Lfr/testudo/spacecorsair/business/world/station/Station;
@@ -2575,7 +2575,7 @@
 
     sub-float/2addr v1, v6
 
-    .line 352
+    .line 353
     cmpg-float v6, v1, v2
 
     if-gez v6, :cond_61
@@ -2594,13 +2594,13 @@
 
     goto :goto_61
 
-    .line 355
+    .line 356
     :cond_8b
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->f:I
 
     if-ltz v0, :cond_c9
 
-    .line 356
+    .line 357
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -2609,7 +2609,7 @@
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/game/levels/Level;->elements:Ljava/util/List;
 
-    .line 357
+    .line 358
     :goto_97
     invoke-interface {v4}, Ljava/util/List;->size()I
 
@@ -2617,14 +2617,14 @@
 
     if-ge v5, v0, :cond_c9
 
-    .line 358
+    .line 359
     invoke-interface {v4, v5}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Lfr/testudo/spacecorsair/business/Element;
 
-    .line 359
+    .line 360
     instance-of v1, v0, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
     if-nez v1, :cond_b0
@@ -2635,14 +2635,14 @@
 
     if-nez v1, :cond_b0
 
-    .line 357
+    .line 358
     :cond_ad
     :goto_ad
     add-int/lit8 v5, v5, 0x1
 
     goto :goto_97
 
-    .line 360
+    .line 361
     :cond_b0
     iget-object v1, v0, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -2654,7 +2654,7 @@
 
     move-result v1
 
-    .line 361
+    .line 362
     cmpg-float v6, v1, v2
 
     if-gez v6, :cond_ad
@@ -2673,13 +2673,13 @@
 
     goto :goto_ad
 
-    .line 364
+    .line 365
     :cond_c9
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModStationGuns;->enemies:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->clear()V
 
-    .line 365
+    .line 366
     return-object v3
 
     :cond_cf
@@ -2723,7 +2723,7 @@
     .registers 2
 
     .prologue
-    .line 265
+    .line 266
     instance-of v0, p0, Lfr/testudo/spacecorsair/business/world/station/ThreeDockStation;
 
     if-nez v0, :cond_14
@@ -3039,7 +3039,7 @@
 
     move-result v0
 
-    if-ge v2, v0, :cond_13d
+    if-ge v2, v0, :cond_13f
 
     .line 227
     invoke-interface {v9, v2}, Ljava/util/List;->get(I)Ljava/lang/Object;
@@ -3088,59 +3088,62 @@
     move-result-object v4
 
     .line 231
-    if-eqz v4, :cond_5a
+    if-nez v4, :cond_f2
 
-    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModArt;->ready(Ljava/lang/String;)Lfr/testudo/spacecorsair/display/Texture;
-
-    move-result-object v1
-
-    if-nez v1, :cond_f0
-
-    :cond_5a
     move-object v1, v5
 
     .line 232
-    :goto_5b
-    if-nez v1, :cond_fa
+    :goto_55
+    if-eqz v1, :cond_5d
+
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModArt;->ready(Ljava/lang/String;)Lfr/testudo/spacecorsair/display/Texture;
+
+    move-result-object v6
+
+    if-eqz v6, :cond_48
+
+    .line 233
+    :cond_5d
+    if-nez v1, :cond_fc
 
     move v8, v7
 
-    .line 233
-    :goto_5e
-    if-eqz v8, :cond_63
+    .line 234
+    :goto_60
+    if-eqz v8, :cond_65
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModStationGuns;->STOCK_MOUNTS:[F
 
     move-object v4, v5
 
-    .line 234
-    :cond_63
+    .line 235
+    :cond_65
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/world/station/Station;->getDrawableObject()Lfr/testudo/spacecorsair/display/Drawable;
 
     move-result-object v6
 
-    .line 235
+    .line 236
     if-eqz v6, :cond_48
 
     iget-object v10, v6, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
 
     if-eqz v10, :cond_48
 
-    .line 236
+    .line 237
     new-instance v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;
 
     invoke-direct {v10}, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;-><init>()V
 
-    .line 237
+    .line 238
     iput-object v0, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->st:Lfr/testudo/spacecorsair/business/world/station/Station;
 
-    .line 238
+    .line 239
     iput-object v4, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->art:Ljava/lang/String;
 
-    .line 239
+    .line 240
     iput-object v1, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->mounts:[F
 
-    .line 240
+    .line 241
     iget-object v11, v6, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v11, v11, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -3155,7 +3158,7 @@
 
     iput v6, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->side:F
 
-    .line 241
+    .line 242
     iget v6, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->side:F
 
     const v11, 0x3e19999a    # 0.15f
@@ -3164,17 +3167,17 @@
 
     iput v6, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->ts:F
 
-    .line 242
+    .line 243
     invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModStationGuns;->factionOf(Lfr/testudo/spacecorsair/business/world/station/Station;Lfr/testudo/spacecorsair/game/levels/LevelId;)I
 
     move-result v6
 
     iput v6, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->f:I
 
-    .line 243
+    .line 244
     iget v6, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->f:I
 
-    if-ltz v6, :cond_fd
+    if-ltz v6, :cond_ff
 
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModCapitals;->GUNS:[[Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;
 
@@ -3182,13 +3185,13 @@
 
     aget-object v6, v6, v11
 
-    :goto_9e
+    :goto_a0
     iput-object v6, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->guns:[Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;
 
-    .line 244
+    .line 245
     iget v6, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->f:I
 
-    if-ltz v6, :cond_104
+    if-ltz v6, :cond_106
 
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
@@ -3198,48 +3201,48 @@
 
     iget-object v6, v6, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->turretTex:Ljava/lang/String;
 
-    :goto_ac
+    :goto_ae
     iput-object v6, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->tex:Ljava/lang/String;
 
-    .line 245
+    .line 246
     iget-object v6, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->tex:Ljava/lang/String;
 
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModArt;->prefetch(Ljava/lang/String;)V
 
-    .line 246
-    if-eqz v8, :cond_109
+    .line 247
+    if-eqz v8, :cond_10b
 
     instance-of v4, v0, Lfr/testudo/spacecorsair/business/world/station/AlienTradeStation;
 
-    if-nez v4, :cond_c9
+    if-nez v4, :cond_cb
 
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModMap;->isHome(Lfr/testudo/spacecorsair/game/levels/LevelId;)Z
 
     move-result v4
 
-    if-eqz v4, :cond_107
+    if-eqz v4, :cond_109
 
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModMap;->owner(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
 
     move-result v4
 
-    if-ltz v4, :cond_107
+    if-ltz v4, :cond_109
 
     instance-of v0, v0, Lfr/testudo/spacecorsair/business/world/station/ThreeDockStation;
 
-    if-nez v0, :cond_107
+    if-nez v0, :cond_109
 
-    :cond_c9
+    :cond_cb
     move v0, v7
 
-    .line 248
-    :goto_ca
-    if-eqz v0, :cond_110
+    .line 249
+    :goto_cc
+    if-eqz v0, :cond_112
 
     const/high16 v0, 0x40200000    # 2.5f
 
-    .line 249
-    :goto_ce
+    .line 250
+    :goto_d0
     iget v4, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
 
     invoke-static {v7, v4}, Ljava/lang/Math;->max(II)I
@@ -3254,15 +3257,15 @@
 
     iput v0, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->shot:F
 
-    .line 250
+    .line 251
     iget-object v4, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->guns:[Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;
 
     array-length v6, v4
 
     move v0, v3
 
-    :goto_df
-    if-ge v0, v6, :cond_113
+    :goto_e1
+    if-ge v0, v6, :cond_115
 
     aget-object v8, v4, v0
 
@@ -3278,10 +3281,10 @@
 
     add-int/lit8 v0, v0, 0x1
 
-    goto :goto_df
+    goto :goto_e1
 
     .line 231
-    :cond_f0
+    :cond_f2
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModStationGuns;->MOUNTS:Ljava/util/Map;
 
     invoke-interface {v1, v4}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -3290,80 +3293,80 @@
 
     check-cast v1, [F
 
-    goto/16 :goto_5b
+    goto/16 :goto_55
 
-    :cond_fa
+    :cond_fc
     move v8, v3
 
-    .line 232
-    goto/16 :goto_5e
+    .line 233
+    goto/16 :goto_60
 
-    .line 243
-    :cond_fd
+    .line 244
+    :cond_ff
     new-array v6, v7, [Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;
 
     sget-object v11, Lfr/testudo/spacecorsair/mod/ModStationGuns;->NEUTRAL:Lfr/testudo/spacecorsair/mod/ModCapitals$Gun;
 
     aput-object v11, v6, v3
 
-    goto :goto_9e
+    goto :goto_a0
 
-    .line 244
-    :cond_104
+    .line 245
+    :cond_106
     const-string v6, "hw_turret_cap_spartan"
 
-    goto :goto_ac
+    goto :goto_ae
 
-    :cond_107
+    :cond_109
     move v0, v3
 
-    .line 246
-    goto :goto_ca
-
     .line 247
-    :cond_109
+    goto :goto_cc
+
+    .line 248
+    :cond_10b
     const-string v0, "poi_base_"
 
     invoke-virtual {v4, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
 
     move-result v0
 
-    goto :goto_ca
+    goto :goto_cc
 
-    .line 248
-    :cond_110
+    .line 249
+    :cond_112
     const/high16 v0, 0x3fc00000    # 1.5f
 
-    goto :goto_ce
+    goto :goto_d0
 
-    .line 251
-    :cond_113
+    .line 252
+    :cond_115
     array-length v0, v1
 
     div-int/lit8 v1, v0, 0x2
 
-    .line 252
+    .line 253
     new-array v0, v1, [F
 
     iput-object v0, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->ang:[F
 
-    .line 253
+    .line 254
     new-array v0, v1, [I
 
     iput-object v0, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->reload:[I
 
-    .line 254
+    .line 255
     new-array v0, v1, [I
 
     iput-object v0, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->kick:[I
 
     move v0, v3
 
-    .line 255
-    :goto_123
-    if-ge v0, v1, :cond_136
-
     .line 256
+    :goto_125
+    if-ge v0, v1, :cond_138
+
+    .line 257
     iget-object v4, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->ang:[F
 
     invoke-static {v10, v0}, Lfr/testudo/spacecorsair/mod/ModStationGuns;->outward(Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;I)F
@@ -3372,28 +3375,28 @@
 
     aput v6, v4, v0
 
-    .line 257
+    .line 258
     iget-object v4, v10, Lfr/testudo/spacecorsair/mod/ModStationGuns$Post;->reload:[I
 
     mul-int/lit16 v6, v0, 0xfa
 
     aput v6, v4, v0
 
-    .line 255
+    .line 256
     add-int/lit8 v0, v0, 0x1
 
-    goto :goto_123
+    goto :goto_125
 
-    .line 259
-    :cond_136
+    .line 260
+    :cond_138
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModStationGuns;->posts:Ljava/util/ArrayList;
 
     invoke-virtual {v0, v10}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
     goto/16 :goto_48
 
-    .line 261
-    :cond_13d
+    .line 262
+    :cond_13f
     return-void
 .end method
 
