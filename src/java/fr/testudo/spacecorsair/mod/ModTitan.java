@@ -566,8 +566,8 @@ public final class ModTitan {
      *  second (split per beam tick), which does go through its resistances and shields. */
     static final float DOOM_TITAN_PCT = 0.10f, DOOM_BIG_PCT = 0.15f, DOOM_FIXED_PER_S = 100000f;   // Spartan Leviathan (#1 human titan)
     static final float DOOM_TITAN_PCT_OTHER = 0.07f, DOOM_BIG_PCT_OTHER = 0.10f;                   // every other titan (owner 23:35)
-    /** Owner 23:36: the alien (Kre'tari) titan's doomsday: 15% vs titans, 20% vs bosses. No flyable alien titan has a doomsday yet. */
-    static final float DOOM_TITAN_PCT_ALIEN = 0.15f, DOOM_BIG_PCT_ALIEN = 0.20f;
+    // Owner 23:36 (kept as a note, audit I2 removed the unused constants): an alien (Kre'tari) titan's doomsday would deal
+    // 15% vs titans and 20% vs bosses. No flyable alien titan has a doomsday yet.
     /** % hull already taken from each target by the current shot (cleared when a new shot charges). */
     static final java.util.Map<Element, Float> doomDealt = new java.util.WeakHashMap<Element, Float>();
     static final int DOOM_LANCE_TICKS = 22;

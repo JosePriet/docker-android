@@ -246,7 +246,6 @@ public class Mod {
         try {
             drawDroneHud(ps);
             ModBoss.draw(ps);
-            ModShips.draw(ps);
             ModCaps.drawUnder(ps);
         } catch (Exception e) {
             // HUD is cosmetic
@@ -375,7 +374,6 @@ public class Mod {
 
     public static void tick(PlayerShip ps, long j) {
         frameCounter++;
-        ModBoss.tick(ps, j);
         try {
             ModFleet.tick(ps, j);
         } catch (Exception e) {

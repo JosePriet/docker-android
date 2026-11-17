@@ -738,11 +738,6 @@ public final class ModRefitScreen {
             return h;
         }
 
-        void stripe(Canvas c, float x, float y, float w, float h, int i) {
-            p.setColor(i % 2 == 0 ? 0x14FFFFFF : 0x06FFFFFF);
-            c.drawRect(x, y, x + w, y + h, p);
-        }
-
         /** Small rounded tile with a glyph per stat (k < 0: -1 turret, -2 form). */
         void statIcon(Canvas c, float x, float y, float s, int k, int col) {
             p.setColor((col & 0x00FFFFFF) | 0x40000000);

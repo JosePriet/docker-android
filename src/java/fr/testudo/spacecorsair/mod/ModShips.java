@@ -783,16 +783,11 @@ public class ModShips {
         ModTitan.apply(ps);
     }
 
-    private static int doomsdayTimer = 30000;
-    private static final Vector2 lanceEnd = new Vector2();
-    private static int lanceFlash = 0;
-    private static LaserBeam lance;
 
     /** Every frame (from Mod.tick). */
     public static void tick(PlayerShip ps, long j) {
         Hull h = hullFor(ps.shipSpec);
         ModArt.devActive = h != null && h.dev;
-        if (lanceFlash > 0) lanceFlash = (int) (lanceFlash - j);
         if (h == null || ps.removed || ObjectRegistry.INSTANCE.game.mapMode) return;
         float rep = ModV35.repair(h);   // v35: refit repair (Kre'tari trait, repair hulls)
         if (rep > 0 && ps.life < ps.maxLife) {
@@ -800,16 +795,6 @@ public class ModShips {
         }
         if (h.dev) ModDev.tick(ps, j);
         // v17: the doomsday is manual and EVE-style (ModTitan.tick)
-    }
-
-    private static final Vector2 tmp = new Vector2();
-
-    public static void draw(PlayerShip ps) {
-        if (lanceFlash <= 0) return;
-        for (int k = 0; k < 6; k++) {
-            tmp.setSameAs(lanceEnd).add((float) (Math.random() * 60 - 30), (float) (Math.random() * 60 - 30));
-            ObjectRegistry.INSTANCE.renderQueue.addToWaitingQueue(tmp, ps.position, false, 1.0f, 1.0f, 0.85f, 0.3f);
-        }
     }
 
     /** Heavy turret sprite for the Albatros/Guardian/Titan lines. */

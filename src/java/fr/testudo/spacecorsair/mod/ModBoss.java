@@ -34,21 +34,6 @@ public class ModBoss extends MissionListener {
 
     private static final String[] NAMES = {"Banshee Matriarch", "Guardian Prime", "Hive Empress"};
     private static final String[] MISSION_NAMES = {"The Matriarch", ModLang.tr("Rogue Cruiser"), "Queen of the Hive"};
-    private static final String[] DESC = {
-        ModLang.tr("Long-range scanners picked up an enormous Banshee UFO hunting convoys in the <b>Hermes</b> sector. "
-            + "Pilots call her the Matriarch.<br><br><b>Known behaviour</b>: she blinks next to her prey every few seconds, "
-            + "and below a third of her hull she calls Arwing escorts, burns twice as hard and blinks more often.<br><br>"
-            + "<b>Reward</b>: Banshee Beam Lev. 5 and Arwing Plasma Bolt Lev. 5."),
-        ModLang.tr("A Guardian-class cruiser has stopped answering SPARTAN command codes and is shelling traffic in the <b>Solar Field</b>. "
-            + "SPARTAN wants it gone before the press hears about it.<br><br><b>Known behaviour</b>: repulsion shockwaves that also burn your hull "
-            + "if you get within 450, heavy missile salvos, and at two thirds and one third of its hull it raises an "
-            + "invulnerable SPARTAN shield for 6 seconds and launches two Defensor escorts.<br><br>"
-            + "<b>Reward</b>: Megatron Heavy Battery Lev. 10 and Megatron Salvo Missile Lev. 10."),
-        ModLang.tr("The alien hive has crowned an Empress. Her command ship sits deep in <b>The Hive</b>, spawning broods without end.<br><br>"
-            + "<b>Known behaviour</b>: everything a Regent does, plus volleys of three rooting shots every 8 seconds, a venom aura that burns "
-            + "anything within 500, and once she drops under 30% she regenerates 20% of her hull and releases two Banshees.<br><br>"
-            + "<b>Reward</b>: Regent Venom Beam Lev. 15 and Regent Hive Bay Lev. 15.")
-    };
     private static final String DONE = ModLang.tr("Target destroyed. The reward has been transferred to your hold.");
 
     /** v30 mission briefings: intro + the boss's skills and enrage from bosses_v30.json (EN / ES). */
@@ -138,10 +123,6 @@ public class ModBoss extends MissionListener {
         m.localizedName = ModLang.re(MISSION_NAMES[kind]);
         engine.mission = m;
         return m;
-    }
-
-    public static void tick(PlayerShip ps, long j) {
-        // bosses run their gimmicks from their mission engine
     }
 
     private static final Vector2 pos = new Vector2();
@@ -270,11 +251,6 @@ public class ModBoss extends MissionListener {
 
     static String displayName(int kind) {
         return data(kind)[0];
-    }
-
-    /** ModLive.hit: illusions take hits but never die from them before the real one (they pop on a hit instead). */
-    static float damageIn(Element target, float dmg, Projectile p) {
-        return dmg;
     }
 
     private void spawnBoss() {

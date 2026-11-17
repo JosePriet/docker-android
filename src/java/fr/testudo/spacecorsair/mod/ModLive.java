@@ -507,7 +507,6 @@ public final class ModLive {
             out = ModV34.damage(target, out, p);
             out = ModEnemyGuns.damageIn(target, out, p);   // v43a-15: Helion shield breaker
             out = ModV35.damage(target, out, p);   // v35 kill-time targets by advantage
-            out = ModBoss.damageIn(target, out, p);
             out = ModTitanAI.damageIn(target, out, p);
             out = ModPolice.armor(target, out);   // v43a-11 (owner 11-14): police take 25% less, police titans 30% less
             out = ModPoliceTitan.overAbsorb(target, out);   // owner 2026-11-12: police titan overshield, before its shield

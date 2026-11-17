@@ -139,11 +139,6 @@ public class ModPolice {
         return now - leftAt <= RETURN_MS;
     }
 
-    /** Heat after this much quiet time (-1 per 20 s). */
-    public static int decayed(int heat, long quietMs) {
-        return Math.max(0, heat - (int) (quietMs / DECAY_MS));
-    }
-
     /** v34 enemy hull for a class and level, then the police bonus. */
     public static float hull(float baseHull, int cls, int lv) {
         return baseHull * ModV34.classFactor(cls) * ModV34.curve(lv) * HULL_BONUS;

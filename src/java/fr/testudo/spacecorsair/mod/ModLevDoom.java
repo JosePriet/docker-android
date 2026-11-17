@@ -24,8 +24,6 @@ public final class ModLevDoom {
     private ModLevDoom() {}
 
     static final int CHARGE_MS = 5400, FIRE_MS = 4600, OVER_MS = 2200, DAMAGE_DELAY_MS = 150;
-    /** Per-tick hull slices (200 ms ticks, ~22 per lance): titan-class 5% and mission bosses 12% per full lance (owner Q1 default). */
-    static final float TITAN_SLICE = 0.05f / 22, BOSS_SLICE = 0.12f / 22;
 
     private static long seqMs;          // game time since the press (frame deltas from ModTitan.tick, so pauses freeze it)
     private static boolean on;         // sequence visuals running (press .. end of reboot)

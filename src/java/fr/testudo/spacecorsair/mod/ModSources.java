@@ -81,7 +81,6 @@ final class ModSources {
         {"xenonShieldLevel10", "Shield shop (Spartan HQ)"},
         {"xenonShieldLevel12", "Omicron goods station (Omicron Prime)"},
     };
-    static final String[] SHOP_SECTORS = {"Eternity", "Galactic Speedway", "Genesis", "Heliostat", "Highway", "Lost Paradise", "Omicron Prime", "Ore Belt", "Pirate Bay", "Solar Field", "Spartan HQ", "Tutorial", "Ventohigh"};
 
     static String shop(String typeName) {
         for (String[] r : SHOP) if (r[0].equals(typeName)) return realNames(r[1]);
