@@ -452,7 +452,7 @@ public final class ModCapitals {
                 c.hostileAnnounced = true;
                 ModRep.flagshipProvoked(c.f.key);
                 ModSound.play("flagship_horn", 1.0f, 1.0f, 3000);
-                ModQol.post(c.f.name + " flagship " + c.f.ship + ModLang.tr(" is now hostile."), c.f.key);   // v43a-5: its commander speaks
+                ModQol.post(ModLang.fmt("{0} flagship {1} is now hostile.", ModLang.tr(c.f.name), ModLang.tr(c.f.ship)), c.f.key);   // v43a-5: its commander speaks
                 ModSound.play("warp_in", 0.6f, 0.7f, 1000);
             }
         } catch (Throwable t) {
@@ -615,8 +615,8 @@ public final class ModCapitals {
                         SpaceObjectType t = SpaceObjectType.valueOf(ModWeapons.typeName(f, 3));
                         ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.forceAddObject(SpaceObject.of(t));
                     }
-                    ModQol.post(c.f.name + " flagship " + c.f.ship + ModLang.tr(" destroyed. Bounty: 2,000,000 credits and two Siege-tier weapons. "
-                        + "The faction will field a new flagship in about 3 hours."));
+                    ModQol.post(ModLang.fmt("{0} flagship {1} destroyed. Bounty: 2,000,000 credits and two Siege-tier weapons. "
+                        + "The faction will field a new flagship in about 3 hours.", ModLang.tr(c.f.name), ModLang.tr(c.f.ship)));
                 }
             }
         } catch (Throwable t) {

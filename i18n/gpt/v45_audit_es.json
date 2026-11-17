@@ -105,5 +105,7 @@
  "Kre'tari Heavy Cruiser": "Crucero pesado Kre'tari",
  "Kre'tari Battlecruiser": "Crucero de batalla Kre'tari",
  "Kre'tari Battleship": "Acorazado Kre'tari",
- "Kre'tari Mothership": "Nave nodriza Kre'tari"
+ "Kre'tari Mothership": "Nave nodriza Kre'tari",
+ "{0} flagship {1} is now hostile.": "La nave insignia {1} ({0}) ahora es hostil.",
+ "{0} flagship {1} destroyed. Bounty: 2,000,000 credits and two Siege-tier weapons. The faction will field a new flagship in about 3 hours.": "Nave insignia {1} ({0}) destruida. Recompensa: 2.000.000 créditos y dos armas de grado Asedio. La facción desplegará otra nave insignia en unas 3 horas."
 }
