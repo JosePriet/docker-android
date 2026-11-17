@@ -29,6 +29,8 @@
 
 .field hull:F
 
+.field regen:F
+
 .field shield:F
 
 .field shot:F

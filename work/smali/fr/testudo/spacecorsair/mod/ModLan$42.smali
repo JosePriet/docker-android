@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 2881
+    .line 2928
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$42;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$42;->val$wait:Landroid/app/AlertDialog;
@@ -49,14 +49,14 @@
     .registers 4
 
     .prologue
-    .line 2883
+    .line 2930
     const/16 v0, 0xfa0
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->scan(I)Ljava/util/List;
 
     move-result-object v0
 
-    .line 2884
+    .line 2931
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$42;->val$a:Landroid/app/Activity;
 
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModLan$42$1;
@@ -65,6 +65,6 @@
 
     invoke-virtual {v1, v2}, Landroid/app/Activity;->runOnUiThread(Ljava/lang/Runnable;)V
 
-    .line 2891
+    .line 2938
     return-void
 .end method

@@ -23,7 +23,7 @@
     .registers 2
 
     .prologue
-    .line 1051
+    .line 1057
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$3;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     invoke-direct {p0}, Ljava/io/OutputStream;-><init>()V
@@ -37,7 +37,7 @@
     .registers 5
 
     .prologue
-    .line 1068
+    .line 1074
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$3;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     monitor-enter v1
@@ -79,7 +79,7 @@
 
     const/4 v2, 0x0
 
-    .line 1052
+    .line 1058
     new-array v0, v3, [B
 
     int-to-byte v1, p1
@@ -100,7 +100,7 @@
     .end annotation
 
     .prologue
-    .line 1055
+    .line 1061
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
@@ -109,12 +109,12 @@
 
     add-long/2addr v0, v2
 
-    .line 1056
+    .line 1062
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$3;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     monitor-enter v2
 
-    .line 1057
+    .line 1063
     :goto_a
     :try_start_a
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$3;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
@@ -132,7 +132,7 @@
 
     if-le v3, v4, :cond_54
 
-    .line 1058
+    .line 1064
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$3;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModNet$Link;->closed:Z
@@ -160,7 +160,7 @@
 
     throw v0
 
-    .line 1065
+    .line 1071
     :catchall_30
     move-exception v0
 
@@ -170,7 +170,7 @@
 
     throw v0
 
-    .line 1059
+    .line 1065
     :cond_33
     :try_start_33
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
@@ -191,7 +191,7 @@
     :try_end_43
     .catchall {:try_start_33 .. :try_end_43} :catchall_30
 
-    .line 1060
+    .line 1066
     :cond_43
     :try_start_43
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$3;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
@@ -217,7 +217,7 @@
 
     throw v0
 
-    .line 1062
+    .line 1068
     :cond_54
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$3;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
@@ -246,7 +246,7 @@
 
     throw v0
 
-    .line 1063
+    .line 1069
     :cond_6c
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$3;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
@@ -257,7 +257,7 @@
 
     invoke-virtual {v0, p1, p2, p3}, Ljava/io/ByteArrayOutputStream;->write([BII)V
 
-    .line 1064
+    .line 1070
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$3;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     int-to-long v4, p3
@@ -265,11 +265,11 @@
     # += operator for: Lfr/testudo/spacecorsair/mod/ModNet$Link;->written:J
     invoke-static {v0, v4, v5}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->access$1714(Lfr/testudo/spacecorsair/mod/ModNet$Link;J)J
 
-    .line 1065
+    .line 1071
     monitor-exit v2
     :try_end_7c
     .catchall {:try_start_4c .. :try_end_7c} :catchall_30
 
-    .line 1066
+    .line 1072
     return-void
 .end method

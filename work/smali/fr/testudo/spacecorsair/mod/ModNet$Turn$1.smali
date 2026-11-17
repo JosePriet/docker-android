@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 496
+    .line 497
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn$1;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Turn;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -44,7 +44,7 @@
 
     const/4 v9, 0x0
 
-    .line 499
+    .line 500
     :try_start_2
     move-object/from16 v0, p0
 
@@ -75,7 +75,7 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModNet$Turn;->request(I[[B)[B
     invoke-static {v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->access$300(Lfr/testudo/spacecorsair/mod/ModNet$Turn;I[[B)[B
 
-    .line 501
+    .line 502
     move-object/from16 v0, p0
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/mod/ModNet$Turn$1;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Turn;
@@ -84,7 +84,7 @@
     :try_end_21
     .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_21} :catch_8f
 
-    .line 502
+    .line 503
     :try_start_21
     move-object/from16 v0, p0
 
@@ -109,7 +109,7 @@
 
     move-object v7, v0
 
-    .line 503
+    .line 504
     move-object/from16 v0, p0
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModNet$Turn$1;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Turn;
@@ -137,14 +137,14 @@
 
     move-object v8, v0
 
-    .line 504
+    .line 505
     array-length v1, v8
 
     new-array v11, v1, [Ljava/net/InetSocketAddress;
 
     move v2, v9
 
-    .line 505
+    .line 506
     :goto_4f
     array-length v1, v8
 
@@ -175,13 +175,13 @@
 
     goto :goto_4f
 
-    .line 506
+    .line 507
     :cond_68
     monitor-exit v3
     :try_end_69
     .catchall {:try_start_21 .. :try_end_69} :catchall_8c
 
-    .line 507
+    .line 508
     :try_start_69
     array-length v12, v7
 
@@ -227,7 +227,7 @@
 
     goto :goto_6b
 
-    .line 506
+    .line 507
     :catchall_8c
     move-exception v1
 
@@ -241,32 +241,32 @@
     :try_end_8f
     .catch Ljava/lang/Throwable; {:try_start_8e .. :try_end_8f} :catch_8f
 
-    .line 510
+    .line 511
     :catch_8f
     move-exception v1
 
-    .line 511
+    .line 512
     move-object/from16 v0, p0
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModNet$Turn$1;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Turn;
 
     iput-boolean v15, v1, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->dead:Z
 
-    .line 513
+    .line 514
     :cond_96
     return-void
 
     :cond_97
     move v7, v9
 
-    .line 508
+    .line 509
     :goto_98
     :try_start_98
     array-length v1, v8
 
     if-ge v7, v1, :cond_96
 
-    .line 509
+    .line 510
     move-object/from16 v0, p0
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModNet$Turn$1;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Turn;
@@ -340,14 +340,14 @@
     :try_end_d6
     .catch Ljava/lang/Throwable; {:try_start_98 .. :try_end_d6} :catch_8f
 
-    .line 508
+    .line 509
     add-int/lit8 v1, v7, 0x1
 
     move v7, v1
 
     goto :goto_98
 
-    .line 499
+    .line 500
     :array_da
     .array-data 1
         0x0t
