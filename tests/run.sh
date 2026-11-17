@@ -80,7 +80,7 @@ timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ]; then
-  NOPRO=""; { [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ]; } && NOPRO=/data/local/tmp/corsair_noprologue
+  NOPRO=""; { [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ]; } && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
@@ -176,6 +176,26 @@ elif [ $GAME = sc ]; then
   back 3
   # ---- v49 LAN co-op (owner 2026-11-15): the game hosts for a scripted guest, then joins a scripted host that replays
   # the recorded host stream. Evidence: tests/lan_peer.py output, logcat "ModTest.*: lan ...", shots of both phases.
+  # ---- v45 audit F14 (item 59): station turrets fire at a hostile flagship in an owned sector (the tutorial station is unowned,
+  # so by the owner's rule it never fires at flagships); screen recordings as evidence
+  if [ "$STAGE" = V51T ]; then
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    rec() { timeout 200 adb shell screenrecord --time-limit $2 --bit-rate 12000000 /sdcard/$1.mp4 >/dev/null 2>&1 & }
+    put corsair_goto SPARTAN_HQ; for i in $(seq 1 60); do sleep 4; need goto_hq; grep -q "goto arrived SPARTAN_HQ" $LG && break; done
+    log "goto SPARTAN_HQ arrived=$(grep -c "goto arrived SPARTAN_HQ" $LG)"
+    put corsair_near station; sleep 4; shot turret_station
+    for C in reaver kretari varn; do
+      put corsair_capital $C; sleep 3
+      rec turrets_$C 30; for k in 1 2 3; do sleep 9; shot turrets_${C}_$k; done; sleep 6
+      timeout 60 adb pull /sdcard/turrets_$C.mp4 $OUT/turrets_$C.mp4 >/dev/null 2>&1; log "pulled turrets_$C: $(stat -c %s $OUT/turrets_$C.mp4 2>/dev/null)"
+      grep -q "ModStationGuns.*fire at GuardianCivilShip" $LG && break
+    done
+    log "EVIDENCE station vs flagship: $(grep -E "ModStationGuns.*fire at|ModDev.*(near|goto)|ModTitanAI" $LG | tail -10 | sed 's/^.*): //' | tr '\n' ' ')"
+    grep -E "ModStationGuns|ModTitanAI|FATAL|AndroidRuntime" $LG > $OUT/v51t_events.txt
+    a shell "rm -f $T/corsair_capital $T/corsair_near $T/corsair_goto"
+    finish; exit 0
+  fi
   if [ "$STAGE" = V50L ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
     put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
