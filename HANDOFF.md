@@ -1,3 +1,8 @@
+# Handoff (2026-11-17): v45 audit fixes
+Branch claude/project-thread-fuw6ke (v45 internet multiplayer + audit fixes, NOT merged, NOT released). All 66 audit
+items decided; only item 1 coded. Next session: read TASK.md top entry and the decisions file, code the rest in small
+commits, build, verify, emulator run. Secrets: keys/cloudflare.env, keys/metered.env (never in git or audits).
+
 # Handoff (state at v35, 2026-10-22)
 
 ## Current progress

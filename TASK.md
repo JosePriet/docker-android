@@ -1,3 +1,17 @@
+# v45 audit fixes (owner 2026-11-16/17, branch claude/project-thread-fuw6ke)
+Owner: "audit the game's code ... give me 3 options per item ... help me fix whatever may be broken"; 66 items decided one card each.
+Decisions (exact choices, owner words quoted): `/mnt/project-files/audits/2026-11-16-whole-game-audit-decisions.md`.
+Audit report: `/mnt/project-files/audits/2026-11-16-whole-game-audit.md`. Done: item 1 (A1 AI timer, 4054249).
+Acceptance criteria
+- Every row with a build choice is coded exactly as chosen (no invented numbers; ask the owner where a number is missing).
+- Rows marked "phone checklist" / n/a: nothing built; entries live in `space-corsair/v43a-phone-test-checklist.md`.
+- New player text EN + ES (i18n/gpt/*.json, build_es_json.py). Lore text stays PLACEHOLDER.
+- `MODVER_NAME=v45 bash scripts/check.sh 52` PASS; changes file `/mnt/project-files/audits/v45-audit-fixes-changes.md`;
+  verifier + cross-check subagents; audit thread told; ONE emulator run on the final build, including a clip of a
+  flagship's turrets (item 59). No merge or release without the owner's word.
+
+---
+
 # v49 LAN co-op + PvP duel (owner 2026-11-15 23:35 UTC, branch claude/project-thread-1oz5kt)
 Owner: "begin working in a co-op for normal sectors *then* after that PVP (the arena)"; time box 30 min to 5 h.
 Code: `ModLan.java` (transport, render-list stream, guest stand-in, shot mirror, duel), `src/patch/hooks49_lan.py` +
