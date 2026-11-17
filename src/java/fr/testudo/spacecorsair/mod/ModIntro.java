@@ -13,8 +13,19 @@ public final class ModIntro {
 
     /** Main.onFirstStart: a fresh save opens on the playable prologue. */
     public static void firstStart() {
-        ModQol.clearProgress();   // audit A10: a fresh save starts with no mod progress
+        if (saveIsNew()) ModQol.clearProgress();   // audit A10: a fresh save starts with no mod progress
         ModPrologue.firstStart();
+    }
+
+    /** Second check S4: the game also takes the first-start path when only its config file was corrupted (the save
+     *  itself is restored). Mod progress is cleared only when the restored save is really a new pilot. */
+    static boolean saveIsNew() {
+        try {
+            fr.testudo.spacecorsair.business.player.PlayerInfo pi = fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.game.playerInfo;
+            return pi.level <= 1 && pi.curXp <= 0 && (pi.availShips == null || pi.availShips.size() <= 1);
+        } catch (Throwable t) {
+            return false;   // cannot tell: keep the progress
+        }
     }
 
     public static boolean isActive() { return false; }

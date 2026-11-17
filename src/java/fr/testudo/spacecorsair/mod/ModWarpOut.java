@@ -57,18 +57,24 @@ final class ModWarpOut {
             for (Iterator<Map.Entry<Element, Long>> it = out.entrySet().iterator(); it.hasNext(); ) {
                 Map.Entry<Element, Long> en = it.next();
                 Element e = en.getKey();
-                if (e == null || e.removed) { it.remove(); continue; }
+                if (e == null) { it.remove(); continue; }
+                if (e.removed) { e.invincible = false; it.remove(); continue; }   // S1: the pooled object must not stay invincible
                 if (e instanceof Ennemis) ((Ennemis) e).nextShootAlowed = Long.MAX_VALUE / 2;
                 if (now - en.getValue() >= MS) { done.add(e); it.remove(); }
             }
         }
         for (Element e : done) {
-            try { wave(e, 1f); e.remove(); } catch (Throwable t) { /* ignore */ }
+            try { e.invincible = false; wave(e, 1f); e.remove(); } catch (Throwable t) { /* ignore */ }   // S1: cleared before it goes back to the pool
         }
     }
 
     /** Sector change: the sector's objects go anyway. */
-    static void clear() { synchronized (out) { out.clear(); } }
+    static void clear() {
+        synchronized (out) {
+            for (Element e : out.keySet()) if (e != null) e.invincible = false;   // S1: these go back to the pool too
+            out.clear();
+        }
+    }
 
     /** ModLive.drawPlain: fades the queue entries [from, to) that the element just added. */
     static void fade(Element e, int from) {

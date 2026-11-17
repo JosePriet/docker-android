@@ -2622,7 +2622,9 @@ public final class ModLan {
      */
     static float duelFloor(PlayerShip ps, float amount) {
         if (!pvp || !connected || ps == null || amount <= 0 || !inBay()) return amount;
-        float room = ps.life - 1.0f;
+        float sh = 0;
+        try { if (ps.shield != null) sh = Math.max(0f, ps.shield.currentValue); } catch (Throwable t) { sh = 0; }
+        float room = ps.life - 1.0f + sh;   // second check S6: what the shield would absorb does not lose the round
         if (amount >= room) {
             lostRound = true;
             return Math.max(0f, room);
