@@ -1989,7 +1989,7 @@
 
     move-result v0
 
-    if-eqz v0, :cond_ac
+    if-eqz v0, :cond_b0
 
     .line 459
     new-instance v0, Landroid/app/AlertDialog$Builder;
@@ -2018,6 +2018,10 @@
 
     const-string v1, "OK"
 
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     const/4 v2, 0x0
 
     invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
@@ -2029,13 +2033,13 @@
     goto/16 :goto_c
 
     .line 486
-    :catch_a9
+    :catch_ad
     move-exception v0
 
     goto/16 :goto_c
 
     .line 462
-    :cond_ac
+    :cond_b0
     new-instance v0, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {v0, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
@@ -2122,8 +2126,8 @@
     move-result-object v0
 
     invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
-    :try_end_fe
-    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_fe} :catch_a9
+    :try_end_102
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_102} :catch_ad
 
     goto/16 :goto_c
 .end method

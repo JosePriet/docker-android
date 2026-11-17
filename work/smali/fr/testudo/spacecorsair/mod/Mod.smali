@@ -1250,7 +1250,7 @@
 
     move-result v1
 
-    if-eqz v1, :cond_32
+    if-eqz v1, :cond_36
 
     .line 980
     new-instance v0, Ljava/lang/StringBuilder;
@@ -1266,6 +1266,10 @@
     move-result-object v0
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/Mod;->SKILL:Ljava/lang/String;
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -1286,18 +1290,18 @@
     move-result-object v0
 
     .line 1040
-    :goto_31
+    :goto_35
     return-object v0
 
     .line 982
-    :cond_32
+    :cond_36
     const-string v1, "alienUfo"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_5c
+    if-eqz v1, :cond_64
 
     .line 983
     new-instance v0, Ljava/lang/StringBuilder;
@@ -1313,6 +1317,10 @@
     move-result-object v0
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/Mod;->SKILL:Ljava/lang/String;
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -1332,17 +1340,17 @@
 
     move-result-object v0
 
-    goto :goto_31
+    goto :goto_35
 
     .line 985
-    :cond_5c
+    :cond_64
     const-string v1, "alienBlatte"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_86
+    if-eqz v1, :cond_92
 
     .line 986
     new-instance v0, Ljava/lang/StringBuilder;
@@ -1358,6 +1366,10 @@
     move-result-object v0
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/Mod;->SKILL:Ljava/lang/String;
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -1377,17 +1389,17 @@
 
     move-result-object v0
 
-    goto :goto_31
+    goto :goto_35
 
     .line 990
-    :cond_86
+    :cond_92
     const-string v1, "policeShip"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_b0
+    if-eqz v1, :cond_c1
 
     .line 991
     new-instance v0, Ljava/lang/StringBuilder;
@@ -1403,6 +1415,10 @@
     move-result-object v0
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/Mod;->SKILL:Ljava/lang/String;
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -1422,17 +1438,17 @@
 
     move-result-object v0
 
-    goto :goto_31
+    goto/16 :goto_35
 
     .line 993
-    :cond_b0
+    :cond_c1
     const-string v1, "hullBreaker"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_db
+    if-eqz v1, :cond_f0
 
     .line 994
     new-instance v0, Ljava/lang/StringBuilder;
@@ -1448,6 +1464,10 @@
     move-result-object v0
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/Mod;->SKILL:Ljava/lang/String;
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -1467,17 +1487,17 @@
 
     move-result-object v0
 
-    goto/16 :goto_31
+    goto/16 :goto_35
 
     .line 996
-    :cond_db
+    :cond_f0
     const-string v1, "corvette"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_106
+    if-eqz v1, :cond_11f
 
     .line 997
     new-instance v0, Ljava/lang/StringBuilder;
@@ -1493,6 +1513,10 @@
     move-result-object v0
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/Mod;->SKILL:Ljava/lang/String;
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -1512,17 +1536,17 @@
 
     move-result-object v0
 
-    goto/16 :goto_31
+    goto/16 :goto_35
 
     .line 999
-    :cond_106
+    :cond_11f
     const-string v1, "alienBeamLaser"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_116
+    if-eqz v1, :cond_12f
 
     .line 1000
     const-string v0, "Alien beam emitter salvaged from a Banshee UFO, the same weapon its pilots use against you.<br><br>It locks onto the closest enemy in front of your ship and fires short red beam pulses. Each pulse lands once per reload, never misses, but only reaches targets within short range (600).<br><br>Works on fixed-cannon and turret ships alike."
@@ -1531,17 +1555,17 @@
 
     move-result-object v0
 
-    goto/16 :goto_31
+    goto/16 :goto_35
 
     .line 1005
-    :cond_116
+    :cond_12f
     const-string v1, "regentBeamLaser"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_126
+    if-eqz v1, :cond_13f
 
     .line 1006
     const-string v0, "The purple venom beam of the Regent command ship.<br><br>Pulsed, auto-targeted and reaches twice as far as the Banshee Beam (1200). Each pulse can inject a long-lasting alien poison into the target.<br><br>Works on fixed-cannon and turret ships alike."
@@ -1550,17 +1574,17 @@
 
     move-result-object v0
 
-    goto/16 :goto_31
+    goto/16 :goto_35
 
     .line 1011
-    :cond_126
+    :cond_13f
     const-string v1, "arwingBoltLaser"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_136
+    if-eqz v1, :cond_14f
 
     .line 1012
     const-string v0, "The green plasma cannon of the Arwing interceptor.<br><br>Fires fast alien plasma bolts at a high rate. Lower damage per bolt than human lasers, but very quick reload."
@@ -1569,17 +1593,17 @@
 
     move-result-object v0
 
-    goto/16 :goto_31
+    goto/16 :goto_35
 
     .line 1015
-    :cond_136
+    :cond_14f
     const-string v1, "megatronBattery"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_146
+    if-eqz v1, :cond_15f
 
     .line 1016
     const-string v0, "Heavy turret battery taken from a SPARTAN Guardian-class cruiser.<br><br>Slow, hard-hitting and very fast shells. Best mounted on the three turrets of the Megatron."
@@ -1588,17 +1612,17 @@
 
     move-result-object v0
 
-    goto/16 :goto_31
+    goto/16 :goto_35
 
     .line 1019
-    :cond_146
+    :cond_15f
     const-string v1, "megatronSalvo"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_156
+    if-eqz v1, :cond_16f
 
     .line 1020
     const-string v0, "<b>A missile modification defines the characteristics of the missile you fire.</b><br><br>Heavy homing missile carried by Guardian-class cruisers. Huge payload and blast radius, slow to manoeuvre. Ships with two launch tubes fire a salvo of two."
@@ -1607,17 +1631,17 @@
 
     move-result-object v0
 
-    goto/16 :goto_31
+    goto/16 :goto_35
 
     .line 1024
-    :cond_156
+    :cond_16f
     const-string v1, "regentHiveBay"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
-    if-eqz v1, :cond_166
+    if-eqz v1, :cond_17f
 
     .line 1025
     const-string v0, "<b>Replaces your missiles with alien drones.</b><br><br>Each launch uses one missile from your hold and releases 1 Banshee UFO and 1 Arwing (at most one of each out at a time). Drones are always built at your current pilot level and kills made by drones count as yours.<br><br><b>Stance</b>: while drones are out and the bay is reloading (or full), tap the missile button to switch:<br><b>Defense</b> (default): drones stay within 900 of your ship and deal +25% damage.<br><b>Attack</b>: drones hunt anything within 2500 but deal 15% less damage.<br><br>Higher tiers make stronger, longer-lived drones and reload faster."
@@ -1626,17 +1650,17 @@
 
     move-result-object v0
 
-    goto/16 :goto_31
+    goto/16 :goto_35
 
     .line 1033
-    :cond_166
+    :cond_17f
     const-string v1, "megatronShip"
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_193
+    if-eqz v0, :cond_1b0
 
     .line 1034
     new-instance v0, Ljava/lang/StringBuilder;
@@ -1655,13 +1679,17 @@
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/Mod;->SKILL:Ljava/lang/String;
 
+    .line 1036
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
     const-string v1, "<b>Spartan Aegis</b>: SPARTAN shield technology. Any equipped shield gets +50% capacity, twice the regeneration rate and half the recovery delay.<br><b>Point defence</b>: automatically shoots down a missile locked on you (every 2.5 s).<br><b>Repulsion wave</b>: every 1.5 s, pushes away any enemy within 350 of the hull."
 
-    .line 1036
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -1674,13 +1702,13 @@
 
     move-result-object v0
 
-    goto/16 :goto_31
+    goto/16 :goto_35
 
     .line 1040
-    :cond_193
+    :cond_1b0
     const/4 v0, 0x0
 
-    goto/16 :goto_31
+    goto/16 :goto_35
 .end method
 
 .method public static dockRange(Lfr/testudo/spacecorsair/business/world/station/DockPoint;)I
