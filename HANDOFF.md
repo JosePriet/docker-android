@@ -7,6 +7,7 @@ Waiting on the owner: deploy of server/rendezvous (D1 /dev, D4 /sample, E5, E6) 
 sample retention (my number); my picks for F3 lance speed/range, F7 stock-sprite pads, F13 JOINT_TONE 0.65; nothing yet
 lets the owner read reports/samples. Secrets: keys/cloudflare.env, keys/metered.env (never in git or audits).
 Checks: run 132 no crash; F14 proven in run sc-v45f (stage V51T, Spartan HQ station guns hit a Reaver flagship); netcloud direct OK, Metered relay Allocate gets 400 after auth (changes file, section Emulator and cloud checks).
+Fix list (owner picks 2026-11-17) done: see the changes file, section Fix list. Two builds: public (space-corsair/v45/space-corsair-v45-build52-public.apk) and private DEV (space-corsair/private/, DEV_KEY_FILE=keys/dev.key; never publish it). Service deployed with /admin. Emulator sc-v45g passed. Open: Metered relay 400 (credential/plan side; our client passes vs coturn).
 
 # Handoff (state at v35, 2026-10-22)
 
