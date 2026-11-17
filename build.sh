@@ -38,6 +38,7 @@ ADDS=$(for f in work/modart/*.png work/modart/*.webp; do echo -n "+assets/modart
 MUSIC=$(for f in work/modmusic/*.ogg; do echo -n "res/raw/$(basename $f)=$f "; done)
 shopt -u nullglob
 # v30: Spanish resources (es locale in resources.arsc) + mod dictionary
+python3 -I i18n/lang/build_es_json.py . >/dev/null   # second check S2: the dictionary is rebuilt every build (new ES strings always ship)
 test -f i18n/values-es/strings.xml && test -f i18n/lang/es_full.json
 # v30: the phone's app info shows the mod version (versionName = app_version string) and versionCode climbs per release
 # fix list 2A (owner 2026-11-17): DEV_KEY_FILE=<path> builds the private DEV APK (the key ships as an asset; never in git)
