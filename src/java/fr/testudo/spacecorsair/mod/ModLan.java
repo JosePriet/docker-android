@@ -701,7 +701,7 @@ public final class ModLan {
 
     static void stop() {
         if (internet && role == HOST) {   // audit D4: the session's anonymous sample goes to the lobby service
-            final String[] s = ModLanCheck.sample(lastDecl, limits, pvp || pvpRoom);
+            final String[] s = ModLobby.withLobby(ModLanCheck.sample(lastDecl, limits, pvp || pvpRoom));
             if (s != null) new Thread(new Runnable() { public void run() { ModLobby.call("POST", "/sample", s); } }, "lobby-sample").start();
         }
         lastDecl = null;

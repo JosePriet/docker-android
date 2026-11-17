@@ -269,6 +269,15 @@ final class ModLobby {
 
     static ModNet.Link link() { return link; }
 
+    /** Second check S11: the service takes a sample only from the host of a lobby a guest joined (code + token). */
+    static String[] withLobby(String[] s) {
+        String c = code, t = token;
+        if (s == null || c.length() == 0 || t.length() == 0) return null;
+        String[] o = java.util.Arrays.copyOf(s, s.length + 4);
+        o[s.length] = "code"; o[s.length + 1] = c; o[s.length + 2] = "token"; o[s.length + 3] = t;
+        return o;
+    }
+
     static String peerInstall() { return peerId; }
 
     /** "Direct" / "Relayed" + ping + data used, for the multiplayer screen. Empty when not on an internet link. */

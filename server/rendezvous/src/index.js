@@ -117,11 +117,13 @@ export class Registry {
     await this.ctx.storage.put("lobby:" + l.code, {
       code: l.code, token: l.token, ps: l.ps, pub: l.pub, id: l.id, nick: l.nick, ctry: l.ctry, ver: l.ver, pvp: l.pvp, sector: l.sector, level: l.level,
       hide: l.hide, createdAt: l.createdAt, beatAt: l.beatAt, full: l.full, seen: Array.from(l.seen), kicked: Array.from(l.kicked || []), dev: !!l.dev,
+      sessions: l.sessions || 0, samples: l.samples || 0,
     });
   }
 
   async drop(l) {
     this.lobbies.delete(l.code);
+    if (l.sessions) { this.closed = this.closed || new Map(); this.closed.set(l.code, { token: l.token, sessions: l.sessions, samples: l.samples || 0, at: this.now() }); }
     this.listCache.clear();
     await this.ctx.storage.delete("lobby:" + l.code);
   }
@@ -130,6 +132,12 @@ export class Registry {
     const t = this.now();
     for (const [, l] of this.lobbies) if (t - l.beatAt > LOBBY_LIFE_MS) await this.drop(l);
     if (this.rate.size > 5000) for (const [k, a] of this.rate) if (!a.some((x) => t - x < DAY)) this.rate.delete(k);
+    if (this.closed) for (const [k, c] of this.closed) if (t - c.at > 10 * 60 * 1000) this.closed.delete(k);
+    if (!this.keptAt || t - this.keptAt > 60 * 60 * 1000) {   // second check S10: kick and ban records last a day, as the privacy text says
+      this.keptAt = t;
+      for (const [k, v] of await this.ctx.storage.list({ prefix: "kick:", limit: 200 })) if (!(v || []).some((x) => t - x.at < DAY)) await this.ctx.storage.delete(k);
+      for (const [k, v] of await this.ctx.storage.list({ prefix: "ban:", limit: 200 })) if (!v || !(v.until > t)) await this.ctx.storage.delete(k);
+    }
   }
 
   async overDay() {
@@ -319,6 +327,7 @@ export class Registry {
     l.fresh = true;
     const was = l.full, pvp = l.pvp, sector = l.sector;
     l.full = f.full === "1";
+    if (l.full && !was) l.sessions = (l.sessions || 0) + 1;   // second check S11: one sample per guest session
     if (l.full) l.unreach.clear();   // a guest is in: the host can be reached
     if (f.pvp != null) l.pvp = f.pvp === "1";
     if (f.sector != null) l.sector = textOf(f.sector, 40).replace(/\n/g, " ");
@@ -418,8 +427,13 @@ export class Registry {
   /** Audit D1 (owner 2026-11-17): the owner registers his install once with a private key. Only the key's SHA-256 is
    *  a service secret (DEV_KEY_SHA256); nothing secret is in the app. The registered install id is marked "dev". */
   /** True when key hashes to the DEV_KEY_SHA256 service secret. */
-  async devKeyOk(key) {
-    const want = String(this.env.DEV_KEY_SHA256 || "").toLowerCase();
+  async devKeyOk(key) { return this.keyOk(key, this.env.DEV_KEY_SHA256); }
+
+  /** Second check S17: the reports page has its own key (ADMIN_KEY_SHA256), not the one inside the private DEV APK. */
+  async adminKeyOk(key) { return this.keyOk(key, this.env.ADMIN_KEY_SHA256); }
+
+  async keyOk(key, hash) {
+    const want = String(hash || "").toLowerCase();
     if (!/^[0-9a-f]{64}$/.test(want)) return false;
     const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(String(key || "").slice(0, 200)));
     return Array.from(new Uint8Array(d), (x) => x.toString(16).padStart(2, "0")).join("") === want;
@@ -441,6 +455,12 @@ export class Registry {
    *  the highest numbers that build can really produce. No install id, nickname or address is taken or stored. Kept 30 days (same as reports; owner to confirm). */
   async sample(f, ik) {
     if (!this.allow("smp:" + ik, 6, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
+    // second check S11: only the host of a lobby a guest really joined, once per guest session (also just after closing)
+    const code = clean(String(f.code || "").toUpperCase(), 4, /[^A-Z2-9]/g);
+    const lob = this.lobbies.get(code) || (this.closed && this.closed.get(code));
+    if (!lob || !f.token || f.token !== lob.token) return reply("no", {}, null, 403);
+    if ((lob.samples || 0) >= (lob.sessions || 0)) return reply("no", { why: "one per session" }, null, 403);
+    lob.samples = (lob.samples || 0) + 1;
     const n = (k) => { const v = parseFloat(f[k]); return Number.isFinite(v) && v >= 0 ? Math.min(v, 1e12) : 0; };
     const s = {
       at: this.now(), ver: verOf(f.ver), level: num(f.level, 0, 999), ship: clean(f.ship, 64, /[^A-Za-z0-9_]/g), refit: num(f.refit, 0, 99),
@@ -455,11 +475,12 @@ export class Registry {
     return reply("ok");
   }
 
-  /** Fix list 4A/4B (owner 2026-11-17): the owner reads the stored reports and samples with the DEV key (JSON). */
+  /** Fix list 4A/4B (owner 2026-11-17): the owner reads the stored reports and samples with the admin key (JSON). */
   async adminData(f, ik) {
     if (!this.allow("adm:" + ik, 20, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
-    if (!(await this.devKeyOk(f.key))) return reply("no", {}, null, 403);
-    const rows = async (prefix) => Array.from((await this.ctx.storage.list({ prefix, limit: 1000 })).values()).sort((a, b) => b.at - a.at);
+    if (!(await this.adminKeyOk(f.key))) return reply("no", {}, null, 403);
+    // second check S13: the newest 1000 of each, not the oldest
+    const rows = async (prefix) => Array.from((await this.ctx.storage.list({ prefix, limit: 1000, reverse: true })).values()).sort((a, b) => b.at - a.at);
     const body = JSON.stringify({ reports: await rows("report:"), samples: await rows("sample:") });
     return new Response(body, { headers: { "content-type": "application/json", "cache-control": "no-store" } });
   }
@@ -481,19 +502,20 @@ export class Registry {
   }
 }
 
-// Fix list 4A: the owner's page. It holds no data: it asks for the DEV key and fetches /admin/data.
+// Fix list 4A: the owner's page. It holds no data: it asks for the admin key and fetches /admin/data.
 const ADMIN_PAGE = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Space Corsair reports</title><style>
 body{font:14px system-ui,sans-serif;margin:16px;background:#111;color:#eee}input,button{font:inherit;padding:6px;margin:2px}
 table{border-collapse:collapse;width:100%;margin:8px 0 24px}td,th{border:1px solid #444;padding:4px;vertical-align:top;text-align:left}
 th{background:#222}.f{color:#f77}pre{white-space:pre-wrap;margin:0}.w{overflow-x:auto}</style></head><body>
 <h1>Space Corsair reports and samples</h1>
-<p><input id="k" type="password" placeholder="DEV key" size="40"> <button id="go">Load</button> <span id="st"></span></p>
+<p><input id="k" type="password" placeholder="Admin key" size="40"> <button id="go">Load</button> <span id="st"></span></p>
 <div id="out"></div>
 <script>
 const esc=(s)=>String(s==null?"":s).replace(/[&<>"]/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const day=(t)=>new Date(t).toISOString().replace("T"," ").slice(0,16);
-function csv(rows,cols){return [cols.join(",")].concat(rows.map((r)=>cols.map((c)=>'"'+String(c==="at"?day(r.at):r[c]==null?"":r[c]).replace(/"/g,'""')+'"').join(","))).join("\n");}
+function cell(v){v=String(v);return /^[=+@\\t\\r-]/.test(v)?"'"+v:v;}
+function csv(rows,cols){return [cols.join(",")].concat(rows.map((r)=>cols.map((c)=>'"'+cell(c==="at"?day(r.at):r[c]==null?"":r[c]).replace(/"/g,'""')+'"').join(","))).join("\n");}
 function dl(name,text){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:"text/csv"}));a.download=name;a.click();}
 function table(title,rows,cols,file){let h="<h2>"+title+" ("+rows.length+") <button data-f='"+file+"'>Download CSV</button></h2><div class='w'><table><tr>"+cols.map((c)=>"<th>"+c+"</th>").join("")+"</tr>";
 for(const r of rows)h+="<tr"+(r.flagged?" class='f'":"")+">"+cols.map((c)=>"<td>"+(c==="text"?"<pre>"+esc(r[c])+"</pre>":esc(c==="at"?day(r.at):r[c]))+"</td>").join("")+"</tr>";return h+"</table></div>";}

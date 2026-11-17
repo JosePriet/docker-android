@@ -11,7 +11,7 @@ function storage() {
     get: async (k) => m.get(k),
     put: async (k, v) => { m.set(k, structuredClone(v)); },
     delete: async (k) => m.delete(k),
-    list: async ({ prefix, limit }) => new Map([...m].filter(([k]) => k.startsWith(prefix)).slice(0, limit || 1000)),
+    list: async ({ prefix, limit, reverse }) => { const a = [...m].filter(([k]) => k.startsWith(prefix)).sort((x, y) => (x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : 0)); if (reverse) a.reverse(); return new Map(a.slice(0, limit || 1000)); },
   };
 }
 
@@ -207,7 +207,8 @@ is("garbage does not crash", (await call(reg, "POST", "/lobby/%00%ff/join", { id
 {
   const sd = storage();
   const keyHash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode("owner-secret"))), (x) => x.toString(16).padStart(2, "0")).join("");
-  const rd = new Registry({ storage: sd }, { PUBLIC_OPEN: "1", DEV_KEY_SHA256: keyHash });
+  const adminHash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode("admin-secret"))), (x) => x.toString(16).padStart(2, "0")).join("");
+  const rd = new Registry({ storage: sd }, { PUBLIC_OPEN: "1", DEV_KEY_SHA256: keyHash, ADMIN_KEY_SHA256: adminHash });
   is("D1 wrong DEV key refused", (await call(rd, "POST", "/dev", { id: ID("d"), key: "guess" }, "20.0.0.1")).status === 403);
   is("D1 right DEV key registers the install", (await call(rd, "POST", "/dev", { id: ID("d"), key: "owner-secret" }, "20.0.0.1")).dev === "1");
   const hd = await call(rd, "POST", "/lobby", { ...host, id: ID("d") }, "20.0.0.1");
@@ -237,18 +238,50 @@ is("garbage does not crash", (await call(reg, "POST", "/lobby/%00%ff/join", { id
   // D4: anonymous session sample
   const s4 = storage();
   const r4 = new Registry({ storage: s4 }, {});
-  const sm = await call(r4, "POST", "/sample", { ver: "v45", level: "20", ship: "hullLeviathan", refit: "3", laser: "modRailgunL15", missile: "", peakShot: "900", expShot: "600", peakDps: "100", expDps: "500", id: ID("z"), nick: "Me" }, "22.0.0.1");
+  const smp = { ver: "v45", level: "20", ship: "hullLeviathan", refit: "3", laser: "modRailgunL15", missile: "", peakShot: "900", expShot: "600", peakDps: "100", expDps: "500", id: ID("z"), nick: "Me" };
+  is("S11 sample without a lobby is refused", (await call(r4, "POST", "/sample", smp, "22.0.0.1")).status === 403);
+  const l4 = await call(r4, "POST", "/lobby", { ...host, pub: "0", id: ID("9") }, "22.0.0.2");
+  is("S11 sample before any guest is refused", (await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: l4.token }, "22.0.0.1")).status === 403);
+  await call(r4, "POST", "/lobby/" + l4.code + "/beat", { token: l4.token, full: "1" }, "22.0.0.2");
+  is("S11 sample with a wrong token is refused", (await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: "nope" }, "22.0.0.1")).status === 403);
+  const sm = await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: l4.token }, "22.0.0.1");
+  is("S11 a second sample for the same session is refused", (await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: l4.token }, "22.0.0.1")).status === 403);
   const ss = [...s4.m].filter(([k]) => k.startsWith("sample:"));
   is("D4 sample stored with ratio and flag", sm.first === "ok" && ss.length === 1 && ss[0][1].flagged === true && Math.abs(ss[0][1].ratio - 1.5) < 1e-6);
   is("D4 sample keeps no install id or nickname", JSON.stringify(ss[0][1]).indexOf(ID("z")) < 0 && JSON.stringify(ss[0][1]).indexOf("Me") < 0);
+  await call(r4, "POST", "/lobby/" + l4.code + "/beat", { token: l4.token, full: "0" }, "22.0.0.2");
+  await call(r4, "POST", "/lobby/" + l4.code + "/beat", { token: l4.token, full: "1" }, "22.0.0.2");
+  await call(r4, "POST", "/lobby/" + l4.code + "/close", { token: l4.token }, "22.0.0.2");
+  is("S11 the host's last sample lands just after the lobby closed", (await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: l4.token }, "22.0.0.3")).first === "ok");
   // fix list 4A/4B: the owner's page and data, DEV key only
   const pg = await rd.fetch(new Request("https://x/admin", { method: "GET", headers: { "x-sc-ip": "23.0.0.1" } }));
   is("4A admin page is served and holds no data", pg.status === 200 && (await pg.text()).indexOf("owner-secret") < 0);
   is("4A admin data refused without the key", (await call(rd, "POST", "/admin/data", { key: "guess" }, "23.0.0.1")).status === 403);
-  const ad = await rd.fetch(new Request("https://x/admin/data", { method: "POST", headers: { "x-sc-ip": "23.0.0.1" }, body: "key=owner-secret" }));
+  is("S17 the DEV key does not open the admin data", (await call(rd, "POST", "/admin/data", { key: "owner-secret" }, "23.0.0.1")).status === 403);
+  const ad = await rd.fetch(new Request("https://x/admin/data", { method: "POST", headers: { "x-sc-ip": "23.0.0.1" }, body: "key=admin-secret" }));
   const aj = ad.status === 200 ? await ad.json() : null;
   is("4A admin data lists the stored report", aj && aj.reports.length === 1 && aj.reports[0].about === ID("e") && Array.isArray(aj.samples));
-  is("4A admin data refused with no key configured", (await call(rd2, "POST", "/admin/data", { key: "owner-secret" }, "23.0.0.1")).status === 403);
+  is("4A admin data refused with no key configured", (await call(rd2, "POST", "/admin/data", { key: "admin-secret" }, "23.0.0.1")).status === 403);
+  // S12: CSV cells that a spreadsheet would run as a formula start with a quote
+  const page = await (await rd.fetch(new Request("https://x/admin", { method: "GET", headers: { "x-sc-ip": "23.0.0.2" } }))).text();
+  const cell = new Function("return (" + page.match(/function cell\(v\)\{[^\n]*?\}(?=\s*\nfunction|\s*function)/)[0] + ")")();
+  is("S12 CSV formula cells are quoted", cell("=HYPERLINK(1)") === "'=HYPERLINK(1)" && cell("+1") === "'+1" && cell("-1") === "'-1" && cell("@x") === "'@x" && cell("12") === "12" && cell("ok") === "ok");
+  // S13: the newest rows, not the oldest
+  for (let i = 0; i < 1005; i++) sd.m.set("sample:" + (1700000000000 + i) + ":aa", { at: 1700000000000 + i, ratio: 0 });
+  const ad2 = await (await rd.fetch(new Request("https://x/admin/data", { method: "POST", headers: { "x-sc-ip": "23.0.0.3" }, body: "key=admin-secret" }))).json();
+  is("S13 admin data shows the newest samples", ad2.samples.length === 1000 && ad2.samples[0].at === 1700000001004);
+}
+// S10: kick and ban records last a day
+{
+  const sk = storage();
+  const now = Date.now();
+  sk.m.set("kick:" + ID("o"), [{ by: "a", at: now - 2 * 86400000 }]);
+  sk.m.set("kick:" + ID("n"), [{ by: "a", at: now - 1000 }]);
+  sk.m.set("ban:" + ID("o"), { until: now - 1000 });
+  sk.m.set("ban:" + ID("n"), { until: now + 3600000 });
+  const rk = new Registry({ storage: sk }, {});
+  await call(rk, "GET", "/lobbies?ver=x", null, "24.0.0.1");
+  is("S10 old kick and ban records are swept, current ones kept", !sk.m.has("kick:" + ID("o")) && !sk.m.has("ban:" + ID("o")) && sk.m.has("kick:" + ID("n")) && sk.m.has("ban:" + ID("n")));
 }
 
 console.log(bad === 0 ? "REGISTRY OK" : "REGISTRY FAILED " + bad);
