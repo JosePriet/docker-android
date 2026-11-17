@@ -135,11 +135,17 @@ public final class ModCaps {
     }
 
     /** Per frame from ModShips.tick (game thread). */
+    private static boolean deadSeen;
+
     public static void tick(PlayerShip ps, long j) {
         ModV34.boot();
         ModV35.prices();   // v35 (v34 req 12): stock gear priced by rarity
         try { ModWarpOut.tick(); } catch (Throwable t) { /* audit A4/B4 */ }
         ModGameQueue.drain();   // audit B2: refit purchase and gift redeem
+        // audit B7/B13: player death empties the drone bay; respawn resets the alert sounds
+        boolean deadNow = ps == null || ps.removed || ps.life <= 0;
+        if (deadNow && !deadSeen) { deadSeen = true; Mod.dronesOnDeath(); }
+        else if (!deadNow && deadSeen) { deadSeen = false; ModAlerts.reset(); }
         now += j;
         if (ps.shipSpec == null || ps.removed) return;
         Profile p = profile(ps);
@@ -184,6 +190,7 @@ public final class ModCaps {
             ModFx.clear();
             ModCapitals.onLevel();
             ModArt.freeReq = true;   // audit A7
+            Mod.dronesOnSector(ps);   // audit B7: living drones jump with the player
             ModWarpOut.clear();
             ModEnemyGuns.onLevel();
             ModLance.onLevel();

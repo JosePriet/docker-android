@@ -64,6 +64,8 @@ public final class ModRefitScreen {
         String name, status;
         long statusUntil;
         String[] rf;
+        private String[] rowsFor;
+        private float[][] rowsCache;
         Bitmap cur, old, next;            // current form, the form being replaced (anim), next form preview
         String curArt, nextArt;
         Bitmap emblem, crest;             // v44 b (owner 14:19): faction emblem behind the hull, hull crest (crest_<art>, GPT art) in the bay
@@ -514,7 +516,7 @@ public final class ModRefitScreen {
             if (rf == null) return;
             int acc = accent();
             float pad = 14 * dp, x = r.left + pad, w = r.width() - 2 * pad, y = r.top + pad;
-            int n = Integer.parseInt(rf[0]), st = Integer.parseInt(rf[1]);
+            int n = num(rf[0]), st = num(rf[1]);
             boolean max = rf[2].length() == 0;
 
             // header plate: emblem, bay title, hull name
@@ -608,7 +610,9 @@ public final class ModRefitScreen {
             String intro = max ? ModLang.tr("This hull has reached ELITE: every refit and form is unlocked.")
                 : ModLang.tr("Each refit strengthens this hull. Every second refit evolves it into a new form.");
             // fit: rows + form must end above the REQUIRED line; drop the intro, then tighten rows, when space is short
-            float[][] rows = ModV35.preview();
+            // audit B3 (owner): the preview is computed once per refit state, not every drawn frame
+            if (rowsFor != rf || rowsCache == null) { rowsCache = ModV35.preview(); rowsFor = rf; }
+            float[][] rows = rowsCache != null ? rowsCache : new float[0][];
             int nr = rows.length + (newTurret ? 1 : 0);
             float formH = cur != null && (next != null || max) ? 44 * dp : 0;
             float limit = r.bottom - pad - 38 * dp - 24 * dp;
@@ -656,8 +660,8 @@ public final class ModRefitScreen {
             if (!max) {
                 long credits = 0;
                 try { credits = fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.getCredit(); } catch (Throwable e) { /* unknown */ }
-                long needCr = Long.parseLong(rf[2]);
-                int needP = Integer.parseInt(rf[3]), haveP = Integer.parseInt(rf[4]), needC = n + 1 == ModV35.REFIT_MAX ? 1 : 0, haveC = Integer.parseInt(rf[7]);
+                long needCr = numL(rf[2]);
+                int needP = num(rf[3]), haveP = num(rf[4]), needC = n + 1 == ModV35.REFIT_MAX ? 1 : 0, haveC = num(rf[7]);
                 float my = by - 12 * dp, mx = x;
                 text(c, ModLang.tr("REQUIRED"), mx, my, 8, DIM);
                 tp.setTextSize(8 * dp);
@@ -670,7 +674,7 @@ public final class ModRefitScreen {
             float bw = w * 0.7f;
             refitBtn.set(x + (w - bw) / 2, by, x + (w + bw) / 2, by + bh);
             boolean can = !max && !animating();
-            button(c, refitBtn, max ? ModLang.tr("ELITE") : animating() ? ModLang.tr("Refitting...") : ModLang.tr("REFIT") + "   " + compact(Long.parseLong(rf[2])) + " cr", can ? GOLD : 0xFF3A4656, can ? BG : DIM);
+            button(c, refitBtn, max ? ModLang.tr("ELITE") : animating() ? ModLang.tr("Refitting...") : ModLang.tr("REFIT") + "   " + compact(numL(rf[2])) + " cr", can ? GOLD : 0xFF3A4656, can ? BG : DIM);
             // close: a small X in the header corner
             float cs = 26 * dp;
             closeBtn.set(r.right - pad - cs, r.top + pad, r.right - pad, r.top + pad + cs);
@@ -940,5 +944,14 @@ public final class ModRefitScreen {
             tp.setColor(ink);
             c.drawText(s, b.centerX() - tp.measureText(s) / 2, b.centerY() + 5 * dp, tp);
         }
+    }
+
+    /** Audit B3 (owner): a malformed number shows as 0 instead of crashing the station screen every frame. */
+    static int num(String v) {
+        try { return v == null || v.length() == 0 ? 0 : Integer.parseInt(v.trim()); } catch (NumberFormatException e) { return 0; }
+    }
+
+    static long numL(String v) {
+        try { return v == null || v.length() == 0 ? 0 : Long.parseLong(v.trim()); } catch (NumberFormatException e) { return 0; }
     }
 }

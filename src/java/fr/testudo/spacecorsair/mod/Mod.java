@@ -735,6 +735,46 @@ public class Mod {
         }
     }
 
+    /** Audit B7 (owner): the bay empties when the player dies. */
+    static void dronesOnDeath() {
+        for (int i = 0; i < 2; i++) dropDrone(i, false);
+    }
+
+    /** Audit B7 (owner): living drones carry into the new sector with their remaining lifetime. */
+    static void dronesOnSector(PlayerShip ps) {
+        try {
+            int lvl = Math.max(0, ObjectRegistry.INSTANCE.game.playerInfo.level);
+            for (int i = 0; i < 2; i++) {
+                Ennemis old = drones[i];
+                if (old == null) continue;
+                int left = droneTimers[i];
+                old.specificName = null;
+                drones[i] = null;
+                if (!old.removed) old.remove();   // the old sector's copy goes
+                if (left <= 0 || ps == null || ps.removed) continue;
+                Ennemis d = EnnemisFactory.newEnnemis(i == 0 ? EnnemisType.UFO_ALIEN : EnnemisType.ALIEN_RAT, lvl, lvl);
+                drones[i] = d;
+                droneTimers[i] = left;
+                d.spin = ps.spin + 180.0f + (i == 0 ? -20.0f : 20.0f);
+                d.position.setSameAs(ps.position).add(i == 0 ? -120.0f : 120.0f, 0.0f);
+                d.speed.setSameAs(ps.speed);
+                d.updateSapCoords();
+                attachToPilotLevel(d, lvl, i);
+                d.desengagementDistance = 4000.0f;
+                d.xp = 0;
+                d.radarColorR = 0.2f;
+                d.radarColorG = 1.0f;
+                d.radarColorB = 0.2f;
+                d.specificName = droneDefense ? ModLang.tr("DEF DRONE") : ModLang.tr("ATK DRONE");
+                d.specificNameDecalX = -1;
+                d.addToCurrentLevel();
+            }
+            applyDroneDamage();
+        } catch (Throwable t) {
+            ModDev.ev("drones", "carry failed " + t);
+        }
+    }
+
     private static void dropDrone(int i, boolean fx) {
         Ennemis d = drones[i];
         drones[i] = null;

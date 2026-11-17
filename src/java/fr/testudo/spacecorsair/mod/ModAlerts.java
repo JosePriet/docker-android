@@ -24,6 +24,16 @@ public final class ModAlerts {
     private static final Map<Ennemis, Boolean> engaged = new WeakHashMap<Ennemis, Boolean>();
     private static final ArrayList<Ennemis> drop = new ArrayList<Ennemis>();
 
+    /** Audit B13 (owner): respawn in the same sector starts the alert state fresh. */
+    static void reset() {
+        engaged.clear();
+        combat = false;
+        clearAt = 0;
+        lastShield = -1;
+        lastAlarm = 0;
+        ModDev.ev("alerts", "reset on respawn");
+    }
+
     static void tick(PlayerShip ps, long j) {
         if (ps == null || ps.removed) return;
         long now = System.currentTimeMillis();
