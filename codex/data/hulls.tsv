@@ -1,0 +1,47 @@
+Viper	0	1	80	1.15	1.0	1.0	1.0	0.0	false	false	FIXED	1	life=1.15	mis=1	thrust=0.62	turn=3.2	DPS=2.30	EHP=1.15
+Shade	0	2	70	1.0	0.9	1.0	1.0	0.0	false	false	FIXED	1	life=0.85	mis=1	thrust=0.82	turn=4.2	DPS=2.22	EHP=0.85
+Bastion	1	1	130	1.0	1.0	1.2	1.0	0.0	false	false	ROTATIVE	1	life=1.6	mis=1	thrust=0.4	turn=1.8	DPS=2.00	EHP=1.60
+Hornet	1	2	200	1.0	1.0	1.0	1.0	0.0	false	false	ROTATIVE	2	life=1.7	mis=1	thrust=0.38	turn=1.5	DPS=4.00	EHP=1.70
+Albatros	2	1	300	1.0	1.0	1.0	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=2.6	mis=2	thrust=0.3	turn=0.9	DPS=6.00	EHP=2.60
+Raptor	2	2	300	1.3	0.9	1.0	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=2.4	mis=2	thrust=0.31	turn=0.95	DPS=8.67	EHP=2.40
+Sanctum	2	2	300	1.0	1.0	1.0	1.0	0.01	false	false	ROTATIVE_TRIPLE	3	life=2.8	mis=1	thrust=0.3	turn=0.9	DPS=6.00	EHP=2.80
+Mule	7	1	140	1.0	1.0	1.0	1.0	0.0	false	false	ROTATIVE	1	life=1.4	mis=1	thrust=0.35	turn=1.6	DPS=2.00	EHP=1.40
+Tortoise	7	2	260	1.0	1.0	1.0	1.0	0.0	false	false	ROTATIVE	1	life=3.0	mis=1	thrust=0.26	turn=0.9	DPS=2.00	EHP=3.00
+Bulwark	7	2	300	1.0	1.0	1.0	1.0	0.0	false	false	ROTATIVE	2	life=2.6	mis=1	thrust=0.25	turn=0.8	DPS=4.00	EHP=2.60
+Warlord	3	2	400	1.15	1.0	1.2	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=4.5	mis=2	thrust=0.2	turn=0.45	DPS=6.90	EHP=4.50
+Harbinger	3	2	420	1.0	1.0	1.0	0.6	0.0	false	false	ROTATIVE_TRIPLE	3	life=4.0	mis=4	thrust=0.19	turn=0.42	DPS=6.00	EHP=4.00
+Monolith	4	1	600	1.0	1.0	1.3	1.0	0.0	false	false	ROTATIVE_TRIPLE	2	life=6.5	mis=2	thrust=0.17	turn=0.3	DPS=4.00	EHP=6.50
+Tempest	4	2	600	1.45	1.1	1.0	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=6.0	mis=2	thrust=0.16	turn=0.28	DPS=7.91	EHP=6.00
+Leviathan	6	3	1000	1.25	1.0	1.5	1.0	0.0	true	false	ROTATIVE_TRIPLE	4	life=14.0	mis=4	thrust=0.12	turn=0.18	DPS=10.00	EHP=14.00
+Comet	0	1	90	1.0	1.0	1.0	1.0	0.0	false	false	FIXED	1	life=0.9	mis=1	thrust=0.76	turn=3.6	DPS=2.00	EHP=0.90
+Kite	0	1	90	1.0	1.0	1.15	1.0	0.0	false	false	FIXED	1	life=1.05	mis=1	thrust=0.6	turn=3.1	DPS=2.00	EHP=1.05
+Talon	0	2	85	1.1	1.0	1.0	1.0	0.0	false	false	FIXED	1	life=0.9	mis=1	thrust=0.85	turn=4.5	DPS=2.20	EHP=0.90
+Nightjar	0	2	95	1.3	1.0	1.0	1.0	0.0	false	false	FIXED	1	life=0.75	mis=1	thrust=0.72	turn=3.8	DPS=2.60	EHP=0.75
+Seraph	1	1	140	1.0	1.0	1.15	1.0	0.0	false	false	ROTATIVE	1	life=1.5	mis=1	thrust=0.45	turn=2.2	DPS=2.00	EHP=1.50
+Aurora	1	2	150	1.0	1.0	1.4	1.0	0.0	false	false	ROTATIVE	1	life=1.5	mis=1	thrust=0.43	turn=2.0	DPS=2.00	EHP=1.50
+Raven	1	2	150	1.0	1.0	1.0	0.65	0.0	false	false	FIXED	1	life=1.4	mis=2	thrust=0.48	turn=2.4	DPS=2.00	EHP=1.40
+Bulldog	1	1	150	1.0	1.0	1.0	1.0	0.0	false	false	ROTATIVE	2	life=2.0	mis=1	thrust=0.38	turn=1.7	DPS=4.00	EHP=2.00
+Ironside	2	1	320	1.1	1.0	1.0	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=3.0	mis=1	thrust=0.28	turn=0.85	DPS=6.60	EHP=3.00
+Foundry	7	2	300	1.0	1.0	1.0	1.0	0.005	false	false	ROTATIVE	2	life=3.2	mis=1	thrust=0.25	turn=0.8	DPS=4.00	EHP=3.20
+Tidewarden	1	1	130	1.0	0.92	1.0	1.0	0.0	false	false	ROTATIVE	1	life=1.45	mis=1	thrust=0.46	turn=2.2	DPS=2.17	EHP=1.45
+Cobalt	1	2	190	1.2	1.0	1.0	1.0	0.0	false	false	ROTATIVE	2	life=1.7	mis=1	thrust=0.42	turn=1.9	DPS=4.80	EHP=1.70
+Mantis	2	1	300	1.05	0.95	1.0	1.0	0.0	false	false	ROTATIVE_TRIPLE	2	life=2.5	mis=1	thrust=0.32	turn=1.0	DPS=4.42	EHP=2.50
+Hydra	2	2	300	1.0	1.0	1.0	1.0	0.008	false	false	ROTATIVE_TRIPLE	3	life=2.7	mis=1	thrust=0.3	turn=0.95	DPS=6.00	EHP=2.70
+Cardinal	2	2	320	1.35	1.0	1.0	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=2.6	mis=1	thrust=0.3	turn=0.95	DPS=8.10	EHP=2.60
+Verdant	3	1	420	1.05	1.0	1.15	1.0	0.0	false	false	ROTATIVE_TRIPLE	2	life=4.2	mis=2	thrust=0.21	turn=0.5	DPS=4.20	EHP=4.20
+Sovereign	3	2	440	1.0	1.0	1.35	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=4.5	mis=2	thrust=0.2	turn=0.45	DPS=6.00	EHP=4.50
+Sunlance	3	2	460	1.4	1.1	1.0	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=3.9	mis=1	thrust=0.2	turn=0.42	DPS=7.64	EHP=3.90
+Graywall	7	2	340	1.0	1.0	1.0	1.0	0.0	false	false	ROTATIVE	2	life=4.0	mis=1	thrust=0.22	turn=0.7	DPS=4.00	EHP=4.00
+Imperator	4	1	640	1.0	1.0	1.2	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=7.5	mis=2	thrust=0.17	turn=0.3	DPS=6.00	EHP=7.50
+Wraith	4	2	600	1.35	0.9	1.0	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=6.2	mis=2	thrust=0.18	turn=0.33	DPS=9.00	EHP=6.20
+Bastille	4	2	660	1.0	1.0	1.6	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=8.0	mis=2	thrust=0.15	turn=0.26	DPS=6.00	EHP=8.00
+Nebula Moth	5	2	800	1.0	1.0	1.25	1.0	0.0	false	true	ROTATIVE_TRIPLE	3	life=9.0	mis=2	thrust=0.13	turn=0.22	DPS=6.00	EHP=9.00
+Crimson Throne	6	3	1000	1.45	0.9	0.9	0.8	0.004	false	false	ROTATIVE_TRIPLE	6	life=12.5	mis=4	thrust=0.13	turn=0.19	DPS=19.33	EHP=12.50
+DEV Prototype X-0	6	3	1000	3.0	0.5	4.0	0.4	0.02	true	true	ROTATIVE_TRIPLE	6	life=14.0	mis=4	thrust=0.3	turn=0.45	DPS=72.00	EHP=14.00
+SRS Resolute	3	3	460	1.1	1.0	1.6	1.0	0.0	false	false	ROTATIVE_TRIPLE	5	life=4.8	mis=2	thrust=0.22	turn=0.5	DPS=11.00	EHP=4.80
+Pillager's Due	4	3	640	1.5	0.9	1.0	1.0	0.005	false	false	ROTATIVE_TRIPLE	6	life=6.6	mis=2	thrust=0.19	turn=0.36	DPS=20.00	EHP=6.60
+Cradle of Echoes	2	3	330	1.0	1.0	1.0	1.0	0.015	false	true	ROTATIVE_TRIPLE	4	life=2.9	mis=2	thrust=0.34	turn=1.05	DPS=8.00	EHP=2.90
+Indemnity Crown	3	3	460	1.25	1.0	1.3	1.0	0.0	false	false	ROTATIVE_TRIPLE	5	life=4.8	mis=2	thrust=0.21	turn=0.5	DPS=12.50	EHP=4.80
+Foundry Sentinel	4	3	640	1.1	1.0	1.4	1.0	0.015	false	false	ROTATIVE_TRIPLE	6	life=7.0	mis=2	thrust=0.18	turn=0.33	DPS=13.20	EHP=7.00
+Far Meridian	3	3	460	1.2	0.9	1.0	1.0	0.0	false	false	ROTATIVE_TRIPLE	3	life=4.2	mis=2	thrust=0.29	turn=0.62	DPS=8.00	EHP=4.20
+Wayfarer Prime	2	3	330	1.25	1.0	1.3	1.0	0.0	false	false	ROTATIVE_TRIPLE	4	life=2.8	mis=2	thrust=0.36	turn=1.1	DPS=10.00	EHP=2.80
