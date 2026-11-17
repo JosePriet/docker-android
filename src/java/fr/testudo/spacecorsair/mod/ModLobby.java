@@ -30,7 +30,8 @@ final class ModLobby {
     /** The lobby service address. Empty = internet games are not switched on in this build. */
     static final String SERVICE = "https://sc-rendezvous.spacecs-coop.workers.dev";
     static final String[][] STUN = {{"stun.cloudflare.com", "3478"}, {"stun.l.google.com", "19302"}};
-    static final int BEAT_MS = 8000, BEAT_FULL_MS = 30000;
+    static final int BEAT_MS = 8000, BEAT_FULL_MS = 30000, BEAT_SLOW_MS = 20000, BEAT_FAST_FOR_MS = 2 * 60 * 1000;
+    private static volatile long openedAt;
 
     static boolean DEBUG;
 
@@ -115,6 +116,63 @@ final class ModLobby {
         } finally {
             if (c != null) c.disconnect();
         }
+    }
+
+    // ------------------------------------------------------------------ audit D1/D2/D3: who may play online
+    static volatile boolean peerDev;   // host: the service marks the joining guest as the registered DEV install
+
+    /** True once the lobby service confirmed this install as the owner's registered DEV install (D1). */
+    static boolean selfDev() { try { return prefs().getBoolean("dev_ok", false); } catch (Throwable t) { return false; } }
+
+    private static void setSelfDev(Reply r) {
+        try { if (r != null && r.ok() && r.get("dev").length() > 0) prefs().edit().putBoolean("dev_ok", "1".equals(r.get("dev"))).commit(); } catch (Throwable t) { /* kept */ }
+    }
+
+    /** Audit D3 (owner): any test switch file seen locks internet play on this phone for 24 h (switches keep working). */
+    static final long SWITCH_LOCK_MS = 24L * 60 * 60 * 1000;
+    private static volatile long switchSeenWrite;
+
+    static void switchSeen() {
+        long now = System.currentTimeMillis();
+        if (now - switchSeenWrite < 60000) return;   // written at most once a minute
+        switchSeenWrite = now;
+        try { prefs().edit().putLong("switch_at", now).commit(); } catch (Throwable t) { switchSeenWrite = 0; }
+    }
+
+    static boolean switchLocked() {
+        try { return System.currentTimeMillis() - prefs().getLong("switch_at", 0) < SWITCH_LOCK_MS; } catch (Throwable t) { return false; }
+    }
+
+    /** Audit D1: the DEV hull or a DEV item is fitted. */
+    static boolean devGear() {
+        try {
+            fr.testudo.spacecorsair.business.player.PlayerGear g = ObjectRegistry.INSTANCE.game.playerInfo.playerGear;
+            return ModDev.isDev(g.playerShip) || ModDev.isDev(g.laser) || ModDev.isDev(g.missile) || ModDev.isDev(g.shield);
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    /** Why this phone may not play an internet game now, or null. */
+    static String onlineBlock() {
+        if (switchLocked()) return ModLang.tr("Test switches were used on this phone. Internet games are locked for 24 hours; local games still work.");
+        boolean dev = selfDev();
+        if (ModTestMode.on && !dev) return ModLang.tr("The test profile stays offline. Log out of test mode to play online.");
+        if (devGear() && !dev) return ModLang.tr("DEV ships and DEV gear cannot be used in internet games.");
+        return null;
+    }
+
+    /** Owner's one-time DEV registration: the key is checked by the lobby service (nothing secret is in the app). */
+    static void registerDev(final String key) {
+        new Thread(new Runnable() {
+            public void run() {
+                Reply r = call("POST", "/dev", "id", ModSaveSig.installId(), "key", key);
+                if (r.ok()) setSelfDev(r);
+                ModQol.post(r.ok() && selfDev() ? ModLang.tr("This install is registered as DEV. Other players see a DEV tag next to your name.")
+                    : ModLang.tr("DEV registration was refused."));
+                ModDev.ev("lobby", "dev register " + r.first);
+            }
+        }, "lobby-dev").start();
     }
 
     // ------------------------------------------------------------------ settings
@@ -255,6 +313,8 @@ final class ModLobby {
     /** Opens a lobby and keeps it alive until the player stops hosting. Starts its own thread. */
     static void host(final boolean isPublic) {
         if (!available()) return;
+        String block = onlineBlock();
+        if (block != null) { status = block; return; }
         leave();
         final long g = ++gen;
         hosting = true;
@@ -304,10 +364,13 @@ final class ModLobby {
                         if (r.status == 0 || r.status >= 500 || "busy".equals(r.first)) { Thread.sleep(5000); continue; }   // the service is away: keep trying
                         break;
                     }
+                    setSelfDev(r);
+                    if (onlineBlock() != null) { status = onlineBlock(); call("POST", "/lobby/" + ModLan.clean(r.get("code"), 4) + "/close", "token", ModLan.clean(r.get("token"), 64)); busy = false; break; }
                     myCode = ModLan.clean(r.get("code"), 4);
                     myTok = ModLan.clean(r.get("token"), 64);
                     code = myCode;
                     token = myTok;
+                    openedAt = System.currentTimeMillis();
                     busy = false;
                     status = ModLang.tr("Waiting for a player to join...");
                     ModDev.ev("lobby", "hosting " + (pub ? "public" : "private"));
@@ -318,7 +381,7 @@ final class ModLobby {
                     else relayWait = 30000;
                 }
                 boolean conn = ModLan.connected;
-                if (wasConnected && !conn) { tried.clear(); }
+                if (wasConnected && !conn) { tried.clear(); openedAt = System.currentTimeMillis(); }   // waiting again: 2 fast minutes again
                 wasConnected = conn;
                 if (!conn && !connecting[0] && ++beats % 2 == 0 && !hide) cands = candidates(w);   // keeps the router's mapping alive and current
                 Reply b = call("POST", "/lobby/" + myCode + "/beat", "token", myTok, "full", conn ? "1" : "0", "pvp", ModLan.pvpRoom ? "1" : "0",
@@ -346,7 +409,8 @@ final class ModLobby {
                     }
                 }
                 reportRelay();
-                long wait = conn ? BEAT_FULL_MS : BEAT_MS;
+                // audit E2 (owner): a waiting host beats every 8 s for its first 2 minutes, then every 20 s
+                long wait = conn ? BEAT_FULL_MS : System.currentTimeMillis() - openedAt < BEAT_FAST_FOR_MS ? BEAT_MS : BEAT_SLOW_MS;
                 for (long s = 0; s < wait && g == gen; s += 250) {
                     Thread.sleep(250);
                     if (wasConnected != ModLan.connected) break;   // tell the list at once when the seat fills or frees
@@ -374,6 +438,7 @@ final class ModLobby {
         try {
             int sid = Integer.parseInt(row[2]);
             String id = ModLan.clean(row[3], 32);
+            peerDev = row.length > 8 && "1".equals(row[8]);   // audit D1: the service's DEV mark for this guest
             l = new ModNet.Link(w, sid);
             status = ModLang.tr("A player is connecting...");
             boolean ok = l.connect(addrs(row[6]), ModNet.parse(row[7]), hide, 6000, 25000);
@@ -395,6 +460,8 @@ final class ModLobby {
     /** Joins a lobby by its 4-character code (typed, or from the public list). Blocks; never on the UI thread. True = linked. */
     static boolean join(String c) {
         if (!available()) return false;
+        String block = onlineBlock();
+        if (block != null) { status = block; return false; }
         leave();
         final long g = ++gen;
         busy = true;
@@ -412,6 +479,9 @@ final class ModLobby {
                 "clean", ModSaveSig.publicOk() ? "1" : "0", "cands", cands, "hide", hide ? "1" : "0", "sid", "" + sid};
             Reply r = call("POST", "/lobby/" + jc + "/join", base);
             if (!r.ok()) { status = refusal(r); return false; }
+            setSelfDev(r);
+            if (onlineBlock() != null) { status = onlineBlock(); return false; }   // the service's word on DEV (D1/D2)
+            peerDev = "1".equals(r.get("hdev"));   // audit D1: the host is the registered DEV install
             if (hide) {   // relay only: nothing else may carry this phone's address
                 base = withRelay(w, jc, base);
                 if (base == null) {
@@ -565,7 +635,8 @@ final class ModLobby {
         if ("save".equals(f)) return ModLang.tr("Your save was changed outside the game. Public games are locked for 24 hours; private codes and local games still work.");
         if ("closed".equals(f)) return ModLang.tr("Public games open in a later version. Private games with a code work now.");
         if ("slow".equals(f)) return ModLang.tr("Too many tries. Wait a few minutes.");
-        if ("busy".equals(f)) return ModLang.tr("The lobby service is busy today. Try later, or play a local game.");
+        // audit E3 (owner): the free daily allowance is used up (our limit or the platform's): say so plainly
+        if ("busy".equals(f) || (r.status == 429 && !"slow".equals(f)) || r.status >= 500) return ModLang.tr("Internet lobbies are down for today. Local games still work.");
         return ModLang.tr("The lobby service refused the request.");
     }
 
@@ -594,7 +665,7 @@ final class ModLobby {
         final String c = hosting ? code : joinedCode;
         new Thread(new Runnable() {
             public void run() {
-                Reply r = call("POST", "/report", "code", c, "id", ModSaveSig.installId(), "text", text);
+                Reply r = call("POST", "/report", "code", c, "id", ModSaveSig.installId(), "text", text, "about", hosting && peerId != null ? peerId : "");   // audit E5: the host names the guest it reports
                 status = r.ok() ? ModLang.tr("Report sent.") : ModLang.tr("The report could not be sent.");
                 if (done != null) done.run();
             }

@@ -203,5 +203,45 @@ for (let i = 0; i < 3000; i++) await call(r3, "GET", "/lobbies?ver=x", null, "11
 is("one flooding caller does not use up the day for everyone", (await call(r3, "GET", "/lobbies?ver=x", null, "11.0.0.2")).first === "ok");
 is("garbage does not crash", (await call(reg, "POST", "/lobby/%00%ff/join", { id: "\u0000" })).status < 500 && (await call(reg, "GET", "/nothing")).status === 404);
 
+// audit D1, D4, E5, E6 (v45 audit fixes)
+{
+  const sd = storage();
+  const keyHash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode("owner-secret"))), (x) => x.toString(16).padStart(2, "0")).join("");
+  const rd = new Registry({ storage: sd }, { PUBLIC_OPEN: "1", DEV_KEY_SHA256: keyHash });
+  is("D1 wrong DEV key refused", (await call(rd, "POST", "/dev", { id: ID("d"), key: "guess" }, "20.0.0.1")).status === 403);
+  is("D1 right DEV key registers the install", (await call(rd, "POST", "/dev", { id: ID("d"), key: "owner-secret" }, "20.0.0.1")).dev === "1");
+  const hd = await call(rd, "POST", "/lobby", { ...host, id: ID("d") }, "20.0.0.1");
+  is("D1 a DEV host is told it is DEV", hd.first === "ok" && hd.dev === "1");
+  const ld = await call(rd, "GET", "/lobbies?ver=" + encodeURIComponent(host.ver), null, "20.0.0.2");
+  is("D1 the list shows the DEV tag", ld.rows.length === 1 && ld.rows[0][7] === "1");
+  const jd = await call(rd, "POST", "/lobby/" + hd.code + "/join", { nick: "Bo", id: ID("e"), ver: host.ver, clean: "1", cands: "", sid: "7" }, "20.0.0.3");
+  is("D1 a normal guest sees the host as DEV and itself as not", jd.hdev === "1" && jd.dev === "0");
+  const bd = await call(rd, "POST", "/lobby/" + hd.code + "/beat", { token: hd.token, full: "0" }, "20.0.0.1");
+  is("D1 the host's join row carries the guest's DEV mark", bd.rows.length === 1 && bd.rows[0][8] === "0");
+  const rd2 = new Registry({ storage: storage() }, { PUBLIC_OPEN: "1" });
+  is("D1 no key configured: registration closed", (await call(rd2, "POST", "/dev", { id: ID("d"), key: "owner-secret" }, "20.0.0.1")).status === 403);
+  // E5: the host names the guest it reports
+  const pidRow = bd.rows[0][3];
+  is("E5 host report without a name is refused", (await call(rd, "POST", "/report", { code: hd.code, id: ID("d"), text: "x" }, "20.0.0.1")).status === 400);
+  const rp5 = await call(rd, "POST", "/report", { code: hd.code, id: ID("d"), text: "x", about: pidRow }, "20.0.0.1");
+  const rs5 = [...sd.m].filter(([k]) => k.startsWith("report:"));
+  is("E5 host report is about the named guest", rp5.first === "ok" && rs5.length === 1 && rs5[0][1].about === ID("e"));
+  // E6: after a sleep the heartbeat brings back the caller key: the 3-public-lobbies limit holds
+  const se = storage();
+  const re1 = new Registry({ storage: se }, { PUBLIC_OPEN: "1" });
+  const codes = [];
+  for (const c of ["1", "2", "3"]) codes.push(await call(re1, "POST", "/lobby", { ...host, id: ID(c) }, "21.0.0.1"));
+  const re2 = new Registry({ storage: se }, { PUBLIC_OPEN: "1" });   // the object slept: memory gone
+  for (const c of codes) await call(re2, "POST", "/lobby/" + c.code + "/beat", { token: c.token, full: "0" }, "21.0.0.1");
+  is("E6 the 4th public lobby from one address is refused after a sleep", (await call(re2, "POST", "/lobby", { ...host, id: ID("4") }, "21.0.0.1")).why === "3 public lobbies per address");
+  // D4: anonymous session sample
+  const s4 = storage();
+  const r4 = new Registry({ storage: s4 }, {});
+  const sm = await call(r4, "POST", "/sample", { ver: "v45", level: "20", ship: "hullLeviathan", refit: "3", laser: "modRailgunL15", missile: "", peakShot: "900", expShot: "600", peakDps: "100", expDps: "500", id: ID("z"), nick: "Me" }, "22.0.0.1");
+  const ss = [...s4.m].filter(([k]) => k.startsWith("sample:"));
+  is("D4 sample stored with ratio and flag", sm.first === "ok" && ss.length === 1 && ss[0][1].flagged === true && Math.abs(ss[0][1].ratio - 1.5) < 1e-6);
+  is("D4 sample keeps no install id or nickname", JSON.stringify(ss[0][1]).indexOf(ID("z")) < 0 && JSON.stringify(ss[0][1]).indexOf("Me") < 0);
+}
+
 console.log(bad === 0 ? "REGISTRY OK" : "REGISTRY FAILED " + bad);
 process.exit(bad === 0 ? 0 : 1);

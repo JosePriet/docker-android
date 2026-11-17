@@ -576,7 +576,7 @@ final class ModLanUi {
                     String[] r = getItem(pos);
                     t.setPadding((int) (20 * d), (int) (12 * d), (int) (20 * d), (int) (12 * d));
                     t.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-                    t.setText(label(r[1], r[2]) + "  ·  " + r[0] + "  ·  " + r[4] + "  ·  " + ModLang.tr("Lv") + " " + r[5]
+                    t.setText(label(r[1] + (r.length > 7 && "1".equals(r[7]) ? " [DEV]" : ""), r[2]) + "  ·  " + r[0] + "  ·  " + r[4] + "  ·  " + ModLang.tr("Lv") + " " + r[5]
                         + "  ·  " + ("1".equals(r[3]) ? ModLang.tr("PvP on") : ModLang.tr("PvP off")) + "  ·  " + r[6] + "/2");
                     t.setCompoundDrawables(flagDrawable(a, r[2], d), null, null, null);
                     t.setCompoundDrawablePadding((int) (10 * d));

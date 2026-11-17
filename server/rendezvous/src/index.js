@@ -116,7 +116,7 @@ export class Registry {
     l.savedAt = this.now();
     await this.ctx.storage.put("lobby:" + l.code, {
       code: l.code, token: l.token, ps: l.ps, pub: l.pub, id: l.id, nick: l.nick, ctry: l.ctry, ver: l.ver, pvp: l.pvp, sector: l.sector, level: l.level,
-      hide: l.hide, createdAt: l.createdAt, beatAt: l.beatAt, full: l.full, seen: Array.from(l.seen), kicked: Array.from(l.kicked || []),
+      hide: l.hide, createdAt: l.createdAt, beatAt: l.beatAt, full: l.full, seen: Array.from(l.seen), kicked: Array.from(l.kicked || []), dev: !!l.dev,
     });
   }
 
@@ -210,6 +210,8 @@ export class Registry {
     if (parts.length === 1 && parts[0] === "lobby") return this.create(f, ik);
     if (parts.length === 1 && parts[0] === "turn") return this.turn(f, ik);
     if (parts.length === 1 && parts[0] === "report") return this.report(f, ik);
+    if (parts.length === 1 && parts[0] === "dev") return this.dev(f, ik);
+    if (parts.length === 1 && parts[0] === "sample") return this.sample(f, ik);
     if (parts.length === 3 && parts[0] === "lobby") {
       const code = clean(parts[1].toUpperCase(), 4, /[^A-Z2-9]/g);
       const l = this.lobbies.get(code);
@@ -217,7 +219,7 @@ export class Registry {
       if (!l) return reply("gone", {}, null, 404);
       if (parts[2] === "unreach") return this.unreach(l, f, ik);
       if (f.token !== l.token) return reply("no", {}, null, 403);
-      if (parts[2] === "beat") return this.beat(l, f);
+      if (parts[2] === "beat") return this.beat(l, f, ik);
       if (parts[2] === "close") { await this.drop(l); return reply("ok"); }
       if (parts[2] === "kick") return this.kick(l, f);
     }
@@ -246,11 +248,12 @@ export class Registry {
       pvp: f.pvp === "1", sector: textOf(f.sector, 40).replace(/\n/g, " "), level: num(f.level, 1, 999),
       hide: f.hide === "1", cands: f.hide === "1" ? "" : candsOf(f.cands), relay: relayOf(f.relay), fresh: true,
       createdAt: t, beatAt: t, joins: [], seen: new Map(), kicked: new Set(), full: false, unreach: new Map(), ps: token(8),
+      dev: await this.isDev(id),
     };
     this.lobbies.set(code, l);
     this.listCache.clear();
     await this.save(l);
-    return reply("ok", { code, token: l.token });
+    return reply("ok", { code, token: l.token, dev: l.dev ? 1 : 0 });
   }
 
   list(ver) {
@@ -261,7 +264,7 @@ export class Registry {
     const rows = [];
     for (const l of this.lobbies.values()) {
       if (!l.pub || t - l.beatAt > LOBBY_LIST_MS || l.ver !== ver || this.unreachN(l) >= 2) continue;
-      rows.push([l.code, l.nick, l.ctry || "?", l.pvp ? 1 : 0, l.sector, l.level, l.full ? 2 : 1]);
+      rows.push([l.code, l.nick, l.ctry || "?", l.pvp ? 1 : 0, l.sector, l.level, l.full ? 2 : 1, l.dev ? 1 : 0]);
       if (rows.length >= 50) break;
     }
     const body = reply("ok", { n: rows.length }, rows);
@@ -294,6 +297,7 @@ export class Registry {
     const j = {
       jid: prev ? prev.jid : token(4), sid: num(f.sid, -2147483648, 2147483647), id, ik, pid, at: t,
       nick: nickOf(f.nick), ctry: ctryOf(f.ctry), cands: f.hide === "1" ? "" : candsOf(f.cands), relay: relayOf(f.relay),
+      dev: await this.isDev(id),
     };
     l.joins.push(j);
     const known = l.seen.has(id);
@@ -301,13 +305,15 @@ export class Registry {
     if (l.seen.size > 50) l.seen.delete(l.seen.keys().next().value);
     if (!known) await this.save(l);
     // fresh=0: the host's addresses are not here yet (this object just woke); they arrive with its next heartbeat
-    return reply("ok", { sid: j.sid, nick: l.nick, ctry: l.ctry, cands: l.cands, relay: l.relay, fresh: l.fresh ? 1 : 0, pvp: l.pvp ? 1 : 0, wait: 8 });
+    return reply("ok", { sid: j.sid, nick: l.nick, ctry: l.ctry, cands: l.cands, relay: l.relay, fresh: l.fresh ? 1 : 0, pvp: l.pvp ? 1 : 0, wait: 8,
+      dev: j.dev ? 1 : 0, hdev: l.dev ? 1 : 0 });
   }
 
   /** Host heartbeat, which is also how the host learns who is joining (each join is listed until it is a minute old). */
-  async beat(l, f) {
+  async beat(l, f, ik) {
     const t = this.now();
     l.beatAt = t;
+    if (ik) l.ik = ik;   // audit E6 (owner): after a sleep the caller key comes back in memory, so the 3-public-lobbies limit holds
     l.fresh = true;
     const was = l.full, pvp = l.pvp, sector = l.sector;
     l.full = f.full === "1";
@@ -321,7 +327,7 @@ export class Registry {
     if (changed) this.listCache.clear();
     if (changed || t - (l.savedAt || 0) > 60000) await this.save(l);   // the heartbeat time reaches storage once a minute
     l.joins = l.joins.filter((j) => t - j.at < JOIN_LIFE_MS);
-    return reply("ok", { n: l.joins.length }, l.joins.map((j) => ["join", j.jid, j.sid, j.pid, j.nick, j.ctry || "?", j.cands, j.relay]));
+    return reply("ok", { n: l.joins.length }, l.joins.map((j) => ["join", j.jid, j.sid, j.pid, j.nick, j.ctry || "?", j.cands, j.relay, j.dev ? 1 : 0]));
   }
 
   /** Host kicked a guest that really joined this lobby. 3 kicks from different hosts in 24 h = 24 h off public lobbies. */
@@ -407,6 +413,42 @@ export class Registry {
     return cs.cur || null;
   }
 
+  /** Audit D1 (owner 2026-11-17): the owner registers his install once with a private key. Only the key's SHA-256 is
+   *  a service secret (DEV_KEY_SHA256); nothing secret is in the app. The registered install id is marked "dev". */
+  async dev(f, ik) {
+    if (!this.allow("dev:" + ik, 5, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
+    const id = idOf(f.id);
+    const want = String(this.env.DEV_KEY_SHA256 || "").toLowerCase();
+    if (id.length < 16 || !/^[0-9a-f]{64}$/.test(want)) return reply("no", {}, null, 403);
+    const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(String(f.key || "").slice(0, 200)));
+    const got = Array.from(new Uint8Array(d), (x) => x.toString(16).padStart(2, "0")).join("");
+    if (got !== want) return reply("no", {}, null, 403);
+    await this.ctx.storage.put("dev:" + id, { at: this.now() });
+    return reply("ok", { dev: 1 });
+  }
+
+  async isDev(id) {
+    return !!(id && await this.ctx.storage.get("dev:" + id));
+  }
+
+  /** Audit D4 (owner): one anonymous sample per online session from the host: the guest's declared build, its peaks and
+   *  the highest numbers that build can really produce. No install id, nickname or address is taken or stored. Kept 30 days (same as reports; owner to confirm). */
+  async sample(f, ik) {
+    if (!this.allow("smp:" + ik, 6, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
+    const n = (k) => { const v = parseFloat(f[k]); return Number.isFinite(v) && v >= 0 ? Math.min(v, 1e12) : 0; };
+    const s = {
+      at: this.now(), ver: verOf(f.ver), level: num(f.level, 0, 999), ship: clean(f.ship, 64, /[^A-Za-z0-9_]/g), refit: num(f.refit, 0, 99),
+      laser: clean(f.laser, 64, /[^A-Za-z0-9_]/g), missile: clean(f.missile, 64, /[^A-Za-z0-9_]/g),
+      peakShot: n("peakShot"), expShot: n("expShot"), peakDps: n("peakDps"), expDps: n("expDps"), pvp: f.pvp === "1",
+    };
+    s.ratio = Math.max(s.expShot > 0 ? s.peakShot / s.expShot : 0, s.expDps > 0 ? s.peakDps / s.expDps : 0);
+    s.flagged = s.ratio > 1;
+    await this.ctx.storage.put("sample:" + s.at + ":" + token(3), s);
+    const old = await this.ctx.storage.list({ prefix: "sample:", limit: 50 });
+    for (const [k, v] of old) if (s.at - v.at > 30 * DAY) await this.ctx.storage.delete(k);
+    return reply("ok");
+  }
+
   /** A player's report: the last chat lines and what the checks flagged. Kept 30 days. */
   async report(f, ik) {
     const l = this.lobbies.get(clean(String(f.code || "").toUpperCase(), 4, /[^A-Z2-9]/g));
@@ -414,7 +456,9 @@ export class Registry {
     if (!l || (id !== l.id && !l.seen.has(id))) return reply("no", {}, null, 403);
     if (!this.allow("rp:" + ik, 3, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
     const t = this.now();
-    const about = id === l.id ? Array.from(l.seen.keys()).pop() || "" : l.id;
+    // audit E5 (owner): the host names the guest it reports by that guest's lobby-only name, resolved here as kicks are
+    const about = id === l.id ? await this.idOfPid(l, idOf(f.about)) : l.id;
+    if (id === l.id && !about) return reply("bad", { why: "about" }, null, 400);
     await this.ctx.storage.put("report:" + t + ":" + token(3), { at: t, by: id, about, text: textOf(f.text, 8000) });
     const old = await this.ctx.storage.list({ prefix: "report:", limit: 50 });
     for (const [k, v] of old) if (t - v.at > 30 * DAY) await this.ctx.storage.delete(k);

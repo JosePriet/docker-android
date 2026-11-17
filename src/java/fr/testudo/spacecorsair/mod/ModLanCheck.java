@@ -53,6 +53,7 @@ final class ModLanCheck {
     static final class Limits {
         float shot, dps, hull, shield;
         float shotPvp, dpsPvp;   // without the doomsday allowance: used while the players can hit each other
+        float expShot, expDps;   // audit D4: the highest the declared build can really produce (no slack)
         int shotsPerSec;
         int flags;        // what the declaration itself got wrong (unknown item, item above the level)
         boolean exact;    // false = no usable declaration: the level's best stock items stand in
@@ -79,6 +80,14 @@ final class ModLanCheck {
     }
 
     private static String name(SpaceObjectType t) { return t == null ? "" : t.name(); }
+
+    /** Audit D1: the declaration names the DEV hull or a DEV item. */
+    static boolean hasDev(Decl d) {
+        if (d == null) return false;
+        if (ModDev.HULL.equals(d.ship)) return true;
+        for (String s : ModDev.ITEMS) if (s.equals(d.laser) || s.equals(d.missile) || s.equals(d.shield)) return true;
+        return false;
+    }
 
     static byte[] encode(Decl d) throws IOException {
         ByteArrayOutputStream bo = new ByteArrayOutputStream(96);
@@ -206,7 +215,9 @@ final class ModLanCheck {
         m.shot = DMG_SLACK * hullDmg * Math.max(1f, Math.max(shot, mShot));
         m.dps = DMG_SLACK * hullDmg * Math.max(1f, dps + mDps);
         m.shotPvp = m.shot; m.dpsPvp = m.dps;
-        if (doomsday) { m.shot = Math.max(m.shot, DOOMSDAY_DPS); m.dps += DOOMSDAY_DPS; }
+        m.expShot = hullDmg * Math.max(1f, Math.max(shot, mShot));
+        m.expDps = hullDmg * Math.max(1f, dps + mDps);
+        if (doomsday) { m.shot = Math.max(m.shot, DOOMSDAY_DPS); m.dps += DOOMSDAY_DPS; m.expShot = Math.max(m.expShot, DOOMSDAY_DPS); m.expDps += DOOMSDAY_DPS; }
         m.hull = Math.max(1f, XpBuilder.PLAYER_SHIP_LIFE[L] * Math.max(0.1f, booster) * HULL_SLACK);
         m.shield = Math.max(1f, shield * hullShield * SHIELD_SLACK);
         m.shotsPerSec = 300;
@@ -225,7 +236,30 @@ final class ModLanCheck {
     private static float room;
     private static long roomAt;
 
-    static void reset() { room = 0; roomAt = 0; }
+    static void reset() { room = 0; roomAt = 0; peakShot = 0; peakDps = 0; secSum = 0; secAt = 0; shotsSec = 0; }
+
+    // ------------------------------------------------------------------ audit D4: real numbers of the session (host)
+    static volatile float peakShot, peakDps;
+    private static float secSum;
+    private static long secAt;
+    private static int shotsSec;
+
+    /** Records one guest shot's requested damage; returns false when the shots-per-second limit is passed (audit I2). */
+    static boolean record(Limits m, float ask, long now) {
+        if (now - secAt >= 1000) { secAt = now; secSum = 0; shotsSec = 0; }
+        secSum += ask;
+        shotsSec++;
+        if (ask > peakShot) peakShot = ask;
+        if (secSum > peakDps) peakDps = secSum;
+        return m == null || shotsSec <= m.shotsPerSec;
+    }
+
+    /** One anonymous sample for the lobby service: build, peaks and expected values. No install id, no nickname. */
+    static String[] sample(Decl d, Limits m, boolean pvp) {
+        if (d == null || m == null || peakShot <= 0) return null;
+        return new String[] {"ver", ModLan.myVersion(), "level", "" + d.level, "ship", d.ship, "refit", "" + d.refit, "laser", d.laser, "missile", d.missile,
+            "peakShot", "" + peakShot, "expShot", "" + m.expShot, "peakDps", "" + peakDps, "expDps", "" + m.expDps, "pvp", pvp ? "1" : "0"};
+    }
 
     /**
      * The damage this shot may carry: at most the shot ceiling, and at most what is left of three seconds' worth of the

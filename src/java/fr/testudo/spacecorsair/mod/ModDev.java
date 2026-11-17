@@ -175,6 +175,11 @@ public final class ModDev {
     }
 
     public static String redeem(final String code) {
+        // audit D1 (owner): one-time DEV registration of the owner's install; the lobby service checks the key
+        if (code != null && code.trim().toUpperCase(java.util.Locale.US).startsWith("DEVKEY ")) {
+            ModLobby.registerDev(code.trim().substring(7).trim());
+            return ModLang.tr("DEV registration sent. The answer arrives in your Inbox.");
+        }
         try {   // audit B2 (owner): applied on the game thread
             return ModGameQueue.run(new java.util.concurrent.Callable<String>() { public String call() { return redeemNow(code); } });
         } catch (Exception e) {
@@ -228,6 +233,7 @@ public final class ModDev {
         try {
             java.io.File f = new java.io.File("/data/local/tmp/" + name);
             if (!f.exists()) return null;
+            ModLobby.switchSeen();   // audit D3
             java.io.BufferedReader r = new java.io.BufferedReader(new java.io.FileReader(f));
             try {
                 String l = r.readLine();
@@ -243,7 +249,9 @@ public final class ModDev {
     /** Emulator-test switches: a file of that name in /data/local/tmp (never present on a phone). */
     public static boolean testFlag(String name) {
         try {
-            return new java.io.File("/data/local/tmp/" + name).exists();
+            boolean on = new java.io.File("/data/local/tmp/" + name).exists();
+            if (on) ModLobby.switchSeen();   // audit D3: switch use locks internet play for 24 h
+            return on;
         } catch (Throwable t) {
             return false;
         }

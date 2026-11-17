@@ -300,7 +300,7 @@ public final class ModLan {
         peerCtry = ModLanUi.safeCountry(clean(readShortUTF(in, 16), 3));
     }
 
-    static String peerLabel() { return ModLanUi.label(peerNick.length() > 0 ? peerNick : ModLang.tr("Player"), peerCtry); }
+    static String peerLabel() { return ModLanUi.label((peerNick.length() > 0 ? peerNick : ModLang.tr("Player")) + (internet && ModLobby.peerDev ? " [DEV]" : ""), peerCtry); }   // audit D1: DEV tag
 
     // ------------------------------------------------------------------ v45: chat (reliable, one line a second)
     private static long chatAt;
@@ -693,7 +693,14 @@ public final class ModLan {
     }
 
     /** Ends the session on both sides. */
+    static volatile ModLanCheck.Decl lastDecl;
+
     static void stop() {
+        if (internet && role == HOST) {   // audit D4: the session's anonymous sample goes to the lobby service
+            final String[] s = ModLanCheck.sample(lastDecl, limits, pvp || pvpRoom);
+            if (s != null) new Thread(new Runnable() { public void run() { ModLobby.call("POST", "/sample", s); } }, "lobby-sample").start();
+        }
+        lastDecl = null;
         linkGen++;
         final Socket old = sock;
         final java.util.concurrent.locks.ReentrantLock wlOld = writeLock;
@@ -1300,7 +1307,15 @@ public final class ModLan {
             ModLanUi.onChat(peerLabel(), in.readUTF());
         } else if (type == MSG_DECL && role == HOST) {
             long now = System.currentTimeMillis();
-            ModLanCheck.Limits lm = ModLanCheck.limits(ModLanCheck.decode(b));   // always taken (two gear changes can follow each other closely)
+            ModLanCheck.Decl dc = ModLanCheck.decode(b);
+            if (internet && !ModLobby.peerDev && ModLanCheck.hasDev(dc)) {   // audit D1 (owner): DEV gear is refused online
+                ModDev.ev("lan", "guest declared DEV gear: session ended");
+                status = ModLang.tr("The other player flies DEV gear, which is not allowed in internet games.");
+                stop();
+                return;
+            }
+            ModLanCheck.Limits lm = ModLanCheck.limits(dc);   // always taken (two gear changes can follow each other closely)
+            lastDecl = dc;
             if (now - declAt > 500) flags += lm.flags;                            // only the flag count is rate limited
             declAt = now;
             hullFlagged = false;
@@ -1809,6 +1824,11 @@ public final class ModLan {
             if (now - declAt < 2000) return;   // looked at every 2 s (declAt is the host's receive time; this phone is the guest)
             declAt = now;
             ModLanCheck.Decl d = ModLanCheck.mine();
+            if (internet && !ModLobby.selfDev() && ModLanCheck.hasDev(d)) {   // audit D1: this app refuses DEV gear online too
+                ModQol.post(ModLang.tr("DEV ships and DEV gear cannot be used in internet games."));
+                stop();
+                return;
+            }
             if (d.same(declSent) && now - declSentAt < 20000) return;
             declSent = d;
             declSentAt = now;
@@ -1945,6 +1965,8 @@ public final class ModLan {
                 ask = Math.max(ask, v);
             }
             if (ask <= 0) { p.removed = true; return; }   // a shot that hurts nothing is not worth simulating
+            // audit D4: real numbers recorded; audit I2: the shots-per-second limit is part of the check
+            if (!ModLanCheck.record(lm, ask, nowMs)) { if (nowMs - clampAt > 1000) { clampAt = nowMs; flags++; } clamped++; p.removed = true; return; }
             float may = ModLanCheck.allow(lm, ask, nowMs, pvp || pvpRoom);
             if (may < ask) {
                 if (nowMs - clampAt > 1000) { clampAt = nowMs; flags++; }   // one flag a second while it lasts
@@ -2687,6 +2709,7 @@ public final class ModLan {
                     net ? ModLang.tr("Join by code") : null,
                     net ? (ModLobby.hideIp() ? ModLang.tr("Hide my IP: ON (relay only)") : ModLang.tr("Hide my IP: OFF")) : null,
                     net ? (ModLobby.saverPref() ? ModLang.tr("Data saver: ON") : ModLang.tr("Data saver: AUTO (on with mobile data or relay)")) : null,
+                    net ? ModLang.tr("Privacy") : null,
                     ModLang.tr("Close")
                 }, new Runnable[]{
                     null,
@@ -2700,9 +2723,20 @@ public final class ModLan {
                     new Runnable() { public void run() { typeCode(a); } },
                     new Runnable() { public void run() { ModLobby.setHideIp(!ModLobby.hideIp()); showMenu(a); } },
                     new Runnable() { public void run() { ModLobby.setSaver(!ModLobby.saverPref()); showMenu(a); } },
+                    new Runnable() { public void run() { privacy(a); } },
                     null
                 });
             }
+        } catch (Throwable t) {
+            // no dialog
+        }
+    }
+
+    /** Audit E4 (owner 2026-11-17): what the lobby service keeps, as built. */
+    private static void privacy(Activity a) {
+        try {
+            new AlertDialog.Builder(a).setTitle(ModLang.tr("Privacy")).setMessage(ModLang.tr("For each open internet game the lobby service keeps on disk: its code, nickname, country, install ids, game version and settings. No IP addresses are stored. The record is deleted when the game closes, or 2 hours after its last heartbeat. Connection addresses are kept in memory only, while the game is open. Also kept: ban counters (24 hours), reports (30 days) and anonymous damage samples with no install id or nickname (30 days)."))
+                .setPositiveButton(ModLang.tr("OK"), null).show();
         } catch (Throwable t) {
             // no dialog
         }
