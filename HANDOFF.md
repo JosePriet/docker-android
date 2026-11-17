@@ -6,8 +6,7 @@ netcloud two-runner check (.github/workflows/netcloud.yml on emulator-tests) pus
 Waiting on the owner: deploy of server/rendezvous (D1 /dev, D4 /sample, E5, E6) + DEV_KEY_SHA256 secret; the 30-day
 sample retention (my number); my picks for F3 lance speed/range, F7 stock-sprite pads, F13 JOINT_TONE 0.65; nothing yet
 lets the owner read reports/samples. Secrets: keys/cloudflare.env, keys/metered.env (never in git or audits).
-Checks: run 132 no crash; F14 clip not proven (tutorial station unowned), stage V51T ready in an unpushed emulator-tests
-worktree; netcloud direct OK, Metered relay Allocate gets 400 after auth (changes file, section Emulator and cloud checks).
+Checks: run 132 no crash; F14 proven in run sc-v45f (stage V51T, Spartan HQ station guns hit a Reaver flagship); netcloud direct OK, Metered relay Allocate gets 400 after auth (changes file, section Emulator and cloud checks).
 
 # Handoff (state at v35, 2026-10-22)
 
