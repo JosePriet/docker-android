@@ -8,7 +8,7 @@ Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and mer
 - `i18n/`: Spanish (`i18n/lang/build_es_json.py` rebuilds `es_full.json`). New player-facing text needs EN and ES.
 - `incoming/`: ChatGPT art and data not yet integrated. `emulator-tests/`: CI test flow (branch `emulator-tests`).
 - Signing key: `work/key.p12` (not in git; the owner does not keep a copy; one is at `/mnt/project-files/space-corsair/keys/key.p12`; password `android`).
-- `server/rendezvous/`: internet lobby service (Cloudflare Worker + Durable Object, live at sc-rendezvous.spacecs-coop.workers.dev). Tests: `node test/registry.test.mjs` (REGISTRY OK). Deploying it changes production: owner's word first. Credentials only in `/mnt/project-files/space-corsair/keys/` (never in git).
+- `server/rendezvous/`: internet lobby service (Cloudflare Worker + Durable Object, live at sc-rendezvous.spacecs-coop.workers.dev; owner page /admin uses keys/admin.key, `python3 scripts/sc_reports.py` downloads CSVs). Tests: `node test/registry.test.mjs` (REGISTRY OK). Deploying it changes production: owner's word first. Credentials only in `/mnt/project-files/space-corsair/keys/` (never in git).
 - `work/smali/fr/testudo/spacecorsair/mod/`: the built mod smali is committed with each build.
 
 ## Branches and versions (updated 2026-11-17, audit I1/I5)
