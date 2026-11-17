@@ -1,7 +1,11 @@
-# Handoff (2026-11-17): v45 audit fixes
-Branch claude/project-thread-fuw6ke (v45 internet multiplayer + audit fixes, NOT merged, NOT released). All 66 audit
-items decided; only item 1 coded. Next session: read TASK.md top entry and the decisions file, code the rest in small
-commits, build, verify, emulator run. Secrets: keys/cloudflare.env, keys/metered.env (never in git or audits).
+# Handoff (2026-11-17): v45 audit fixes CODED
+Branch claude/project-thread-fuw6ke head de64570 (from 7684902): all 66 audit decisions coded except the ones listed as
+not done / not present in /mnt/project-files/audits/v45-audit-fixes-changes.md. check.sh 52 PASS. Verifier + cross-check:
+no problems. Emulator run sc-v45e (emulator-tests 1caf6c0: V50L + station turrets vs flagship clip, F14) and the
+netcloud two-runner check (.github/workflows/netcloud.yml on emulator-tests) pushed. NOT merged, NOT released.
+Waiting on the owner: deploy of server/rendezvous (D1 /dev, D4 /sample, E5, E6) + DEV_KEY_SHA256 secret; the 30-day
+sample retention (my number); my picks for F3 lance speed/range, F7 stock-sprite pads, F13 JOINT_TONE 0.65; nothing yet
+lets the owner read reports/samples. Secrets: keys/cloudflare.env, keys/metered.env (never in git or audits).
 
 # Handoff (state at v35, 2026-10-22)
 
