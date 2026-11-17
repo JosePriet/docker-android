@@ -42,7 +42,7 @@ public final class ModEvents {
     private static CivilShip victim;
     private static final ArrayList<Element> hostiles = new ArrayList<Element>();
     private static Ennemis wanted;
-    private static Vector2 target;
+    private static Vector2 target, hold;
     private static boolean engaged;
     private static float rivalLeft;
     static boolean salvageDouble, fieldStripped;   // ModLoot.fromWreck: race won = 2 items per field hull, lost = none (this visit)
@@ -95,6 +95,7 @@ public final class ModEvents {
         Vector2 field = ModSector.poiAt(ModSector.WRECKS);
         if (r < 0.4) startDistress(ps, here);
         else if (r < 0.75 || field == null) startBounty(ps, here);
+        else if (fieldStripped || salvageDouble) startBounty(ps, here);   // cross-check: one salvage race per visit
         else startSalvage(ps, field);
         ModDev.ev("event", "start kind=" + kind + " sector=" + here.name());
     }
@@ -120,8 +121,8 @@ public final class ModEvents {
         Vector2 at = around(ps.position, DISTRESS_RANGE);
         c.position.setSameAs(at);
         c.specificName = fr.testudo.spacecorsair.business.world.UniverseName.getRandomTransporteurName();
-        c.setActivity(new CivilActivity[] {CivilActivity.newWaitUntilPlayerClose((int) RESCUE_RANGE), CivilActivity.newMooveNextPortal(),
-            CivilActivity.newDiseapear()});
+        c.setActivity(new CivilActivity[] {CivilActivity.newWaitUntilPlayerClose((int) RESCUE_RANGE)});
+        hold = new Vector2(at);   // cross-check: it stays put (pinned in distress()) until saved, then leaves
         ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(c);
         victim = c;
         int plv = Math.max(1, ObjectRegistry.INSTANCE.game.playerInfo.level);
@@ -190,6 +191,7 @@ public final class ModEvents {
             end(null);
             return;
         }
+        if (hold != null) victim.position.setSameAs(hold);
         if (!engaged) {
             if (ps.position.distance(victim.position) < RESCUE_RANGE) {
                 engaged = true;
@@ -200,7 +202,14 @@ public final class ModEvents {
                 return;
             }
         }
+        if (hostiles.isEmpty() && !engaged) {   // cross-check: raiders gone without a fight (despawn) = no payout
+            ModQol.post(ModLang.tr("The raiders broke off."));
+            victim.setActivity(new CivilActivity[] {CivilActivity.newMooveNextPortal(), CivilActivity.newDiseapear()});
+            end(null);
+            return;
+        }
         if (hostiles.isEmpty()) {
+            victim.setActivity(new CivilActivity[] {CivilActivity.newMooveNextPortal(), CivilActivity.newDiseapear()});
             int pay = ModQol.missionPay(DISTRESS_PAY);
             ModQol.addCredits(pay, victim);
             int owner = ModSector.baseFaction(ObjectRegistry.INSTANCE.game.currentLevel.id);
@@ -245,6 +254,7 @@ public final class ModEvents {
         if (kind != NONE) nextAt = ModSector.play() + GAP_MIN_MS + (long) (Math.random() * (GAP_MAX_MS - GAP_MIN_MS));   // gap runs from the end
         kind = NONE;
         victim = null;
+        hold = null;
         wanted = null;
         target = null;
         engaged = false;
