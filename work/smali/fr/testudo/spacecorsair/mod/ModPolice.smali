@@ -439,7 +439,7 @@
 .end method
 
 .method public static armor(Lfr/testudo/spacecorsair/business/Element;F)F
-    .registers 3
+    .registers 4
 
     .prologue
     .line 322
@@ -462,16 +462,24 @@
 
     move-result v0
 
-    if-eqz v0, :cond_13
+    if-eqz v0, :cond_1a
 
-    const v0, 0x3f333333    # 0.7f
+    const/high16 v0, 0x3f800000    # 1.0f
+
+    const v1, 0x3e99999a    # 0.3f
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModBal;->titanArmor(F)F
+
+    move-result v1
+
+    sub-float/2addr v0, v1
 
     mul-float/2addr p1, v0
 
     goto :goto_7
 
     .line 324
-    :cond_13
+    :cond_1a
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModPolice;->isPolice(Lfr/testudo/spacecorsair/business/Element;)Z
 
     move-result v0

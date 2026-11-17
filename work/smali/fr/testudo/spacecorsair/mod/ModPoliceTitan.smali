@@ -1588,7 +1588,7 @@
 
     move-result v0
 
-    if-eqz v0, :cond_1c1
+    if-eqz v0, :cond_1c5
 
     move v0, v1
 
@@ -1779,7 +1779,7 @@
 
     array-length v1, v1
 
-    if-ge v8, v1, :cond_1ae
+    if-ge v8, v1, :cond_1b2
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModCapitals;->SHIELD_MULT:[F
 
@@ -1887,6 +1887,10 @@
 
     const v5, 0x3ecccccd    # 0.4f
 
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModBal;->overFrac(F)F
+
+    move-result v5
+
     mul-float/2addr v4, v5
 
     sput v4, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
@@ -1927,18 +1931,18 @@
     const/4 v4, 0x0
 
     sput v4, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
-    :try_end_140
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_140} :catch_b1
+    :try_end_144
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_144} :catch_b1
 
     .line 105
-    :try_start_140
+    :try_start_144
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->attackPlayerIfItNotTheCaseAlready()V
-    :try_end_143
-    .catch Ljava/lang/Throwable; {:try_start_140 .. :try_end_143} :catch_1bf
+    :try_end_147
+    .catch Ljava/lang/Throwable; {:try_start_144 .. :try_end_147} :catch_1c3
 
     .line 106
-    :goto_143
-    :try_start_143
+    :goto_147
+    :try_start_147
     const-string v4, "flagship_horn"
 
     const/high16 v5, 0x3f800000    # 1.0f
@@ -2028,11 +2032,11 @@
 
     move-result-object v2
 
-    if-nez v3, :cond_1b2
+    if-nez v3, :cond_1b6
 
     const/4 v1, 0x0
 
-    :goto_1a1
+    :goto_1a5
     invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v1
@@ -2046,13 +2050,13 @@
     goto/16 :goto_9
 
     .line 86
-    :cond_1ae
+    :cond_1b2
     const/high16 v1, 0x3f800000    # 1.0f
 
     goto/16 :goto_c5
 
     .line 109
-    :cond_1b2
+    :cond_1b6
     const/4 v4, 0x0
 
     aget v3, v3, v4
@@ -2064,20 +2068,20 @@
     mul-float/2addr v1, v3
 
     invoke-static {v1}, Ljava/lang/Math;->round(F)I
-    :try_end_1bd
-    .catch Ljava/lang/Throwable; {:try_start_143 .. :try_end_1bd} :catch_b1
+    :try_end_1c1
+    .catch Ljava/lang/Throwable; {:try_start_147 .. :try_end_1c1} :catch_b1
 
     move-result v1
 
-    goto :goto_1a1
+    goto :goto_1a5
 
     .line 105
-    :catch_1bf
+    :catch_1c3
     move-exception v4
 
-    goto :goto_143
+    goto :goto_147
 
-    :cond_1c1
+    :cond_1c5
     move v0, v8
 
     goto/16 :goto_22

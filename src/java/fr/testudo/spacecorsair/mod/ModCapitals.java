@@ -161,6 +161,18 @@ public final class ModCapitals {
         }
     }
 
+    /** v43a audit item 7 (emulator damage test): faction flagship fi at {@code at}, hostile at once, at the usual scaled level. */
+    static GuardianCivilShip testBuild(int fi, Vector2 at) {
+        for (GuardianCivilShip old : caps.keySet()) {
+            if (old.removed) continue;
+            old.removed = true;
+            ObjectRegistry.INSTANCE.game.currentLevel.toDelete.add(old);
+        }
+        GuardianCivilShip g = build(fi, scaledLevel(ObjectRegistry.INSTANCE.game.currentLevel.id.levelMax), null, at);
+        try { g.attackPlayerIfItNotTheCaseAlready(); } catch (Throwable t) { /* re-armed by the test tick */ }
+        return g;
+    }
+
     /** v42 (owner 23:17): flagships scale with the player: level = max(sector top, player level + 2), capped. */
     static final int FLAGSHIP_OVER_PLAYER = 2;
 

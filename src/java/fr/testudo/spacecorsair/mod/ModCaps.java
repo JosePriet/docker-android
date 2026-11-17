@@ -172,6 +172,7 @@ public final class ModCaps {
                 } catch (Exception e) { /* test only */ }
             }
         }
+        ModDev.testDmg(ps, j);   // v43a audit item 7: corsair_dmgtest
         ModTestMode.tick(ps, j);
         ModPrologue.tick(ps, j);   // v46 playable prologue
         ModComms.tick(ps);

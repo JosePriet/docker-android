@@ -395,6 +395,158 @@ public final class ModDev {
     private static String t37Drive, t37DriveSeen;
     private static Boolean evOn;
 
+    // ------------------------------------------------------------------ v43a audit item 7: titan damage measurement
+    private static String tDmg;
+    private static long tDmgPoll, tDmgLog, tDmgT;
+    private static Element tDmgTgt;
+    private static PlayerShip tDmgPs;
+    private static Object tDmgLevel;
+    private static float tDmgLast, tDmgHullLost, tDmgShieldLost, tDmgDealt, tDmgTgtLast;
+    private static boolean tDmgDone;
+
+    /**
+     * Emulator only. corsair_dmgtest=&lt;faction key&gt; (flagship) or police_&lt;faction key&gt; (police titan); a new value starts a
+     * new fight. The flown hull becomes a maxed L40 pilot (level 40, refit 10, Siege Railgun, full hull and shield), the target
+     * spawns 1,700 ahead and attacks; the player stays put, its turrets aim at the target and fire every frame. Logcat
+     * "ModTest dmg" once a second: player hull %, hull and shield lost so far, target hull %, then "dmg end" (killed /
+     * player_dead / timeout 180 s). Numbers only; nothing here changes balance.
+     */
+    static void testDmg(PlayerShip ps, long j) {
+        try {
+            tDmgPoll -= j;
+            if (tDmgPoll <= 0) {
+                tDmgPoll = 1000;
+                String v = testValue("corsair_dmgtest");
+                if (v != null && v.trim().length() > 0 && !v.equals(tDmg)) { tDmg = v; dmgStart(ps, v.trim()); }
+            }
+            Element g = tDmgTgt;
+            if (g == null || tDmgDone) return;
+            tDmgT += j;
+            // damage bookkeeping every frame: drops only (regen is not counted back)
+            float sh = ps.shield != null ? ps.shield.currentValue : 0;
+            if (ps.life < tDmgLast) tDmgHullLost += tDmgLast - ps.life;
+            tDmgLast = ps.life;
+            if (sh < tDmgShLast) tDmgShieldLost += tDmgShLast - sh;
+            tDmgShLast = sh;
+            float tl = g.life;
+            if (tl < tDmgTgtLast) tDmgDealt += tDmgTgtLast - tl;
+            tDmgTgtLast = tl;
+            // a respawn swaps the ship or the sector (the target is cleared with it): that is a player death, not a kill
+            boolean dead = ps != tDmgPs || ps.removed || ps.life <= 0 || ObjectRegistry.INSTANCE.game.currentLevel != tDmgLevel;
+            boolean killed = !dead && (g.removed || g.life <= 0);
+            if (!dead && !killed) {
+                float ang = Element.normalizeSpin((((float) Math.toDegrees(ps.position.getAngularWithInRad(g.position))) % 360.0f) + 90.0f);
+                if (ps.playerCannons != null) for (int i = 0; i < ps.playerCannons.length; i++) ps.playerCannons[i].targetSpin = ang;
+                ps.isShooting = true;
+                if (tDmgDodge > 0) {   // dodge: circle the target at the current range, tangential speed tDmgDodge u/s
+                    float dx = ps.position.x - g.position.x, dy = ps.position.y - g.position.y;
+                    float d = (float) Math.sqrt(dx * dx + dy * dy);
+                    if (d > 1) {
+                        float st = tDmgDodge * j / 1000f;
+                        ps.position.x += -dy / d * st;
+                        ps.position.y += dx / d * st;
+                    }
+                }
+                if (g instanceof fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip) {
+                    fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip c = (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip) g;
+                    if (c.chasseTarget == null) c.attackPlayerIfItNotTheCaseAlready();
+                }
+            }
+            tDmgLog -= j;
+            String end = dead ? "player_dead" : killed ? "killed" : tDmgT >= 180000 ? "timeout" : null;
+            if (tDmgLog <= 0 || end != null) {
+                tDmgLog = 1000;
+                ModV34.Sh ts = ModV34.bigShield.get(g);
+                ev("dmg", tDmg + " t=" + (tDmgT / 1000f) + " phull=" + pct(ps.life, ps.maxLife) + " pshield=" + Math.round(sh) + "/"
+                    + (ps.shield != null ? Math.round(ps.shield.capacity) : 0) + " hullLost=" + pct(tDmgHullLost, ps.maxLife)
+                    + " shieldLost=" + Math.round(tDmgShieldLost) + " wall=" + Math.round(ModAnchor.cur) + "/" + Math.round(ModAnchor.cap)
+                    + " thull=" + pct(g.life, g.maxLife) + " tshield=" + (ts == null ? 0 : Math.round(ts.cur)) + " dealt=" + Math.round(tDmgDealt) + " gun=" + Math.round(ModBal.gunDealt) + "/" + ModBal.gunHits + " msl=" + Math.round(ModBal.missileDealt) + "/" + ModBal.missileHits + " ammo=" + dmgAmmo() + " bal=" + ModBal.tag()
+                    + " dist=" + Math.round(g.position.distance(ps.position)));
+            }
+            if (end != null) {
+                tDmgDone = true;
+                ps.isShooting = false;
+                ev("dmg", "end " + tDmg + " result=" + end + " t=" + (tDmgT / 1000f) + " hullLost=" + pct(tDmgHullLost, ps.maxLife)
+                    + " shieldLost=" + Math.round(tDmgShieldLost) + " pMaxHull=" + Math.round(ps.maxLife) + " tMaxHull=" + Math.round(g.maxLife)
+                    + " thull=" + pct(g.life, g.maxLife) + " dealt=" + Math.round(tDmgDealt) + " gun=" + Math.round(ModBal.gunDealt) + "/" + ModBal.gunHits + " msl=" + Math.round(ModBal.missileDealt) + "/" + ModBal.missileHits + " ammo=" + dmgAmmo() + " bal=" + ModBal.tag());
+            }
+        } catch (Throwable t) {
+            ev("dmg", "error " + t);
+        }
+    }
+
+    private static float tDmgShLast, tDmgDodge;
+
+    private static int dmgAmmo() {
+        try { return ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.getMissileCount(); } catch (Throwable t) { return -1; }
+    }
+
+    private static String pct(float a, float b) {
+        return b <= 0 ? "?" : String.format(java.util.Locale.US, "%.1f%%", a * 100f / b);
+    }
+
+    private static void dmgStart(PlayerShip ps, String v) {
+        tDmgTgt = null;
+        tDmgDone = false;
+        if (ModPoliceTitan.active()) ModPoliceTitan.standDown();
+        PlayerInfo pi = ObjectRegistry.INSTANCE.game.playerInfo;
+        pi.level = 40;
+        pi.init();
+        SpaceObjectType rail = SpaceObjectType.valueOf("modRailgunL15");   // mod enum entry (smali), not in the compile jar
+        pi.playerGear.laser = rail;
+        ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.forceAddObject(SpaceObject.of(rail));
+        SpaceObjectType cur = ModV35.currentShip();
+        android.content.SharedPreferences p = ModQol.prefs();
+        if (cur != null && p != null) p.edit().putInt("v35_refit_" + cur.name(), 10).commit();
+        // round 2 (owner 2026-11-14 "C"): best shield gear = highest capacity, debug/dev/pilot items excluded
+        SpaceObjectType best = null; int bc = -1;
+        for (SpaceObjectType t : SpaceObjectType.values()) {
+            String n = t.name();
+            if (n.startsWith("debug") || n.startsWith("dev") || n.startsWith("pilot")) continue;
+            try {
+                GearSpec gs = t.getGearSpec();
+                if (gs instanceof ShieldSpec && ((ShieldSpec) gs).capacity > bc) { bc = ((ShieldSpec) gs).capacity; best = t; }
+            } catch (Throwable x) { /* not gear */ }
+        }
+        if (best != null) {
+            pi.playerGear.shield = best;
+            ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.forceAddObject(SpaceObject.of(best));
+        }
+        tDmgDodge = 0;
+        try { String dv = testValue("corsair_dmgdodge"); if (dv != null) tDmgDodge = Float.parseFloat(dv.trim()); } catch (Throwable x) { tDmgDodge = 0; }
+        ps.applyGear();
+        ps.setFullLifeAndShieldUp();
+        ps.life = ps.maxLife;
+        if (ps.shield != null) ps.shield.currentValue = ps.shield.capacity;
+        ModAnchor.cur = -1;   // wall starts full
+        Vector2 at = new Vector2(ps.position.x, ps.position.y + 1700);
+        boolean police = v.startsWith("police_");
+        String key = police ? v.substring(7) : v;
+        Element g = null;
+        if (police) {
+            g = ModPoliceTitan.spawn(key, 0, at);
+        } else {
+            for (int i = 0; i < ModCapitals.FACTIONS.length; i++) if (ModCapitals.FACTIONS[i].key.equals(key)) g = ModCapitals.testBuild(i, at);
+        }
+        if (g == null) { ev("dmg", "start " + v + " FAILED"); return; }
+        tDmgTgt = g;
+        ModBal.resetSplit(g);   // 2026-11-17: gun / missile split
+        tDmgPs = ps;
+        tDmgLevel = ObjectRegistry.INSTANCE.game.currentLevel;
+        tDmgT = 0;
+        tDmgLog = 0;
+        tDmgLast = ps.life;
+        tDmgShLast = ps.shield != null ? ps.shield.currentValue : 0;
+        tDmgTgtLast = g.life;
+        tDmgHullLost = tDmgShieldLost = tDmgDealt = 0;
+        ModCapitals.Cap c = ModCapitals.cap(g);
+        ev("dmg", "start " + v + " player L" + pi.level + " " + (cur == null ? "?" : cur.name()) + " refit10 hull=" + Math.round(ps.maxLife)
+            + " shield=" + (ps.shield != null ? Math.round(ps.shield.capacity) : 0) + " laser=" + pi.playerGear.laser.name() + " shieldGear=" + pi.playerGear.shield.name() + " dodge=" + tDmgDodge
+            + " turrets=" + (ps.playerCannons == null ? 0 : ps.playerCannons.length) + " | target L" + (c == null ? -1 : c.lvl)
+            + " hull=" + Math.round(g.maxLife) + " shot=" + (c == null ? -1 : Math.round(c.shot)) + " rate=" + (c == null ? -1 : c.rate)
+            + " police=" + (c != null && c.police));
+    }
+
     /** v37 test evidence: logcat "ModTest <tag> <msg>" while the emulator test flag is present (never on a phone). */
     static void ev(String tag, String msg) {
         try {

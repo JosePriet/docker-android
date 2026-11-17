@@ -82,6 +82,7 @@ public final class ModPrologue {
     /** Fresh save (Main.onFirstStart, through ModIntro.firstStart). */
     public static void firstStart() {
         if (done()) return;
+        if (ModDev.testFlag("corsair_noprologue")) { ModDev.ev("prologue", "skipped (corsair_noprologue)"); return; }   // emulator stages other than V46
         pending = true;
         ModDev.ev("prologue", "pending (first start)");
     }

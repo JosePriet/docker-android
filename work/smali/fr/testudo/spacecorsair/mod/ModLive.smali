@@ -2122,7 +2122,7 @@
 
     move/from16 p1, v3
 
-    .line 535
+    .line 536
     :goto_f
     return p1
 
@@ -2187,29 +2187,34 @@
     move-result v14
 
     .line 516
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLive;->onHit(Lfr/testudo/spacecorsair/business/Element;)V
+    move-object/from16 v0, p2
+
+    invoke-static {p0, v14, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->recordHit(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
 
     .line 517
-    iget-boolean v2, p0, Lfr/testudo/spacecorsair/business/Element;->isPlayer:Z
-
-    if-eqz v2, :cond_87
-
-    if-eqz p2, :cond_87
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLive;->onHit(Lfr/testudo/spacecorsair/business/Element;)V
 
     .line 518
+    iget-boolean v2, p0, Lfr/testudo/spacecorsair/business/Element;->isPlayer:Z
+
+    if-eqz v2, :cond_8c
+
+    if-eqz p2, :cond_8c
+
+    .line 519
     move-object v0, p0
 
     check-cast v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
     move-object v2, v0
 
-    .line 519
+    .line 520
     invoke-static {v2, v14}, Lfr/testudo/spacecorsair/mod/ModLevFx;->hit(Lfr/testudo/spacecorsair/business/player/PlayerShip;F)V
 
-    .line 520
+    .line 521
     iget-object v4, v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    if-eqz v4, :cond_81
+    if-eqz v4, :cond_86
 
     iget-object v4, v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
@@ -2217,9 +2222,9 @@
 
     cmpl-float v3, v4, v3
 
-    if-lez v3, :cond_81
+    if-lez v3, :cond_86
 
-    .line 521
+    .line 522
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     move-object/from16 v0, p2
@@ -2248,44 +2253,44 @@
 
     move-result v3
 
-    .line 522
+    .line 523
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModShield;->impact(F)V
 
-    .line 523
+    .line 524
     move-object/from16 v0, p2
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-static {v2, v3, v14}, Lfr/testudo/spacecorsair/mod/ModMonolith;->hit(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;F)V
-    :try_end_81
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_81} :catch_da
+    :try_end_86
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_86} :catch_df
 
-    :cond_81
-    :goto_81
+    :cond_86
+    :goto_86
     move/from16 p1, v14
 
-    .line 534
-    :goto_83
+    .line 535
+    :goto_88
     invoke-static/range {p0 .. p2}, Lfr/testudo/spacecorsair/mod/ModQol;->onHit(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
 
     goto :goto_f
 
-    .line 525
-    :cond_87
-    if-eqz p2, :cond_81
+    .line 526
+    :cond_8c
+    if-eqz p2, :cond_86
 
     cmpl-float v2, p1, v3
 
-    if-lez v2, :cond_81
+    if-lez v2, :cond_86
 
-    .line 526
-    :try_start_8d
+    .line 527
+    :try_start_92
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/Element;->getDrawableObject()Lfr/testudo/spacecorsair/display/Drawable;
 
     move-result-object v7
 
-    .line 527
-    if-eqz v7, :cond_81
+    .line 528
+    if-eqz v7, :cond_86
 
     iget-object v2, v7, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
@@ -2297,7 +2302,7 @@
 
     move-result v2
 
-    if-eqz v2, :cond_81
+    if-eqz v2, :cond_86
 
     invoke-static {}, Ljava/lang/Math;->random()D
 
@@ -2307,9 +2312,9 @@
 
     cmpg-double v2, v2, v4
 
-    if-gez v2, :cond_81
+    if-gez v2, :cond_86
 
-    .line 528
+    .line 529
     const-string v2, "fx_ichor_sheet"
 
     const/4 v3, 0x4
@@ -2353,16 +2358,16 @@
     const/4 v13, 0x1
 
     invoke-static/range {v2 .. v13}, Lfr/testudo/spacecorsair/mod/ModLive;->fx(Ljava/lang/String;IIFFFJFFFZ)V
-    :try_end_d9
-    .catch Ljava/lang/Throwable; {:try_start_8d .. :try_end_d9} :catch_da
+    :try_end_de
+    .catch Ljava/lang/Throwable; {:try_start_92 .. :try_end_de} :catch_df
 
-    goto :goto_81
+    goto :goto_86
 
-    .line 531
-    :catch_da
+    .line 532
+    :catch_df
     move-exception v2
 
-    goto :goto_83
+    goto :goto_88
 .end method
 
 .method private static hostileEnemy(Lfr/testudo/spacecorsair/business/Element;)Z
