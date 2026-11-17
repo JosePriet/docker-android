@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 615
+    .line 635
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$5;->val$g:J
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,13 +45,13 @@
     .registers 5
 
     .prologue
-    .line 618
+    .line 638
     :goto_0
     :try_start_0
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$5;->val$g:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLobby;->gen:J
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$300()J
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$400()J
 
     move-result-wide v2
 
@@ -67,27 +67,27 @@
 
     if-eqz v0, :cond_1f
 
-    .line 619
+    .line 639
     const-wide/16 v0, 0x1388
 
     invoke-static {v0, v1}, Ljava/lang/Thread;->sleep(J)V
 
-    .line 620
+    .line 640
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->applySaver()V
 
-    .line 621
+    .line 641
     # invokes: Lfr/testudo/spacecorsair/mod/ModLobby;->reportRelay()V
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$400()V
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$500()V
     :try_end_1d
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_1d} :catch_1e
 
     goto :goto_0
 
-    .line 623
+    .line 643
     :catch_1e
     move-exception v0
 
-    .line 624
+    .line 644
     :cond_1f
     return-void
 .end method

@@ -39,7 +39,7 @@
     .end annotation
 
     .prologue
-    .line 437
+    .line 457
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$fg:J
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$fw:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
@@ -63,7 +63,7 @@
     .prologue
     const/4 v5, 0x0
 
-    .line 439
+    .line 459
     :try_start_1
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$fg:J
 
@@ -74,7 +74,7 @@
     iget-boolean v4, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$fh:Z
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLobby;->accept(JLfr/testudo/spacecorsair/mod/ModNet$Wire;[Ljava/lang/String;Z)V
-    invoke-static {v0, v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$200(JLfr/testudo/spacecorsair/mod/ModNet$Wire;[Ljava/lang/String;Z)V
+    invoke-static {v0, v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$300(JLfr/testudo/spacecorsair/mod/ModNet$Wire;[Ljava/lang/String;Z)V
     :try_end_c
     .catchall {:try_start_1 .. :try_end_c} :catchall_11
 
@@ -82,10 +82,10 @@
 
     aput-boolean v5, v0, v5
 
-    .line 440
+    .line 460
     return-void
 
-    .line 439
+    .line 459
     :catchall_11
     move-exception v0
 

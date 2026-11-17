@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 458
+    .line 464
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUi$12;->val$station:Ljava/lang/Object;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModUi$12;->val$junk:Ljava/util/List;
@@ -55,7 +55,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 461
+    .line 467
     :try_start_1
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$12;->val$station:Ljava/lang/Object;
 
@@ -69,19 +69,19 @@
 
     move-result-object v0
 
-    .line 462
+    .line 468
     const/4 v2, 0x1
 
     invoke-virtual {v0, v2}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 463
+    .line 469
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModUi$12;->val$station:Ljava/lang/Object;
 
     invoke-virtual {v0, v2}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v2
 
-    .line 464
+    .line 470
     invoke-virtual {v2}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v0
@@ -102,7 +102,7 @@
 
     move-result-object v3
 
-    .line 465
+    .line 471
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUi$12;->val$junk:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
@@ -122,7 +122,7 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/SpaceObject;
 
-    .line 466
+    .line 472
     new-instance v5, Lfr/testudo/spacecorsair/business/loot/SpaceObject;
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/loot/SpaceObject;->getSpaceObjectType()Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
@@ -135,7 +135,7 @@
 
     invoke-direct {v5, v6, v0}, Lfr/testudo/spacecorsair/business/loot/SpaceObject;-><init>(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;I)V
 
-    .line 467
+    .line 473
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -144,7 +144,7 @@
 
     invoke-virtual {v0, v5}, Lfr/testudo/spacecorsair/business/player/Inventory;->sell(Lfr/testudo/spacecorsair/business/loot/SpaceObject;)V
 
-    .line 468
+    .line 474
     const/4 v0, 0x1
 
     new-array v0, v0, [Ljava/lang/Object;
@@ -157,15 +157,15 @@
 
     goto :goto_2f
 
-    .line 474
+    .line 480
     :catch_5b
     move-exception v0
 
-    .line 477
+    .line 483
     :cond_5c
     return-void
 
-    .line 470
+    .line 476
     :cond_5d
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -173,7 +173,7 @@
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/engine/SoundManager;->playCashTransactionSound()V
 
-    .line 471
+    .line 477
     const/4 v0, 0x2
 
     new-array v2, v0, [Ljava/lang/String;
@@ -201,7 +201,7 @@
     :try_end_77
     .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_77} :catch_5b
 
-    .line 472
+    .line 478
     :try_start_77
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModUi$12;->val$a:Landroid/app/Activity;
 
@@ -227,13 +227,13 @@
     :try_end_8c
     .catch Ljava/lang/Exception; {:try_start_77 .. :try_end_8c} :catch_8f
 
-    .line 471
+    .line 477
     :goto_8c
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_73
 
-    .line 472
+    .line 478
     :catch_8f
     move-exception v1
 

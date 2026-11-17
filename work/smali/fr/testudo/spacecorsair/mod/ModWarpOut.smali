@@ -81,31 +81,72 @@
 .end method
 
 .method static clear()V
-    .registers 2
+    .registers 4
 
     .prologue
-    .line 71
+    .line 73
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModWarpOut;->out:Ljava/util/Map;
 
     monitor-enter v1
 
+    .line 74
     :try_start_3
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModWarpOut;->out:Ljava/util/Map;
+
+    invoke-interface {v0}, Ljava/util/Map;->keySet()Ljava/util/Set;
+
+    move-result-object v0
+
+    invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
+
+    move-result-object v2
+
+    :cond_d
+    :goto_d
+    invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_22
+
+    invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, Lfr/testudo/spacecorsair/business/Element;
+
+    if-eqz v0, :cond_d
+
+    const/4 v3, 0x0
+
+    iput-boolean v3, v0, Lfr/testudo/spacecorsair/business/Element;->invincible:Z
+
+    goto :goto_d
+
+    .line 76
+    :catchall_1f
+    move-exception v0
+
+    monitor-exit v1
+    :try_end_21
+    .catchall {:try_start_3 .. :try_end_21} :catchall_1f
+
+    throw v0
+
+    .line 75
+    :cond_22
+    :try_start_22
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWarpOut;->out:Ljava/util/Map;
 
     invoke-interface {v0}, Ljava/util/Map;->clear()V
 
+    .line 76
     monitor-exit v1
+    :try_end_28
+    .catchall {:try_start_22 .. :try_end_28} :catchall_1f
 
+    .line 77
     return-void
-
-    :catchall_a
-    move-exception v0
-
-    monitor-exit v1
-    :try_end_c
-    .catchall {:try_start_3 .. :try_end_c} :catchall_a
-
-    throw v0
 .end method
 
 .method static fade(Lfr/testudo/spacecorsair/business/Element;I)V
@@ -114,7 +155,7 @@
     .prologue
     const/high16 v4, 0x3f800000    # 1.0f
 
-    .line 76
+    .line 82
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModWarpOut;->out:Ljava/util/Map;
 
     monitor-enter v1
@@ -130,17 +171,17 @@
 
     monitor-exit v1
 
-    .line 77
+    .line 83
     if-eqz v0, :cond_12
 
     if-gez p1, :cond_16
 
-    .line 88
+    .line 94
     :cond_12
     :goto_12
     return-void
 
-    .line 76
+    .line 82
     :catchall_13
     move-exception v0
 
@@ -150,7 +191,7 @@
 
     throw v0
 
-    .line 78
+    .line 84
     :cond_16
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
@@ -174,7 +215,7 @@
 
     sub-float v0, v4, v0
 
-    .line 80
+    .line 86
     :try_start_2b
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModWarpOut;->fA:Ljava/lang/reflect/Field;
 
@@ -228,20 +269,20 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 81
+    .line 87
     :cond_5f
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->renderQueue:Lfr/testudo/spacecorsair/engine/RenderQueue;
 
-    .line 82
+    .line 88
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModWarpOut;->fSize:Ljava/lang/reflect/Field;
 
     invoke-virtual {v2, v1}, Ljava/lang/reflect/Field;->getInt(Ljava/lang/Object;)I
 
     move-result v2
 
-    .line 83
+    .line 89
     iget-object v3, v1, Lfr/testudo/spacecorsair/engine/RenderQueue;->objectQueue:[[Lfr/testudo/spacecorsair/display/RenderElement;
 
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModWarpOut;->fIdx:Ljava/lang/reflect/Field;
@@ -252,7 +293,7 @@
 
     aget-object v1, v3, v1
 
-    .line 84
+    .line 90
     :goto_73
     if-ge p1, v2, :cond_12
 
@@ -287,7 +328,7 @@
 
     goto :goto_73
 
-    .line 85
+    .line 91
     :catch_8f
     move-exception v0
 
@@ -298,7 +339,7 @@
     .registers 2
 
     .prologue
-    .line 92
+    .line 98
     :try_start_0
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWarpOut;->fSize:Ljava/lang/reflect/Field;
 
@@ -320,7 +361,7 @@
 
     invoke-virtual {v0, v1}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 93
+    .line 99
     :cond_14
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModWarpOut;->fSize:Ljava/lang/reflect/Field;
 
@@ -334,15 +375,15 @@
 
     move-result v0
 
-    .line 95
+    .line 101
     :goto_1e
     return v0
 
-    .line 94
+    .line 100
     :catch_1f
     move-exception v0
 
-    .line 95
+    .line 101
     const/4 v0, -0x1
 
     goto :goto_1e
@@ -507,7 +548,7 @@
 
     if-eqz v2, :cond_9
 
-    .line 68
+    .line 69
     :cond_8
     return-void
 
@@ -545,7 +586,7 @@
 
     move-result v2
 
-    if-eqz v2, :cond_66
+    if-eqz v2, :cond_6d
 
     .line 58
     invoke-interface {v9}, Ljava/util/Iterator;->next()Ljava/lang/Object;
@@ -562,33 +603,42 @@
     check-cast v3, Lfr/testudo/spacecorsair/business/Element;
 
     .line 60
-    if-eqz v3, :cond_37
+    if-nez v3, :cond_3a
 
-    iget-boolean v4, v3, Lfr/testudo/spacecorsair/business/Element;->removed:Z
-
-    if-eqz v4, :cond_3e
-
-    :cond_37
     invoke-interface {v9}, Ljava/util/Iterator;->remove()V
 
     goto :goto_1f
 
-    .line 64
-    :catchall_3b
+    .line 65
+    :catchall_37
     move-exception v2
 
     monitor-exit v8
-    :try_end_3d
-    .catchall {:try_start_15 .. :try_end_3d} :catchall_3b
+    :try_end_39
+    .catchall {:try_start_15 .. :try_end_39} :catchall_37
 
     throw v2
 
     .line 61
-    :cond_3e
-    :try_start_3e
+    :cond_3a
+    :try_start_3a
+    iget-boolean v4, v3, Lfr/testudo/spacecorsair/business/Element;->removed:Z
+
+    if-eqz v4, :cond_45
+
+    const/4 v2, 0x0
+
+    iput-boolean v2, v3, Lfr/testudo/spacecorsair/business/Element;->invincible:Z
+
+    invoke-interface {v9}, Ljava/util/Iterator;->remove()V
+
+    goto :goto_1f
+
+    .line 62
+    :cond_45
     instance-of v4, v3, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-eqz v4, :cond_4d
+    if-eqz v4, :cond_54
 
     move-object v0, v3
 
@@ -600,8 +650,8 @@
 
     iput-wide v10, v4, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->nextShootAlowed:J
 
-    .line 62
-    :cond_4d
+    .line 63
+    :cond_54
     invoke-interface {v2}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
 
     move-result-object v2
@@ -626,18 +676,18 @@
 
     goto :goto_1f
 
-    .line 64
-    :cond_66
-    monitor-exit v8
-    :try_end_67
-    .catchall {:try_start_3e .. :try_end_67} :catchall_3b
-
     .line 65
+    :cond_6d
+    monitor-exit v8
+    :try_end_6e
+    .catchall {:try_start_3a .. :try_end_6e} :catchall_37
+
+    .line 66
     invoke-virtual {v5}, Ljava/util/ArrayList;->iterator()Ljava/util/Iterator;
 
     move-result-object v3
 
-    :goto_6b
+    :goto_72
     invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v2
@@ -650,29 +700,33 @@
 
     check-cast v2, Lfr/testudo/spacecorsair/business/Element;
 
-    .line 66
+    .line 67
+    const/4 v4, 0x0
+
+    :try_start_7f
+    iput-boolean v4, v2, Lfr/testudo/spacecorsair/business/Element;->invincible:Z
+
     const/high16 v4, 0x3f800000    # 1.0f
 
-    :try_start_79
     invoke-static {v2, v4}, Lfr/testudo/spacecorsair/mod/ModWarpOut;->wave(Lfr/testudo/spacecorsair/business/Element;F)V
 
     invoke-virtual {v2}, Lfr/testudo/spacecorsair/business/Element;->remove()V
-    :try_end_7f
-    .catch Ljava/lang/Throwable; {:try_start_79 .. :try_end_7f} :catch_80
+    :try_end_89
+    .catch Ljava/lang/Throwable; {:try_start_7f .. :try_end_89} :catch_8a
 
-    goto :goto_6b
+    goto :goto_72
 
-    :catch_80
+    :catch_8a
     move-exception v2
 
-    goto :goto_6b
+    goto :goto_72
 .end method
 
 .method private static wave(Lfr/testudo/spacecorsair/business/Element;F)V
     .registers 7
 
     .prologue
-    .line 102
+    .line 108
     invoke-static {}, Lfr/testudo/spacecorsair/business/factory/GamePools;->newShockWave()Lfr/testudo/spacecorsair/display/ShockWave;
 
     move-result-object v0
@@ -691,7 +745,7 @@
 
     move-result-object v0
 
-    .line 103
+    .line 109
     const v1, 0x3ee66666    # 0.45f
 
     iput v1, v0, Lfr/testudo/spacecorsair/display/ShockWave;->r:F
@@ -704,7 +758,7 @@
 
     iput v1, v0, Lfr/testudo/spacecorsair/display/ShockWave;->b:F
 
-    .line 104
+    .line 110
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -715,6 +769,6 @@
 
     invoke-interface {v1, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 105
+    .line 111
     return-void
 .end method

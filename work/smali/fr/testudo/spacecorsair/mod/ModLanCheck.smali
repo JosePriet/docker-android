@@ -55,7 +55,7 @@
     .registers 6
 
     .prologue
-    .line 268
+    .line 275
     const/4 v0, 0x0
 
     invoke-static {p0, p1, p2, p3, v0}, Lfr/testudo/spacecorsair/mod/ModLanCheck;->allow(Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;FJZ)F
@@ -73,23 +73,23 @@
 
     const/4 v1, 0x0
 
-    .line 271
+    .line 278
     cmpl-float v0, p1, v1
 
     if-gtz v0, :cond_9
 
     move p1, v1
 
-    .line 283
+    .line 290
     :cond_8
     :goto_8
     return p1
 
-    .line 272
+    .line 279
     :cond_9
     if-eqz p0, :cond_8
 
-    .line 273
+    .line 280
     if-eqz p4, :cond_23
 
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dpsPvp:F
@@ -101,13 +101,13 @@
 
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shotPvp:F
 
-    .line 274
+    .line 281
     :goto_14
     const/high16 v3, 0x40400000    # 3.0f
 
     mul-float/2addr v3, v2
 
-    .line 275
+    .line 282
     cmpl-float v4, v3, v1
 
     if-lez v4, :cond_21
@@ -123,7 +123,7 @@
 
     goto :goto_8
 
-    .line 273
+    .line 280
     :cond_23
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dps:F
 
@@ -136,7 +136,7 @@
 
     goto :goto_14
 
-    .line 276
+    .line 283
     :cond_2a
     sget v4, Lfr/testudo/spacecorsair/mod/ModLanCheck;->room:F
 
@@ -155,7 +155,7 @@
     :cond_38
     sput v1, Lfr/testudo/spacecorsair/mod/ModLanCheck;->room:F
 
-    .line 277
+    .line 284
     :cond_3a
     sget-wide v4, Lfr/testudo/spacecorsair/mod/ModLanCheck;->roomAt:J
 
@@ -165,16 +165,16 @@
 
     sput v3, Lfr/testudo/spacecorsair/mod/ModLanCheck;->room:F
 
-    .line 279
+    .line 286
     :goto_42
     sput-wide p2, Lfr/testudo/spacecorsair/mod/ModLanCheck;->roomAt:J
 
-    .line 280
+    .line 287
     invoke-static {p1, v0}, Ljava/lang/Math;->min(FF)F
 
     move-result v0
 
-    .line 281
+    .line 288
     sget v2, Lfr/testudo/spacecorsair/mod/ModLanCheck;->room:F
 
     cmpl-float v2, v0, v2
@@ -187,7 +187,7 @@
 
     move-result v0
 
-    .line 282
+    .line 289
     :cond_54
     sget v1, Lfr/testudo/spacecorsair/mod/ModLanCheck;->room:F
 
@@ -197,10 +197,10 @@
 
     move p1, v0
 
-    .line 283
+    .line 290
     goto :goto_8
 
-    .line 278
+    .line 285
     :cond_5b
     sget v4, Lfr/testudo/spacecorsair/mod/ModLanCheck;->room:F
 
@@ -913,21 +913,21 @@
 .end method
 
 .method static limits(Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;)Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;
-    .registers 22
+    .registers 24
 
     .prologue
     .line 176
-    new-instance v17, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;
+    new-instance v21, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;
 
-    invoke-direct/range {v17 .. v17}, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;-><init>()V
+    invoke-direct/range {v21 .. v21}, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;-><init>()V
 
     .line 177
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanCheck;->best()[[F
 
-    move-result-object v13
+    move-result-object v12
 
     .line 178
-    if-nez p0, :cond_26f
+    if-nez p0, :cond_2d9
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanCheck;->maxLevel()I
 
@@ -937,7 +937,7 @@
 
     .line 179
     :goto_10
-    aget-object v18, v13, v5
+    aget-object v19, v12, v5
 
     .line 180
     if-eqz p0, :cond_24
@@ -948,13 +948,13 @@
 
     if-eq v1, v5, :cond_24
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
     add-int/lit8 v1, v1, 0x1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
@@ -962,54 +962,65 @@
     :cond_24
     const/4 v1, 0x0
 
-    aget v10, v18, v1
+    aget v13, v19, v1
 
     const/4 v1, 0x1
 
-    aget v1, v18, v1
+    aget v1, v19, v1
 
     const/high16 v2, 0x40800000    # 4.0f
 
-    mul-float/2addr v2, v1
+    mul-float v16, v1, v2
 
     const/4 v1, 0x2
 
-    aget v12, v18, v1
+    aget v15, v19, v1
 
     const/4 v1, 0x3
 
-    aget v11, v18, v1
+    aget v14, v19, v1
 
     const/4 v1, 0x4
 
-    aget v6, v18, v1
+    aget v6, v19, v1
 
     const/4 v1, 0x5
 
-    aget v14, v18, v1
+    aget v18, v19, v1
 
     .line 182
-    const/16 v16, 0x4
+    const/4 v11, 0x4
 
     .line 183
-    const/4 v9, 0x0
+    const/4 v10, 0x0
 
     .line 184
+    const/high16 v9, 0x3f800000    # 1.0f
+
     const/high16 v8, 0x3f800000    # 1.0f
 
     const/high16 v7, 0x3f800000    # 1.0f
 
     .line 185
-    const/4 v1, 0x0
-
-    move-object/from16 v0, v17
-
-    iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->exact:Z
+    const/16 v2, 0xa
 
     .line 186
-    if-eqz p0, :cond_2ca
+    if-nez p0, :cond_2e4
+
+    const/4 v1, 0x1
 
     .line 187
+    :goto_47
+    const/4 v3, 0x0
+
+    move-object/from16 v0, v21
+
+    iput-boolean v3, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->exact:Z
+
+    .line 188
+    if-eqz p0, :cond_33c
+
+    .line 189
     move-object/from16 v0, p0
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->ship:Ljava/lang/String;
@@ -1042,117 +1053,119 @@
 
     move-result-object v4
 
-    .line 189
+    .line 191
     instance-of v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
-
-    move/from16 v19, v0
-
-    instance-of v0, v2, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     move/from16 v20, v0
 
-    .line 190
-    if-nez v19, :cond_79
+    instance-of v0, v2, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
-    array-length v6, v13
+    move/from16 v22, v0
+
+    .line 192
+    if-nez v20, :cond_80
+
+    array-length v6, v12
 
     add-int/lit8 v6, v6, -0x1
 
-    aget-object v6, v13, v6
+    aget-object v6, v12, v6
 
-    const/4 v13, 0x4
+    const/4 v12, 0x4
 
-    aget v6, v6, v13
-
-    .line 191
-    :cond_79
-    move-object/from16 v0, p0
-
-    iget-object v13, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->ship:Ljava/lang/String;
-
-    invoke-virtual {v13}, Ljava/lang/String;->length()I
-
-    move-result v13
-
-    if-lez v13, :cond_8f
-
-    if-nez v19, :cond_8f
-
-    move-object/from16 v0, v17
-
-    iget v13, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
-
-    add-int/lit8 v13, v13, 0x1
-
-    move-object/from16 v0, v17
-
-    iput v13, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
-
-    .line 192
-    :cond_8f
-    move-object/from16 v0, p0
-
-    iget-object v13, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->laser:Ljava/lang/String;
-
-    invoke-virtual {v13}, Ljava/lang/String;->length()I
-
-    move-result v13
-
-    if-lez v13, :cond_a5
-
-    if-nez v20, :cond_a5
-
-    move-object/from16 v0, v17
-
-    iget v13, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
-
-    add-int/lit8 v13, v13, 0x1
-
-    move-object/from16 v0, v17
-
-    iput v13, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
+    aget v6, v6, v12
 
     .line 193
-    :cond_a5
+    :cond_80
     move-object/from16 v0, p0
 
-    iget v13, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->refit:I
+    iget-object v12, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->ship:Ljava/lang/String;
 
-    if-ltz v13, :cond_b3
+    invoke-virtual {v12}, Ljava/lang/String;->length()I
 
-    move-object/from16 v0, p0
+    move-result v12
 
-    iget v13, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->refit:I
+    if-lez v12, :cond_96
 
-    const/16 v15, 0xa
+    if-nez v20, :cond_96
 
-    if-le v13, v15, :cond_bd
+    move-object/from16 v0, v21
 
-    :cond_b3
-    move-object/from16 v0, v17
+    iget v12, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
-    iget v13, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
+    add-int/lit8 v12, v12, 0x1
 
-    add-int/lit8 v13, v13, 0x1
+    move-object/from16 v0, v21
 
-    move-object/from16 v0, v17
-
-    iput v13, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
+    iput v12, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
     .line 194
-    :cond_bd
-    if-eqz v19, :cond_2c6
+    :cond_96
+    move-object/from16 v0, p0
+
+    iget-object v12, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->laser:Ljava/lang/String;
+
+    invoke-virtual {v12}, Ljava/lang/String;->length()I
+
+    move-result v12
+
+    if-lez v12, :cond_ac
+
+    if-nez v22, :cond_ac
+
+    move-object/from16 v0, v21
+
+    iget v12, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
+
+    add-int/lit8 v12, v12, 0x1
+
+    move-object/from16 v0, v21
+
+    iput v12, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
     .line 195
-    check-cast v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
+    :cond_ac
+    move-object/from16 v0, p0
+
+    iget v12, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->refit:I
+
+    if-ltz v12, :cond_bc
+
+    move-object/from16 v0, p0
+
+    iget v12, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->refit:I
+
+    const/16 v16, 0xa
+
+    move/from16 v0, v16
+
+    if-le v12, v0, :cond_c6
+
+    :cond_bc
+    move-object/from16 v0, v21
+
+    iget v12, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
+
+    add-int/lit8 v12, v12, 0x1
+
+    move-object/from16 v0, v21
+
+    iput v12, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
     .line 196
-    iget v15, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->lifeBooster:F
+    :cond_c6
+    if-eqz v20, :cond_339
 
     .line 197
+    check-cast v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
+
+    .line 198
+    iget v12, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->lifeBooster:F
+
+    .line 199
     const/4 v6, 0x1
 
-    iget v13, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonCount:I
+    iget v11, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->canonCount:I
 
     iget v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->laserCount:I
 
@@ -1160,96 +1173,164 @@
 
     move/from16 v0, v16
 
-    invoke-static {v13, v0}, Ljava/lang/Math;->max(II)I
+    invoke-static {v11, v0}, Ljava/lang/Math;->max(II)I
 
-    move-result v13
+    move-result v11
 
-    invoke-static {v6, v13}, Ljava/lang/Math;->max(II)I
+    invoke-static {v6, v11}, Ljava/lang/Math;->max(II)I
 
-    move-result v16
+    move-result v11
 
-    .line 199
-    :try_start_d4
+    .line 201
+    :try_start_dd
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModShips;->hullFor(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
-    move-result-object v13
+    move-result-object v1
 
-    .line 200
-    if-eqz v13, :cond_2c2
+    .line 202
+    if-eqz v1, :cond_335
 
-    const/high16 v1, 0x3f800000    # 1.0f
+    const/high16 v6, 0x3f800000    # 1.0f
 
-    iget v6, v13, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
+    iget v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dmg:F
 
-    invoke-static {v1, v6}, Ljava/lang/Math;->max(FF)F
-    :try_end_e1
-    .catch Ljava/lang/Throwable; {:try_start_d4 .. :try_end_e1} :catch_27a
+    move/from16 v16, v0
+
+    move/from16 v0, v16
+
+    invoke-static {v6, v0}, Ljava/lang/Math;->max(FF)F
+
+    move-result v9
+
+    const/high16 v6, 0x3f800000    # 1.0f
+
+    iget v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
+
+    move/from16 v16, v0
+
+    move/from16 v0, v16
+
+    invoke-static {v6, v0}, Ljava/lang/Math;->max(FF)F
+    :try_end_fa
+    .catch Ljava/lang/Throwable; {:try_start_dd .. :try_end_fa} :catch_2e7
 
     move-result v6
 
-    const/high16 v1, 0x3f800000    # 1.0f
+    :try_start_fb
+    iget-boolean v8, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->doomsday:Z
+    :try_end_fd
+    .catch Ljava/lang/Throwable; {:try_start_fb .. :try_end_fd} :catch_330
 
-    :try_start_e4
-    iget v8, v13, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->shieldCap:F
+    const/high16 v10, 0x3f800000    # 1.0f
 
-    invoke-static {v1, v8}, Ljava/lang/Math;->max(FF)F
-    :try_end_e9
-    .catch Ljava/lang/Throwable; {:try_start_e4 .. :try_end_e9} :catch_2bd
+    const/high16 v16, 0x3f000000    # 0.5f
+
+    const/high16 v17, 0x3f800000    # 1.0f
+
+    :try_start_103
+    iget v1, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->reload:F
+
+    move/from16 v0, v17
+
+    invoke-static {v0, v1}, Ljava/lang/Math;->min(FF)F
 
     move-result v1
 
-    :try_start_ea
-    iget-boolean v7, v13, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->doomsday:Z
-    :try_end_ec
-    .catch Ljava/lang/Throwable; {:try_start_ea .. :try_end_ec} :catch_2bf
+    move/from16 v0, v16
 
-    move v9, v7
+    invoke-static {v0, v1}, Ljava/lang/Math;->max(FF)F
+    :try_end_110
+    .catch Ljava/lang/Throwable; {:try_start_103 .. :try_end_110} :catch_332
 
-    :goto_ed
-    move v13, v1
+    move-result v1
+
+    div-float v1, v10, v1
+
+    move v10, v8
+
+    :goto_114
+    move v7, v1
 
     move v8, v6
 
-    .line 203
-    :goto_ef
-    if-eqz v20, :cond_280
+    .line 205
+    :goto_116
+    const/4 v1, 0x0
+
+    const/16 v6, 0xa
+
+    move-object/from16 v0, p0
+
+    iget v0, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->refit:I
+
+    move/from16 v16, v0
+
+    move/from16 v0, v16
+
+    invoke-static {v6, v0}, Ljava/lang/Math;->min(II)I
+
+    move-result v6
+
+    invoke-static {v1, v6}, Ljava/lang/Math;->max(II)I
+
+    move-result v17
+
+    .line 206
+    if-eqz v22, :cond_135
 
     move-object v1, v2
 
-    .line 204
+    check-cast v1, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModWeapons;->family(Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;)I
+
+    move-result v1
+
+    const/4 v6, 0x4
+
+    if-ne v1, v6, :cond_2ec
+
+    :cond_135
+    const/16 v16, 0x1
+
+    .line 207
+    :goto_137
+    if-eqz v22, :cond_2f0
+
+    move-object v1, v2
+
+    .line 208
     check-cast v1, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     iget v1, v1, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;->damage:I
 
     int-to-float v6, v1
 
-    .line 205
+    .line 209
     check-cast v2, Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLanCheck;->laserDps(Lfr/testudo/spacecorsair/business/loot/stuff/laser/LaserSpec;)F
 
     move-result v1
 
-    move/from16 v0, v16
-
-    int-to-float v2, v0
+    int-to-float v2, v11
 
     mul-float/2addr v1, v2
 
     move v2, v1
 
-    .line 207
-    :goto_102
+    .line 211
+    :goto_148
     instance-of v1, v3, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    if-eqz v1, :cond_28b
+    if-eqz v1, :cond_2f9
 
     move-object v1, v3
 
-    .line 208
+    .line 212
     check-cast v1, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
-    iget v7, v1, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->damage:F
+    iget v11, v1, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->damage:F
 
     move-object v1, v3
 
@@ -1257,11 +1338,11 @@
 
     iget v1, v1, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;->radiusDamage:F
 
-    invoke-static {v7, v1}, Ljava/lang/Math;->max(FF)F
+    invoke-static {v11, v1}, Ljava/lang/Math;->max(FF)F
 
-    move-result v7
+    move-result v11
 
-    .line 209
+    .line 213
     check-cast v3, Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;
 
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLanCheck;->missileDps(Lfr/testudo/spacecorsair/business/loot/stuff/missile/MissileSpec;)F
@@ -1270,11 +1351,11 @@
 
     move v3, v1
 
-    .line 211
-    :goto_11b
+    .line 215
+    :goto_161
     instance-of v1, v4, Lfr/testudo/spacecorsair/business/loot/stuff/shield/ShieldSpec;
 
-    if-eqz v1, :cond_2a3
+    if-eqz v1, :cond_311
 
     move-object v1, v4
 
@@ -1282,230 +1363,266 @@
 
     iget v1, v1, Lfr/testudo/spacecorsair/business/loot/stuff/shield/ShieldSpec;->capacity:I
 
-    int-to-float v14, v1
+    int-to-float v0, v1
 
-    move v4, v14
+    move/from16 v18, v0
 
-    .line 213
-    :goto_126
-    if-eqz v19, :cond_2ba
+    move/from16 v13, v18
 
-    if-eqz v20, :cond_2ba
+    .line 217
+    :goto_16f
+    if-eqz v20, :cond_329
+
+    if-eqz v22, :cond_329
 
     const/4 v1, 0x1
 
-    :goto_12b
-    move-object/from16 v0, v17
+    :goto_174
+    move-object/from16 v0, v21
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->exact:Z
 
-    move v1, v13
+    move/from16 v1, v16
 
-    move v12, v7
+    move/from16 v4, v17
 
-    move v10, v6
+    move/from16 v18, v13
 
-    .line 215
-    :goto_132
-    const/high16 v6, 0x41400000    # 12.0f
+    move/from16 v19, v2
 
-    mul-float/2addr v6, v8
+    move/from16 v20, v6
 
-    const/high16 v7, 0x3f800000    # 1.0f
+    .line 219
+    :goto_182
+    const/high16 v2, 0x41400000    # 12.0f
 
-    invoke-static {v10, v12}, Ljava/lang/Math;->max(FF)F
+    mul-float/2addr v2, v9
 
-    move-result v11
-
-    invoke-static {v7, v11}, Ljava/lang/Math;->max(FF)F
-
-    move-result v7
-
-    mul-float/2addr v6, v7
-
-    move-object/from16 v0, v17
-
-    iput v6, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shot:F
-
-    .line 216
-    const/high16 v6, 0x41400000    # 12.0f
-
-    mul-float/2addr v6, v8
-
-    const/high16 v7, 0x3f800000    # 1.0f
-
-    add-float v11, v2, v3
-
-    invoke-static {v7, v11}, Ljava/lang/Math;->max(FF)F
-
-    move-result v7
-
-    mul-float/2addr v6, v7
-
-    move-object/from16 v0, v17
-
-    iput v6, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dps:F
-
-    .line 217
-    move-object/from16 v0, v17
-
-    iget v6, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shot:F
-
-    move-object/from16 v0, v17
-
-    iput v6, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shotPvp:F
-
-    move-object/from16 v0, v17
-
-    iget v6, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dps:F
-
-    move-object/from16 v0, v17
-
-    iput v6, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dpsPvp:F
-
-    .line 218
     const/high16 v6, 0x3f800000    # 1.0f
 
-    invoke-static {v10, v12}, Ljava/lang/Math;->max(FF)F
+    move/from16 v0, v20
 
-    move-result v7
+    invoke-static {v0, v11}, Ljava/lang/Math;->max(FF)F
 
-    invoke-static {v6, v7}, Ljava/lang/Math;->max(FF)F
+    move-result v13
+
+    invoke-static {v6, v13}, Ljava/lang/Math;->max(FF)F
 
     move-result v6
 
-    mul-float/2addr v6, v8
+    mul-float/2addr v2, v6
 
-    move-object/from16 v0, v17
-
-    iput v6, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expShot:F
-
-    .line 219
-    const/high16 v6, 0x3f800000    # 1.0f
-
-    add-float/2addr v2, v3
-
-    invoke-static {v6, v2}, Ljava/lang/Math;->max(FF)F
-
-    move-result v2
-
-    mul-float/2addr v2, v8
-
-    move-object/from16 v0, v17
-
-    iput v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expDps:F
-
-    .line 220
-    if-eqz v9, :cond_1b7
-
-    move-object/from16 v0, v17
-
-    iget v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shot:F
-
-    const v3, 0x48127c00    # 150000.0f
-
-    invoke-static {v2, v3}, Ljava/lang/Math;->max(FF)F
-
-    move-result v2
-
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shot:F
 
-    move-object/from16 v0, v17
+    .line 220
+    const/high16 v2, 0x41400000    # 12.0f
 
-    iget v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dps:F
+    mul-float/2addr v2, v9
 
-    const v3, 0x48127c00    # 150000.0f
+    const/high16 v6, 0x3f800000    # 1.0f
 
-    add-float/2addr v2, v3
+    add-float v13, v19, v3
 
-    move-object/from16 v0, v17
+    invoke-static {v6, v13}, Ljava/lang/Math;->max(FF)F
+
+    move-result v6
+
+    mul-float/2addr v2, v6
+
+    move-object/from16 v0, v21
 
     iput v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dps:F
 
-    move-object/from16 v0, v17
-
-    iget v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expShot:F
-
-    const v3, 0x48127c00    # 150000.0f
-
-    invoke-static {v2, v3}, Ljava/lang/Math;->max(FF)F
-
-    move-result v2
-
-    move-object/from16 v0, v17
-
-    iput v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expShot:F
-
-    move-object/from16 v0, v17
-
-    iget v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expDps:F
-
-    const v3, 0x48127c00    # 150000.0f
-
-    add-float/2addr v2, v3
-
-    move-object/from16 v0, v17
-
-    iput v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expDps:F
-
     .line 221
-    :cond_1b7
-    const/high16 v2, 0x3f800000    # 1.0f
+    move-object/from16 v0, v21
 
-    sget-object v3, Lfr/testudo/spacecorsair/business/player/XpBuilder;->PLAYER_SHIP_LIFE:[I
+    iget v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shot:F
 
-    aget v3, v3, v5
+    move-object/from16 v0, v21
 
-    int-to-float v3, v3
+    iput v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shotPvp:F
 
-    const v5, 0x3dcccccd    # 0.1f
+    move-object/from16 v0, v21
 
-    invoke-static {v5, v15}, Ljava/lang/Math;->max(FF)F
+    iget v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dps:F
 
-    move-result v5
+    move-object/from16 v0, v21
 
-    mul-float/2addr v3, v5
+    iput v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dpsPvp:F
 
-    const v5, 0x3fe5a1cb    # 1.794f
-
-    mul-float/2addr v3, v5
-
-    invoke-static {v2, v3}, Ljava/lang/Math;->max(FF)F
+    .line 224
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModV35;->pickMult(I)F
 
     move-result v2
 
-    move-object/from16 v0, v17
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModV35;->traitMult(I)F
 
-    iput v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->hull:F
+    move-result v4
 
-    .line 222
-    const/high16 v2, 0x3f800000    # 1.0f
+    mul-float/2addr v2, v4
 
-    mul-float/2addr v1, v4
+    if-eqz v1, :cond_32c
 
-    const/high16 v3, 0x40200000    # 2.5f
+    const/high16 v1, 0x40000000    # 2.0f
 
-    mul-float/2addr v1, v3
+    .line 225
+    :goto_1c3
+    mul-float v4, v9, v2
 
-    invoke-static {v2, v1}, Ljava/lang/Math;->max(FF)F
+    const/high16 v6, 0x3f800000    # 1.0f
+
+    mul-float v13, v20, v1
+
+    invoke-static {v13, v11}, Ljava/lang/Math;->max(FF)F
+
+    move-result v11
+
+    invoke-static {v6, v11}, Ljava/lang/Math;->max(FF)F
+
+    move-result v6
+
+    mul-float/2addr v4, v6
+
+    move-object/from16 v0, v21
+
+    iput v4, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expShot:F
+
+    .line 226
+    mul-float v4, v9, v2
+
+    const/high16 v6, 0x3f800000    # 1.0f
+
+    mul-float v1, v1, v19
+
+    add-float/2addr v1, v3
+
+    mul-float/2addr v1, v2
+
+    mul-float/2addr v1, v7
+
+    invoke-static {v6, v1}, Ljava/lang/Math;->max(FF)F
 
     move-result v1
 
-    move-object/from16 v0, v17
+    mul-float/2addr v1, v4
+
+    move-object/from16 v0, v21
+
+    iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expDps:F
+
+    .line 227
+    if-eqz v10, :cond_220
+
+    move-object/from16 v0, v21
+
+    iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shot:F
+
+    const v2, 0x48127c00    # 150000.0f
+
+    invoke-static {v1, v2}, Ljava/lang/Math;->max(FF)F
+
+    move-result v1
+
+    move-object/from16 v0, v21
+
+    iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shot:F
+
+    move-object/from16 v0, v21
+
+    iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dps:F
+
+    const v2, 0x48127c00    # 150000.0f
+
+    add-float/2addr v1, v2
+
+    move-object/from16 v0, v21
+
+    iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dps:F
+
+    move-object/from16 v0, v21
+
+    iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expShot:F
+
+    const v2, 0x48127c00    # 150000.0f
+
+    invoke-static {v1, v2}, Ljava/lang/Math;->max(FF)F
+
+    move-result v1
+
+    move-object/from16 v0, v21
+
+    iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expShot:F
+
+    move-object/from16 v0, v21
+
+    iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expDps:F
+
+    const v2, 0x48127c00    # 150000.0f
+
+    add-float/2addr v1, v2
+
+    move-object/from16 v0, v21
+
+    iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->expDps:F
+
+    .line 228
+    :cond_220
+    const/high16 v1, 0x3f800000    # 1.0f
+
+    sget-object v2, Lfr/testudo/spacecorsair/business/player/XpBuilder;->PLAYER_SHIP_LIFE:[I
+
+    aget v2, v2, v5
+
+    int-to-float v2, v2
+
+    const v3, 0x3dcccccd    # 0.1f
+
+    invoke-static {v3, v12}, Ljava/lang/Math;->max(FF)F
+
+    move-result v3
+
+    mul-float/2addr v2, v3
+
+    const v3, 0x3fe5a1cb    # 1.794f
+
+    mul-float/2addr v2, v3
+
+    invoke-static {v1, v2}, Ljava/lang/Math;->max(FF)F
+
+    move-result v1
+
+    move-object/from16 v0, v21
+
+    iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->hull:F
+
+    .line 229
+    const/high16 v1, 0x3f800000    # 1.0f
+
+    mul-float v2, v18, v8
+
+    const/high16 v3, 0x40200000    # 2.5f
+
+    mul-float/2addr v2, v3
+
+    invoke-static {v1, v2}, Ljava/lang/Math;->max(FF)F
+
+    move-result v1
+
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shield:F
 
-    .line 223
+    .line 230
     const/16 v1, 0x12c
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shotsPerSec:I
 
-    .line 224
-    move-object/from16 v0, v17
+    .line 231
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shot:F
 
@@ -1513,11 +1630,11 @@
 
     move-result v1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shot:F
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dps:F
 
@@ -1525,11 +1642,11 @@
 
     move-result v1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dps:F
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shotPvp:F
 
@@ -1537,11 +1654,11 @@
 
     move-result v1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shotPvp:F
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dpsPvp:F
 
@@ -1549,11 +1666,11 @@
 
     move-result v1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->dpsPvp:F
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->hull:F
 
@@ -1561,11 +1678,11 @@
 
     move-result v1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->hull:F
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shield:F
 
@@ -1573,14 +1690,14 @@
 
     move-result v1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shield:F
 
-    .line 225
-    if-eqz p0, :cond_26e
+    .line 232
+    if-eqz p0, :cond_2d8
 
-    .line 226
+    .line 233
     move-object/from16 v0, p0
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->maxHull:F
@@ -1589,33 +1706,33 @@
 
     cmpl-float v1, v1, v2
 
-    if-ltz v1, :cond_245
+    if-ltz v1, :cond_2af
 
     move-object/from16 v0, p0
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->maxHull:F
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iget v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->hull:F
 
     cmpl-float v1, v1, v2
 
-    if-lez v1, :cond_24f
+    if-lez v1, :cond_2b9
 
-    :cond_245
-    move-object/from16 v0, v17
+    :cond_2af
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
     add-int/lit8 v1, v1, 0x1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
-    .line 227
-    :cond_24f
+    .line 234
+    :cond_2b9
     move-object/from16 v0, p0
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->maxShield:F
@@ -1624,37 +1741,37 @@
 
     cmpl-float v1, v1, v2
 
-    if-ltz v1, :cond_264
+    if-ltz v1, :cond_2ce
 
     move-object/from16 v0, p0
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->maxShield:F
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iget v2, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->shield:F
 
     cmpl-float v1, v1, v2
 
-    if-lez v1, :cond_26e
+    if-lez v1, :cond_2d8
 
-    :cond_264
-    move-object/from16 v0, v17
+    :cond_2ce
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
     add-int/lit8 v1, v1, 0x1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
-    .line 229
-    :cond_26e
-    return-object v17
+    .line 236
+    :cond_2d8
+    return-object v21
 
     .line 178
-    :cond_26f
+    :cond_2d9
     move-object/from16 v0, p0
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->level:I
@@ -1667,39 +1784,47 @@
 
     goto/16 :goto_10
 
-    .line 201
-    :catch_27a
+    .line 186
+    :cond_2e4
+    const/4 v1, 0x0
+
+    goto/16 :goto_47
+
+    .line 203
+    :catch_2e7
     move-exception v1
 
     move v6, v8
 
-    :goto_27c
-    move v13, v7
-
+    :goto_2e9
     move v8, v6
 
-    goto/16 :goto_ef
+    goto/16 :goto_116
 
     .line 206
-    :cond_280
+    :cond_2ec
+    const/16 v16, 0x0
+
+    goto/16 :goto_137
+
+    .line 210
+    :cond_2f0
     const/4 v1, 0x1
 
-    aget v1, v18, v1
+    aget v1, v19, v1
 
-    move/from16 v0, v16
-
-    int-to-float v2, v0
+    int-to-float v2, v11
 
     mul-float/2addr v1, v2
 
     move v2, v1
 
-    move v6, v10
+    move v6, v13
 
-    goto/16 :goto_102
+    goto/16 :goto_148
 
-    .line 210
-    :cond_28b
+    .line 214
+    :cond_2f9
     move-object/from16 v0, p0
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->missile:Ljava/lang/String;
@@ -1708,27 +1833,27 @@
 
     move-result v1
 
-    if-lez v1, :cond_29f
+    if-lez v1, :cond_30d
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
     add-int/lit8 v1, v1, 0x1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
-    :cond_29f
-    move v3, v11
+    :cond_30d
+    move v3, v14
 
-    move v7, v12
+    move v11, v15
 
-    goto/16 :goto_11b
+    goto/16 :goto_161
 
-    .line 212
-    :cond_2a3
+    .line 216
+    :cond_311
     move-object/from16 v0, p0
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Decl;->shield:Ljava/lang/String;
@@ -1737,66 +1862,74 @@
 
     move-result v1
 
-    if-lez v1, :cond_2b7
+    if-lez v1, :cond_325
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iget v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
     add-int/lit8 v1, v1, 0x1
 
-    move-object/from16 v0, v17
+    move-object/from16 v0, v21
 
     iput v1, v0, Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;->flags:I
 
-    :cond_2b7
-    move v4, v14
+    :cond_325
+    move/from16 v13, v18
 
-    goto/16 :goto_126
+    goto/16 :goto_16f
 
-    .line 213
-    :cond_2ba
+    .line 217
+    :cond_329
     const/4 v1, 0x0
 
-    goto/16 :goto_12b
+    goto/16 :goto_174
 
-    .line 201
-    :catch_2bd
+    .line 224
+    :cond_32c
+    const/high16 v1, 0x3f800000    # 1.0f
+
+    goto/16 :goto_1c3
+
+    .line 203
+    :catch_330
     move-exception v1
 
-    goto :goto_27c
+    goto :goto_2e9
 
-    :catch_2bf
-    move-exception v7
+    :catch_332
+    move-exception v1
 
-    move v7, v1
+    move v10, v8
 
-    goto :goto_27c
+    goto :goto_2e9
 
-    :cond_2c2
+    :cond_335
     move v1, v7
 
     move v6, v8
 
-    goto/16 :goto_ed
+    goto/16 :goto_114
 
-    :cond_2c6
-    move v13, v7
+    :cond_339
+    move v12, v6
 
-    move v15, v6
+    goto/16 :goto_116
 
-    goto/16 :goto_ef
+    :cond_33c
+    move v4, v2
 
-    :cond_2ca
-    move v1, v7
+    move v12, v6
 
-    move v4, v14
+    move v3, v14
 
-    move v15, v6
+    move v11, v15
 
-    move v3, v11
+    move/from16 v19, v16
 
-    goto/16 :goto_132
+    move/from16 v20, v13
+
+    goto/16 :goto_182
 .end method
 
 .method private static maxLevel()I
@@ -1988,7 +2121,7 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 249
+    .line 256
     sget-wide v2, Lfr/testudo/spacecorsair/mod/ModLanCheck;->secAt:J
 
     sub-long v2, p2, v2
@@ -2007,7 +2140,7 @@
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModLanCheck;->shotsSec:I
 
-    .line 250
+    .line 257
     :cond_12
     sget v1, Lfr/testudo/spacecorsair/mod/ModLanCheck;->secSum:F
 
@@ -2015,14 +2148,14 @@
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModLanCheck;->secSum:F
 
-    .line 251
+    .line 258
     sget v1, Lfr/testudo/spacecorsair/mod/ModLanCheck;->shotsSec:I
 
     add-int/lit8 v1, v1, 0x1
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModLanCheck;->shotsSec:I
 
-    .line 252
+    .line 259
     sget v1, Lfr/testudo/spacecorsair/mod/ModLanCheck;->peakShot:F
 
     cmpl-float v1, p1, v1
@@ -2031,7 +2164,7 @@
 
     sput p1, Lfr/testudo/spacecorsair/mod/ModLanCheck;->peakShot:F
 
-    .line 253
+    .line 260
     :cond_25
     sget v1, Lfr/testudo/spacecorsair/mod/ModLanCheck;->secSum:F
 
@@ -2045,7 +2178,7 @@
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModLanCheck;->peakDps:F
 
-    .line 254
+    .line 261
     :cond_31
     if-eqz p0, :cond_39
 
@@ -2070,7 +2203,7 @@
 
     const/4 v0, 0x0
 
-    .line 239
+    .line 246
     sput v0, Lfr/testudo/spacecorsair/mod/ModLanCheck;->room:F
 
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModLanCheck;->roomAt:J
@@ -2094,7 +2227,7 @@
     .registers 7
 
     .prologue
-    .line 259
+    .line 266
     if-eqz p0, :cond_b
 
     if-eqz p1, :cond_b
@@ -2110,7 +2243,7 @@
     :cond_b
     const/4 v0, 0x0
 
-    .line 260
+    .line 267
     :goto_c
     return-object v0
 
@@ -2357,7 +2490,7 @@
 
     const/16 v2, 0x15
 
-    .line 261
+    .line 268
     if-eqz p2, :cond_106
 
     const-string v0, "1"
@@ -2367,10 +2500,10 @@
 
     move-object v0, v1
 
-    .line 260
+    .line 267
     goto/16 :goto_c
 
-    .line 261
+    .line 268
     :cond_106
     const-string v0, "0"
 
@@ -2383,7 +2516,7 @@
     .prologue
     const/high16 v0, 0x3f800000    # 1.0f
 
-    .line 233
+    .line 240
     cmpl-float v1, p0, v0
 
     if-ltz v1, :cond_d

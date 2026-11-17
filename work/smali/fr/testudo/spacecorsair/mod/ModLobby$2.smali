@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 362
+    .line 377
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$2;->val$g:J
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,11 +45,11 @@
     .registers 3
 
     .prologue
-    .line 362
+    .line 377
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$2;->val$g:J
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLobby;->hostLoop(J)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$100(J)V
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$200(J)V
 
     return-void
 .end method

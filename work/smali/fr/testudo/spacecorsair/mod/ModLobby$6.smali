@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 634
+    .line 654
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$jc:Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 3
 
     .prologue
-    .line 636
+    .line 656
     const-wide/16 v0, 0xbb8
 
     :try_start_2
@@ -53,7 +53,7 @@
     :try_end_5
     .catch Ljava/lang/InterruptedException; {:try_start_2 .. :try_end_5} :catch_1f
 
-    .line 637
+    .line 657
     sget v0, Lfr/testudo/spacecorsair/mod/ModLan;->role:I
 
     if-nez v0, :cond_d
@@ -62,12 +62,12 @@
 
     if-eqz v0, :cond_e
 
-    .line 639
+    .line 659
     :cond_d
     :goto_d
     return-void
 
-    .line 638
+    .line 658
     :cond_e
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$jc:Ljava/lang/String;
 
@@ -87,7 +87,7 @@
 
     goto :goto_d
 
-    .line 636
+    .line 656
     :catch_1f
     move-exception v0
 
