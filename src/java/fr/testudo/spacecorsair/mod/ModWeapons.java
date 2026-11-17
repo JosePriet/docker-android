@@ -341,6 +341,7 @@ public final class ModWeapons {
     public static void onImpact(EnergyBullet b, Element target) {
         try {
             if (ModLance.onImpact(b, target)) return;   // v43a-17 Phoenix Lance (no family)
+            if (ModEnemyGuns.lanceRepeat(b, target)) return;   // audit F3: a Helion flagship lance passing through
             int f = familyOf(b);
             if (f < 0 || target == null) return;
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;

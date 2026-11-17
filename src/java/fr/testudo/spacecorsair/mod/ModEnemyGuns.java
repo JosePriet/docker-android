@@ -181,6 +181,8 @@ public final class ModEnemyGuns {
     public static void onLevel() {
         held.clear();
         reaver.clear(); reaverS.clear();
+        for (int i = 0; i < lances.size(); i++) if (lances.get(i).sender == lanceS.get(i)) lances.get(i).destroyedOnImpact = true;
+        lances.clear(); lanceS.clear(); lanceHit.clear(); lanceDmg.clear();
         kretari.clear(); kretariS.clear();
         ironclad.clear(); ironcladS.clear();
         for (int i = 0; i < bits.size(); i++) shrapnel.remove(bits.get(i));
@@ -223,6 +225,7 @@ public final class ModEnemyGuns {
                 burst(b, s);
                 log("burst", "reaver burst dmg=" + b.damage);
             }
+            lanceTick();
             // expired Ironclad shells and shrapnel bits (pooled bullets: unflag before reuse)
             for (int i = ironclad.size() - 1; i >= 0; i--)
                 if (!alive(ironclad.get(i), ironcladS.get(i), ModWeapons.ARTY)) { ironclad.remove(i); ironcladS.remove(i); }
@@ -263,6 +266,51 @@ public final class ModEnemyGuns {
         }
     }
 
+    // ------------------------------------------------------------------ audit F3 (owner 2026-11-17): flagship flak and lance
+    /** A Reaver flagship shell: bursts near the player like the Reaver autocannon (same range, bits and damage share). */
+    static void flak(EnergyBullet b, Element flagship) {
+        reaver.add(b); reaverS.add(flagship);
+    }
+
+    private static final ArrayList<EnergyBullet> lances = new ArrayList<EnergyBullet>();
+    private static final ArrayList<Element> lanceS = new ArrayList<Element>();
+    private static final ArrayList<java.util.Set<Element>> lanceHit = new ArrayList<java.util.Set<Element>>();
+    private static final ArrayList<Float> lanceDmg = new ArrayList<Float>();
+
+    /** A Helion flagship lance: flies through what it hits (each target once) until its range runs out. */
+    static void lance(EnergyBullet b, Element flagship) {
+        b.destroyedOnImpact = false;   // the pool's reset() sets it back
+        b.mass = 0.0f;                 // no push on the targets it passes through
+        int old = lances.indexOf(b);   // a pooled bullet used again
+        if (old >= 0) { lances.remove(old); lanceS.remove(old); lanceHit.remove(old); lanceDmg.remove(old); }
+        lances.add(b); lanceS.add(flagship); lanceHit.add(new java.util.HashSet<Element>()); lanceDmg.add(b.damage);
+        if (lances.size() > 48) {   // the oldest goes back to a normal shot
+            if (lances.get(0).sender == lanceS.get(0)) lances.get(0).destroyedOnImpact = true;
+            lances.remove(0); lanceS.remove(0); lanceHit.remove(0); lanceDmg.remove(0);
+        }
+    }
+
+    /** From ModWeapons.onImpact: true when this lance already hit the target (that contact then does no damage). */
+    static boolean lanceRepeat(EnergyBullet b, Element target) {
+        int i = lances.indexOf(b);
+        if (i < 0 || b.sender != lanceS.get(i) || target == null) return false;
+        if (lanceHit.get(i).add(target)) { b.damage = lanceDmg.get(i); return false; }
+        b.damage = 0;
+        return true;
+    }
+
+    private static void lanceTick() {
+        for (int i = lances.size() - 1; i >= 0; i--) {
+            EnergyBullet b = lances.get(i);
+            if (!alive(b, lanceS.get(i), ModWeapons.BLAST)) {
+                if (b != null && b.sender == lanceS.get(i)) b.destroyedOnImpact = true;
+                lances.remove(i); lanceS.remove(i); lanceHit.remove(i); lanceDmg.remove(i);
+                continue;
+            }
+            b.damage = lanceDmg.get(i);   // a repeat contact zeroed it for one frame
+        }
+    }
+
     private static void burst(EnergyBullet b, Element s) {
         float v = (float) Math.hypot(b.speed.x, b.speed.y);
         float base = (float) Math.toDegrees(Math.atan2(b.speed.x, -b.speed.y));
@@ -282,7 +330,7 @@ public final class ModEnemyGuns {
             bits.add(n); bitsS.add(s);
             ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(n);
         }
-        int sz = shooter(s)[1];
+        int sz = ModCapitals.cap(s) != null ? 2 : shooter(s)[1];
         ModFx.part("fx_spark", x, y, 0, 0, 180, 20, sz == 2 ? 120 : sz == 1 ? 80 : 50, 1.0f, 0.55f, 0.25f, 1.0f, true, true);
     }
 

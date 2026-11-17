@@ -89,11 +89,11 @@ public final class ModCapitals {
     /** FACTIONS order; a faction with two types alternates them over its mounts. Totals stay near the old 3 canons. */
     static final Gun[][] GUNS = {
         {new Gun(ModWeapons.RAIL, 3.0f, 2600, 26, 2800, 1, 1, 60, 0.55f, 0.95f, 1.0f)},                 // spartan rails (v43a-4: 4.2 s -> 2.8 s, the Aegis looked unarmed)
-        {new Gun(ModWeapons.AUTO, 0.3f, 220, 13, 2400, 7, 1, 120, 1.0f, 0.6f, 0.25f)},                  // reaver autocannon flak
+        {new Gun(ModWeapons.AUTO, 0.3f, 220, 13, 2400, 7, 1, 120, 1.0f, 0.6f, 0.25f)},                  // reaver flak (audit F3: shells burst near the player, ModEnemyGuns.flak)
         {new Gun(ModWeapons.AUTO, 0.55f, 750, 12, 2600, 10, 3, 90, 0.7f, 1.0f, 0.45f)},                 // kretari bio-spines
         {new Gun(ModWeapons.DISINT, 0.35f, 300, 10, 2400, 2, 1, 90, 1.0f, 0.3f, 0.35f)},                // varn disintegrators
         {new Gun(ModWeapons.ARTY, 4.0f, 3400, 11, 3800, 3, 1, 40, 1.0f, 0.6f, 0.25f)},                  // ironclad heavy artillery
-        {new Gun(ModWeapons.BLAST, 0.8f, 650, 9, 1900, 4, 1, 100, 1.0f, 0.85f, 0.45f)},                 // helion blasters
+        {new Gun(ModWeapons.BLAST, 0.8f, 650, 16, 2800, 1, 1, 100, 1.0f, 0.95f, 0.55f)},                // helion lance (audit F3: long, piercing; speed and colour of the Solar Lance, range of the Spartan rails)
         {new Gun(ModWeapons.RAIL, 3.0f, 2800, 26, 4200, 1, 1, 60, 0.55f, 0.75f, 1.0f),
          new Gun(ModWeapons.ARC, 1.2f, 900, 14, 2200, 2, 1, 90, 0.6f, 0.8f, 1.0f)},                     // warden rail + arc
     };
@@ -529,6 +529,9 @@ public final class ModCapitals {
             p.speed.add(g.speed);
             p.spin = deg;
             p.lifeTimeInMilli = (long) (gun.range * 1.15f / (gun.speed * 0.1f));
+            int fi = indexOf(c.f);
+            if (fi == ModEnemyGuns.REAVER) ModEnemyGuns.flak(p, g);          // audit F3: bursting flak shells
+            else if (fi == ModEnemyGuns.HELION) ModEnemyGuns.lance(p, g);    // audit F3: piercing lance
             ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(p);
         }
         // muzzle flash and a heavier report (fades with distance)
