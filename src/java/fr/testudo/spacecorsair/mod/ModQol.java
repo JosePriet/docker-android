@@ -55,7 +55,7 @@ public class ModQol {
 
     // ================================================================== options (SharedPreferences, defaults below)
     private static SharedPreferences prefs;
-    private static boolean optStick = true, optBars = true, optDmg = true, optBig = false;
+    private static boolean optStick = true, optBars = true, optDmg = true, optBig = false, optThreat = false;
     private static float optShake = 0.6f;
     private static boolean loaded;
 
@@ -79,6 +79,7 @@ public class ModQol {
         optBars = p.getBoolean("barNumbers", true);
         optDmg = p.getBoolean("damageNumbers", true);
         optBig = p.getBoolean("bigButtons", false);
+        optThreat = p.getBoolean("threatReadout", false);   // QoL prototype P3 (default off)
         optShake = p.getFloat("shake", 0.6f);
         loadInbox(p);
         // audit C7 (owner 2026-11-17): a new pilot gets one summary post instead of the old changelog posts;
@@ -214,6 +215,7 @@ public class ModQol {
     public static boolean barNumbers() { load(); return optBars; }
     public static boolean damageNumbers() { load(); return optDmg; }
     public static boolean bigButtons() { load(); return optBig; }
+    public static boolean threatReadout() { load(); return optThreat; }
     public static float shakeLevel() { load(); return optShake; }
 
     // ---- economy (v16.5)
@@ -297,6 +299,7 @@ public class ModQol {
             box.addView(check(a, ModLang.tr("Numbers on hull and shield bars"), "barNumbers", optBars));
             box.addView(check(a, ModLang.tr("Damage numbers"), "damageNumbers", optDmg));
             box.addView(check(a, ModLang.tr("Bigger buttons"), "bigButtons", optBig));
+            box.addView(check(a, ModLang.tr("Threat readout (engaging enemies, top level)"), "threatReadout", optThreat));   // QoL prototype P3
             final TextView st = new TextView(a);
             st.setTextColor(Color.WHITE);
             st.setText(ModLang.tr("Screen shake: ") + Math.round(optShake * 100) + "%");
@@ -332,6 +335,7 @@ public class ModQol {
                 else if ("barNumbers".equals(key)) optBars = v;
                 else if ("damageNumbers".equals(key)) optDmg = v;
                 else if ("bigButtons".equals(key)) { optBig = v; buttonsDirty = true; }
+                else if ("threatReadout".equals(key)) optThreat = v;
                 save(key, v);
             }
         });
@@ -447,6 +451,7 @@ public class ModQol {
                         GameRenderer.screenWidthY - (int) GameRenderer.shieldBar.centerPosition.y - 7, 1.0f, 0.55f, 0.85f, 1.0f, true, TextSize.LITTLE);
                 }
             }
+            if (threatReadout()) threatLine(gl, ps);   // QoL prototype P3
             int unread = ModPrologue.active ? 0 : unread();   // v46: no inbox banner during the prologue
             if (unread > 0) {
                 if (inboxText == null || unread != inboxN || GameRenderer.glTextLittle != inboxFont) {
@@ -464,6 +469,26 @@ public class ModQol {
         } catch (Exception e) {
             // HUD is cosmetic
         }
+    }
+
+    // ================================================================== QoL prototype P3: threat readout
+    private static String threatText;
+    private static int threatA = -1, threatB = -1;
+
+    /** "HOSTILES 4 · TOP Lv 47" under the shield bar while enemies engage; red when the top one is ModLive.SKULL_GAP+ levels up. */
+    private static void threatLine(GL10 gl, PlayerShip ps) {
+        int n = ModAlerts.threatN, top = ModAlerts.threatTop;
+        if (n <= 0 || GameRenderer.shieldBar == null) return;
+        if (threatText == null || n != threatA || top != threatB) {
+            threatText = ModLang.fmt("HOSTILES {0}  ·  TOP Lv {1}", n, top);
+            threatA = n;
+            threatB = top;
+        }
+        boolean skull = top - ModV34.playerLevel() >= ModLive.SKULL_GAP;
+        int x = (int) (GameRenderer.shieldBar.centerPosition.x - GameRenderer.shieldBar.witdh / 2.0f);
+        int y = GameRenderer.screenWidthY - (int) GameRenderer.shieldBar.centerPosition.y - 34;
+        if (skull) GameRenderer.drawText(gl, threatText, x, y, 1.0f, 1.0f, 0.3f, 0.25f, true, TextSize.LITTLE);
+        else GameRenderer.drawText(gl, threatText, x, y, 0.9f, 1.0f, 0.85f, 0.4f, true, TextSize.LITTLE);
     }
 
     // ================================================================== damage numbers + screen shake

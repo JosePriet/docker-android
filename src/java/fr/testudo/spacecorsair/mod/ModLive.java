@@ -200,6 +200,7 @@ public final class ModLive {
         if (e instanceof LootElement || e instanceof ModWreck) return;
         Drawable d = e.getDrawableObject();
         if (d == null) return;
+        if (e instanceof GuardianCivilShip && capOutlevels((GuardianCivilShip) e)) capSkull(e, d);   // QoL prototype P1
         boolean enemy = hostileEnemy(e);
         boolean pousee = e instanceof Ennemis ? ((Ennemis) e).isPousee
             : e instanceof fr.testudo.spacecorsair.business.world.civil.CivilShip && ((fr.testudo.spacecorsair.business.world.civil.CivilShip) e).isPousee;
@@ -222,8 +223,24 @@ public final class ModLive {
 
     /** True for a hostile enemy (not a drone) at least SKULL_GAP levels above the player. */
     static boolean outlevels(Element e) {
+        if (e instanceof GuardianCivilShip) return capOutlevels((GuardianCivilShip) e);   // QoL prototype P1
         if (!(e instanceof Ennemis) || Mod.isDrone(e)) return false;
         return ((Ennemis) e).level - ModV34.playerLevel() >= SKULL_GAP;
+    }
+
+    /** QoL prototype P1 (proposal, not approved): a hostile flagship or police titan (ModCapitals.Cap.lvl) SKULL_GAP+ levels up. */
+    static boolean capOutlevels(GuardianCivilShip g) {
+        ModCapitals.Cap c = ModCapitals.cap(g);
+        if (c == null || !(c.police || titanHostile(g, c))) return false;
+        return c.lvl - ModV34.playerLevel() >= SKULL_GAP;
+    }
+
+    /** QoL prototype P1: pulsing skull centred above a flagship / police titan hull (they have no stock level tag). */
+    private static void capSkull(Element e, Drawable d) {
+        float side = sizeOf(d);
+        float sh = SKULL_TAG_H * 1.6f, sw = sh * SKULL_ASPECT;
+        float pulse = 0.8f + 0.2f * (float) Math.sin(nowMs / 220.0d);
+        upright("icon_skull", e.position.x, e.position.y + side * 0.5f + 30.0f, sw, sh, SKULL_R, SKULL_G, SKULL_B, pulse * e.a, false);
     }
 
     /** Pulsing red skull just left of the stock level text (drawn at -w/2 - 10, or - 18 from L10, and h/2 + 8 by the game). */
@@ -412,6 +429,10 @@ public final class ModLive {
         upright("ui_boss_plate", x + 20, y + 10, pw, pw / 8.0f, 1, 1, 1, 0.95f, false);
         float ic = 64.0f;
         upright("icon_boss", x - half - 26.0f, y + 10, ic, ic, 1, 1, 1, 1, false);
+        if (outlevels(b)) {   // QoL prototype P1: bosses 5+ levels up also get the skull, left of the boss icon
+            float sh = SKULL_TAG_H * 1.4f;
+            upright("icon_skull", x - half - 26.0f - ic * 0.5f - sh * 0.6f, y + 10, sh * SKULL_ASPECT, sh, SKULL_R, SKULL_G, SKULL_B, 0.8f + 0.2f * (float) Math.sin(nowMs / 220.0d), false);
+        }
         tmp2.set(x - half + 14.0f, y);
         ObjectRegistry.INSTANCE.renderQueue.addTextToTextWaitingQueue(tmp2, false, plateText[kind], 0.78f, 0.45f, 1.0f, 1.0f, TextSize.MEDIUM);
         if (ModBoss.enragedOf(b)) {
