@@ -22,6 +22,7 @@ public final class ModIntro {
     /** GameThread.run: the top of the frame (prologue level swap); time step unchanged. */
     public static long dt(long elapsed) {
         ModPrologue.preFrame();
+        ModLan.preFrame();   // audit E8: guest back to its own missions
         return elapsed;
     }
 

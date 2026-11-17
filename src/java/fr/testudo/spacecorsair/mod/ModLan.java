@@ -1585,7 +1585,7 @@ public final class ModLan {
             Mission m = ObjectRegistry.INSTANCE.currentMission;
             if (m == null || !f.mission.equals(m.missionId) || m.missionEngine == null || m.missionEngine.isCompleted()) return;
             m.missionEngine = new AlreadyCompletedEngine();
-            try { persistId = m.missionId; persistSeen = true; lanPrefs().edit().putString("done", m.missionId).commit(); } catch (Throwable t) { /* memory only */ }
+            try { persistId = m.missionId; persistSeen = true; ModQol.prefs().edit().putString("lan_done", m.missionId).commit(); /* audit E8: in the save */ } catch (Throwable t) { /* memory only */ }
             Mod.floatText(ps, ModLang.tr("CO-OP MISSION COMPLETE"), 0.3f, 1.0f, 0.5f);
             ModDev.ev("lan", "shared mission completed " + m.missionId);
         } catch (Throwable t) {
@@ -1597,6 +1597,7 @@ public final class ModLan {
     static void setSolo(boolean on) {
         if (solo == on) return;
         solo = on;
+        if (on && role == GUEST) soloReload = true;   // audit E8 (owner): the guest's own sector is rebuilt at once
         soloReset = true;   // game thread clears the damage / XP baselines (no catch-up of what happened while apart)
         ModDev.ev("lan", "guest solo=" + on);
     }
@@ -1632,9 +1633,34 @@ public final class ModLan {
         return ObjectRegistry.INSTANCE.game.context.getSharedPreferences("corsair_lan", 0);
     }
 
+    // ------------------------------------------------------------------ audit E8: back to own missions
+    static volatile boolean soloReload;
+
+    /**
+     * ModIntro.dt, top of the frame (the prologue's level swap point, outside GameThread.doPhysic): the guest switched to
+     * its own missions, so its sector is rebuilt through the stock gate-travel path (LevelBuilder.jumpToLevel), which
+     * spawns the sector's own ships again. The player comes out at the sector's closest gate.
+     */
+    static void preFrame() {
+        if (!soloReload) return;
+        soloReload = false;
+        try {
+            if (role != GUEST || !solo) return;
+            fr.testudo.spacecorsair.game.levels.Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
+            PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+            if (lv == null || ps == null || ps.removed || ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode || ModPrologue.active) return;
+            fr.testudo.spacecorsair.business.world.Portal p = lv.findClosestPortal(ps.position);
+            if (p == null || p.portalName == null) { ModDev.ev("lan", "solo reload skipped: no gate"); return; }
+            fr.testudo.spacecorsair.game.levels.builders.LevelBuilder.jumpToLevel(lv.name, p.portalName);
+            ModDev.ev("lan", "solo: sector reloaded at " + p.portalName);
+        } catch (Throwable t) {
+            ModDev.ev("lan", "solo reload failed " + t);
+        }
+    }
+
     private static void persistedMission(PlayerShip ps) {
         try {
-            if (persistId == null) persistId = lanPrefs().getString("done", "");
+            if (persistId == null) persistId = ModQol.prefs().getString("lan_done", "");
             if (persistId.length() == 0) return;
             Mission m = ObjectRegistry.INSTANCE.currentMission;
             if (m != null && persistId.equals(m.missionId)) {
@@ -1646,7 +1672,7 @@ public final class ModLan {
             } else if (m != null || persistSeen) {   // claimed, abandoned or replaced
                 persistId = "";
                 persistSeen = false;
-                lanPrefs().edit().remove("done").commit();
+                ModQol.prefs().edit().remove("lan_done").commit();
             }
         } catch (Throwable t) {
             // checked again in 2 s
