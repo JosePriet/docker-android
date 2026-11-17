@@ -364,7 +364,10 @@ export class Registry {
       dev: await this.isDev(id),
     };
     l.joins.push(j);
-    l.joinSeq = (l.joinSeq || 0) + 1;   // GPT check R2: a session is counted only after a real join
+    // GPT check R2: a session is counted only after a real join. A repeat of a join that has not led to a session yet is
+    // the same join; a join after a counted session (a reconnect) is a new one.
+    if (!prev || (prev.seq || 0) <= (l.sessionSeq || 0)) l.joinSeq = (l.joinSeq || 0) + 1;
+    j.seq = l.joinSeq;
     const known = l.seen.has(id);
     l.seen.set(id, t);
     if (l.seen.size > 50) l.seen.delete(l.seen.keys().next().value);
