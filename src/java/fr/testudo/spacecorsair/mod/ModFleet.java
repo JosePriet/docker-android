@@ -148,9 +148,15 @@ public class ModFleet {
     }
 
     static int classOfName(String name) {
-        if (name == null) return -1;
-        for (Type t : TYPES) if (t.name.equals(name)) return classOf(t.art);
-        return -1;
+        Type t = typeOfName(name);
+        return t == null ? -1 : classOf(t.art);
+    }
+
+    /** The type behind a shown name, in either language (re-trace C4: names are shown translated). */
+    static Type typeOfName(String name) {
+        if (name == null) return null;
+        for (Type t : TYPES) if (t.name.equals(name) || ModLang.tr(t.name).equals(name)) return t;
+        return null;
     }
 
     /** Builds one ship of the given type at the given level (null if its art is not loaded yet). */
@@ -183,7 +189,7 @@ public class ModFleet {
         e.bulletDamage *= t.dmg;
         ModV34.gunsMul(e, t.dmg);   // audit F16: turret cannons too
         e.xp = (int) (e.xp * t.hp);
-        e.specificName = t.name;
+        e.specificName = ModLang.tr(t.name);   // re-trace C4: shown in the player's language
         if (cls >= 0) {   // v43a-3: scale() ran before the name was set: redo the class damage split and the big-ship shield
             try {
                 float sz = e.getPhysicDimension().x / 0.7f;

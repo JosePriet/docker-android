@@ -255,7 +255,7 @@ public final class ModCapitals {
         silenceStock(g);                            // v33: the drawn turrets fire instead (guns)
         c.shot = dmg * ModV34.curve(lvl) * DMG_MULT;   // v42: v34 level curve; v43a-6 (owner 11-14: L40 maxed titans lost <10% hull) x DMG_MULT
         c.lvl = lvl;
-        g.specificName = f.name + " flagship: " + f.ship;
+        g.specificName = ModLang.fmt("{0} flagship: {1}", ModLang.tr(f.name), ModLang.tr(f.ship));   // re-trace C4
         g.specificNameDecalX = -1;
         g.radarPointSize = 12.0f;
         g.radarColorR = f.r;
@@ -452,7 +452,7 @@ public final class ModCapitals {
                 c.hostileAnnounced = true;
                 ModRep.flagshipProvoked(c.f.key);
                 ModSound.play("flagship_horn", 1.0f, 1.0f, 3000);
-                ModQol.post(c.f.name + ModLang.tr(" flagship ") + c.f.ship + ModLang.tr(" is now hostile."), c.f.key);   // v43a-5: its commander speaks
+                ModQol.post(ModLang.fmt("{0} flagship {1} is now hostile.", ModLang.tr(c.f.name), ModLang.tr(c.f.ship)), c.f.key);   // v43a-5: its commander speaks
                 ModSound.play("warp_in", 0.6f, 0.7f, 1000);
             }
         } catch (Throwable t) {
@@ -615,8 +615,8 @@ public final class ModCapitals {
                         SpaceObjectType t = SpaceObjectType.valueOf(ModWeapons.typeName(f, 3));
                         ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.forceAddObject(SpaceObject.of(t));
                     }
-                    ModQol.post(c.f.name + ModLang.tr(" flagship ") + c.f.ship + ModLang.tr(" destroyed. Bounty: 2,000,000 credits and two Siege-tier weapons. "
-                        + "The faction will field a new flagship in about 3 hours."));
+                    ModQol.post(ModLang.fmt("{0} flagship {1} destroyed. Bounty: 2,000,000 credits and two Siege-tier weapons. "
+                        + "The faction will field a new flagship in about 3 hours.", ModLang.tr(c.f.name), ModLang.tr(c.f.ship)));
                 }
             }
         } catch (Throwable t) {

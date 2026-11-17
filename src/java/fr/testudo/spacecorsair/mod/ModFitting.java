@@ -337,7 +337,7 @@ public final class ModFitting {
         }
         if (g instanceof ShieldSpec) {
             ShieldSpec s = (ShieldSpec) g;
-            return lv + " · " + s.capacity + " HP · +" + s.reloadBySec + ModLang.tr("/s · delay ") + f1(s.deadTime / 1000f) + " s";
+            return lv + " · " + s.capacity + " " + ModLang.tr("HP") + " · +" + s.reloadBySec + ModLang.tr("/s · delay ") + f1(s.deadTime / 1000f) + " s";
         }
         if (g instanceof BoosterSpec) {
             BoosterSpec b = (BoosterSpec) g;
@@ -784,7 +784,7 @@ public final class ModFitting {
             sb.append(ModShips.className(ship));
             String tech = ModShips.techName(ship);
             if (tech.length() > 0) sb.append(" · ").append(tech);
-            if (hull != null && hull.role != null && hull.role.length() > 0) sb.append(" · ").append(hull.role);
+            if (hull != null && hull.role != null && hull.role.length() > 0) sb.append(" · ").append(ModLang.re(hull.role));
             if (spec != null && spec.sizeInformational != null) {
                 try { sb.append(" · ").append(spec.sizeInformational.getLocalizedLabel()); } catch (Throwable t) { /* no label */ }
             }

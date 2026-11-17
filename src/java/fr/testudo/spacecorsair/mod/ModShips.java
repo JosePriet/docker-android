@@ -48,7 +48,7 @@ public class ModShips {
 
         /** Skill text in the current language; the Leviathan's is built from the code's numbers (audit B11). */
         String skillText() {
-            return "hullLeviathan".equals(id) ? ModTitan.leviathanSkill() : ModLang.re(skill);
+            return "hullLeviathan".equals(id) ? ModTitan.leviathanSkill(this) : ModLang.re(skill);
         }
     }
 
@@ -596,7 +596,7 @@ public class ModShips {
 
     static String role(SpaceObjectType t) {
         Hull h = hull(t);
-        if (h != null) return h.role;
+        if (h != null) return ModLang.re(h.role);   // re-trace B10: current language
         for (String[] o : ORIGINAL) {
             if (o[0].equals(t.name())) return o[3];
         }
@@ -629,7 +629,7 @@ public class ModShips {
         Hull h = hull(t);
         if (h == null) return null;
         String f = ModShipFlavour.of(h.id);
-        return (f != null ? f : h.lore) + ModLang.tr("<br><br><font color='#d21aff'><b>SPECIAL SKILL</b></font><br>") + h.skillText() + statBlock(h);
+        return (f != null ? f : ModLang.re(h.lore)) + ModLang.tr("<br><br><font color='#d21aff'><b>SPECIAL SKILL</b></font><br>") + h.skillText() + statBlock(h);
     }
 
     /** v34 (J1): stat block generated from the hull data, so it is always correct. */

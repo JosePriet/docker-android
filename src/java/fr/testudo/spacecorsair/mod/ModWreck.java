@@ -556,7 +556,7 @@ public final class ModWreck extends Element {
     /** v35 (I4): a destroyer-size hull leaves one burnt husk (the whole sprite), gone after 2 minutes; shooting it rolls wreck loot (owner). */
     static void husk(Element e, Drawable d) {
         Texture t = d.myTexture;
-        if (t == null || t.name <= 0) return;
+        if (t == null || (t.name <= 0 && !(t instanceof ModArt.Lazy))) return;   // re-trace B15: same lazy-texture rule as breakUp
         float W, H;
         if (d instanceof ModFx.Sprite) { W = ((ModFx.Sprite) d).w; H = ((ModFx.Sprite) d).h; }
         else if (d.dimensions != null) { W = d.dimensions.x; H = d.dimensions.y; }

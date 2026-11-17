@@ -1,0 +1,165 @@
+package fr.testudo.spacecorsair.mod;
+import fr.testudo.spacecorsair.business.ennemis.*;
+import fr.testudo.spacecorsair.engine.Vector2;
+import java.lang.reflect.*;
+import fr.testudo.spacecorsair.business.ennemis.FixedTourelle;
+/** Enemy stat table from the mod's own formulas (read-only research tool). */
+public class EnemyCalc {
+ static sun.misc.Unsafe U; static { try { Field f=sun.misc.Unsafe.class.getDeclaredField("theUnsafe"); f.setAccessible(true); U=(sun.misc.Unsafe)f.get(null);} catch(Exception e){throw new RuntimeException(e);} }
+ static Object mk(Class<?> c) throws Exception { return U.allocateInstance(c); }
+ static final int[] L={10,20,30,40};
+ static final int N=3000; // tier samples
+ // result: hull, shield, dps(raw, before pilot)
+ static float canonMul=1f; static java.util.function.Consumer<Ennemis> policeC=null;
+ static interface PR{void run(Ennemis e);} static PR police=null;
+ static float[] stat(Class<?> c, EnnemisSpec[] t, int lv, boolean elite, int dpsKind, int canons, float phys, ModFleet.Type ft) throws Exception {
+  double h=0,s=0,d=0;
+  for(int k=0;k<N;k++){
+   int idx=Math.max(0,Math.min(t.length-1,lv)); EnnemisSpec sp=t[idx];
+   Ennemis e=(Ennemis)mk(c);
+   e.level=idx; e.maxLife=sp.life; e.life=sp.life; e.bulletDamage=sp.shootDamage; e.milleSecBetweenShots=Math.max(1,sp.shootReload); e.xp=1; e.levelStr="";
+   if(phys>0){ try{ Field pf=c.getDeclaredField("phys"); pf.setAccessible(true); pf.set(e,new Vector2(phys*0.7f,phys*0.7f)); }catch(NoSuchFieldException ne){} }
+   if(e instanceof FrelonShip && sp.shieldSpec!=null){ fr.testudo.spacecorsair.business.player.Shield sh=(fr.testudo.spacecorsair.business.player.Shield)mk(fr.testudo.spacecorsair.business.player.Shield.class); sh.capacity=sp.shieldSpec.capacity; sh.currentValue=sh.capacity; ((FrelonShip)e).shield=sh; }
+   ModV34.want(lv); ModV34.scale(e);
+   if(ft!=null){ // ModFleet.build tail
+    e.specificName=ft.name;
+    int cls=ModFleet.classOf(ft.art);
+    if(cls>=0){ float base=ModV34.baseHull(Math.max(0,Math.min(EnnemisSpecByLevel.albatrosSpec.length-1,lv))); if(base>0) e.maxLife=base*ModV34.classFactor(cls)*ModV34.curve(e.getLevel()); }
+    e.maxLife*=ft.hp; e.bulletDamage*=ft.dmg;
+    if(cls>=0){ float sz=phys; int sc= sz<=100?ModShips.FRIGATE: sz<=200?ModShips.DESTROYER: sz<=320?ModShips.CRUISER: sz<=420?ModShips.BATTLECRUISER: sz<=600?ModShips.BATTLESHIP:ModShips.CAPITAL; e.bulletDamage*=ModV34.dmgClass(cls)/ModV34.dmgClass(sc); ModV34.giveShield(e, Math.max(0,Math.min(EnnemisSpecByLevel.albatrosSpec.length-1,lv)), e.getLevel()); }
+   }
+   if(police!=null) police.run(e);
+   if(elite){ e.elite=true; ModV34.elite(e); stockElite(e); }
+   h+=e.maxLife; ModV34.Sh bs=ModV34.bigShield.get(e); float shd=bs!=null?bs.cap:0;
+   if(e instanceof FrelonShip && ((FrelonShip)e).shield!=null) shd+=((FrelonShip)e).shield.capacity;
+   s+=shd;
+   double dps;
+   if(dpsKind==0){ int n=1; int gap=0; if(e instanceof TaupeShip){n=6;gap=125;} else if(e instanceof FrelonShip){n=3;gap=200;}
+     dps=n*e.bulletDamage*1000.0/(e.milleSecBetweenShots+(n-1)*gap); }   // own gun; Taupe 6-shot / Frelon 3-shot bursts
+   else if(dpsKind==1) dps=sp.shootDamage*2.0;                            // beam: raw spec damage (copied before scale), one tick per 500 ms
+   else { int gap=(elite && e instanceof DefensorShip)?210:300; dps=canons*3.0*Math.round(sp.shootDamage*canonMul)*1000.0/(Math.max(1,sp.shootReload)+2*gap); } // EnnemisCanon: raw stock row, 3-shot burst, 300 ms gaps
+   d+=dps;
+  }
+  return new float[]{(float)(h/N),(float)(s/N),(float)(d/N)};
+ }
+ /** Stock subclass setElite() factors applied after super.setElite() (which runs the ModV34.elite hook). */
+ static void stockElite(Ennemis e){
+  if(e instanceof Albatros){ e.maxLife*=3; e.bulletDamage*=1.7f; }
+  else if(e instanceof DefensorShip){ e.maxLife*=3; e.bulletDamage*=1.7f; }
+  else if(e instanceof BasicEnnemyShip){ e.maxLife*=4; e.bulletDamage*=1.3f; }
+  else if(e instanceof FrelonShip){ e.maxLife*=3; e.bulletDamage*=1.5f; e.milleSecBetweenShots=(long)(e.milleSecBetweenShots*0.8f); FrelonShip f=(FrelonShip)e; if(f.shield!=null) f.shield.capacity*=2; }
+  else if(e instanceof AlienRat){ e.maxLife*=3; e.bulletDamage*=3; e.milleSecBetweenShots=(long)(e.milleSecBetweenShots*0.6f); }
+  else if(e instanceof UfoAlienShip){ e.maxLife*=3; e.bulletDamage*=2; }
+  else if(e instanceof AlienBlatte){ e.maxLife*=4; e.bulletDamage*=3; e.milleSecBetweenShots=(long)(e.milleSecBetweenShots*0.6f); }
+  else if(e instanceof TaupeShip){ e.maxLife*=3; e.bulletDamage*=1.7f; }
+ }
+ static float pil(int lv, boolean elite, boolean boss){ int es=ModV34.statBase(lv)+(elite?150:0)+(boss?300:0); return ModV34.pilot(Math.min(1000,es), ModV34.statBase(lv)); }
+ static String f(float v){ return v>=10000? String.format("%,.0fk",v/1000): String.format("%,.0f",v); }
+ static void row(String name, Class<?> c, EnnemisSpec[] t, int kind, int canons, float phys, ModFleet.Type ft, int minL) throws Exception {
+  for(int el=0;el<2;el++){ StringBuilder r=new StringBuilder("| "+name+(el==1?" (elite)":"")+" |");
+   for(int lv:L){ if(lv<minL){ r.append(" - |"); continue; }
+    float[] v=stat(c,t,lv,el==1,kind,canons,phys,ft);
+    r.append(" "+f(v[2]*pil(lv,el==1,false))+" / "+f(v[0])+" / "+(v[1]>0?f(v[1]):"0")+" |"); }
+   System.out.println(r); }
+ }
+ public static void main(String[] a) throws Exception {
+  System.out.println("| Enemy | L10 DPS / hull / shield | L20 | L30 | L40 |"); System.out.println("|---|---|---|---|---|");
+  row("Basic pirate (frigate)", BasicEnnemyShip.class, EnnemisSpecByLevel.BasciEnnemisSpec,0,0,0,null,0);
+  row("Taupe (frigate)", TaupeShip.class, EnnemisSpecByLevel.TaupeSpec,0,0,0,null,0);
+  row("Defensor (destroyer)", DefensorShip.class, EnnemisSpecByLevel.defensorSpec,2,1,0,null,0);
+  row("Alien Rat (destroyer)", AlienRat.class, EnnemisSpecByLevel.alienRatSpec,0,0,0,null,0);
+  row("UFO (cruiser, beam)", UfoAlienShip.class, EnnemisSpecByLevel.UfoSpec,1,0,0,null,0);
+  row("Frelon (battlecruiser)", FrelonShip.class, EnnemisSpecByLevel.FrelonSpec,0,0,0,null,0);
+  row("Albatros (battleship)", Albatros.class, EnnemisSpecByLevel.albatrosSpec,2,3,0,null,0);
+  row("Alien Blatte (capital)", AlienBlatte.class, EnnemisSpecByLevel.alienBlatteSpec,0,0,0,null,0);
+  row("Fixed turret", FixedTourelle.class, EnnemisSpecByLevel.tourelleEnnemisSpec,0,0,0,null,0);
+  row("Alien turret", AlienTourelle.class, EnnemisSpecByLevel.alienTourelleSpec,0,0,0,null,0);
+  System.out.println(); System.out.println("FLEET");
+  for(ModFleet.Type t: ModFleet.TYPES){
+   Class<?> c; EnnemisSpec[] tab; int kind=0,can=0;
+   switch(t.ai){ case ModFleet.BASIC: c=ModFleet.Fighter.class; tab=EnnemisSpecByLevel.BasciEnnemisSpec; break;
+    case ModFleet.FRELON: c=ModFleet.Raider.class; tab=EnnemisSpecByLevel.FrelonSpec; break;
+    case ModFleet.DEFENSOR: c=ModFleet.Gunship.class; tab=EnnemisSpecByLevel.defensorSpec; kind=2; can=1; break;
+    case ModFleet.ALBATROS: c=ModFleet.Cruiser.class; tab=EnnemisSpecByLevel.albatrosSpec; kind=2; can=3; break;
+    case ModFleet.RAT: c=ModFleet.Skirmisher.class; tab=EnnemisSpecByLevel.alienRatSpec; break;
+    case ModFleet.UFO: c=ModFleet.BeamShip.class; tab=EnnemisSpecByLevel.UfoSpec; kind=1; break;
+    default: c=ModFleet.Mothership.class; tab=EnnemisSpecByLevel.alienBlatteSpec; }
+   row(t.name+" [min L"+ModV34.lvl(t.minLevel)+"]", c, tab, kind, can, t.size, t, ModV34.lvl(t.minLevel));
+  }
+
+  // ---------------- police (ModPolice.build) by class
+  System.out.println(); System.out.println("POLICE (built waves, always elite; level = sector top)");
+  String[] cn={"Frigate","Destroyer","Cruiser","Battlecruiser","Battleship","Capital"};
+  for(int cls=0;cls<6;cls++){
+   final int fc=cls; int ai=ModPoliceData.AI[cls]; int size=ModPoliceData.CLASS_SIZE[cls];
+   Class<?> c; EnnemisSpec[] tab; int kind=0,can=0;
+   switch(ai){ case ModFleet.BASIC: c=ModFleet.Fighter.class; tab=EnnemisSpecByLevel.BasciEnnemisSpec; break;
+    case ModFleet.DEFENSOR: c=ModFleet.Gunship.class; tab=EnnemisSpecByLevel.defensorSpec; kind=2; can=1; break;
+    case ModFleet.FRELON: c=ModFleet.Raider.class; tab=EnnemisSpecByLevel.FrelonSpec; break;
+    default: c=ModFleet.Cruiser.class; tab=EnnemisSpecByLevel.albatrosSpec; kind=2; can=3; }
+   final EnnemisSpec[] ft=tab;
+   StringBuilder r=new StringBuilder("| Police "+cn[cls]+" |");
+   for(int lv:L){
+    police=new PR(){public void run(Ennemis e){
+     int idx=Math.max(0,Math.min(ft.length-1,lv));
+     float base=ModV34.baseHull(idx); if(base>0) e.maxLife=ModPolice.hull(base,fc,e.getLevel()); else e.maxLife*=ModPolice.HULL_BONUS;
+     e.bulletDamage*=ModPolice.DMG_BONUS;
+     if(fc>=ModShips.BATTLECRUISER){ if(e instanceof FrelonShip){ FrelonShip f=(FrelonShip)e; if(f.shield!=null) f.shield.capacity*=ModPolice.SHIELD_BONUS; } else { ModV34.Sh b=ModV34.bigShield.get(e); if(b!=null){ b.cap*=ModPolice.SHIELD_BONUS; } } }
+    }};
+    canonMul = ai==ModFleet.ALBATROS? ModPolice.DMG_BONUS:1f;
+    float[] v=stat(c,tab,lv,true,kind,can,size,null);
+    police=null; canonMul=1f;
+    // missiles: frigate every 5 s, BS/capital every 8 s, 2x bulletDamage (needs the bulletDamage; recompute it)
+    r.append(" "+f(v[2]*pil(lv,true,false))+" / "+f(v[0])+" / "+(v[1]>0?f(v[1]):"0")+" |");
+   }
+   System.out.println(r);
+  }
+  // police missile DPS check (bulletDamage after build)
+  System.out.println("POLICE missile DPS (2x bulletDamage / 5 s frigate, / 8 s BS+cap):");
+  for(int cls: new int[]{0,4,5}){
+   final int fc=cls; int ai=ModPoliceData.AI[cls]; int size=ModPoliceData.CLASS_SIZE[cls];
+   Class<?> c= ai==ModFleet.BASIC? ModFleet.Fighter.class: ModFleet.Cruiser.class; EnnemisSpec[] tab= ai==ModFleet.BASIC? EnnemisSpecByLevel.BasciEnnemisSpec: EnnemisSpecByLevel.albatrosSpec;
+   StringBuilder r=new StringBuilder("  "+cn[cls]+":");
+   for(int lv:L){ police=new PR(){public void run(Ennemis e){ e.bulletDamage*=ModPolice.DMG_BONUS; }};
+    float[] v=stat(c,tab,lv,true,0,0,size,null); police=null;
+    // v[2] = bulletDamage*1000/reload; recover bulletDamage approx by multiplying reload: use separate calc
+    // bulletDamage per shot = v[2]/1000*reload is not recoverable here; use a direct build
+    Ennemis e=(Ennemis)mk(c); int idx=Math.max(0,Math.min(tab.length-1,lv)); EnnemisSpec sp=tab[idx]; double bd=0;
+    for(int k=0;k<N;k++){ e=(Ennemis)mk(c); e.level=idx; e.maxLife=sp.life; e.bulletDamage=sp.shootDamage; e.milleSecBetweenShots=Math.max(1,sp.shootReload); e.levelStr="";
+     try{ Field pf=c.getDeclaredField("phys"); pf.setAccessible(true); pf.set(e,new Vector2(size*0.7f,size*0.7f)); }catch(NoSuchFieldException ne){}
+     ModV34.want(lv); ModV34.scale(e); e.bulletDamage*=ModPolice.DMG_BONUS; e.elite=true; ModV34.elite(e); stockElite(e); bd+=e.bulletDamage; }
+    bd/=N; double md=2*bd/(cls==0?5.0:8.0)*pil(lv,true,false);
+    r.append(" L"+lv+" "+f((float)md)); }
+   System.out.println(r);
+  }
+  // ---------------- stock PoliceShip patrols and non-Reaver/Kre'tari faction wings (CivilFactory.newPolice, policeSpec, no v34 curve)
+  System.out.println(); System.out.println("STOCK PATROL / FACTION WING (PoliceShip): 2 canons x 3-shot burst, policeSpec row, no level curve");
+  { EnnemisSpec[] t=fr.testudo.spacecorsair.business.world.civil.CivilSpecByLevel.policeSpec; StringBuilder r=new StringBuilder("| Patrol cruiser |");
+   for(int lv:L){ EnnemisSpec sp=t[Math.min(t.length-1,lv)]; int ix=Math.min(t.length-1,lv); int rf= ix<=8?2: ix<=13?3:4; float dps=2f*rf*sp.shootDamage*1000f/(sp.shootReload+(rf-1)*300); r.append(" "+f(dps*ModV34.pilot(ModV34.statBase(lv),ModV34.statBase(lv)))+" / "+f(sp.life)+" / 0 |"); }
+   System.out.println(r); }
+  // ---------------- flagships and police titans
+  System.out.println(); System.out.println("FLAGSHIPS (3x) and POLICE TITANS (x1.2 shot, x1.2 rate, x1.2 hull/shield, +40% overshield)");
+  for(int fi=0;fi<ModCapitals.FACTIONS.length;fi++){
+   ModCapitals.Faction fa=ModCapitals.FACTIONS[fi]; int n=ModCapitalData.mounts(fa.key).length/2; ModCapitals.Gun[] gs=ModCapitals.GUNS[fi];
+   for(int pol=0;pol<2;pol++){ StringBuilder r=new StringBuilder("| "+(pol==1?"Police titan ":"Flagship ")+fa.ship+" ("+n+" mounts) |");
+    for(int lv:L){ EnnemisSpec[] al=EnnemisSpecByLevel.albatrosSpec; float bd=al[Math.min(al.length-1,lv)].shootDamage;
+     float shot=(int)Math.max(40,bd*3)*ModV34.curve(lv)*ModCapitals.DMG_MULT; float rate=1f, m=pol==1?ModPoliceTitan.POLICE_TITAN_MULT:1f; shot*=m; rate*=m;
+     double dps=0; for(int k=0;k<n;k++){ ModCapitals.Gun g=gs[k%gs.length]; dps+=shot*g.dmg*g.shots*1000.0/(g.reload/rate); }
+     float hull=(500000f+30000f*lv)*ModCapitals.HULL_MULT[fi]*m; float[] sh=ModV34.shieldStats(lv,lv,ModShips.TITAN); float shield=sh[0]*ModCapitals.SHIELD_MULT[fi]*(pol==1?ModPoliceTitan.POLICE_TITAN_SHIELD_MULT:1f);
+     float over= pol==1? hull*ModPoliceTitan.OVER_FRAC:0;
+     boolean drones= pol==1 || fi==0; double ddps= drones? 3.5*shot*ModCapitals.GUNS[0][0].dmg*ModAegisDrones.RAIL_SHARE*1000.0/ModAegisDrones.RAIL_MS:0;
+     float p=ModV34.pilot(ModV34.statBase(lv),ModV34.statBase(Math.max(0,lv-2)));
+     r.append(" "+f((float)(dps*p))+(drones?" +"+f((float)(ddps*p))+"d":"")+" / "+f(hull)+(over>0?" +"+f(over)+"os":"")+" / "+f(shield)+" (regen "+f(sh[1]*ModCapitals.SHIELD_MULT[fi]*(pol==1?1.2f:1f))+"/s) |"); }
+    System.out.println(r); }
+  }
+  System.out.println("drone hull at L40 flagship/police titan = 2% of carrier hull");
+  // ---------------- station turrets
+  System.out.println(); System.out.println("STATION TURRETS per turret DPS (outpost/mining x1.5, faction base x2.5 of a same-level destroyer); level = sector top");
+  { StringBuilder r=new StringBuilder("|");
+   for(int lv: new int[]{7,13,16,28,31,34,37,40}) r.append(" top L"+lv+": "+f(ModStationGuns.destroyerDps(lv)*1.5f)+" / "+f(ModStationGuns.destroyerDps(lv)*2.5f)+" |");
+   System.out.println(r); }
+  // ---------------- pilot multipliers
+  System.out.println(); System.out.print("pilot x (same level, no story): normal/elite/boss:"); for(int lv:L) System.out.printf(" L%d %.2f/%.2f/%.2f", lv, pil(lv,false,false), pil(lv,true,false), pil(lv,false,true)); System.out.println();
+  System.out.print("curve:"); for(int lv:L) System.out.printf(" L%d %.3f",lv,ModV34.curve(lv)); System.out.println();
+ }
+}

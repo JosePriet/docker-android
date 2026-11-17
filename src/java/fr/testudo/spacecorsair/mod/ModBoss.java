@@ -67,7 +67,7 @@ public class ModBoss extends MissionListener {
     public static String text(int id) {
         int k = id - TEXT_BASE;
         if (k >= 0 && k < 3) return briefing(k);
-        if (k >= 10 && k < 13) return "<b>" + NAMES[k - 10] + ModLang.tr("</b> destroyed.<br><br>") + DONE;
+        if (k >= 10 && k < 13) return ModLang.fmt("<b>{0}</b> destroyed.<br><br>", ModLang.tr(NAMES[k - 10])) + ModLang.re(DONE);   // re-trace C2/B10
         String f = ModFaction.text(id);
         if (f != null) return f;
         // v29: game classes that read their texts in static initializers (ShieldBonuses, AlterationSpecs, ...) can be
@@ -686,7 +686,7 @@ public class ModBoss extends MissionListener {
 
     private String instruction() {
         if (completed) {
-            return inHub ? ModLang.tr("Dock at ") + station + ModLang.tr(" to claim your reward") : ModLang.tr("Return to ") + hub.levelName;
+            return inHub ? ModLang.fmt("Dock at {0} to claim your reward", station) : ModLang.fmt("Return to {0}", hub.levelName);   // re-trace C6
         }
         if (!inZone) {
             return ModLang.fmt("Go to {0} and hunt the {1}", zone.levelName, ModLang.tr(NAMES[kind]));

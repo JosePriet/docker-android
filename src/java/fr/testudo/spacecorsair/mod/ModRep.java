@@ -143,10 +143,10 @@ public final class ModRep {
         if (r1 > r0 && r1 >= FRIENDLY) msg = ModLang.tr(ModRepData.RANK_UP[i][r1 - FRIENDLY]);
         else if (r1 < r0 && r1 <= UNFRIENDLY) msg = ModLang.tr(ModRepData.RANK_DOWN[i][r1 == UNFRIENDLY ? 0 : 1]);
         ModCapitals.Faction f = ModCapitals.FACTIONS[ModFaction.faction(key)];
-        String head = f.name + ModLang.tr(": you are now ") + ModLang.tr(ModRepData.RANKS[i][r1]) + " (" + ModLang.tr(ModLang.re(RANK_NAMES[r1])) + ").";
+        String head = ModLang.fmt("{0}: you are now {1} ({2}).", ModLang.tr(f.name), ModLang.tr(ModRepData.RANKS[i][r1]), ModLang.tr(ModLang.re(RANK_NAMES[r1])));   // re-trace C6
         ModQol.post(head + (msg != null ? " " + ModFactionData.COMMANDER[ModFaction.commander(key)] + ": \"" + msg + "\"" : "")
-            + (r1 == TRUSTED && r0 < TRUSTED ? " The " + ModRepData.SECRET_WEAPON[i][0] + ModLang.tr(" is now sold at ") + ModFaction.pretty(f.hq) + "." : "")
-            + (r1 == HONORED && r0 < HONORED ? " The " + ModRepData.SECRET_SHIP[i][0] + ModLang.tr(" is now offered to you on the Ships screen.") : ""), key);
+            + (r1 == TRUSTED && r0 < TRUSTED ? " " + ModLang.fmt("The {0} is now sold at {1}.", ModLang.tr(String.valueOf(ModRepData.SECRET_WEAPON[i][0])), ModFaction.pretty(f.hq)) : "")
+            + (r1 == HONORED && r0 < HONORED ? " " + ModLang.fmt("The {0} is now offered to you on the Ships screen.", ModLang.tr(String.valueOf(ModRepData.SECRET_SHIP[i][0]))) : ""), key);
         // v43a-5: the commander's pop-up dialog (ModNotify via ModQol.post) replaces the small 9 s comms panel
         if (r1 > r0) ModSound.play("rank_up", 0.8f, 1.0f, 500);
         stocked.clear();     // re-check the HQ shop for the secret weapon

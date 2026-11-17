@@ -2601,8 +2601,8 @@
     :try_start_8
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModMap;->territory(Lfr/testudo/spacecorsair/game/levels/LevelId;)V
     :try_end_b
-    .catch Ljava/lang/Throwable; {:try_start_8 .. :try_end_b} :catch_137
-    .catch Ljava/lang/Exception; {:try_start_8 .. :try_end_b} :catch_10d
+    .catch Ljava/lang/Throwable; {:try_start_8 .. :try_end_b} :catch_14e
+    .catch Ljava/lang/Exception; {:try_start_8 .. :try_end_b} :catch_12a
 
     .line 757
     :goto_b
@@ -2669,7 +2669,7 @@
     aget-object v3, v1, v2
 
     .line 766
-    if-nez v3, :cond_8f
+    if-nez v3, :cond_ac
 
     .line 768
     new-instance v3, Ljava/lang/StringBuilder;
@@ -2679,31 +2679,51 @@
     .line 769
     sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->GALACTIC_ARENA:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
-    if-eq p0, v1, :cond_6a
+    if-eq p0, v1, :cond_87
 
     sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->FFA_THE_PLAYER_PAY:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
-    if-eq p0, v1, :cond_6a
-
-    iget v1, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
-
-    iget v4, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
-
-    if-ne v1, v4, :cond_110
+    if-eq p0, v1, :cond_87
 
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v4, "Lv "
+    const-string v4, "Lv"
+
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v4
 
     invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v1
 
-    iget v4, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
+    const-string v4, " "
 
-    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v4
+
+    iget v1, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
+
+    iget v5, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
+
+    if-ne v1, v5, :cond_12d
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v5, ""
+
+    invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    iget v5, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
+
+    invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v1
 
@@ -2711,21 +2731,29 @@
 
     move-result-object v1
 
-    :goto_67
+    :goto_7c
+    invoke-virtual {v4, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
     invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 770
-    :cond_6a
+    :cond_87
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModQol;->SHOPS:[Lfr/testudo/spacecorsair/game/levels/LevelId;
 
     array-length v4, v1
 
-    :goto_6d
-    if-ge v0, v4, :cond_7c
+    :goto_8a
+    if-ge v0, v4, :cond_99
 
     aget-object v5, v1, v0
 
-    if-ne v5, p0, :cond_133
+    if-ne v5, p0, :cond_14a
 
     const-string v0, "  $ shop"
 
@@ -2736,7 +2764,7 @@
     invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 771
-    :cond_7c
+    :cond_99
     invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v3
@@ -2760,7 +2788,7 @@
     aput-object v3, v0, v2
 
     .line 775
-    :cond_8f
+    :cond_ac
     iget v0, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
 
     iget v1, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
@@ -2897,57 +2925,51 @@
     goto/16 :goto_7
 
     .line 786
-    :catch_10d
+    :catch_12a
     move-exception v0
 
     goto/16 :goto_7
 
     .line 769
-    :cond_110
+    :cond_12d
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v4, "Lv "
+    iget v5, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
 
-    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    iget v4, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
-
-    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v1
 
-    const-string v4, "-"
+    const-string v5, "-"
 
-    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v1
 
-    iget v4, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
+    iget v5, p0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
 
-    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-    :try_end_130
-    .catch Ljava/lang/Exception; {:try_start_b .. :try_end_130} :catch_10d
+    :try_end_147
+    .catch Ljava/lang/Exception; {:try_start_b .. :try_end_147} :catch_12a
 
     move-result-object v1
 
-    goto/16 :goto_67
+    goto/16 :goto_7c
 
     .line 770
-    :cond_133
+    :cond_14a
     add-int/lit8 v0, v0, 0x1
 
-    goto/16 :goto_6d
+    goto/16 :goto_8a
 
     .line 756
-    :catch_137
+    :catch_14e
     move-exception v1
 
     goto/16 :goto_b
@@ -6162,7 +6184,7 @@
 
     monitor-enter v3
     :try_end_b
-    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_b} :catch_91
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_b} :catch_95
 
     .line 666
     :try_start_b
@@ -6276,7 +6298,7 @@
     .line 672
     monitor-exit v3
     :try_end_6c
-    .catchall {:try_start_b .. :try_end_6c} :catchall_8e
+    .catchall {:try_start_b .. :try_end_6c} :catchall_92
 
     .line 673
     :try_start_6c
@@ -6304,6 +6326,10 @@
 
     const-string v1, "OK"
 
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     const/4 v2, 0x0
 
     invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
@@ -6311,32 +6337,32 @@
     move-result-object v0
 
     invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
-    :try_end_8d
-    .catch Ljava/lang/Exception; {:try_start_6c .. :try_end_8d} :catch_91
+    :try_end_91
+    .catch Ljava/lang/Exception; {:try_start_6c .. :try_end_91} :catch_95
 
     .line 677
-    :goto_8d
+    :goto_91
     return-void
 
     .line 672
-    :catchall_8e
+    :catchall_92
     move-exception v0
 
-    :try_start_8f
+    :try_start_93
     monitor-exit v3
-    :try_end_90
-    .catchall {:try_start_8f .. :try_end_90} :catchall_8e
+    :try_end_94
+    .catchall {:try_start_93 .. :try_end_94} :catchall_92
 
-    :try_start_90
+    :try_start_94
     throw v0
-    :try_end_91
-    .catch Ljava/lang/Exception; {:try_start_90 .. :try_end_91} :catch_91
+    :try_end_95
+    .catch Ljava/lang/Exception; {:try_start_94 .. :try_end_95} :catch_95
 
     .line 674
-    :catch_91
+    :catch_95
     move-exception v0
 
-    goto :goto_8d
+    goto :goto_91
 .end method
 
 .method static source(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Ljava/lang/String;

@@ -174,7 +174,7 @@
 
     if-eqz v0, :cond_f
 
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTitan;->leviathanSkill()Ljava/lang/String;
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTitan;->leviathanSkill(Lfr/testudo/spacecorsair/mod/ModShips$Hull;)Ljava/lang/String;
 
     move-result-object v0
 

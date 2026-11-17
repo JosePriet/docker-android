@@ -2564,7 +2564,7 @@
     :cond_fa
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/shield/ShieldSpec;
 
-    if-eqz v2, :cond_143
+    if-eqz v2, :cond_153
 
     .line 339
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/shield/ShieldSpec;
@@ -2590,7 +2590,23 @@
 
     move-result-object v1
 
-    const-string v2, " HP \u00b7 +"
+    const-string v2, " "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "HP"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " \u00b7 +"
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -2639,10 +2655,10 @@
     goto/16 :goto_9
 
     .line 342
-    :cond_143
+    :cond_153
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
 
-    if-eqz v2, :cond_192
+    if-eqz v2, :cond_1a2
 
     .line 343
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;
@@ -2650,7 +2666,7 @@
     .line 344
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/booster/BoosterSpec;->boosterEnabled:Z
 
-    if-nez v2, :cond_155
+    if-nez v2, :cond_165
 
     const-string v0, "No booster fitted"
 
@@ -2661,7 +2677,7 @@
     goto/16 :goto_9
 
     .line 345
-    :cond_155
+    :cond_165
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -2723,10 +2739,10 @@
     goto/16 :goto_9
 
     .line 347
-    :cond_192
+    :cond_1a2
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
 
-    if-eqz v2, :cond_1cd
+    if-eqz v2, :cond_1dd
 
     .line 348
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;
@@ -2734,7 +2750,7 @@
     .line 349
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/Hyperdrive/HyperdriveEngineSpec;->enabled:Z
 
-    if-nez v2, :cond_1a4
+    if-nez v2, :cond_1b4
 
     const-string v0, "No hyperdrive fitted"
 
@@ -2745,7 +2761,7 @@
     goto/16 :goto_9
 
     .line 350
-    :cond_1a4
+    :cond_1b4
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -2787,10 +2803,10 @@
     goto/16 :goto_9
 
     .line 352
-    :cond_1cd
+    :cond_1dd
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    if-eqz v2, :cond_21e
+    if-eqz v2, :cond_22e
 
     .line 353
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
@@ -2870,7 +2886,7 @@
 
     goto/16 :goto_9
 
-    :cond_21e
+    :cond_22e
     move-object v0, v1
 
     .line 356
