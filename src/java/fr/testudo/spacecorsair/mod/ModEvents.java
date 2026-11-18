@@ -177,7 +177,7 @@ public final class ModEvents {
     }
 
     private static void startBounty(PlayerShip ps, LevelId here) {
-        int lv = Math.min(40, Math.max(1, here.levelMax) + 2);
+        int lv = Math.max(1, here.levelMax);   // v57 leveling P4 (owner OK 2026-11-18): inside the sector band (was top + 2)
         Element e = ModSector.wingShip("reaver", lv, true);
         if (!(e instanceof Ennemis)) return;
         Ennemis w = (Ennemis) e;

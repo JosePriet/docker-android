@@ -1423,17 +1423,9 @@
     const v8, 0x3e99999a    # 0.3f
 
     .line 180
-    const/16 v0, 0x28
+    iget v0, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
 
-    iget v1, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
-
-    invoke-static {v2, v1}, Ljava/lang/Math;->max(II)I
-
-    move-result v1
-
-    add-int/lit8 v1, v1, 0x2
-
-    invoke-static {v0, v1}, Ljava/lang/Math;->min(II)I
+    invoke-static {v2, v0}, Ljava/lang/Math;->max(II)I
 
     move-result v0
 
@@ -1447,14 +1439,14 @@
     .line 182
     instance-of v1, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-nez v1, :cond_1d
+    if-nez v1, :cond_15
 
     .line 201
-    :goto_1c
+    :goto_14
     return-void
 
     .line 183
-    :cond_1d
+    :cond_15
     check-cast v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     .line 184
@@ -1476,7 +1468,7 @@
     move-result-object v1
 
     .line 186
-    if-eqz v1, :cond_3d
+    if-eqz v1, :cond_35
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -1488,9 +1480,9 @@
 
     cmpg-float v2, v2, v3
 
-    if-gez v2, :cond_45
+    if-gez v2, :cond_3d
 
-    :cond_3d
+    :cond_35
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     const/high16 v2, 0x457a0000    # 4000.0f
@@ -1500,7 +1492,7 @@
     move-result-object v1
 
     .line 187
-    :cond_45
+    :cond_3d
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {v2, v1}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1686,7 +1678,7 @@
 
     invoke-static {p0, v0, v1, v8, v8}, Lfr/testudo/spacecorsair/mod/Mod;->floatText(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    goto/16 :goto_1c
+    goto/16 :goto_14
 .end method
 
 .method private static startDistress(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/game/levels/LevelId;)V

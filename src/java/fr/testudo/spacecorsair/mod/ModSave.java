@@ -57,6 +57,7 @@ public class ModSave {
                     pi.availShips.add(SpaceObjectType.defaultPlayerShip);
                 }
                 ModV34.refundIndustrials(pi);
+                ModV34.relevel(pi);   // v57 leveling P1: once per profile
                 if (g != null && !pi.availShips.contains(g.playerShip)) {
                     g.playerShip = SpaceObjectType.defaultPlayerShip;
                 }

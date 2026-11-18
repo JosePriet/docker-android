@@ -831,6 +831,7 @@
 "Neutral hull: -15%": "Casco neutral: -15%",
 "Neutral hull: -15% damage with faction weapons": "Casco neutral: -15% de daño con armas de facción",
 "New gear tier unlocked": "Nuevo grado de equipo desbloqueado",
+"New leveling curve: your XP now puts you at level {0} (was {1}).": "Nueva curva de niveles: tu XP te deja en el nivel {0} (antes {1}).",
 "New ships you can fly: {0}.": "Nuevas naves que puedes pilotar: {0}.",
 "New ships: ": "Nuevas naves: ",
 "Next level": "Siguiente nivel",
