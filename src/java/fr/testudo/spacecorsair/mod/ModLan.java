@@ -154,6 +154,10 @@ public final class ModLan {
             if (lanCode.length() == 4 && lanCode.equals(code)) return OK;
             if (code.length() == 0) return BADCODE;   // asked for the code: not a wrong try
             if (b == null) {
+                if (badCodes.size() >= 256) {   // cross-check: expired entries go first
+                    java.util.Iterator<long[]> it = badCodes.values().iterator();
+                    while (it.hasNext()) if (now - it.next()[1] > 600000) it.remove();
+                }
                 if (badCodes.size() >= 256) return KICKED;   // verify 3: a flood of addresses gets no free tries
                 b = new long[]{0, now};
                 badCodes.put(addr, b);
@@ -1701,7 +1705,7 @@ public final class ModLan {
         if (v == null || v.equals(testLast)) return;
         testLast = v;
         ModDev.ev("lan", "test switch " + v);
-        if (v.equals("host")) { host(); autoAccept = true; }   // the scripted peer has nobody to tap Accept
+        if (v.equals("host")) { host(true); autoAccept = true; }   // the scripted peer has nobody to tap Accept (public room: it sends no code)
         else if (v.equals("off")) stop();
         else if (v.equals("duel")) { pvpRoom = true; duel(true); }
         else if (v.equals("duel-off")) duel(false);
@@ -2822,6 +2826,7 @@ public final class ModLan {
             return;
         }
         if (!pvp) return;
+        if (duelEndAt > 0 && System.currentTimeMillis() >= duelEndAt) { duelEndAt = 0; pvpWanted = false; ModDev.ev("lan", "duel over " + hostWins + "-" + guestWins); return; }   // cross-check: also when the host left the bay
         if (!inBay()) {
             long now = System.currentTimeMillis();
             if (!jumpedIn || now - jumpAt > 6000) {   // also back in after a detour (the host left the bay)
