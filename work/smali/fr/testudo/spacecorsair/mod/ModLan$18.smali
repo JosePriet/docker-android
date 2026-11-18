@@ -17,12 +17,23 @@
 .end annotation
 
 
+# instance fields
+.field final synthetic val$a:Landroid/app/Activity;
+
+
 # direct methods
-.method constructor <init>()V
-    .registers 1
+.method constructor <init>(Landroid/app/Activity;)V
+    .registers 2
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "()V"
+        }
+    .end annotation
 
     .prologue
-    .line 3052
+    .line 3118
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$18;->val$a:Landroid/app/Activity;
+
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -31,16 +42,14 @@
 
 # virtual methods
 .method public run()V
-    .registers 1
+    .registers 2
 
     .prologue
-    .line 3052
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->noRejoin()V
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1700()V
+    .line 3118
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$18;->val$a:Landroid/app/Activity;
 
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->leave()V
-
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->stop()V
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->report(Landroid/app/Activity;)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1600(Landroid/app/Activity;)V
 
     return-void
 .end method

@@ -83,6 +83,7 @@ public class V49 {
         is("link: guest opens with the HELLO tag", "SCLAN2".equals(new String(hb, "UTF-8")));
         String gv = hin.readUTF(); hin.readUTF(); hin.readUTF();
         is("link: guest sends an empty room code for a public room", hin.readUTF().length() == 0);
+        is("link: guest sends its content hash", hin.readUTF().equals(ModLan.contentHash()));
         is("link: guest sends its version (" + gv + ")", gv.equals(ModLan.myVersion()));
         { DataOutputStream ok = new DataOutputStream(hs.getOutputStream()); ok.writeByte(0); ok.writeUTF("Ana"); ok.writeUTF("ESP"); ok.flush(); }   // host reply: accepted, then its name
         j.join(6000);
@@ -120,7 +121,7 @@ public class V49 {
         g.close();
         g = new java.net.Socket("127.0.0.1", ModLan.PORT);
         go = new DataOutputStream(g.getOutputStream());
-        go.write("SCLAN2".getBytes("UTF-8")); go.writeUTF(ModLan.myVersion()); go.writeUTF("Ana"); go.writeUTF("ESP"); go.writeUTF(""); go.flush();
+        go.write("SCLAN2".getBytes("UTF-8")); go.writeUTF(ModLan.myVersion()); go.writeUTF("Ana"); go.writeUTF("ESP"); go.writeUTF(""); go.writeUTF(ModLan.contentHash()); go.flush();
         g.setSoTimeout(3000);
         is("host: same version accepted", g.getInputStream().read() == 0);
         Thread.sleep(300);
@@ -139,7 +140,7 @@ public class V49 {
         for (int i = 0; i < tries.length; i++) {
             g = new java.net.Socket("127.0.0.1", ModLan.PORT);
             go = new DataOutputStream(g.getOutputStream());
-            go.write("SCLAN2".getBytes("UTF-8")); go.writeUTF(ModLan.myVersion()); go.writeUTF("Ana"); go.writeUTF("ESP"); go.writeUTF(tries[i]); go.flush();
+            go.write("SCLAN2".getBytes("UTF-8")); go.writeUTF(ModLan.myVersion()); go.writeUTF("Ana"); go.writeUTF("ESP"); go.writeUTF(tries[i]); go.writeUTF(ModLan.contentHash()); go.flush();
             g.setSoTimeout(3000);
             codeAns[i] = g.getInputStream().read();
             if (i < 2) g.close();
@@ -157,7 +158,7 @@ public class V49 {
         for (int i = 0; i < 6; i++) {
             g = new java.net.Socket("127.0.0.1", ModLan.PORT);
             go = new DataOutputStream(g.getOutputStream());
-            go.write("SCLAN2".getBytes("UTF-8")); go.writeUTF(ModLan.myVersion()); go.writeUTF("Ana"); go.writeUTF("ESP"); go.writeUTF(i < 5 ? "QQQQ" : "AB3K"); go.flush();
+            go.write("SCLAN2".getBytes("UTF-8")); go.writeUTF(ModLan.myVersion()); go.writeUTF("Ana"); go.writeUTF("ESP"); go.writeUTF(i < 5 ? "QQQQ" : "AB3K"); go.writeUTF(ModLan.contentHash()); go.flush();
             g.setSoTimeout(3000);
             last = g.getInputStream().read();
             g.close();
@@ -165,6 +166,15 @@ public class V49 {
         is("room: 5 wrong codes lock the address out, even with the right one (" + last + ")", last == 3 && !ModLan.connected);
         ModLan.stop();
         ModLan.lanPub = true; ModLan.lanCode = "";
+        ModLan.hostForTest();
+        Thread.sleep(400);
+        g = new java.net.Socket("127.0.0.1", ModLan.PORT);
+        go = new DataOutputStream(g.getOutputStream());
+        go.write("SCLAN2".getBytes("UTF-8")); go.writeUTF(ModLan.myVersion()); go.writeUTF("Ana"); go.writeUTF("ESP"); go.writeUTF(""); go.writeUTF("0123456789abcdef"); go.flush();
+        g.setSoTimeout(3000);
+        is("files: same version, other content hash refused", g.getInputStream().read() == 5 && !ModLan.connected);
+        g.close();
+        ModLan.stop();
         is("room: new codes are 4 characters of the code alphabet", ModLan.newCode().length() == 4 && ModLanUi.codeChars(ModLan.newCode(), 4).length() == 4);
         // v45: texture keys and shot classes
         is("def: stock drawable ok", ModLan.defOk("R" + 0x7f020010) && ModLan.defOk("Lhull_mantis_s5") && ModLan.defOk("Mfx.glow"));
@@ -175,7 +185,9 @@ public class V49 {
         {
             EnergyBullet eb = new EnergyBullet();
             eb.position.set(100, 100); eb.speed.set(1, 1); eb.damage = 5.0e8f; eb.lifeTimeInMilli = 999999;
-            is("shot: clamped", ModLan.shotOk(eb, 0, 0) && eb.damage == ModLan.MAX_SHOT_DMG && eb.lifeTimeInMilli == 60000);
+            is("shot: life clamped, damage left to the weapon tables (no flat cap)", ModLan.shotOk(eb, 0, 0) && eb.damage == 5.0e8f && eb.lifeTimeInMilli == 60000);
+            eb.position.set(290, 0);
+            is("shot: 290 from the ship ok, 310 refused (spec 300)", ModLan.shotOk(eb, 0, 0) && !ModLan.shotOk(eb, -20, 0));
             eb.position.set(5000, 0);
             is("shot: far from the ship refused", !ModLan.shotOk(eb, 0, 0));
             eb.position.set(0, 0); eb.damage = Float.NaN;
@@ -263,7 +275,7 @@ public class V49 {
             Thread t = new Thread() { public void run() { acc[0] = ModLan.acceptNet(flh, "abc"); } };
             t.start();
             DataOutputStream go2 = new DataOutputStream(lg.getOutputStream());
-            go2.write("SCLAN2".getBytes("UTF-8")); go2.writeUTF(ModLan.myVersion()); go2.writeUTF("Bo"); go2.writeUTF("PAN"); go2.writeUTF("ZZZZ"); go2.flush();   // internet: the lobby checked the code, the host ignores it
+            go2.write("SCLAN2".getBytes("UTF-8")); go2.writeUTF(ModLan.myVersion()); go2.writeUTF("Bo"); go2.writeUTF("PAN"); go2.writeUTF("ZZZZ"); go2.writeUTF(ModLan.contentHash()); go2.flush();   // internet: the lobby checked the code, the host ignores it
             lg.setSoTimeout(5000);
             int ans = lg.getInputStream().read();
             t.join(5000);
@@ -283,7 +295,7 @@ public class V49 {
             Thread hs = new Thread() { public void run() { try {
                 lh2.setSoTimeout(5000);
                 DataInputStream hi2 = new DataInputStream(lh2.getInputStream());
-                byte[] tag = new byte[6]; hi2.readFully(tag); hi2.readUTF(); hi2.readUTF(); hi2.readUTF(); hi2.readUTF();
+                byte[] tag = new byte[6]; hi2.readFully(tag); hi2.readUTF(); hi2.readUTF(); hi2.readUTF(); hi2.readUTF(); hi2.readUTF();
                 DataOutputStream ho2 = new DataOutputStream(lh2.getOutputStream());
                 ho2.writeByte(0); ho2.writeUTF("Ana"); ho2.writeUTF("ESP"); ho2.flush();
             } catch (Throwable e) { e.printStackTrace(); } } };

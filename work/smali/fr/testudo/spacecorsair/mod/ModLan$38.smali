@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 3130
+    .line 3196
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$38;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,11 +45,26 @@
     .registers 2
 
     .prologue
-    .line 3130
+    .line 3196
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->saverPref()Z
+
+    move-result v0
+
+    if-nez v0, :cond_10
+
+    const/4 v0, 0x1
+
+    :goto_7
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLobby;->setSaver(Z)V
+
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$38;->val$a:Landroid/app/Activity;
 
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->privacy(Landroid/app/Activity;)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$2300(Landroid/app/Activity;)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
 
     return-void
+
+    :cond_10
+    const/4 v0, 0x0
+
+    goto :goto_7
 .end method

@@ -3,12 +3,12 @@
 .source "ModLan.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan;->joinCode(Landroid/app/Activity;Ljava/lang/String;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLan;->typeCode(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -17,12 +17,23 @@
 .end annotation
 
 
+# instance fields
+.field final synthetic val$a:Landroid/app/Activity;
+
+
 # direct methods
-.method constructor <init>()V
-    .registers 1
+.method constructor <init>(Landroid/app/Activity;)V
+    .registers 2
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "()V"
+        }
+    .end annotation
 
     .prologue
-    .line 3195
+    .line 3256
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$42;->val$a:Landroid/app/Activity;
+
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -30,14 +41,15 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
+.method public code(Ljava/lang/String;)V
     .registers 3
 
     .prologue
-    .line 3195
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->leave()V
+    .line 3256
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$42;->val$a:Landroid/app/Activity;
 
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->stop()V
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->joinCode(Landroid/app/Activity;Ljava/lang/String;)V
+    invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$2500(Landroid/app/Activity;Ljava/lang/String;)V
 
     return-void
 .end method

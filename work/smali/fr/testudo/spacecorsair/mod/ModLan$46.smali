@@ -20,10 +20,12 @@
 # instance fields
 .field final synthetic val$a:Landroid/app/Activity;
 
+.field final synthetic val$items:[Ljava/lang/String;
+
 
 # direct methods
-.method constructor <init>(Landroid/app/Activity;)V
-    .registers 2
+.method constructor <init>([Ljava/lang/String;Landroid/app/Activity;)V
+    .registers 3
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -31,8 +33,10 @@
     .end annotation
 
     .prologue
-    .line 3239
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$46;->val$a:Landroid/app/Activity;
+    .line 3300
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$46;->val$items:[Ljava/lang/String;
+
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$46;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -42,18 +46,56 @@
 
 # virtual methods
 .method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 5
+    .registers 6
 
     .prologue
-    .line 3240
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$46;->val$a:Landroid/app/Activity;
+    .line 3302
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$46;->val$items:[Ljava/lang/String;
 
-    invoke-static {}, Ljava/util/Collections;->emptyList()Ljava/util/List;
+    aget-object v0, v0, p2
 
-    move-result-object v1
+    const-string v1, " "
 
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->pickHost(Landroid/app/Activity;Ljava/util/List;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$2000(Landroid/app/Activity;Ljava/util/List;)V
+    invoke-virtual {v0, v1}, Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
 
+    move-result-object v0
+
+    const/4 v1, 0x0
+
+    aget-object v0, v0, v1
+
+    .line 3303
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$46;->val$items:[Ljava/lang/String;
+
+    aget-object v1, v1, p2
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->privTag()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_21
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$46;->val$a:Landroid/app/Activity;
+
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->askCode(Landroid/app/Activity;Ljava/lang/String;)V
+    invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$2600(Landroid/app/Activity;Ljava/lang/String;)V
+
+    .line 3304
+    :goto_20
     return-void
+
+    .line 3303
+    :cond_21
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$46;->val$a:Landroid/app/Activity;
+
+    const-string v2, ""
+
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->connectTo(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v1, v0, v2}, Lfr/testudo/spacecorsair/mod/ModLan;->access$2700(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
+
+    goto :goto_20
 .end method

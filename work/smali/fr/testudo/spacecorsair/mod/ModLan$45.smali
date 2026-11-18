@@ -3,12 +3,12 @@
 .source "ModLan.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Ljava/lang/Runnable;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan;->pickHost(Landroid/app/Activity;Ljava/util/List;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLan;->findHosts(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -20,11 +20,11 @@
 # instance fields
 .field final synthetic val$a:Landroid/app/Activity;
 
-.field final synthetic val$items:[Ljava/lang/String;
+.field final synthetic val$wait:Landroid/app/AlertDialog;
 
 
 # direct methods
-.method constructor <init>([Ljava/lang/String;Landroid/app/Activity;)V
+.method constructor <init>(Landroid/app/Activity;Landroid/app/AlertDialog;)V
     .registers 3
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -33,10 +33,10 @@
     .end annotation
 
     .prologue
-    .line 3233
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$items:[Ljava/lang/String;
+    .line 3279
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$a:Landroid/app/Activity;
 
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$a:Landroid/app/Activity;
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$wait:Landroid/app/AlertDialog;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -45,57 +45,26 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 6
+.method public run()V
+    .registers 4
 
     .prologue
-    .line 3235
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$items:[Ljava/lang/String;
+    .line 3281
+    const/16 v0, 0xfa0
 
-    aget-object v0, v0, p2
-
-    const-string v1, " "
-
-    invoke-virtual {v0, v1}, Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->scan(I)Ljava/util/List;
 
     move-result-object v0
 
-    const/4 v1, 0x0
-
-    aget-object v0, v0, v1
-
-    .line 3236
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$items:[Ljava/lang/String;
-
-    aget-object v1, v1, p2
-
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->privTag()Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-virtual {v1, v2}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_21
-
+    .line 3282
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$a:Landroid/app/Activity;
 
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->askCode(Landroid/app/Activity;Ljava/lang/String;)V
-    invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$2600(Landroid/app/Activity;Ljava/lang/String;)V
+    new-instance v2, Lfr/testudo/spacecorsair/mod/ModLan$45$1;
 
-    .line 3237
-    :goto_20
+    invoke-direct {v2, p0, v0}, Lfr/testudo/spacecorsair/mod/ModLan$45$1;-><init>(Lfr/testudo/spacecorsair/mod/ModLan$45;Ljava/util/List;)V
+
+    invoke-virtual {v1, v2}, Landroid/app/Activity;->runOnUiThread(Ljava/lang/Runnable;)V
+
+    .line 3289
     return-void
-
-    .line 3236
-    :cond_21
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$a:Landroid/app/Activity;
-
-    const-string v2, ""
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->connectTo(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
-    invoke-static {v1, v0, v2}, Lfr/testudo/spacecorsair/mod/ModLan;->access$2700(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
-
-    goto :goto_20
 .end method

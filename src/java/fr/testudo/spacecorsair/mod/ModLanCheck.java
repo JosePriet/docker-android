@@ -52,6 +52,7 @@ final class ModLanCheck {
 
     static final class Limits {
         float shot, dps, hull, shield;
+        float radius = 1200f;   // spec item 4: the declared hull's shield radius (unknown hull: the largest stand-in)
         boolean doom;     // BH04 prototype: the declared hull has a doomsday
         float regen;      // GPT check BH06: shield points a second the declared build can regenerate (with slack)
         float shotPvp, dpsPvp;   // without the doomsday allowance: used while the players can hit each other
@@ -210,6 +211,7 @@ final class ModLanCheck {
             if (okShip) {
                 PlayerShipSpec ps = (PlayerShipSpec) ship;
                 booster = ps.lifeBooster;
+                m.radius = Math.max(100f, Math.max(ps.drawableSizeOfShield, ps.drawableSize) / 2.0f);
                 cannons = Math.max(1, Math.max(ps.canonCount, ps.laserCount));
                 try {
                     ModShips.Hull h = ModShips.hullFor(ps);

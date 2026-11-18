@@ -102,7 +102,7 @@ public final class ModLan {
 
     private static final String HELLO = "SCLAN2";   // v45: + version, nickname, country, and a host reply byte
     static final int MAX_MSG = 256 * 1024;
-    private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3, BADCODE = 4;   // owner 2026-11-18: BADCODE = a private local room, code missing or wrong
+    private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3, BADCODE = 4, FILES = 5;   // FILES (owner 2026-11-18, spec item 6): same version, different game files   // owner 2026-11-18: BADCODE = a private local room, code missing or wrong
     private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7, MSG_KILL = 8, MSG_PING = 9, MSG_LFRAME = 10, MSG_LSTATE = 11, MSG_STYLE = 12, MSG_DECL = 13,
         MSG_DRONE = 14, MSG_DOOM = 15;   // GPT check BH04 prototype (switch ModLan.extra, off): guest drone launch, guest doomsday ticks   // v45: 6 = a deflated FRAME / STATE (type byte first)
     private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
@@ -172,7 +172,51 @@ public final class ModLan {
         ho.write(HELLO.getBytes("UTF-8"));
         ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
         ho.writeUTF(code == null ? "" : ModLanUi.codeChars(code, 4));
+        ho.writeUTF(contentHash());
         ho.flush();
+    }
+
+    private static volatile String hashCache;
+
+    /**
+     * Spec item 6 (owner 2026-11-18): the first 16 hex digits of the SHA-256 of this install's APK file. Two phones play
+     * together only when the files are identical (the version name and build alone do not prove it). "?" = unreadable.
+     * About 1 s for the 85 MB APK the first time; warmed when the Multiplayer menu opens.
+     */
+    static String contentHash() {
+        String h = hashCache;
+        if (h != null) return h;
+        synchronized (ModLan.class) {
+            if (hashCache != null) return hashCache;
+            String out = "?";
+            java.io.InputStream in = null;
+            try {
+                String path = ObjectRegistry.INSTANCE.game.context.getPackageCodePath();
+                java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
+                in = new java.io.FileInputStream(path);
+                byte[] buf = new byte[1 << 16];
+                for (int n; (n = in.read(buf)) > 0; ) md.update(buf, 0, n);
+                byte[] d = md.digest();
+                StringBuilder b = new StringBuilder();
+                for (int i = 0; i < 8; i++) b.append(String.format("%02x", d[i] & 0xff));
+                out = b.toString();
+            } catch (Throwable t) {
+                out = "?";
+            } finally {
+                try { if (in != null) in.close(); } catch (Throwable t) { /* closed */ }
+            }
+            hashCache = out;
+            ModDev.ev("lan", "content hash " + out);
+            return out;
+        }
+    }
+
+    static String filesText() { return ModLang.tr("Same version, but the game files differ. Both phones need the same APK file."); }
+
+    /** UI: computes the hash off the UI thread so the first handshake does not wait for it. */
+    static void warmHash() {
+        if (hashCache != null) return;
+        new Thread(new Runnable() { public void run() { contentHash(); } }, "lan-hash").start();
     }
 
     /** Host: starts listening and announcing, in the current room mode (lanPub, lanCode). UI thread. */
@@ -277,7 +321,8 @@ public final class ModLan {
             if (r != OK) {
                 stop();
                 status = r == VERSION ? ModLang.tr("Different game versions. Your friend has") + " " + clean(hv, 40) + ", " + ModLang.tr("you have") + " " + myVersion() + "."
-                    : r == KICKED ? ModLang.tr("The host removed you from this game.") : ModLang.tr("The host declined.");
+                    : r == KICKED ? ModLang.tr("The host removed you from this game.")
+                    : r == FILES ? filesText() : ModLang.tr("The host declined.");
                 return false;
             }
             s.setSoTimeout(5000);
@@ -324,6 +369,7 @@ public final class ModLan {
                 stop();
                 status = r == VERSION ? ModLang.tr("Different game versions. Your friend has") + " " + clean(hv, 40) + ", " + ModLang.tr("you have") + " " + myVersion() + "."
                     : r == KICKED ? ModLang.tr("The host removed you from this game.")
+                    : r == FILES ? filesText()
                     : r == BADCODE ? (code.length() == 0 ? ModLang.tr("This local game is private. Type its 4-character code.") : ModLang.tr("Wrong code."))
                     : ModLang.tr("The host declined.");
                 if (r == BADCODE) needCode = ip;
@@ -564,7 +610,9 @@ public final class ModLan {
             if (!ver.equals(myVersion())) { out.writeByte(VERSION); out.writeUTF(myVersion()); out.flush(); ModDev.ev("lan", "refused version " + ver); return false; }
             s.setSoTimeout(3000);
             String code = ModLanUi.codeChars(clean(readShortUTF(in, 8), 8), 4);   // owner 2026-11-18: the local room code
+            String hash = clean(readShortUTF(in, 32), 16);   // spec item 6: the guest's game files
             s.setSoTimeout(0);
+            if (!hash.equals(contentHash())) { out.writeByte(FILES); out.flush(); ModDev.ev("lan", "refused files " + hash); return false; }
             if (!(s instanceof ModNet.Link)) {   // internet games: the lobby service already checked the code
                 int cc = codeCheck(addr, code);
                 if (cc != OK) { out.writeByte(cc); out.flush(); ModDev.ev("lan", "room code refused " + addr); return false; }
@@ -912,7 +960,7 @@ public final class ModLan {
         synchronized (defIn) { defIn.clear(); texIn.clear(); }
         synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); inDrones.clear(); inDooms.clear(); }
         dmgSent = 0; dmgSeen = 0; xpSent = 0; xpSeen = 0; xpBase = -1; dmgBase = -1;
-        capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0;
+        capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0; jumps = 0; jumpWin = 0;
         synchronized (inLock) { inKills.clear(); }
     }
 
@@ -1904,7 +1952,12 @@ public final class ModLan {
             boolean nearHost = hx * hx + hy * hy < 4000f * 4000f;
             float reach = MAX_SPEED * secs + 1500f;
             if (moveAt != 0 && !nearHost && dx * dx + dy * dy > reach * reach) {
-                flags++;   // held in place, never kicked for it: a stall and catch-up can look the same
+                if (!moveHold) {   // spec item 8 (owner 2026-11-18): each new impossible jump counts once; repeat offenders are kicked
+                    flags++;
+                    long nowJ = System.currentTimeMillis();
+                    if (nowJ - jumpWin > JUMP_WINDOW_MS) { jumpWin = nowJ; jumps = 0; }
+                    if (++jumps >= JUMP_KICK) { ModDev.ev("lan", "movement jumps " + jumps); violation("movement"); return; }
+                }
                 moveHold = true;
             } else {
                 moveHold = false;
@@ -1958,8 +2011,8 @@ public final class ModLan {
     static final float MAX_SPEED = 6000f;        // world units per second
     static final float MAX_STEP = 100f;          // speed vector per frame
     static final int MAX_SHOTS_S = 300;
-    static final float MAX_SHOT_DMG = 1.0e6f;
-    static final float SHOT_REACH = 1500f;       // a shot starts at the ship
+    static final float SHOT_REACH = 300f;        // spec item 4 (owner 2026-11-18): a shot starts within 300 of the ship's shield edge
+    static final float SHOT_LAG_S = 0.25f;       // the stand-in trails the guest by up to this much flight (latest-only states)
     private static volatile ModLanCheck.Limits limits;
     private static ModLanCheck.Limits noDecl;
     private static volatile long beganAt, firstStateAt;
@@ -2017,6 +2070,10 @@ public final class ModLan {
 
     private static InState moveState;
     private static float moveX, moveY, roundDmg;
+    static final int JUMP_KICK = 4;                  // spec item 8: this many impossible jumps ...
+    static final long JUMP_WINDOW_MS = 120000;       // ... within 2 minutes end the session (one stall and catch-up is one jump)
+    private static int jumps;
+    private static long jumpWin;
     private static long moveAt, shotSec;
     private static boolean moveHold;
     private static int shotCount;
@@ -2040,13 +2097,15 @@ public final class ModLan {
     private static boolean bad(float v) { return Float.isNaN(v) || Float.isInfinite(v); }
 
     /** A received shot the guest's ship could have fired: real numbers, starts at the ship, bounded damage and life. */
-    static boolean shotOk(Projectile p, float fromX, float fromY) {
+    static boolean shotOk(Projectile p, float fromX, float fromY) { return shotOk(p, fromX, fromY, SHOT_REACH); }
+
+    /** reach = the farthest a shot may start from (fromX, fromY). Damage is not capped here: fireShot checks it against the weapon tables. */
+    static boolean shotOk(Projectile p, float fromX, float fromY, float reach) {
         if (p.position == null || p.speed == null) return false;
         if (bad(p.position.x) || bad(p.position.y) || bad(p.speed.x) || bad(p.speed.y) || bad(p.damage) || bad(p.spin) || bad(p.life) || bad(p.maxLife)) return false;
         float dx = p.position.x - fromX, dy = p.position.y - fromY;
-        if (dx * dx + dy * dy > SHOT_REACH * SHOT_REACH) return false;
+        if (!(dx * dx + dy * dy <= reach * reach)) return false;
         if (p.damage < 0) p.damage = 0;
-        if (p.damage > MAX_SHOT_DMG) { p.damage = MAX_SHOT_DMG; flags++; }
         if (p.lifeTimeInMilli > 60000) { p.lifeTimeInMilli = 60000; flags++; }
         return true;
     }
@@ -2122,7 +2181,14 @@ public final class ModLan {
             Projectile p = newProjectile(c);
             if (p == null) return;
             for (Field f : shotFields(c)) readField(in, f, p);
-            if (!shotOk(p, from.position.x, from.position.y)) { flags++; p.removed = true; return; }
+            // spec item 4: the shot starts within 300 of the declared hull's shield edge, at the stand-in or at the
+            // guest's last reported place (the stand-in is extrapolated), plus the flight of one late state
+            ModLanCheck.Limits lr = limits != null ? limits : undeclared();
+            InState st = inState;
+            float sp = st != null ? (float) Math.hypot(st.vx, st.vy) * 60f : 0f;   // speeds are per ~16 ms frame
+            float reach = SHOT_REACH + lr.radius + Math.min(MAX_SPEED, sp) * SHOT_LAG_S;
+            boolean near = shotOk(p, from.position.x, from.position.y, reach) || (st != null && shotOk(p, st.x, st.y, reach));
+            if (!near) { flags++; p.removed = true; return; }
             // v45: damage clamped to what the declared ship and weapons can do by this phone's own tables
             ModLanCheck.Limits lm = limits;
             long nowMs = System.currentTimeMillis();
@@ -3030,6 +3096,7 @@ public final class ModLan {
     static void showMenu(final Activity a) {
         try {
             lastAct = a;
+            warmHash();
             if (role == HOST && pendingWho != null && decision == 0) { acceptDialog(a, pendingWho, askId); return; }
             final Runnable again = new Runnable() { public void run() { showMenu(a); } };
             if (!ModLanUi.hasProfile()) { ModLanUi.whoAreYou(a, again); return; }   // first time: nickname and country

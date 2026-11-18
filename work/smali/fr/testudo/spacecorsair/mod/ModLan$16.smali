@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 3050
+    .line 3116
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -31,11 +31,26 @@
 
 # virtual methods
 .method public run()V
-    .registers 1
+    .registers 2
 
     .prologue
-    .line 3050
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->kick()V
+    .line 3116
+    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->pvpWanted:Z
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1500()Z
+
+    move-result v0
+
+    if-nez v0, :cond_b
+
+    const/4 v0, 0x1
+
+    :goto_7
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->duel(Z)V
 
     return-void
+
+    :cond_b
+    const/4 v0, 0x0
+
+    goto :goto_7
 .end method
