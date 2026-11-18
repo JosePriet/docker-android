@@ -7225,7 +7225,7 @@
 
     move-result v13
 
-    if-lez v13, :cond_446
+    if-lez v13, :cond_456
 
     new-instance v13, Ljava/lang/StringBuilder;
 
@@ -7347,7 +7347,7 @@
 
     const/4 v2, 0x7
 
-    if-ge v8, v2, :cond_44a
+    if-ge v8, v2, :cond_45a
 
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -7414,14 +7414,14 @@
     invoke-virtual {v9, v10}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
     .line 1055
-    if-eqz v6, :cond_458
+    if-eqz v6, :cond_468
 
     .line 1056
-    if-eqz v7, :cond_44e
+    if-eqz v7, :cond_45e
 
     iget-object v2, v7, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->secret:Ljava/lang/String;
 
-    if-eqz v2, :cond_44e
+    if-eqz v2, :cond_45e
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
@@ -7459,7 +7459,7 @@
 
     move-result v2
 
-    if-eqz v2, :cond_454
+    if-eqz v2, :cond_464
 
     const-string v2, " (listed from Trusted)"
 
@@ -7537,7 +7537,7 @@
 
     move-result v2
 
-    if-eqz v2, :cond_4bf
+    if-eqz v2, :cond_4cf
 
     const-string v2, "  \u2713"
 
@@ -7593,7 +7593,7 @@
 
     iget-boolean v2, v2, Lfr/testudo/spacecorsair/business/economy/Price;->inapp:Z
 
-    if-eqz v2, :cond_4c3
+    if-eqz v2, :cond_4d3
 
     const-string v2, " \u25c6"
 
@@ -7604,7 +7604,7 @@
 
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
     :try_end_23c
-    .catch Ljava/lang/Exception; {:try_start_215 .. :try_end_23c} :catch_4c7
+    .catch Ljava/lang/Exception; {:try_start_215 .. :try_end_23c} :catch_4d7
 
     move-result-object v2
 
@@ -7649,15 +7649,31 @@
     .line 1079
     instance-of v6, v2, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
-    if-eqz v6, :cond_2bb
+    if-eqz v6, :cond_2cb
 
     .line 1080
     check-cast v2, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;
 
     .line 1081
-    const-string v6, "\nSpeed "
+    const-string v6, "\n"
 
     invoke-virtual {v3, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v6
+
+    const-string v8, "Speed"
+
+    invoke-static {v8}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v8
+
+    invoke-virtual {v6, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v6
+
+    const-string v8, " "
+
+    invoke-virtual {v6, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v6
 
@@ -7723,7 +7739,7 @@
     .line 1083
     iget v6, v2, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->missileCount:I
 
-    if-lez v6, :cond_2bb
+    if-lez v6, :cond_2cb
 
     const-string v6, "  \u00b7  Missiles "
 
@@ -7740,7 +7756,7 @@
     invoke-virtual {v6, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     .line 1085
-    :cond_2bb
+    :cond_2cb
     invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v2
@@ -7774,11 +7790,11 @@
     invoke-virtual {v9, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
     .line 1088
-    if-eqz v7, :cond_325
+    if-eqz v7, :cond_335
 
     iget-object v2, v7, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->skill:Ljava/lang/String;
 
-    if-eqz v2, :cond_325
+    if-eqz v2, :cond_335
 
     .line 1089
     new-instance v2, Landroid/widget/TextView;
@@ -7859,7 +7875,7 @@
     invoke-virtual {v9, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
     .line 1099
-    :cond_325
+    :cond_335
     new-instance v6, Landroid/widget/LinearLayout;
 
     invoke-direct {v6, v4}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
@@ -7899,15 +7915,15 @@
 
     move-result v2
 
-    if-nez v2, :cond_4d2
+    if-nez v2, :cond_4e2
 
     const/4 v2, 0x1
 
     move v3, v2
 
     .line 1105
-    :goto_34e
-    if-eqz v3, :cond_4d6
+    :goto_35e
+    if-eqz v3, :cond_4e6
 
     const-string v2, "OPEN \u25b6"
 
@@ -7915,17 +7931,17 @@
 
     move-result-object v2
 
-    :goto_356
+    :goto_366
     invoke-static {v4, v2, v5}, Lfr/testudo/spacecorsair/mod/ModShipTree;->smallButton(Landroid/content/Context;Ljava/lang/String;F)Landroid/widget/Button;
 
     move-result-object v8
 
     .line 1106
-    if-eqz v3, :cond_4de
+    if-eqz v3, :cond_4ee
 
     const v2, -0x952f01
 
-    :goto_35f
+    :goto_36f
     invoke-virtual {v8, v2}, Landroid/widget/Button;->setTextColor(I)V
 
     .line 1107
@@ -7990,26 +8006,26 @@
 
     move-result v2
 
-    if-lez v2, :cond_4e3
+    if-lez v2, :cond_4f3
 
     invoke-virtual/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModShipTree$Overlay;->getWidth()I
 
     move-result v2
 
     .line 1119
-    :goto_39c
+    :goto_3ac
     invoke-virtual/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModShipTree$Overlay;->getHeight()I
 
     move-result v3
 
-    if-lez v3, :cond_4ef
+    if-lez v3, :cond_4ff
 
     invoke-virtual/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModShipTree$Overlay;->getHeight()I
 
     move-result v3
 
     .line 1120
-    :goto_3a6
+    :goto_3b6
     const/high16 v4, 0x43960000    # 300.0f
 
     mul-float/2addr v4, v5
@@ -8122,14 +8138,14 @@
 
     sub-int v12, v2, v10
 
-    if-le v11, v12, :cond_406
+    if-le v11, v12, :cond_416
 
     sub-int v4, v9, v6
 
     sub-int/2addr v4, v10
 
     .line 1131
-    :cond_406
+    :cond_416
     sub-int/2addr v2, v6
 
     sub-int/2addr v2, v10
@@ -8207,19 +8223,19 @@
     return-void
 
     .line 1035
-    :cond_446
+    :cond_456
     const-string v2, ""
 
     goto/16 :goto_f3
 
     .line 1048
-    :cond_44a
+    :cond_45a
     const-string v2, ""
 
     goto/16 :goto_166
 
     .line 1056
-    :cond_44e
+    :cond_45e
     invoke-static {v8}, Lfr/testudo/spacecorsair/mod/ModShipTree;->groupName(I)Ljava/lang/String;
 
     move-result-object v2
@@ -8227,14 +8243,14 @@
     goto/16 :goto_1a2
 
     .line 1057
-    :cond_454
+    :cond_464
     const-string v2, ""
 
     goto/16 :goto_1c1
 
     .line 1059
-    :cond_458
-    if-nez v3, :cond_465
+    :cond_468
+    if-nez v3, :cond_475
 
     const-string v2, "You are flying this ship"
 
@@ -8247,10 +8263,10 @@
     goto/16 :goto_1cc
 
     .line 1060
-    :cond_465
+    :cond_475
     const/4 v2, 0x1
 
-    if-ne v3, v2, :cond_473
+    if-ne v3, v2, :cond_483
 
     const-string v2, "Owned"
 
@@ -8263,10 +8279,10 @@
     goto/16 :goto_1cc
 
     .line 1061
-    :cond_473
+    :cond_483
     const/4 v2, 0x2
 
-    if-ne v3, v2, :cond_480
+    if-ne v3, v2, :cond_490
 
     const-string v2, "Can buy now"
 
@@ -8279,10 +8295,10 @@
     goto/16 :goto_1cc
 
     .line 1062
-    :cond_480
+    :cond_490
     const/4 v2, 0x3
 
-    if-ne v3, v2, :cond_48e
+    if-ne v3, v2, :cond_49e
 
     const-string v2, "Not enough credits"
 
@@ -8295,12 +8311,12 @@
     goto/16 :goto_1cc
 
     .line 1063
-    :cond_48e
+    :cond_49e
     invoke-static/range {p1 .. p1}, Lfr/testudo/spacecorsair/mod/ModShipTree;->levelOk(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
 
     move-result v2
 
-    if-nez v2, :cond_4b4
+    if-nez v2, :cond_4c4
 
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -8333,7 +8349,7 @@
     goto/16 :goto_1cc
 
     .line 1064
-    :cond_4b4
+    :cond_4c4
     const-string v2, "Locked"
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -8345,22 +8361,22 @@
     goto/16 :goto_1cc
 
     .line 1069
-    :cond_4bf
+    :cond_4cf
     const-string v2, ""
 
     goto/16 :goto_201
 
     .line 1072
-    :cond_4c3
-    :try_start_4c3
+    :cond_4d3
+    :try_start_4d3
     const-string v2, " cr"
-    :try_end_4c5
-    .catch Ljava/lang/Exception; {:try_start_4c3 .. :try_end_4c5} :catch_4c7
+    :try_end_4d5
+    .catch Ljava/lang/Exception; {:try_start_4d3 .. :try_end_4d5} :catch_4d7
 
     goto/16 :goto_235
 
     .line 1073
-    :catch_4c7
+    :catch_4d7
     move-exception v2
 
     .line 1074
@@ -8375,31 +8391,31 @@
     goto/16 :goto_23d
 
     .line 1104
-    :cond_4d2
+    :cond_4e2
     const/4 v2, 0x0
 
     move v3, v2
 
-    goto/16 :goto_34e
+    goto/16 :goto_35e
 
     .line 1105
-    :cond_4d6
+    :cond_4e6
     const-string v2, "LOCKED"
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v2
 
-    goto/16 :goto_356
+    goto/16 :goto_366
 
     .line 1106
-    :cond_4de
+    :cond_4ee
     const v2, -0x807160
 
-    goto/16 :goto_35f
+    goto/16 :goto_36f
 
     .line 1118
-    :cond_4e3
+    :cond_4f3
     invoke-virtual {v4}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object v2
@@ -8410,10 +8426,10 @@
 
     iget v2, v2, Landroid/util/DisplayMetrics;->widthPixels:I
 
-    goto/16 :goto_39c
+    goto/16 :goto_3ac
 
     .line 1119
-    :cond_4ef
+    :cond_4ff
     invoke-virtual {v4}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object v3
@@ -8424,7 +8440,7 @@
 
     iget v3, v3, Landroid/util/DisplayMetrics;->heightPixels:I
 
-    goto/16 :goto_3a6
+    goto/16 :goto_3b6
 .end method
 
 .method public static shown(Landroid/app/Activity;)Z

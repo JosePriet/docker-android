@@ -18,16 +18,12 @@
 
 
 # instance fields
-.field final synthetic val$bye:Z
-
-.field final synthetic val$old:Ljava/net/Socket;
-
-.field final synthetic val$wlOld:Ljava/util/concurrent/locks/ReentrantLock;
+.field final synthetic val$s:[Ljava/lang/String;
 
 
 # direct methods
-.method constructor <init>(ZLjava/util/concurrent/locks/ReentrantLock;Ljava/net/Socket;)V
-    .registers 4
+.method constructor <init>([Ljava/lang/String;)V
+    .registers 2
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -35,12 +31,8 @@
     .end annotation
 
     .prologue
-    .line 717
-    iput-boolean p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$bye:Z
-
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$wlOld:Ljava/util/concurrent/locks/ReentrantLock;
-
-    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$old:Ljava/net/Socket;
+    .line 826
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$s:[Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -50,128 +42,17 @@
 
 # virtual methods
 .method public run()V
-    .registers 6
+    .registers 4
 
     .prologue
-    const/4 v0, 0x0
+    .line 826
+    const-string v0, "POST"
 
-    .line 720
-    .line 722
-    :try_start_1
-    iget-boolean v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$bye:Z
+    const-string v1, "/sample"
 
-    if-eqz v1, :cond_16
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$s:[Ljava/lang/String;
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$wlOld:Ljava/util/concurrent/locks/ReentrantLock;
+    invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModLobby;->call(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;)Lfr/testudo/spacecorsair/mod/ModLobby$Reply;
 
-    if-eqz v1, :cond_16
-
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$wlOld:Ljava/util/concurrent/locks/ReentrantLock;
-
-    const-wide/16 v2, 0x1
-
-    sget-object v4, Ljava/util/concurrent/TimeUnit;->SECONDS:Ljava/util/concurrent/TimeUnit;
-
-    invoke-virtual {v1, v2, v3, v4}, Ljava/util/concurrent/locks/ReentrantLock;->tryLock(JLjava/util/concurrent/TimeUnit;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_16
-
-    const/4 v0, 0x1
-
-    .line 723
-    :cond_16
-    if-eqz v0, :cond_30
-
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$old:Ljava/net/Socket;
-
-    invoke-virtual {v1}, Ljava/net/Socket;->getOutputStream()Ljava/io/OutputStream;
-
-    move-result-object v1
-
-    const/4 v2, 0x5
-
-    new-array v2, v2, [B
-
-    fill-array-data v2, :array_52
-
-    invoke-virtual {v1, v2}, Ljava/io/OutputStream;->write([B)V
-
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$old:Ljava/net/Socket;
-
-    invoke-virtual {v1}, Ljava/net/Socket;->getOutputStream()Ljava/io/OutputStream;
-
-    move-result-object v1
-
-    invoke-virtual {v1}, Ljava/io/OutputStream;->flush()V
-    :try_end_30
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_30} :catch_3d
-    .catchall {:try_start_1 .. :try_end_30} :catchall_46
-
-    .line 727
-    :cond_30
-    if-eqz v0, :cond_37
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$wlOld:Ljava/util/concurrent/locks/ReentrantLock;
-
-    invoke-virtual {v0}, Ljava/util/concurrent/locks/ReentrantLock;->unlock()V
-
-    .line 729
-    :cond_37
-    :goto_37
-    :try_start_37
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$old:Ljava/net/Socket;
-
-    invoke-virtual {v0}, Ljava/net/Socket;->close()V
-    :try_end_3c
-    .catch Ljava/lang/Throwable; {:try_start_37 .. :try_end_3c} :catch_4f
-
-    .line 730
-    :goto_3c
     return-void
-
-    .line 724
-    :catch_3d
-    move-exception v1
-
-    .line 727
-    if-eqz v0, :cond_37
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$wlOld:Ljava/util/concurrent/locks/ReentrantLock;
-
-    invoke-virtual {v0}, Ljava/util/concurrent/locks/ReentrantLock;->unlock()V
-
-    goto :goto_37
-
-    :catchall_46
-    move-exception v1
-
-    if-eqz v0, :cond_4e
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$10;->val$wlOld:Ljava/util/concurrent/locks/ReentrantLock;
-
-    invoke-virtual {v0}, Ljava/util/concurrent/locks/ReentrantLock;->unlock()V
-
-    .line 728
-    :cond_4e
-    throw v1
-
-    .line 729
-    :catch_4f
-    move-exception v0
-
-    goto :goto_3c
-
-    .line 723
-    nop
-
-    :array_52
-    .array-data 1
-        0x5t
-        0x0t
-        0x0t
-        0x0t
-        0x0t
-    .end array-data
 .end method

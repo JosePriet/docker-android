@@ -460,15 +460,15 @@ public final class ModDev {
                 ev("dmg", tDmg + " t=" + (tDmgT / 1000f) + " phull=" + pct(ps.life, ps.maxLife) + " pshield=" + Math.round(sh) + "/"
                     + (ps.shield != null ? Math.round(ps.shield.capacity) : 0) + " hullLost=" + pct(tDmgHullLost, ps.maxLife)
                     + " shieldLost=" + Math.round(tDmgShieldLost) + " wall=" + Math.round(ModAnchor.cur) + "/" + Math.round(ModAnchor.cap)
-                    + " thull=" + pct(g.life, g.maxLife) + " tshield=" + (ts == null ? 0 : Math.round(ts.cur)) + " dealt=" + Math.round(tDmgDealt) + " gun=" + Math.round(ModBal.gunDealt) + "/" + ModBal.gunHits + " msl=" + Math.round(ModBal.missileDealt) + "/" + ModBal.missileHits + " ammo=" + dmgAmmo() + " bal=" + ModBal.tag() + " st=" + ModBal.stages()
-                    + " dist=" + Math.round(g.position.distance(ps.position)));
+                    + " thull=" + pct(g.life, g.maxLife) + " tshield=" + (ts == null ? 0 : Math.round(ts.cur)) + " dealt=" + Math.round(tDmgDealt)
+                    + " dist=" + Math.round(g.position.distance(ps.position)) + " view=" + Math.round(ModView.radius()) + " out=" + ModView.outside(g));
             }
             if (end != null) {
                 tDmgDone = true;
                 ps.isShooting = false;
                 ev("dmg", "end " + tDmg + " result=" + end + " t=" + (tDmgT / 1000f) + " hullLost=" + pct(tDmgHullLost, ps.maxLife)
                     + " shieldLost=" + Math.round(tDmgShieldLost) + " pMaxHull=" + Math.round(ps.maxLife) + " tMaxHull=" + Math.round(g.maxLife)
-                    + " thull=" + pct(g.life, g.maxLife) + " dealt=" + Math.round(tDmgDealt) + " gun=" + Math.round(ModBal.gunDealt) + "/" + ModBal.gunHits + " msl=" + Math.round(ModBal.missileDealt) + "/" + ModBal.missileHits + " ammo=" + dmgAmmo() + " bal=" + ModBal.tag() + " st=" + ModBal.stages());
+                    + " thull=" + pct(g.life, g.maxLife) + " dealt=" + Math.round(tDmgDealt));
             }
         } catch (Throwable t) {
             ev("dmg", "error " + t);
@@ -476,10 +476,6 @@ public final class ModDev {
     }
 
     private static float tDmgShLast, tDmgDodge;
-
-    private static int dmgAmmo() {
-        try { return ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.getMissileCount(); } catch (Throwable t) { return -1; }
-    }
 
     private static String pct(float a, float b) {
         return b <= 0 ? "?" : String.format(java.util.Locale.US, "%.1f%%", a * 100f / b);
@@ -530,7 +526,6 @@ public final class ModDev {
         }
         if (g == null) { ev("dmg", "start " + v + " FAILED"); return; }
         tDmgTgt = g;
-        ModBal.resetSplit(g);   // 2026-11-17: gun / missile split
         tDmgPs = ps;
         tDmgLevel = ObjectRegistry.INSTANCE.game.currentLevel;
         tDmgT = 0;
@@ -587,8 +582,10 @@ public final class ModDev {
             else if (n.startsWith("station")) { fr.testudo.spacecorsair.business.world.station.Station st = ModPlace.farthestStation(ps.position, null); if (st != null) to = st.position; }
             else if (n.startsWith("boss")) { for (Element e : lvl.elements) if (!e.removed && ModBoss.isBoss(e)) { to = e.position; break; } }
             else if (n.startsWith("flagship")) for (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip c : ModCapitals.caps.keySet()) if (!c.removed) { to = c.position; break; }
+            float off = 1200;
+            if (n.startsWith("event")) { to = ModEvents.testTarget(); off = 300; }   // events test
             android.util.Log.i("ModDev", "near " + n + (to != null ? " ok" : " none"));
-            if (to != null) { ps.position.set(to.x + 1200, to.y); ps.speed.set(0, 0); }
+            if (to != null) { ps.position.set(to.x + off, to.y); ps.speed.set(0, 0); }
         }
         boolean dk = testFlag("corsair_dock");
         if (dk && !t37Dock) {

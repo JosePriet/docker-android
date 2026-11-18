@@ -3,12 +3,12 @@
 .source "ModLan.java"
 
 # interfaces
-.implements Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
+.implements Ljava/lang/Runnable;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan;->typeCode(Landroid/app/Activity;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 2858
+    .line 3204
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$39;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -41,15 +41,15 @@
 
 
 # virtual methods
-.method public code(Ljava/lang/String;)V
-    .registers 3
+.method public run()V
+    .registers 2
 
     .prologue
-    .line 2858
+    .line 3204
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$39;->val$a:Landroid/app/Activity;
 
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->joinCode(Landroid/app/Activity;Ljava/lang/String;)V
-    invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$2400(Landroid/app/Activity;Ljava/lang/String;)V
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->privacy(Landroid/app/Activity;)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$2300(Landroid/app/Activity;)V
 
     return-void
 .end method

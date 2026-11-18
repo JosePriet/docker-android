@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 329
+    .line 336
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModQol$2;->val$key:Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 5
 
     .prologue
-    .line 331
+    .line 338
     const-string v0, "fixedStick"
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModQol$2;->val$key:Ljava/lang/String;
@@ -59,18 +59,18 @@
     # setter for: Lfr/testudo/spacecorsair/mod/ModQol;->optStick:Z
     invoke-static {p2}, Lfr/testudo/spacecorsair/mod/ModQol;->access$102(Z)Z
 
-    .line 335
+    .line 344
     :cond_d
     :goto_d
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModQol$2;->val$key:Ljava/lang/String;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModQol;->save(Ljava/lang/String;Z)V
-    invoke-static {v0, p2}, Lfr/testudo/spacecorsair/mod/ModQol;->access$500(Ljava/lang/String;Z)V
+    invoke-static {v0, p2}, Lfr/testudo/spacecorsair/mod/ModQol;->access$700(Ljava/lang/String;Z)V
 
-    .line 336
+    .line 345
     return-void
 
-    .line 332
+    .line 339
     :cond_13
     const-string v0, "barNumbers"
 
@@ -87,7 +87,7 @@
 
     goto :goto_d
 
-    .line 333
+    .line 340
     :cond_21
     const-string v0, "damageNumbers"
 
@@ -104,7 +104,7 @@
 
     goto :goto_d
 
-    .line 334
+    .line 341
     :cond_2f
     const-string v0, "bigButtons"
 
@@ -114,7 +114,7 @@
 
     move-result v0
 
-    if-eqz v0, :cond_d
+    if-eqz v0, :cond_40
 
     # setter for: Lfr/testudo/spacecorsair/mod/ModQol;->optBig:Z
     invoke-static {p2}, Lfr/testudo/spacecorsair/mod/ModQol;->access$402(Z)Z
@@ -122,6 +122,40 @@
     const/4 v0, 0x1
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModQol;->buttonsDirty:Z
+
+    goto :goto_d
+
+    .line 342
+    :cond_40
+    const-string v0, "threatReadout"
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModQol$2;->val$key:Ljava/lang/String;
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_4e
+
+    # setter for: Lfr/testudo/spacecorsair/mod/ModQol;->optThreat:Z
+    invoke-static {p2}, Lfr/testudo/spacecorsair/mod/ModQol;->access$502(Z)Z
+
+    goto :goto_d
+
+    .line 343
+    :cond_4e
+    const-string v0, "radarEdge"
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModQol$2;->val$key:Ljava/lang/String;
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_d
+
+    # setter for: Lfr/testudo/spacecorsair/mod/ModQol;->optEdge:Z
+    invoke-static {p2}, Lfr/testudo/spacecorsair/mod/ModQol;->access$602(Z)Z
 
     goto :goto_d
 .end method

@@ -803,14 +803,24 @@ public class ModV35 {
                 e.desengagementDistance = st[0] * (st[1] == AGGRO ? 1.6f : 1.0f);
             }
             int m = (int) st[1];
-            if (m == HOLD) return;
             float dx = ps.position.x - e.position.x, dy = ps.position.y - e.position.y;
             float dist = (float) Math.sqrt(dx * dx + dy * dy);
+            // 2026-11-18 (owner): never fight from outside the player's screen. Off screen, it turns back in and closes
+            // until it is visible again, then its own mode takes over (no blind rush). A badly hurt one may still flee.
+            float hf0 = e.maxLife > 0 ? e.life / e.maxLife : 1;
+            if (!(m == FLEE && hf0 < 0.3f) && ModView.outside(e)) {
+                float to = norm((float) Math.toDegrees(Math.atan2(dy, dx)) + 90);
+                float diff = norm(to - e.spin);
+                e.spinSpeed = Math.abs(diff) < 4 ? 0 : diff > 0 ? e.maxTurnFactor : -e.maxTurnFactor;
+                e.isPousee = Math.abs(diff) < 100;
+                return;
+            }
+            if (m == HOLD) return;
             if (m == AGGRO) {
                 if (dist > 220) e.isPousee = true;    // keeps closing in while it turns: chases instead of drifting
                 return;
             }
-            float keep = Math.max(300, e.distanceShoot * 0.8f);
+            float keep = Math.min(Math.max(300, e.distanceShoot * 0.8f), ModView.radius() * 0.8f);   // 2026-11-18: spacing stays on screen
             if (m == FLEE || dist < keep) {
                 // turn away from the player and burn; the stock code disengages once past the disengage distance
                 float away = norm((float) Math.toDegrees(Math.atan2(-dy, -dx)) + 90);

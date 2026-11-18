@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 2801
+    .line 3167
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$27;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,12 +45,24 @@
     .registers 2
 
     .prologue
-    .line 2801
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->host()V
+    .line 3167
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->pvpRoom:Z
+
+    if-nez v0, :cond_e
+
+    const/4 v0, 0x1
+
+    :goto_5
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->setPvpRoom(Z)V
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$27;->val$a:Landroid/app/Activity;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
 
     return-void
+
+    :cond_e
+    const/4 v0, 0x0
+
+    goto :goto_5
 .end method

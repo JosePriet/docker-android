@@ -20,16 +20,14 @@
 # instance fields
 .field final synthetic val$gen:J
 
+.field final synthetic val$in:Ljava/io/DataInputStream;
+
 .field final synthetic val$nl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
-
-.field final synthetic val$out:Ljava/io/DataOutputStream;
-
-.field final synthetic val$wl:Ljava/util/concurrent/locks/ReentrantLock;
 
 
 # direct methods
-.method constructor <init>(JLjava/util/concurrent/locks/ReentrantLock;Ljava/io/DataOutputStream;Lfr/testudo/spacecorsair/mod/ModNet$Link;)V
-    .registers 7
+.method constructor <init>(JLfr/testudo/spacecorsair/mod/ModNet$Link;Ljava/io/DataInputStream;)V
+    .registers 6
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -37,14 +35,12 @@
     .end annotation
 
     .prologue
-    .line 579
+    .line 668
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$gen:J
 
-    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$wl:Ljava/util/concurrent/locks/ReentrantLock;
+    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$nl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
-    iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$out:Ljava/io/DataOutputStream;
-
-    iput-object p5, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$nl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
+    iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$in:Ljava/io/DataInputStream;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -54,12 +50,16 @@
 
 # virtual methods
 .method public run()V
-    .registers 9
+    .registers 11
 
     .prologue
-    .line 582
-    :goto_0
-    :try_start_0
+    const/high16 v9, 0x40000
+
+    const/4 v8, 0x5
+
+    .line 671
+    :goto_3
+    :try_start_3
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -69,195 +69,85 @@
 
     cmp-long v0, v0, v2
 
-    if-nez v0, :cond_86
+    if-nez v0, :cond_4b
 
-    .line 585
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->outLock:Ljava/lang/Object;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1100()Ljava/lang/Object;
-
-    move-result-object v1
-
-    monitor-enter v1
+    .line 674
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$nl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
     :try_end_f
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_f} :catch_8a
+    .catch Ljava/lang/Throwable; {:try_start_3 .. :try_end_f} :catch_3d
 
-    .line 586
-    :try_start_f
-    invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
+    if-eqz v0, :cond_5a
 
-    move-result-wide v2
+    .line 676
+    :try_start_11
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$nl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
-    .line 587
-    :cond_13
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->reliable:Ljava/util/ArrayList;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1200()Ljava/util/ArrayList;
+    const/high16 v1, 0x40000
 
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/util/ArrayList;->isEmpty()Z
-
-    move-result v0
-
-    if-eqz v0, :cond_4e
-
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->latest:[B
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1300()[B
+    invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->next(I)[B
+    :try_end_18
+    .catch Ljava/io/IOException; {:try_start_11 .. :try_end_18} :catch_4c
+    .catch Ljava/lang/Throwable; {:try_start_11 .. :try_end_18} :catch_3d
 
     move-result-object v0
 
-    if-nez v0, :cond_4e
+    .line 677
+    const/4 v1, 0x0
 
-    iget-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$gen:J
+    :try_start_1a
+    aget-byte v1, v0, v1
 
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$100()J
+    and-int/lit16 v2, v1, 0xff
 
-    move-result-wide v6
+    .line 678
+    array-length v1, v0
 
-    cmp-long v0, v4, v6
+    add-int/lit8 v1, v1, -0x5
 
-    if-nez v0, :cond_4e
+    .line 679
+    const/4 v3, 0x5
 
-    .line 588
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->outLock:Ljava/lang/Object;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1100()Ljava/lang/Object;
+    array-length v4, v0
 
-    move-result-object v0
-
-    const-wide/16 v4, 0xc8
-
-    invoke-virtual {v0, v4, v5}, Ljava/lang/Object;->wait(J)V
-
-    .line 589
-    invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
-
-    move-result-wide v4
-
-    sub-long/2addr v4, v2
-
-    const-wide/16 v6, 0x7d0
-
-    cmp-long v0, v4, v6
-
-    if-ltz v0, :cond_13
-
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->reliable:Ljava/util/ArrayList;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1200()Ljava/util/ArrayList;
+    invoke-static {v0, v3, v4}, Ljava/util/Arrays;->copyOfRange([BII)[B
 
     move-result-object v0
 
-    const/4 v2, 0x5
+    .line 687
+    :goto_27
+    sget-wide v4, Lfr/testudo/spacecorsair/mod/ModLan;->bytesIn:J
 
-    new-array v2, v2, [B
+    add-int/lit8 v1, v1, 0x5
 
-    fill-array-data v2, :array_de
+    int-to-long v6, v1
 
-    invoke-virtual {v0, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+    add-long/2addr v4, v6
 
-    .line 591
-    :cond_4e
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->reliable:Ljava/util/ArrayList;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1200()Ljava/util/ArrayList;
+    sput-wide v4, Lfr/testudo/spacecorsair/mod/ModLan;->bytesIn:J
 
-    move-result-object v0
+    .line 688
+    if-ne v2, v8, :cond_8b
 
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->reliable:Ljava/util/ArrayList;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1200()Ljava/util/ArrayList;
+    const/4 v0, 0x1
 
-    move-result-object v2
+    # setter for: Lfr/testudo/spacecorsair/mod/ModLan;->byeSeen:Z
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$902(Z)Z
 
-    invoke-virtual {v2}, Ljava/util/ArrayList;->size()I
+    new-instance v0, Ljava/io/IOException;
 
-    move-result v2
+    const-string v1, "bye"
 
-    new-array v2, v2, [[B
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
 
-    invoke-virtual {v0, v2}, Ljava/util/ArrayList;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
-
-    move-result-object v0
-
-    check-cast v0, [[B
-
-    .line 592
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->reliable:Ljava/util/ArrayList;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1200()Ljava/util/ArrayList;
-
-    move-result-object v2
-
-    invoke-virtual {v2}, Ljava/util/ArrayList;->clear()V
-
-    .line 593
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->latest:[B
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1300()[B
-
-    move-result-object v2
-
-    .line 594
-    const/4 v3, 0x0
-
-    # setter for: Lfr/testudo/spacecorsair/mod/ModLan;->latest:[B
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1302([B)[B
-
-    .line 595
-    monitor-exit v1
-    :try_end_72
-    .catchall {:try_start_f .. :try_end_72} :catchall_87
-
-    .line 596
-    :try_start_72
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$wl:Ljava/util/concurrent/locks/ReentrantLock;
-
-    invoke-virtual {v1}, Ljava/util/concurrent/locks/ReentrantLock;->lock()V
-    :try_end_77
-    .catch Ljava/lang/Throwable; {:try_start_72 .. :try_end_77} :catch_8a
-
-    .line 598
-    :try_start_77
-    iget-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$gen:J
-
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$100()J
-    :try_end_7c
-    .catchall {:try_start_77 .. :try_end_7c} :catchall_d7
-
-    move-result-wide v6
-
-    cmp-long v1, v4, v6
-
-    if-eqz v1, :cond_99
-
-    .line 604
-    :try_start_81
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$wl:Ljava/util/concurrent/locks/ReentrantLock;
-
-    invoke-virtual {v0}, Ljava/util/concurrent/locks/ReentrantLock;->unlock()V
-    :try_end_86
-    .catch Ljava/lang/Throwable; {:try_start_81 .. :try_end_86} :catch_8a
-
-    .line 610
-    :cond_86
-    :goto_86
-    return-void
-
-    .line 595
-    :catchall_87
-    move-exception v0
-
-    :try_start_88
-    monitor-exit v1
-    :try_end_89
-    .catchall {:try_start_88 .. :try_end_89} :catchall_87
-
-    :try_start_89
     throw v0
-    :try_end_8a
-    .catch Ljava/lang/Throwable; {:try_start_89 .. :try_end_8a} :catch_8a
+    :try_end_3d
+    .catch Ljava/lang/Throwable; {:try_start_1a .. :try_end_3d} :catch_3d
 
-    .line 607
-    :catch_8a
+    .line 697
+    :catch_3d
     move-exception v0
 
-    .line 608
+    .line 698
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -267,113 +157,151 @@
 
     cmp-long v1, v2, v4
 
-    if-nez v1, :cond_86
+    if-nez v1, :cond_4b
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->fail(Ljava/lang/Throwable;)V
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$400(Ljava/lang/Throwable;)V
 
-    goto :goto_86
+    .line 700
+    :cond_4b
+    return-void
 
-    .line 599
-    :cond_99
-    :try_start_99
-    array-length v3, v0
-
-    const/4 v1, 0x0
-
-    :goto_9b
-    if-ge v1, v3, :cond_ae
-
-    aget-object v4, v0, v1
-
-    iget-object v5, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$out:Ljava/io/DataOutputStream;
-
-    invoke-virtual {v5, v4}, Ljava/io/DataOutputStream;->write([B)V
-
-    sget-wide v6, Lfr/testudo/spacecorsair/mod/ModLan;->bytesOut:J
-
-    array-length v4, v4
-
-    int-to-long v4, v4
-
-    add-long/2addr v4, v6
-
-    sput-wide v4, Lfr/testudo/spacecorsair/mod/ModLan;->bytesOut:J
-
-    add-int/lit8 v1, v1, 0x1
-
-    goto :goto_9b
-
-    .line 600
-    :cond_ae
-    if-eqz v2, :cond_b9
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$nl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
-
-    if-nez v0, :cond_b9
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$out:Ljava/io/DataOutputStream;
-
-    invoke-virtual {v0, v2}, Ljava/io/DataOutputStream;->write([B)V
-
-    .line 601
-    :cond_b9
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$out:Ljava/io/DataOutputStream;
-
-    invoke-virtual {v0}, Ljava/io/DataOutputStream;->flush()V
-
-    .line 602
-    if-eqz v2, :cond_d0
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$nl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
-
-    if-eqz v0, :cond_c9
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$nl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
-
-    invoke-virtual {v0, v2}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->sendLatest([B)V
-
-    :cond_c9
-    sget-wide v0, Lfr/testudo/spacecorsair/mod/ModLan;->bytesOut:J
-
-    array-length v2, v2
-
-    int-to-long v2, v2
-
-    add-long/2addr v0, v2
-
-    sput-wide v0, Lfr/testudo/spacecorsair/mod/ModLan;->bytesOut:J
-    :try_end_d0
-    .catchall {:try_start_99 .. :try_end_d0} :catchall_d7
-
-    .line 604
-    :cond_d0
-    :try_start_d0
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$wl:Ljava/util/concurrent/locks/ReentrantLock;
-
-    invoke-virtual {v0}, Ljava/util/concurrent/locks/ReentrantLock;->unlock()V
-
-    goto/16 :goto_0
-
-    :catchall_d7
+    .line 676
+    :catch_4c
     move-exception v0
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$wl:Ljava/util/concurrent/locks/ReentrantLock;
+    :try_start_4d
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$nl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
-    invoke-virtual {v1}, Ljava/util/concurrent/locks/ReentrantLock;->unlock()V
+    invoke-virtual {v1}, Lfr/testudo/spacecorsair/mod/ModNet$Link;->finSeen()Z
 
-    .line 605
+    move-result v1
+
+    if-eqz v1, :cond_59
+
+    const/4 v1, 0x1
+
+    # setter for: Lfr/testudo/spacecorsair/mod/ModLan;->byeSeen:Z
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$902(Z)Z
+
+    :cond_59
     throw v0
-    :try_end_de
-    .catch Ljava/lang/Throwable; {:try_start_d0 .. :try_end_de} :catch_8a
 
-    .line 589
-    :array_de
-    .array-data 1
-        0x9t
-        0x0t
-        0x0t
-        0x0t
-        0x0t
-    .end array-data
+    .line 681
+    :cond_5a
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$in:Ljava/io/DataInputStream;
+
+    invoke-virtual {v0}, Ljava/io/DataInputStream;->readUnsignedByte()I
+
+    move-result v2
+
+    .line 682
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$in:Ljava/io/DataInputStream;
+
+    invoke-virtual {v0}, Ljava/io/DataInputStream;->readInt()I
+
+    move-result v1
+
+    .line 683
+    if-ltz v1, :cond_6a
+
+    if-le v1, v9, :cond_83
+
+    :cond_6a
+    new-instance v0, Ljava/io/IOException;
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "bad length "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 684
+    :cond_83
+    new-array v0, v1, [B
+
+    .line 685
+    iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLan$7;->val$in:Ljava/io/DataInputStream;
+
+    invoke-virtual {v3, v0}, Ljava/io/DataInputStream;->readFully([B)V
+    :try_end_8a
+    .catch Ljava/lang/Throwable; {:try_start_4d .. :try_end_8a} :catch_3d
+
+    goto :goto_27
+
+    .line 690
+    :cond_8b
+    :try_start_8b
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->receive(I[B)V
+    invoke-static {v2, v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1000(I[B)V
+    :try_end_8e
+    .catch Ljava/io/IOException; {:try_start_8b .. :try_end_8e} :catch_90
+    .catch Ljava/lang/Throwable; {:try_start_8b .. :try_end_8e} :catch_92
+
+    goto/16 :goto_3
+
+    .line 691
+    :catch_90
+    move-exception v0
+
+    .line 692
+    :try_start_91
+    throw v0
+
+    .line 693
+    :catch_92
+    move-exception v0
+
+    .line 694
+    new-instance v1, Ljava/io/IOException;
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "bad message "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const-string v3, " "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-direct {v1, v0}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v1
+    :try_end_b6
+    .catch Ljava/lang/Throwable; {:try_start_91 .. :try_end_b6} :catch_3d
 .end method

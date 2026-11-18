@@ -70,6 +70,7 @@ public final class ModCapitals {
         int[] tReload, tKick;
         boolean fireLogged;
         boolean police;              // v42: a police titan (ModPoliceTitan), not the faction's real flagship
+        boolean boss;                // 2026-11-18: a scripted prologue boss (spawnBoss): keeps its stock movement
         float rate = 1.0f;           // v42: battery fire-rate multiplier (police titan x1.2)
         int lvl;                     // v42: level it was built at (scales with the player)
     }
@@ -211,7 +212,7 @@ public final class ModCapitals {
         GuardianCivilShip g = build(fi, lvl, null, at);
         if (g == null) return null;
         Cap c = caps.get(g);
-        if (c != null) c.hostileAnnounced = true;
+        if (c != null) { c.hostileAnnounced = true; c.boss = true; }
         g.amountOfDamageAllowedInRatioByPlayerBeforeRebelion = 0;
         try { g.attackPlayerIfItNotTheCaseAlready(); } catch (Throwable t) { /* re-armed by the AI tick */ }
         return g;
@@ -497,7 +498,7 @@ public final class ModCapitals {
         }
         boolean hostile = !ps.removed && ModLive.titanHostile(g, c);
         if (c.police || "spartan".equals(c.f.key)) {   // v43a-6 (owner 11-14): drone skill = SRS Aegis + every police titan; recalled when calm
-            if (hostile) ModAegisDrones.tick(g, c.shot * GUNS[0][0].dmg * ModBal.shotMult(c), c.lvl, ps, j);   // rail = 60% of an Aegis-type rail shot at this carrier's damage
+            if (hostile) ModAegisDrones.tick(g, c.shot * GUNS[0][0].dmg, c.lvl, ps, j);   // rail = 60% of an Aegis-type rail shot at this carrier's damage
             else ModAegisDrones.drop(g);
         }
         Gun[] gs = GUNS[indexOf(c.f)];

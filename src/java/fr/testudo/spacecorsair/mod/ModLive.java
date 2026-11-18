@@ -85,6 +85,9 @@ public final class ModLive {
             return;
         }
         boolean on = !ObjectRegistry.INSTANCE.game.mapMode && !e.isPlayer;
+        if (e.isPlayer && e == ObjectRegistry.INSTANCE.playerShip && !ObjectRegistry.INSTANCE.game.mapMode && ModQol.radarEdge()) {
+            try { radarEdge((PlayerShip) e); } catch (Throwable t) { /* QoL prototype P4 is cosmetic */ }
+        }
         if (on) {
             try {
                 frame();
@@ -200,6 +203,7 @@ public final class ModLive {
         if (e instanceof LootElement || e instanceof ModWreck) return;
         Drawable d = e.getDrawableObject();
         if (d == null) return;
+        if (e instanceof GuardianCivilShip && capOutlevels((GuardianCivilShip) e)) capSkull(e, d);   // QoL prototype P1
         boolean enemy = hostileEnemy(e);
         boolean pousee = e instanceof Ennemis ? ((Ennemis) e).isPousee
             : e instanceof fr.testudo.spacecorsair.business.world.civil.CivilShip && ((fr.testudo.spacecorsair.business.world.civil.CivilShip) e).isPousee;
@@ -222,8 +226,24 @@ public final class ModLive {
 
     /** True for a hostile enemy (not a drone) at least SKULL_GAP levels above the player. */
     static boolean outlevels(Element e) {
+        if (e instanceof GuardianCivilShip) return capOutlevels((GuardianCivilShip) e);   // QoL prototype P1
         if (!(e instanceof Ennemis) || Mod.isDrone(e)) return false;
         return ((Ennemis) e).level - ModV34.playerLevel() >= SKULL_GAP;
+    }
+
+    /** QoL prototype P1 (proposal, not approved): a hostile flagship or police titan (ModCapitals.Cap.lvl) SKULL_GAP+ levels up. */
+    static boolean capOutlevels(GuardianCivilShip g) {
+        ModCapitals.Cap c = ModCapitals.cap(g);
+        if (c == null || !(c.police || titanHostile(g, c))) return false;
+        return c.lvl - ModV34.playerLevel() >= SKULL_GAP;
+    }
+
+    /** QoL prototype P1: pulsing skull centred above a flagship / police titan hull (they have no stock level tag). */
+    private static void capSkull(Element e, Drawable d) {
+        float side = sizeOf(d);
+        float sh = SKULL_TAG_H * 1.6f, sw = sh * SKULL_ASPECT;
+        float pulse = 0.8f + 0.2f * (float) Math.sin(nowMs / 220.0d);
+        upright("icon_skull", e.position.x, e.position.y + side * 0.5f + 30.0f, sw, sh, SKULL_R, SKULL_G, SKULL_B, pulse * e.a, false);
     }
 
     /** Pulsing red skull just left of the stock level text (drawn at -w/2 - 10, or - 18 from L10, and h/2 + 8 by the game). */
@@ -237,6 +257,41 @@ public final class ModLive {
         float y = e.position.y + h / 2.0f + 8.0f + sh * 0.35f;
         float pulse = 0.8f + 0.2f * (float) Math.sin(nowMs / 220.0d);
         upright("icon_skull", x, y, sw, sh, SKULL_R, SKULL_G, SKULL_B, pulse, false);
+    }
+
+    // ------------------------------------------------------------------ QoL prototype P4: radar-edge pointers
+    /** Bosses, hostile flagships and police titans outside radar range (up to RADAR_EDGE_MAX x range) are pinned to the radar rim. */
+    static final float RADAR_EDGE_MAX = 4.0f, RADAR_EDGE_H = 12.0f;
+    private static final Vector2 edgeAt = new Vector2();
+
+    private static void radarEdge(PlayerShip ps) {
+        float range = ps.radarPortee;
+        if (range <= 0 || fr.testudo.spacecorsair.display.hud.Radar.drawPosition == null) return;
+        java.util.List<Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
+        float rim = fr.testudo.spacecorsair.display.hud.Radar.DEMI_DIM - 14;
+        for (int i = 0; i < els.size(); i++) {
+            Element e = els.get(i);
+            if (e == null || e.removed || e.life <= 0) continue;
+            boolean boss = false, cap = false;
+            if (e instanceof GuardianCivilShip) {
+                ModCapitals.Cap c = ModCapitals.cap(e);
+                cap = c != null && (c.police || titanHostile((GuardianCivilShip) e, c));
+            } else if (e instanceof Ennemis && !Mod.isDrone(e)) boss = ModBoss.kindOf(e) >= 0;
+            if (!boss && !cap) continue;
+            float dx = e.position.x - ps.position.x, dy = e.position.y - ps.position.y;
+            float d2 = dx * dx + dy * dy;
+            if (d2 < range * range || d2 > range * range * RADAR_EDGE_MAX * RADAR_EDGE_MAX) continue;
+            float d = (float) Math.sqrt(d2);
+            edgeAt.setSameAs(fr.testudo.spacecorsair.display.hud.Radar.drawPosition).add(dx / d * rim, dy / d * rim);
+            boolean skull = outlevels(e);
+            Texture t = ModArt.ready(skull ? "icon_skull" : "icon_boss");
+            if (t == null) continue;
+            float h = skull ? SKULL_RADAR_H : RADAR_EDGE_H, w = skull ? h * SKULL_ASPECT : h;
+            float a = 0.55f + 0.45f * (1.0f - Math.min(1.0f, (d - range) / (range * (RADAR_EDGE_MAX - 1.0f))));   // nearer = brighter
+            if (skull) ModFx.hudTex(t, edgeAt.x, edgeAt.y, w, h, SKULL_R, SKULL_G, SKULL_B, a);
+            else if (boss) ModFx.hudTex(t, edgeAt.x, edgeAt.y, w, h, 0.78f, 0.45f, 1.0f, a);
+            else ModFx.hudTex(t, edgeAt.x, edgeAt.y, w, h, 1.0f, 0.35f, 0.25f, a);
+        }
     }
 
     // ------------------------------------------------------------------ living ships
@@ -412,6 +467,10 @@ public final class ModLive {
         upright("ui_boss_plate", x + 20, y + 10, pw, pw / 8.0f, 1, 1, 1, 0.95f, false);
         float ic = 64.0f;
         upright("icon_boss", x - half - 26.0f, y + 10, ic, ic, 1, 1, 1, 1, false);
+        if (outlevels(b)) {   // QoL prototype P1: bosses 5+ levels up also get the skull, left of the boss icon
+            float sh = SKULL_TAG_H * 1.4f;
+            upright("icon_skull", x - half - 26.0f - ic * 0.5f - sh * 0.6f, y + 10, sh * SKULL_ASPECT, sh, SKULL_R, SKULL_G, SKULL_B, 0.8f + 0.2f * (float) Math.sin(nowMs / 220.0d), false);
+        }
         tmp2.set(x - half + 14.0f, y);
         ObjectRegistry.INSTANCE.renderQueue.addTextToTextWaitingQueue(tmp2, false, plateText[kind], 0.78f, 0.45f, 1.0f, 1.0f, TextSize.MEDIUM);
         if (ModBoss.enragedOf(b)) {
@@ -501,30 +560,18 @@ public final class ModLive {
      */
     public static float hit(Element target, float dmg, Projectile p) {
         float out = dmg;
-        if (target == ModBal.splitTarget) ModBal.st(0, dmg, p);   // 2026-11-18 emulator trace (test target only)
         try {
             out = ModAnchor.beam(target, out, p);   // v39: enemy beams through the Leviathan anchor wall
-            if (target == ModBal.splitTarget) ModBal.st(1, out, p);
             if (out <= 0 && dmg > 0) return 0;
             out = ModV34.damage(target, out, p);
-            if (target == ModBal.splitTarget) ModBal.st(2, out, p);
             out = ModEnemyGuns.damageIn(target, out, p);   // v43a-15: Helion shield breaker
-            if (target == ModBal.splitTarget) ModBal.st(3, out, p);
             out = ModV35.damage(target, out, p);   // v35 kill-time targets by advantage
-            if (target == ModBal.splitTarget) ModBal.st(4, out, p);
             out = ModTitanAI.damageIn(target, out, p);
-            if (target == ModBal.splitTarget) ModBal.st(5, out, p);
             out = ModPolice.armor(target, out);   // v43a-11 (owner 11-14): police take 25% less, police titans 30% less
-            if (target == ModBal.splitTarget) ModBal.st(6, out, p);
             out = ModPoliceTitan.overAbsorb(target, out);   // owner 2026-11-12: police titan overshield, before its shield
-            if (target == ModBal.splitTarget) ModBal.st(7, out, p);
             out = ModV34.shieldAbsorb(target, out, p);   // v37: big enemies' default shield
-            if (target == ModBal.splitTarget) ModBal.st(8, out, p);
             out = ModPolice.hit(target, out, p);   // v42: police heat from player hits, police-only weapons on the player
-            if (target == ModBal.splitTarget) ModBal.st(9, out, p);
             out = ModHornet.damageIn(target, out, p);   // v43a-16: Hornet s5 wing shields
-            if (target == ModBal.splitTarget) ModBal.st(10, out, p);
-            ModBal.recordHit(target, out, p);   // 2026-11-17: emulator damage split (gun / missile), records only
             onHit(target);
             if (target.isPlayer && p != null) {
                 PlayerShip ps = (PlayerShip) target;

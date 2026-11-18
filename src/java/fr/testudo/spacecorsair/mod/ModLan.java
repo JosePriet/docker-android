@@ -77,7 +77,9 @@ import java.util.WeakHashMap;
  * steered by the AI, never destroyed (hits are forwarded to the guest's own shields and hull), and enemies near it are
  * set on it.</li>
  * <li>The guest follows the host: a sector change on the host pulls the guest's ship into the same sector.</li>
- * <li>XP is shared: every point the host earns is added to the guest. Loot and credits stay with the host.</li>
+ * <li>XP is shared: every point the host earns is added to the guest. Loot: each player rolls its own drops for every
+ * kill (v45; owner 2026-11-18: co-op only, never in a duel). Credits stay with each player.</li>
+ * <li>Local rooms (owner 2026-11-18): public, or private with a 4-character code the guest must type (like internet games).</li>
  * </ul>
  *
  * Transport: TCP on port 37001 (the original game's multiplayer port), Nagle off, one guest. Each side keeps only the
@@ -100,8 +102,9 @@ public final class ModLan {
 
     private static final String HELLO = "SCLAN2";   // v45: + version, nickname, country, and a host reply byte
     static final int MAX_MSG = 256 * 1024;
-    private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3;
-    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7, MSG_KILL = 8, MSG_PING = 9, MSG_LFRAME = 10, MSG_LSTATE = 11, MSG_STYLE = 12, MSG_DECL = 13;   // v45: 6 = a deflated FRAME / STATE (type byte first)
+    private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3, BADCODE = 4, FILES = 5;   // FILES (owner 2026-11-18, spec item 6): same version, different game files   // owner 2026-11-18: BADCODE = a private local room, code missing or wrong
+    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7, MSG_KILL = 8, MSG_PING = 9, MSG_LFRAME = 10, MSG_LSTATE = 11, MSG_STYLE = 12, MSG_DECL = 13,
+        MSG_DRONE = 14, MSG_DOOM = 15;   // GPT check BH04 prototype (switch ModLan.extra, off): guest drone launch, guest doomsday ticks   // v45: 6 = a deflated FRAME / STATE (type byte first)
     private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
     private static final int MAX_REMOTE = 2200;   // render queue holds 2500 per frame
 
@@ -116,7 +119,107 @@ public final class ModLan {
     private static volatile long linkGen;
     private static volatile java.util.concurrent.locks.ReentrantLock writeLock;
 
-    /** Host: starts listening and announcing. UI thread. */
+    // ------------------------------------------------------------------ owner 2026-11-18: local rooms need the code unless public
+    /** The local room: public (anyone on the network may ask to join) or private (the guest types lanCode). */
+    static volatile boolean lanPub = true;
+    static volatile String lanCode = "";
+    private static final java.util.HashMap<String, long[]> badCodes = new java.util.HashMap<String, long[]>();   // address -> {wrong tries, first try ms}
+    /** Guest: the address of a private local room that asked for its code (the menu asks for it). */
+    static volatile String needCode;
+    private static volatile String lastCode = "";
+
+    /** Host UI: opens a local room, public or private (a new random code). */
+    static void host(boolean pub) {
+        lanPub = pub;
+        lanCode = pub ? "" : newCode();
+        synchronized (badCodes) { badCodes.clear(); }
+        host();
+    }
+
+    static String newCode() {
+        java.security.SecureRandom r = new java.security.SecureRandom();
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; i < 4; i++) b.append(ModLanUi.CODE_ALPHABET.charAt(r.nextInt(ModLanUi.CODE_ALPHABET.length())));
+        return b.toString();
+    }
+
+    /** Host: a private local room checks the guest's code. 5 wrong codes from one address lock it out for 10 minutes. */
+    private static int codeCheck(String addr, String code) {
+        if (lanPub) return OK;
+        long now = System.currentTimeMillis();
+        synchronized (badCodes) {
+            long[] b = badCodes.get(addr);
+            if (b != null && now - b[1] > 600000) { badCodes.remove(addr); b = null; }
+            if (b != null && b[0] >= 5) return KICKED;
+            if (lanCode.length() == 4 && lanCode.equals(code)) return OK;
+            if (code.length() == 0) return BADCODE;   // asked for the code: not a wrong try
+            if (b == null) {
+                if (badCodes.size() >= 256) {   // cross-check: expired entries go first
+                    java.util.Iterator<long[]> it = badCodes.values().iterator();
+                    while (it.hasNext()) if (now - it.next()[1] > 600000) it.remove();
+                }
+                if (badCodes.size() >= 256) return KICKED;   // verify 3: a flood of addresses gets no free tries
+                b = new long[]{0, now};
+                badCodes.put(addr, b);
+            }
+            b[0]++;
+            return BADCODE;
+        }
+    }
+
+    /** Guest: the opening of the handshake (tag, version, nickname, country, local room code). */
+    private static void writeHello(DataOutputStream ho, String code) throws IOException {
+        ho.write(HELLO.getBytes("UTF-8"));
+        ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
+        ho.writeUTF(code == null ? "" : ModLanUi.codeChars(code, 4));
+        ho.writeUTF(contentHash());
+        ho.flush();
+    }
+
+    private static volatile String hashCache;
+
+    /**
+     * Spec item 6 (owner 2026-11-18): the first 16 hex digits of the SHA-256 of this install's APK file. Two phones play
+     * together only when the files are identical (the version name and build alone do not prove it). "?" = unreadable.
+     * About 1 s for the 85 MB APK the first time; warmed when the Multiplayer menu opens.
+     */
+    static String contentHash() {
+        String h = hashCache;
+        if (h != null) return h;
+        synchronized (ModLan.class) {
+            if (hashCache != null) return hashCache;
+            String out = "?";
+            java.io.InputStream in = null;
+            try {
+                String path = ObjectRegistry.INSTANCE.game.context.getPackageCodePath();
+                java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
+                in = new java.io.FileInputStream(path);
+                byte[] buf = new byte[1 << 16];
+                for (int n; (n = in.read(buf)) > 0; ) md.update(buf, 0, n);
+                byte[] d = md.digest();
+                StringBuilder b = new StringBuilder();
+                for (int i = 0; i < 8; i++) b.append(String.format("%02x", d[i] & 0xff));
+                out = b.toString();
+            } catch (Throwable t) {
+                out = "?";
+            } finally {
+                try { if (in != null) in.close(); } catch (Throwable t) { /* closed */ }
+            }
+            if (!out.equals("?")) hashCache = out;   // verify: a failed read is tried again next time
+            ModDev.ev("lan", "content hash " + out);
+            return out;
+        }
+    }
+
+    static String filesText() { return ModLang.tr("Same version, but the game files differ. Both phones need the same APK file."); }
+
+    /** UI: computes the hash off the UI thread so the first handshake does not wait for it. */
+    static void warmHash() {
+        if (hashCache != null) return;
+        new Thread(new Runnable() { public void run() { contentHash(); } }, "lan-hash").start();
+    }
+
+    /** Host: starts listening and announcing, in the current room mode (lanPub, lanCode). UI thread. */
     static void host() {
         String tp = ModLobby.testProfileBlock();   // fix list 3B
         if (tp != null) { status = tp; return; }
@@ -159,7 +262,7 @@ public final class ModLan {
                     while (gen == linkGen && !connected) {
                         String name = "Corsair";
                         try { name = ObjectRegistry.INSTANCE.game.currentLevel.id.levelName; } catch (Throwable t) { /* unnamed */ }
-                        byte[] b = (HELLO + "|" + myVersion() + "|" + myNick() + "|" + myCountry() + "|" + name + "|" + (pvpRoom ? 1 : 0)).getBytes("UTF-8");
+                        byte[] b = (HELLO + "|" + myVersion() + "|" + myNick() + "|" + myCountry() + "|" + name + "|" + (pvpRoom ? 1 : 0) + "|" + (lanPub ? 1 : 0)).getBytes("UTF-8");
                         for (InetAddress a : broadcasts()) {
                             try { ds.send(new DatagramPacket(b, b.length, a, PORT)); } catch (Throwable t) { /* next address */ }
                         }
@@ -209,9 +312,7 @@ public final class ModLan {
         status = ModLang.tr("Waiting for the host to accept...");
         try {
             DataOutputStream ho = new DataOutputStream(s.getOutputStream());
-            ho.write(HELLO.getBytes("UTF-8"));
-            ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
-            ho.flush();
+            writeHello(ho, "");   // internet games: the lobby checked the code
             s.setSoTimeout(35000);
             DataInputStream hi = new DataInputStream(s.getInputStream());
             int r = hi.readUnsignedByte();
@@ -220,7 +321,8 @@ public final class ModLan {
             if (r != OK) {
                 stop();
                 status = r == VERSION ? ModLang.tr("Different game versions. Your friend has") + " " + clean(hv, 40) + ", " + ModLang.tr("you have") + " " + myVersion() + "."
-                    : r == KICKED ? ModLang.tr("The host removed you from this game.") : ModLang.tr("The host declined.");
+                    : r == KICKED ? ModLang.tr("The host removed you from this game.")
+                    : r == FILES ? filesText() : ModLang.tr("The host declined.");
                 return false;
             }
             s.setSoTimeout(5000);
@@ -236,7 +338,11 @@ public final class ModLan {
 
     private static volatile String netJoinId = "", netPeerId = "", rejoinId = "";
 
-    static void join(String ip) {
+    static void join(String ip) { join(ip, ""); }
+
+    /** Guest: joins a local host; code = the private room's code ("" for a public room). */
+    static void join(String ip, String code) {
+        needCode = null;
         String tp = ModLobby.testProfileBlock();   // fix list 3B
         if (tp != null) { status = tp; return; }
         ModLobby.leave();
@@ -249,9 +355,7 @@ public final class ModLan {
             s.connect(new InetSocketAddress(ip, PORT), 5000);
             if (gen != linkGen) { s.close(); return; }
             DataOutputStream ho = new DataOutputStream(s.getOutputStream());
-            ho.write(HELLO.getBytes("UTF-8"));
-            ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
-            ho.flush();
+            writeHello(ho, code);
             status = ModLang.tr("Waiting for the host to accept...");
             s.setSoTimeout(35000);
             DataInputStream hi = new DataInputStream(s.getInputStream());
@@ -264,7 +368,11 @@ public final class ModLan {
                 noRejoin();
                 stop();
                 status = r == VERSION ? ModLang.tr("Different game versions. Your friend has") + " " + clean(hv, 40) + ", " + ModLang.tr("you have") + " " + myVersion() + "."
-                    : r == KICKED ? ModLang.tr("The host removed you from this game.") : ModLang.tr("The host declined.");
+                    : r == KICKED ? ModLang.tr("The host removed you from this game.")
+                    : r == FILES ? filesText()
+                    : r == BADCODE ? (code.length() == 0 ? ModLang.tr("This local game is private. Type its 4-character code.") : ModLang.tr("Wrong code."))
+                    : ModLang.tr("The host declined.");
+                if (r == BADCODE) needCode = ip;
                 ModDev.ev("lan", "join refused " + r);
                 return;
             }
@@ -272,6 +380,7 @@ public final class ModLan {
             readPeerId(hi);
             s.setSoTimeout(0);
             lastAddr = ip;
+            lastCode = code;
             begin(s, gen);
         } catch (Throwable t) {
             if (gen == linkGen) fail(t);   // a join the player already left must not end what came after it
@@ -347,7 +456,7 @@ public final class ModLan {
     private static volatile String pendingWho;
     private static volatile Activity lastAct;
 
-    private static void noRejoin() { lastAddr = null; rejoinAddr = null; rejoinId = ""; rejoinUntil = 0; }
+    private static void noRejoin() { lastAddr = null; lastCode = ""; rejoinAddr = null; rejoinId = ""; rejoinUntil = 0; }
 
     /** Host: asks the player (dialog on the current screen; also offered in the LAN co-op menu). 25 s without an answer declines. */
     private static boolean askAccept(final String who, long gen) {
@@ -428,6 +537,7 @@ public final class ModLan {
                 if (f.length < 6) continue;
                 String line = p.getAddress().getHostAddress() + "  " + ModLanUi.label(ModLanUi.safeNick(clean(f[2], 12)), ModLanUi.safeCountry(clean(f[3], 3)))
                     + "  \u00b7  " + clean(f[4], 40) + (f[5].equals("1") ? "  \u00b7  PvP" : "")
+                    + "  \u00b7  " + (f.length > 6 && f[6].equals("1") ? ModLang.tr("Public") : privTag())
                     + (clean(f[1], 40).equals(myVersion()) ? "" : "  \u00b7  " + ModLang.tr("other version"));
                 if (!out.contains(line)) out.add(line);
             }
@@ -438,6 +548,9 @@ public final class ModLan {
         }
         return out;
     }
+
+    /** The scan-row tag of a private local room (a tap on such a row asks for the code first). */
+    static String privTag() { return ModLang.tr("Private (code)"); }
 
     static List<InetAddress> broadcasts() {
         ArrayList<InetAddress> out = new ArrayList<InetAddress>();
@@ -495,6 +608,16 @@ public final class ModLan {
             synchronized (kicked) { out3 = !(s instanceof ModNet.Link) && kicked.contains(addr); }   // internet kicks go by install id at the lobby service
             if (out3) { out.writeByte(KICKED); out.flush(); return false; }
             if (!ver.equals(myVersion())) { out.writeByte(VERSION); out.writeUTF(myVersion()); out.flush(); ModDev.ev("lan", "refused version " + ver); return false; }
+            s.setSoTimeout(3000);
+            String code = ModLanUi.codeChars(clean(readShortUTF(in, 8), 8), 4);   // owner 2026-11-18: the local room code
+            String hash = clean(readShortUTF(in, 32), 16);   // spec item 6: the guest's game files
+            s.setSoTimeout(0);
+            if (!(s instanceof ModNet.Link)) {   // internet games: the lobby service already checked the code
+                int cc = codeCheck(addr, code);
+                if (cc != OK) { out.writeByte(cc); out.flush(); ModDev.ev("lan", "room code refused " + addr); return false; }
+            }
+            String mine = contentHash();   // verify: after the room code (a wrong code counts toward the lockout); unreadable files never match
+            if (mine.equals("?") || !hash.equals(mine)) { out.writeByte(FILES); out.flush(); ModDev.ev("lan", "refused files " + hash); return false; }
             boolean back = (s instanceof ModNet.Link ? rejoinId.length() > 0 && rejoinId.equals(netJoinId) : addr.equals(rejoinAddr)) && System.currentTimeMillis() < rejoinUntil;   // the same phone reconnecting
             String who = ModLanUi.label(ModLanUi.safeNick(nick), ModLanUi.safeCountry(ctry));
             if (!back && !autoAccept && !askAccept(who, gen)) { out.writeByte(DECLINED); out.flush(); ModDev.ev("lan", "declined " + addr); return false; }
@@ -671,15 +794,13 @@ public final class ModLan {
             s = new Socket();
             s.connect(new InetSocketAddress(ip, PORT), 2500);
             DataOutputStream ho = new DataOutputStream(s.getOutputStream());
-            ho.write(HELLO.getBytes("UTF-8"));
-            ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
-            ho.flush();
+            writeHello(ho, lastCode);
             s.setSoTimeout(5000);
             DataInputStream hi = new DataInputStream(s.getInputStream());
             int r = hi.readUnsignedByte();
             if (r != OK || linkGen != mark) {   // refused, or the player moved on: stop trying
                 s.close();
-                if (linkGen == mark) status = ModLang.tr("Co-op link lost");
+                if (linkGen == mark) status = r == FILES ? filesText() : ModLang.tr("Co-op link lost");
                 return true;
             }
             readPeerId(hi);
@@ -705,6 +826,7 @@ public final class ModLan {
             if (s != null) new Thread(new Runnable() { public void run() { ModLobby.call("POST", "/sample", s); } }, "lobby-sample").start();
         }
         lastDecl = null;
+        if (role == GUEST && connected && !solo) { exitReload = true; exitReloadAt = System.currentTimeMillis() + 31000; }   // GPT check BH03: the emptied sector comes back once no reconnect is pending
         linkGen++;
         final Socket old = sock;
         final java.util.concurrent.locks.ReentrantLock wlOld = writeLock;
@@ -740,6 +862,9 @@ public final class ModLan {
         pvpWanted = false;
         seenRound = 0;
         defeatRound = -1;
+        doomShotId = Integer.MIN_VALUE; doomShotAt = 0; doomTicksShot = 0; droneLaunchAt = 0; askAt = 0;   // BH04 prototype: per session
+        lostRound = false;   // GPT check BH07: a round lost between frames does not carry into the next duel
+        restore = false;
         solo = false;
         marksOut = null;
         autoAccept = false;
@@ -834,9 +959,9 @@ public final class ModLan {
         slowAt = 0; marksAt = 0; slowLast = null; leanLevel = ""; leanDmg = 0; leanXp = 0; leanMission = ""; leanDone = false; leanMarks = null; leanMarksN = 0;
         synchronized (defOut) { defOut.clear(); }
         synchronized (defIn) { defIn.clear(); texIn.clear(); }
-        synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); }
+        synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); inDrones.clear(); inDooms.clear(); }
         dmgSent = 0; dmgSeen = 0; xpSent = 0; xpSeen = 0; xpBase = -1; dmgBase = -1;
-        capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0;
+        capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0; jumps = 0; jumpWin = 0; moveSeen = 0; moveGrace = 0; graceAt = 0; obsSpeed = 0;
         synchronized (inLock) { inKills.clear(); }
     }
 
@@ -1105,6 +1230,7 @@ public final class ModLan {
     private static InFrame inFrame;
     private static volatile InState inState;
     private static final ArrayList<byte[]> inShots = new ArrayList<byte[]>();
+    private static final ArrayList<byte[]> inDrones = new ArrayList<byte[]>(), inDooms = new ArrayList<byte[]>();   // BH04 prototype
 
     // ------------------------------------------------------------------ v45: each player rolls its own loot
     static final class Kill { String cls; int level; boolean elite; float x, y; }
@@ -1332,6 +1458,12 @@ public final class ModLan {
             if (b.length > 4096) throw new IOException("shot too large");
             synchronized (inLock) { if (inShots.size() < 400) inShots.add(b); }
             shotsIn++;
+        } else if (type == MSG_DRONE && role == HOST && extra) {   // BH04 prototype: ignored while the switch is off
+            if (b.length > 8) throw new IOException("drone launch too large");
+            synchronized (inLock) { if (inDrones.size() < 4) inDrones.add(b); }
+        } else if (type == MSG_DOOM && role == HOST && extra) {
+            if (b.length > 64) throw new IOException("doomsday tick too large");
+            synchronized (inLock) { if (inDooms.size() < 50) inDooms.add(b); }
         }
     }
 
@@ -1622,7 +1754,7 @@ public final class ModLan {
         if (v == null || v.equals(testLast)) return;
         testLast = v;
         ModDev.ev("lan", "test switch " + v);
-        if (v.equals("host")) { host(); autoAccept = true; }   // the scripted peer has nobody to tap Accept
+        if (v.equals("host")) { host(true); autoAccept = true; }   // the scripted peer has nobody to tap Accept (public room: it sends no code)
         else if (v.equals("off")) stop();
         else if (v.equals("duel")) { pvpRoom = true; duel(true); }
         else if (v.equals("duel-off")) duel(false);
@@ -1648,7 +1780,11 @@ public final class ModLan {
      * its own missions, so its sector is rebuilt through the stock gate-travel path (LevelBuilder.jumpToLevel), which
      * spawns the sector's own ships again. The player comes out at the sector's closest gate.
      */
+    static volatile boolean exitReload;
+    private static volatile long exitReloadAt;
+
     static void preFrame() {
+        if (exitReload) exitFrame();
         if (!soloReload) return;
         soloReload = false;
         try {
@@ -1662,6 +1798,28 @@ public final class ModLan {
             ModDev.ev("lan", "solo: sector reloaded at " + p.portalName);
         } catch (Throwable t) {
             ModDev.ev("lan", "solo reload failed " + t);
+        }
+    }
+
+    /** GPT check BH03: a guest that stopped following the host gets its own sector rebuilt (stock gate travel), once no
+     *  reconnect is pending; kept for later while docked, on the map or in the prologue. */
+    private static void exitFrame() {
+        try {
+            if (role == GUEST) { if (connected && !solo) exitReload = false; return; }   // following again (that wipes it anyway), or still joining
+            if (role == HOST || ModTestMode.on || System.currentTimeMillis() > exitReloadAt + 60000) { exitReload = false; return; }   // cross-check: hosting now, another profile, or too late
+            if (System.currentTimeMillis() < exitReloadAt && (rejoinUntil > System.currentTimeMillis() || lastAddr != null || ModLobby.joined())) return;
+            fr.testudo.spacecorsair.game.levels.Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
+            PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+            if (lv == null || ps == null || ps.removed || ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode || ModPrologue.active) return;   // retried next frame
+            exitReload = false;
+            if (lv.id == LevelId.FFA_THE_PLAYER_PAY) return;   // the duel bay: leaveBay takes the ship home, which rebuilds it
+            fr.testudo.spacecorsair.business.world.Portal p = lv.findClosestPortal(ps.position);
+            if (p == null || p.portalName == null) { ModDev.ev("lan", "exit reload skipped: no gate"); return; }
+            fr.testudo.spacecorsair.game.levels.builders.LevelBuilder.jumpToLevel(lv.name, p.portalName);
+            ModDev.ev("lan", "guest exit: sector reloaded at " + p.portalName);
+        } catch (Throwable t) {
+            exitReload = false;
+            ModDev.ev("lan", "exit reload failed " + t);
         }
     }
 
@@ -1717,9 +1875,16 @@ public final class ModLan {
             if (announce) { announce = false; Mod.floatText(ps, ModLang.tr("CO-OP CONNECTED") + (peerNick.length() > 0 ? ": " + peerLabel() : ""), 0.3f, 1.0f, 0.5f); }
             if (lost) { lost = false; Mod.floatText(ps, ModLang.tr("CO-OP LINK LOST"), 1.0f, 0.4f, 0.3f); }
             testSwitch(now);
+            extraSwitch(now);
             if (joinAsk) { joinAsk = false; String w = pendingWho; if (w != null) Mod.floatText(ps, w + " " + ModLang.tr("wants to join your game."), 0.3f, 1.0f, 0.5f); }
             if (now - persistAt > 2000) { persistAt = now; persistedMission(ps); }
             guestPos(ps, now);
+            if (ModLobby.switchLocked() && (internet || ModLobby.hosting || ModLobby.joined())) {   // GPT check BH05
+                ModDev.ev("lan", "test switch seen: internet session ended");
+                if (internet) { noRejoin(); stop(); }
+                ModLobby.leave();
+                status = ModLang.tr("Test switches are in use. Internet games are off until the game restarts; local games still work.");
+            }
             if (!connected) {
                 leaveBay();
                 return;
@@ -1757,11 +1922,15 @@ public final class ModLan {
             }
         }
         InState s;
-        ArrayList<byte[]> shots;
+        ArrayList<byte[]> shots, dshots, dooms;
         synchronized (inLock) {
             s = inState;
             shots = new ArrayList<byte[]>(inShots);
             inShots.clear();
+            dshots = new ArrayList<byte[]>(inDrones);
+            inDrones.clear();
+            dooms = new ArrayList<byte[]>(inDooms);
+            inDooms.clear();
         }
         Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
         hostMarks(ps, lv);
@@ -1780,14 +1949,22 @@ public final class ModLan {
             moveState = s;
             float dx = s.x - moveX, dy = s.y - moveY;
             float secs = Math.max(0.016f, (s.at - moveAt) / 1000.0f);
+            if (moveSeen != 0 && s.at - moveSeen > 500 && !moveHold && s.at - graceAt > 30000) { moveGrace = s.at + 3000; graceAt = s.at; }   // verify: a stall then a burst of queued states is not cheating; cross-check: at most once per 30 s, never while held
+            moveSeen = s.at;
             float hx = s.x - ps.position.x, hy = s.y - ps.position.y;
             boolean nearHost = hx * hx + hy * hy < 4000f * 4000f;
             float reach = MAX_SPEED * secs + 1500f;
             if (moveAt != 0 && !nearHost && dx * dx + dy * dy > reach * reach) {
-                flags++;   // held in place, never kicked for it: a stall and catch-up can look the same
+                if (!moveHold && s.at > moveGrace) {   // spec item 8 (owner 2026-11-18): each new impossible jump counts once; repeat offenders are kicked
+                    flags++;
+                    long nowJ = System.currentTimeMillis();
+                    if (nowJ - jumpWin > JUMP_WINDOW_MS) { jumpWin = nowJ; jumps = 0; }
+                    if (++jumps >= JUMP_KICK) { ModDev.ev("lan", "movement jumps " + jumps); violation("movement"); return; }
+                }
                 moveHold = true;
             } else {
                 moveHold = false;
+                if (moveAt != 0) obsSpeed = Math.min(MAX_SPEED, (float) Math.sqrt(dx * dx + dy * dy) / secs);   // cross-check: the speed this host saw, for late states
                 moveX = s.x; moveY = s.y; moveAt = s.at;
             }
         }
@@ -1813,6 +1990,11 @@ public final class ModLan {
             if (++shotCount > MAX_SHOTS_S) { flags++; continue; }   // v45: above any weapon's fire rate
             fireShot(b, p);
         }
+        if (extra) {   // BH04 prototype
+            for (byte[] b : dshots) guestDrones(b, p);
+            for (byte[] b : dooms) guestDoom(b, p);
+        }
+        upkeepGuestDrones(p, dt);   // also after the switch went off: the drones still expire
         retarget -= dt;
         if (!pvp && retarget <= 0) {
             retarget = 1000;
@@ -1833,8 +2015,7 @@ public final class ModLan {
     static final float MAX_SPEED = 6000f;        // world units per second
     static final float MAX_STEP = 100f;          // speed vector per frame
     static final int MAX_SHOTS_S = 300;
-    static final float MAX_SHOT_DMG = 1.0e6f;
-    static final float SHOT_REACH = 1500f;       // a shot starts at the ship
+    static final float SHOT_REACH = 300f;        // spec item 4 (owner 2026-11-18): a shot starts within 300 of the ship's shield edge
     private static volatile ModLanCheck.Limits limits;
     private static ModLanCheck.Limits noDecl;
     private static volatile long beganAt, firstStateAt;
@@ -1892,6 +2073,11 @@ public final class ModLan {
 
     private static InState moveState;
     private static float moveX, moveY, roundDmg;
+    static final int JUMP_KICK = 4;                  // spec item 8: this many impossible jumps ...
+    static final long JUMP_WINDOW_MS = 120000;       // ... within 2 minutes end the session (one stall and catch-up is one jump)
+    private static int jumps;
+    private static long jumpWin, moveSeen, moveGrace, graceAt;
+    private static float obsSpeed;
     private static long moveAt, shotSec;
     private static boolean moveHold;
     private static int shotCount;
@@ -1915,13 +2101,15 @@ public final class ModLan {
     private static boolean bad(float v) { return Float.isNaN(v) || Float.isInfinite(v); }
 
     /** A received shot the guest's ship could have fired: real numbers, starts at the ship, bounded damage and life. */
-    static boolean shotOk(Projectile p, float fromX, float fromY) {
+    static boolean shotOk(Projectile p, float fromX, float fromY) { return shotOk(p, fromX, fromY, SHOT_REACH); }
+
+    /** reach = the farthest a shot may start from (fromX, fromY). Damage is not capped here: fireShot checks it against the weapon tables. */
+    static boolean shotOk(Projectile p, float fromX, float fromY, float reach) {
         if (p.position == null || p.speed == null) return false;
         if (bad(p.position.x) || bad(p.position.y) || bad(p.speed.x) || bad(p.speed.y) || bad(p.damage) || bad(p.spin) || bad(p.life) || bad(p.maxLife)) return false;
         float dx = p.position.x - fromX, dy = p.position.y - fromY;
-        if (dx * dx + dy * dy > SHOT_REACH * SHOT_REACH) return false;
+        if (!(dx * dx + dy * dy <= reach * reach)) return false;
         if (p.damage < 0) p.damage = 0;
-        if (p.damage > MAX_SHOT_DMG) { p.damage = MAX_SHOT_DMG; flags++; }
         if (p.lifeTimeInMilli > 60000) { p.lifeTimeInMilli = 60000; flags++; }
         return true;
     }
@@ -1955,6 +2143,7 @@ public final class ModLan {
     }
 
     private static void removeProxy() {
+        dropGuestDrone(0); dropGuestDrone(1);   // BH04 prototype
         Ennemis p = proxy;
         proxy = null;
         if (p != null && !p.removed) p.remove();
@@ -1971,7 +2160,7 @@ public final class ModLan {
 
     /** Mod.isDrone: the stand-in is on the player's side in co-op; in a duel it is an opponent (stock enemy rules). */
     static boolean isAlly(Element e) {
-        return e != null && e == proxy && !pvp && !pvpRoom;   // v45: PvP room on = the players can hit each other in sectors too
+        return e != null && (e == proxy || isGuestDrone(e)) && !pvp && !pvpRoom;   // BH04 prototype: the guest's drones too. v45: PvP room on = the players can hit each other in sectors too
     }
 
     /** ModLive.draw for the stand-in: the guest's own ship sprites at the stand-in's position. True = drawn here. */
@@ -1996,7 +2185,14 @@ public final class ModLan {
             Projectile p = newProjectile(c);
             if (p == null) return;
             for (Field f : shotFields(c)) readField(in, f, p);
-            if (!shotOk(p, from.position.x, from.position.y)) { flags++; p.removed = true; return; }
+            // spec item 4: the shot starts within 300 of the declared hull's shield edge, at the stand-in or at the
+            // guest's last reported place (the stand-in is extrapolated), plus the flight of one late state
+            ModLanCheck.Limits lr = limits != null ? limits : undeclared();
+            InState st = inState;
+            float ageS = st != null ? Math.min(0.5f, Math.max(0f, System.currentTimeMillis() - st.at - 250) / 1000f) : 0f;   // past what the stand-in extrapolates
+            float reach = SHOT_REACH + lr.radius + obsSpeed * ageS;   // verify: no slack from the guest's own numbers; cross-check: a late state, by the speed seen here
+            boolean near = shotOk(p, from.position.x, from.position.y, reach) || (st != null && !moveHold && shotOk(p, st.x, st.y, reach));   // a rejected jump is no origin
+            if (!near) { flags++; p.removed = true; return; }
             // v45: damage clamped to what the declared ship and weapons can do by this phone's own tables
             ModLanCheck.Limits lm = limits;
             long nowMs = System.currentTimeMillis();
@@ -2034,6 +2230,167 @@ public final class ModLan {
         } catch (Throwable t) {
             ModDev.ev("lan", "shot failed " + t);   // one lost shot
         }
+    }
+
+    // ---------------------------------------------------------------- GPT check BH04 prototype (switch off)
+    /** BH04 prototype switch: guest drone shots and doomsday ticks reach the host. Off; the emulator turns it on with
+     *  /data/local/tmp/corsair_bh04 = on (both phones must have it on). Not for release until the owner approves. */
+    static volatile boolean extra;
+    static final long DRONE_GAP_MS = 15000;          // a guest drone launch at most this often (shortest Hive Bay drone life)
+    static final int DOOM_TICKS_S = 6;               // doomsday ticks a second (fastest lance: one every 200 ms = 5, +1 for the second boundary)
+    static final int DOOM_TICKS_SHOT = 80;           // ticks one doomsday shot may have (longest fire with slack)
+    static final long DOOM_GAP_MS = 15000;           // a new doomsday shot at most this often
+    static final float DOOM_ORIGIN = 2000f;          // the beam's nose this close to the guest's ship
+    private static long doomSec, doomShotAt, droneLaunchAt, askAt;
+    private static int doomInSec, doomShotId = Integer.MIN_VALUE, doomTicksShot;
+    private static long extraAt;
+    /** Host: the guest's Hive Bay drones, flown by the host's game next to the stand-in (the guest's sector has no enemies). */
+    private static final Ennemis[] gDrones = new Ennemis[2];
+    private static final int[] gDroneLeft = new int[2];
+    private static int gDroneRetarget;
+
+    /** Guest (Mod.launchDrones): asks the host to launch this ship's drones there. True = asked (the missile is used). */
+    static boolean askDrones(int tier) {
+        if (!extra || !guestActive()) return false;
+        long now = System.currentTimeMillis();
+        if (askAt != 0 && now - askAt < DRONE_GAP_MS) return false;   // verifier: the host would refuse; the local launch path answers instead
+        askAt = now;
+        try {
+            ByteArrayOutputStream bo = new ByteArrayOutputStream(4);
+            new DataOutputStream(bo).writeByte(Math.max(0, Math.min(3, tier)));
+            sendReliable(MSG_DRONE, bo);
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    /** Host: a drone launch of the guest, checked: a declared Hive Bay, at most once per its own reload, no duel room. */
+    private static void guestDrones(byte[] b, Ennemis from) {
+        try {
+            ModLanCheck.Decl d = lastDecl;
+            if (d == null || pvp || pvpRoom || !ModLanCheck.hiveDeclared(d)) { flags++; return; }
+            int tier = Math.max(0, Math.min(ModSpecs.HIVE_LIFE.length - 1, b.length > 0 ? b[0] & 255 : 0));
+            tier = Math.min(tier, ModLanCheck.hiveTier(d));   // never above the declared bay
+            long now = System.currentTimeMillis();
+            if (droneLaunchAt != 0 && now - droneLaunchAt < DRONE_GAP_MS) { flags++; return; }
+            Element t = Mod.findEnemy(from.position, Mod.DRONE_ENGAGE_RANGE);
+            if (t == null) return;
+            int lvl = Math.max(0, Math.min(999, d.level));
+            boolean any = false;
+            for (int i = 0; i < 2; i++) {
+                if (gDrones[i] != null && !gDrones[i].removed) continue;
+                Ennemis e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newEnnemis(
+                    i == 0 ? fr.testudo.spacecorsair.business.ennemis.EnnemisType.UFO_ALIEN : fr.testudo.spacecorsair.business.ennemis.EnnemisType.ALIEN_RAT, lvl, lvl);
+                e.level = lvl; e.levelStr = lvl + "";
+                e.spin = from.spin + 180.0f + (i == 0 ? -20.0f : 20.0f);
+                e.position.setSameAs(from.position).add(i == 0 ? -120.0f : 120.0f, 0.0f);
+                e.speed.setSameAs(from.speed);
+                e.updateSapCoords();
+                e.desengagementDistance = 4000.0f;
+                e.xp = 0;
+                e.radarColorR = 0.2f; e.radarColorG = 1.0f; e.radarColorB = 0.2f;
+                e.specificName = ModLang.tr("ATK DRONE");
+                e.specificNameDecalX = -1;
+                e.initAttackTarget(t);
+                e.addToCurrentLevel();
+                gDrones[i] = e;
+                gDroneLeft[i] = ModSpecs.HIVE_LIFE[tier];
+                any = true;
+            }
+            if (any) { droneLaunchAt = now; ModDev.ev("lan", "guest drones launched tier " + tier); }
+        } catch (Throwable t) {
+            flags++;
+            ModDev.ev("lan", "guest drones failed " + t);
+        }
+    }
+
+    /** Host: lifetime, leash to the stand-in and targets of the guest's drones. */
+    private static void upkeepGuestDrones(Ennemis from, long dt) {
+        boolean retarget = (gDroneRetarget -= (int) dt) <= 0;
+        if (retarget) gDroneRetarget = 1000;
+        for (int i = 0; i < 2; i++) {
+            Ennemis e = gDrones[i];
+            if (e == null) continue;
+            gDroneLeft[i] -= (int) dt;
+            if (e.removed || gDroneLeft[i] <= 0 || from == null || from.removed || e.position.distance(from.position) > 4000f) { dropGuestDrone(i); continue; }
+            if (retarget) {
+                Element t = Mod.findEnemy(from.position, Mod.DRONE_ENGAGE_RANGE);
+                if (t != null) e.initAttackTarget(t);
+            }
+        }
+    }
+
+    private static void dropGuestDrone(int i) {
+        Ennemis e = gDrones[i];
+        gDrones[i] = null;
+        if (e != null) { e.specificName = null; if (!e.removed) e.remove(); }
+    }
+
+    static boolean isGuestDrone(Element e) {
+        return e != null && (e == gDrones[0] || e == gDrones[1]) && !pvp && !pvpRoom;
+    }
+
+    /** Host: one doomsday tick of the guest, checked, then applied to the host's own enemies (ModTitan rules and caps). */
+    private static void guestDoom(byte[] b, Ennemis from) {
+        try {
+            ModLanCheck.Limits lm = limits;
+            ModLanCheck.Decl d = lastDecl;
+            if (lm == null || d == null || !lm.doom || pvp || pvpRoom) { flags++; return; }   // only a declared doomsday hull, never in a duel room
+            DataInputStream in = new DataInputStream(new java.io.ByteArrayInputStream(b));
+            int k = in.readUnsignedByte();
+            float ax = in.readFloat(), ay = in.readFloat(), spin = in.readFloat(), half = in.readFloat(), nova = in.readFloat();
+            boolean seq = in.readBoolean();
+            int shot = in.readInt();
+            if (bad(ax) || bad(ay) || bad(spin) || bad(half) || bad(nova)) { flags++; return; }
+            if (Math.hypot(ax - from.position.x, ay - from.position.y) > DOOM_ORIGIN) { flags++; return; }
+            long now = System.currentTimeMillis();
+            if (now / 1000 != doomSec) { doomSec = now / 1000; doomInSec = 0; }
+            if (++doomInSec > DOOM_TICKS_S) { flags++; return; }
+            if (shot != doomShotId) {
+                if (doomShotAt != 0 && now - doomShotAt < DOOM_GAP_MS) { flags++; return; }
+                doomShotId = shot; doomShotAt = now; doomTicksShot = 0;
+            }
+            if (++doomTicksShot > DOOM_TICKS_SHOT) { flags++; return; }
+            // verifier: the kind, the Leviathan sequence rule and the beam width come from the declared hull, not from the guest
+            fr.testudo.spacecorsair.business.loot.stuff.GearSpec hs = ModLanCheck.spec(d.ship);
+            if (!(hs instanceof fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec)) { flags++; return; }
+            fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec spec = (fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec) hs;
+            int dk = ModTitan.declaredKind(spec);
+            if (dk != k) { flags++; return; }
+            seq = seq && ModTitan.declaredSeq(spec);
+            half = Math.min(half, spec.drawableSize * 0.5f);
+            int n = ModTitan.guestDoomTick(from, Math.max(1, Math.min(999, d.level)), k, ax, ay, spin, half, nova, seq, shot);
+            if (n < 0) flags++;
+        } catch (Throwable t) {
+            flags++;
+        }
+    }
+
+    /** Guest (ModTitan.damageTick): one doomsday tick goes to the host as well. */
+    static void sendDoom(int k, float ax, float ay, float spin, float half, float nova, boolean seq, int shot) {
+        if (!extra || !guestActive()) return;
+        try {
+            ByteArrayOutputStream bo = new ByteArrayOutputStream(40);
+            DataOutputStream o = new DataOutputStream(bo);
+            o.writeByte(k); o.writeFloat(ax); o.writeFloat(ay); o.writeFloat(spin); o.writeFloat(half); o.writeFloat(nova);
+            o.writeBoolean(seq); o.writeInt(shot);
+            sendReliable(MSG_DOOM, bo);
+        } catch (Throwable t) {
+            // one tick not mirrored
+        }
+    }
+
+    private static boolean isOwnDrone(Object sender) {
+        Ennemis[] dr = Mod.playerDrones();
+        return sender != null && (sender == dr[0] || sender == dr[1]);
+    }
+
+    private static void extraSwitch(long now) {
+        if (now - extraAt < 2000) return;
+        extraAt = now;
+        String v = ModDev.testValue("corsair_bh04");
+        if (v != null) { boolean on = v.trim().equals("on"); if (on != extra) { extra = on; ModDev.ev("lan", "bh04 prototype " + on); } }
     }
 
     private static final HashMap<Class<?>, Method> poolMakers = new HashMap<Class<?>, Method>();
@@ -2304,9 +2661,16 @@ public final class ModLan {
                 o.writeUTF(lv.id != null ? lv.id.levelName : "");
                 o.writeFloat(ps.position.x); o.writeFloat(ps.position.y);
                 o.writeFloat(dmgSent);
-                long xp = ObjectRegistry.INSTANCE.game.playerInfo.curXp;
-                if (xpLastHost >= 0 && xp > xpLastHost) xpSent += xp - xpLastHost;   // a level-up lowers curXp: only gains count
+                fr.testudo.spacecorsair.business.player.PlayerInfo pinf = ObjectRegistry.INSTANCE.game.playerInfo;
+                long xp = pinf.curXp;
+                if (xpLastHost >= 0) {
+                    if (pinf.level == xpLastLevel && xp > xpLastHost) xpSent += xp - xpLastHost;
+                    else if (pinf.level == xpLastLevel + 1 && xpLastNext > 0) xpSent += Math.max(0, xpLastNext - xpLastHost) + Math.max(0, xp);   // GPT check BH08: the award that levelled the host up counts
+                    // anything else (several levels at once, a lower level): baseline only
+                }
                 xpLastHost = xp;
+                xpLastLevel = pinf.level;
+                xpLastNext = pinf.nextLevelXp;
                 if (ModLanSync.on) { leanHost(q, size, ps, lv, nowMs); return; }
                 o.writeLong(xpSent);
                 ByteArrayOutputStream rb = new ByteArrayOutputStream(32768);
@@ -2355,7 +2719,8 @@ public final class ModLan {
         }
     }
 
-    private static long xpLastHost = -1, lastSendMs, idleAt;
+    private static long xpLastHost = -1, lastSendMs, idleAt, xpLastNext;
+    private static int xpLastLevel;
     static final float FAR_FX = 1100f, FAR_FX_SIZE = 400f;
     static volatile long fxDropped;
 
@@ -2480,6 +2845,13 @@ public final class ModLan {
     private static int seenDefeats, seenRound, defeatRound = -1;
     private static long jumpAt;
     private static boolean lostRound, restore;
+    private static long roundAt;   // GPT check BH06: start of the current duel round
+    /** Owner 2026-11-18: a duel ends on the first death. Host: when the decided duel closes (0 = still fighting). */
+    private static long duelEndAt;
+    static final long DUEL_END_MS = 3000;   // the result shows and both phones see it before the ships go home
+
+    /** The duel has a winner (round 1 was decided): further hits change nothing until it closes. */
+    static boolean duelDecided() { return role == GUEST ? seenRound > 1 : round > 1; }
 
     /** Host UI: start or end a duel. The host's game takes both ships to the player bay (FFA, off the map). */
     static volatile boolean pvpRoom;   // v45 host room setting, off by default: no duel while off
@@ -2509,18 +2881,22 @@ public final class ModLan {
         if (pvpWanted && !pvp) {
             pvp = true;
             duelFrom = null;
-            round = 1; hostWins = 0; guestWins = 0; roundDmg = 0;
+            round = 1; hostWins = 0; guestWins = 0; roundDmg = 0; roundAt = System.currentTimeMillis();
+            lostRound = false; restore = false;   // GPT check BH07
+            duelEndAt = 0;
             seenDefeats = s != null ? s.defeats : 0;
             jumpedIn = false;
             removeProxy();   // re-spawned on the duel side
         }
         if (pvp && !pvpWanted) {
             pvp = false;
+            duelEndAt = 0;
             removeProxy();
             leaveBay();
             return;
         }
         if (!pvp) return;
+        if (duelEndAt > 0 && System.currentTimeMillis() >= duelEndAt) { duelEndAt = 0; pvpWanted = false; ModDev.ev("lan", "duel over " + hostWins + "-" + guestWins); return; }   // cross-check: also when the host left the bay
         if (!inBay()) {
             long now = System.currentTimeMillis();
             if (!jumpedIn || now - jumpAt > 6000) {   // also back in after a detour (the host left the bay)
@@ -2532,27 +2908,38 @@ public final class ModLan {
             }
             return;
         }
+        if (duelEndAt > 0) {   // owner 2026-11-18: decided; no more rounds. Both ships stay at full hull, then go home
+            if (lostRound) { lostRound = false; restore = true; }
+            if (restore) { restore = false; refill(ps); }
+            if (System.currentTimeMillis() >= duelEndAt) { duelEndAt = 0; pvpWanted = false; ModDev.ev("lan", "duel over " + hostWins + "-" + guestWins); }
+            return;
+        }
         // v45: the host decides. A guest that soaked 4 hulls of damage without reporting a lost round has lost it.
-        boolean soaked = s != null && s.maxLife > 0 && roundDmg > 4.0f * s.maxLife + 2000f;
+        // GPT check BH06: what the declared shield can absorb and regenerate during this round counts too
+        ModLanCheck.Limits lmS = limits != null ? limits : undeclared();
+        float secs = Math.max(0f, (System.currentTimeMillis() - roundAt) / 1000f);
+        boolean soaked = s != null && s.maxLife > 0 && roundDmg > 4.0f * s.maxLife + 2000f + lmS.shield + lmS.regen * secs;
         if (soaked) { flags++; ModDev.ev("lan", "duel round forced, dmg " + roundDmg); }
         if (s != null && (s.defeats > seenDefeats || soaked)) {   // the guest's hull hit its floor: host wins the round
-            roundDmg = 0;
+            roundDmg = 0; roundAt = System.currentTimeMillis();
             seenDefeats = s.defeats;
             hostWins++;
             round++;
             restore = true;
             if (proxy != null) explode(proxy.position.x, proxy.position.y);   // audit F11: the loser's ship blows up
             roundText(ps, true);
+            duelEndAt = System.currentTimeMillis() + DUEL_END_MS;   // owner 2026-11-18: the first death ends the duel
         }
-        if (lostRound) {   // the host's hull hit its floor: guest wins the round
+        else if (lostRound) {   // the host's hull hit its floor: guest wins the round (verify 1: never in the same tick as a host win)
             lostRound = false;
-            roundDmg = 0;
+            roundDmg = 0; roundAt = System.currentTimeMillis();
             guestWins++;
             round++;
             restore = true;
             explode(ps.position.x, ps.position.y);
             if (proxy != null) respawnApart(ps, proxy.position.x, proxy.position.y);
             roundText(ps, false);
+            if (duelEndAt == 0) duelEndAt = System.currentTimeMillis() + DUEL_END_MS;   // owner 2026-11-18: the first death ends the duel
         }
         if (restore) { restore = false; refill(ps); }
     }
@@ -2574,10 +2961,10 @@ public final class ModLan {
 
     private static void guestDuel(PlayerShip ps, InFrame f) {
         pvp = f.pvp;
-        if (!pvp) { seenRound = f.round; return; }
+        if (!pvp) { seenRound = 0; defeatRound = -1; lostRound = false; return; }   // owner 2026-11-18: the next duel starts fresh (no stale result text)
         if (lostRound) {   // once per round: further hits at the floor before the host's next round count nothing
             lostRound = false;
-            if (defeatRound != seenRound) {
+            if (defeatRound != seenRound && !duelDecided()) {
                 defeatRound = seenRound; defeats++;
                 explode(ps.position.x, ps.position.y);   // audit F11: destroyed, back at full hull away from the host
                 respawnApart(ps, f.hx, f.hy);
@@ -2587,7 +2974,7 @@ public final class ModLan {
         if (f.round != seenRound) {
             boolean won = f.guestWins > guestWins;
             boolean first = seenRound == 0;
-            if (!first && !won && defeatRound != seenRound) {   // fix list 11A: a round the host forced also blows this ship up
+            if (!first && !won && defeatRound != seenRound && seenRound <= 1) {   // fix list 11A: a round the host forced also blows this ship up
                 defeatRound = seenRound;
                 explode(ps.position.x, ps.position.y);
                 respawnApart(ps, f.hx, f.hy);
@@ -2595,14 +2982,14 @@ public final class ModLan {
             seenRound = f.round;
             hostWins = f.hostWins; guestWins = f.guestWins;
             refill(ps);
-            if (!first && won) explode(f.hx, f.hy);   // the host's ship blew up
-            if (!first) roundText(ps, won);
+            if (!first && won && seenRound <= 2) explode(f.hx, f.hy);   // the host's ship blew up
+            if (!first && seenRound <= 2) roundText(ps, won);   // owner 2026-11-18: one death decides the duel
         }
     }
 
     private static void roundText(PlayerShip ps, boolean won) {
         int mine = role == HOST ? hostWins : guestWins, theirs = role == HOST ? guestWins : hostWins;
-        Mod.floatText(ps, (won ? ModLang.tr("ROUND WON") : ModLang.tr("ROUND LOST")) + "  " + myNick() + " " + mine + " - " + theirs + " " + peerNick,
+        Mod.floatText(ps, (won ? ModLang.tr("DUEL WON") : ModLang.tr("DUEL LOST")) + "  " + myNick() + " " + mine + " - " + theirs + " " + peerNick,
             won ? 0.3f : 1.0f, won ? 1.0f : 0.4f, won ? 0.5f : 0.3f);
         ModDev.ev("lan", "duel round " + (won ? "won" : "lost") + " " + mine + "-" + theirs);
     }
@@ -2633,9 +3020,9 @@ public final class ModLan {
     }
 
     /**
-     * ModPrologue.damage (start of PlayerShip.applyDamage, before shields): in a duel the hull stops at 1; reaching it
-     * loses the round. Audit F11 (owner 2026-11-17): the ship then explodes and respawns at full hull, away from the
-     * winner, with no death fee or loss (the game's own death never runs).
+     * ModPrologue.damage (start of PlayerShip.applyDamage, before shields): in a duel the killing hit is the ship's death.
+     * Audit F11 / owner 2026-11-18: the ship explodes and respawns at full hull, away from the winner, with no death fee or
+     * loss (the game's own death screen and fee never run), and that first death ends the duel.
      */
     static float duelFloor(PlayerShip ps, float amount) {
         if (!pvp || !connected || ps == null || amount <= 0 || !inBay()) return amount;
@@ -2671,6 +3058,9 @@ public final class ModLan {
     static int queueSizeOf(RenderQueue q) throws Exception { refl(); return fQSize.getInt(q); }
 
     static void hostForTest() { host(); autoAccept = true; }
+
+    /** JVM test: no APK there, so the content hash is set by hand. */
+    static void hashForTest(String h) { hashCache = h; }
 
     static void hostNetForTest() { hostNet(); autoAccept = true; }
 
@@ -2713,6 +3103,7 @@ public final class ModLan {
     static void showMenu(final Activity a) {
         try {
             lastAct = a;
+            warmHash();
             if (role == HOST && pendingWho != null && decision == 0) { acceptDialog(a, pendingWho, askId); return; }
             final Runnable again = new Runnable() { public void run() { showMenu(a); } };
             if (!ModLanUi.hasProfile()) { ModLanUi.whoAreYou(a, again); return; }   // first time: nickname and country
@@ -2720,7 +3111,7 @@ public final class ModLan {
             if (connected && role == HOST) {
                 String msg = ModLang.tr("You are hosting.") + " " + peerLabel() + " " + ModLang.tr("plays in your sector.")
                     + "\n\n" + ModLang.tr("PvP is") + " " + (pvpRoom ? ModLang.tr("ON") : ModLang.tr("OFF")) + ". "
-                    + ModLang.tr("PvP duel: both ships go to the old multiplayer bay and fight rounds. A ship stops at 1 hull and loses the round; nobody dies or pays a death fee. Undock to start.")
+                    + ModLang.tr("PvP duel: both ships go to the old multiplayer bay and fight until one is destroyed. The destroyed ship respawns at full hull with no death fee, then both ships go back. Undock to start.")
                     + (pvp ? "\n\n" + ModLang.tr("Duel score") + " " + hostWins + " - " + guestWins : "")
                     + "\n\n" + missionLine() + netLines();
                 ModLanUi.menu(a, title, null, msg, new String[]{
@@ -2757,34 +3148,35 @@ public final class ModLan {
                     code.length() == 4 ? ModLang.tr("Share code") : null,
                     pvpRoom ? ModLang.tr("PvP: ON (tap to turn off)") : ModLang.tr("PvP: OFF (tap to turn on)"), ModLang.tr("Stop hosting"), ModLang.tr("Close")
                 }, new Runnable[]{
-                    new Runnable() { public void run() {
-                        try {
-                            android.content.Intent i = new android.content.Intent(android.content.Intent.ACTION_SEND);
-                            i.setType("text/plain");
-                            i.putExtra(android.content.Intent.EXTRA_TEXT, ModLang.tr("Join my Space Corsair game. Multiplayer, Join by code:") + " " + code);
-                            a.startActivity(android.content.Intent.createChooser(i, ModLang.tr("Share code")));
-                        } catch (Throwable t) { /* no app to share with */ }
-                    } },
+                    new Runnable() { public void run() { shareCode(a, code, true); } },
                     new Runnable() { public void run() { setPvpRoom(!pvpRoom); showMenu(a); } },
                     new Runnable() { public void run() { noRejoin(); ModLobby.leave(); stop(); } },
                     null
                 });
             } else if (role == HOST) {
-                String msg = status + "\n\n" + ModLang.tr("Your address:") + " " + myAddresses();
+                final String lc = lanCode;
+                String msg = status + "\n\n" + ModLang.tr("Your address:") + " " + myAddresses() + "\n\n"
+                    + (lanPub ? ModLang.tr("Public local game: anyone on this network can ask to join.")
+                        : ModLang.tr("Game code:") + "  " + lc + "\n\n" + ModLang.tr("Private local game: only players with the code can join."))
+                    + " " + ModLang.tr("You accept or decline each player.");
                 ModLanUi.menu(a, title, null, msg, new String[]{
+                    !lanPub && lc.length() == 4 ? ModLang.tr("Share code") : null,
                     pvpRoom ? ModLang.tr("PvP: ON (tap to turn off)") : ModLang.tr("PvP: OFF (tap to turn on)"), ModLang.tr("Stop hosting"), ModLang.tr("Close")
                 }, new Runnable[]{
+                    new Runnable() { public void run() { shareCode(a, lc, false); } },
                     new Runnable() { public void run() { setPvpRoom(!pvpRoom); showMenu(a); } },
                     new Runnable() { public void run() { noRejoin(); stop(); } },
                     null
                 });
             } else {
+                final String nc = needCode;
+                if (nc != null && role == NONE) { needCode = null; askCode(a, nc); return; }
                 String msg = status.length() > 0 ? status : ModLobby.status;
                 final boolean net = ModLobby.available();
                 if (net && !ModSaveSig.publicOk()) msg += (msg.length() > 0 ? "\n\n" : "") + ModLang.tr("Your save was changed outside the game. Public games are locked for 24 hours; private codes and local games still work.");
                 ModLanUi.menu(a, title, ModLanUi.profileRow(a, again), msg, new String[]{
                     "#" + ModLang.tr("Local game (same Wi-Fi)") + "|" + ModLang.tr("Play with someone on the same Wi-Fi or phone hotspot. No internet needed. Hosts on your network appear here automatically."),
-                    ModLang.tr("Host local game"), ModLang.tr("Find local games"), ModLang.tr("Join by address"),
+                    ModLang.tr("Host public local game"), ModLang.tr("Host private local game (code)"), ModLang.tr("Find local games"), ModLang.tr("Join by address"),
                     "#" + ModLang.tr("Public games (internet)") + "|" + ModLang.tr("Play with anyone over the internet. Public games show up here for everyone; tap Join to enter. Private games are hidden and need the 4-character code. Uses mobile data or Wi-Fi."),
                     net ? null : ModLang.tr("Not available yet in this version"),
                     net && !ModLobby.PUBLIC_ON ? ModLang.tr("Public games open in a later version. Private games with a code work now.") : null,
@@ -2798,7 +3190,8 @@ public final class ModLan {
                     ModLang.tr("Close")
                 }, new Runnable[]{
                     null,
-                    new Runnable() { public void run() { host(); showMenu(a); } },
+                    new Runnable() { public void run() { host(true); showMenu(a); } },
+                    new Runnable() { public void run() { host(false); showMenu(a); } },
                     new Runnable() { public void run() { findHosts(a); } },
                     new Runnable() { public void run() { pickHost(a, Collections.<String>emptyList()); } },
                     null, ModLanUi.DISABLED, ModLanUi.DISABLED,
@@ -2814,6 +3207,18 @@ public final class ModLan {
             }
         } catch (Throwable t) {
             // no dialog
+        }
+    }
+
+    private static void shareCode(Activity a, String code, boolean net) {
+        try {
+            android.content.Intent i = new android.content.Intent(android.content.Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(android.content.Intent.EXTRA_TEXT, (net ? ModLang.tr("Join my Space Corsair game. Multiplayer, Join by code:")
+                : ModLang.tr("Join my local Space Corsair game (same Wi-Fi). Multiplayer, Find local games, code:")) + " " + code);
+            a.startActivity(android.content.Intent.createChooser(i, ModLang.tr("Share code")));
+        } catch (Throwable t) {
+            // no app to share with
         }
     }
 
@@ -2900,7 +3305,10 @@ public final class ModLan {
         if (!found.isEmpty()) {
             final String[] items = found.toArray(new String[found.size()]);
             b.setItems(items, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface d, int w) { connectTo(a, items[w].split(" ")[0]); }   // one tap joins
+                public void onClick(DialogInterface d, int w) {   // one tap joins; a private room asks for its code first
+                    String ad = items[w].split(" ")[0];
+                    if (items[w].contains(privTag())) askCode(a, ad); else connectTo(a, ad, "");
+                }
             });
             b.setNegativeButton(ModLang.tr("Type address"), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface d, int w) { pickHost(a, Collections.<String>emptyList()); }
@@ -2909,18 +3317,23 @@ public final class ModLan {
             b.setMessage(ModLang.tr("No game found. Type the host's address (shown on the host's LAN co-op screen):"));
             b.setView(ip);
             b.setPositiveButton(ModLang.tr("Join"), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface d, int w) { connectTo(a, ip.getText().toString().trim()); }
+                public void onClick(DialogInterface d, int w) { connectTo(a, ip.getText().toString().trim(), ""); }   // a private room answers BADCODE: the code is asked then
             });
             b.setNegativeButton(ModLang.tr("Close"), null);
         }
         b.show();
     }
 
-    private static void connectTo(final Activity a, final String addr) {
+    /** The private local room at addr: the 4 code boxes, then the join. */
+    private static void askCode(final Activity a, final String addr) {
+        ModLanUi.codeBoxes(a, new ModLanUi.CodeCb() { public void code(String c) { connectTo(a, addr, c); } });
+    }
+
+    private static void connectTo(final Activity a, final String addr, final String code) {
         if (addr.length() == 0) return;
         new Thread(new Runnable() {
             public void run() {
-                join(addr);
+                join(addr, code);
                 a.runOnUiThread(new Runnable() { public void run() { showMenu(a); } });
             }
         }, "lan-join").start();

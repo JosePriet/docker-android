@@ -3,12 +3,12 @@
 .source "ModLan.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Ljava/lang/Runnable;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan;->pickHost(Landroid/app/Activity;Ljava/util/List;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLan;->findHosts(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -20,11 +20,11 @@
 # instance fields
 .field final synthetic val$a:Landroid/app/Activity;
 
-.field final synthetic val$ip:Landroid/widget/EditText;
+.field final synthetic val$wait:Landroid/app/AlertDialog;
 
 
 # direct methods
-.method constructor <init>(Landroid/app/Activity;Landroid/widget/EditText;)V
+.method constructor <init>(Landroid/app/Activity;Landroid/app/AlertDialog;)V
     .registers 3
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -33,10 +33,10 @@
     .end annotation
 
     .prologue
-    .line 2911
+    .line 3286
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$a:Landroid/app/Activity;
 
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$ip:Landroid/widget/EditText;
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$wait:Landroid/app/AlertDialog;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -45,29 +45,26 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 5
+.method public run()V
+    .registers 4
 
     .prologue
-    .line 2912
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$a:Landroid/app/Activity;
+    .line 3288
+    const/16 v0, 0xfa0
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$ip:Landroid/widget/EditText;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->scan(I)Ljava/util/List;
 
-    invoke-virtual {v1}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
+    move-result-object v0
 
-    move-result-object v1
+    .line 3289
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$45;->val$a:Landroid/app/Activity;
 
-    invoke-interface {v1}, Landroid/text/Editable;->toString()Ljava/lang/String;
+    new-instance v2, Lfr/testudo/spacecorsair/mod/ModLan$45$1;
 
-    move-result-object v1
+    invoke-direct {v2, p0, v0}, Lfr/testudo/spacecorsair/mod/ModLan$45$1;-><init>(Lfr/testudo/spacecorsair/mod/ModLan$45;Ljava/util/List;)V
 
-    invoke-virtual {v1}, Ljava/lang/String;->trim()Ljava/lang/String;
+    invoke-virtual {v1, v2}, Landroid/app/Activity;->runOnUiThread(Ljava/lang/Runnable;)V
 
-    move-result-object v1
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->connectTo(Landroid/app/Activity;Ljava/lang/String;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$2500(Landroid/app/Activity;Ljava/lang/String;)V
-
+    .line 3296
     return-void
 .end method

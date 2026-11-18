@@ -56,8 +56,8 @@ public final class ModAegisDrones {
                 w.next -= j;
                 if (w.next <= 0) {   // refill the whole wing at once, then wait for the next loss
                     w.next = RESPAWN_MS;
-                    int mx = ModBal.maxDrones(g, MAX_DRONES);   // 2026-11-17 proposal switch corsair_bal_aegis (off = 2..5)
-                    w.count = MIN_DRONES + (int) (Math.random() * (mx - MIN_DRONES + 1));   // owner: 2..5 per launch
+                    int mx = ModBal.maxDrones(g, MAX_DRONES);   // 2026-11-18 balance report: SRS Aegis 2..3, police titans 2..5
+                    w.count = MIN_DRONES + (int) (Math.random() * (mx - MIN_DRONES + 1));   // owner: 2..5 per launch (SRS Aegis 2..3 since 2026-11-18)
                     while (w.drones.size() < w.count) {
                         Ennemis e = spawn(g, lvl, ps);
                         if (e == null) break;

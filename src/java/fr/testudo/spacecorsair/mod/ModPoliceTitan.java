@@ -188,9 +188,6 @@ public final class ModPoliceTitan {
         return dmg - a;
     }
 
-    /** Emulator trace: overshield now/cap and quiet time. */
-    static String overState() { return Math.round(over) + "/" + Math.round(overCap) + "q" + overQuietMs; }
-
     /** Regen: only after OVER_DELAY_MS without damage, back to full in OVER_REFILL_MS. */
     private static void overTick(GuardianCivilShip g, long j) {
         if (g == null || g.removed || overCap <= 0) return;

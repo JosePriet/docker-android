@@ -92,6 +92,7 @@ public final class ModSector {
             if (excluded(id) || ObjectRegistry.INSTANCE.game.mapMode) return;
             here = id;
             pending = 60;          // after the new sector's stock elements are in the level (ModCaps runs before commit)
+            ModEvents.onLevel();   // sector events (owner OK 2026-11-18)
         } catch (Throwable t) {
             here = null;
         }
@@ -122,6 +123,7 @@ public final class ModSector {
         }
         if (here == null || !flying) return;
         pursuitTick(ps);
+        ModEvents.tick(ps, here, j);   // sector events (owner OK 2026-11-18)
         refill -= j;
         if (refill > 0) return;
         refill = 4000;
@@ -210,6 +212,17 @@ public final class ModSector {
     }
 
     /** v44 (ModStationGuns): where this sector's faction base stands, null before the POIs are built. */
+    /** ModEvents: a point of interest of the current sector, or null before the sector is built. */
+    static Vector2 poiAt(int i) {
+        return here == null || i < 0 || i >= poi.length ? null : poi[i];
+    }
+
+    /** ModEvents salvage race lost: the current sector's wreck field counts as looted from now (next visit). */
+    static void stripField() {
+        SharedPreferences p = ModQol.prefs();
+        if (p != null && here != null) p.edit().putLong("v35_field_" + here.name(), play()).apply();
+    }
+
     static Vector2 basePoint(LevelId id) {
         return id != null && id == here ? poi[BASE] : null;
     }

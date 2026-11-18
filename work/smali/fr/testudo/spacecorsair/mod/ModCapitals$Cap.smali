@@ -17,6 +17,8 @@
 # instance fields
 .field final anchor:Lfr/testudo/spacecorsair/engine/Vector2;
 
+.field boss:Z
+
 .field data:I
 
 .field f:Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
@@ -62,7 +64,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->anchor:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 73
+    .line 74
     const/high16 v0, 0x3f800000    # 1.0f
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->rate:F

@@ -45,7 +45,7 @@ public final class ModLance {
     /** Pilot level of each tier (L22 / L30 / L37). */
     static final int[] LEVEL = {ModSpecs.TIER_REQ[2], 30, ModSpecs.TIER_REQ[3]};
     /** Shop price of Mk II / Mk III at Spartan HQ (Mk I is the mission reward; its listed price is for selling). */
-    static final int[] PRICE = {1500000, 3500000, 8000000};
+    static final int[] PRICE = {375000, 875000, 2000000};   // owner 2026-11-18: 25% of the v43a-17 prices (smali: hooks55_lanceprice)
     static final int RELOAD_MS = 80;
     /** Beam damage per second of each tier: 3 turrets x the blaster of that tier (Standard / Heavy / Siege) x 1.25. */
     static final float[] DPS = new float[3];

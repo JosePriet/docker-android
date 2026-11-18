@@ -3,12 +3,12 @@
 .source "ModLan.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Ljava/lang/Runnable;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan;->acceptDialog(Landroid/app/Activity;Ljava/lang/String;I)V
+    value = Lfr/testudo/spacecorsair/mod/ModLan;->askAccept(Ljava/lang/String;J)Z
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -20,10 +20,14 @@
 # instance fields
 .field final synthetic val$ask:I
 
+.field final synthetic val$fa:Landroid/app/Activity;
+
+.field final synthetic val$who:Ljava/lang/String;
+
 
 # direct methods
-.method constructor <init>(I)V
-    .registers 2
+.method constructor <init>(Landroid/app/Activity;Ljava/lang/String;I)V
+    .registers 4
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -31,8 +35,12 @@
     .end annotation
 
     .prologue
-    .line 383
-    iput p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$ask:I
+    .line 470
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$fa:Landroid/app/Activity;
+
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$who:Ljava/lang/String;
+
+    iput p3, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$ask:I
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -41,32 +49,19 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 5
+.method public run()V
+    .registers 4
 
     .prologue
-    .line 383
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->decision:I
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$700()I
+    .line 470
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$fa:Landroid/app/Activity;
 
-    move-result v0
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$who:Ljava/lang/String;
 
-    if-nez v0, :cond_12
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$ask:I
 
-    iget v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$4;->val$ask:I
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->acceptDialog(Landroid/app/Activity;Ljava/lang/String;I)V
+    invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModLan;->access$600(Landroid/app/Activity;Ljava/lang/String;I)V
 
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->askId:I
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$800()I
-
-    move-result v1
-
-    if-ne v0, v1, :cond_12
-
-    const/4 v0, 0x2
-
-    # setter for: Lfr/testudo/spacecorsair/mod/ModLan;->decision:I
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->access$702(I)I
-
-    :cond_12
     return-void
 .end method

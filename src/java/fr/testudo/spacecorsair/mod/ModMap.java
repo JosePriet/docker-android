@@ -58,6 +58,14 @@ public final class ModMap {
     public static void radarPoint2(fr.testudo.spacecorsair.engine.RenderQueue q, fr.testudo.spacecorsair.engine.Vector2 at, boolean b,
                                    float r, float g, float bl, float a, float size, fr.testudo.spacecorsair.business.Element e) {
         try {
+            int m = ModEvents.mark(e);   // sector events: pulsing radar marker on the freighter / bounty target
+            if (m != 0) {
+                float p = 2.2f + 0.6f * (float) Math.sin(System.currentTimeMillis() / 160.0);
+                if (m == 1) q.addToPointWaitingQueue(at, b, 1.0f, 0.75f, 0.2f, 1f, size * p);
+                else q.addToPointWaitingQueue(at, b, 1.0f, 0.2f, 0.2f, 1f, size * p);
+                q.addToPointWaitingQueue(at, b, 1.0f, 1.0f, 1.0f, 1f, size * 0.9f);
+                return;
+            }
             if (e != null && ModLive.outlevels(e)) {
                 Texture t = ModArt.ready("icon_skull");
                 if (t != null) {

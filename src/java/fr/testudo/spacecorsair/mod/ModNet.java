@@ -221,7 +221,8 @@ final class ModNet {
     /** First value of each attribute. Bounds are checked; a malformed message gives what was readable. */
     static HashMap<Integer, byte[]> attrs(byte[] m, int n) {
         HashMap<Integer, byte[]> out = new HashMap<Integer, byte[]>();
-        int end = Math.min(n, 20 + (((m[2] & 255) << 8) | (m[3] & 255)));
+        if (m == null || n < 20 || m.length < 20) return out;   // GPT check J1: a short message has no attributes
+        int end = Math.min(Math.min(n, m.length), 20 + (((m[2] & 255) << 8) | (m[3] & 255)));
         int at = 20;
         while (at + 4 <= end) {
             int type = ((m[at] & 255) << 8) | (m[at + 1] & 255), len = ((m[at + 2] & 255) << 8) | (m[at + 3] & 255);
@@ -540,6 +541,7 @@ final class ModNet {
         }
 
         void onChannel(byte[] b, int n) {
+            if (b == null || n < 4 || b.length < 4) return;   // GPT check J1
             int ch = ((b[0] & 255) << 8) | (b[1] & 255), len = ((b[2] & 255) << 8) | (b[3] & 255);
             if (len > n - 4) return;
             InetSocketAddress peer;
@@ -553,6 +555,7 @@ final class ModNet {
         }
 
         void onData(byte[] b, int n) {
+            if (b == null || n < 20 || b.length < 20) return;   // GPT check J1: shorter than a STUN header
             HashMap<Integer, byte[]> a = attrs(b, n);
             byte[] d = a.get(0x0013);
             final InetSocketAddress peer = addrOf(a.get(0x0012), txOf(b), true);
@@ -629,6 +632,7 @@ final class ModNet {
         // receiving
         private int rcvNext;
         private final HashMap<Integer, byte[]> ahead = new HashMap<Integer, byte[]>();
+        private int aheadBytes;   // GPT check J2: out-of-order bytes count toward the 1 MiB receive cap
         private byte[] in = new byte[8192];
         private int inHead, inSize;
         private long consumed;
@@ -824,16 +828,18 @@ final class ModNet {
             int off = get4(b, HDR), len = n - HDR - 4;
             if (len <= 0 || len > SEG) return;
             if (off == rcvNext) {
-                if (inSize + len > (1 << 20)) return;   // the application is not reading: not acknowledged, sent again later
+                if (inSize + aheadBytes + len > (1 << 20)) return;   // the application is not reading: not acknowledged, sent again later
                 append(b, HDR + 4, len);
                 rcvNext += len;
                 byte[] nx;
-                while ((nx = ahead.remove(rcvNext)) != null) { append(nx, 0, nx.length); rcvNext += nx.length; }
+                while ((nx = ahead.remove(rcvNext)) != null) { aheadBytes -= nx.length; append(nx, 0, nx.length); rcvNext += nx.length; }
                 notifyAll();
-            } else if (off - rcvNext > 0 && off - rcvNext < (1 << 20) && ahead.size() < 512 && !ahead.containsKey(off)) {
+            } else if (off - rcvNext > 0 && off - rcvNext < (1 << 20) && ahead.size() < 512 && !ahead.containsKey(off)
+                && inSize + aheadBytes + len <= (1 << 20)) {
                 byte[] c = new byte[len];
                 System.arraycopy(b, HDR + 4, c, 0, len);
                 ahead.put(off, c);
+                aheadBytes += len;
             }
             int k = Math.min(8, ahead.size());
             byte[] a = pkt(K_ACK, 5 + 4 * k);
