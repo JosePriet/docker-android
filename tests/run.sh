@@ -222,7 +222,7 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     tap_text "^Multiplayer" mp_tap; sleep 3; shot mp_who; dump mp_who
     if grep -q "Who are you" $OUT/last.xml; then
       xy=$(python3 -c "import re,sys;x=open(sys.argv[1]).read();m=re.search(r'class=\"android.widget.EditText\"[^>]*bounds=\"\\[(\\d+),(\\d+)\\]\\[(\\d+),(\\d+)\\]',x);print((int(m.group(1))+int(m.group(3)))//2,(int(m.group(2))+int(m.group(4)))//2) if m else None" $OUT/last.xml 2>/dev/null); [ -n "$xy" ] && a shell input tap $xy; sleep 1
-      a shell input text Tester1; sleep 1;       tap_text "^(Save|SAVE)$" mp_save; sleep 3
+      a shell input text Tester1; sleep 1;       tap_text "^(Save|SAVE)( |$)" mp_save; sleep 3
     fi
     shot mp_lobby; dump mp_lobby
     log "EVIDENCE lobby: $(grep -o 'text="\(Local game[^"]*\|Host [^"]*\|Find [^"]*\|Join [^"]*\)"' $OUT/last.xml | tr '\n' ' ')"
@@ -230,7 +230,7 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     log "EVIDENCE hosting: $(grep -o 'Game code:[^"]*' $OUT/last.xml | head -1)"
     tap_text "^Stop hosting" mp_stop; sleep 3; shot mp_after
     tap 57 55; sleep 3; tap_text "^Multiplayer" mp_tap2; sleep 3; shot mp_lobby2; dump mp_lobby2
-    tap_text "^Close$" mp_close; sleep 2; shot mp_closed
+    tap_text "^(Close|CLOSE)( |$)" mp_close; sleep 2; shot mp_closed
     finish; exit 0
   fi
   if [ "$STAGE" = V50L ]; then
