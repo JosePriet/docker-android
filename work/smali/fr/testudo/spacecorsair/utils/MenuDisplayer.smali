@@ -341,6 +341,10 @@
     .line 211
     invoke-static {}, Lfr/testudo/spacecorsair/utils/MenuDisplayer;->updateSelectedLayout()V
 
+    sget-object v0, Lfr/testudo/spacecorsair/utils/MenuDisplayer;->menuView:Landroid/view/View;
+
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModLan;->menuEntry(Landroid/content/Context;Landroid/view/View;)V
+
     .line 213
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -618,6 +622,8 @@
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Landroid/view/View;->setVisibility(I)V
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->menuShown()V
 
     .line 273
     sget-object v0, Lfr/testudo/spacecorsair/utils/MenuDisplayer;->menuView:Landroid/view/View;

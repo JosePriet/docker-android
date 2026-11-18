@@ -26,3 +26,4 @@ hooks48_lance 2026-11-15: SpaceObjectType +3 constants modPhoenixLance/Mk2/Mk3 0
 hooks53_lan_nopause 2026-11-16: GameThread.showGameMenu -> ModLan.menuOpening, Game.pause -> skipped while ModLan.keepRunning (v45 multiplayer menu does not pause)
 hooks54_testjump 2026-11-17: PlayerShip.initHyperdriveJumpRequest canHyperdriveJump -> ModTestMode.missionAllowsJump (v45 audit F5 test teleport ignores no-jump missions)
 hooks55_lanceprice 2026-11-18: SpaceObjectType Phoenix Lance prices 1.5M/3.5M/8M -> 375k/875k/2M (owner 2026-11-18, 25%)
+hooks56_mpmenu 2026-11-18: MenuDisplayer.init -> ModLan.menuEntry (flight menu Multiplayer entry), showMenu -> ModLan.menuShown (v46 restore MP button)

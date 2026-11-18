@@ -1,9 +1,6 @@
 .class Lfr/testudo/spacecorsair/mod/ModLanUi$17;
-.super Ljava/lang/Object;
+.super Landroid/widget/ArrayAdapter;
 .source "ModLanUi.java"
-
-# interfaces
-.implements Ljava/lang/Runnable;
 
 
 # annotations
@@ -16,123 +13,342 @@
     name = null
 .end annotation
 
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Landroid/widget/ArrayAdapter",
+        "<[",
+        "Ljava/lang/String;",
+        ">;"
+    }
+.end annotation
+
 
 # instance fields
 .field final synthetic val$a:Landroid/app/Activity;
 
-.field final synthetic val$ad:Landroid/widget/ArrayAdapter;
-
-.field final synthetic val$dlg:Landroid/app/AlertDialog;
-
-.field final synthetic val$h:Landroid/os/Handler;
-
-.field final synthetic val$loading:[Z
-
-.field final synthetic val$note:Landroid/widget/TextView;
-
-.field final synthetic val$rows:Ljava/util/ArrayList;
+.field final synthetic val$d:F
 
 
 # direct methods
-.method constructor <init>(Landroid/os/Handler;Landroid/app/AlertDialog;Landroid/app/Activity;[ZLjava/util/ArrayList;Landroid/widget/ArrayAdapter;Landroid/widget/TextView;)V
-    .registers 8
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>(Landroid/content/Context;ILjava/util/List;Landroid/app/Activity;F)V
+    .registers 6
 
     .prologue
-    .line 598
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$h:Landroid/os/Handler;
+    .line 675
+    iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$a:Landroid/app/Activity;
 
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$dlg:Landroid/app/AlertDialog;
+    iput p5, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$d:F
 
-    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$a:Landroid/app/Activity;
-
-    iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$loading:[Z
-
-    iput-object p5, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$rows:Ljava/util/ArrayList;
-
-    iput-object p6, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$ad:Landroid/widget/ArrayAdapter;
-
-    iput-object p7, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$note:Landroid/widget/TextView;
-
-    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+    invoke-direct {p0, p1, p2, p3}, Landroid/widget/ArrayAdapter;-><init>(Landroid/content/Context;ILjava/util/List;)V
 
     return-void
 .end method
 
 
 # virtual methods
-.method public run()V
-    .registers 6
+.method public getView(ILandroid/view/View;Landroid/view/ViewGroup;)Landroid/view/View;
+    .registers 13
 
     .prologue
-    const/4 v4, 0x0
+    const/4 v8, 0x6
 
-    .line 600
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$h:Landroid/os/Handler;
+    const/high16 v4, 0x41a00000    # 20.0f
 
-    invoke-virtual {v0, p0}, Landroid/os/Handler;->removeCallbacks(Ljava/lang/Runnable;)V
+    const/high16 v7, 0x41400000    # 12.0f
 
-    .line 601
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$dlg:Landroid/app/AlertDialog;
+    const/4 v6, 0x0
 
-    invoke-virtual {v0}, Landroid/app/AlertDialog;->isShowing()Z
+    const/4 v5, 0x2
+
+    .line 677
+    instance-of v0, p2, Landroid/widget/TextView;
+
+    if-eqz v0, :cond_f0
+
+    check-cast p2, Landroid/widget/TextView;
+
+    .line 678
+    :goto_d
+    invoke-virtual {p0, p1}, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->getItem(I)Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, [Ljava/lang/String;
+
+    .line 679
+    iget v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$d:F
+
+    mul-float/2addr v1, v4
+
+    float-to-int v1, v1
+
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$d:F
+
+    mul-float/2addr v2, v7
+
+    float-to-int v2, v2
+
+    iget v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$d:F
+
+    mul-float/2addr v3, v4
+
+    float-to-int v3, v3
+
+    iget v4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$d:F
+
+    mul-float/2addr v4, v7
+
+    float-to-int v4, v4
+
+    invoke-virtual {p2, v1, v2, v3, v4}, Landroid/widget/TextView;->setPadding(IIII)V
+
+    .line 680
+    const/high16 v1, 0x41800000    # 16.0f
+
+    invoke-virtual {p2, v5, v1}, Landroid/widget/TextView;->setTextSize(IF)V
+
+    .line 681
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const/4 v3, 0x1
+
+    aget-object v3, v0, v3
+
+    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    array-length v1, v0
+
+    const/4 v4, 0x7
+
+    if-le v1, v4, :cond_f9
+
+    const-string v1, "1"
+
+    const/4 v4, 0x7
+
+    aget-object v4, v0, v4
+
+    invoke-virtual {v1, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_f9
+
+    const-string v1, " [DEV]"
+
+    :goto_4d
+    invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    aget-object v3, v0, v5
+
+    invoke-static {v1, v3}, Lfr/testudo/spacecorsair/mod/ModLanUi;->label(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "  \u00b7  "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const/4 v2, 0x0
+
+    aget-object v2, v0, v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "  \u00b7  "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const/4 v2, 0x4
+
+    aget-object v2, v0, v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "  \u00b7  "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "Lv"
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, " "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const/4 v2, 0x5
+
+    aget-object v2, v0, v2
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "  \u00b7  "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    .line 682
+    const-string v1, "1"
+
+    const/4 v3, 0x3
+
+    aget-object v3, v0, v3
+
+    invoke-virtual {v1, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_fd
+
+    const-string v1, "PvP on"
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    :goto_ad
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "  \u00b7  "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    aget-object v2, v0, v8
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v2, "/2"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    .line 681
+    invoke-virtual {p2, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 683
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$a:Landroid/app/Activity;
+
+    aget-object v2, v0, v5
+
+    iget v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$d:F
+
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLanUi;->flagDrawable(Landroid/content/Context;Ljava/lang/String;F)Landroid/graphics/drawable/BitmapDrawable;
+    invoke-static {v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$100(Landroid/content/Context;Ljava/lang/String;F)Landroid/graphics/drawable/BitmapDrawable;
+
+    move-result-object v1
+
+    invoke-virtual {p2, v1, v6, v6, v6}, Landroid/widget/TextView;->setCompoundDrawables(Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
+
+    .line 684
+    const/high16 v1, 0x41200000    # 10.0f
+
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$d:F
+
+    mul-float/2addr v1, v2
+
+    float-to-int v1, v1
+
+    invoke-virtual {p2, v1}, Landroid/widget/TextView;->setCompoundDrawablePadding(I)V
+
+    .line 685
+    const-string v1, "2"
+
+    aget-object v0, v0, v8
+
+    invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_16
+    if-eqz v0, :cond_104
+
+    const/high16 v0, 0x3f000000    # 0.5f
+
+    :goto_ec
+    invoke-virtual {p2, v0}, Landroid/widget/TextView;->setAlpha(F)V
+
+    .line 686
+    return-object p2
+
+    .line 677
+    :cond_f0
+    new-instance p2, Landroid/widget/TextView;
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$a:Landroid/app/Activity;
 
-    invoke-virtual {v0}, Landroid/app/Activity;->isFinishing()Z
+    invoke-direct {p2, v0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    move-result v0
+    goto/16 :goto_d
 
-    if-eqz v0, :cond_17
+    .line 681
+    :cond_f9
+    const-string v1, ""
 
-    .line 624
-    :cond_16
-    :goto_16
-    return-void
+    goto/16 :goto_4d
 
-    .line 602
-    :cond_17
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$h:Landroid/os/Handler;
+    .line 682
+    :cond_fd
+    const-string v1, "PvP off"
 
-    const-wide/16 v2, 0x4e20
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    invoke-virtual {v0, p0, v2, v3}, Landroid/os/Handler;->postDelayed(Ljava/lang/Runnable;J)Z
+    move-result-object v1
 
-    .line 603
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$loading:[Z
+    goto :goto_ad
 
-    aget-boolean v0, v0, v4
+    .line 685
+    :cond_104
+    const/high16 v0, 0x3f800000    # 1.0f
 
-    if-nez v0, :cond_16
-
-    .line 604
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$loading:[Z
-
-    const/4 v1, 0x1
-
-    aput-boolean v1, v0, v4
-
-    .line 605
-    new-instance v0, Ljava/lang/Thread;
-
-    new-instance v1, Lfr/testudo/spacecorsair/mod/ModLanUi$17$1;
-
-    invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModLanUi$17$1;-><init>(Lfr/testudo/spacecorsair/mod/ModLanUi$17;)V
-
-    const-string v2, "lobby-list"
-
-    invoke-direct {v0, v1, v2}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
-
-    .line 623
-    invoke-virtual {v0}, Ljava/lang/Thread;->start()V
-
-    goto :goto_16
+    goto :goto_ec
 .end method

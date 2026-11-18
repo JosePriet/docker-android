@@ -3,7 +3,7 @@
 .source "ModLanUi.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Landroid/view/View$OnClickListener;
 
 
 # annotations
@@ -18,15 +18,15 @@
 
 
 # instance fields
-.field final synthetic val$name:Landroid/widget/EditText;
+.field final synthetic val$a:Landroid/app/Activity;
 
 .field final synthetic val$picked:[Ljava/lang/String;
 
-.field final synthetic val$then:Ljava/lang/Runnable;
+.field final synthetic val$show:Ljava/lang/Runnable;
 
 
 # direct methods
-.method constructor <init>(Landroid/widget/EditText;[Ljava/lang/String;Ljava/lang/Runnable;)V
+.method constructor <init>(Landroid/app/Activity;[Ljava/lang/String;Ljava/lang/Runnable;)V
     .registers 4
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -35,12 +35,12 @@
     .end annotation
 
     .prologue
-    .line 218
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$3;->val$name:Landroid/widget/EditText;
+    .line 310
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$3;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$3;->val$picked:[Ljava/lang/String;
 
-    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$3;->val$then:Ljava/lang/Runnable;
+    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$3;->val$show:Ljava/lang/Runnable;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -49,40 +49,19 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 6
+.method public onClick(Landroid/view/View;)V
+    .registers 4
 
     .prologue
-    .line 220
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$3;->val$name:Landroid/widget/EditText;
+    .line 311
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$3;->val$a:Landroid/app/Activity;
 
-    invoke-virtual {v0}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
+    new-instance v1, Lfr/testudo/spacecorsair/mod/ModLanUi$3$1;
 
-    move-result-object v0
+    invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModLanUi$3$1;-><init>(Lfr/testudo/spacecorsair/mod/ModLanUi$3;)V
 
-    invoke-interface {v0}, Landroid/text/Editable;->toString()Ljava/lang/String;
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLanUi;->pickCountry(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModLanUi$Pick;)V
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$200(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModLanUi$Pick;)V
 
-    move-result-object v0
-
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$3;->val$picked:[Ljava/lang/String;
-
-    const/4 v2, 0x0
-
-    aget-object v1, v1, v2
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLanUi;->save(Ljava/lang/String;Ljava/lang/String;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$300(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 221
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$3;->val$then:Ljava/lang/Runnable;
-
-    if-eqz v0, :cond_1b
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$3;->val$then:Ljava/lang/Runnable;
-
-    invoke-interface {v0}, Ljava/lang/Runnable;->run()V
-
-    .line 222
-    :cond_1b
     return-void
 .end method

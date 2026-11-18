@@ -3,7 +3,7 @@
 .source "ModLanUi.java"
 
 # interfaces
-.implements Landroid/widget/AdapterView$OnItemClickListener;
+.implements Ljava/lang/Runnable;
 
 
 # annotations
@@ -18,16 +18,24 @@
 
 
 # instance fields
+.field final synthetic val$a:Landroid/app/Activity;
+
+.field final synthetic val$ad:Landroid/widget/ArrayAdapter;
+
 .field final synthetic val$dlg:Landroid/app/AlertDialog;
 
-.field final synthetic val$join:Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
+.field final synthetic val$h:Landroid/os/Handler;
+
+.field final synthetic val$loading:[Z
+
+.field final synthetic val$note:Landroid/widget/TextView;
 
 .field final synthetic val$rows:Ljava/util/ArrayList;
 
 
 # direct methods
-.method constructor <init>(Ljava/util/ArrayList;Landroid/app/AlertDialog;Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;)V
-    .registers 4
+.method constructor <init>(Landroid/os/Handler;Landroid/app/AlertDialog;Landroid/app/Activity;[ZLjava/util/ArrayList;Landroid/widget/ArrayAdapter;Landroid/widget/TextView;)V
+    .registers 8
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -35,12 +43,20 @@
     .end annotation
 
     .prologue
-    .line 626
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$rows:Ljava/util/ArrayList;
+    .line 700
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$h:Landroid/os/Handler;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$dlg:Landroid/app/AlertDialog;
 
-    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$join:Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
+    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$a:Landroid/app/Activity;
+
+    iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$loading:[Z
+
+    iput-object p5, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$rows:Ljava/util/ArrayList;
+
+    iput-object p6, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$ad:Landroid/widget/ArrayAdapter;
+
+    iput-object p7, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$note:Landroid/widget/TextView;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -49,78 +65,74 @@
 
 
 # virtual methods
-.method public onItemClick(Landroid/widget/AdapterView;Landroid/view/View;IJ)V
-    .registers 9
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "(",
-            "Landroid/widget/AdapterView",
-            "<*>;",
-            "Landroid/view/View;",
-            "IJ)V"
-        }
-    .end annotation
+.method public run()V
+    .registers 6
 
     .prologue
-    .line 628
-    if-ltz p3, :cond_1d
+    const/4 v4, 0x0
 
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$rows:Ljava/util/ArrayList;
+    .line 702
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$h:Landroid/os/Handler;
 
-    invoke-virtual {v0}, Ljava/util/ArrayList;->size()I
+    invoke-virtual {v0, p0}, Landroid/os/Handler;->removeCallbacks(Ljava/lang/Runnable;)V
 
-    move-result v0
+    .line 703
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$dlg:Landroid/app/AlertDialog;
 
-    if-ge p3, v0, :cond_1d
-
-    const-string v1, "2"
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$rows:Ljava/util/ArrayList;
-
-    invoke-virtual {v0, p3}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
-
-    move-result-object v0
-
-    check-cast v0, [Ljava/lang/String;
-
-    const/4 v2, 0x6
-
-    aget-object v0, v0, v2
-
-    invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v0}, Landroid/app/AlertDialog;->isShowing()Z
 
     move-result v0
 
-    if-eqz v0, :cond_1e
+    if-eqz v0, :cond_16
 
-    .line 632
-    :cond_1d
-    :goto_1d
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$a:Landroid/app/Activity;
+
+    invoke-virtual {v0}, Landroid/app/Activity;->isFinishing()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_17
+
+    .line 726
+    :cond_16
+    :goto_16
     return-void
 
-    .line 629
-    :cond_1e
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$rows:Ljava/util/ArrayList;
+    .line 704
+    :cond_17
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$h:Landroid/os/Handler;
 
-    invoke-virtual {v0, p3}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
+    const-wide/16 v2, 0x4e20
 
-    move-result-object v0
+    invoke-virtual {v0, p0, v2, v3}, Landroid/os/Handler;->postDelayed(Ljava/lang/Runnable;J)Z
 
-    check-cast v0, [Ljava/lang/String;
+    .line 705
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$loading:[Z
 
-    const/4 v1, 0x0
+    aget-boolean v0, v0, v4
 
-    aget-object v0, v0, v1
+    if-nez v0, :cond_16
 
-    .line 630
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$dlg:Landroid/app/AlertDialog;
+    .line 706
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$loading:[Z
 
-    invoke-virtual {v1}, Landroid/app/AlertDialog;->dismiss()V
+    const/4 v1, 0x1
 
-    .line 631
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$join:Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
+    aput-boolean v1, v0, v4
 
-    invoke-interface {v1, v0}, Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;->code(Ljava/lang/String;)V
+    .line 707
+    new-instance v0, Ljava/lang/Thread;
 
-    goto :goto_1d
+    new-instance v1, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;
+
+    invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;-><init>(Lfr/testudo/spacecorsair/mod/ModLanUi$18;)V
+
+    const-string v2, "lobby-list"
+
+    invoke-direct {v0, v1, v2}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
+
+    .line 725
+    invoke-virtual {v0}, Ljava/lang/Thread;->start()V
+
+    goto :goto_16
 .end method

@@ -3,7 +3,7 @@
 .source "ModLanUi.java"
 
 # interfaces
-.implements Landroid/view/View$OnClickListener;
+.implements Landroid/content/DialogInterface$OnDismissListener;
 
 
 # annotations
@@ -18,12 +18,14 @@
 
 
 # instance fields
+.field final synthetic val$h:Landroid/os/Handler;
+
 .field final synthetic val$load:[Ljava/lang/Runnable;
 
 
 # direct methods
-.method constructor <init>([Ljava/lang/Runnable;)V
-    .registers 2
+.method constructor <init>(Landroid/os/Handler;[Ljava/lang/Runnable;)V
+    .registers 3
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -31,8 +33,10 @@
     .end annotation
 
     .prologue
-    .line 636
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$20;->val$load:[Ljava/lang/Runnable;
+    .line 736
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$20;->val$h:Landroid/os/Handler;
+
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$20;->val$load:[Ljava/lang/Runnable;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -41,18 +45,20 @@
 
 
 # virtual methods
-.method public onClick(Landroid/view/View;)V
-    .registers 4
+.method public onDismiss(Landroid/content/DialogInterface;)V
+    .registers 5
 
     .prologue
-    .line 636
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$20;->val$load:[Ljava/lang/Runnable;
+    .line 736
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$20;->val$h:Landroid/os/Handler;
 
-    const/4 v1, 0x0
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$20;->val$load:[Ljava/lang/Runnable;
 
-    aget-object v0, v0, v1
+    const/4 v2, 0x0
 
-    invoke-interface {v0}, Ljava/lang/Runnable;->run()V
+    aget-object v1, v1, v2
+
+    invoke-virtual {v0, v1}, Landroid/os/Handler;->removeCallbacks(Ljava/lang/Runnable;)V
 
     return-void
 .end method
