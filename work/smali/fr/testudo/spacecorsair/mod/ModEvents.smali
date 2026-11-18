@@ -1775,13 +1775,25 @@
     .line 156
     const/4 v0, 0x1
 
-    sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+    iget v1, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
 
-    iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
+    iget v2, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
 
-    iget-object v1, v1, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
+    sget-object v5, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    iget v1, v1, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+    iget-object v5, v5, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
+
+    iget-object v5, v5, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
+
+    iget v5, v5, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+
+    invoke-static {v2, v5}, Ljava/lang/Math;->min(II)I
+
+    move-result v2
+
+    invoke-static {v1, v2}, Ljava/lang/Math;->max(II)I
+
+    move-result v1
 
     invoke-static {v0, v1}, Ljava/lang/Math;->max(II)I
 
@@ -1796,11 +1808,11 @@
 
     cmpg-double v0, v0, v6
 
-    if-gez v0, :cond_77
+    if-gez v0, :cond_83
 
     const/4 v0, 0x1
 
-    :goto_62
+    :goto_6e
     add-int/lit8 v6, v0, 0x2
 
     .line 158
@@ -1808,8 +1820,8 @@
 
     move v2, v0
 
-    :goto_66
-    if-ge v2, v6, :cond_b3
+    :goto_72
+    if-ge v2, v6, :cond_bf
 
     .line 159
     const-string v0, "reaver"
@@ -1823,24 +1835,24 @@
     .line 160
     instance-of v0, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-nez v0, :cond_79
+    if-nez v0, :cond_85
 
     .line 158
-    :goto_73
+    :goto_7f
     add-int/lit8 v0, v2, 0x1
 
     move v2, v0
 
-    goto :goto_66
+    goto :goto_72
 
     .line 157
-    :cond_77
+    :cond_83
     const/4 v0, 0x0
 
-    goto :goto_62
+    goto :goto_6e
 
     .line 161
-    :cond_79
+    :cond_85
     iget-object v0, v1, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {v0, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1892,17 +1904,17 @@
 
     invoke-virtual {v0, v1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    goto :goto_73
+    goto :goto_7f
 
     .line 166
-    :cond_b3
+    :cond_bf
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->isEmpty()Z
 
     move-result v0
 
-    if-eqz v0, :cond_c3
+    if-eqz v0, :cond_cf
 
     .line 167
     const/4 v0, 0x1
@@ -1917,7 +1929,7 @@
     goto/16 :goto_13
 
     .line 171
-    :cond_c3
+    :cond_cf
     const/4 v0, 0x0
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->engaged:Z
