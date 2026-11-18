@@ -60,17 +60,23 @@ public final class ModBal {
         if (!ModLive.titanHostile(g, c)) return;
         float dx = ps.position.x - g.position.x, dy = ps.position.y - g.position.y;
         float d = (float) Math.sqrt(dx * dx + dy * dy);
-        if (d < 1 || d > 7000) return;
+        if (d < 1) return;
+        // 2026-11-18 (owner): every flagship and police titan also stays on the player's screen. The hull is 1,500 wide,
+        // wider than the visible half-size, so "on screen" = centre within the visible radius + 40% of the hull (a good
+        // part of the hull shows). Past that hard limit it is moved back in at up to 600 u/s whatever its own AI does.
+        float hard = ModView.radius() + ModCapitals.SIZE * 0.4f;
+        if (d > hard) {
+            float step = Math.min(d - hard, 0.6f * j);
+            g.position.x += dx / d * step;
+            g.position.y += dy / d * step;
+        }
         float lo, hi;
-        // 2026-11-18 (owner): every flagship and police titan also stays on the player's screen (hull centre within
-        // ModView.radius less a third of the hull); factions without a range band only get this limit
-        float view = Math.max(600f, ModView.radius() - ModCapitals.SIZE * 0.35f);
-        if (r <= 0) { lo = 0; hi = view; } else {
+        if (r <= 0) { lo = 0; hi = hard * 0.85f; } else {
             lo = r * (c.police ? 0.4f : 0.5f);
-            hi = Math.min(r * (c.police ? 0.65f : 0.8f), view);
+            hi = Math.min(r * (c.police ? 0.65f : 0.8f), hard * 0.85f);
             lo = Math.min(lo, hi * 0.6f);
         }
-        float k2 = Math.min(1f, j / 400f);   // police: inside the player's turret reach (~3,000)
+        float k2 = Math.min(1f, j / 400f);
         float tx, ty;
         if (d > hi) { tx = dx / d * VMAX; ty = dy / d * VMAX; }          // close back in to gun range
         else if (d < lo) { tx = -dx / d * VMAX; ty = -dy / d * VMAX; }   // back off: no ramming without firing
