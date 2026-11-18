@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 3197
+    .line 3201
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$39;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 2
 
     .prologue
-    .line 3197
+    .line 3201
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$39;->val$a:Landroid/app/Activity;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->privacy(Landroid/app/Activity;)V

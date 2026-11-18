@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 838
+    .line 839
     iput-boolean p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$11;->val$bye:Z
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$11;->val$wlOld:Ljava/util/concurrent/locks/ReentrantLock;
@@ -55,8 +55,8 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 841
-    .line 843
+    .line 842
+    .line 844
     :try_start_1
     iget-boolean v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$11;->val$bye:Z
 
@@ -80,7 +80,7 @@
 
     const/4 v0, 0x1
 
-    .line 844
+    .line 845
     :cond_16
     if-eqz v0, :cond_30
 
@@ -109,7 +109,7 @@
     .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_30} :catch_3d
     .catchall {:try_start_1 .. :try_end_30} :catchall_46
 
-    .line 848
+    .line 849
     :cond_30
     if-eqz v0, :cond_37
 
@@ -117,7 +117,7 @@
 
     invoke-virtual {v0}, Ljava/util/concurrent/locks/ReentrantLock;->unlock()V
 
-    .line 850
+    .line 851
     :cond_37
     :goto_37
     :try_start_37
@@ -127,15 +127,15 @@
     :try_end_3c
     .catch Ljava/lang/Throwable; {:try_start_37 .. :try_end_3c} :catch_4f
 
-    .line 851
+    .line 852
     :goto_3c
     return-void
 
-    .line 845
+    .line 846
     :catch_3d
     move-exception v1
 
-    .line 848
+    .line 849
     if-eqz v0, :cond_37
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$11;->val$wlOld:Ljava/util/concurrent/locks/ReentrantLock;
@@ -153,17 +153,17 @@
 
     invoke-virtual {v0}, Ljava/util/concurrent/locks/ReentrantLock;->unlock()V
 
-    .line 849
+    .line 850
     :cond_4e
     throw v1
 
-    .line 850
+    .line 851
     :catch_4f
     move-exception v0
 
     goto :goto_3c
 
-    .line 844
+    .line 845
     nop
 
     :array_52

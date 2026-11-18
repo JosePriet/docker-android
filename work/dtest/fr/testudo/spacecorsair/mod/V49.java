@@ -74,6 +74,7 @@ public class V49 {
         }
         System.out.println("info V49 shot fields " + ModLan.shotFields(EnergyBullet.class).length + ", bytes " + so.size());
         // link: the guest connects to a listening host and sends its state frames
+        ModLan.hashForTest("00ff00ff00ff00ff");   // no APK in the JVM
         java.net.ServerSocket ss = new java.net.ServerSocket(ModLan.PORT);
         Thread j = new Thread(new Runnable() { public void run() { ModLan.join("127.0.0.1"); } });
         j.start();

@@ -205,7 +205,7 @@ public final class ModLan {
             } finally {
                 try { if (in != null) in.close(); } catch (Throwable t) { /* closed */ }
             }
-            hashCache = out;
+            if (!out.equals("?")) hashCache = out;   // verify: a failed read is tried again next time
             ModDev.ev("lan", "content hash " + out);
             return out;
         }
@@ -612,11 +612,12 @@ public final class ModLan {
             String code = ModLanUi.codeChars(clean(readShortUTF(in, 8), 8), 4);   // owner 2026-11-18: the local room code
             String hash = clean(readShortUTF(in, 32), 16);   // spec item 6: the guest's game files
             s.setSoTimeout(0);
-            if (!hash.equals(contentHash())) { out.writeByte(FILES); out.flush(); ModDev.ev("lan", "refused files " + hash); return false; }
             if (!(s instanceof ModNet.Link)) {   // internet games: the lobby service already checked the code
                 int cc = codeCheck(addr, code);
                 if (cc != OK) { out.writeByte(cc); out.flush(); ModDev.ev("lan", "room code refused " + addr); return false; }
             }
+            String mine = contentHash();   // verify: after the room code (a wrong code counts toward the lockout); unreadable files never match
+            if (mine.equals("?") || !hash.equals(mine)) { out.writeByte(FILES); out.flush(); ModDev.ev("lan", "refused files " + hash); return false; }
             boolean back = (s instanceof ModNet.Link ? rejoinId.length() > 0 && rejoinId.equals(netJoinId) : addr.equals(rejoinAddr)) && System.currentTimeMillis() < rejoinUntil;   // the same phone reconnecting
             String who = ModLanUi.label(ModLanUi.safeNick(nick), ModLanUi.safeCountry(ctry));
             if (!back && !autoAccept && !askAccept(who, gen)) { out.writeByte(DECLINED); out.flush(); ModDev.ev("lan", "declined " + addr); return false; }
@@ -799,7 +800,7 @@ public final class ModLan {
             int r = hi.readUnsignedByte();
             if (r != OK || linkGen != mark) {   // refused, or the player moved on: stop trying
                 s.close();
-                if (linkGen == mark) status = ModLang.tr("Co-op link lost");
+                if (linkGen == mark) status = r == FILES ? filesText() : ModLang.tr("Co-op link lost");
                 return true;
             }
             readPeerId(hi);
@@ -960,7 +961,7 @@ public final class ModLan {
         synchronized (defIn) { defIn.clear(); texIn.clear(); }
         synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); inDrones.clear(); inDooms.clear(); }
         dmgSent = 0; dmgSeen = 0; xpSent = 0; xpSeen = 0; xpBase = -1; dmgBase = -1;
-        capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0; jumps = 0; jumpWin = 0;
+        capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0; jumps = 0; jumpWin = 0; moveSeen = 0; moveGrace = 0;
         synchronized (inLock) { inKills.clear(); }
     }
 
@@ -1948,11 +1949,13 @@ public final class ModLan {
             moveState = s;
             float dx = s.x - moveX, dy = s.y - moveY;
             float secs = Math.max(0.016f, (s.at - moveAt) / 1000.0f);
+            if (moveSeen != 0 && s.at - moveSeen > 500) moveGrace = s.at + 3000;   // verify: a stall then a burst of queued states is not cheating
+            moveSeen = s.at;
             float hx = s.x - ps.position.x, hy = s.y - ps.position.y;
             boolean nearHost = hx * hx + hy * hy < 4000f * 4000f;
             float reach = MAX_SPEED * secs + 1500f;
             if (moveAt != 0 && !nearHost && dx * dx + dy * dy > reach * reach) {
-                if (!moveHold) {   // spec item 8 (owner 2026-11-18): each new impossible jump counts once; repeat offenders are kicked
+                if (!moveHold && s.at > moveGrace) {   // spec item 8 (owner 2026-11-18): each new impossible jump counts once; repeat offenders are kicked
                     flags++;
                     long nowJ = System.currentTimeMillis();
                     if (nowJ - jumpWin > JUMP_WINDOW_MS) { jumpWin = nowJ; jumps = 0; }
@@ -2012,7 +2015,6 @@ public final class ModLan {
     static final float MAX_STEP = 100f;          // speed vector per frame
     static final int MAX_SHOTS_S = 300;
     static final float SHOT_REACH = 300f;        // spec item 4 (owner 2026-11-18): a shot starts within 300 of the ship's shield edge
-    static final float SHOT_LAG_S = 0.25f;       // the stand-in trails the guest by up to this much flight (latest-only states)
     private static volatile ModLanCheck.Limits limits;
     private static ModLanCheck.Limits noDecl;
     private static volatile long beganAt, firstStateAt;
@@ -2073,7 +2075,7 @@ public final class ModLan {
     static final int JUMP_KICK = 4;                  // spec item 8: this many impossible jumps ...
     static final long JUMP_WINDOW_MS = 120000;       // ... within 2 minutes end the session (one stall and catch-up is one jump)
     private static int jumps;
-    private static long jumpWin;
+    private static long jumpWin, moveSeen, moveGrace;
     private static long moveAt, shotSec;
     private static boolean moveHold;
     private static int shotCount;
@@ -2185,9 +2187,8 @@ public final class ModLan {
             // guest's last reported place (the stand-in is extrapolated), plus the flight of one late state
             ModLanCheck.Limits lr = limits != null ? limits : undeclared();
             InState st = inState;
-            float sp = st != null ? (float) Math.hypot(st.vx, st.vy) * 60f : 0f;   // speeds are per ~16 ms frame
-            float reach = SHOT_REACH + lr.radius + Math.min(MAX_SPEED, sp) * SHOT_LAG_S;
-            boolean near = shotOk(p, from.position.x, from.position.y, reach) || (st != null && shotOk(p, st.x, st.y, reach));
+            float reach = SHOT_REACH + lr.radius;   // verify: no speed slack (the guest's own numbers)
+            boolean near = shotOk(p, from.position.x, from.position.y, reach) || (st != null && !moveHold && shotOk(p, st.x, st.y, reach));   // a rejected jump is no origin
             if (!near) { flags++; p.removed = true; return; }
             // v45: damage clamped to what the declared ship and weapons can do by this phone's own tables
             ModLanCheck.Limits lm = limits;
@@ -3054,6 +3055,9 @@ public final class ModLan {
     static int queueSizeOf(RenderQueue q) throws Exception { refl(); return fQSize.getInt(q); }
 
     static void hostForTest() { host(); autoAccept = true; }
+
+    /** JVM test: no APK there, so the content hash is set by hand. */
+    static void hashForTest(String h) { hashCache = h; }
 
     static void hostNetForTest() { hostNet(); autoAccept = true; }
 
