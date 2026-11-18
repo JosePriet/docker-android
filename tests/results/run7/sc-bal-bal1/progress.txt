@@ -1,0 +1,38 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[26s] shot launch ok
+[34s] cancel exit prompt
+[41s] shot after_back ok
+[55s] shot steering ok
+[55s] direct: BuyInapp gift
+[75s] tap 'id/txtGift' at 620 926
+[86s] tap 'id/btnGift' at 1253 939
+[91s] shot gift_box_redeemed ok
+[97s] direct: Settings
+[103s] shot settings_v36 ok
+[105s] seekbars on settings: 3
+[122s] Leviathan page found=1
+[128s] tap '^(Use|USE)' at 1971 1008
+[151s] shot dmg_ready ok
+[159s] shot dmg_reaver_1 ok
+[197s] shot dmg_reaver_9 ok
+[213s] shot dmg_reaver_end ok
+[213s] EVIDENCE dmg start reaver player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=2550000 shot=2931 rate=1.0 police=false dmg end reaver result=killed t=45.295 hullLost=33.6% shieldLost=11774 pMaxHull=446656 tMaxHull=2550000 thull=0.0% dealt=2550000 
+[230s] shot dmg_warden_1 ok
+[267s] shot dmg_warden_9 ok
+[276s] shot dmg_warden_end ok
+[276s] EVIDENCE dmg start warden player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1700000 shot=2931 rate=1.0 police=false dmg end warden result=killed t=45.639 hullLost=30.4% shieldLost=12031 pMaxHull=446656 tMaxHull=1700000 thull=0.0% dealt=1700000 
+[293s] shot dmg_ironclad_1 ok
+[331s] shot dmg_ironclad_9 ok
+[362s] shot dmg_ironclad_end ok
+[362s] EVIDENCE dmg start ironclad player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=2040000 shot=2931 rate=1.0 police=false dmg end ironclad result=player_dead t=66.246 hullLost=91.1% shieldLost=13556 pMaxHull=446656 tMaxHull=2040000 thull=5.1% dealt=1936594 
+[380s] shot dmg_helion_1 ok
+[417s] shot dmg_helion_9 ok
+[442s] shot dmg_helion_end ok
+[442s] EVIDENCE dmg start helion player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1275000 shot=2931 rate=1.0 police=false dmg end helion result=killed t=58.717 hullLost=24.2% shieldLost=11739 pMaxHull=446656 tMaxHull=1275000 thull=0.0% dealt=1275000 
+[459s] shot dmg_spartan_1 ok
+[497s] shot dmg_spartan_9 ok
+[528s] shot dmg_spartan_end ok
+[528s] EVIDENCE dmg start spartan player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1360000 shot=2931 rate=1.0 police=false dmg end spartan result=killed t=65.153 hullLost=45.7% shieldLost=13315 pMaxHull=446656 tMaxHull=1360000 thull=0.0% dealt=1360000 
+[540s] done; errors: 145 lines
+128 frames

@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 384337 Realtime: 384337
+
+** MEMINFO in pid 2502 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    34502    34436        0        0    36860    44932    36733     3877
+  Dalvik Heap    34007    33876        0        0    38120    21173    10603    10570
+ Dalvik Other     1557     1020        0        0     2956                           
+        Stack      860      860        0        0      872                           
+       Ashmem    10103     8972        0        0    11348                           
+    Other dev      120        0      120        0      324                           
+     .so mmap     4392      248      504        0    43564                           
+    .jar mmap     1820        0      148        0    24004                           
+    .apk mmap     1186        0      128        0    25112                           
+    .ttf mmap      441        0      236        0     1024                           
+    .dex mmap     3044       12     3020        0     3172                           
+    .oat mmap      961        0        8        0    15664                           
+    .art mmap     1915     1304        0        0    19988                           
+   Other mmap      366       36       88        0     2504                           
+      Unknown      395      380        0        0      840                           
+        TOTAL    95669    81144     4252        0    95669    66105    47336    14447
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    35180                          58108
+         Native Heap:    34436                          36860
+                Code:     4324                         113656
