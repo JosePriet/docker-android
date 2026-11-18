@@ -3,12 +3,12 @@
 .source "ModLanUi.java"
 
 # interfaces
-.implements Landroid/app/Application$ActivityLifecycleCallbacks;
+.implements Landroid/view/View$OnClickListener;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLanUi;->watchApp(Landroid/app/Activity;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLanUi;->profileRow(Landroid/app/Activity;Ljava/lang/Runnable;)Landroid/view/View;
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -17,12 +17,27 @@
 .end annotation
 
 
+# instance fields
+.field final synthetic val$a:Landroid/app/Activity;
+
+.field final synthetic val$after:Ljava/lang/Runnable;
+
+
 # direct methods
-.method constructor <init>()V
-    .registers 1
+.method constructor <init>(Landroid/app/Activity;Ljava/lang/Runnable;)V
+    .registers 3
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "()V"
+        }
+    .end annotation
 
     .prologue
-    .line 422
+    .line 468
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$11;->val$a:Landroid/app/Activity;
+
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$11;->val$after:Ljava/lang/Runnable;
+
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -30,102 +45,16 @@
 
 
 # virtual methods
-.method public onActivityCreated(Landroid/app/Activity;Landroid/os/Bundle;)V
-    .registers 3
+.method public onClick(Landroid/view/View;)V
+    .registers 4
 
     .prologue
-    .line 423
-    return-void
-.end method
+    .line 468
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$11;->val$a:Landroid/app/Activity;
 
-.method public onActivityDestroyed(Landroid/app/Activity;)V
-    .registers 2
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$11;->val$after:Ljava/lang/Runnable;
 
-    .prologue
-    .line 435
-    return-void
-.end method
-
-.method public onActivityPaused(Landroid/app/Activity;)V
-    .registers 2
-
-    .prologue
-    .line 426
-    return-void
-.end method
-
-.method public onActivityResumed(Landroid/app/Activity;)V
-    .registers 2
-
-    .prologue
-    .line 425
-    return-void
-.end method
-
-.method public onActivitySaveInstanceState(Landroid/app/Activity;Landroid/os/Bundle;)V
-    .registers 3
-
-    .prologue
-    .line 434
-    return-void
-.end method
-
-.method public onActivityStarted(Landroid/app/Activity;)V
-    .registers 2
-
-    .prologue
-    .line 424
-    # operator++ for: Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$408()I
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLanUi;->whoAreYou(Landroid/app/Activity;Ljava/lang/Runnable;)V
 
     return-void
-.end method
-
-.method public onActivityStopped(Landroid/app/Activity;)V
-    .registers 3
-
-    .prologue
-    .line 428
-    # operator-- for: Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$410()I
-
-    .line 429
-    # getter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$400()I
-
-    move-result v0
-
-    if-gtz v0, :cond_19
-
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->underMenu:Z
-
-    if-eqz v0, :cond_19
-
-    .line 430
-    const/4 v0, 0x0
-
-    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->underMenu:Z
-
-    .line 431
-    :try_start_10
-    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
-    iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
-
-    iget-object v0, v0, Lfr/testudo/spacecorsair/game/Game;->gameThread:Lfr/testudo/spacecorsair/engine/GameThread;
-
-    invoke-virtual {v0}, Lfr/testudo/spacecorsair/engine/GameThread;->pauseGame()V
-    :try_end_19
-    .catch Ljava/lang/Throwable; {:try_start_10 .. :try_end_19} :catch_1a
-
-    .line 433
-    :cond_19
-    :goto_19
-    return-void
-
-    .line 431
-    :catch_1a
-    move-exception v0
-
-    goto :goto_19
 .end method

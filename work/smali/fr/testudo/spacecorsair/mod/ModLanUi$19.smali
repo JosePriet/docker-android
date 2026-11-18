@@ -3,7 +3,7 @@
 .source "ModLanUi.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnDismissListener;
+.implements Landroid/widget/AdapterView$OnItemClickListener;
 
 
 # annotations
@@ -18,14 +18,16 @@
 
 
 # instance fields
-.field final synthetic val$h:Landroid/os/Handler;
+.field final synthetic val$dlg:Landroid/app/AlertDialog;
 
-.field final synthetic val$load:[Ljava/lang/Runnable;
+.field final synthetic val$join:Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
+
+.field final synthetic val$rows:Ljava/util/ArrayList;
 
 
 # direct methods
-.method constructor <init>(Landroid/os/Handler;[Ljava/lang/Runnable;)V
-    .registers 3
+.method constructor <init>(Ljava/util/ArrayList;Landroid/app/AlertDialog;Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;)V
+    .registers 4
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -33,10 +35,12 @@
     .end annotation
 
     .prologue
-    .line 634
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$h:Landroid/os/Handler;
+    .line 725
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$rows:Ljava/util/ArrayList;
 
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$load:[Ljava/lang/Runnable;
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$dlg:Landroid/app/AlertDialog;
+
+    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$join:Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -45,20 +49,78 @@
 
 
 # virtual methods
-.method public onDismiss(Landroid/content/DialogInterface;)V
-    .registers 5
+.method public onItemClick(Landroid/widget/AdapterView;Landroid/view/View;IJ)V
+    .registers 9
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "(",
+            "Landroid/widget/AdapterView",
+            "<*>;",
+            "Landroid/view/View;",
+            "IJ)V"
+        }
+    .end annotation
 
     .prologue
-    .line 634
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$h:Landroid/os/Handler;
+    .line 727
+    if-ltz p3, :cond_1d
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$load:[Ljava/lang/Runnable;
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$rows:Ljava/util/ArrayList;
 
-    const/4 v2, 0x0
+    invoke-virtual {v0}, Ljava/util/ArrayList;->size()I
 
-    aget-object v1, v1, v2
+    move-result v0
 
-    invoke-virtual {v0, v1}, Landroid/os/Handler;->removeCallbacks(Ljava/lang/Runnable;)V
+    if-ge p3, v0, :cond_1d
 
+    const-string v1, "2"
+
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$rows:Ljava/util/ArrayList;
+
+    invoke-virtual {v0, p3}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, [Ljava/lang/String;
+
+    const/4 v2, 0x6
+
+    aget-object v0, v0, v2
+
+    invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_1e
+
+    .line 731
+    :cond_1d
+    :goto_1d
     return-void
+
+    .line 728
+    :cond_1e
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$rows:Ljava/util/ArrayList;
+
+    invoke-virtual {v0, p3}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, [Ljava/lang/String;
+
+    const/4 v1, 0x0
+
+    aget-object v0, v0, v1
+
+    .line 729
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$dlg:Landroid/app/AlertDialog;
+
+    invoke-virtual {v1}, Landroid/app/AlertDialog;->dismiss()V
+
+    .line 730
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$19;->val$join:Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
+
+    invoke-interface {v1, v0}, Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;->code(Ljava/lang/String;)V
+
+    goto :goto_1d
 .end method

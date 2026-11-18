@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLanUi;->profileRow(Landroid/app/Activity;Ljava/lang/Runnable;)Landroid/view/View;
+    value = Lfr/testudo/spacecorsair/mod/ModLanUi;->section(Landroid/app/Activity;Ljava/lang/String;F)Landroid/view/View;
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -20,12 +20,14 @@
 # instance fields
 .field final synthetic val$a:Landroid/app/Activity;
 
-.field final synthetic val$after:Ljava/lang/Runnable;
+.field final synthetic val$head:Ljava/lang/String;
+
+.field final synthetic val$help:Ljava/lang/String;
 
 
 # direct methods
-.method constructor <init>(Landroid/app/Activity;Ljava/lang/Runnable;)V
-    .registers 3
+.method constructor <init>(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
+    .registers 4
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -33,10 +35,12 @@
     .end annotation
 
     .prologue
-    .line 369
+    .line 436
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$a:Landroid/app/Activity;
 
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$after:Ljava/lang/Runnable;
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$head:Ljava/lang/String;
+
+    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$help:Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -46,15 +50,52 @@
 
 # virtual methods
 .method public onClick(Landroid/view/View;)V
-    .registers 4
+    .registers 5
 
     .prologue
-    .line 369
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$a:Landroid/app/Activity;
+    .line 438
+    :try_start_0
+    new-instance v0, Landroid/app/AlertDialog$Builder;
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$after:Ljava/lang/Runnable;
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$a:Landroid/app/Activity;
 
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLanUi;->whoAreYou(Landroid/app/Activity;Ljava/lang/Runnable;)V
+    invoke-direct {v0, v1}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
 
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$head:Ljava/lang/String;
+
+    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+
+    move-result-object v0
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$help:Ljava/lang/String;
+
+    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+
+    move-result-object v0
+
+    const-string v1, "OK"
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    const/4 v2, 0x0
+
+    invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
+    :try_end_21
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_21} :catch_22
+
+    .line 439
+    :goto_21
     return-void
+
+    .line 438
+    :catch_22
+    move-exception v0
+
+    goto :goto_21
 .end method

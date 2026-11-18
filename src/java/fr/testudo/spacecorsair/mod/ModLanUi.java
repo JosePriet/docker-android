@@ -44,6 +44,105 @@ import java.util.Locale;
 final class ModLanUi {
     private ModLanUi() {}
 
+    // ------------------------------------------------------------------ flight menu entry (v46 restore)
+    /** R.id.layMenuButtons / laySettings in menu_main.xml (the flight menu bar). */
+    private static final int MENU_BUTTONS = 0x7f0a008c, MENU_SETTINGS = 0x7f0a0092;
+    private static final String MENU_TAG = "corsair_mp_entry";
+    private static TextView menuLabel;
+
+    /**
+     * hooks56: MenuDisplayer.init built the flight menu bar (My ship, Missions, Achievements, Stats, Map, Settings).
+     * 1.5.1 lost its multiplayer entry (multi.xml and the MP strings are left, nothing opens them); this adds a
+     * Multiplayer entry before Settings, same look as its neighbours, that opens the lobby menu (ModLan.showMenu).
+     */
+    static void menuEntry(final Context ctx, View menuView) {
+        try {
+            if (menuView == null || !(ctx instanceof Activity)) return;
+            ViewGroup bar = (ViewGroup) menuView.findViewById(MENU_BUTTONS);
+            View settings = menuView.findViewById(MENU_SETTINGS);
+            if (bar == null || settings == null || bar.findViewWithTag(MENU_TAG) != null) return;
+            int at = bar.indexOfChild(settings);
+            if (at < 0) return;
+            // the entry before Settings is the divider image; the one before that is Map: copy its look
+            ViewGroup model = null;
+            for (int i = at - 1; i >= 0 && model == null; i--) if (bar.getChildAt(i) instanceof LinearLayout) model = (ViewGroup) bar.getChildAt(i);
+            if (model == null) model = (ViewGroup) settings;
+            LinearLayout e = new LinearLayout(ctx);
+            e.setTag(MENU_TAG);
+            e.setOrientation(LinearLayout.VERTICAL);
+            e.setGravity(Gravity.CENTER);
+            e.setLayoutParams(new LinearLayout.LayoutParams(model.getLayoutParams()));
+            View mIcon = model.getChildAt(0);
+            ImageView icon = new ImageView(ctx);
+            icon.setImageBitmap(menuIcon(ctx));
+            icon.setScaleType(ImageView.ScaleType.FIT_XY);
+            icon.setLayoutParams(new LinearLayout.LayoutParams(mIcon.getLayoutParams()));
+            e.addView(icon);
+            TextView mText = (TextView) model.getChildAt(1);
+            TextView t = new TextView(ctx);
+            t.setTextSize(TypedValue.COMPLEX_UNIT_PX, mText.getTextSize());
+            t.setTextColor(mText.getTextColors());
+            t.setTypeface(mText.getTypeface());
+            t.setText(ModLan.buttonLabel());
+            t.setLayoutParams(new LinearLayout.LayoutParams(mText.getLayoutParams()));
+            e.addView(t);
+            menuLabel = t;
+            e.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    try { fr.testudo.spacecorsair.utils.MenuDisplayer.hideMenu(); } catch (Throwable x) { /* menu already gone */ }
+                    ModLan.showMenu((Activity) ctx);
+                }
+            });
+            bar.addView(e, at);
+        } catch (Throwable t) {
+            // never break the flight menu
+        }
+    }
+
+    /** hooks56: the flight menu is opening; the label shows the link state ("Multiplayer *" while connected). */
+    static void menuShown() {
+        try { TextView t = menuLabel; if (t != null) t.setText(ModLan.buttonLabel()); } catch (Throwable x) { /* ignore */ }
+    }
+
+    /** The Settings icon's cyan broken ring with its gear cleared, and two white ship chevrons inside. */
+    private static Bitmap menuIcon(Context ctx) {
+        Bitmap src = null;
+        try { src = BitmapFactory.decodeResource(ctx.getResources(), 0x7f0200dd); } catch (Throwable t) { /* drawn ring below */ }
+        int n = 128;
+        Bitmap b = Bitmap.createBitmap(n, n, Bitmap.Config.ARGB_8888);
+        android.graphics.Canvas c = new android.graphics.Canvas(b);
+        android.graphics.Paint p = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG | android.graphics.Paint.FILTER_BITMAP_FLAG);
+        if (src != null) {
+            c.drawBitmap(src, null, new android.graphics.Rect(0, 0, n, n), p);
+            android.graphics.Paint clr = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+            clr.setXfermode(new android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.CLEAR));
+            c.drawCircle(n / 2f, n / 2f, n * 0.355f, clr);
+        } else {
+            p.setStyle(android.graphics.Paint.Style.STROKE);
+            p.setStrokeWidth(n * 0.09f);
+            p.setColor(0xFF2EC4F0);
+            android.graphics.RectF r = new android.graphics.RectF(n * 0.08f, n * 0.08f, n * 0.92f, n * 0.92f);
+            for (int i = 0; i < 4; i++) c.drawArc(r, i * 90 + 12, 66, false, p);
+            p.setStyle(android.graphics.Paint.Style.FILL);
+        }
+        p.setXfermode(null);
+        p.setColor(Color.WHITE);
+        p.setStyle(android.graphics.Paint.Style.FILL);
+        chevron(c, p, n * 0.37f, n * 0.56f, n * 0.15f);
+        chevron(c, p, n * 0.63f, n * 0.44f, n * 0.15f);
+        return b;
+    }
+
+    private static void chevron(android.graphics.Canvas c, android.graphics.Paint p, float x, float y, float s) {
+        android.graphics.Path path = new android.graphics.Path();
+        path.moveTo(x, y - s);
+        path.lineTo(x + s * 0.8f, y + s);
+        path.lineTo(x, y + s * 0.45f);
+        path.lineTo(x - s * 0.8f, y + s);
+        path.close();
+        c.drawPath(path, p);
+    }
+
     // ------------------------------------------------------------------ identity
     private static final String PREFS = "corsair_lan";
     private static String nickCache, ctryCache;

@@ -1,9 +1,6 @@
 .class Lfr/testudo/spacecorsair/mod/ModLanUi$5;
-.super Ljava/lang/Object;
+.super Landroid/widget/ArrayAdapter;
 .source "ModLanUi.java"
-
-# interfaces
-.implements Landroid/text/TextWatcher;
 
 
 # annotations
@@ -16,59 +13,105 @@
     name = null
 .end annotation
 
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Landroid/widget/ArrayAdapter",
+        "<",
+        "Ljava/lang/String;",
+        ">;"
+    }
+.end annotation
+
 
 # instance fields
-.field final synthetic val$ad:Landroid/widget/ArrayAdapter;
+.field final synthetic val$a:Landroid/app/Activity;
+
+.field final synthetic val$d:F
 
 
 # direct methods
-.method constructor <init>(Landroid/widget/ArrayAdapter;)V
-    .registers 2
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>(Landroid/content/Context;ILjava/util/List;Landroid/app/Activity;F)V
+    .registers 6
 
     .prologue
-    .line 262
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$ad:Landroid/widget/ArrayAdapter;
+    .line 337
+    iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$a:Landroid/app/Activity;
 
-    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+    iput p5, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$d:F
+
+    invoke-direct {p0, p1, p2, p3}, Landroid/widget/ArrayAdapter;-><init>(Landroid/content/Context;ILjava/util/List;)V
 
     return-void
 .end method
 
 
 # virtual methods
-.method public afterTextChanged(Landroid/text/Editable;)V
-    .registers 2
+.method public getView(ILandroid/view/View;Landroid/view/ViewGroup;)Landroid/view/View;
+    .registers 10
 
     .prologue
-    .line 265
-    return-void
-.end method
+    const/4 v2, 0x0
 
-.method public beforeTextChanged(Ljava/lang/CharSequence;III)V
-    .registers 5
-
-    .prologue
-    .line 263
-    return-void
-.end method
-
-.method public onTextChanged(Ljava/lang/CharSequence;III)V
-    .registers 6
-
-    .prologue
-    .line 264
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$ad:Landroid/widget/ArrayAdapter;
-
-    invoke-virtual {v0}, Landroid/widget/ArrayAdapter;->getFilter()Landroid/widget/Filter;
+    .line 339
+    invoke-super {p0, p1, p2, p3}, Landroid/widget/ArrayAdapter;->getView(ILandroid/view/View;Landroid/view/ViewGroup;)Landroid/view/View;
 
     move-result-object v0
 
-    invoke-virtual {v0, p1}, Landroid/widget/Filter;->filter(Ljava/lang/CharSequence;)V
+    check-cast v0, Landroid/widget/TextView;
 
-    return-void
+    .line 340
+    invoke-virtual {p0, p1}, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->getItem(I)Ljava/lang/Object;
+
+    move-result-object v1
+
+    check-cast v1, Ljava/lang/String;
+
+    .line 341
+    const-string v3, "?"
+
+    invoke-virtual {v1, v3}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_23
+
+    move-object v1, v2
+
+    :goto_16
+    invoke-virtual {v0, v1, v2, v2, v2}, Landroid/widget/TextView;->setCompoundDrawables(Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
+
+    .line 342
+    const/high16 v1, 0x41200000    # 10.0f
+
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$d:F
+
+    mul-float/2addr v1, v2
+
+    float-to-int v1, v1
+
+    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setCompoundDrawablePadding(I)V
+
+    .line 343
+    return-object v0
+
+    .line 341
+    :cond_23
+    iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$a:Landroid/app/Activity;
+
+    const/4 v4, 0x0
+
+    const/4 v5, 0x3
+
+    invoke-virtual {v1, v4, v5}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+
+    move-result-object v1
+
+    iget v4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$d:F
+
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLanUi;->flagDrawable(Landroid/content/Context;Ljava/lang/String;F)Landroid/graphics/drawable/BitmapDrawable;
+    invoke-static {v3, v1, v4}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$100(Landroid/content/Context;Ljava/lang/String;F)Landroid/graphics/drawable/BitmapDrawable;
+
+    move-result-object v1
+
+    goto :goto_16
 .end method

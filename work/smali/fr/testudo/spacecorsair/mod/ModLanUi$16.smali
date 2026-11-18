@@ -1,11 +1,14 @@
 .class Lfr/testudo/spacecorsair/mod/ModLanUi$16;
-.super Landroid/widget/ArrayAdapter;
+.super Ljava/lang/Object;
 .source "ModLanUi.java"
+
+# interfaces
+.implements Ljava/lang/Runnable;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLanUi;->publicList(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLanUi;->attach(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -13,342 +16,248 @@
     name = null
 .end annotation
 
-.annotation system Ldalvik/annotation/Signature;
-    value = {
-        "Landroid/widget/ArrayAdapter",
-        "<[",
-        "Ljava/lang/String;",
-        ">;"
-    }
-.end annotation
-
 
 # instance fields
+.field shown:I
+
 .field final synthetic val$a:Landroid/app/Activity;
 
-.field final synthetic val$d:F
+.field final synthetic val$ic:Landroid/widget/Button;
+
+.field final synthetic val$p:Landroid/widget/LinearLayout;
+
+.field final synthetic val$sc:Landroid/widget/ScrollView;
+
+.field final synthetic val$tv:Landroid/widget/TextView;
+
+.field final synthetic val$ui:Landroid/os/Handler;
 
 
 # direct methods
-.method constructor <init>(Landroid/content/Context;ILjava/util/List;Landroid/app/Activity;F)V
-    .registers 6
+.method constructor <init>(Landroid/app/Activity;Landroid/widget/Button;Landroid/widget/LinearLayout;Landroid/widget/TextView;Landroid/widget/ScrollView;Landroid/os/Handler;)V
+    .registers 8
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "()V"
+        }
+    .end annotation
 
     .prologue
-    .line 573
-    iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$a:Landroid/app/Activity;
+    .line 628
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$a:Landroid/app/Activity;
 
-    iput p5, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$d:F
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$ic:Landroid/widget/Button;
 
-    invoke-direct {p0, p1, p2, p3}, Landroid/widget/ArrayAdapter;-><init>(Landroid/content/Context;ILjava/util/List;)V
+    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$p:Landroid/widget/LinearLayout;
+
+    iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$tv:Landroid/widget/TextView;
+
+    iput-object p5, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$sc:Landroid/widget/ScrollView;
+
+    iput-object p6, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$ui:Landroid/os/Handler;
+
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    .line 629
+    const/4 v0, -0x1
+
+    iput v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->shown:I
 
     return-void
 .end method
 
 
 # virtual methods
-.method public getView(ILandroid/view/View;Landroid/view/ViewGroup;)Landroid/view/View;
-    .registers 13
+.method public run()V
+    .registers 6
 
     .prologue
-    const/4 v8, 0x6
+    const/16 v1, 0x8
 
-    const/high16 v4, 0x41a00000    # 20.0f
+    const/4 v0, 0x0
 
-    const/high16 v7, 0x41400000    # 12.0f
+    const/4 v4, 0x0
 
-    const/4 v6, 0x0
+    .line 632
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$a:Landroid/app/Activity;
 
-    const/4 v5, 0x2
+    invoke-virtual {v2}, Landroid/app/Activity;->isFinishing()Z
 
-    .line 575
-    instance-of v0, p2, Landroid/widget/TextView;
+    move-result v2
 
-    if-eqz v0, :cond_f0
+    if-nez v2, :cond_14
 
-    check-cast p2, Landroid/widget/TextView;
+    # getter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->chatAct:Landroid/app/Activity;
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$800()Landroid/app/Activity;
 
-    .line 576
-    :goto_d
-    invoke-virtual {p0, p1}, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->getItem(I)Ljava/lang/Object;
+    move-result-object v2
+
+    iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$a:Landroid/app/Activity;
+
+    if-eq v2, v3, :cond_29
+
+    .line 633
+    :cond_14
+    # getter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->chatAct:Landroid/app/Activity;
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$800()Landroid/app/Activity;
 
     move-result-object v0
 
-    check-cast v0, [Ljava/lang/String;
-
-    .line 577
-    iget v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$d:F
-
-    mul-float/2addr v1, v4
-
-    float-to-int v1, v1
-
-    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$d:F
-
-    mul-float/2addr v2, v7
-
-    float-to-int v2, v2
-
-    iget v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$d:F
-
-    mul-float/2addr v3, v4
-
-    float-to-int v3, v3
-
-    iget v4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$d:F
-
-    mul-float/2addr v4, v7
-
-    float-to-int v4, v4
-
-    invoke-virtual {p2, v1, v2, v3, v4}, Landroid/widget/TextView;->setPadding(IIII)V
-
-    .line 578
-    const/high16 v1, 0x41800000    # 16.0f
-
-    invoke-virtual {p2, v5, v1}, Landroid/widget/TextView;->setTextSize(IF)V
-
-    .line 579
-    new-instance v2, Ljava/lang/StringBuilder;
-
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
-
-    new-instance v1, Ljava/lang/StringBuilder;
-
-    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
-
-    const/4 v3, 0x1
-
-    aget-object v3, v0, v3
-
-    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    array-length v1, v0
-
-    const/4 v4, 0x7
-
-    if-le v1, v4, :cond_f9
-
-    const-string v1, "1"
-
-    const/4 v4, 0x7
-
-    aget-object v4, v0, v4
-
-    invoke-virtual {v1, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_f9
-
-    const-string v1, " [DEV]"
-
-    :goto_4d
-    invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v1
-
-    aget-object v3, v0, v5
-
-    invoke-static {v1, v3}, Lfr/testudo/spacecorsair/mod/ModLanUi;->label(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, "  \u00b7  "
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const/4 v2, 0x0
-
-    aget-object v2, v0, v2
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, "  \u00b7  "
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const/4 v2, 0x4
-
-    aget-object v2, v0, v2
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, "  \u00b7  "
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, "Lv"
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, " "
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const/4 v2, 0x5
-
-    aget-object v2, v0, v2
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, "  \u00b7  "
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    .line 580
-    const-string v1, "1"
-
-    const/4 v3, 0x3
-
-    aget-object v3, v0, v3
-
-    invoke-virtual {v1, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_fd
-
-    const-string v1, "PvP on"
-
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v1
-
-    :goto_ad
-    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, "  \u00b7  "
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    aget-object v2, v0, v8
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, "/2"
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v1
-
-    .line 579
-    invoke-virtual {p2, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
-
-    .line 581
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$a:Landroid/app/Activity;
 
-    aget-object v2, v0, v5
+    if-ne v0, v1, :cond_28
 
-    iget v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$d:F
+    # setter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->chatAct:Landroid/app/Activity;
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$802(Landroid/app/Activity;)Landroid/app/Activity;
 
-    # invokes: Lfr/testudo/spacecorsair/mod/ModLanUi;->flagDrawable(Landroid/content/Context;Ljava/lang/String;F)Landroid/graphics/drawable/BitmapDrawable;
-    invoke-static {v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$100(Landroid/content/Context;Ljava/lang/String;F)Landroid/graphics/drawable/BitmapDrawable;
+    # setter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->icon:Landroid/widget/Button;
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$902(Landroid/widget/Button;)Landroid/widget/Button;
 
-    move-result-object v1
+    # setter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->chatPanel:Landroid/widget/LinearLayout;
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$1002(Landroid/widget/LinearLayout;)Landroid/widget/LinearLayout;
 
-    invoke-virtual {p2, v1, v6, v6, v6}, Landroid/widget/TextView;->setCompoundDrawables(Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
+    # setter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->chatText:Landroid/widget/TextView;
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$1102(Landroid/widget/TextView;)Landroid/widget/TextView;
 
-    .line 582
-    const/high16 v1, 0x41200000    # 10.0f
+    .line 654
+    :cond_28
+    :goto_28
+    return-void
 
-    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$d:F
+    .line 637
+    :cond_29
+    :try_start_29
+    sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModLan;->connected:Z
 
-    mul-float/2addr v1, v2
+    .line 638
+    iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$ic:Landroid/widget/Button;
 
-    float-to-int v1, v1
+    if-eqz v2, :cond_30
 
-    invoke-virtual {p2, v1}, Landroid/widget/TextView;->setCompoundDrawablePadding(I)V
+    move v1, v0
 
-    .line 583
-    const-string v1, "2"
+    :cond_30
+    invoke-virtual {v3, v1}, Landroid/widget/Button;->setVisibility(I)V
 
-    aget-object v0, v0, v8
+    .line 639
+    if-nez v2, :cond_44
 
-    invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$p:Landroid/widget/LinearLayout;
 
-    move-result v0
+    invoke-virtual {v1}, Landroid/widget/LinearLayout;->getVisibility()I
 
-    if-eqz v0, :cond_104
+    move-result v1
 
-    const/high16 v0, 0x3f000000    # 0.5f
+    if-nez v1, :cond_44
 
-    :goto_ec
-    invoke-virtual {p2, v0}, Landroid/widget/TextView;->setAlpha(F)V
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$p:Landroid/widget/LinearLayout;
 
-    .line 584
-    return-object p2
+    const/16 v2, 0x8
 
-    .line 575
-    :cond_f0
-    new-instance p2, Landroid/widget/TextView;
+    invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->setVisibility(I)V
 
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$a:Landroid/app/Activity;
+    .line 640
+    :cond_44
+    # getter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->unread:I
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$700()I
 
-    invoke-direct {p2, v0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
+    move-result v1
 
-    goto/16 :goto_d
+    .line 641
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$p:Landroid/widget/LinearLayout;
 
-    .line 579
-    :cond_f9
-    const-string v1, ""
+    invoke-virtual {v2}, Landroid/widget/LinearLayout;->getVisibility()I
 
-    goto/16 :goto_4d
+    move-result v2
 
-    .line 580
-    :cond_fd
-    const-string v1, "PvP off"
+    if-nez v2, :cond_67
 
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    .line 642
+    if-lez v1, :cond_66
 
-    move-result-object v1
+    const/4 v1, 0x0
 
-    goto :goto_ad
+    # setter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->unread:I
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$702(I)I
 
-    .line 583
-    :cond_104
-    const/high16 v0, 0x3f800000    # 1.0f
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$tv:Landroid/widget/TextView;
 
-    goto :goto_ec
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLanUi;->allLines()Ljava/lang/String;
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$600()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$sc:Landroid/widget/ScrollView;
+
+    const/16 v2, 0x82
+
+    invoke-virtual {v1, v2}, Landroid/widget/ScrollView;->fullScroll(I)Z
+
+    :cond_66
+    move v1, v0
+
+    .line 645
+    :cond_67
+    iget v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->shown:I
+
+    if-eq v1, v0, :cond_80
+
+    .line 646
+    iput v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->shown:I
+
+    .line 647
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$ic:Landroid/widget/Button;
+
+    if-lez v1, :cond_88
+
+    const-string v0, "\u2709\u2022"
+
+    :goto_73
+    invoke-virtual {v2, v0}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
+
+    .line 648
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$ic:Landroid/widget/Button;
+
+    if-lez v1, :cond_8b
+
+    const v0, -0xbe00ea
+
+    :goto_7d
+    invoke-virtual {v2, v0}, Landroid/widget/Button;->setTextColor(I)V
+    :try_end_80
+    .catch Ljava/lang/Throwable; {:try_start_29 .. :try_end_80} :catch_8d
+
+    .line 653
+    :cond_80
+    :goto_80
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$16;->val$ui:Landroid/os/Handler;
+
+    const-wide/16 v2, 0x190
+
+    invoke-virtual {v0, p0, v2, v3}, Landroid/os/Handler;->postDelayed(Ljava/lang/Runnable;J)Z
+
+    goto :goto_28
+
+    .line 647
+    :cond_88
+    :try_start_88
+    const-string v0, "\u2709"
+    :try_end_8a
+    .catch Ljava/lang/Throwable; {:try_start_88 .. :try_end_8a} :catch_8d
+
+    goto :goto_73
+
+    .line 648
+    :cond_8b
+    const/4 v0, -0x1
+
+    goto :goto_7d
+
+    .line 650
+    :catch_8d
+    move-exception v0
+
+    goto :goto_80
 .end method

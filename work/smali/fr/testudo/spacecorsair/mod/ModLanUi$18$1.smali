@@ -1,4 +1,4 @@
-.class Lfr/testudo/spacecorsair/mod/ModLanUi$17$1;
+.class Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;
 .super Ljava/lang/Object;
 .source "ModLanUi.java"
 
@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLanUi$17;->run()V
+    value = Lfr/testudo/spacecorsair/mod/ModLanUi$18;->run()V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -18,16 +18,16 @@
 
 
 # instance fields
-.field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$17;
+.field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$18;
 
 
 # direct methods
-.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModLanUi$17;)V
+.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModLanUi$18;)V
     .registers 2
 
     .prologue
-    .line 605
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$17;
+    .line 704
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$18;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -40,7 +40,7 @@
     .registers 5
 
     .prologue
-    .line 608
+    .line 707
     :try_start_0
     const-string v0, ""
 
@@ -52,25 +52,25 @@
 
     move-result-object v0
 
-    .line 610
+    .line 709
     :goto_8
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModLobby;->status:Ljava/lang/String;
 
-    .line 611
-    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$17;
+    .line 710
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$18;
 
-    iget-object v2, v2, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$h:Landroid/os/Handler;
+    iget-object v2, v2, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$h:Landroid/os/Handler;
 
-    new-instance v3, Lfr/testudo/spacecorsair/mod/ModLanUi$17$1$1;
+    new-instance v3, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1$1;
 
-    invoke-direct {v3, p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModLanUi$17$1$1;-><init>(Lfr/testudo/spacecorsair/mod/ModLanUi$17$1;Ljava/util/List;Ljava/lang/String;)V
+    invoke-direct {v3, p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1$1;-><init>(Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;Ljava/util/List;Ljava/lang/String;)V
 
     invoke-virtual {v2, v3}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
 
-    .line 622
+    .line 721
     return-void
 
-    .line 608
+    .line 707
     :catch_17
     move-exception v0
 

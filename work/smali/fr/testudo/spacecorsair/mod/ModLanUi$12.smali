@@ -3,12 +3,12 @@
 .source "ModLanUi.java"
 
 # interfaces
-.implements Landroid/view/View$OnClickListener;
+.implements Landroid/app/Application$ActivityLifecycleCallbacks;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLanUi;->attach(Landroid/app/Activity;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLanUi;->watchApp(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -17,23 +17,12 @@
 .end annotation
 
 
-# instance fields
-.field final synthetic val$mute:Landroid/widget/Button;
-
-
 # direct methods
-.method constructor <init>(Landroid/widget/Button;)V
-    .registers 2
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>()V
+    .registers 1
 
     .prologue
-    .line 498
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$12;->val$mute:Landroid/widget/Button;
-
+    .line 521
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -41,48 +30,102 @@
 
 
 # virtual methods
-.method public onClick(Landroid/view/View;)V
-    .registers 4
+.method public onActivityCreated(Landroid/app/Activity;Landroid/os/Bundle;)V
+    .registers 3
 
     .prologue
-    .line 499
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->muted:Z
+    .line 522
+    return-void
+.end method
 
-    if-nez v0, :cond_17
+.method public onActivityDestroyed(Landroid/app/Activity;)V
+    .registers 2
 
-    const/4 v0, 0x1
+    .prologue
+    .line 534
+    return-void
+.end method
 
-    :goto_5
-    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->muted:Z
+.method public onActivityPaused(Landroid/app/Activity;)V
+    .registers 2
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$12;->val$mute:Landroid/widget/Button;
+    .prologue
+    .line 525
+    return-void
+.end method
 
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLanUi;->muted:Z
+.method public onActivityResumed(Landroid/app/Activity;)V
+    .registers 2
+
+    .prologue
+    .line 524
+    return-void
+.end method
+
+.method public onActivitySaveInstanceState(Landroid/app/Activity;Landroid/os/Bundle;)V
+    .registers 3
+
+    .prologue
+    .line 533
+    return-void
+.end method
+
+.method public onActivityStarted(Landroid/app/Activity;)V
+    .registers 2
+
+    .prologue
+    .line 523
+    # operator++ for: Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$408()I
+
+    return-void
+.end method
+
+.method public onActivityStopped(Landroid/app/Activity;)V
+    .registers 3
+
+    .prologue
+    .line 527
+    # operator-- for: Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$410()I
+
+    .line 528
+    # getter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$400()I
+
+    move-result v0
+
+    if-gtz v0, :cond_19
+
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->underMenu:Z
 
     if-eqz v0, :cond_19
 
-    const-string v0, "Unmute"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    :goto_13
-    invoke-virtual {v1, v0}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
-
-    return-void
-
-    :cond_17
+    .line 529
     const/4 v0, 0x0
 
-    goto :goto_5
+    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->underMenu:Z
 
+    .line 530
+    :try_start_10
+    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+
+    iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
+
+    iget-object v0, v0, Lfr/testudo/spacecorsair/game/Game;->gameThread:Lfr/testudo/spacecorsair/engine/GameThread;
+
+    invoke-virtual {v0}, Lfr/testudo/spacecorsair/engine/GameThread;->pauseGame()V
+    :try_end_19
+    .catch Ljava/lang/Throwable; {:try_start_10 .. :try_end_19} :catch_1a
+
+    .line 532
     :cond_19
-    const-string v0, "Mute"
+    :goto_19
+    return-void
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    .line 530
+    :catch_1a
+    move-exception v0
 
-    move-result-object v0
-
-    goto :goto_13
+    goto :goto_19
 .end method

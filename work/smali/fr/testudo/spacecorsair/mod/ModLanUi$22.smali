@@ -3,7 +3,7 @@
 .source "ModLanUi.java"
 
 # interfaces
-.implements Landroid/text/TextWatcher;
+.implements Ljava/lang/Runnable;
 
 
 # annotations
@@ -18,20 +18,14 @@
 
 
 # instance fields
-.field final synthetic val$at:I
-
-.field final synthetic val$busy:[Z
-
 .field final synthetic val$bx:[Landroid/widget/EditText;
 
-.field final synthetic val$check:Ljava/lang/Runnable;
-
-.field final synthetic val$e:Landroid/widget/EditText;
+.field final synthetic val$dlg:[Landroid/app/AlertDialog;
 
 
 # direct methods
-.method constructor <init>([ZI[Landroid/widget/EditText;Landroid/widget/EditText;Ljava/lang/Runnable;)V
-    .registers 6
+.method constructor <init>([Landroid/widget/EditText;[Landroid/app/AlertDialog;)V
+    .registers 3
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -39,16 +33,10 @@
     .end annotation
 
     .prologue
-    .line 686
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$busy:[Z
+    .line 765
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$bx:[Landroid/widget/EditText;
 
-    iput p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$at:I
-
-    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$bx:[Landroid/widget/EditText;
-
-    iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$e:Landroid/widget/EditText;
-
-    iput-object p5, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$check:Ljava/lang/Runnable;
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$dlg:[Landroid/app/AlertDialog;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -57,213 +45,77 @@
 
 
 # virtual methods
-.method public afterTextChanged(Landroid/text/Editable;)V
-    .registers 9
+.method public run()V
+    .registers 8
 
     .prologue
-    const/4 v5, 0x4
-
-    const/4 v6, 0x3
+    const/4 v3, 0x1
 
     const/4 v1, 0x0
 
-    .line 690
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$busy:[Z
+    .line 767
+    .line 768
+    iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$bx:[Landroid/widget/EditText;
 
-    aget-boolean v0, v0, v1
+    array-length v5, v4
 
-    if-eqz v0, :cond_a
+    move v2, v1
 
-    .line 704
-    :goto_9
-    return-void
+    move v0, v3
 
-    .line 691
-    :cond_a
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$busy:[Z
+    :goto_7
+    if-ge v2, v5, :cond_19
 
-    const/4 v2, 0x1
+    aget-object v6, v4, v2
 
-    aput-boolean v2, v0, v1
+    invoke-virtual {v6}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
 
-    .line 693
-    const/4 v0, 0x4
+    move-result-object v6
 
-    :try_start_10
-    invoke-static {p1, v0}, Lfr/testudo/spacecorsair/mod/ModLanUi;->codeChars(Ljava/lang/CharSequence;I)Ljava/lang/String;
+    invoke-interface {v6}, Landroid/text/Editable;->length()I
 
-    move-result-object v2
+    move-result v6
+
+    if-eq v6, v3, :cond_16
 
     move v0, v1
 
-    .line 695
-    :goto_15
-    invoke-virtual {v2}, Ljava/lang/String;->length()I
+    :cond_16
+    add-int/lit8 v2, v2, 0x1
 
-    move-result v3
+    goto :goto_7
 
-    if-ge v0, v3, :cond_33
+    .line 769
+    :cond_19
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$dlg:[Landroid/app/AlertDialog;
 
-    iget v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$at:I
+    aget-object v2, v2, v1
 
-    add-int/2addr v3, v0
+    if-nez v2, :cond_26
 
-    if-ge v3, v5, :cond_33
+    const/4 v1, 0x0
 
-    iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$bx:[Landroid/widget/EditText;
+    .line 770
+    :goto_20
+    if-eqz v1, :cond_25
 
-    iget v4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$at:I
+    invoke-virtual {v1, v0}, Landroid/widget/Button;->setEnabled(Z)V
 
-    add-int/2addr v4, v0
-
-    aget-object v3, v3, v4
-
-    add-int/lit8 v4, v0, 0x1
-
-    invoke-virtual {v2, v0, v4}, Ljava/lang/String;->substring(II)Ljava/lang/String;
-
-    move-result-object v4
-
-    invoke-virtual {v3, v4}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
-
-    add-int/lit8 v0, v0, 0x1
-
-    goto :goto_15
-
-    .line 696
-    :cond_33
-    invoke-virtual {v2}, Ljava/lang/String;->length()I
-
-    move-result v0
-
-    if-nez v0, :cond_40
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$e:Landroid/widget/EditText;
-
-    const-string v3, ""
-
-    invoke-virtual {v0, v3}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
-
-    .line 697
-    :cond_40
-    const/4 v0, 0x3
-
-    iget v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$at:I
-
-    invoke-virtual {v2}, Ljava/lang/String;->length()I
-
-    move-result v4
-
-    const/4 v5, 0x0
-
-    invoke-static {v4, v5}, Ljava/lang/Math;->max(II)I
-
-    move-result v4
-
-    add-int/2addr v3, v4
-
-    invoke-static {v0, v3}, Ljava/lang/Math;->min(II)I
-
-    move-result v0
-
-    .line 698
-    invoke-virtual {v2}, Ljava/lang/String;->length()I
-
-    move-result v3
-
-    if-lez v3, :cond_71
-
-    iget v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$at:I
-
-    invoke-virtual {v2}, Ljava/lang/String;->length()I
-
-    move-result v4
-
-    add-int/2addr v3, v4
-
-    if-gt v3, v6, :cond_71
-
-    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$bx:[Landroid/widget/EditText;
-
-    aget-object v0, v2, v0
-
-    invoke-virtual {v0}, Landroid/widget/EditText;->requestFocus()Z
-    :try_end_67
-    .catchall {:try_start_10 .. :try_end_67} :catchall_8d
-
-    .line 701
-    :cond_67
-    :goto_67
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$busy:[Z
-
-    aput-boolean v1, v0, v1
-
-    .line 703
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$check:Ljava/lang/Runnable;
-
-    invoke-interface {v0}, Ljava/lang/Runnable;->run()V
-
-    goto :goto_9
-
-    .line 699
-    :cond_71
-    :try_start_71
-    invoke-virtual {v2}, Ljava/lang/String;->length()I
-
-    move-result v0
-
-    if-lez v0, :cond_67
-
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$bx:[Landroid/widget/EditText;
-
-    const/4 v2, 0x3
-
-    aget-object v0, v0, v2
-
-    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$bx:[Landroid/widget/EditText;
-
-    const/4 v3, 0x3
-
-    aget-object v2, v2, v3
-
-    invoke-virtual {v2}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
-
-    move-result-object v2
-
-    invoke-interface {v2}, Landroid/text/Editable;->length()I
-
-    move-result v2
-
-    invoke-virtual {v0, v2}, Landroid/widget/EditText;->setSelection(I)V
-    :try_end_8c
-    .catchall {:try_start_71 .. :try_end_8c} :catchall_8d
-
-    goto :goto_67
-
-    .line 701
-    :catchall_8d
-    move-exception v0
-
-    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$busy:[Z
-
-    aput-boolean v1, v2, v1
-
-    .line 702
-    throw v0
-.end method
-
-.method public beforeTextChanged(Ljava/lang/CharSequence;III)V
-    .registers 5
-
-    .prologue
-    .line 687
+    .line 771
+    :cond_25
     return-void
-.end method
 
-.method public onTextChanged(Ljava/lang/CharSequence;III)V
-    .registers 5
+    .line 769
+    :cond_26
+    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$dlg:[Landroid/app/AlertDialog;
 
-    .prologue
-    .line 688
-    return-void
+    aget-object v1, v2, v1
+
+    const/4 v2, -0x1
+
+    invoke-virtual {v1, v2}, Landroid/app/AlertDialog;->getButton(I)Landroid/widget/Button;
+
+    move-result-object v1
+
+    goto :goto_20
 .end method
