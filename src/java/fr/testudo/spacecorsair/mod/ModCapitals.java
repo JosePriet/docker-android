@@ -70,6 +70,7 @@ public final class ModCapitals {
         int[] tReload, tKick;
         boolean fireLogged;
         boolean police;              // v42: a police titan (ModPoliceTitan), not the faction's real flagship
+        boolean boss;                // 2026-11-18: a scripted prologue boss (spawnBoss): keeps its stock movement
         float rate = 1.0f;           // v42: battery fire-rate multiplier (police titan x1.2)
         int lvl;                     // v42: level it was built at (scales with the player)
     }
@@ -199,7 +200,7 @@ public final class ModCapitals {
         GuardianCivilShip g = build(fi, lvl, null, at);
         if (g == null) return null;
         Cap c = caps.get(g);
-        if (c != null) c.hostileAnnounced = true;
+        if (c != null) { c.hostileAnnounced = true; c.boss = true; }
         g.amountOfDamageAllowedInRatioByPlayerBeforeRebelion = 0;
         try { g.attackPlayerIfItNotTheCaseAlready(); } catch (Throwable t) { /* re-armed by the AI tick */ }
         return g;
@@ -523,7 +524,7 @@ public final class ModCapitals {
         for (int i = 0; i < gun.shots; i++) {
             float deg = ang + (gun.shots > 1 ? (i - (gun.shots - 1) / 2.0f) * gun.spread : (float) (Math.random() - 0.5) * 2 * gun.spread);
             fr.testudo.spacecorsair.business.projectiles.EnergyBullet p = fr.testudo.spacecorsair.business.factory.GamePools.newEnnergyBullet()
-                .init(c.shot * gun.dmg, 6, g, 1.0f, gun.r, gun.g, gun.b, ModWeapons.TAG[gun.fam]);
+                .init(c.shot * gun.dmg * ModBal.shotMult(c), 6, g, 1.0f, gun.r, gun.g, gun.b, ModWeapons.TAG[gun.fam]);
             p.position.set(mx, my);
             p.speed.set(0.0f, -gun.speed).applyRotatation(Math.toRadians(deg));
             p.speed.add(g.speed);

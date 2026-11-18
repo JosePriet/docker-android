@@ -196,6 +196,7 @@ public final class ModTitanAI {
             if (g == null || g.removed || ps.removed) continue;
             try {
                 ModCapitals.guns(g, e.getValue(), ps, j);
+                ModBal.holdRange(g, e.getValue(), ps, j);   // 2026-11-18 balance report: Reaver/Kre'tari/Varn flagships and police titans hold gun range
                 run(g, e.getValue(), t(g), ps, j);
             } catch (Throwable x) {
                 // a skill never breaks the frame
