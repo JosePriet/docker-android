@@ -501,18 +501,29 @@ public final class ModLive {
      */
     public static float hit(Element target, float dmg, Projectile p) {
         float out = dmg;
+        if (target == ModBal.splitTarget) ModBal.st(0, dmg, p);   // 2026-11-18 emulator trace (test target only)
         try {
             out = ModAnchor.beam(target, out, p);   // v39: enemy beams through the Leviathan anchor wall
+            if (target == ModBal.splitTarget) ModBal.st(1, out, p);
             if (out <= 0 && dmg > 0) return 0;
             out = ModV34.damage(target, out, p);
+            if (target == ModBal.splitTarget) ModBal.st(2, out, p);
             out = ModEnemyGuns.damageIn(target, out, p);   // v43a-15: Helion shield breaker
+            if (target == ModBal.splitTarget) ModBal.st(3, out, p);
             out = ModV35.damage(target, out, p);   // v35 kill-time targets by advantage
+            if (target == ModBal.splitTarget) ModBal.st(4, out, p);
             out = ModTitanAI.damageIn(target, out, p);
+            if (target == ModBal.splitTarget) ModBal.st(5, out, p);
             out = ModPolice.armor(target, out);   // v43a-11 (owner 11-14): police take 25% less, police titans 30% less
+            if (target == ModBal.splitTarget) ModBal.st(6, out, p);
             out = ModPoliceTitan.overAbsorb(target, out);   // owner 2026-11-12: police titan overshield, before its shield
+            if (target == ModBal.splitTarget) ModBal.st(7, out, p);
             out = ModV34.shieldAbsorb(target, out, p);   // v37: big enemies' default shield
+            if (target == ModBal.splitTarget) ModBal.st(8, out, p);
             out = ModPolice.hit(target, out, p);   // v42: police heat from player hits, police-only weapons on the player
+            if (target == ModBal.splitTarget) ModBal.st(9, out, p);
             out = ModHornet.damageIn(target, out, p);   // v43a-16: Hornet s5 wing shields
+            if (target == ModBal.splitTarget) ModBal.st(10, out, p);
             ModBal.recordHit(target, out, p);   // 2026-11-17: emulator damage split (gun / missile), records only
             onHit(target);
             if (target.isPlayer && p != null) {

@@ -4,11 +4,7 @@
 
 
 # static fields
-.field static final POLICE_A:F = 0.44444448f
-
 .field private static final VMAX:F = 3.0f
-
-.field private static aegis:Z
 
 .field static gunDealt:F
 
@@ -18,25 +14,46 @@
 
 .field static missileHits:I
 
-.field private static polA:Z
-
-.field private static polB:Z
+.field private static off:Z
 
 .field private static poll:J
 
-.field private static range:Z
-
 .field static splitTarget:Lfr/testudo/spacecorsair/business/Element;
 
-.field private static warden:Z
+.field static stFirst:Ljava/lang/String;
+
+.field static stHits:I
+
+.field static final stSum:[F
+
+.field static final stZero:[I
 
 
 # direct methods
+.method static constructor <clinit>()V
+    .registers 2
+
+    .prologue
+    const/16 v1, 0xb
+
+    .line 84
+    new-array v0, v1, [F
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModBal;->stSum:[F
+
+    .line 85
+    new-array v0, v1, [I
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModBal;->stZero:[I
+
+    return-void
+.end method
+
 .method private constructor <init>()V
     .registers 1
 
     .prologue
-    .line 20
+    .line 19
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -54,13 +71,13 @@
 
     const/high16 v7, 0x40400000    # 3.0f
 
-    .line 71
+    .line 58
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModBal;->refresh()V
 
-    .line 72
-    sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModBal;->range:Z
+    .line 59
+    sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModBal;->off:Z
 
-    if-eqz v1, :cond_16
+    if-nez v1, :cond_16
 
     if-eqz p1, :cond_16
 
@@ -68,18 +85,18 @@
 
     if-eqz v1, :cond_17
 
-    .line 90
+    .line 77
     :cond_16
     :goto_16
     return-void
 
-    .line 73
+    .line 60
     :cond_17
     iget-object v1, p1, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->f:Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->key:Ljava/lang/String;
 
-    .line 75
+    .line 62
     const-string v2, "reaver"
 
     invoke-virtual {v2, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -88,7 +105,7 @@
 
     if-eqz v2, :cond_88
 
-    .line 79
+    .line 66
     :goto_23
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModLive;->titanHostile(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;)Z
 
@@ -96,7 +113,7 @@
 
     if-eqz v1, :cond_16
 
-    .line 80
+    .line 67
     iget-object v1, p2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v1, v1, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -117,7 +134,7 @@
 
     sub-float v3, v1, v3
 
-    .line 81
+    .line 68
     mul-float v1, v2, v2
 
     mul-float v4, v3, v3
@@ -132,7 +149,7 @@
 
     double-to-float v4, v4
 
-    .line 82
+    .line 69
     cmpg-float v1, v4, v9
 
     if-ltz v1, :cond_16
@@ -143,7 +160,7 @@
 
     if-gtz v1, :cond_16
 
-    .line 83
+    .line 70
     const/high16 v1, 0x3f000000    # 0.5f
 
     mul-float/2addr v1, v0
@@ -162,7 +179,7 @@
 
     move-result v5
 
-    .line 85
+    .line 72
     cmpl-float v0, v4, v0
 
     if-lez v0, :cond_9d
@@ -175,7 +192,7 @@
 
     mul-float/2addr v0, v7
 
-    .line 88
+    .line 75
     :goto_6d
     iget-object v2, p0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -193,7 +210,7 @@
 
     iput v1, v2, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
 
-    .line 89
+    .line 76
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v2, v1, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
@@ -212,7 +229,7 @@
 
     goto :goto_16
 
-    .line 76
+    .line 63
     :cond_88
     const-string v2, "kretari"
 
@@ -226,7 +243,7 @@
 
     goto :goto_23
 
-    .line 77
+    .line 64
     :cond_94
     const-string v2, "varn"
 
@@ -238,7 +255,7 @@
 
     goto :goto_23
 
-    .line 86
+    .line 73
     :cond_9d
     cmpg-float v0, v4, v1
 
@@ -258,7 +275,7 @@
 
     goto :goto_6d
 
-    .line 87
+    .line 74
     :cond_a9
     neg-float v0, v3
 
@@ -281,26 +298,26 @@
     .registers 3
 
     .prologue
-    .line 56
+    .line 47
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModBal;->refresh()V
 
-    .line 57
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->aegis:Z
+    .line 48
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->off:Z
 
-    if-nez v0, :cond_8
+    if-eqz v0, :cond_8
 
-    .line 59
+    .line 50
     :cond_7
     :goto_7
     return p1
 
-    .line 58
+    .line 49
     :cond_8
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModCapitals;->cap(Ljava/lang/Object;)Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;
 
     move-result-object v0
 
-    .line 59
+    .line 50
     if-eqz v0, :cond_7
 
     iget-boolean v0, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
@@ -316,28 +333,11 @@
     goto :goto_7
 .end method
 
-.method static overFrac(F)F
-    .registers 2
-
-    .prologue
-    .line 63
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModBal;->refresh()V
-
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->polB:Z
-
-    if-eqz v0, :cond_a
-
-    const p0, 0x3e19999a    # 0.15f
-
-    :cond_a
-    return p0
-.end method
-
 .method static recordHit(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
     .registers 4
 
     .prologue
-    .line 101
+    .line 116
     if-eqz p0, :cond_d
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
@@ -352,23 +352,23 @@
 
     if-gtz v0, :cond_e
 
-    .line 106
+    .line 121
     :cond_d
     :goto_d
     return-void
 
-    .line 102
+    .line 117
     :cond_e
     iget-object v0, p2, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->sender:Lfr/testudo/spacecorsair/business/Element;
 
-    .line 103
+    .line 118
     if-eqz v0, :cond_d
 
     iget-boolean v0, v0, Lfr/testudo/spacecorsair/business/Element;->isPlayer:Z
 
     if-eqz v0, :cond_d
 
-    .line 104
+    .line 119
     instance-of v0, p2, Lfr/testudo/spacecorsair/business/projectiles/Missile;
 
     if-eqz v0, :cond_26
@@ -387,7 +387,7 @@
 
     goto :goto_d
 
-    .line 105
+    .line 120
     :cond_26
     sget v0, Lfr/testudo/spacecorsair/mod/ModBal;->gunDealt:F
 
@@ -408,12 +408,12 @@
     .registers 6
 
     .prologue
-    .line 26
+    .line 25
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
 
-    .line 27
+    .line 26
     sget-wide v2, Lfr/testudo/spacecorsair/mod/ModBal;->poll:J
 
     sub-long v2, v0, v2
@@ -424,96 +424,61 @@
 
     if-gez v2, :cond_f
 
-    .line 34
+    .line 29
     :goto_e
     return-void
 
-    .line 28
+    .line 27
     :cond_f
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModBal;->poll:J
 
-    .line 29
-    const-string v0, "corsair_bal_range"
+    .line 28
+    const-string v0, "corsair_bal_off"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testFlag(Ljava/lang/String;)Z
 
     move-result v0
 
-    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->range:Z
-
-    .line 30
-    const-string v0, "corsair_bal_aegis"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testFlag(Ljava/lang/String;)Z
-
-    move-result v0
-
-    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->aegis:Z
-
-    .line 31
-    const-string v0, "corsair_bal_warden"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testFlag(Ljava/lang/String;)Z
-
-    move-result v0
-
-    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->warden:Z
-
-    .line 32
-    const-string v0, "corsair_bal_polB"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testFlag(Ljava/lang/String;)Z
-
-    move-result v0
-
-    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->polB:Z
-
-    .line 33
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->polB:Z
-
-    if-nez v0, :cond_3d
-
-    const-string v0, "corsair_bal_polA"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testFlag(Ljava/lang/String;)Z
-
-    move-result v0
-
-    if-eqz v0, :cond_41
-
-    :cond_3d
-    const/4 v0, 0x1
-
-    :goto_3e
-    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->polA:Z
+    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->off:Z
 
     goto :goto_e
-
-    :cond_41
-    const/4 v0, 0x0
-
-    goto :goto_3e
 .end method
 
 .method static resetSplit(Lfr/testudo/spacecorsair/business/Element;)V
-    .registers 2
+    .registers 4
 
     .prologue
-    .line 97
+    const/4 v2, 0x0
+
+    const/4 v1, 0x0
+
+    .line 90
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
 
+    sput v2, Lfr/testudo/spacecorsair/mod/ModBal;->missileDealt:F
+
+    sput v2, Lfr/testudo/spacecorsair/mod/ModBal;->gunDealt:F
+
+    sput v1, Lfr/testudo/spacecorsair/mod/ModBal;->missileHits:I
+
+    sput v1, Lfr/testudo/spacecorsair/mod/ModBal;->gunHits:I
+
+    .line 91
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModBal;->stSum:[F
+
+    invoke-static {v0, v2}, Ljava/util/Arrays;->fill([FF)V
+
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModBal;->stZero:[I
+
+    invoke-static {v0, v1}, Ljava/util/Arrays;->fill([II)V
+
+    sput v1, Lfr/testudo/spacecorsair/mod/ModBal;->stHits:I
+
     const/4 v0, 0x0
 
-    sput v0, Lfr/testudo/spacecorsair/mod/ModBal;->missileDealt:F
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModBal;->stFirst:Ljava/lang/String;
 
-    sput v0, Lfr/testudo/spacecorsair/mod/ModBal;->gunDealt:F
-
-    const/4 v0, 0x0
-
-    sput v0, Lfr/testudo/spacecorsair/mod/ModBal;->missileHits:I
-
-    sput v0, Lfr/testudo/spacecorsair/mod/ModBal;->gunHits:I
-
+    .line 92
     return-void
 .end method
 
@@ -523,37 +488,26 @@
     .prologue
     const/high16 v0, 0x3f800000    # 1.0f
 
-    .line 47
+    .line 40
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModBal;->refresh()V
 
-    .line 48
-    if-nez p0, :cond_8
+    .line 41
+    sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModBal;->off:Z
 
-    .line 51
-    :cond_7
-    :goto_7
-    return v0
+    if-nez v1, :cond_f
 
-    .line 49
-    :cond_8
+    if-eqz p0, :cond_f
+
     iget-boolean v1, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
 
-    if-eqz v1, :cond_14
+    if-eqz v1, :cond_10
 
-    sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModBal;->polA:Z
+    .line 42
+    :cond_f
+    :goto_f
+    return v0
 
-    if-eqz v1, :cond_7
-
-    const v0, 0x3ee38e3a
-
-    goto :goto_7
-
-    .line 50
-    :cond_14
-    sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModBal;->warden:Z
-
-    if-eqz v1, :cond_7
-
+    :cond_10
     const-string v1, "warden"
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->f:Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
@@ -564,66 +518,79 @@
 
     move-result v1
 
-    if-eqz v1, :cond_7
+    if-eqz v1, :cond_f
 
     const v0, 0x3f4ccccd    # 0.8f
 
-    goto :goto_7
+    goto :goto_f
 .end method
 
-.method static tag()Ljava/lang/String;
-    .registers 2
+.method static st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+    .registers 5
 
     .prologue
-    .line 38
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModBal;->refresh()V
+    .line 97
+    if-eqz p2, :cond_c
 
-    .line 39
-    new-instance v1, Ljava/lang/StringBuilder;
+    :try_start_2
+    iget-object v0, p2, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->sender:Lfr/testudo/spacecorsair/business/Element;
 
-    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+    if-eqz v0, :cond_c
 
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->range:Z
+    iget-object v0, p2, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->sender:Lfr/testudo/spacecorsair/business/Element;
 
-    if-eqz v0, :cond_35
+    iget-boolean v0, v0, Lfr/testudo/spacecorsair/business/Element;->isPlayer:Z
 
-    const-string v0, "R"
+    if-nez v0, :cond_d
 
-    :goto_e
-    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    .line 105
+    :cond_c
+    :goto_c
+    return-void
+
+    .line 98
+    :cond_d
+    if-nez p0, :cond_3e
+
+    .line 99
+    sget v0, Lfr/testudo/spacecorsair/mod/ModBal;->stHits:I
+
+    add-int/lit8 v0, v0, 0x1
+
+    sput v0, Lfr/testudo/spacecorsair/mod/ModBal;->stHits:I
+
+    .line 100
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModBal;->stFirst:Ljava/lang/String;
+
+    if-nez v0, :cond_3e
+
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {p2}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v1
 
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->aegis:Z
-
-    if-eqz v0, :cond_38
-
-    const-string v0, "A"
-
-    :goto_18
-    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
 
     move-result-object v1
 
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->warden:Z
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    if-eqz v0, :cond_3b
+    move-result-object v0
 
-    const-string v0, "W"
+    const-string v1, ":"
 
-    :goto_22
-    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v1
+    move-result-object v0
 
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->polB:Z
+    invoke-static {p1}, Ljava/lang/Math;->round(F)I
 
-    if-eqz v0, :cond_3e
+    move-result v1
 
-    const-string v0, "B"
-
-    :goto_2c
-    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -631,51 +598,168 @@
 
     move-result-object v0
 
-    return-object v0
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModBal;->stFirst:Ljava/lang/String;
 
-    :cond_35
-    const-string v0, "-"
-
-    goto :goto_e
-
-    :cond_38
-    const-string v0, "-"
-
-    goto :goto_18
-
-    :cond_3b
-    const-string v0, "-"
-
-    goto :goto_22
-
+    .line 102
     :cond_3e
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->polA:Z
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModBal;->stSum:[F
 
-    if-eqz v0, :cond_45
+    aget v1, v0, p0
 
-    const-string v0, "P"
+    add-float/2addr v1, p1
 
-    goto :goto_2c
+    aput v1, v0, p0
 
-    :cond_45
-    const-string v0, "-"
+    .line 103
+    const/4 v0, 0x0
 
-    goto :goto_2c
+    cmpg-float v0, p1, v0
+
+    if-gtz v0, :cond_c
+
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModBal;->stZero:[I
+
+    aget v1, v0, p0
+
+    add-int/lit8 v1, v1, 0x1
+
+    aput v1, v0, p0
+    :try_end_52
+    .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_52} :catch_53
+
+    goto :goto_c
+
+    .line 104
+    :catch_53
+    move-exception v0
+
+    goto :goto_c
 .end method
 
-.method static titanArmor(F)F
-    .registers 2
+.method static stages()Ljava/lang/String;
+    .registers 4
 
     .prologue
-    .line 64
+    .line 108
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    const-string v1, "n="
+
+    invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    sget v1, Lfr/testudo/spacecorsair/mod/ModBal;->stHits:I
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v1, " first="
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    sget-object v1, Lfr/testudo/spacecorsair/mod/ModBal;->stFirst:Ljava/lang/String;
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    .line 109
+    const/4 v0, 0x0
+
+    :goto_1a
+    sget-object v2, Lfr/testudo/spacecorsair/mod/ModBal;->stSum:[F
+
+    array-length v2, v2
+
+    if-ge v0, v2, :cond_4b
+
+    const/16 v2, 0x20
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const/16 v3, 0x3a
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    sget-object v3, Lfr/testudo/spacecorsair/mod/ModBal;->stSum:[F
+
+    aget v3, v3, v0
+
+    invoke-static {v3}, Ljava/lang/Math;->round(F)I
+
+    move-result v3
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const/16 v3, 0x7a
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    sget-object v3, Lfr/testudo/spacecorsair/mod/ModBal;->stZero:[I
+
+    aget v3, v3, v0
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    add-int/lit8 v0, v0, 0x1
+
+    goto :goto_1a
+
+    .line 110
+    :cond_4b
+    const-string v0, " over="
+
+    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overState()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    .line 111
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method static tag()Ljava/lang/String;
+    .registers 1
+
+    .prologue
+    .line 33
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModBal;->refresh()V
 
-    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->polB:Z
+    .line 34
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModBal;->off:Z
 
     if-eqz v0, :cond_a
 
-    const p0, 0x3e19999a    # 0.15f
+    const-string v0, "off"
+
+    :goto_9
+    return-object v0
 
     :cond_a
-    return p0
+    const-string v0, "on"
+
+    goto :goto_9
 .end method

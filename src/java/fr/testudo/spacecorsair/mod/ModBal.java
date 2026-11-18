@@ -7,61 +7,48 @@ import fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip;
 import fr.testudo.spacecorsair.business.player.PlayerShip;
 
 /**
- * 2026-11-17 balance-report prototypes (space-corsair/proposals/balance-report.md). PROPOSAL ONLY: every switch starts
- * OFF and is a test file in /data/local/tmp (never present on a phone), so a normal install plays exactly as before.
- *   corsair_bal_range   Reaver / Kre'tari / Varn flagships hold 50-80% of their battery range (no drift-out, no close-in)
- *   corsair_bal_aegis   SRS Aegis (real flagship, not police) fields 2-3 drones instead of 2-5
- *   corsair_bal_warden  FAV Warden battery damage x0.8
- *   corsair_bal_polA    police titan battery + drone damage 3.6x -> 1.6x
- *   corsair_bal_polB    polA plus police titan overshield 40% -> 15% and armour 30% -> 15%
- * Also (emulator only) the player's damage on the corsair_dmgtest target is split into gun / missile / other.
+ * 2026-11-18 balance changes from space-corsair/proposals/balance-report.md (owner OK 2026-11-18 03:14, pending phone test):
+ *   - Reaver / Kre'tari / Varn flagships hold 50-80% of their battery range (no drift-out, no close-in)
+ *   - SRS Aegis (real flagship, not police) fields 2-3 drones instead of 2-5
+ *   - FAV Warden battery damage x0.8
+ * Police titans are untouched (owner: they keep 3.0x+ and stay a threat).
+ * Emulator only: a file /data/local/tmp/corsair_bal_off turns all three off (baseline runs); never present on a phone.
+ * Also (emulator only) the player's damage on the corsair_dmgtest target is split into gun / missile and traced per step.
  */
 public final class ModBal {
     private ModBal() {}
 
     private static long poll;
-    private static boolean range, aegis, warden, polA, polB;
+    private static boolean off;
 
     private static void refresh() {
         long now = System.currentTimeMillis();
         if (now - poll < 2000) return;
         poll = now;
-        range = ModDev.testFlag("corsair_bal_range");
-        aegis = ModDev.testFlag("corsair_bal_aegis");
-        warden = ModDev.testFlag("corsair_bal_warden");
-        polB = ModDev.testFlag("corsair_bal_polB");
-        polA = polB || ModDev.testFlag("corsair_bal_polA");
+        off = ModDev.testFlag("corsair_bal_off");
     }
 
-    /** Short tag for logs: which switches were on. */
+    /** Short tag for logs. */
     static String tag() {
         refresh();
-        return (range ? "R" : "-") + (aegis ? "A" : "-") + (warden ? "W" : "-") + (polB ? "B" : polA ? "P" : "-");
+        return off ? "off" : "on";
     }
 
     // ------------------------------------------------------------------ battery damage
-    static final float POLICE_A = 1.6f / 3.6f;
-
-    /** Multiplier on a flagship / police titan battery (and drone) shot. 1 when every switch is off. */
+    /** Multiplier on a flagship battery shot (the Warden's x0.8). */
     static float shotMult(ModCapitals.Cap c) {
         refresh();
-        if (c == null) return 1f;
-        if (c.police) return polA ? POLICE_A : 1f;
-        if (warden && "warden".equals(c.f.key)) return 0.8f;
-        return 1f;
+        if (off || c == null || c.police) return 1f;
+        return "warden".equals(c.f.key) ? 0.8f : 1f;
     }
 
     // ------------------------------------------------------------------ Aegis drones
     static int maxDrones(GuardianCivilShip g, int stock) {
         refresh();
-        if (!aegis) return stock;
+        if (off) return stock;
         ModCapitals.Cap c = ModCapitals.cap(g);
         return c != null && !c.police ? Math.min(stock, 3) : stock;
     }
-
-    // ------------------------------------------------------------------ police titan defence (option B)
-    static float overFrac(float stock) { refresh(); return polB ? 0.15f : stock; }
-    static float titanArmor(float stock) { refresh(); return polB ? 0.15f : stock; }
 
     // ------------------------------------------------------------------ flagship range hold
     private static final float VMAX = 3.0f;   // per 10 ms (300 u/s), well under the ram dash (9)
@@ -69,7 +56,7 @@ public final class ModBal {
     /** Per frame from ModTitanAI.tick, before the skills (a skill dash that sets the speed still wins). */
     static void holdRange(GuardianCivilShip g, ModCapitals.Cap c, PlayerShip ps, long j) {
         refresh();
-        if (!range || c == null || c.police) return;
+        if (off || c == null || c.police) return;
         String k = c.f.key;
         float r;
         if ("reaver".equals(k)) r = 2400;
@@ -94,7 +81,35 @@ public final class ModBal {
     static float gunDealt, missileDealt;
     static int gunHits, missileHits;
 
-    static void resetSplit(Element t) { splitTarget = t; gunDealt = missileDealt = 0; gunHits = missileHits = 0; }
+    static final float[] stSum = new float[11];
+    static final int[] stZero = new int[11];
+    static int stHits;
+    static String stFirst;
+
+    static void resetSplit(Element t) {
+        splitTarget = t; gunDealt = missileDealt = 0; gunHits = missileHits = 0;
+        java.util.Arrays.fill(stSum, 0); java.util.Arrays.fill(stZero, 0); stHits = 0; stFirst = null;
+    }
+
+    /** 2026-11-18 emulator trace: damage of the player's hits on the test target after each step of ModLive.hit. */
+    static void st(int k, float v, Projectile p) {
+        try {
+            if (p == null || p.sender == null || !p.sender.isPlayer) return;
+            if (k == 0) {
+                stHits++;
+                if (stFirst == null) stFirst = p.getClass().getSimpleName() + ":" + Math.round(v);
+            }
+            stSum[k] += v;
+            if (v <= 0) stZero[k]++;
+        } catch (Throwable t) { /* trace only */ }
+    }
+
+    static String stages() {
+        StringBuilder b = new StringBuilder("n=").append(stHits).append(" first=").append(stFirst);
+        for (int k = 0; k < stSum.length; k++) b.append(' ').append(k).append(':').append(Math.round(stSum[k])).append('z').append(stZero[k]);
+        b.append(" over=").append(ModPoliceTitan.overState());
+        return b.toString();
+    }
 
     /** From ModLive.hit with the damage actually applied. */
     static void recordHit(Element target, float out, Projectile p) {

@@ -343,14 +343,13 @@ elif [ $GAME = sc ]; then
   }
   T=/data/local/tmp
   # ---- 2026-11-17 balance-report prototypes (corsair_bal_* switches, off on phones). corsair_dmgtest harness, log adds gun/missile split.
-  case "$STAGE" in BAL0|BAL1|BALA|BALB)
+  case "$STAGE" in BAL0|BAL1|BALP)
     LG=$OUT/logcat_live.txt
     FL=""
     case $STAGE in
-      BAL0) TG="reaver kretari varn spartan warden";;
-      BAL1) TG="reaver kretari varn spartan warden"; FL="corsair_bal_range corsair_bal_aegis corsair_bal_warden";;
-      BALA) TG="police_spartan police_reaver police_warden police_varn"; FL="corsair_bal_polA";;
-      BALB) TG="police_spartan police_reaver police_warden police_varn"; FL="corsair_bal_polB";;
+      BAL0) TG="reaver warden"; FL="corsair_bal_off";;
+      BAL1) TG="reaver kretari varn spartan warden";;
+      BALP) TG="police_warden police_varn police_spartan";;
     esac
     for x in $FL; do a shell "touch $T/$x"; done; a shell "chmod 644 $T/corsair_*; ls $T" | tee -a $OUT/flags.txt
     if fly hullLeviathan Leviathan leviathan; then

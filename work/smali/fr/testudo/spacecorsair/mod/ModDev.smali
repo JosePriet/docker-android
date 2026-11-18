@@ -2905,7 +2905,7 @@
     sput-wide v8, Lfr/testudo/spacecorsair/mod/ModDev;->tDmgLog:J
 
     .line 456
-    if-eqz v5, :cond_3a1
+    if-eqz v5, :cond_3bd
 
     const-string v2, "player_dead"
 
@@ -2921,7 +2921,7 @@
 
     if-lez v2, :cond_14f
 
-    if-eqz v5, :cond_290
+    if-eqz v5, :cond_29e
 
     .line 458
     :cond_14f
@@ -3010,7 +3010,7 @@
     .line 461
     iget-object v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    if-eqz v4, :cond_3ba
+    if-eqz v4, :cond_3d6
 
     iget-object v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
@@ -3117,7 +3117,7 @@
 
     move-result-object v4
 
-    if-nez v2, :cond_3bd
+    if-nez v2, :cond_3d9
 
     const/4 v2, 0x0
 
@@ -3226,6 +3226,20 @@
 
     move-result-object v2
 
+    const-string v4, " st="
+
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModBal;->stages()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
     const-string v4, " dist="
 
     invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
@@ -3257,7 +3271,7 @@
     invoke-static {v7, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 466
-    :cond_290
+    :cond_29e
     if-eqz v5, :cond_3c
 
     .line 467
@@ -3503,19 +3517,33 @@
 
     move-result-object v3
 
+    const-string v4, " st="
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModBal;->stages()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
     invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v3
 
     .line 469
     invoke-static {v2, v3}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
-    :try_end_384
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_384} :catch_386
+    :try_end_3a0
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_3a0} :catch_3a2
 
     goto/16 :goto_3c
 
     .line 473
-    :catch_386
+    :catch_3a2
     move-exception v2
 
     .line 474
@@ -3544,24 +3572,24 @@
     goto/16 :goto_3c
 
     .line 456
-    :cond_3a1
-    if-eqz v4, :cond_3a8
+    :cond_3bd
+    if-eqz v4, :cond_3c4
 
-    :try_start_3a3
+    :try_start_3bf
     const-string v2, "killed"
 
     move-object v5, v2
 
     goto/16 :goto_145
 
-    :cond_3a8
+    :cond_3c4
     sget-wide v4, Lfr/testudo/spacecorsair/mod/ModDev;->tDmgT:J
 
     const-wide/32 v8, 0x2bf20
 
     cmp-long v2, v4, v8
 
-    if-ltz v2, :cond_3b6
+    if-ltz v2, :cond_3d2
 
     const-string v2, "timeout"
 
@@ -3569,7 +3597,7 @@
 
     goto/16 :goto_145
 
-    :cond_3b6
+    :cond_3d2
     const/4 v2, 0x0
 
     move-object v5, v2
@@ -3577,18 +3605,18 @@
     goto/16 :goto_145
 
     .line 461
-    :cond_3ba
+    :cond_3d6
     const/4 v4, 0x0
 
     goto/16 :goto_1aa
 
     .line 463
-    :cond_3bd
+    :cond_3d9
     iget v2, v2, Lfr/testudo/spacecorsair/mod/ModV34$Sh;->cur:F
 
     invoke-static {v2}, Ljava/lang/Math;->round(F)I
-    :try_end_3c2
-    .catch Ljava/lang/Throwable; {:try_start_3a3 .. :try_end_3c2} :catch_386
+    :try_end_3de
+    .catch Ljava/lang/Throwable; {:try_start_3bf .. :try_end_3de} :catch_3a2
 
     move-result v2
 

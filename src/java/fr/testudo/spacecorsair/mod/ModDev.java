@@ -460,7 +460,7 @@ public final class ModDev {
                 ev("dmg", tDmg + " t=" + (tDmgT / 1000f) + " phull=" + pct(ps.life, ps.maxLife) + " pshield=" + Math.round(sh) + "/"
                     + (ps.shield != null ? Math.round(ps.shield.capacity) : 0) + " hullLost=" + pct(tDmgHullLost, ps.maxLife)
                     + " shieldLost=" + Math.round(tDmgShieldLost) + " wall=" + Math.round(ModAnchor.cur) + "/" + Math.round(ModAnchor.cap)
-                    + " thull=" + pct(g.life, g.maxLife) + " tshield=" + (ts == null ? 0 : Math.round(ts.cur)) + " dealt=" + Math.round(tDmgDealt) + " gun=" + Math.round(ModBal.gunDealt) + "/" + ModBal.gunHits + " msl=" + Math.round(ModBal.missileDealt) + "/" + ModBal.missileHits + " ammo=" + dmgAmmo() + " bal=" + ModBal.tag()
+                    + " thull=" + pct(g.life, g.maxLife) + " tshield=" + (ts == null ? 0 : Math.round(ts.cur)) + " dealt=" + Math.round(tDmgDealt) + " gun=" + Math.round(ModBal.gunDealt) + "/" + ModBal.gunHits + " msl=" + Math.round(ModBal.missileDealt) + "/" + ModBal.missileHits + " ammo=" + dmgAmmo() + " bal=" + ModBal.tag() + " st=" + ModBal.stages()
                     + " dist=" + Math.round(g.position.distance(ps.position)));
             }
             if (end != null) {
@@ -468,7 +468,7 @@ public final class ModDev {
                 ps.isShooting = false;
                 ev("dmg", "end " + tDmg + " result=" + end + " t=" + (tDmgT / 1000f) + " hullLost=" + pct(tDmgHullLost, ps.maxLife)
                     + " shieldLost=" + Math.round(tDmgShieldLost) + " pMaxHull=" + Math.round(ps.maxLife) + " tMaxHull=" + Math.round(g.maxLife)
-                    + " thull=" + pct(g.life, g.maxLife) + " dealt=" + Math.round(tDmgDealt) + " gun=" + Math.round(ModBal.gunDealt) + "/" + ModBal.gunHits + " msl=" + Math.round(ModBal.missileDealt) + "/" + ModBal.missileHits + " ammo=" + dmgAmmo() + " bal=" + ModBal.tag());
+                    + " thull=" + pct(g.life, g.maxLife) + " dealt=" + Math.round(tDmgDealt) + " gun=" + Math.round(ModBal.gunDealt) + "/" + ModBal.gunHits + " msl=" + Math.round(ModBal.missileDealt) + "/" + ModBal.missileHits + " ammo=" + dmgAmmo() + " bal=" + ModBal.tag() + " st=" + ModBal.stages());
             }
         } catch (Throwable t) {
             ev("dmg", "error " + t);

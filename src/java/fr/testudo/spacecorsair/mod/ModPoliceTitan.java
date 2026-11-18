@@ -94,7 +94,7 @@ public final class ModPoliceTitan {
             ModArt.prefetch("pol_cap_" + f.key);
             titan = g;
             name = g.specificName;
-            overCap = over = g.maxLife * ModBal.overFrac(OVER_FRAC);
+            overCap = over = g.maxLife * OVER_FRAC;
             overQuietMs = 0;
             overLastLife = g.life;
             overBar = null;
@@ -182,6 +182,9 @@ public final class ModPoliceTitan {
         }
         return dmg - a;
     }
+
+    /** Emulator trace: overshield now/cap and quiet time. */
+    static String overState() { return Math.round(over) + "/" + Math.round(overCap) + "q" + overQuietMs; }
 
     /** Regen: only after OVER_DELAY_MS without damage, back to full in OVER_REFILL_MS. */
     private static void overTick(GuardianCivilShip g, long j) {

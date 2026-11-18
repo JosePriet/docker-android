@@ -2105,116 +2105,250 @@
     const/4 v3, 0x0
 
     .line 503
-    .line 505
-    :try_start_1
+    .line 504
+    sget-object v2, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v2, :cond_d
+
+    const/4 v2, 0x0
+
+    move/from16 v0, p1
+
+    move-object/from16 v1, p2
+
+    invoke-static {v2, v0, v1}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 506
+    :cond_d
+    :try_start_d
     invoke-static/range {p0 .. p2}, Lfr/testudo/spacecorsair/mod/ModAnchor;->beam(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)F
 
     move-result v2
 
-    .line 506
+    .line 507
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v4, :cond_1b
+
+    const/4 v4, 0x1
+
+    move-object/from16 v0, p2
+
+    invoke-static {v4, v2, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 508
+    :cond_1b
     cmpg-float v4, v2, v3
 
-    if-gtz v4, :cond_10
+    if-gtz v4, :cond_26
 
     cmpl-float v4, p1, v3
 
-    if-lez v4, :cond_10
+    if-lez v4, :cond_26
 
     move/from16 p1, v3
 
-    .line 536
-    :goto_f
+    .line 547
+    :goto_25
     return p1
 
-    .line 507
-    :cond_10
+    .line 509
+    :cond_26
     move-object/from16 v0, p2
 
     invoke-static {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModV34;->damage(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)F
 
     move-result v2
 
-    .line 508
+    .line 510
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v4, :cond_36
+
+    const/4 v4, 0x2
+
+    move-object/from16 v0, p2
+
+    invoke-static {v4, v2, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 511
+    :cond_36
     move-object/from16 v0, p2
 
     invoke-static {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModEnemyGuns;->damageIn(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)F
 
     move-result v2
 
-    .line 509
+    .line 512
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v4, :cond_46
+
+    const/4 v4, 0x3
+
+    move-object/from16 v0, p2
+
+    invoke-static {v4, v2, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 513
+    :cond_46
     move-object/from16 v0, p2
 
     invoke-static {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModV35;->damage(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)F
 
     move-result v2
 
-    .line 510
+    .line 514
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v4, :cond_56
+
+    const/4 v4, 0x4
+
+    move-object/from16 v0, p2
+
+    invoke-static {v4, v2, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 515
+    :cond_56
     move-object/from16 v0, p2
 
     invoke-static {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->damageIn(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)F
 
     move-result v2
 
-    .line 511
+    .line 516
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v4, :cond_66
+
+    const/4 v4, 0x5
+
+    move-object/from16 v0, p2
+
+    invoke-static {v4, v2, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 517
+    :cond_66
     invoke-static {p0, v2}, Lfr/testudo/spacecorsair/mod/ModPolice;->armor(Lfr/testudo/spacecorsair/business/Element;F)F
 
     move-result v2
 
-    .line 512
+    .line 518
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v4, :cond_74
+
+    const/4 v4, 0x6
+
+    move-object/from16 v0, p2
+
+    invoke-static {v4, v2, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 519
+    :cond_74
     invoke-static {p0, v2}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overAbsorb(Lfr/testudo/spacecorsair/business/Element;F)F
 
     move-result v2
 
-    .line 513
+    .line 520
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v4, :cond_82
+
+    const/4 v4, 0x7
+
+    move-object/from16 v0, p2
+
+    invoke-static {v4, v2, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 521
+    :cond_82
     move-object/from16 v0, p2
 
     invoke-static {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModV34;->shieldAbsorb(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)F
 
     move-result v2
 
-    .line 514
+    .line 522
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v4, :cond_93
+
+    const/16 v4, 0x8
+
+    move-object/from16 v0, p2
+
+    invoke-static {v4, v2, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 523
+    :cond_93
     move-object/from16 v0, p2
 
     invoke-static {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModPolice;->hit(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)F
 
     move-result v2
 
-    .line 515
+    .line 524
+    sget-object v4, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v4, :cond_a4
+
+    const/16 v4, 0x9
+
+    move-object/from16 v0, p2
+
+    invoke-static {v4, v2, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 525
+    :cond_a4
     move-object/from16 v0, p2
 
     invoke-static {p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModHornet;->damageIn(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)F
 
     move-result v14
 
-    .line 516
+    .line 526
+    sget-object v2, Lfr/testudo/spacecorsair/mod/ModBal;->splitTarget:Lfr/testudo/spacecorsair/business/Element;
+
+    if-ne p0, v2, :cond_b5
+
+    const/16 v2, 0xa
+
+    move-object/from16 v0, p2
+
+    invoke-static {v2, v14, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->st(IFLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
+
+    .line 527
+    :cond_b5
     move-object/from16 v0, p2
 
     invoke-static {p0, v14, v0}, Lfr/testudo/spacecorsair/mod/ModBal;->recordHit(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
 
-    .line 517
+    .line 528
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLive;->onHit(Lfr/testudo/spacecorsair/business/Element;)V
 
-    .line 518
+    .line 529
     iget-boolean v2, p0, Lfr/testudo/spacecorsair/business/Element;->isPlayer:Z
 
-    if-eqz v2, :cond_8c
+    if-eqz v2, :cond_100
 
-    if-eqz p2, :cond_8c
+    if-eqz p2, :cond_100
 
-    .line 519
+    .line 530
     move-object v0, p0
 
     check-cast v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
     move-object v2, v0
 
-    .line 520
+    .line 531
     invoke-static {v2, v14}, Lfr/testudo/spacecorsair/mod/ModLevFx;->hit(Lfr/testudo/spacecorsair/business/player/PlayerShip;F)V
 
-    .line 521
+    .line 532
     iget-object v4, v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
-    if-eqz v4, :cond_86
+    if-eqz v4, :cond_f9
 
     iget-object v4, v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
@@ -2222,9 +2356,9 @@
 
     cmpl-float v3, v4, v3
 
-    if-lez v3, :cond_86
+    if-lez v3, :cond_f9
 
-    .line 522
+    .line 533
     iget-object v3, v2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     move-object/from16 v0, p2
@@ -2253,44 +2387,44 @@
 
     move-result v3
 
-    .line 523
+    .line 534
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModShield;->impact(F)V
 
-    .line 524
+    .line 535
     move-object/from16 v0, p2
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/business/projectiles/Projectile;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-static {v2, v3, v14}, Lfr/testudo/spacecorsair/mod/ModMonolith;->hit(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;F)V
-    :try_end_86
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_86} :catch_df
+    :try_end_f9
+    .catch Ljava/lang/Throwable; {:try_start_d .. :try_end_f9} :catch_153
 
-    :cond_86
-    :goto_86
+    :cond_f9
+    :goto_f9
     move/from16 p1, v14
 
-    .line 535
-    :goto_88
+    .line 546
+    :goto_fb
     invoke-static/range {p0 .. p2}, Lfr/testudo/spacecorsair/mod/ModQol;->onHit(Lfr/testudo/spacecorsair/business/Element;FLfr/testudo/spacecorsair/business/projectiles/Projectile;)V
 
-    goto :goto_f
+    goto/16 :goto_25
 
-    .line 526
-    :cond_8c
-    if-eqz p2, :cond_86
+    .line 537
+    :cond_100
+    if-eqz p2, :cond_f9
 
     cmpl-float v2, p1, v3
 
-    if-lez v2, :cond_86
+    if-lez v2, :cond_f9
 
-    .line 527
-    :try_start_92
+    .line 538
+    :try_start_106
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/Element;->getDrawableObject()Lfr/testudo/spacecorsair/display/Drawable;
 
     move-result-object v7
 
-    .line 528
-    if-eqz v7, :cond_86
+    .line 539
+    if-eqz v7, :cond_f9
 
     iget-object v2, v7, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
@@ -2302,7 +2436,7 @@
 
     move-result v2
 
-    if-eqz v2, :cond_86
+    if-eqz v2, :cond_f9
 
     invoke-static {}, Ljava/lang/Math;->random()D
 
@@ -2312,9 +2446,9 @@
 
     cmpg-double v2, v2, v4
 
-    if-gez v2, :cond_86
+    if-gez v2, :cond_f9
 
-    .line 529
+    .line 540
     const-string v2, "fx_ichor_sheet"
 
     const/4 v3, 0x4
@@ -2358,16 +2492,16 @@
     const/4 v13, 0x1
 
     invoke-static/range {v2 .. v13}, Lfr/testudo/spacecorsair/mod/ModLive;->fx(Ljava/lang/String;IIFFFJFFFZ)V
-    :try_end_de
-    .catch Ljava/lang/Throwable; {:try_start_92 .. :try_end_de} :catch_df
+    :try_end_152
+    .catch Ljava/lang/Throwable; {:try_start_106 .. :try_end_152} :catch_153
 
-    goto :goto_86
+    goto :goto_f9
 
-    .line 532
-    :catch_df
+    .line 543
+    :catch_153
     move-exception v2
 
-    goto :goto_88
+    goto :goto_fb
 .end method
 
 .method private static hostileEnemy(Lfr/testudo/spacecorsair/business/Element;)Z
