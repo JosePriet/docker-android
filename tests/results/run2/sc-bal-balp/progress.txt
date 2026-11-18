@@ -1,0 +1,29 @@
+[6s] install
+[7s] launch fr.testudo.spacecorsair
+[28s] shot launch ok
+[33s] cancel exit prompt
+[40s] shot after_back ok
+[54s] shot steering ok
+[54s] direct: BuyInapp gift
+[71s] tap 'id/txtGift' at 620 926
+[81s] tap 'id/btnGift' at 1253 939
+[86s] shot gift_box_redeemed ok
+[91s] direct: Settings
+[100s] shot settings_v36 ok
+[101s] seekbars on settings: 3
+[122s] Leviathan page found=1
+[126s] tap '^(Use|USE)' at 1971 1008
+[150s] shot dmg_ready ok
+[159s] shot dmg_police_warden_1 ok
+[196s] shot dmg_police_warden_end ok
+[196s] EVIDENCE dmg start police_warden player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=2040000 shot=3517 rate=1.2 police=true dmg end police_warden result=player_dead t=22.594 hullLost=99.0% shieldLost=12121 pMaxHull=446656 tMaxHull=2040000 thull=100.0% dealt=0 gun=0/0 msl=0/0 ammo=0 bal=on st=n=83 first=EnergyBullet:3011 0:249946z0 1:249946z0 2:439837z0 3:439837z0 4:439837z0 5:439837z0 6:307886z0 7:0z83 8:0z83 9:0z83 10:0z83 over=389018/816000q8208 
+[213s] shot dmg_police_varn_1 ok
+[251s] shot dmg_police_varn_9 ok
+[262s] shot dmg_police_varn_end ok
+[262s] EVIDENCE dmg start police_varn player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1428000 shot=3517 rate=1.2 police=true dmg end police_varn result=player_dead t=35.579 hullLost=99.5% shieldLost=11744 pMaxHull=446656 tMaxHull=1428000 thull=83.7% dealt=232898 gun=232897/65 msl=0/0 ammo=0 bal=on st=n=253 first=EnergyBullet:3011 0:761883z0 1:761883z0 2:1340710z0 3:1340710z0 4:1340710z0 5:1149937z0 6:804952z0 7:263528z179 8:232897z188 9:232897z188 10:232897z188 over=0/571200q0 
+[278s] shot dmg_police_spartan_1 ok
+[317s] shot dmg_police_spartan_9 ok
+[328s] shot dmg_police_spartan_end ok
+[328s] EVIDENCE dmg start police_spartan player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1632000 shot=3517 rate=1.2 police=true dmg end police_spartan result=player_dead t=33.598 hullLost=98.7% shieldLost=11973 pMaxHull=446656 tMaxHull=1632000 thull=100.0% dealt=37 gun=0/0 msl=0/0 ammo=0 bal=on st=n=183 first=EnergyBullet:3011 0:551087z0 1:551087z0 2:969762z0 3:969762z0 4:969762z0 5:640678z0 6:448475z0 7:0z183 8:0z183 9:0z183 10:0z183 over=104190/652800q0 
+[339s] done; errors: 145 lines
+76 frames

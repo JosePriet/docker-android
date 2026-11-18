@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 635442 Realtime: 635442
+
+** MEMINFO in pid 2512 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    33130    33060        0        0    35532    44156    35534     4610
+  Dalvik Heap    36356    36220        0        0    40472    20751    10376    10375
+ Dalvik Other     1828     1068        0        0     3452                           
+        Stack      948      948        0        0      960                           
+       Ashmem    10173     9444        0        0    10968                           
+    Other dev       92        0       92        0      296                           
+     .so mmap     4770      248      700        0    44128                           
+    .jar mmap     1834        0      152        0    24180                           
+    .apk mmap     1187        0       64        0    25828                           
+    .ttf mmap      340        0      128        0      964                           
+    .dex mmap     2828       12     2804        0     2956                           
+    .oat mmap     1003        0       12        0    15796                           
+    .art mmap     1920     1288        0        0    19988                           
+   Other mmap      383       36       56        0     2820                           
+      Unknown      405      388        0        0      840                           
+        TOTAL    97197    82712     4008        0    97197    64907    45910    14985
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    37508                          60460
+         Native Heap:    33060                          35532
+                Code:     4120                         115396
