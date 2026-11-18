@@ -6,6 +6,7 @@ import fr.testudo.spacecorsair.business.player.PlayerShip;
 /**
  * 2026-11-18 balance changes from space-corsair/proposals/balance-report.md (owner OK 2026-11-18 03:14, pending phone test):
  *   - Reaver / Kre'tari / Varn flagships hold 50-80% of their battery range, police titans 40-65% (no drift-out, no close-in)
+ *   - every flagship and police titan stays on the player's screen (ModView), 2026-11-18 owner 11:40
  *   - SRS Aegis (real flagship, not police) fields 2-3 drones instead of 2-5
  *   - FAV Warden battery damage x0.8
  * Police titan damage is untouched (owner: they keep 3.0x+ and stay a threat); their overshield fix is in ModPoliceTitan.
@@ -56,15 +57,24 @@ public final class ModBal {
         else if ("reaver".equals(k)) r = 2400;
         else if ("kretari".equals(k)) r = 2600;
         else if ("varn".equals(k)) r = 2400;
-        if (r <= 0) return;
         if (!ModLive.titanHostile(g, c)) return;
         float dx = ps.position.x - g.position.x, dy = ps.position.y - g.position.y;
         float d = (float) Math.sqrt(dx * dx + dy * dy);
         if (d < 1 || d > 7000) return;
-        float lo = r * (c.police ? 0.4f : 0.5f), hi = r * (c.police ? 0.65f : 0.8f), k2 = Math.min(1f, j / 400f);   // police: inside the player's turret reach (~3,000)
+        float lo, hi;
+        // 2026-11-18 (owner): every flagship and police titan also stays on the player's screen (hull centre within
+        // ModView.radius less a third of the hull); factions without a range band only get this limit
+        float view = Math.max(600f, ModView.radius() - ModCapitals.SIZE * 0.35f);
+        if (r <= 0) { lo = 0; hi = view; } else {
+            lo = r * (c.police ? 0.4f : 0.5f);
+            hi = Math.min(r * (c.police ? 0.65f : 0.8f), view);
+            lo = Math.min(lo, hi * 0.6f);
+        }
+        float k2 = Math.min(1f, j / 400f);   // police: inside the player's turret reach (~3,000)
         float tx, ty;
         if (d > hi) { tx = dx / d * VMAX; ty = dy / d * VMAX; }          // close back in to gun range
         else if (d < lo) { tx = -dx / d * VMAX; ty = -dy / d * VMAX; }   // back off: no ramming without firing
+        else if (r <= 0) return;                                          // no band: own AI while on screen
         else { tx = -dy / d * VMAX * 0.3f; ty = dx / d * VMAX * 0.3f; }  // in the band: slow broadside orbit
         g.speed.x += (tx - g.speed.x) * k2;
         g.speed.y += (ty - g.speed.y) * k2;
