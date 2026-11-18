@@ -4,7 +4,17 @@
 #                                   to the host, fires a shot every 2 s, records the host's stream to OUTDIR/host_stream.bin
 #   host  SECONDS OUTDIR          : listens on 0.0.0.0:37001, replays OUTDIR/host_stream.bin to the game joining as guest
 #                                   (damage counter climbing), records what the guest sends
-import socket, struct, sys, time, threading, zlib
+import socket, struct, sys, time, threading, zlib, os, hashlib
+# 2026-11-18: HELLO + room code ("" = public) + content hash (sha256 of the installed APK, first 16 hex).
+# LAN_V44=1: the v44 build (bandwidth baseline): bare SCLAN1 tag, no handshake, no declaration.
+V44 = os.environ.get('LAN_V44') == '1'
+def apk_hash():
+    try:
+        h = hashlib.sha256(open(os.environ.get('APK', 'tests/apks/space-corsair.apk'), 'rb').read()).hexdigest()[:16]
+    except Exception:
+        h = '?'
+    return h
+HASH = apk_hash()
 MSG_DEF, MSG_FRAME, MSG_STATE, MSG_SHOT, MSG_BYE, MSG_Z, MSG_CHAT, MSG_KILL = 1, 2, 3, 4, 5, 6, 7, 8
 MSG_LFRAME, MSG_LSTATE, MSG_STYLE = 10, 11, 12   # v45 small stream (internet links; emulator switch corsair_lean)
 
@@ -49,7 +59,7 @@ WIRE, RAW = [0], [0]
 
 def hello_guest(s):
     """v45 handshake as a guest: a wrong version first, so the host names its own; then the real one. Returns the host version."""
-    s.sendall(b'SCLAN2' + utf('?') + utf('Peer') + utf('PAN'))
+    s.sendall(b'SCLAN2' + utf('?') + utf('Peer') + utf('PAN') + utf('') + utf(HASH))
     r = recv_all(s, 1)[0]
     if r != 2: return None
     n = struct.unpack('>H', recv_all(s, 2))[0]; return recv_all(s, n).decode('utf-8', 'replace')
@@ -85,6 +95,7 @@ def guest(secs, out, shotfile, aim=False):
     for i in range(30):
         try:
             s = socket.create_connection(('127.0.0.1', 37001), timeout=5)
+            if V44: break
             if ver is None:
                 ver = hello_guest(s); s.close(); s = None
                 print('GUEST host version', ver)
@@ -96,15 +107,18 @@ def guest(secs, out, shotfile, aim=False):
     if s is None:
         print('GUEST no connection'); return
     s.settimeout(None); s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-    s.sendall(b'SCLAN2' + utf(ver) + utf('Peer') + utf('PAN'))
-    r = recv_all(s, 1)[0]
-    if r != 0:
-        print('GUEST refused', r); return
-    n = struct.unpack('>H', recv_all(s, 2))[0]; hn = recv_all(s, n).decode('utf-8', 'replace')
-    n = struct.unpack('>H', recv_all(s, 2))[0]; hc = recv_all(s, n).decode('utf-8', 'replace')
-    print('GUEST accepted by host nick=%r country=%r' % (hn, hc))
-    s.sendall(msg(MSG_CHAT, utf('hello from the test peer')))
-    s.sendall(msg(13, struct.pack('>iiff', 5, 0, 300.0, 100.0) + utf('') + utf('noSuchLaser') + utf('') + utf('')))   # v45 declaration: level 5, an unknown laser (flagged, level tables used)
+    if V44:
+        s.sendall(b'SCLAN1'); print('GUEST v44 link (no handshake)')
+    else:
+      s.sendall(b'SCLAN2' + utf(ver) + utf('Peer') + utf('PAN') + utf('') + utf(HASH))
+      r = recv_all(s, 1)[0]
+      if r != 0:
+        print('GUEST refused', r, 'hash', HASH); return
+      n = struct.unpack('>H', recv_all(s, 2))[0]; hn = recv_all(s, n).decode('utf-8', 'replace')
+      n = struct.unpack('>H', recv_all(s, 2))[0]; hc = recv_all(s, n).decode('utf-8', 'replace')
+      print('GUEST accepted by host nick=%r country=%r' % (hn, hc))
+      s.sendall(msg(MSG_CHAT, utf('hello from the test peer')))
+      s.sendall(msg(13, struct.pack('>iiff', 5, 0, 300.0, 100.0) + utf('') + utf('noSuchLaser') + utf('') + utf('')))   # v45 declaration: level 5, an unknown laser (flagged, level tables used)
     got, stop = [], [False]
     threading.Thread(target=reader, args=(s, got, stop), daemon=True).start()
     s.sendall(msg(MSG_DEF, struct.pack('>H', 1) + utf('Lrv_raider')))
@@ -173,10 +187,10 @@ def host(secs, out):
     s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
     hello = recv_all(s, 6)
     hv = []
-    for _ in range(3):
+    for _ in range(0 if V44 else 5):   # version, nickname, country, room code, content hash
         n = struct.unpack('>H', recv_all(s, 2))[0]; hv.append(recv_all(s, n).decode('utf-8', 'replace'))
     print('HOST hello', hello, hv)
-    s.sendall(b'\x00' + utf('PeerHost') + utf('ESP'))   # v45: accepted, then the host's name
+    if not V44: s.sendall(b'\x00' + utf('PeerHost') + utf('ESP'))   # v45: accepted, then the host's name
     s.sendall(msg(MSG_CHAT, utf('hello from the test host')))
     got, stop = [], [False]
     threading.Thread(target=reader, args=(s, got, stop), daemon=True).start()

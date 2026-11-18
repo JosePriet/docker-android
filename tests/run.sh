@@ -70,6 +70,7 @@ finish() {
 
 case $GAME in
   sc) PKG=fr.testudo.spacecorsair; APK=tests/apks/space-corsair.apk ;;
+  sc44) PKG=fr.testudo.spacecorsair; APK=tests/apks/space-corsair-v44.apk; export LAN_V44=1 ;;   # 2026-11-18: v44 bandwidth baseline (spec item 7)
   nova) PKG=com.corsairnova.game; APK=tests/apks/corsair-nova.apk ;;
   ga) PKG=com.kongregate.mobile.globalassault.google; APK=tests/apks/global-assault.apk ;;
   gaarm) PKG=com.kongregate.mobile.globalassault.google; APK=tests/apks/global-assault-arm.apk ;;
@@ -79,7 +80,7 @@ esac
 timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
-if [ "$GAME" = sc ]; then
+if [ "$GAME" = sc ] || [ "$GAME" = sc44 ]; then
   NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ]; } && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
@@ -99,7 +100,7 @@ if [ $GAME = ga ] || [ $GAME = gaorig ] || [ $GAME = gaarm ]; then
   tap 1140 980; sleep 6; shot probe_bc
   P=$(timeout 5 adb shell pidof $PKG); log "pid $P"
   grep -E "GALocal|Exception|Unity  " $OUT/logcat_live.txt | head -3000 > $OUT/trace.txt
-elif [ $GAME = sc ]; then
+elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
   # v46 playable prologue: a fresh install drops into the player bay (L25 Corvette vs the L40 Bloodforge) for 120 s,
   # then restarts into the tutorial. Evidence: logcat "ModTest prologue ...", the pilot state after the restart
   # (must be the untouched fresh save), shots along the fight and the end beat.
