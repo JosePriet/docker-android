@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 710
+    .line 713
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1$1;->val$got:Ljava/util/List;
@@ -55,7 +55,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 712
+    .line 715
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$18;
@@ -64,7 +64,7 @@
 
     aput-boolean v1, v0, v1
 
-    .line 713
+    .line 716
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$18;
@@ -77,11 +77,11 @@
 
     if-nez v0, :cond_16
 
-    .line 719
+    .line 722
     :goto_15
     return-void
 
-    .line 714
+    .line 717
     :cond_16
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;
 
@@ -91,7 +91,7 @@
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->clear()V
 
-    .line 715
+    .line 718
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$18;
@@ -102,7 +102,7 @@
 
     invoke-virtual {v0, v1}, Ljava/util/ArrayList;->addAll(Ljava/util/Collection;)Z
 
-    .line 716
+    .line 719
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$18;
@@ -111,7 +111,7 @@
 
     invoke-virtual {v0}, Landroid/widget/ArrayAdapter;->notifyDataSetChanged()V
 
-    .line 717
+    .line 720
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1$1;->this$1:Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$18;
@@ -150,7 +150,7 @@
 
     goto :goto_4b
 
-    .line 718
+    .line 721
     :cond_56
     const-string v0, "Tap a game to join. The list refreshes by itself."
 

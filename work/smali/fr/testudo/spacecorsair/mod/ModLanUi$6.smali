@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 361
+    .line 364
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$6;->val$ad:Landroid/widget/ArrayAdapter;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 2
 
     .prologue
-    .line 364
+    .line 367
     return-void
 .end method
 
@@ -53,7 +53,7 @@
     .registers 5
 
     .prologue
-    .line 362
+    .line 365
     return-void
 .end method
 
@@ -61,7 +61,7 @@
     .registers 6
 
     .prologue
-    .line 363
+    .line 366
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$6;->val$ad:Landroid/widget/ArrayAdapter;
 
     invoke-virtual {v0}, Landroid/widget/ArrayAdapter;->getFilter()Landroid/widget/Filter;

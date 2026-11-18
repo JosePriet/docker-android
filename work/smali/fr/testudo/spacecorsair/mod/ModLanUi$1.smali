@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 90
+    .line 93
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$1;->val$ctx:Landroid/content/Context;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,13 +45,13 @@
     .registers 3
 
     .prologue
-    .line 92
+    .line 95
     :try_start_0
     invoke-static {}, Lfr/testudo/spacecorsair/utils/MenuDisplayer;->hideMenu()V
     :try_end_3
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_3} :catch_b
 
-    .line 93
+    .line 96
     :goto_3
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$1;->val$ctx:Landroid/content/Context;
 
@@ -59,10 +59,10 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
 
-    .line 94
+    .line 97
     return-void
 
-    .line 92
+    .line 95
     :catch_b
     move-exception v0
 

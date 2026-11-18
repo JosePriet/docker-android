@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 405
+    .line 408
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$8;->val$dlg:Landroid/app/AlertDialog;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$8;->val$r:Ljava/lang/Runnable;
@@ -49,7 +49,7 @@
     .registers 3
 
     .prologue
-    .line 407
+    .line 410
     :try_start_0
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$8;->val$dlg:Landroid/app/AlertDialog;
 
@@ -57,7 +57,7 @@
     :try_end_5
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_5} :catch_f
 
-    .line 408
+    .line 411
     :goto_5
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$8;->val$r:Ljava/lang/Runnable;
 
@@ -67,11 +67,11 @@
 
     invoke-interface {v0}, Ljava/lang/Runnable;->run()V
 
-    .line 409
+    .line 412
     :cond_e
     return-void
 
-    .line 407
+    .line 410
     :catch_f
     move-exception v0
 

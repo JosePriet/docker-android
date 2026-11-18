@@ -71,7 +71,10 @@ final class ModLanUi {
             e.setTag(MENU_TAG);
             e.setOrientation(LinearLayout.VERTICAL);
             e.setGravity(Gravity.CENTER);
-            e.setLayoutParams(new LinearLayout.LayoutParams(model.getLayoutParams()));
+            // copy width, height AND weight (the ViewGroup.LayoutParams copy drops the weight: the entry then fills the bar)
+            ViewGroup.LayoutParams mp = model.getLayoutParams();
+            float w = mp instanceof LinearLayout.LayoutParams ? ((LinearLayout.LayoutParams) mp).weight : 1f;
+            e.setLayoutParams(new LinearLayout.LayoutParams(mp.width, mp.height, w));
             View mIcon = model.getChildAt(0);
             ImageView icon = new ImageView(ctx);
             icon.setImageBitmap(menuIcon(ctx));
@@ -116,20 +119,20 @@ final class ModLanUi {
             c.drawBitmap(src, null, new android.graphics.Rect(0, 0, n, n), p);
             android.graphics.Paint clr = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
             clr.setXfermode(new android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.CLEAR));
-            c.drawCircle(n / 2f, n / 2f, n * 0.355f, clr);
+            c.drawCircle(n / 2f, n / 2f, n * 0.24f, clr);   // gear is inside r 0.2n; the ring sits at r 0.28-0.33n
         } else {
             p.setStyle(android.graphics.Paint.Style.STROKE);
-            p.setStrokeWidth(n * 0.09f);
+            p.setStrokeWidth(n * 0.05f);
             p.setColor(0xFF2EC4F0);
-            android.graphics.RectF r = new android.graphics.RectF(n * 0.08f, n * 0.08f, n * 0.92f, n * 0.92f);
+            android.graphics.RectF r = new android.graphics.RectF(n * 0.195f, n * 0.195f, n * 0.805f, n * 0.805f);
             for (int i = 0; i < 4; i++) c.drawArc(r, i * 90 + 12, 66, false, p);
             p.setStyle(android.graphics.Paint.Style.FILL);
         }
         p.setXfermode(null);
         p.setColor(Color.WHITE);
         p.setStyle(android.graphics.Paint.Style.FILL);
-        chevron(c, p, n * 0.37f, n * 0.56f, n * 0.15f);
-        chevron(c, p, n * 0.63f, n * 0.44f, n * 0.15f);
+        chevron(c, p, n * 0.42f, n * 0.54f, n * 0.105f);
+        chevron(c, p, n * 0.58f, n * 0.46f, n * 0.105f);
         return b;
     }
 

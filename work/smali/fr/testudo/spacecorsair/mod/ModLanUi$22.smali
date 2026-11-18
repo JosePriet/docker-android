@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 765
+    .line 768
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$bx:[Landroid/widget/EditText;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$dlg:[Landroid/app/AlertDialog;
@@ -53,8 +53,8 @@
 
     const/4 v1, 0x0
 
-    .line 767
-    .line 768
+    .line 770
+    .line 771
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$bx:[Landroid/widget/EditText;
 
     array-length v5, v4
@@ -85,7 +85,7 @@
 
     goto :goto_7
 
-    .line 769
+    .line 772
     :cond_19
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$dlg:[Landroid/app/AlertDialog;
 
@@ -95,17 +95,17 @@
 
     const/4 v1, 0x0
 
-    .line 770
+    .line 773
     :goto_20
     if-eqz v1, :cond_25
 
     invoke-virtual {v1, v0}, Landroid/widget/Button;->setEnabled(Z)V
 
-    .line 771
+    .line 774
     :cond_25
     return-void
 
-    .line 769
+    .line 772
     :cond_26
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$22;->val$dlg:[Landroid/app/AlertDialog;
 

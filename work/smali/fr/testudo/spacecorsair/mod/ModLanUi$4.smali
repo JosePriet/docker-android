@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 317
+    .line 320
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$4;->val$name:Landroid/widget/EditText;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$4;->val$picked:[Ljava/lang/String;
@@ -53,7 +53,7 @@
     .registers 6
 
     .prologue
-    .line 319
+    .line 322
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$4;->val$name:Landroid/widget/EditText;
 
     invoke-virtual {v0}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
@@ -73,7 +73,7 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModLanUi;->save(Ljava/lang/String;Ljava/lang/String;)V
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$300(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 320
+    .line 323
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$4;->val$then:Ljava/lang/Runnable;
 
     if-eqz v0, :cond_1b
@@ -82,7 +82,7 @@
 
     invoke-interface {v0}, Ljava/lang/Runnable;->run()V
 
-    .line 321
+    .line 324
     :cond_1b
     return-void
 .end method
