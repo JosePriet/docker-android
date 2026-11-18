@@ -45,6 +45,11 @@ public final class ModPoliceTitan {
     // taking any damage, refilling in 6 s. Doomsday % damage goes straight to the hull as before (no mitigation rule).
     static final float OVER_FRAC = 0.4f;
     static final int OVER_DELAY_MS = 20000, OVER_REFILL_MS = 6000;
+    // 2026-11-18 (owner "police not taking any damage"): the overshield took 100% of every hit, so the hull bar of a police
+    // titan did not move until the 40% layer broke, which a maxed L40 titan rarely reached (emulator run 2: 816k overshield
+    // vs ~14k/s landed). Now 30% of each hit passes to the shield/hull while the overshield holds; the overshield drains
+    // at 70%, which keeps the total damage needed to kill the titan the same (police stay as tough as before).
+    static final float OVER_PASS = 0.3f;
     private static float over, overCap;
     private static long overQuietMs;      // game time since the titan last took damage (pauses with the game)
     private static float overLastLife;
@@ -171,7 +176,7 @@ public final class ModPoliceTitan {
         if (dmg <= 0 || target == null || target != titan) return dmg;
         overQuietMs = 0;
         if (over <= 0) return dmg;
-        float a = Math.min(dmg, over);
+        float a = Math.min(dmg * (1 - OVER_PASS), over);
         over -= a;
         if (over <= 0) {
             over = 0;
