@@ -153,7 +153,11 @@ public final class ModLan {
             if (b != null && b[0] >= 5) return KICKED;
             if (lanCode.length() == 4 && lanCode.equals(code)) return OK;
             if (code.length() == 0) return BADCODE;   // asked for the code: not a wrong try
-            if (b == null) { b = new long[]{0, now}; if (badCodes.size() < 256) badCodes.put(addr, b); }
+            if (b == null) {
+                if (badCodes.size() >= 256) return KICKED;   // verify 3: a flood of addresses gets no free tries
+                b = new long[]{0, now};
+                badCodes.put(addr, b);
+            }
             b[0]++;
             return BADCODE;
         }
@@ -2851,7 +2855,7 @@ public final class ModLan {
             roundText(ps, true);
             duelEndAt = System.currentTimeMillis() + DUEL_END_MS;   // owner 2026-11-18: the first death ends the duel
         }
-        if (lostRound) {   // the host's hull hit its floor: guest wins the round
+        else if (lostRound) {   // the host's hull hit its floor: guest wins the round (verify 1: never in the same tick as a host win)
             lostRound = false;
             roundDmg = 0; roundAt = System.currentTimeMillis();
             guestWins++;
@@ -2882,7 +2886,7 @@ public final class ModLan {
 
     private static void guestDuel(PlayerShip ps, InFrame f) {
         pvp = f.pvp;
-        if (!pvp) { seenRound = 0; defeatRound = -1; return; }   // owner 2026-11-18: the next duel starts fresh (no stale result text)
+        if (!pvp) { seenRound = 0; defeatRound = -1; lostRound = false; return; }   // owner 2026-11-18: the next duel starts fresh (no stale result text)
         if (lostRound) {   // once per round: further hits at the floor before the host's next round count nothing
             lostRound = false;
             if (defeatRound != seenRound && !duelDecided()) {
