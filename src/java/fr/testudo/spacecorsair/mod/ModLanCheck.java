@@ -52,6 +52,7 @@ final class ModLanCheck {
 
     static final class Limits {
         float shot, dps, hull, shield;
+        boolean doom;     // BH04 prototype: the declared hull has a doomsday
         float regen;      // GPT check BH06: shield points a second the declared build can regenerate (with slack)
         float shotPvp, dpsPvp;   // without the doomsday allowance: used while the players can hit each other
         float expShot, expDps;   // audit D4: the highest the declared build can really produce (no slack)
@@ -123,6 +124,17 @@ final class ModLanCheck {
     static int levelOf(int declared) { return Math.max(1, Math.min(maxLevel(), declared)); }
 
     /** The item of this name in this phone's tables, or null (an enum lookup: never loads or runs anything). */
+    /** BH04 prototype: the declared missile is a Hive Bay, and its tier. */
+    static boolean hiveDeclared(Decl d) {
+        GearSpec s = d == null ? null : spec(d.missile);
+        return s instanceof MissileSpec && ModSpecs.isHive((MissileSpec) s);
+    }
+
+    static int hiveTier(Decl d) {
+        GearSpec s = d == null ? null : spec(d.missile);
+        return s instanceof MissileSpec ? Math.max(0, ModSpecs.tierOf((MissileSpec) s)) : 0;
+    }
+
     static GearSpec spec(String n) {
         try {
             if (n == null || n.length() == 0 || n.length() > MAX_NAME) return null;
@@ -226,6 +238,7 @@ final class ModLanCheck {
         float rf = ModV35.pickMult(refit) * ModV35.traitMult(refit), rp = ramp ? 2f : 1f;
         m.expShot = hullDmg * rf * Math.max(1f, Math.max(shot * rp, mShot));
         m.expDps = hullDmg * rf * Math.max(1f, dps * rp * rf * hullRate + mDps * misRate);   // hull missile reload too (reviewer)
+        m.doom = doomsday;
         if (doomsday) { m.shot = Math.max(m.shot, DOOMSDAY_DPS); m.dps += DOOMSDAY_DPS; m.expShot = Math.max(m.expShot, DOOMSDAY_DPS); m.expDps += DOOMSDAY_DPS; }
         m.hull = Math.max(1f, XpBuilder.PLAYER_SHIP_LIFE[L] * Math.max(0.1f, booster) * HULL_SLACK);
         m.shield = Math.max(1f, shield * hullShield * SHIELD_SLACK);

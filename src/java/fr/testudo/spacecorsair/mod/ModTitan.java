@@ -376,6 +376,7 @@ public final class ModTitan {
                     if (ps.isDocked) break;
                     state = CHARGE;
                     doomDealt.clear();                   // v42: a new shot, a new % budget per target
+                    doomShotSeq++;                       // BH04 prototype: the host keeps a guest shot's budget by this number
                     levSeq = k == LEVIATHAN && ModLevDoom.is(ModCaps.profile(ps));
                     timer = levSeq ? ModLevDoom.CHARGE_MS : CHARGE_MS[k];
                     lockSpin = ps.spin;
@@ -546,6 +547,59 @@ public final class ModTitan {
                 }
             }
         }
+        if (ModLan.extra && k != DEV) {   // GPT check BH04 prototype: a co-op guest's tick also goes to the host's world
+            if (k == THRONE) ModLan.sendDoom(k, ps.position.x, ps.position.y, lockSpin, 0, novaRadius, levSeq, doomShotSeq);
+            else ModLan.sendDoom(k, a.x, a.y, lockSpin, beamWidth(ps) / 2, 0, levSeq, doomShotSeq);
+        }
+    }
+
+    private static int doomShotSeq;
+    private static LaserBeam guestShot;
+    private static int guestShotId = Integer.MIN_VALUE;
+    private static final java.util.Map<Element, Float> guestDealt = new java.util.WeakHashMap<Element, Float>();
+    private static final ArrayList<Element> guestTargets = new ArrayList<Element>();
+    private static final Vector2 ga = new Vector2(), gb = new Vector2();
+    static final float GUEST_HALF_MAX = 1500f;   // widest beam half-width a guest may claim
+
+    /** GPT check BH04 prototype (host): one doomsday tick of the co-op guest, fired by its stand-in against this game's enemies,
+     *  with the same damage, % caps and per-shot budget as the player's own. Returns targets hit, -1 = refused. */
+    static int guestDoomTick(fr.testudo.spacecorsair.business.ennemis.Ennemis from, int level, int k, float ax, float ay, float spin, float half, float nova, boolean seq, int shotId) {
+        if (k != LEVIATHAN && k != THRONE) return -1;
+        if (seq && k != LEVIATHAN) seq = false;
+        if (guestShot == null) guestShot = new LaserBeam();
+        if (shotId != guestShotId) { guestShotId = shotId; guestDealt.clear(); }
+        guestShot.sender = from;
+        guestShot.level = level;
+        guestShot.destroyedOnImpact = false;
+        guestShot.ignoreImactDecalOnTarget = true;
+        guestShot.mass = 0.0f;
+        guestShot.alterationSpecs = fr.testudo.spacecorsair.business.loot.stuff.alteration.AlterationSpecs.DEFAULT;
+        guestShot.resolveAlteration();
+        float base = DMG[k] + level * DMG_LVL[k];
+        Mod.enemiesInto(guestTargets);
+        int n = 0;
+        if (k == THRONE) {
+            float r = Math.max(0, Math.min(REACH[k], nova));
+            for (int i = 0; i < guestTargets.size(); i++) {
+                Element e = guestTargets.get(i);
+                if (e.removed || ModLan.isAlly(e)) continue;
+                if (e.position.distance(from.position) <= r + radiusOf(e)) { doomHit(e, base, TICK_MS[k], guestShot, guestDealt, seq); n++; }
+            }
+        } else {
+            float hw = Math.max(0, Math.min(GUEST_HALF_MAX, half));
+            ga.set(ax, ay);
+            gb.set(0, -1).applyRotatation(Math.toRadians(spin));
+            for (int i = 0; i < guestTargets.size(); i++) {
+                Element e = guestTargets.get(i);
+                if (e.removed || ModLan.isAlly(e)) continue;
+                float dx = e.position.x - ga.x, dy = e.position.y - ga.y;
+                float along = dx * gb.x + dy * gb.y;
+                if (along < -radiusOf(e) || along > REACH[k]) continue;
+                if (Math.abs(dx * gb.y - dy * gb.x) <= hw + radiusOf(e)) { doomHit(e, base, TICK_MS[k], guestShot, guestDealt, seq); n++; }
+            }
+        }
+        if (n > 0) ModFx.part("fx_core", from.position.x, from.position.y, 0, 0, 260, 60, 180, COL[k][0], COL[k][1], COL[k][2], 0.6f, true, true);
+        return n;
     }
 
     /** Full beam width = 60% of the firing titan's width (wingtip to wingtip, from the sprite). */
@@ -574,7 +628,9 @@ public final class ModTitan {
     static final java.util.Map<Element, Float> doomDealt = new java.util.WeakHashMap<Element, Float>();
     static final int DOOM_LANCE_TICKS = 22;
 
-    private static void doomHit(Element e, float base, int tickMs) {
+    private static void doomHit(Element e, float base, int tickMs) { doomHit(e, base, tickMs, doomShot, doomDealt, levSeq); }
+
+    private static void doomHit(Element e, float base, int tickMs, LaserBeam doomShot, java.util.Map<Element, Float> doomDealt, boolean levSeq) {
         float pct = -1;
         float tp = levSeq ? DOOM_TITAN_PCT : DOOM_TITAN_PCT_OTHER, bp = levSeq ? DOOM_BIG_PCT : DOOM_BIG_PCT_OTHER;
         boolean flagship = ModCapitals.cap(e) != null;
