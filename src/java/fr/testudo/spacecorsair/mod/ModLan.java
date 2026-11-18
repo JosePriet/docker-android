@@ -961,7 +961,7 @@ public final class ModLan {
         synchronized (defIn) { defIn.clear(); texIn.clear(); }
         synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); inDrones.clear(); inDooms.clear(); }
         dmgSent = 0; dmgSeen = 0; xpSent = 0; xpSeen = 0; xpBase = -1; dmgBase = -1;
-        capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0; jumps = 0; jumpWin = 0; moveSeen = 0; moveGrace = 0;
+        capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0; jumps = 0; jumpWin = 0; moveSeen = 0; moveGrace = 0; graceAt = 0; obsSpeed = 0;
         synchronized (inLock) { inKills.clear(); }
     }
 
@@ -1949,7 +1949,7 @@ public final class ModLan {
             moveState = s;
             float dx = s.x - moveX, dy = s.y - moveY;
             float secs = Math.max(0.016f, (s.at - moveAt) / 1000.0f);
-            if (moveSeen != 0 && s.at - moveSeen > 500) moveGrace = s.at + 3000;   // verify: a stall then a burst of queued states is not cheating
+            if (moveSeen != 0 && s.at - moveSeen > 500 && !moveHold && s.at - graceAt > 30000) { moveGrace = s.at + 3000; graceAt = s.at; }   // verify: a stall then a burst of queued states is not cheating; cross-check: at most once per 30 s, never while held
             moveSeen = s.at;
             float hx = s.x - ps.position.x, hy = s.y - ps.position.y;
             boolean nearHost = hx * hx + hy * hy < 4000f * 4000f;
@@ -1964,6 +1964,7 @@ public final class ModLan {
                 moveHold = true;
             } else {
                 moveHold = false;
+                if (moveAt != 0) obsSpeed = Math.min(MAX_SPEED, (float) Math.sqrt(dx * dx + dy * dy) / secs);   // cross-check: the speed this host saw, for late states
                 moveX = s.x; moveY = s.y; moveAt = s.at;
             }
         }
@@ -2075,7 +2076,8 @@ public final class ModLan {
     static final int JUMP_KICK = 4;                  // spec item 8: this many impossible jumps ...
     static final long JUMP_WINDOW_MS = 120000;       // ... within 2 minutes end the session (one stall and catch-up is one jump)
     private static int jumps;
-    private static long jumpWin, moveSeen, moveGrace;
+    private static long jumpWin, moveSeen, moveGrace, graceAt;
+    private static float obsSpeed;
     private static long moveAt, shotSec;
     private static boolean moveHold;
     private static int shotCount;
@@ -2187,7 +2189,8 @@ public final class ModLan {
             // guest's last reported place (the stand-in is extrapolated), plus the flight of one late state
             ModLanCheck.Limits lr = limits != null ? limits : undeclared();
             InState st = inState;
-            float reach = SHOT_REACH + lr.radius;   // verify: no speed slack (the guest's own numbers)
+            float ageS = st != null ? Math.min(0.5f, Math.max(0f, System.currentTimeMillis() - st.at - 250) / 1000f) : 0f;   // past what the stand-in extrapolates
+            float reach = SHOT_REACH + lr.radius + obsSpeed * ageS;   // verify: no slack from the guest's own numbers; cross-check: a late state, by the speed seen here
             boolean near = shotOk(p, from.position.x, from.position.y, reach) || (st != null && !moveHold && shotOk(p, st.x, st.y, reach));   // a rejected jump is no origin
             if (!near) { flags++; p.removed = true; return; }
             // v45: damage clamped to what the declared ship and weapons can do by this phone's own tables

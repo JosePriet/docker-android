@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 3149
+    .line 3152
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$24;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 2
 
     .prologue
-    .line 3149
+    .line 3152
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->pvpRoom:Z
 
     if-nez v0, :cond_e
