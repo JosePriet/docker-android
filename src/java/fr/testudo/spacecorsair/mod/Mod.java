@@ -977,24 +977,24 @@ public class Mod {
     private static String descBody(SpaceObjectType t) {
         String n = family(t.name());
         if ("alienRat".equals(n)) {
-            return original(t) + SKILL + ModLang.tr("<b>Vortex decoy</b>: when a missile locks on, 33% chance to release a vortex that pulls the missile away.");
+            return original(t) + ModLang.re(SKILL) + ModLang.tr("<b>Vortex decoy</b>: when a missile locks on, 33% chance to release a vortex that pulls the missile away.");
         }
         if ("alienUfo".equals(n)) {
-            return original(t) + SKILL + ModLang.tr("<b>Phase hull</b>: animated alien hull with enemy-grade handling (instant thrust, hard braking). Pair it with the Banshee Beam.");
+            return original(t) + ModLang.re(SKILL) + ModLang.tr("<b>Phase hull</b>: animated alien hull with enemy-grade handling (instant thrust, hard braking). Pair it with the Banshee Beam.");
         }
         if ("alienBlatte".equals(n)) {
-            return original(t) + SKILL + ModLang.tr("<b>Vortex decoy</b>: 80% chance to release a vortex when a missile locks on.<br>"
+            return original(t) + ModLang.re(SKILL) + ModLang.tr("<b>Vortex decoy</b>: 80% chance to release a vortex when a missile locks on.<br>"
                 + "<b>Root shot</b>: every 15 s, automatically fires an electric shot that pins the nearest enemy (within 2000) in place for 8 s.<br>"
                 + "Equip the <b>Regent Hive Bay</b> to launch Banshee and Arwing drones.");
         }
         if ("policeShip".equals(n)) {
-            return original(t) + SKILL + ModLang.tr("<b>Twin swivel mounts</b>: two independent rotating cannons, bow and stern.");
+            return original(t) + ModLang.re(SKILL) + ModLang.tr("<b>Twin swivel mounts</b>: two independent rotating cannons, bow and stern.");
         }
         if ("hullBreaker".equals(n)) {
-            return original(t) + SKILL + ModLang.tr("<b>Kinetic ram</b>: deals damage to anything it hits while its shield is up.");
+            return original(t) + ModLang.re(SKILL) + ModLang.tr("<b>Kinetic ram</b>: deals damage to anything it hits while its shield is up.");
         }
         if ("corvette".equals(n)) {
-            return original(t) + SKILL + ModLang.tr("<b>Twin missile tubes</b>: fires two missiles per launch.");
+            return original(t) + ModLang.re(SKILL) + ModLang.tr("<b>Twin missile tubes</b>: fires two missiles per launch.");
         }
         if ("alienBeamLaser".equals(n)) {
             return ModLang.tr("Alien beam emitter salvaged from a Banshee UFO, the same weapon its pilots use against you.<br><br>"
@@ -1033,7 +1033,7 @@ public class Mod {
         if ("megatronShip".equals(n)) {
             return ModLang.tr("SPARTAN Guardian-class cruiser, the Megatron class of the Spartan HQ patrols. Three heavy rotating turrets and twin missile tubes. "
                 + "Acceleration is glacial. Armor is not a concern.")
-                + SKILL + ModLang.tr("<b>Spartan Aegis</b>: SPARTAN shield technology. Any equipped shield gets +50% capacity, twice the regeneration rate and half the recovery delay.<br>"
+                + ModLang.re(SKILL) + ModLang.tr("<b>Spartan Aegis</b>: SPARTAN shield technology. Any equipped shield gets +50% capacity, twice the regeneration rate and half the recovery delay.<br>"
                 + "<b>Point defence</b>: automatically shoots down a missile locked on you (every 2.5 s).<br>"
                 + "<b>Repulsion wave</b>: every 1.5 s, pushes away any enemy within 350 of the hull.");
         }

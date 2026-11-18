@@ -1335,12 +1335,14 @@
 .end method
 
 .method private static set(IF)V
-    .registers 14
+    .registers 15
 
     .prologue
-    const/4 v11, 0x5
+    const/4 v12, 0x4
 
-    const/4 v10, 0x4
+    const/4 v8, 0x3
+
+    const/4 v11, 0x2
 
     const/4 v4, 0x1
 
@@ -1377,11 +1379,11 @@
     move-result-object v0
 
     .line 135
-    if-eqz v0, :cond_33
+    if-eqz v0, :cond_34
 
     sget-boolean v6, Lfr/testudo/spacecorsair/mod/ModPrologue;->active:Z
 
-    if-nez v6, :cond_33
+    if-nez v6, :cond_34
 
     invoke-interface {v0}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
@@ -1398,21 +1400,21 @@
     invoke-interface {v6}, Landroid/content/SharedPreferences$Editor;->apply()V
 
     .line 136
-    :cond_33
+    :cond_34
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModRep;->cacheAt:[J
 
     array-length v6, v6
 
-    if-ge p0, v6, :cond_47
+    if-ge p0, v6, :cond_48
 
     .line 137
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModRep;->cacheVal:[F
 
-    if-eqz v0, :cond_52
+    if-eqz v0, :cond_53
 
     move v0, v1
 
-    :goto_3d
+    :goto_3e
     aput v0, v6, p0
 
     .line 138
@@ -1425,7 +1427,7 @@
     aput-wide v6, v0, p0
 
     .line 140
-    :cond_47
+    :cond_48
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModRep;->rankOf(F)I
 
     move-result v2
@@ -1435,36 +1437,34 @@
     move-result v1
 
     .line 141
-    if-ne v2, v1, :cond_54
+    if-ne v2, v1, :cond_55
 
     .line 153
-    :goto_51
+    :goto_52
     return-void
 
-    :cond_52
+    :cond_53
     move v0, v2
 
     .line 137
-    goto :goto_3d
+    goto :goto_3e
 
     .line 142
-    :cond_54
+    :cond_55
     const/4 v0, 0x0
 
     .line 143
-    if-le v1, v2, :cond_16d
+    if-le v1, v2, :cond_15e
 
-    const/4 v6, 0x3
-
-    if-lt v1, v6, :cond_16d
+    if-lt v1, v8, :cond_15e
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModRepData;->RANK_UP:[[Ljava/lang/String;
 
     aget-object v0, v0, p0
 
-    add-int/lit8 v4, v1, -0x3
+    add-int/lit8 v6, v1, -0x3
 
-    aget-object v0, v0, v4
+    aget-object v0, v0, v6
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
@@ -1473,127 +1473,103 @@
     .line 145
     :cond_66
     :goto_66
-    sget-object v4, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
+    sget-object v6, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModFaction;->faction(Ljava/lang/String;)I
 
-    move-result v6
+    move-result v7
 
-    aget-object v4, v4, v6
+    aget-object v6, v6, v7
 
     .line 146
-    new-instance v6, Ljava/lang/StringBuilder;
+    const-string v7, "{0}: you are now {1} ({2})."
 
-    invoke-direct {v6}, Ljava/lang/StringBuilder;-><init>()V
+    new-array v8, v8, [Ljava/lang/Object;
 
-    iget-object v7, v4, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->name:Ljava/lang/String;
+    iget-object v9, v6, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->name:Ljava/lang/String;
 
-    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-static {v9}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v6
+    move-result-object v9
 
-    const-string v7, ": you are now "
+    aput-object v9, v8, v3
 
-    invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    sget-object v9, Lfr/testudo/spacecorsair/mod/ModRepData;->RANKS:[[Ljava/lang/String;
 
-    move-result-object v7
+    aget-object v9, v9, p0
 
-    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    aget-object v9, v9, v1
 
-    move-result-object v6
+    invoke-static {v9}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    sget-object v7, Lfr/testudo/spacecorsair/mod/ModRepData;->RANKS:[[Ljava/lang/String;
+    move-result-object v9
 
-    aget-object v7, v7, p0
+    aput-object v9, v8, v4
 
-    aget-object v7, v7, v1
+    sget-object v9, Lfr/testudo/spacecorsair/mod/ModRep;->RANK_NAMES:[Ljava/lang/String;
 
-    invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    aget-object v9, v9, v1
 
-    move-result-object v7
+    invoke-static {v9}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
 
-    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v9
 
-    move-result-object v6
+    invoke-static {v9}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    const-string v7, " ("
+    move-result-object v9
 
-    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    aput-object v9, v8, v11
 
-    move-result-object v6
-
-    sget-object v7, Lfr/testudo/spacecorsair/mod/ModRep;->RANK_NAMES:[Ljava/lang/String;
-
-    aget-object v7, v7, v1
-
-    invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {v7, v8}, Lfr/testudo/spacecorsair/mod/ModLang;->fmt(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v7
-
-    invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v7
-
-    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v6
-
-    const-string v7, ")."
-
-    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v6
-
-    invoke-virtual {v6}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v6
 
     .line 147
-    new-instance v7, Ljava/lang/StringBuilder;
+    new-instance v8, Ljava/lang/StringBuilder;
 
-    invoke-direct {v7}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v8}, Ljava/lang/StringBuilder;-><init>()V
 
-    invoke-virtual {v7, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v6
-
-    if-eqz v0, :cond_182
-
-    new-instance v7, Ljava/lang/StringBuilder;
-
-    invoke-direct {v7}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v8, " "
-
-    invoke-virtual {v7, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v8, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v7
 
-    sget-object v8, Lfr/testudo/spacecorsair/mod/ModFactionData;->COMMANDER:[Ljava/lang/String;
+    if-eqz v0, :cond_173
+
+    new-instance v8, Ljava/lang/StringBuilder;
+
+    invoke-direct {v8}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v9, " "
+
+    invoke-virtual {v8, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v8
+
+    sget-object v9, Lfr/testudo/spacecorsair/mod/ModFactionData;->COMMANDER:[Ljava/lang/String;
 
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModFaction;->commander(Ljava/lang/String;)I
 
-    move-result v9
+    move-result v10
 
-    aget-object v8, v8, v9
+    aget-object v9, v9, v10
 
-    invoke-virtual {v7, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v8, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v7
+    move-result-object v8
 
-    const-string v8, ": \""
+    const-string v9, ": \""
 
-    invoke-virtual {v7, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v8, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v7
+    move-result-object v8
 
-    invoke-virtual {v7, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v8, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    const-string v7, "\""
+    const-string v8, "\""
 
-    invoke-virtual {v0, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -1601,99 +1577,111 @@
 
     move-result-object v0
 
-    :goto_e7
-    invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    :goto_ce
+    invoke-virtual {v7, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v7
+
+    .line 148
+    if-ne v1, v12, :cond_177
+
+    if-ge v2, v12, :cond_177
+
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v8, " "
+
+    invoke-virtual {v0, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v8, "The {0} is now sold at {1}."
+
+    new-array v9, v11, [Ljava/lang/Object;
+
+    sget-object v10, Lfr/testudo/spacecorsair/mod/ModRepData;->SECRET_WEAPON:[[Ljava/lang/Object;
+
+    aget-object v10, v10, p0
+
+    aget-object v10, v10, v3
+
+    invoke-static {v10}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v10
+
+    invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v10
+
+    aput-object v10, v9, v3
+
+    iget-object v6, v6, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->hq:Lfr/testudo/spacecorsair/game/levels/LevelId;
+
+    invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModFaction;->pretty(Lfr/testudo/spacecorsair/game/levels/LevelId;)Ljava/lang/String;
 
     move-result-object v6
 
-    .line 148
-    if-ne v1, v10, :cond_186
+    aput-object v6, v9, v4
 
-    if-ge v2, v10, :cond_186
+    invoke-static {v8, v9}, Lfr/testudo/spacecorsair/mod/ModLang;->fmt(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
-    new-instance v0, Ljava/lang/StringBuilder;
-
-    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v7, " The "
-
-    invoke-virtual {v0, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    sget-object v7, Lfr/testudo/spacecorsair/mod/ModRepData;->SECRET_WEAPON:[[Ljava/lang/Object;
-
-    aget-object v7, v7, p0
-
-    aget-object v7, v7, v3
-
-    invoke-virtual {v0, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const-string v7, " is now sold at "
-
-    invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v7
-
-    invoke-virtual {v0, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    iget-object v4, v4, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->hq:Lfr/testudo/spacecorsair/game/levels/LevelId;
-
-    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModFaction;->pretty(Lfr/testudo/spacecorsair/game/levels/LevelId;)Ljava/lang/String;
-
-    move-result-object v4
-
-    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    const-string v4, "."
-
-    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v0
-
-    :goto_122
-    invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    .line 149
-    if-ne v1, v11, :cond_189
-
-    if-ge v2, v11, :cond_189
-
-    new-instance v0, Ljava/lang/StringBuilder;
-
-    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v6, " The "
+    move-result-object v6
 
     invoke-virtual {v0, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    sget-object v6, Lfr/testudo/spacecorsair/mod/ModRepData;->SECRET_SHIP:[[Ljava/lang/String;
-
-    aget-object v6, v6, p0
-
-    aget-object v3, v6, v3
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v0
 
-    const-string v3, " is now offered to you on the Ships screen."
+    :goto_109
+    invoke-virtual {v7, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v6
+
+    .line 149
+    const/4 v0, 0x5
+
+    if-ne v1, v0, :cond_17a
+
+    const/4 v0, 0x5
+
+    if-ge v2, v0, :cond_17a
+
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v7, " "
+
+    invoke-virtual {v0, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v7, "The {0} is now offered to you on the Ships screen."
+
+    new-array v4, v4, [Ljava/lang/Object;
+
+    sget-object v8, Lfr/testudo/spacecorsair/mod/ModRepData;->SECRET_SHIP:[[Ljava/lang/String;
+
+    aget-object v8, v8, p0
+
+    aget-object v8, v8, v3
+
+    invoke-static {v8}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v8
+
+    invoke-static {v8}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v8
+
+    aput-object v8, v4, v3
+
+    invoke-static {v7, v4}, Lfr/testudo/spacecorsair/mod/ModLang;->fmt(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v3
 
@@ -1705,8 +1693,8 @@
 
     move-result-object v0
 
-    :goto_14d
-    invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    :goto_13e
+    invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -1718,7 +1706,7 @@
     invoke-static {v0, v5}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 151
-    if-le v1, v2, :cond_166
+    if-le v1, v2, :cond_157
 
     const-string v0, "rank_up"
 
@@ -1731,15 +1719,15 @@
     invoke-static {v0, v1, v2, v4, v5}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
     .line 152
-    :cond_166
+    :cond_157
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModRep;->stocked:Ljava/util/Map;
 
     invoke-interface {v0}, Ljava/util/Map;->clear()V
 
-    goto/16 :goto_51
+    goto/16 :goto_52
 
     .line 144
-    :cond_16d
+    :cond_15e
     if-ge v1, v2, :cond_66
 
     if-gt v1, v4, :cond_66
@@ -1748,11 +1736,11 @@
 
     aget-object v6, v0, p0
 
-    if-ne v1, v4, :cond_180
+    if-ne v1, v4, :cond_171
 
     move v0, v3
 
-    :goto_178
+    :goto_169
     aget-object v0, v6, v0
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1761,28 +1749,28 @@
 
     goto/16 :goto_66
 
-    :cond_180
+    :cond_171
     move v0, v4
 
-    goto :goto_178
+    goto :goto_169
 
     .line 147
-    :cond_182
+    :cond_173
     const-string v0, ""
 
-    goto/16 :goto_e7
+    goto/16 :goto_ce
 
     .line 148
-    :cond_186
+    :cond_177
     const-string v0, ""
 
-    goto :goto_122
+    goto :goto_109
 
     .line 149
-    :cond_189
+    :cond_17a
     const-string v0, ""
 
-    goto :goto_14d
+    goto :goto_13e
 .end method
 
 .method public static spec(I)Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;

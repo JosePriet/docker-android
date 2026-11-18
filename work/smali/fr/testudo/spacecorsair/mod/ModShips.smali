@@ -7257,6 +7257,10 @@
     :cond_38
     iget-object v0, v1, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->lore:Ljava/lang/String;
 
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
     goto :goto_15
 .end method
 
@@ -8309,24 +8313,28 @@
     move-result-object v0
 
     .line 599
-    if-eqz v0, :cond_a
+    if-eqz v0, :cond_e
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->role:Ljava/lang/String;
 
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->re(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
     .line 603
-    :goto_9
+    :goto_d
     return-object v0
 
     .line 600
-    :cond_a
+    :cond_e
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModShips;->ORIGINAL:[[Ljava/lang/String;
 
     array-length v3, v2
 
     move v0, v1
 
-    :goto_e
-    if-ge v0, v3, :cond_25
+    :goto_12
+    if-ge v0, v3, :cond_29
 
     aget-object v4, v2, v0
 
@@ -8341,25 +8349,25 @@
 
     move-result v5
 
-    if-eqz v5, :cond_22
+    if-eqz v5, :cond_26
 
     const/4 v0, 0x3
 
     aget-object v0, v4, v0
 
-    goto :goto_9
+    goto :goto_d
 
     .line 600
-    :cond_22
+    :cond_26
     add-int/lit8 v0, v0, 0x1
 
-    goto :goto_e
+    goto :goto_12
 
     .line 603
-    :cond_25
+    :cond_29
     const-string v0, ""
 
-    goto :goto_9
+    goto :goto_d
 .end method
 
 .method private static small(Lfr/testudo/spacecorsair/mod/ModShips$Hull;FFFFI)Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;

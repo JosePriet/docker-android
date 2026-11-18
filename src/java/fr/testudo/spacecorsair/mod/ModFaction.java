@@ -148,13 +148,13 @@ public class ModFaction extends MissionListener {
         if ("FIND_OBJECT".equals(obj)) return ModLang.tr("Follow the signal and recover the marked object.");
         if ("GATHER_AND_SELL".equals(obj)) return ModLang.tr("Collect the 6 marked cargo pods and dock at headquarters to sell them.");   // v37 Q6 (GPT text 2026-11-03)
         if ("DEFEND_CIVILIANS".equals(obj)) return ModLang.tr("Protect the transports through 4 raider waves.");
-        if ("DEFEND_ZONE".equals(obj)) return ModLang.tr("Hold the outpost zone for ") + 60 + ModLang.tr(" seconds. If the outpost is destroyed, the mission fails.");   // v37 Q7a/Q7b (GPT text 2026-11-03)
+        if ("DEFEND_ZONE".equals(obj)) return ModLang.fmt("Hold the outpost zone for {0} seconds. If the outpost is destroyed, the mission fails.", 60);   // v37 Q7a/Q7b (GPT text 2026-11-03)
         if ("BOUNTY".equals(obj)) return ModLang.tr("Hunt down the marked target.");
-        if ("KILL_ENEMY_TYPE".equals(obj)) return ModLang.tr("Destroy ") + count + ModLang.tr(" hostile ships.");
+        if ("KILL_ENEMY_TYPE".equals(obj)) return ModLang.fmt("Destroy {0} hostile ships.", count);
         if ("DESTROY_STATION".equals(obj)) return ModLang.tr("Destroy the marked station and its guards.");
         if ("ESCORT".equals(obj)) return ModLang.tr("Escort the ship to its jump point.");
         if ("SCAN_CIVIL".equals(obj)) return ModLang.fmt("Scan {0} civilian ships.", count);
-        if ("RESCUE".equals(obj)) return ModLang.tr("Recover the ") + count + ModLang.tr(" stranded crews.");
+        if ("RESCUE".equals(obj)) return ModLang.fmt("Recover the {0} stranded crews.", count);
         return "";
     }
 
@@ -202,7 +202,7 @@ public class ModFaction extends MissionListener {
     static String itemLabel(String item) {
         String tier = item.endsWith("L15") ? ModLang.tr("Siege ") : item.endsWith("L10") ? ModLang.tr("Heavy ") : item.endsWith("L5") ? ModLang.tr("Standard ") : ModLang.tr("Light ");
         String base = item.replaceAll("L\\d+$", "");
-        for (int k = 0; k < FAMILY_LABEL.length; k += 2) if (FAMILY_LABEL[k].equals(base)) return tier + FAMILY_LABEL[k + 1];
+        for (int k = 0; k < FAMILY_LABEL.length; k += 2) if (FAMILY_LABEL[k].equals(base)) return tier + ModLang.re(FAMILY_LABEL[k + 1]);
         try {
             String l = ModLance.label(SpaceObjectType.valueOf(item));   // v43a-17
             if (l != null) return l;
@@ -1175,8 +1175,8 @@ public class ModFaction extends MissionListener {
         }
         if (!donateTold) {
             donateTold = true;
-            ModComms.show(key(idx), tithe(ModLang.tr("The tithe is {TC} credits and {TP} rare parts. You carry ")) + credits((int) Math.min(Integer.MAX_VALUE, inv.getCredit()))
-                + ModLang.tr(" credits and ") + parts + ModLang.tr(" rare parts."), 9000);
+            ModComms.show(key(idx), tithe(ModLang.tr("The tithe is {TC} credits and {TP} rare parts.")) + " "
+                + ModLang.fmt("You carry {0} credits and {1} rare parts.", credits((int) Math.min(Integer.MAX_VALUE, inv.getCredit())), parts), 9000);   // re-trace C6
         }
     }
 

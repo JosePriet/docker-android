@@ -2174,22 +2174,26 @@
     iget-object v5, p1, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
     .line 559
-    if-eqz v5, :cond_d
+    if-eqz v5, :cond_11
 
     iget v0, v5, Lfr/testudo/spacecorsair/display/Texture;->name:I
 
-    if-gtz v0, :cond_e
+    if-gtz v0, :cond_12
+
+    instance-of v0, v5, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
+
+    if-nez v0, :cond_12
 
     .line 581
-    :cond_d
-    :goto_d
+    :cond_11
+    :goto_11
     return-void
 
     .line 561
-    :cond_e
+    :cond_12
     instance-of v0, p1, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
-    if-eqz v0, :cond_94
+    if-eqz v0, :cond_98
 
     move-object v0, p1
 
@@ -2204,7 +2208,7 @@
     move v1, v0
 
     .line 564
-    :goto_1c
+    :goto_20
     new-instance v6, Lfr/testudo/spacecorsair/mod/ModWreck;
 
     invoke-direct {v6}, Lfr/testudo/spacecorsair/mod/ModWreck;-><init>()V
@@ -2256,7 +2260,7 @@
     .line 569
     instance-of v0, p0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-eqz v0, :cond_a3
+    if-eqz v0, :cond_a7
 
     move-object v0, p0
 
@@ -2264,11 +2268,11 @@
 
     iget-boolean v0, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->elite:Z
 
-    if-eqz v0, :cond_a3
+    if-eqz v0, :cond_a7
 
     move v0, v3
 
-    :goto_57
+    :goto_5b
     iput-boolean v0, v6, Lfr/testudo/spacecorsair/mod/ModWreck;->srcElite:Z
 
     .line 570
@@ -2336,13 +2340,13 @@
     .line 580
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModWreck;->add(Lfr/testudo/spacecorsair/mod/ModWreck;)V
 
-    goto/16 :goto_d
+    goto/16 :goto_11
 
     .line 562
-    :cond_94
+    :cond_98
     iget-object v0, p1, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    if-eqz v0, :cond_d
+    if-eqz v0, :cond_11
 
     iget-object v0, p1, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -2354,13 +2358,13 @@
 
     move v1, v0
 
-    goto/16 :goto_1c
+    goto/16 :goto_20
 
-    :cond_a3
+    :cond_a7
     move v0, v4
 
     .line 569
-    goto :goto_57
+    goto :goto_5b
 .end method
 
 .method public static lifeMs(I)J

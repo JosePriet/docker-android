@@ -23,6 +23,8 @@ import fr.testudo.spacecorsair.engine.Vector2;
  * pads, then hold (shimmer, hits flash a cell and ripple along the wall); fold 0.8 s edges -> centre.
  */
 public final class ModAnchor {
+    /** The anchor stance needs this refit stage (stage 4 = refit level 7). */
+    static final int MIN_STAGE = 4;
     private ModAnchor() {}
 
     static final long STILL_MS = 2500, TRY_MS = 1500, HOLD_MS = 2500, FOLD_MS = 800, PLANT_MS = 500, DEPLOY_MS = 1300, REGEN_MS = 25000;
@@ -72,7 +74,7 @@ public final class ModAnchor {
             } catch (Throwable th) {
                 s = 0;
             }
-            stage = s >= 4 ? s : 0;
+            stage = s >= MIN_STAGE ? s : 0;
         }
         float newCap = ps.shield != null ? ps.shield.capacity * CAP_MUL : 0;
         if (newCap > 0) {

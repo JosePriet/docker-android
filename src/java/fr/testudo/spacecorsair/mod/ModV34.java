@@ -715,6 +715,8 @@ public class ModV34 {
             if (e instanceof Ennemis) {
                 String n = ((Ennemis) e).specificName;
                 if (n != null) {
+                    ModFleet.Type ft = ModFleet.typeOfName(n);   // re-trace C4: names are translated now
+                    if (ft != null) return ft.kretari ? "kretari" : "reaver";
                     if (n.startsWith("Reaver")) return "reaver";
                     if (n.startsWith("Kre'tari")) return "kretari";
                 }

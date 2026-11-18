@@ -456,7 +456,7 @@ public class ModUi {
                 total += so.getTotalSellPrice();
             }
             if (junk.isEmpty()) {
-                new AlertDialog.Builder(a).setTitle(ModLang.tr("Sell junk")).setMessage(ModLang.tr("No Common gear below your level to sell.")).setPositiveButton("OK", null).show();
+                new AlertDialog.Builder(a).setTitle(ModLang.tr("Sell junk")).setMessage(ModLang.tr("No Common gear below your level to sell.")).setPositiveButton(ModLang.tr("OK"), null).show();
                 return;
             }
             new AlertDialog.Builder(a).setTitle(ModLang.tr("Sell junk"))
