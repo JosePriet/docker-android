@@ -63,10 +63,10 @@ public final class ModBal {
         if (d < 1) return;
         // 2026-11-18 (owner): every flagship and police titan also stays on the player's screen. The hull is 1,500 wide,
         // wider than the visible half-size, so "on screen" = centre within the visible radius + 40% of the hull (a good
-        // part of the hull shows). Past that hard limit it is moved back in at up to 600 u/s whatever its own AI does.
+        // part of the hull shows). Past that hard limit it is moved back in at up to 2,000 u/s whatever its own AI does.
         float hard = ModView.radius() + ModCapitals.SIZE * 0.4f;
         if (d > hard) {
-            float step = Math.min(d - hard, 0.6f * j);
+            float step = Math.min(d - hard, 2.0f * j);   // faster than a ram dash (900 u/s)
             g.position.x += dx / d * step;
             g.position.y += dy / d * step;
         }

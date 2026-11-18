@@ -100,7 +100,7 @@
 
     move-result v2
 
-    if-eqz v2, :cond_d0
+    if-eqz v2, :cond_cf
 
     const/high16 v0, 0x45160000    # 2400.0f
 
@@ -168,12 +168,12 @@
     .line 68
     cmpl-float v1, v5, v6
 
-    if-lez v1, :cond_92
+    if-lez v1, :cond_91
 
     .line 69
     sub-float v1, v5, v6
 
-    const v2, 0x3f19999a    # 0.6f
+    const/high16 v2, 0x40000000    # 2.0f
 
     long-to-float v7, p3
 
@@ -210,12 +210,12 @@
     iput v1, v2, Lfr/testudo/spacecorsair/engine/Vector2;->y:F
 
     .line 74
-    :cond_92
+    :cond_91
     const/4 v1, 0x0
 
     cmpg-float v1, v0, v1
 
-    if-gtz v1, :cond_e9
+    if-gtz v1, :cond_e8
 
     const/4 v2, 0x0
 
@@ -224,7 +224,7 @@
     mul-float/2addr v1, v6
 
     .line 79
-    :goto_9c
+    :goto_9b
     const/high16 v6, 0x3f800000    # 1.0f
 
     long-to-float v7, p3
@@ -240,7 +240,7 @@
     .line 81
     cmpl-float v1, v5, v1
 
-    if-lez v1, :cond_112
+    if-lez v1, :cond_111
 
     div-float v0, v3, v5
 
@@ -255,7 +255,7 @@
     mul-float/2addr v0, v2
 
     .line 85
-    :goto_b4
+    :goto_b3
     iget-object v2, p0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->speed:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v3, v2, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -292,21 +292,21 @@
     goto/16 :goto_d
 
     .line 58
-    :cond_d0
+    :cond_cf
     const-string v2, "kretari"
 
     invoke-virtual {v2, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v2
 
-    if-eqz v2, :cond_dd
+    if-eqz v2, :cond_dc
 
     const v0, 0x45228000    # 2600.0f
 
     goto/16 :goto_3c
 
     .line 59
-    :cond_dd
+    :cond_dc
     const-string v2, "varn"
 
     invoke-virtual {v2, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -320,24 +320,24 @@
     goto/16 :goto_3c
 
     .line 75
-    :cond_e9
+    :cond_e8
     iget-boolean v1, p1, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
 
-    if-eqz v1, :cond_10b
+    if-eqz v1, :cond_10a
 
     const v1, 0x3ecccccd    # 0.4f
 
-    :goto_f0
+    :goto_ef
     mul-float v2, v0, v1
 
     .line 76
     iget-boolean v1, p1, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
 
-    if-eqz v1, :cond_10e
+    if-eqz v1, :cond_10d
 
     const v1, 0x3f266666    # 0.65f
 
-    :goto_f9
+    :goto_f8
     mul-float/2addr v1, v0
 
     const v7, 0x3f59999a    # 0.85f
@@ -357,25 +357,25 @@
 
     move-result v2
 
-    goto :goto_9c
+    goto :goto_9b
 
     .line 75
-    :cond_10b
+    :cond_10a
     const/high16 v1, 0x3f000000    # 0.5f
 
-    goto :goto_f0
+    goto :goto_ef
 
     .line 76
-    :cond_10e
+    :cond_10d
     const v1, 0x3f4ccccd    # 0.8f
 
-    goto :goto_f9
+    goto :goto_f8
 
     .line 82
-    :cond_112
+    :cond_111
     cmpg-float v1, v5, v2
 
-    if-gez v1, :cond_121
+    if-gez v1, :cond_120
 
     neg-float v0, v3
 
@@ -393,10 +393,10 @@
 
     mul-float/2addr v0, v2
 
-    goto :goto_b4
+    goto :goto_b3
 
     .line 83
-    :cond_121
+    :cond_120
     const/4 v1, 0x0
 
     cmpg-float v0, v0, v1
@@ -426,7 +426,7 @@
 
     mul-float/2addr v0, v2
 
-    goto/16 :goto_b4
+    goto/16 :goto_b3
 .end method
 
 .method static maxDrones(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;I)I
