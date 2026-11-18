@@ -554,6 +554,18 @@ public final class ModTitan {
     }
 
     private static int doomShotSeq;
+
+    /** BH04 prototype (host): the doomsday kind of a declared hull (never DEV online-style), and whether it fires the Leviathan sequence. */
+    static int declaredKind(fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec s) {
+        ModShips.Hull h = s == null ? null : ModShips.hullFor(s);
+        if (h == null || !h.doomsday || h.dev) return NONE;
+        return "crimson_throne".equals(h.art) ? THRONE : LEVIATHAN;
+    }
+
+    static boolean declaredSeq(fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec s) {
+        ModShips.Hull h = s == null ? null : ModShips.hullFor(s);
+        return h != null && "leviathan".equals(h.art);
+    }
     private static LaserBeam guestShot;
     private static int guestShotId = Integer.MIN_VALUE;
     private static final java.util.Map<Element, Float> guestDealt = new java.util.WeakHashMap<Element, Float>();

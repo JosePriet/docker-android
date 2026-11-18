@@ -742,6 +742,7 @@ public final class ModLan {
         pvpWanted = false;
         seenRound = 0;
         defeatRound = -1;
+        doomShotId = Integer.MIN_VALUE; doomShotAt = 0; doomTicksShot = 0; droneLaunchAt = 0; askAt = 0;   // BH04 prototype: per session
         lostRound = false;   // GPT check BH07: a round lost between frames does not carry into the next duel
         restore = false;
         solo = false;
@@ -1864,8 +1865,8 @@ public final class ModLan {
         if (extra) {   // BH04 prototype
             for (byte[] b : dshots) guestDrones(b, p);
             for (byte[] b : dooms) guestDoom(b, p);
-            upkeepGuestDrones(p, dt);
         }
+        upkeepGuestDrones(p, dt);   // also after the switch went off: the drones still expire
         retarget -= dt;
         if (!pvp && retarget <= 0) {
             retarget = 1000;
@@ -2095,11 +2096,11 @@ public final class ModLan {
      *  /data/local/tmp/corsair_bh04 = on (both phones must have it on). Not for release until the owner approves. */
     static volatile boolean extra;
     static final long DRONE_GAP_MS = 15000;          // a guest drone launch at most this often (shortest Hive Bay drone life)
-    static final int DOOM_TICKS_S = 8;               // doomsday ticks a second (fastest lance: one every 200 ms, with slack)
+    static final int DOOM_TICKS_S = 6;               // doomsday ticks a second (fastest lance: one every 200 ms = 5, +1 for the second boundary)
     static final int DOOM_TICKS_SHOT = 80;           // ticks one doomsday shot may have (longest fire with slack)
     static final long DOOM_GAP_MS = 15000;           // a new doomsday shot at most this often
     static final float DOOM_ORIGIN = 2000f;          // the beam's nose this close to the guest's ship
-    private static long doomSec, doomShotAt, droneLaunchAt;
+    private static long doomSec, doomShotAt, droneLaunchAt, askAt;
     private static int doomInSec, doomShotId = Integer.MIN_VALUE, doomTicksShot;
     private static long extraAt;
     /** Host: the guest's Hive Bay drones, flown by the host's game next to the stand-in (the guest's sector has no enemies). */
@@ -2110,6 +2111,9 @@ public final class ModLan {
     /** Guest (Mod.launchDrones): asks the host to launch this ship's drones there. True = asked (the missile is used). */
     static boolean askDrones(int tier) {
         if (!extra || !guestActive()) return false;
+        long now = System.currentTimeMillis();
+        if (askAt != 0 && now - askAt < DRONE_GAP_MS) return false;   // verifier: the host would refuse; the local launch path answers instead
+        askAt = now;
         try {
             ByteArrayOutputStream bo = new ByteArrayOutputStream(4);
             new DataOutputStream(bo).writeByte(Math.max(0, Math.min(3, tier)));
@@ -2207,6 +2211,14 @@ public final class ModLan {
                 doomShotId = shot; doomShotAt = now; doomTicksShot = 0;
             }
             if (++doomTicksShot > DOOM_TICKS_SHOT) { flags++; return; }
+            // verifier: the kind, the Leviathan sequence rule and the beam width come from the declared hull, not from the guest
+            fr.testudo.spacecorsair.business.loot.stuff.GearSpec hs = ModLanCheck.spec(d.ship);
+            if (!(hs instanceof fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec)) { flags++; return; }
+            fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec spec = (fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec) hs;
+            int dk = ModTitan.declaredKind(spec);
+            if (dk != k) { flags++; return; }
+            seq = seq && ModTitan.declaredSeq(spec);
+            half = Math.min(half, spec.drawableSize * 0.5f);
             int n = ModTitan.guestDoomTick(from, Math.max(1, Math.min(999, d.level)), k, ax, ay, spin, half, nova, seq, shot);
             if (n < 0) flags++;
         } catch (Throwable t) {
