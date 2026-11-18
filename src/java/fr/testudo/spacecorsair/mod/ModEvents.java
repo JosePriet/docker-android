@@ -223,6 +223,10 @@ public final class ModEvents {
 
     private static void distress(PlayerShip ps, long j) {
         for (int i = hostiles.size() - 1; i >= 0; i--) if (dead(hostiles.get(i))) hostiles.remove(i);
+        if (dead(victim) && (ps.removed || victim.life > 0)) {   // emulator P52E: player death / respawn or the freighter left = end quietly
+            end("gone");
+            return;
+        }
         if (dead(victim)) {
             ModQol.post(ModLang.tr("The freighter was lost."));
             end("lost");
