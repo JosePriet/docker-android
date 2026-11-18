@@ -904,7 +904,7 @@ public final class ModFitting {
             row(ModLang.tr("Booster"), empty(bt) || bs == null ? ModLang.tr("none") : "x" + f1(bs.boostPower) + " · " + f1(bs.shieldConsumeBySecInPourc) + "% sh/s");
             SpaceObjectType ht = pi.playerGear.hyperdriveEngine;
             HyperdriveEngineSpec hs = ht != null && ht.getGearSpec() instanceof HyperdriveEngineSpec ? (HyperdriveEngineSpec) ht.getGearSpec() : null;
-            row(ModLang.tr("Hyperdrive"), empty(ht) || hs == null ? ModLang.tr("none") : f1(hs.energyCellsPerUnit) + " cells/unit");
+            row(ModLang.tr("Hyperdrive"), empty(ht) || hs == null ? ModLang.tr("none") : f1(hs.energyCellsPerUnit) + ModLang.tr(" cells/unit"));
 
             if (pi.level >= ModV34.STAT_LEVEL) {
                 // v34: pilot stats appear from L10 (automatic; the last 200 come from faction storylines)

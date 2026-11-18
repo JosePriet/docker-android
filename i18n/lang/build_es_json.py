@@ -26,5 +26,6 @@ for k, v in json.load(open(S + '/i18n/gpt/v49_lan_es.json', encoding='utf-8')).i
 for k, v in json.load(open(S + '/i18n/gpt/v45_audit_es.json', encoding='utf-8')).items(): d[k] = v   # v45 audit fixes (Claude ES)
 for k, v in json.load(open(S + '/i18n/gpt/proto_events_es.json', encoding='utf-8')).items(): d[k] = v   # sector events + kill chain (Claude ES; owner OK 2026-11-18)
 for k, v in json.load(open(S + '/i18n/gpt/v48_lance_es.json', encoding='utf-8')).items(): d[k] = v   # v43a-17 Phoenix Lance (Claude ES 2026-11-15; owner: simple strings need no GPT pass)
+for k, v in json.load(open(S + '/i18n/gpt/qol_proto_es.json', encoding='utf-8')).items(): d[k] = v   # QoL prototype (Claude ES 2026-11-17, not approved)
 json.dump(d, open(S + '/i18n/lang/es_full.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=0, sort_keys=True)
 print('entries', len(d))

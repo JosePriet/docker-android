@@ -891,7 +891,7 @@
     move-result-object v1
 
     .line 876
-    if-eqz v1, :cond_771
+    if-eqz v1, :cond_775
 
     const/4 v4, 0x5
 
@@ -2565,6 +2565,10 @@
 
     const-string v1, " cells/unit"
 
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
@@ -2575,7 +2579,7 @@
 
     goto/16 :goto_36a
 
-    :cond_771
+    :cond_775
     move v1, v2
 
     goto/16 :goto_143
