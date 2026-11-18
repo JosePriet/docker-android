@@ -1,0 +1,30 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[25s] shot launch ok
+[34s] cancel exit prompt
+[42s] shot after_back ok
+[57s] shot steering ok
+[57s] direct: BuyInapp gift
+[76s] tap 'id/txtGift' at 620 926
+[87s] tap 'id/btnGift' at 1253 939
+[92s] shot gift_box_redeemed ok
+[98s] direct: Settings
+[103s] shot settings_v36 ok
+[105s] seekbars on settings: 3
+[122s] Leviathan page found=1
+[127s] tap '^(Use|USE)' at 1971 1008
+[148s] shot dmg_ready ok
+[155s] shot dmg_police_warden_1 ok
+[192s] shot dmg_police_warden_9 ok
+[213s] shot dmg_police_warden_end ok
+[213s] EVIDENCE dmg start police_warden player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=2040000 shot=3517 rate=1.2 police=true dmg end police_warden result=player_dead t=42.445 hullLost=99.6% shieldLost=11818 pMaxHull=446656 tMaxHull=2040000 thull=81.7% dealt=373321 
+[230s] shot dmg_police_reaver_1 ok
+[265s] shot dmg_police_reaver_9 ok
+[278s] shot dmg_police_reaver_end ok
+[278s] EVIDENCE dmg start police_reaver player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=3060000 shot=3517 rate=1.2 police=true dmg end police_reaver result=player_dead t=36.297 hullLost=98.9% shieldLost=11887 pMaxHull=446656 tMaxHull=3060000 thull=89.9% dealt=309425 
+[295s] shot dmg_police_helion_1 ok
+[334s] shot dmg_police_helion_9 ok
+[342s] shot dmg_police_helion_end ok
+[342s] EVIDENCE dmg start police_helion player L40 hullLeviathan refit10 hull=446656 shield=11700 laser=modRailgunL15 shieldGear=diamondShieldLevel15 dodge=0.0 turrets=6 | target L40 hull=1530000 shot=3517 rate=1.2 police=true dmg end police_helion result=player_dead t=40.543 hullLost=99.8% shieldLost=11700 pMaxHull=446656 tMaxHull=1530000 thull=72.9% dealt=414842 
+[354s] done; errors: 145 lines
+97 frames
