@@ -1,6 +1,7 @@
 name: release
 # A change to release/VERSION on this branch publishes a GitHub Release named after it,
 # with apk/space-corsair-mod-signed-<VERSION>.apk attached (release assets download more reliably than raw links).
+# A VERSION containing "-test" publishes a pre-release that does not replace the latest release (owner test builds).
 on:
   push:
     branches: [releases]
@@ -26,6 +27,8 @@ jobs:
           target_commitish: ${{ github.sha }}
           name: Space Corsair mod ${{ env.VERSION }}
           body_path: release/NOTES.md
+          prerelease: ${{ contains(env.VERSION, '-test') }}
+          make_latest: ${{ !contains(env.VERSION, '-test') }}
           files: |
             space-corsair-mod.apk
             SHA256SUMS
