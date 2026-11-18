@@ -31,7 +31,7 @@ public final class ModEvents {
     static final float DISTRESS_RANGE = 3200f, RESCUE_RANGE = 1500f, TRADER_DRAIN_PER_S = 0.025f;   // 40 s to die unattended
     static final int DISTRESS_PAY = 6000, BOUNTY_PAY = 12000;   // fed through ModQol.missionPay (level scaling)
     static final float DISTRESS_STANDING = 3f;
-    static final long BOUNTY_MS = 180000, SALVAGE_MS = 120000;
+    static final long BOUNTY_MS = 180000, SALVAGE_MS = 120000, DISTRESS_MS = 240000;   // distress: hard stop after 4 min (merge check)
     static final float SALVAGE_REACH = 800f;
     static final float SCAV_SPEED = 0.6f;   // fraction of the player's distance the rivals cover per minute (placeholder)
 
@@ -54,6 +54,7 @@ public final class ModEvents {
     static void onLevel() {
         end(null);
         salvageDouble = false;
+        ModChain.links = 0;
         fieldStripped = false;
         nextAt = ModSector.play() + FIRST_MS;
     }
@@ -168,6 +169,7 @@ public final class ModEvents {
             return;
         }
         engaged = false;
+        endsAt = ModSector.play() + DISTRESS_MS;
         kind = DISTRESS;
         ModQol.post(ModLang.tr("Distress call: the freighter ") + c.specificName + ModLang.tr(" is under pirate attack, ") + bearing(ps, at) + ".");
         Mod.floatText(ps, ModLang.tr("DISTRESS CALL"), 1.0f, 0.75f, 0.2f);
@@ -185,6 +187,9 @@ public final class ModEvents {
         w.position.setSameAs(at);
         w.updateSapCoords();
         w.specificName = ModLang.tr("WANTED: ") + NAMES[(int) (Math.random() * NAMES.length)];
+        w.setActivitySequence(new fr.testudo.spacecorsair.business.ennemis.EnnemisActivitySequence()   // merge check: it roams the spot
+            .addActivity(new fr.testudo.spacecorsair.business.ennemis.EnnemisActivity().initGotoRandom(at.x, at.y, 1600))
+            .addActivity(new fr.testudo.spacecorsair.business.ennemis.EnnemisActivity().initIdleDuring(3000)));
         w.addToCurrentLevel();
         wanted = w;
         target = at;
@@ -220,6 +225,11 @@ public final class ModEvents {
         if (dead(victim)) {
             ModQol.post(ModLang.tr("The freighter was lost."));
             end("lost");
+            return;
+        }
+        if (ModSector.play() >= endsAt) {   // merge check: never open-ended; the freighter slips away, raiders stay hostile
+            victim.setActivity(new CivilActivity[] {CivilActivity.newMooveNextPortal(), CivilActivity.newDiseapear()});
+            end("timeout");
             return;
         }
         if (hold != null) victim.position.setSameAs(hold);
