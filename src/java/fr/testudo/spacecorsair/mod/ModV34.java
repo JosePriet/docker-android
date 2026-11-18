@@ -74,6 +74,7 @@ public class ModV34 {
             if (pi == null || ModTestMode.on) return;
             SharedPreferences p = ModQol.prefs();
             if (p == null || p.getBoolean(RELEVEL_KEY, false)) return;
+            if (!p.edit().putBoolean(RELEVEL_KEY, true).commit()) return;   // flag first: a throw below can never re-level twice
             int old = pi.level;
             long[] nw = levelOf(totalOf(old, pi.curXp, xpCapOld()), xpCap());
             if (nw[0] > old) {
@@ -85,9 +86,8 @@ public class ModV34 {
                 try { fr.testudo.spacecorsair.game.achievements.AchievementEventListener.onLevelUp(pi.level); } catch (Throwable t) { /* achievements catch up on the next level */ }
                 ModQol.post(ModLang.fmt("New leveling curve: your XP now puts you at level {0} (was {1}).", pi.level, old));
             }
-            p.edit().putBoolean(RELEVEL_KEY, true).commit();
         } catch (Throwable t) {
-            // keep the save as it is; tried again next load
+            // flag already set: the save keeps whatever was applied
         }
     }
 

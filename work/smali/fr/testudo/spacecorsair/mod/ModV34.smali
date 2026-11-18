@@ -4348,7 +4348,7 @@
 .end method
 
 .method public static relevel(Lfr/testudo/spacecorsair/business/player/PlayerInfo;)V
-    .registers 9
+    .registers 7
 
     .prologue
     .line 74
@@ -4368,158 +4368,23 @@
     :cond_7
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModQol;->prefs()Landroid/content/SharedPreferences;
 
-    move-result-object v1
+    move-result-object v0
 
     .line 76
-    if-eqz v1, :cond_6
+    if-eqz v0, :cond_6
 
-    const-string v0, "v57_xp_relevel"
+    const-string v1, "v57_xp_relevel"
 
     const/4 v2, 0x0
 
-    invoke-interface {v1, v0, v2}, Landroid/content/SharedPreferences;->getBoolean(Ljava/lang/String;Z)Z
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getBoolean(Ljava/lang/String;Z)Z
 
-    move-result v0
+    move-result v1
 
-    if-nez v0, :cond_6
+    if-nez v1, :cond_6
 
     .line 77
-    iget v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
-
-    .line 78
-    iget-wide v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->curXp:J
-
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->xpCapOld()[J
-
-    move-result-object v0
-
-    invoke-static {v2, v4, v5, v0}, Lfr/testudo/spacecorsair/mod/ModV34;->totalOf(IJ[J)J
-
-    move-result-wide v4
-
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->xpCap()[J
-
-    move-result-object v0
-
-    invoke-static {v4, v5, v0}, Lfr/testudo/spacecorsair/mod/ModV34;->levelOf(J[J)[J
-
-    move-result-object v0
-
-    .line 79
-    const/4 v3, 0x0
-
-    aget-wide v4, v0, v3
-
-    int-to-long v6, v2
-
-    cmp-long v3, v4, v6
-
-    if-lez v3, :cond_7d
-
-    .line 80
-    const/4 v3, 0x0
-
-    aget-wide v4, v0, v3
-
-    long-to-int v3, v4
-
-    iput v3, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
-
-    .line 81
-    const/4 v3, 0x1
-
-    aget-wide v4, v0, v3
-
-    iput-wide v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->curXp:J
-
-    .line 82
-    invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->init()V
-
-    .line 83
-    iget-wide v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->nextLevelXp:J
-
-    const-wide/16 v6, 0x0
-
-    cmp-long v0, v4, v6
-
-    if-lez v0, :cond_90
-
-    iget-wide v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->curXp:J
-
-    long-to-float v0, v4
-
-    const/high16 v3, 0x42c80000    # 100.0f
-
-    mul-float/2addr v0, v3
-
-    iget-wide v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->nextLevelXp:J
-
-    long-to-float v3, v4
-
-    div-float/2addr v0, v3
-
-    :goto_52
-    iput v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->levelPourc:F
-    :try_end_54
-    .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_54} :catch_8d
-
-    .line 84
-    :try_start_54
-    invoke-static {}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->instance()Lfr/testudo/spacecorsair/business/player/PlayerShip;
-
-    move-result-object v0
-
-    iget v3, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
-
-    iput v3, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->level:I
-    :try_end_5c
-    .catch Ljava/lang/Throwable; {:try_start_54 .. :try_end_5c} :catch_94
-
-    .line 85
-    :goto_5c
-    :try_start_5c
-    iget v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/game/achievements/AchievementEventListener;->onLevelUp(I)V
-    :try_end_61
-    .catch Ljava/lang/Throwable; {:try_start_5c .. :try_end_61} :catch_92
-
-    .line 86
-    :goto_61
-    :try_start_61
-    const-string v0, "New leveling curve: your XP now puts you at level {0} (was {1})."
-
-    const/4 v3, 0x2
-
-    new-array v3, v3, [Ljava/lang/Object;
-
-    const/4 v4, 0x0
-
-    iget v5, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
-
-    invoke-static {v5}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
-
-    move-result-object v5
-
-    aput-object v5, v3, v4
-
-    const/4 v4, 0x1
-
-    invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
-
-    move-result-object v2
-
-    aput-object v2, v3, v4
-
-    invoke-static {v0, v3}, Lfr/testudo/spacecorsair/mod/ModLang;->fmt(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
-
-    move-result-object v0
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
-
-    .line 88
-    :cond_7d
-    invoke-interface {v1}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
+    invoke-interface {v0}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
     move-result-object v0
 
@@ -4532,34 +4397,172 @@
     move-result-object v0
 
     invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->commit()Z
-    :try_end_8b
-    .catch Ljava/lang/Throwable; {:try_start_61 .. :try_end_8b} :catch_8d
+
+    move-result v0
+
+    if-eqz v0, :cond_6
+
+    .line 78
+    iget v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+
+    .line 79
+    iget-wide v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->curXp:J
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->xpCapOld()[J
+
+    move-result-object v0
+
+    invoke-static {v1, v2, v3, v0}, Lfr/testudo/spacecorsair/mod/ModV34;->totalOf(IJ[J)J
+
+    move-result-wide v2
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV34;->xpCap()[J
+
+    move-result-object v0
+
+    invoke-static {v2, v3, v0}, Lfr/testudo/spacecorsair/mod/ModV34;->levelOf(J[J)[J
+
+    move-result-object v0
+
+    .line 80
+    const/4 v2, 0x0
+
+    aget-wide v2, v0, v2
+
+    int-to-long v4, v1
+
+    cmp-long v2, v2, v4
+
+    if-lez v2, :cond_6
+
+    .line 81
+    const/4 v2, 0x0
+
+    aget-wide v2, v0, v2
+
+    long-to-int v2, v2
+
+    iput v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+
+    .line 82
+    const/4 v2, 0x1
+
+    aget-wide v2, v0, v2
+
+    iput-wide v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->curXp:J
+
+    .line 83
+    invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->init()V
+
+    .line 84
+    iget-wide v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->nextLevelXp:J
+
+    const-wide/16 v4, 0x0
+
+    cmp-long v0, v2, v4
+
+    if-lez v0, :cond_93
+
+    iget-wide v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->curXp:J
+
+    long-to-float v0, v2
+
+    const/high16 v2, 0x42c80000    # 100.0f
+
+    mul-float/2addr v0, v2
+
+    iget-wide v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->nextLevelXp:J
+
+    long-to-float v2, v2
+
+    div-float/2addr v0, v2
+
+    :goto_63
+    iput v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->levelPourc:F
+    :try_end_65
+    .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_65} :catch_90
+
+    .line 85
+    :try_start_65
+    invoke-static {}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->instance()Lfr/testudo/spacecorsair/business/player/PlayerShip;
+
+    move-result-object v0
+
+    iget v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+
+    iput v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->level:I
+    :try_end_6d
+    .catch Ljava/lang/Throwable; {:try_start_65 .. :try_end_6d} :catch_97
+
+    .line 86
+    :goto_6d
+    :try_start_6d
+    iget v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/game/achievements/AchievementEventListener;->onLevelUp(I)V
+    :try_end_72
+    .catch Ljava/lang/Throwable; {:try_start_6d .. :try_end_72} :catch_95
+
+    .line 87
+    :goto_72
+    :try_start_72
+    const-string v0, "New leveling curve: your XP now puts you at level {0} (was {1})."
+
+    const/4 v2, 0x2
+
+    new-array v2, v2, [Ljava/lang/Object;
+
+    const/4 v3, 0x0
+
+    iget v4, p0, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+
+    invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v4
+
+    aput-object v4, v2, v3
+
+    const/4 v3, 0x1
+
+    invoke-static {v1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v1
+
+    aput-object v1, v2, v3
+
+    invoke-static {v0, v2}, Lfr/testudo/spacecorsair/mod/ModLang;->fmt(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
+    :try_end_8e
+    .catch Ljava/lang/Throwable; {:try_start_72 .. :try_end_8e} :catch_90
 
     goto/16 :goto_6
 
     .line 89
-    :catch_8d
+    :catch_90
     move-exception v0
 
     goto/16 :goto_6
 
-    .line 83
-    :cond_90
+    .line 84
+    :cond_93
     const/4 v0, 0x0
 
-    goto :goto_52
+    goto :goto_63
+
+    .line 86
+    :catch_95
+    move-exception v0
+
+    goto :goto_72
 
     .line 85
-    :catch_92
+    :catch_97
     move-exception v0
 
-    goto :goto_61
-
-    .line 84
-    :catch_94
-    move-exception v0
-
-    goto :goto_5c
+    goto :goto_6d
 .end method
 
 .method static retier(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;II)V
