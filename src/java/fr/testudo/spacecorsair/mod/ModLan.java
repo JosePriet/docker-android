@@ -3086,6 +3086,12 @@ public final class ModLan {
     static void readFieldForTest(DataInputStream in, Field f, Object p) throws Exception { readField(in, f, p); }
 
     // ------------------------------------------------------------------ UI (station toolbar button)
+    /** hooks56 (public: called from fr.testudo.spacecorsair.utils.MenuDisplayer): flight menu Multiplayer entry. */
+    public static void menuEntry(android.content.Context ctx, android.view.View menuView) { ModLanUi.menuEntry(ctx, menuView); }
+
+    /** hooks56: flight menu opening, refresh the entry's label. */
+    public static void menuShown() { ModLanUi.menuShown(); }
+
     static String buttonLabel() {
         if (!connected && role == NONE) return ModLang.tr("Multiplayer");
         return ModLang.tr("Multiplayer") + (connected ? " *" : " ...");

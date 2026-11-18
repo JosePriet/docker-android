@@ -2245,14 +2245,14 @@
     .registers 3
 
     .prologue
-    .line 3329
+    .line 3335
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModLan$49;
 
     invoke-direct {v0, p0, p1}, Lfr/testudo/spacecorsair/mod/ModLan$49;-><init>(Landroid/app/Activity;Ljava/lang/String;)V
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModLanUi;->codeBoxes(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;)V
 
-    .line 3330
+    .line 3336
     return-void
 .end method
 
@@ -3756,7 +3756,7 @@
     .registers 2
 
     .prologue
-    .line 3090
+    .line 3096
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->connected:Z
 
     if-nez v0, :cond_f
@@ -3771,7 +3771,7 @@
 
     move-result-object v0
 
-    .line 3091
+    .line 3097
     :goto_e
     return-object v0
 
@@ -5720,18 +5720,18 @@
     .registers 6
 
     .prologue
-    .line 3333
+    .line 3339
     invoke-virtual {p1}, Ljava/lang/String;->length()I
 
     move-result v0
 
     if-nez v0, :cond_7
 
-    .line 3340
+    .line 3346
     :goto_6
     return-void
 
-    .line 3334
+    .line 3340
     :cond_7
     new-instance v0, Ljava/lang/Thread;
 
@@ -5743,7 +5743,7 @@
 
     invoke-direct {v0, v1, v2}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
-    .line 3339
+    .line 3345
     invoke-virtual {v0}, Ljava/lang/Thread;->start()V
 
     goto :goto_6
@@ -7968,7 +7968,7 @@
     .registers 4
 
     .prologue
-    .line 3285
+    .line 3291
     new-instance v0, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {v0, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
@@ -7997,7 +7997,7 @@
 
     move-result-object v0
 
-    .line 3286
+    .line 3292
     new-instance v1, Ljava/lang/Thread;
 
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModLan$45;
@@ -8008,10 +8008,10 @@
 
     invoke-direct {v1, v2, v0}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
-    .line 3297
+    .line 3303
     invoke-virtual {v1}, Ljava/lang/Thread;->start()V
 
-    .line 3298
+    .line 3304
     return-void
 .end method
 
@@ -15990,7 +15990,7 @@
     .registers 5
 
     .prologue
-    .line 3267
+    .line 3273
     new-instance v0, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {v0, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
@@ -16007,7 +16007,7 @@
 
     const-string v1, "Connecting... This can take up to a minute. The host has to accept."
 
-    .line 3268
+    .line 3274
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -16024,7 +16024,7 @@
 
     const-string v1, "Cancel"
 
-    .line 3269
+    .line 3275
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -16041,7 +16041,7 @@
 
     move-result-object v0
 
-    .line 3270
+    .line 3276
     new-instance v1, Ljava/lang/Thread;
 
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModLan$44;
@@ -16052,10 +16052,10 @@
 
     invoke-direct {v1, v2, v0}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
-    .line 3281
+    .line 3287
     invoke-virtual {v1}, Ljava/lang/Thread;->start()V
 
-    .line 3282
+    .line 3288
     return-void
 .end method
 
@@ -17156,6 +17156,16 @@
     goto :goto_8
 .end method
 
+.method public static menuEntry(Landroid/content/Context;Landroid/view/View;)V
+    .registers 2
+
+    .prologue
+    .line 3090
+    invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModLanUi;->menuEntry(Landroid/content/Context;Landroid/view/View;)V
+
+    return-void
+.end method
+
 .method public static menuOpening()V
     .registers 2
 
@@ -17166,6 +17176,16 @@
     move-result-wide v0
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModLan;->menuAt:J
+
+    return-void
+.end method
+
+.method public static menuShown()V
+    .registers 0
+
+    .prologue
+    .line 3093
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->menuShown()V
 
     return-void
 .end method
@@ -17258,14 +17278,14 @@
     .registers 3
 
     .prologue
-    .line 3096
+    .line 3102
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->missionId()Ljava/lang/String;
 
     move-result-object v1
 
     const-string v0, ""
 
-    .line 3097
+    .line 3103
     sget v0, Lfr/testudo/spacecorsair/mod/ModLan;->role:I
 
     const/4 v2, 0x1
@@ -17291,17 +17311,17 @@
 
     move-result-object v0
 
-    .line 3100
+    .line 3106
     :goto_1d
     return-object v0
 
-    .line 3097
+    .line 3103
     :cond_1e
     const-string v0, ""
 
     goto :goto_11
 
-    .line 3098
+    .line 3104
     :cond_21
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModLan;->inLock:Ljava/lang/Object;
 
@@ -17350,7 +17370,7 @@
 
     goto :goto_2f
 
-    .line 3099
+    .line 3105
     :cond_40
     invoke-virtual {v1}, Ljava/lang/String;->length()I
 
@@ -17372,7 +17392,7 @@
 
     goto :goto_1d
 
-    .line 3100
+    .line 3106
     :cond_53
     const-string v0, "Missions: pick the same mission to work on it together, or the guest can fly their own missions and come back later."
 
@@ -17622,12 +17642,12 @@
     .registers 3
 
     .prologue
-    .line 3236
+    .line 3242
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->linkLine()Ljava/lang/String;
 
     move-result-object v0
 
-    .line 3237
+    .line 3243
     invoke-virtual {v0}, Ljava/lang/String;->length()I
 
     move-result v1
@@ -18392,22 +18412,22 @@
     .end annotation
 
     .prologue
-    .line 3301
+    .line 3307
     new-instance v0, Landroid/widget/EditText;
 
     invoke-direct {v0, p0}, Landroid/widget/EditText;-><init>(Landroid/content/Context;)V
 
-    .line 3302
+    .line 3308
     const-string v1, "192.168.1.10"
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setHint(Ljava/lang/CharSequence;)V
 
-    .line 3303
+    .line 3309
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setSingleLine(Z)V
 
-    .line 3304
+    .line 3310
     new-instance v1, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {v1, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
@@ -18422,14 +18442,14 @@
 
     move-result-object v1
 
-    .line 3305
+    .line 3311
     invoke-interface {p1}, Ljava/util/List;->isEmpty()Z
 
     move-result v2
 
     if-nez v2, :cond_49
 
-    .line 3306
+    .line 3312
     invoke-interface {p1}, Ljava/util/List;->size()I
 
     move-result v0
@@ -18442,14 +18462,14 @@
 
     check-cast v0, [Ljava/lang/String;
 
-    .line 3307
+    .line 3313
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModLan$46;
 
     invoke-direct {v2, v0, p0}, Lfr/testudo/spacecorsair/mod/ModLan$46;-><init>([Ljava/lang/String;Landroid/app/Activity;)V
 
     invoke-virtual {v1, v0, v2}, Landroid/app/AlertDialog$Builder;->setItems([Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
-    .line 3313
+    .line 3319
     const-string v0, "Type address"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -18462,14 +18482,14 @@
 
     invoke-virtual {v1, v0, v2}, Landroid/app/AlertDialog$Builder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
-    .line 3324
+    .line 3330
     :goto_45
     invoke-virtual {v1}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
 
-    .line 3325
+    .line 3331
     return-void
 
-    .line 3317
+    .line 3323
     :cond_49
     const-string v2, "No game found. Type the host\'s address (shown on the host\'s LAN co-op screen):"
 
@@ -18479,10 +18499,10 @@
 
     invoke-virtual {v1, v2}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
 
-    .line 3318
+    .line 3324
     invoke-virtual {v1, v0}, Landroid/app/AlertDialog$Builder;->setView(Landroid/view/View;)Landroid/app/AlertDialog$Builder;
 
-    .line 3319
+    .line 3325
     const-string v2, "Join"
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -18495,7 +18515,7 @@
 
     invoke-virtual {v1, v2, v3}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
-    .line 3322
+    .line 3328
     const-string v0, "Close"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -18892,7 +18912,7 @@
     .registers 4
 
     .prologue
-    .line 3228
+    .line 3234
     :try_start_0
     new-instance v0, Landroid/app/AlertDialog$Builder;
 
@@ -18920,7 +18940,7 @@
 
     const-string v1, "OK"
 
-    .line 3229
+    .line 3235
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -18935,11 +18955,11 @@
     :try_end_27
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_27} :catch_28
 
-    .line 3233
+    .line 3239
     :goto_27
     return-void
 
-    .line 3230
+    .line 3236
     :catch_28
     move-exception v0
 
@@ -18950,14 +18970,14 @@
     .registers 2
 
     .prologue
-    .line 3259
+    .line 3265
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModLan$41;
 
     invoke-direct {v0, p0}, Lfr/testudo/spacecorsair/mod/ModLan$41;-><init>(Landroid/app/Activity;)V
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModLanUi;->publicList(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;)V
 
-    .line 3260
+    .line 3266
     return-void
 .end method
 
@@ -22622,7 +22642,7 @@
     .registers 4
 
     .prologue
-    .line 3242
+    .line 3248
     new-instance v0, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {v0, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
@@ -22639,7 +22659,7 @@
 
     const-string v1, "Send a report about this player? It contains the chat of this game and what the anti-cheat checks counted. Nothing else."
 
-    .line 3243
+    .line 3249
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -22650,7 +22670,7 @@
 
     const-string v1, "Send"
 
-    .line 3244
+    .line 3250
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -22665,7 +22685,7 @@
 
     const-string v1, "Close"
 
-    .line 3254
+    .line 3260
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -22678,7 +22698,7 @@
 
     invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
 
-    .line 3255
+    .line 3261
     return-void
 .end method
 
@@ -24099,7 +24119,7 @@
     .registers 7
 
     .prologue
-    .line 3215
+    .line 3221
     :try_start_0
     new-instance v1, Landroid/content/Intent;
 
@@ -24107,12 +24127,12 @@
 
     invoke-direct {v1, v0}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
 
-    .line 3216
+    .line 3222
     const-string v0, "text/plain"
 
     invoke-virtual {v1, v0}, Landroid/content/Intent;->setType(Ljava/lang/String;)Landroid/content/Intent;
 
-    .line 3217
+    .line 3223
     const-string v2, "android.intent.extra.TEXT"
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -24127,7 +24147,7 @@
 
     move-result-object v0
 
-    .line 3218
+    .line 3224
     :goto_1b
     invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -24147,10 +24167,10 @@
 
     move-result-object v0
 
-    .line 3217
+    .line 3223
     invoke-virtual {v1, v2, v0}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
 
-    .line 3219
+    .line 3225
     const-string v0, "Share code"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -24163,11 +24183,11 @@
 
     invoke-virtual {p0, v0}, Landroid/app/Activity;->startActivity(Landroid/content/Intent;)V
 
-    .line 3223
+    .line 3229
     :goto_3d
     return-void
 
-    .line 3218
+    .line 3224
     :cond_3e
     const-string v0, "Join my local Space Corsair game (same Wi-Fi). Multiplayer, Find local games, code:"
 
@@ -24179,7 +24199,7 @@
 
     goto :goto_1b
 
-    .line 3220
+    .line 3226
     :catch_45
     move-exception v0
 
@@ -24779,14 +24799,14 @@
 
     const/4 v0, 0x0
 
-    .line 3105
+    .line 3111
     :try_start_3
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModLan;->lastAct:Landroid/app/Activity;
 
-    .line 3106
+    .line 3112
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->warmHash()V
 
-    .line 3107
+    .line 3113
     sget v1, Lfr/testudo/spacecorsair/mod/ModLan;->role:I
 
     if-ne v1, v3, :cond_1c
@@ -24805,17 +24825,17 @@
 
     invoke-static {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModLan;->acceptDialog(Landroid/app/Activity;Ljava/lang/String;I)V
 
-    .line 3211
+    .line 3217
     :goto_1b
     return-void
 
-    .line 3108
+    .line 3114
     :cond_1c
     new-instance v4, Lfr/testudo/spacecorsair/mod/ModLan$14;
 
     invoke-direct {v4, p0}, Lfr/testudo/spacecorsair/mod/ModLan$14;-><init>(Landroid/app/Activity;)V
 
-    .line 3109
+    .line 3115
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->hasProfile()Z
 
     move-result v1
@@ -24826,13 +24846,13 @@
 
     goto :goto_1b
 
-    .line 3208
+    .line 3214
     :catch_2b
     move-exception v0
 
     goto :goto_1b
 
-    .line 3110
+    .line 3116
     :cond_2d
     const-string v1, "Multiplayer"
 
@@ -24840,7 +24860,7 @@
 
     move-result-object v1
 
-    .line 3111
+    .line 3117
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModLan;->connected:Z
 
     if-eqz v2, :cond_18b
@@ -24849,7 +24869,7 @@
 
     if-ne v2, v3, :cond_18b
 
-    .line 3112
+    .line 3118
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -24902,7 +24922,7 @@
 
     const-string v3, "PvP is"
 
-    .line 3113
+    .line 3119
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v3
@@ -24940,7 +24960,7 @@
 
     const-string v3, "PvP duel: both ships go to the old multiplayer bay and fight until one is destroyed. The destroyed ship respawns at full hull with no death fee, then both ships go back. Undock to start."
 
-    .line 3114
+    .line 3120
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v3
@@ -24949,7 +24969,7 @@
 
     move-result-object v3
 
-    .line 3115
+    .line 3121
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModLan;->pvp:Z
 
     if-eqz v2, :cond_16d
@@ -25013,7 +25033,7 @@
 
     move-result-object v2
 
-    .line 3116
+    .line 3122
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->missionLine()Ljava/lang/String;
 
     move-result-object v3
@@ -25034,7 +25054,7 @@
 
     move-result-object v3
 
-    .line 3117
+    .line 3123
     const/4 v2, 0x0
 
     const/4 v4, 0x6
@@ -25043,7 +25063,7 @@
 
     const/4 v6, 0x0
 
-    .line 3118
+    .line 3124
     sget-boolean v5, Lfr/testudo/spacecorsair/mod/ModLan;->pvpRoom:Z
 
     if-eqz v5, :cond_171
@@ -25059,7 +25079,7 @@
 
     const/4 v6, 0x1
 
-    .line 3119
+    .line 3125
     sget-boolean v5, Lfr/testudo/spacecorsair/mod/ModLan;->pvpRoom:Z
 
     if-nez v5, :cond_178
@@ -25073,7 +25093,7 @@
 
     const-string v6, "Kick player"
 
-    .line 3120
+    .line 3126
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v6
@@ -25167,12 +25187,12 @@
 
     move-object v0, p0
 
-    .line 3117
+    .line 3123
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModLanUi;->menu(Landroid/app/Activity;Ljava/lang/String;Landroid/view/View;Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Runnable;)Landroid/app/AlertDialog;
 
     goto/16 :goto_1b
 
-    .line 3113
+    .line 3119
     :cond_165
     const-string v2, "OFF"
 
@@ -25182,13 +25202,13 @@
 
     goto/16 :goto_88
 
-    .line 3115
+    .line 3121
     :cond_16d
     const-string v2, ""
 
     goto/16 :goto_d1
 
-    .line 3118
+    .line 3124
     :cond_171
     const-string v5, "PvP: OFF (tap to turn on)"
 
@@ -25198,7 +25218,7 @@
 
     goto :goto_fe
 
-    .line 3119
+    .line 3125
     :cond_178
     sget-boolean v5, Lfr/testudo/spacecorsair/mod/ModLan;->pvpWanted:Z
 
@@ -25221,13 +25241,13 @@
 
     goto/16 :goto_106
 
-    .line 3129
+    .line 3135
     :cond_18b
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModLan;->connected:Z
 
     if-eqz v2, :cond_26e
 
-    .line 3130
+    .line 3136
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -25272,7 +25292,7 @@
 
     move-result-object v3
 
-    .line 3131
+    .line 3137
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModLan;->pvp:Z
 
     if-eqz v2, :cond_264
@@ -25336,7 +25356,7 @@
 
     move-result-object v2
 
-    .line 3132
+    .line 3138
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->missionLine()Ljava/lang/String;
 
     move-result-object v3
@@ -25357,7 +25377,7 @@
 
     move-result-object v3
 
-    .line 3133
+    .line 3139
     const/4 v2, 0x0
 
     const/4 v4, 0x4
@@ -25366,7 +25386,7 @@
 
     const/4 v6, 0x0
 
-    .line 3134
+    .line 3140
     sget-boolean v5, Lfr/testudo/spacecorsair/mod/ModLan;->solo:Z
 
     if-eqz v5, :cond_267
@@ -25451,18 +25471,18 @@
 
     move-object v0, p0
 
-    .line 3133
+    .line 3139
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModLanUi;->menu(Landroid/app/Activity;Ljava/lang/String;Landroid/view/View;Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Runnable;)Landroid/app/AlertDialog;
 
     goto/16 :goto_1b
 
-    .line 3131
+    .line 3137
     :cond_264
     const-string v2, ""
 
     goto :goto_1f1
 
-    .line 3134
+    .line 3140
     :cond_267
     const-string v5, "Fly my own missions"
 
@@ -25472,7 +25492,7 @@
 
     goto :goto_21e
 
-    .line 3141
+    .line 3147
     :cond_26e
     sget v2, Lfr/testudo/spacecorsair/mod/ModLan;->role:I
 
@@ -25482,10 +25502,10 @@
 
     if-eqz v2, :cond_34d
 
-    .line 3142
+    .line 3148
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModLobby;->code:Ljava/lang/String;
 
-    .line 3143
+    .line 3149
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -25505,14 +25525,14 @@
 
     move-result-object v3
 
-    .line 3144
+    .line 3150
     invoke-virtual {v6}, Ljava/lang/String;->length()I
 
     move-result v2
 
     if-ne v2, v8, :cond_343
 
-    .line 3146
+    .line 3152
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -25525,7 +25545,7 @@
 
     const-string v4, "Game code:"
 
-    .line 3144
+    .line 3150
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -25550,7 +25570,7 @@
 
     move-result-object v4
 
-    .line 3145
+    .line 3151
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModLobby;->pub:Z
 
     if-eqz v2, :cond_33b
@@ -25574,7 +25594,7 @@
 
     const-string v4, "You accept or decline each player."
 
-    .line 3146
+    .line 3152
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -25596,7 +25616,7 @@
 
     move-result-object v3
 
-    .line 3147
+    .line 3153
     const/4 v2, 0x0
 
     const/4 v4, 0x4
@@ -25605,7 +25625,7 @@
 
     const/4 v5, 0x0
 
-    .line 3148
+    .line 3154
     invoke-virtual {v6}, Ljava/lang/String;->length()I
 
     move-result v7
@@ -25623,7 +25643,7 @@
 
     const/4 v5, 0x1
 
-    .line 3149
+    .line 3155
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->pvpRoom:Z
 
     if-eqz v0, :cond_346
@@ -25693,18 +25713,18 @@
 
     move-object v0, p0
 
-    .line 3147
+    .line 3153
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModLanUi;->menu(Landroid/app/Activity;Ljava/lang/String;Landroid/view/View;Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Runnable;)Landroid/app/AlertDialog;
 
     goto/16 :goto_1b
 
-    .line 3143
+    .line 3149
     :cond_337
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModLan;->status:Ljava/lang/String;
 
     goto/16 :goto_287
 
-    .line 3145
+    .line 3151
     :cond_33b
     const-string v2, "Private game: only players with the code can join."
 
@@ -25714,13 +25734,13 @@
 
     goto/16 :goto_2c0
 
-    .line 3146
+    .line 3152
     :cond_343
     const-string v2, ""
 
     goto :goto_2d8
 
-    .line 3149
+    .line 3155
     :cond_346
     const-string v0, "PvP: OFF (tap to turn on)"
 
@@ -25730,16 +25750,16 @@
 
     goto :goto_2fe
 
-    .line 3156
+    .line 3162
     :cond_34d
     sget v2, Lfr/testudo/spacecorsair/mod/ModLan;->role:I
 
     if-ne v2, v3, :cond_435
 
-    .line 3157
+    .line 3163
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModLan;->lanCode:Ljava/lang/String;
 
-    .line 3158
+    .line 3164
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -25786,7 +25806,7 @@
 
     move-result-object v3
 
-    .line 3159
+    .line 3165
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModLan;->lanPub:Z
 
     if-eqz v2, :cond_3ff
@@ -25797,7 +25817,7 @@
 
     move-result-object v2
 
-    .line 3160
+    .line 3166
     :goto_38c
     invoke-virtual {v3, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -25811,7 +25831,7 @@
 
     const-string v3, "You accept or decline each player."
 
-    .line 3161
+    .line 3167
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v3
@@ -25824,7 +25844,7 @@
 
     move-result-object v3
 
-    .line 3162
+    .line 3168
     const/4 v2, 0x0
 
     const/4 v4, 0x4
@@ -25833,7 +25853,7 @@
 
     const/4 v5, 0x0
 
-    .line 3163
+    .line 3169
     sget-boolean v7, Lfr/testudo/spacecorsair/mod/ModLan;->lanPub:Z
 
     if-nez v7, :cond_3b9
@@ -25855,7 +25875,7 @@
 
     const/4 v5, 0x1
 
-    .line 3164
+    .line 3170
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->pvpRoom:Z
 
     if-eqz v0, :cond_42e
@@ -25925,12 +25945,12 @@
 
     move-object v0, p0
 
-    .line 3162
+    .line 3168
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModLanUi;->menu(Landroid/app/Activity;Ljava/lang/String;Landroid/view/View;Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Runnable;)Landroid/app/AlertDialog;
 
     goto/16 :goto_1b
 
-    .line 3160
+    .line 3166
     :cond_3ff
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -25978,7 +25998,7 @@
 
     goto/16 :goto_38c
 
-    .line 3164
+    .line 3170
     :cond_42e
     const-string v0, "PvP: OFF (tap to turn on)"
 
@@ -25988,11 +26008,11 @@
 
     goto :goto_3c6
 
-    .line 3172
+    .line 3178
     :cond_435
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModLan;->needCode:Ljava/lang/String;
 
-    .line 3173
+    .line 3179
     if-eqz v2, :cond_445
 
     sget v3, Lfr/testudo/spacecorsair/mod/ModLan;->role:I
@@ -26007,7 +26027,7 @@
 
     goto/16 :goto_1b
 
-    .line 3174
+    .line 3180
     :cond_445
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModLan;->status:Ljava/lang/String;
 
@@ -26019,13 +26039,13 @@
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModLan;->status:Ljava/lang/String;
 
-    .line 3175
+    .line 3181
     :goto_44f
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->available()Z
 
     move-result v6
 
-    .line 3176
+    .line 3182
     if-eqz v6, :cond_47e
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSaveSig;->publicOk()Z
@@ -26069,7 +26089,7 @@
 
     move-result-object v3
 
-    .line 3177
+    .line 3183
     :cond_47e
     invoke-static {p0, v4}, Lfr/testudo/spacecorsair/mod/ModLanUi;->profileRow(Landroid/app/Activity;Ljava/lang/Runnable;)Landroid/view/View;
 
@@ -26093,7 +26113,7 @@
 
     const-string v8, "Local game (same Wi-Fi)"
 
-    .line 3178
+    .line 3184
     invoke-static {v8}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v8
@@ -26128,7 +26148,7 @@
 
     const-string v7, "Host public local game"
 
-    .line 3179
+    .line 3185
     invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v7
@@ -26179,7 +26199,7 @@
 
     const-string v8, "Public games (internet)"
 
-    .line 3180
+    .line 3186
     invoke-static {v8}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v8
@@ -26212,7 +26232,7 @@
 
     const/4 v7, 0x6
 
-    .line 3181
+    .line 3187
     if-eqz v6, :cond_600
 
     move-object v5, v0
@@ -26222,7 +26242,7 @@
 
     const/4 v5, 0x7
 
-    .line 3182
+    .line 3188
     if-eqz v6, :cond_50b
 
     :cond_50b
@@ -26232,7 +26252,7 @@
 
     const/16 v7, 0x8
 
-    .line 3183
+    .line 3189
     if-eqz v6, :cond_608
 
     const-string v5, "Find public games"
@@ -26246,7 +26266,7 @@
 
     const/16 v7, 0x9
 
-    .line 3184
+    .line 3190
     if-eqz v6, :cond_60b
 
     const-string v5, "Host public game"
@@ -26260,7 +26280,7 @@
 
     const/16 v7, 0xa
 
-    .line 3185
+    .line 3191
     if-eqz v6, :cond_60e
 
     const-string v5, "Host private game (code only)"
@@ -26274,7 +26294,7 @@
 
     const/16 v7, 0xb
 
-    .line 3186
+    .line 3192
     if-eqz v6, :cond_611
 
     const-string v5, "Join by code"
@@ -26288,7 +26308,7 @@
 
     const/16 v7, 0xc
 
-    .line 3187
+    .line 3193
     if-eqz v6, :cond_61c
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->hideIp()Z
@@ -26308,7 +26328,7 @@
 
     const/16 v7, 0xd
 
-    .line 3188
+    .line 3194
     if-eqz v6, :cond_627
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->saverPref()Z
@@ -26328,7 +26348,7 @@
 
     const/16 v5, 0xe
 
-    .line 3189
+    .line 3195
     if-eqz v6, :cond_56c
 
     const-string v0, "Privacy"
@@ -26344,7 +26364,7 @@
 
     const-string v5, "Close"
 
-    .line 3190
+    .line 3196
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v5
@@ -26475,24 +26495,24 @@
 
     move-object v0, p0
 
-    .line 3177
+    .line 3183
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModLanUi;->menu(Landroid/app/Activity;Ljava/lang/String;Landroid/view/View;Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Runnable;)Landroid/app/AlertDialog;
 
     goto/16 :goto_1b
 
-    .line 3174
+    .line 3180
     :cond_5f8
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModLobby;->status:Ljava/lang/String;
 
     goto/16 :goto_44f
 
-    .line 3176
+    .line 3182
     :cond_5fc
     const-string v2, ""
 
     goto/16 :goto_46c
 
-    .line 3181
+    .line 3187
     :cond_600
     const-string v5, "Not available yet in this version"
 
@@ -26505,28 +26525,28 @@
     :cond_608
     move-object v5, v0
 
-    .line 3183
+    .line 3189
     goto/16 :goto_518
 
     :cond_60b
     move-object v5, v0
 
-    .line 3184
+    .line 3190
     goto/16 :goto_524
 
     :cond_60e
     move-object v5, v0
 
-    .line 3185
+    .line 3191
     goto/16 :goto_530
 
     :cond_611
     move-object v5, v0
 
-    .line 3186
+    .line 3192
     goto/16 :goto_53c
 
-    .line 3187
+    .line 3193
     :cond_614
     const-string v5, "Hide my IP: OFF"
 
@@ -26541,7 +26561,7 @@
 
     goto/16 :goto_54e
 
-    .line 3188
+    .line 3194
     :cond_61f
     const-string v5, "Data saver: AUTO (on with mobile data or relay)"
 
@@ -27879,14 +27899,14 @@
     .registers 2
 
     .prologue
-    .line 3263
+    .line 3269
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModLan$42;
 
     invoke-direct {v0, p0}, Lfr/testudo/spacecorsair/mod/ModLan$42;-><init>(Landroid/app/Activity;)V
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModLanUi;->codeBoxes(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;)V
 
-    .line 3264
+    .line 3270
     return-void
 .end method
 

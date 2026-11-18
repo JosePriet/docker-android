@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 3136
+    .line 3142
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 2
 
     .prologue
-    .line 3136
+    .line 3142
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->solo:Z
 
     if-nez v0, :cond_9
