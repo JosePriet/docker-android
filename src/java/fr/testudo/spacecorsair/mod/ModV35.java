@@ -824,6 +824,8 @@ public class ModV35 {
             if (m == FLEE || dist < keep) {
                 // turn away from the player and burn; the stock code disengages once past the disengage distance
                 float away = norm((float) Math.toDegrees(Math.atan2(-dy, -dx)) + 90);
+                // 2026-11-18: near the screen edge it strafes across instead of backing out (no jitter at the edge)
+                if (dist > ModView.radius() * 0.7f && !(m == FLEE && hf0 < 0.3f)) away = norm(away + (e.hashCode() % 2 == 0 ? 90 : -90));
                 float diff = norm(away - e.spin);
                 e.spinSpeed = Math.abs(diff) < 4 ? 0 : diff > 0 ? e.maxTurnFactor : -e.maxTurnFactor;
                 e.isPousee = Math.abs(diff) < 100;
