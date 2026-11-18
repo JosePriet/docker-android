@@ -15,6 +15,8 @@
 
 
 # instance fields
+.field doom:Z
+
 .field dps:F
 
 .field dpsPvp:F
