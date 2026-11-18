@@ -81,7 +81,7 @@ timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ] || [ "$GAME" = sc44 ]; then
-  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ]; } && NOPRO=/data/local/tmp/corsair_noprologue
+  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ]; } && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
@@ -211,6 +211,26 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     log "EVIDENCE station vs flagship: $(grep -E "ModStationGuns.*fire at|ModDev.*(near|goto)|ModTitanAI" $LG | tail -10 | sed 's/^.*): //' | tr '\n' ' ')"
     grep -E "ModStationGuns|ModTitanAI|FATAL|AndroidRuntime" $LG > $OUT/v51t_events.txt
     a shell "rm -f $T/corsair_capital $T/corsair_near $T/corsair_goto"
+    finish; exit 0
+  fi
+  # v46 (owner 2026-11-18): Multiplayer entry restored in the flight menu bar (hooks56). Open menu -> Multiplayer ->
+  # nickname -> lobby menu -> host a private local game (code shown) -> stop hosting.
+  if [ "$STAGE" = V56M ]; then
+    sleep 8; need mp_flight; shot mp_flight
+    tap 57 55; sleep 3; shot mp_menu; dump mp_menu
+    log "EVIDENCE menu entry: $(grep -o 'text="Multiplayer[^"]*"' $OUT/last.xml | head -1)"
+    tap_text "^Multiplayer" mp_tap; sleep 3; shot mp_who; dump mp_who
+    if grep -q "Who are you" $OUT/last.xml; then
+      xy=$(python3 -c "import re,sys;x=open(sys.argv[1]).read();m=re.search(r'class=\"android.widget.EditText\"[^>]*bounds=\"\\[(\\d+),(\\d+)\\]\\[(\\d+),(\\d+)\\]',x);print((int(m.group(1))+int(m.group(3)))//2,(int(m.group(2))+int(m.group(4)))//2) if m else None" $OUT/last.xml 2>/dev/null); [ -n "$xy" ] && a shell input tap $xy; sleep 1
+      a shell input text Tester1; sleep 1;       tap_text "^(Save|SAVE)$" mp_save; sleep 3
+    fi
+    shot mp_lobby; dump mp_lobby
+    log "EVIDENCE lobby: $(grep -o 'text="\(Local game[^"]*\|Host [^"]*\|Find [^"]*\|Join [^"]*\)"' $OUT/last.xml | tr '\n' ' ')"
+    tap_text "^Host private local game" mp_host; sleep 4; shot mp_hosting; dump mp_hosting
+    log "EVIDENCE hosting: $(grep -o 'Game code:[^"]*' $OUT/last.xml | head -1)"
+    tap_text "^Stop hosting" mp_stop; sleep 3; shot mp_after
+    tap 57 55; sleep 3; tap_text "^Multiplayer" mp_tap2; sleep 3; shot mp_lobby2; dump mp_lobby2
+    tap_text "^Close$" mp_close; sleep 2; shot mp_closed
     finish; exit 0
   fi
   if [ "$STAGE" = V50L ]; then
