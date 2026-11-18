@@ -2174,6 +2174,7 @@ public final class ModLan {
     private static long doomSec, doomShotAt, droneLaunchAt, askAt;
     private static int doomInSec, doomShotId = Integer.MIN_VALUE, doomTicksShot;
     private static long extraAt;
+    private static boolean extraDevSeen;
     /** Host: the guest's Hive Bay drones, flown by the host's game next to the stand-in (the guest's sector has no enemies). */
     private static final Ennemis[] gDrones = new Ennemis[2];
     private static final int[] gDroneLeft = new int[2];
@@ -2320,6 +2321,10 @@ public final class ModLan {
         if (now - extraAt < 2000) return;
         extraAt = now;
         String v = ModDev.testValue("corsair_bh04");
+        if (v == null && !extraDevSeen) {   // owner 2026-11-18: the private DEV build has the BH04 prototype on (two-phone test, no adb)
+            extraDevSeen = true;
+            if (ModLobby.devBuild()) { extra = true; ModDev.ev("lan", "bh04 prototype on (DEV build)"); }
+        }
         if (v != null) { boolean on = v.trim().equals("on"); if (on != extra) { extra = on; ModDev.ev("lan", "bh04 prototype " + on); } }
     }
 
