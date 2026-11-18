@@ -20,7 +20,7 @@
     .registers 2
 
     .prologue
-    .line 17
+    .line 16
     const-wide/16 v0, -0x1
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModChain;->lastAt:J
@@ -32,7 +32,7 @@
     .registers 1
 
     .prologue
-    .line 13
+    .line 12
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -42,7 +42,7 @@
     .registers 1
 
     .prologue
-    .line 21
+    .line 20
     const/4 v0, 0x1
 
     return v0
@@ -52,7 +52,7 @@
     .registers 6
 
     .prologue
-    .line 28
+    .line 25
     const/high16 v0, 0x3fc00000    # 1.5f
 
     const/high16 v1, 0x3f800000    # 1.0f
@@ -86,25 +86,25 @@
     .prologue
     const/high16 v0, 0x3f800000    # 1.0f
 
-    .line 33
+    .line 30
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModChain;->enabled()Z
 
     move-result v1
 
     if-nez v1, :cond_9
 
-    .line 45
+    .line 42
     :goto_8
     return v0
 
-    .line 35
+    .line 32
     :cond_9
     :try_start_9
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->play()J
 
     move-result-wide v2
 
-    .line 36
+    .line 33
     sget-wide v4, Lfr/testudo/spacecorsair/mod/ModChain;->lastAt:J
 
     const-wide/16 v6, 0x0
@@ -130,10 +130,10 @@
     :goto_23
     sput v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
-    .line 37
+    .line 34
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModChain;->lastAt:J
 
-    .line 38
+    .line 35
     const-string v1, "chain"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -174,21 +174,21 @@
 
     invoke-static {v1, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 39
+    .line 36
     sget v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
     const/4 v2, 0x2
 
     if-lt v1, v2, :cond_9c
 
-    .line 40
+    .line 37
     sget v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModChain;->factor(I)F
 
     move-result v1
 
-    .line 41
+    .line 38
     sget-object v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v2, v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
@@ -251,7 +251,7 @@
 
     invoke-static {v2, v1, v3, v4, v5}, Lfr/testudo/spacecorsair/mod/Mod;->floatText(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    .line 43
+    .line 40
     :cond_9c
     sget v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
@@ -263,13 +263,13 @@
 
     goto/16 :goto_8
 
-    .line 36
+    .line 33
     :cond_a4
     const/4 v1, 0x1
 
     goto/16 :goto_23
 
-    .line 44
+    .line 41
     :catch_a7
     move-exception v1
 

@@ -4,10 +4,9 @@ import fr.testudo.spacecorsair.business.ennemis.Ennemis;
 import fr.testudo.spacecorsair.engine.ObjectRegistry;
 
 /**
- * PROTOTYPE (proposal branch, not approved): kill chain. Each kill within CHAIN_MS of flight time after the previous one
+ * Kill chain (owner OK 2026-11-18, numbers as proposed). Each kill within CHAIN_MS of flight time after the previous one
  * adds a link; the kill bounty is multiplied by 1 + STEP per link beyond the first, capped at MAX. "CHAIN xN" shows at the
  * player from the second link. Police and drones never reach here with a chain (ModQol.bounty returns before).
- * Numbers are Claude placeholders. Off when ModEvents.DEFAULT_ON is false and the pref "proto_chain" is not set.
  */
 public final class ModChain {
     private ModChain() {}
@@ -18,9 +17,7 @@ public final class ModChain {
     static int links;
 
     static boolean enabled() {
-        if (ModEvents.DEFAULT_ON) return true;
-        android.content.SharedPreferences p = ModQol.prefs();
-        return p != null && p.getBoolean("proto_chain", false);
+        return true;
     }
 
     /** Pure rule (tests): bounty factor for a chain of n links. */

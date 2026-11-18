@@ -13,7 +13,7 @@ import fr.testudo.spacecorsair.game.levels.LevelId;
 import java.util.ArrayList;
 
 /**
- * PROTOTYPE (proposal branch, not approved): dynamic sector events.
+ * Dynamic sector events (owner OK 2026-11-18: random, not fixed; numbers as proposed).
  * One event at a time while flying in an open sector, first 90 s after entry, then every 4-6 min of play:
  *  - DISTRESS: a trader 3.2k away is under pirate attack. It loses hull every second until the player is within 1.5k;
  *    the raiders then turn on the player. Raiders dead + trader alive = credits + standing with the sector owner.
@@ -21,8 +21,7 @@ import java.util.ArrayList;
  *    Kill it for a credit bounty; it warps out when time runs out.
  *  - SALVAGE RACE: rival scavengers arrive at the sector's wreck field; beat them there (within 0.8k first) and the
  *    field's next loot is doubled; if they get there first they strip it (field marked looted).
- * On while DEFAULT_ON (true only on this proposal branch, for the owner's look), the pref "proto_events" is true, or the
- * emulator switch /data/local/tmp/corsair_events exists.
+ * Always on in open sectors. Emulator switch /data/local/tmp/corsair_event=distress|bounty|salvage<N> forces one.
  * All numbers below are Claude's placeholders for the owner to set.
  */
 public final class ModEvents {
@@ -47,17 +46,8 @@ public final class ModEvents {
     private static float rivalLeft;
     static boolean salvageDouble, fieldStripped;   // ModLoot.fromWreck: race won = 2 items per field hull, lost = none (this visit)
 
-    static final boolean DEFAULT_ON = true;   // PROPOSAL BRANCH ONLY: set false before any merge
-    private static long flagAt = -1;
-    private static boolean flag;
-
     static boolean enabled() {
-        if (DEFAULT_ON) return true;
-        long t = System.currentTimeMillis();
-        if (flagAt < 0 || t - flagAt > 5000) { flagAt = t; flag = ModDev.testFlag("corsair_events"); }
-        if (flag) return true;
-        SharedPreferences p = ModQol.prefs();
-        return p != null && p.getBoolean("proto_events", false);
+        return true;
     }
 
     /** Sector change: any running event is dropped (its ships stay in the old sector's pool). */

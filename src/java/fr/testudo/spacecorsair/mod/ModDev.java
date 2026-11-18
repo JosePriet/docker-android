@@ -436,7 +436,7 @@ public final class ModDev {
             else if (n.startsWith("boss")) { for (Element e : lvl.elements) if (!e.removed && ModBoss.isBoss(e)) { to = e.position; break; } }
             else if (n.startsWith("flagship")) for (fr.testudo.spacecorsair.business.world.civil.GuardianCivilShip c : ModCapitals.caps.keySet()) if (!c.removed) { to = c.position; break; }
             float off = 1200;
-            if (n.startsWith("event")) { to = ModEvents.testTarget(); off = 300; }   // PROTOTYPE events test
+            if (n.startsWith("event")) { to = ModEvents.testTarget(); off = 300; }   // events test
             android.util.Log.i("ModDev", "near " + n + (to != null ? " ok" : " none"));
             if (to != null) { ps.position.set(to.x + off, to.y); ps.speed.set(0, 0); }
         }

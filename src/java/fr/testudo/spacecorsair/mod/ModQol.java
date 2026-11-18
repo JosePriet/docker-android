@@ -256,7 +256,7 @@ public class ModQol {
             c *= Math.min(1.45f, xp / (float) e.xp);
             if (ModBoss.isBoss(e) || e.xp >= 500) c *= 8f;
             else if (e.elite) c *= 2f;
-            c *= ModChain.onKill(e);   // PROTOTYPE kill chain (proposal branch)
+            c *= ModChain.onKill(e);   // kill chain (owner OK 2026-11-18)
             int credits = Math.max(1, Math.round(c));
             ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.addCredit(credits);
             ModV34.rareSalvage(e, credits);
