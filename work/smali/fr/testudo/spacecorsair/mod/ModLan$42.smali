@@ -3,12 +3,12 @@
 .source "ModLan.java"
 
 # interfaces
-.implements Ljava/lang/Runnable;
+.implements Landroid/content/DialogInterface$OnClickListener;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan;->findHosts(Landroid/app/Activity;)V
+    value = Lfr/testudo/spacecorsair/mod/ModLan;->joinCode(Landroid/app/Activity;Ljava/lang/String;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -17,27 +17,12 @@
 .end annotation
 
 
-# instance fields
-.field final synthetic val$a:Landroid/app/Activity;
-
-.field final synthetic val$wait:Landroid/app/AlertDialog;
-
-
 # direct methods
-.method constructor <init>(Landroid/app/Activity;Landroid/app/AlertDialog;)V
-    .registers 3
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>()V
+    .registers 1
 
     .prologue
-    .line 3110
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$42;->val$a:Landroid/app/Activity;
-
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$42;->val$wait:Landroid/app/AlertDialog;
-
+    .line 3186
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -45,26 +30,14 @@
 
 
 # virtual methods
-.method public run()V
-    .registers 4
+.method public onClick(Landroid/content/DialogInterface;I)V
+    .registers 3
 
     .prologue
-    .line 3112
-    const/16 v0, 0xfa0
+    .line 3186
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLobby;->leave()V
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->scan(I)Ljava/util/List;
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->stop()V
 
-    move-result-object v0
-
-    .line 3113
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$42;->val$a:Landroid/app/Activity;
-
-    new-instance v2, Lfr/testudo/spacecorsair/mod/ModLan$42$1;
-
-    invoke-direct {v2, p0, v0}, Lfr/testudo/spacecorsair/mod/ModLan$42$1;-><init>(Lfr/testudo/spacecorsair/mod/ModLan$42;Ljava/util/List;)V
-
-    invoke-virtual {v1, v2}, Landroid/app/Activity;->runOnUiThread(Ljava/lang/Runnable;)V
-
-    .line 3120
     return-void
 .end method

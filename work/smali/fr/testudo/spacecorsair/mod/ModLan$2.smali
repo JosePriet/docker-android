@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 152
+    .line 202
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$2;->val$gen:J
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -42,62 +42,64 @@
 
 # virtual methods
 .method public run()V
-    .registers 9
+    .registers 10
 
     .prologue
+    const/4 v3, 0x0
+
     const/4 v2, 0x1
 
-    .line 154
+    .line 204
     const/4 v0, 0x0
 
-    .line 156
-    :try_start_2
+    .line 206
+    :try_start_3
     new-instance v1, Ljava/net/DatagramSocket;
 
     invoke-direct {v1}, Ljava/net/DatagramSocket;-><init>()V
-    :try_end_7
-    .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_7} :catch_d3
-    .catchall {:try_start_2 .. :try_end_7} :catchall_c6
+    :try_end_8
+    .catch Ljava/lang/Throwable; {:try_start_3 .. :try_end_8} :catch_e5
+    .catchall {:try_start_3 .. :try_end_8} :catchall_d8
 
-    .line 157
+    .line 207
     const/4 v0, 0x1
 
-    :try_start_8
+    :try_start_9
     invoke-virtual {v1, v0}, Ljava/net/DatagramSocket;->setBroadcast(Z)V
 
-    .line 158
+    .line 208
     iget-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModLan$2;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$100()J
-    :try_end_10
-    .catch Ljava/lang/Throwable; {:try_start_8 .. :try_end_10} :catch_b6
-    .catchall {:try_start_8 .. :try_end_10} :catchall_cf
+    :try_end_11
+    .catch Ljava/lang/Throwable; {:try_start_9 .. :try_end_11} :catch_c8
+    .catchall {:try_start_9 .. :try_end_11} :catchall_e1
 
     move-result-wide v6
 
     cmp-long v0, v4, v6
 
-    if-eqz v0, :cond_1b
+    if-eqz v0, :cond_1c
 
-    .line 172
-    if-eqz v1, :cond_1a
+    .line 222
+    if-eqz v1, :cond_1b
 
     invoke-virtual {v1}, Ljava/net/DatagramSocket;->close()V
 
-    .line 174
-    :cond_1a
-    :goto_1a
+    .line 224
+    :cond_1b
+    :goto_1b
     return-void
 
-    .line 159
-    :cond_1b
-    :try_start_1b
+    .line 209
+    :cond_1c
+    :try_start_1c
     # setter for: Lfr/testudo/spacecorsair/mod/ModLan;->beacon:Ljava/net/DatagramSocket;
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLan;->access$502(Ljava/net/DatagramSocket;)Ljava/net/DatagramSocket;
 
-    .line 160
-    :goto_1e
+    .line 210
+    :goto_1f
     iget-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModLan$2;->val$gen:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->linkGen:J
@@ -107,106 +109,123 @@
 
     cmp-long v0, v4, v6
 
-    if-nez v0, :cond_bf
+    if-nez v0, :cond_d1
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->connected:Z
 
-    if-nez v0, :cond_bf
+    if-nez v0, :cond_d1
 
-    .line 161
+    .line 211
     const-string v0, "Corsair"
-    :try_end_2e
-    .catch Ljava/lang/Throwable; {:try_start_1b .. :try_end_2e} :catch_b6
-    .catchall {:try_start_1b .. :try_end_2e} :catchall_cf
+    :try_end_2f
+    .catch Ljava/lang/Throwable; {:try_start_1c .. :try_end_2f} :catch_c8
+    .catchall {:try_start_1c .. :try_end_2f} :catchall_e1
 
-    .line 162
-    :try_start_2e
-    sget-object v3, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+    .line 212
+    :try_start_2f
+    sget-object v4, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    iget-object v3, v3, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
+    iget-object v4, v4, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
 
-    iget-object v3, v3, Lfr/testudo/spacecorsair/game/Game;->currentLevel:Lfr/testudo/spacecorsair/game/levels/Level;
+    iget-object v4, v4, Lfr/testudo/spacecorsair/game/Game;->currentLevel:Lfr/testudo/spacecorsair/game/levels/Level;
 
-    iget-object v3, v3, Lfr/testudo/spacecorsair/game/levels/Level;->id:Lfr/testudo/spacecorsair/game/levels/LevelId;
+    iget-object v4, v4, Lfr/testudo/spacecorsair/game/levels/Level;->id:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
-    iget-object v0, v3, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelName:Ljava/lang/String;
-    :try_end_38
-    .catch Ljava/lang/Throwable; {:try_start_2e .. :try_end_38} :catch_d5
-    .catchall {:try_start_2e .. :try_end_38} :catchall_cf
+    iget-object v0, v4, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelName:Ljava/lang/String;
+    :try_end_39
+    .catch Ljava/lang/Throwable; {:try_start_2f .. :try_end_39} :catch_e7
+    .catchall {:try_start_2f .. :try_end_39} :catchall_e1
 
-    .line 163
-    :goto_38
-    :try_start_38
-    new-instance v3, Ljava/lang/StringBuilder;
+    .line 213
+    :goto_39
+    :try_start_39
+    new-instance v4, Ljava/lang/StringBuilder;
 
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v4, "SCLAN2|"
+    const-string v5, "SCLAN2|"
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v4
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->myVersion()Ljava/lang/String;
 
+    move-result-object v5
+
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
     move-result-object v4
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    const-string v5, "|"
 
-    move-result-object v3
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    const-string v4, "|"
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
+    move-result-object v4
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->myNick()Ljava/lang/String;
 
+    move-result-object v5
+
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
     move-result-object v4
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    const-string v5, "|"
 
-    move-result-object v3
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    const-string v4, "|"
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
+    move-result-object v4
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->myCountry()Ljava/lang/String;
 
+    move-result-object v5
+
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
     move-result-object v4
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    const-string v5, "|"
 
-    move-result-object v3
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    const-string v4, "|"
+    move-result-object v4
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    const-string v3, "|"
+    const-string v4, "|"
 
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v4
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->pvpRoom:Z
 
-    if-eqz v0, :cond_ad
+    if-eqz v0, :cond_bd
 
     move v0, v2
 
-    :goto_7c
-    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    :goto_7d
+    invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v4, "|"
+
+    invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v4
+
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->lanPub:Z
+
+    if-eqz v0, :cond_bf
+
+    move v0, v2
+
+    :goto_8c
+    invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -214,133 +233,138 @@
 
     move-result-object v0
 
-    const-string v3, "UTF-8"
+    const-string v4, "UTF-8"
 
-    invoke-virtual {v0, v3}, Ljava/lang/String;->getBytes(Ljava/lang/String;)[B
+    invoke-virtual {v0, v4}, Ljava/lang/String;->getBytes(Ljava/lang/String;)[B
 
-    move-result-object v3
+    move-result-object v4
 
-    .line 164
+    .line 214
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->broadcasts()Ljava/util/List;
 
     move-result-object v0
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
-    move-result-object v4
+    move-result-object v5
 
-    :goto_92
-    invoke-interface {v4}, Ljava/util/Iterator;->hasNext()Z
+    :goto_a2
+    invoke-interface {v5}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v0
 
-    if-eqz v0, :cond_af
+    if-eqz v0, :cond_c1
 
-    invoke-interface {v4}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+    invoke-interface {v5}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/net/InetAddress;
-    :try_end_9e
-    .catch Ljava/lang/Throwable; {:try_start_38 .. :try_end_9e} :catch_b6
-    .catchall {:try_start_38 .. :try_end_9e} :catchall_cf
+    :try_end_ae
+    .catch Ljava/lang/Throwable; {:try_start_39 .. :try_end_ae} :catch_c8
+    .catchall {:try_start_39 .. :try_end_ae} :catchall_e1
 
-    .line 165
-    :try_start_9e
-    new-instance v5, Ljava/net/DatagramPacket;
+    .line 215
+    :try_start_ae
+    new-instance v6, Ljava/net/DatagramPacket;
 
-    array-length v6, v3
+    array-length v7, v4
 
-    const v7, 0x9089
+    const v8, 0x9089
 
-    invoke-direct {v5, v3, v6, v0, v7}, Ljava/net/DatagramPacket;-><init>([BILjava/net/InetAddress;I)V
+    invoke-direct {v6, v4, v7, v0, v8}, Ljava/net/DatagramPacket;-><init>([BILjava/net/InetAddress;I)V
 
-    invoke-virtual {v1, v5}, Ljava/net/DatagramSocket;->send(Ljava/net/DatagramPacket;)V
-    :try_end_aa
-    .catch Ljava/lang/Throwable; {:try_start_9e .. :try_end_aa} :catch_ab
-    .catchall {:try_start_9e .. :try_end_aa} :catchall_cf
+    invoke-virtual {v1, v6}, Ljava/net/DatagramSocket;->send(Ljava/net/DatagramPacket;)V
+    :try_end_ba
+    .catch Ljava/lang/Throwable; {:try_start_ae .. :try_end_ba} :catch_bb
+    .catchall {:try_start_ae .. :try_end_ba} :catchall_e1
 
-    goto :goto_92
+    goto :goto_a2
 
-    :catch_ab
+    :catch_bb
     move-exception v0
 
-    goto :goto_92
+    goto :goto_a2
 
-    .line 163
-    :cond_ad
-    const/4 v0, 0x0
+    :cond_bd
+    move v0, v3
 
-    goto :goto_7c
+    .line 213
+    goto :goto_7d
 
-    .line 167
-    :cond_af
+    :cond_bf
+    move v0, v3
+
+    goto :goto_8c
+
+    .line 217
+    :cond_c1
     const-wide/16 v4, 0x3e8
 
-    :try_start_b1
+    :try_start_c3
     invoke-static {v4, v5}, Ljava/lang/Thread;->sleep(J)V
-    :try_end_b4
-    .catch Ljava/lang/Throwable; {:try_start_b1 .. :try_end_b4} :catch_b6
-    .catchall {:try_start_b1 .. :try_end_b4} :catchall_cf
+    :try_end_c6
+    .catch Ljava/lang/Throwable; {:try_start_c3 .. :try_end_c6} :catch_c8
+    .catchall {:try_start_c3 .. :try_end_c6} :catchall_e1
 
-    goto/16 :goto_1e
+    goto/16 :goto_1f
 
-    .line 169
-    :catch_b6
+    .line 219
+    :catch_c8
     move-exception v0
 
     move-object v0, v1
 
-    .line 172
-    :goto_b8
-    if-eqz v0, :cond_1a
+    .line 222
+    :goto_ca
+    if-eqz v0, :cond_1b
 
     invoke-virtual {v0}, Ljava/net/DatagramSocket;->close()V
 
-    goto/16 :goto_1a
+    goto/16 :goto_1b
 
-    :cond_bf
-    if-eqz v1, :cond_1a
+    :cond_d1
+    if-eqz v1, :cond_1b
 
     invoke-virtual {v1}, Ljava/net/DatagramSocket;->close()V
 
-    goto/16 :goto_1a
+    goto/16 :goto_1b
 
-    :catchall_c6
+    :catchall_d8
     move-exception v1
 
     move-object v2, v1
 
     move-object v3, v0
 
-    :goto_c9
-    if-eqz v3, :cond_ce
+    :goto_db
+    if-eqz v3, :cond_e0
 
     invoke-virtual {v3}, Ljava/net/DatagramSocket;->close()V
 
-    .line 173
-    :cond_ce
+    .line 223
+    :cond_e0
     throw v2
 
-    .line 172
-    :catchall_cf
+    .line 222
+    :catchall_e1
     move-exception v0
 
     move-object v2, v0
 
     move-object v3, v1
 
-    goto :goto_c9
+    goto :goto_db
 
-    .line 169
-    :catch_d3
+    .line 219
+    :catch_e5
     move-exception v1
 
-    goto :goto_b8
+    goto :goto_ca
 
-    .line 162
-    :catch_d5
-    move-exception v3
+    .line 212
+    :catch_e7
+    move-exception v4
 
-    goto/16 :goto_38
+    goto/16 :goto_39
 .end method

@@ -24,7 +24,7 @@
 
 
 # direct methods
-.method constructor <init>(Ljava/lang/String;Landroid/app/Activity;)V
+.method constructor <init>(Landroid/app/Activity;Ljava/lang/String;)V
     .registers 3
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -33,10 +33,10 @@
     .end annotation
 
     .prologue
-    .line 2989
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$22;->val$code:Ljava/lang/String;
+    .line 3068
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$22;->val$a:Landroid/app/Activity;
 
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$22;->val$a:Landroid/app/Activity;
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLan$22;->val$code:Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -46,81 +46,18 @@
 
 # virtual methods
 .method public run()V
-    .registers 5
+    .registers 4
 
     .prologue
-    .line 2991
-    :try_start_0
-    new-instance v0, Landroid/content/Intent;
+    .line 3068
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$22;->val$a:Landroid/app/Activity;
 
-    const-string v1, "android.intent.action.SEND"
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$22;->val$code:Ljava/lang/String;
 
-    invoke-direct {v0, v1}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+    const/4 v2, 0x1
 
-    .line 2992
-    const-string v1, "text/plain"
+    # invokes: Lfr/testudo/spacecorsair/mod/ModLan;->shareCode(Landroid/app/Activity;Ljava/lang/String;Z)V
+    invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1800(Landroid/app/Activity;Ljava/lang/String;Z)V
 
-    invoke-virtual {v0, v1}, Landroid/content/Intent;->setType(Ljava/lang/String;)Landroid/content/Intent;
-
-    .line 2993
-    const-string v1, "android.intent.extra.TEXT"
-
-    new-instance v2, Ljava/lang/StringBuilder;
-
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v3, "Join my Space Corsair game. Multiplayer, Join by code:"
-
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    const-string v3, " "
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLan$22;->val$code:Ljava/lang/String;
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
-
-    .line 2994
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$22;->val$a:Landroid/app/Activity;
-
-    const-string v2, "Share code"
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-static {v0, v2}, Landroid/content/Intent;->createChooser(Landroid/content/Intent;Ljava/lang/CharSequence;)Landroid/content/Intent;
-
-    move-result-object v0
-
-    invoke-virtual {v1, v0}, Landroid/app/Activity;->startActivity(Landroid/content/Intent;)V
-    :try_end_3f
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_3f} :catch_40
-
-    .line 2996
-    :goto_3f
     return-void
-
-    .line 2995
-    :catch_40
-    move-exception v0
-
-    goto :goto_3f
 .end method

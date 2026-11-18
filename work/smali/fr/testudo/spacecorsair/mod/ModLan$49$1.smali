@@ -1,4 +1,4 @@
-.class Lfr/testudo/spacecorsair/mod/ModLan$46$1;
+.class Lfr/testudo/spacecorsair/mod/ModLan$49$1;
 .super Ljava/lang/Object;
 .source "ModLan.java"
 
@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModLan$46;->run()V
+    value = Lfr/testudo/spacecorsair/mod/ModLan$49;->run()V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -18,16 +18,16 @@
 
 
 # instance fields
-.field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModLan$46;
+.field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModLan$49;
 
 
 # direct methods
-.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModLan$46;)V
+.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModLan$49;)V
     .registers 2
 
     .prologue
-    .line 3153
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$46$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$46;
+    .line 3254
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$49$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$49;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -40,10 +40,10 @@
     .registers 2
 
     .prologue
-    .line 3153
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$46$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$46;
+    .line 3254
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$49$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$49;
 
-    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$46;->val$a:Landroid/app/Activity;
+    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$49;->val$a:Landroid/app/Activity;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->showMenu(Landroid/app/Activity;)V
 

@@ -1,0 +1,14 @@
+{
+ "DUEL WON": "DUELO GANADO",
+ "DUEL LOST": "DUELO PERDIDO",
+ "Host public local game": "Alojar partida local pública",
+ "Host private local game (code)": "Alojar partida local privada (código)",
+ "Join my local Space Corsair game (same Wi-Fi). Multiplayer, Find local games, code:": "Únete a mi partida local de Space Corsair (misma Wi-Fi). Multijugador, Buscar partidas locales, código:",
+ "Private (code)": "Privada (código)",
+ "Public": "Pública",
+ "Private local game: only players with the code can join.": "Partida local privada: solo pueden unirse los jugadores con el código.",
+ "Public local game: anyone on this network can ask to join.": "Partida local pública: cualquiera en esta red puede pedir unirse.",
+ "PvP duel: both ships go to the old multiplayer bay and fight until one is destroyed. The destroyed ship respawns at full hull with no death fee, then both ships go back. Undock to start.": "Duelo JcJ: ambas naves van a la antigua bahía multijugador y luchan hasta que una sea destruida. La nave destruida reaparece con el casco completo y sin tarifa por muerte, y luego ambas naves vuelven. Desacopla para empezar.",
+ "This local game is private. Type its 4-character code.": "Esta partida local es privada. Escribe su código de 4 caracteres.",
+ "Wrong code.": "Código incorrecto."
+}

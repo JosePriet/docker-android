@@ -77,7 +77,9 @@ import java.util.WeakHashMap;
  * steered by the AI, never destroyed (hits are forwarded to the guest's own shields and hull), and enemies near it are
  * set on it.</li>
  * <li>The guest follows the host: a sector change on the host pulls the guest's ship into the same sector.</li>
- * <li>XP is shared: every point the host earns is added to the guest. Loot and credits stay with the host.</li>
+ * <li>XP is shared: every point the host earns is added to the guest. Loot: each player rolls its own drops for every
+ * kill (v45; owner 2026-11-18: co-op only, never in a duel). Credits stay with each player.</li>
+ * <li>Local rooms (owner 2026-11-18): public, or private with a 4-character code the guest must type (like internet games).</li>
  * </ul>
  *
  * Transport: TCP on port 37001 (the original game's multiplayer port), Nagle off, one guest. Each side keeps only the
@@ -100,7 +102,7 @@ public final class ModLan {
 
     private static final String HELLO = "SCLAN2";   // v45: + version, nickname, country, and a host reply byte
     static final int MAX_MSG = 256 * 1024;
-    private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3;
+    private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3, BADCODE = 4;   // owner 2026-11-18: BADCODE = a private local room, code missing or wrong
     private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7, MSG_KILL = 8, MSG_PING = 9, MSG_LFRAME = 10, MSG_LSTATE = 11, MSG_STYLE = 12, MSG_DECL = 13,
         MSG_DRONE = 14, MSG_DOOM = 15;   // GPT check BH04 prototype (switch ModLan.extra, off): guest drone launch, guest doomsday ticks   // v45: 6 = a deflated FRAME / STATE (type byte first)
     private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
@@ -117,7 +119,55 @@ public final class ModLan {
     private static volatile long linkGen;
     private static volatile java.util.concurrent.locks.ReentrantLock writeLock;
 
-    /** Host: starts listening and announcing. UI thread. */
+    // ------------------------------------------------------------------ owner 2026-11-18: local rooms need the code unless public
+    /** The local room: public (anyone on the network may ask to join) or private (the guest types lanCode). */
+    static volatile boolean lanPub = true;
+    static volatile String lanCode = "";
+    private static final java.util.HashMap<String, long[]> badCodes = new java.util.HashMap<String, long[]>();   // address -> {wrong tries, first try ms}
+    /** Guest: the address of a private local room that asked for its code (the menu asks for it). */
+    static volatile String needCode;
+    private static volatile String lastCode = "";
+
+    /** Host UI: opens a local room, public or private (a new random code). */
+    static void host(boolean pub) {
+        lanPub = pub;
+        lanCode = pub ? "" : newCode();
+        synchronized (badCodes) { badCodes.clear(); }
+        host();
+    }
+
+    static String newCode() {
+        java.security.SecureRandom r = new java.security.SecureRandom();
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; i < 4; i++) b.append(ModLanUi.CODE_ALPHABET.charAt(r.nextInt(ModLanUi.CODE_ALPHABET.length())));
+        return b.toString();
+    }
+
+    /** Host: a private local room checks the guest's code. 5 wrong codes from one address lock it out for 10 minutes. */
+    private static int codeCheck(String addr, String code) {
+        if (lanPub) return OK;
+        long now = System.currentTimeMillis();
+        synchronized (badCodes) {
+            long[] b = badCodes.get(addr);
+            if (b != null && now - b[1] > 600000) { badCodes.remove(addr); b = null; }
+            if (b != null && b[0] >= 5) return KICKED;
+            if (lanCode.length() == 4 && lanCode.equals(code)) return OK;
+            if (code.length() == 0) return BADCODE;   // asked for the code: not a wrong try
+            if (b == null) { b = new long[]{0, now}; if (badCodes.size() < 256) badCodes.put(addr, b); }
+            b[0]++;
+            return BADCODE;
+        }
+    }
+
+    /** Guest: the opening of the handshake (tag, version, nickname, country, local room code). */
+    private static void writeHello(DataOutputStream ho, String code) throws IOException {
+        ho.write(HELLO.getBytes("UTF-8"));
+        ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
+        ho.writeUTF(code == null ? "" : ModLanUi.codeChars(code, 4));
+        ho.flush();
+    }
+
+    /** Host: starts listening and announcing, in the current room mode (lanPub, lanCode). UI thread. */
     static void host() {
         String tp = ModLobby.testProfileBlock();   // fix list 3B
         if (tp != null) { status = tp; return; }
@@ -160,7 +210,7 @@ public final class ModLan {
                     while (gen == linkGen && !connected) {
                         String name = "Corsair";
                         try { name = ObjectRegistry.INSTANCE.game.currentLevel.id.levelName; } catch (Throwable t) { /* unnamed */ }
-                        byte[] b = (HELLO + "|" + myVersion() + "|" + myNick() + "|" + myCountry() + "|" + name + "|" + (pvpRoom ? 1 : 0)).getBytes("UTF-8");
+                        byte[] b = (HELLO + "|" + myVersion() + "|" + myNick() + "|" + myCountry() + "|" + name + "|" + (pvpRoom ? 1 : 0) + "|" + (lanPub ? 1 : 0)).getBytes("UTF-8");
                         for (InetAddress a : broadcasts()) {
                             try { ds.send(new DatagramPacket(b, b.length, a, PORT)); } catch (Throwable t) { /* next address */ }
                         }
@@ -210,9 +260,7 @@ public final class ModLan {
         status = ModLang.tr("Waiting for the host to accept...");
         try {
             DataOutputStream ho = new DataOutputStream(s.getOutputStream());
-            ho.write(HELLO.getBytes("UTF-8"));
-            ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
-            ho.flush();
+            writeHello(ho, "");   // internet games: the lobby checked the code
             s.setSoTimeout(35000);
             DataInputStream hi = new DataInputStream(s.getInputStream());
             int r = hi.readUnsignedByte();
@@ -237,7 +285,11 @@ public final class ModLan {
 
     private static volatile String netJoinId = "", netPeerId = "", rejoinId = "";
 
-    static void join(String ip) {
+    static void join(String ip) { join(ip, ""); }
+
+    /** Guest: joins a local host; code = the private room's code ("" for a public room). */
+    static void join(String ip, String code) {
+        needCode = null;
         String tp = ModLobby.testProfileBlock();   // fix list 3B
         if (tp != null) { status = tp; return; }
         ModLobby.leave();
@@ -250,9 +302,7 @@ public final class ModLan {
             s.connect(new InetSocketAddress(ip, PORT), 5000);
             if (gen != linkGen) { s.close(); return; }
             DataOutputStream ho = new DataOutputStream(s.getOutputStream());
-            ho.write(HELLO.getBytes("UTF-8"));
-            ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
-            ho.flush();
+            writeHello(ho, code);
             status = ModLang.tr("Waiting for the host to accept...");
             s.setSoTimeout(35000);
             DataInputStream hi = new DataInputStream(s.getInputStream());
@@ -265,7 +315,10 @@ public final class ModLan {
                 noRejoin();
                 stop();
                 status = r == VERSION ? ModLang.tr("Different game versions. Your friend has") + " " + clean(hv, 40) + ", " + ModLang.tr("you have") + " " + myVersion() + "."
-                    : r == KICKED ? ModLang.tr("The host removed you from this game.") : ModLang.tr("The host declined.");
+                    : r == KICKED ? ModLang.tr("The host removed you from this game.")
+                    : r == BADCODE ? (code.length() == 0 ? ModLang.tr("This local game is private. Type its 4-character code.") : ModLang.tr("Wrong code."))
+                    : ModLang.tr("The host declined.");
+                if (r == BADCODE) needCode = ip;
                 ModDev.ev("lan", "join refused " + r);
                 return;
             }
@@ -273,6 +326,7 @@ public final class ModLan {
             readPeerId(hi);
             s.setSoTimeout(0);
             lastAddr = ip;
+            lastCode = code;
             begin(s, gen);
         } catch (Throwable t) {
             if (gen == linkGen) fail(t);   // a join the player already left must not end what came after it
@@ -348,7 +402,7 @@ public final class ModLan {
     private static volatile String pendingWho;
     private static volatile Activity lastAct;
 
-    private static void noRejoin() { lastAddr = null; rejoinAddr = null; rejoinId = ""; rejoinUntil = 0; }
+    private static void noRejoin() { lastAddr = null; lastCode = ""; rejoinAddr = null; rejoinId = ""; rejoinUntil = 0; }
 
     /** Host: asks the player (dialog on the current screen; also offered in the LAN co-op menu). 25 s without an answer declines. */
     private static boolean askAccept(final String who, long gen) {
@@ -429,6 +483,7 @@ public final class ModLan {
                 if (f.length < 6) continue;
                 String line = p.getAddress().getHostAddress() + "  " + ModLanUi.label(ModLanUi.safeNick(clean(f[2], 12)), ModLanUi.safeCountry(clean(f[3], 3)))
                     + "  \u00b7  " + clean(f[4], 40) + (f[5].equals("1") ? "  \u00b7  PvP" : "")
+                    + "  \u00b7  " + (f.length > 6 && f[6].equals("1") ? ModLang.tr("Public") : privTag())
                     + (clean(f[1], 40).equals(myVersion()) ? "" : "  \u00b7  " + ModLang.tr("other version"));
                 if (!out.contains(line)) out.add(line);
             }
@@ -439,6 +494,9 @@ public final class ModLan {
         }
         return out;
     }
+
+    /** The scan-row tag of a private local room (a tap on such a row asks for the code first). */
+    static String privTag() { return ModLang.tr("Private (code)"); }
 
     static List<InetAddress> broadcasts() {
         ArrayList<InetAddress> out = new ArrayList<InetAddress>();
@@ -496,6 +554,13 @@ public final class ModLan {
             synchronized (kicked) { out3 = !(s instanceof ModNet.Link) && kicked.contains(addr); }   // internet kicks go by install id at the lobby service
             if (out3) { out.writeByte(KICKED); out.flush(); return false; }
             if (!ver.equals(myVersion())) { out.writeByte(VERSION); out.writeUTF(myVersion()); out.flush(); ModDev.ev("lan", "refused version " + ver); return false; }
+            s.setSoTimeout(3000);
+            String code = ModLanUi.codeChars(clean(readShortUTF(in, 8), 8), 4);   // owner 2026-11-18: the local room code
+            s.setSoTimeout(0);
+            if (!(s instanceof ModNet.Link)) {   // internet games: the lobby service already checked the code
+                int cc = codeCheck(addr, code);
+                if (cc != OK) { out.writeByte(cc); out.flush(); ModDev.ev("lan", "room code refused " + addr); return false; }
+            }
             boolean back = (s instanceof ModNet.Link ? rejoinId.length() > 0 && rejoinId.equals(netJoinId) : addr.equals(rejoinAddr)) && System.currentTimeMillis() < rejoinUntil;   // the same phone reconnecting
             String who = ModLanUi.label(ModLanUi.safeNick(nick), ModLanUi.safeCountry(ctry));
             if (!back && !autoAccept && !askAccept(who, gen)) { out.writeByte(DECLINED); out.flush(); ModDev.ev("lan", "declined " + addr); return false; }
@@ -672,9 +737,7 @@ public final class ModLan {
             s = new Socket();
             s.connect(new InetSocketAddress(ip, PORT), 2500);
             DataOutputStream ho = new DataOutputStream(s.getOutputStream());
-            ho.write(HELLO.getBytes("UTF-8"));
-            ho.writeUTF(myVersion()); ho.writeUTF(myNick()); ho.writeUTF(myCountry());
-            ho.flush();
+            writeHello(ho, lastCode);
             s.setSoTimeout(5000);
             DataInputStream hi = new DataInputStream(s.getInputStream());
             int r = hi.readUnsignedByte();
@@ -2705,6 +2768,12 @@ public final class ModLan {
     private static long jumpAt;
     private static boolean lostRound, restore;
     private static long roundAt;   // GPT check BH06: start of the current duel round
+    /** Owner 2026-11-18: a duel ends on the first death. Host: when the decided duel closes (0 = still fighting). */
+    private static long duelEndAt;
+    static final long DUEL_END_MS = 3000;   // the result shows and both phones see it before the ships go home
+
+    /** The duel has a winner (round 1 was decided): further hits change nothing until it closes. */
+    static boolean duelDecided() { return role == GUEST ? seenRound > 1 : round > 1; }
 
     /** Host UI: start or end a duel. The host's game takes both ships to the player bay (FFA, off the map). */
     static volatile boolean pvpRoom;   // v45 host room setting, off by default: no duel while off
@@ -2736,12 +2805,14 @@ public final class ModLan {
             duelFrom = null;
             round = 1; hostWins = 0; guestWins = 0; roundDmg = 0; roundAt = System.currentTimeMillis();
             lostRound = false; restore = false;   // GPT check BH07
+            duelEndAt = 0;
             seenDefeats = s != null ? s.defeats : 0;
             jumpedIn = false;
             removeProxy();   // re-spawned on the duel side
         }
         if (pvp && !pvpWanted) {
             pvp = false;
+            duelEndAt = 0;
             removeProxy();
             leaveBay();
             return;
@@ -2758,6 +2829,12 @@ public final class ModLan {
             }
             return;
         }
+        if (duelEndAt > 0) {   // owner 2026-11-18: decided; no more rounds. Both ships stay at full hull, then go home
+            if (lostRound) { lostRound = false; restore = true; }
+            if (restore) { restore = false; refill(ps); }
+            if (System.currentTimeMillis() >= duelEndAt) { duelEndAt = 0; pvpWanted = false; ModDev.ev("lan", "duel over " + hostWins + "-" + guestWins); }
+            return;
+        }
         // v45: the host decides. A guest that soaked 4 hulls of damage without reporting a lost round has lost it.
         // GPT check BH06: what the declared shield can absorb and regenerate during this round counts too
         ModLanCheck.Limits lmS = limits != null ? limits : undeclared();
@@ -2772,6 +2849,7 @@ public final class ModLan {
             restore = true;
             if (proxy != null) explode(proxy.position.x, proxy.position.y);   // audit F11: the loser's ship blows up
             roundText(ps, true);
+            duelEndAt = System.currentTimeMillis() + DUEL_END_MS;   // owner 2026-11-18: the first death ends the duel
         }
         if (lostRound) {   // the host's hull hit its floor: guest wins the round
             lostRound = false;
@@ -2782,6 +2860,7 @@ public final class ModLan {
             explode(ps.position.x, ps.position.y);
             if (proxy != null) respawnApart(ps, proxy.position.x, proxy.position.y);
             roundText(ps, false);
+            if (duelEndAt == 0) duelEndAt = System.currentTimeMillis() + DUEL_END_MS;   // owner 2026-11-18: the first death ends the duel
         }
         if (restore) { restore = false; refill(ps); }
     }
@@ -2803,10 +2882,10 @@ public final class ModLan {
 
     private static void guestDuel(PlayerShip ps, InFrame f) {
         pvp = f.pvp;
-        if (!pvp) { seenRound = f.round; return; }
+        if (!pvp) { seenRound = 0; defeatRound = -1; return; }   // owner 2026-11-18: the next duel starts fresh (no stale result text)
         if (lostRound) {   // once per round: further hits at the floor before the host's next round count nothing
             lostRound = false;
-            if (defeatRound != seenRound) {
+            if (defeatRound != seenRound && !duelDecided()) {
                 defeatRound = seenRound; defeats++;
                 explode(ps.position.x, ps.position.y);   // audit F11: destroyed, back at full hull away from the host
                 respawnApart(ps, f.hx, f.hy);
@@ -2816,7 +2895,7 @@ public final class ModLan {
         if (f.round != seenRound) {
             boolean won = f.guestWins > guestWins;
             boolean first = seenRound == 0;
-            if (!first && !won && defeatRound != seenRound) {   // fix list 11A: a round the host forced also blows this ship up
+            if (!first && !won && defeatRound != seenRound && seenRound <= 1) {   // fix list 11A: a round the host forced also blows this ship up
                 defeatRound = seenRound;
                 explode(ps.position.x, ps.position.y);
                 respawnApart(ps, f.hx, f.hy);
@@ -2824,14 +2903,14 @@ public final class ModLan {
             seenRound = f.round;
             hostWins = f.hostWins; guestWins = f.guestWins;
             refill(ps);
-            if (!first && won) explode(f.hx, f.hy);   // the host's ship blew up
-            if (!first) roundText(ps, won);
+            if (!first && won && seenRound <= 2) explode(f.hx, f.hy);   // the host's ship blew up
+            if (!first && seenRound <= 2) roundText(ps, won);   // owner 2026-11-18: one death decides the duel
         }
     }
 
     private static void roundText(PlayerShip ps, boolean won) {
         int mine = role == HOST ? hostWins : guestWins, theirs = role == HOST ? guestWins : hostWins;
-        Mod.floatText(ps, (won ? ModLang.tr("ROUND WON") : ModLang.tr("ROUND LOST")) + "  " + myNick() + " " + mine + " - " + theirs + " " + peerNick,
+        Mod.floatText(ps, (won ? ModLang.tr("DUEL WON") : ModLang.tr("DUEL LOST")) + "  " + myNick() + " " + mine + " - " + theirs + " " + peerNick,
             won ? 0.3f : 1.0f, won ? 1.0f : 0.4f, won ? 0.5f : 0.3f);
         ModDev.ev("lan", "duel round " + (won ? "won" : "lost") + " " + mine + "-" + theirs);
     }
@@ -2862,9 +2941,9 @@ public final class ModLan {
     }
 
     /**
-     * ModPrologue.damage (start of PlayerShip.applyDamage, before shields): in a duel the hull stops at 1; reaching it
-     * loses the round. Audit F11 (owner 2026-11-17): the ship then explodes and respawns at full hull, away from the
-     * winner, with no death fee or loss (the game's own death never runs).
+     * ModPrologue.damage (start of PlayerShip.applyDamage, before shields): in a duel the killing hit is the ship's death.
+     * Audit F11 / owner 2026-11-18: the ship explodes and respawns at full hull, away from the winner, with no death fee or
+     * loss (the game's own death screen and fee never run), and that first death ends the duel.
      */
     static float duelFloor(PlayerShip ps, float amount) {
         if (!pvp || !connected || ps == null || amount <= 0 || !inBay()) return amount;
@@ -2949,7 +3028,7 @@ public final class ModLan {
             if (connected && role == HOST) {
                 String msg = ModLang.tr("You are hosting.") + " " + peerLabel() + " " + ModLang.tr("plays in your sector.")
                     + "\n\n" + ModLang.tr("PvP is") + " " + (pvpRoom ? ModLang.tr("ON") : ModLang.tr("OFF")) + ". "
-                    + ModLang.tr("PvP duel: both ships go to the old multiplayer bay and fight rounds. A ship stops at 1 hull and loses the round; nobody dies or pays a death fee. Undock to start.")
+                    + ModLang.tr("PvP duel: both ships go to the old multiplayer bay and fight until one is destroyed. The destroyed ship respawns at full hull with no death fee, then both ships go back. Undock to start.")
                     + (pvp ? "\n\n" + ModLang.tr("Duel score") + " " + hostWins + " - " + guestWins : "")
                     + "\n\n" + missionLine() + netLines();
                 ModLanUi.menu(a, title, null, msg, new String[]{
@@ -2986,34 +3065,35 @@ public final class ModLan {
                     code.length() == 4 ? ModLang.tr("Share code") : null,
                     pvpRoom ? ModLang.tr("PvP: ON (tap to turn off)") : ModLang.tr("PvP: OFF (tap to turn on)"), ModLang.tr("Stop hosting"), ModLang.tr("Close")
                 }, new Runnable[]{
-                    new Runnable() { public void run() {
-                        try {
-                            android.content.Intent i = new android.content.Intent(android.content.Intent.ACTION_SEND);
-                            i.setType("text/plain");
-                            i.putExtra(android.content.Intent.EXTRA_TEXT, ModLang.tr("Join my Space Corsair game. Multiplayer, Join by code:") + " " + code);
-                            a.startActivity(android.content.Intent.createChooser(i, ModLang.tr("Share code")));
-                        } catch (Throwable t) { /* no app to share with */ }
-                    } },
+                    new Runnable() { public void run() { shareCode(a, code, true); } },
                     new Runnable() { public void run() { setPvpRoom(!pvpRoom); showMenu(a); } },
                     new Runnable() { public void run() { noRejoin(); ModLobby.leave(); stop(); } },
                     null
                 });
             } else if (role == HOST) {
-                String msg = status + "\n\n" + ModLang.tr("Your address:") + " " + myAddresses();
+                final String lc = lanCode;
+                String msg = status + "\n\n" + ModLang.tr("Your address:") + " " + myAddresses() + "\n\n"
+                    + (lanPub ? ModLang.tr("Public local game: anyone on this network can ask to join.")
+                        : ModLang.tr("Game code:") + "  " + lc + "\n\n" + ModLang.tr("Private local game: only players with the code can join."))
+                    + " " + ModLang.tr("You accept or decline each player.");
                 ModLanUi.menu(a, title, null, msg, new String[]{
+                    !lanPub && lc.length() == 4 ? ModLang.tr("Share code") : null,
                     pvpRoom ? ModLang.tr("PvP: ON (tap to turn off)") : ModLang.tr("PvP: OFF (tap to turn on)"), ModLang.tr("Stop hosting"), ModLang.tr("Close")
                 }, new Runnable[]{
+                    new Runnable() { public void run() { shareCode(a, lc, false); } },
                     new Runnable() { public void run() { setPvpRoom(!pvpRoom); showMenu(a); } },
                     new Runnable() { public void run() { noRejoin(); stop(); } },
                     null
                 });
             } else {
+                final String nc = needCode;
+                if (nc != null && role == NONE) { needCode = null; askCode(a, nc); return; }
                 String msg = status.length() > 0 ? status : ModLobby.status;
                 final boolean net = ModLobby.available();
                 if (net && !ModSaveSig.publicOk()) msg += (msg.length() > 0 ? "\n\n" : "") + ModLang.tr("Your save was changed outside the game. Public games are locked for 24 hours; private codes and local games still work.");
                 ModLanUi.menu(a, title, ModLanUi.profileRow(a, again), msg, new String[]{
                     "#" + ModLang.tr("Local game (same Wi-Fi)") + "|" + ModLang.tr("Play with someone on the same Wi-Fi or phone hotspot. No internet needed. Hosts on your network appear here automatically."),
-                    ModLang.tr("Host local game"), ModLang.tr("Find local games"), ModLang.tr("Join by address"),
+                    ModLang.tr("Host public local game"), ModLang.tr("Host private local game (code)"), ModLang.tr("Find local games"), ModLang.tr("Join by address"),
                     "#" + ModLang.tr("Public games (internet)") + "|" + ModLang.tr("Play with anyone over the internet. Public games show up here for everyone; tap Join to enter. Private games are hidden and need the 4-character code. Uses mobile data or Wi-Fi."),
                     net ? null : ModLang.tr("Not available yet in this version"),
                     net && !ModLobby.PUBLIC_ON ? ModLang.tr("Public games open in a later version. Private games with a code work now.") : null,
@@ -3027,7 +3107,8 @@ public final class ModLan {
                     ModLang.tr("Close")
                 }, new Runnable[]{
                     null,
-                    new Runnable() { public void run() { host(); showMenu(a); } },
+                    new Runnable() { public void run() { host(true); showMenu(a); } },
+                    new Runnable() { public void run() { host(false); showMenu(a); } },
                     new Runnable() { public void run() { findHosts(a); } },
                     new Runnable() { public void run() { pickHost(a, Collections.<String>emptyList()); } },
                     null, ModLanUi.DISABLED, ModLanUi.DISABLED,
@@ -3043,6 +3124,18 @@ public final class ModLan {
             }
         } catch (Throwable t) {
             // no dialog
+        }
+    }
+
+    private static void shareCode(Activity a, String code, boolean net) {
+        try {
+            android.content.Intent i = new android.content.Intent(android.content.Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(android.content.Intent.EXTRA_TEXT, (net ? ModLang.tr("Join my Space Corsair game. Multiplayer, Join by code:")
+                : ModLang.tr("Join my local Space Corsair game (same Wi-Fi). Multiplayer, Find local games, code:")) + " " + code);
+            a.startActivity(android.content.Intent.createChooser(i, ModLang.tr("Share code")));
+        } catch (Throwable t) {
+            // no app to share with
         }
     }
 
@@ -3129,7 +3222,10 @@ public final class ModLan {
         if (!found.isEmpty()) {
             final String[] items = found.toArray(new String[found.size()]);
             b.setItems(items, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface d, int w) { connectTo(a, items[w].split(" ")[0]); }   // one tap joins
+                public void onClick(DialogInterface d, int w) {   // one tap joins; a private room asks for its code first
+                    String ad = items[w].split(" ")[0];
+                    if (items[w].contains(privTag())) askCode(a, ad); else connectTo(a, ad, "");
+                }
             });
             b.setNegativeButton(ModLang.tr("Type address"), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface d, int w) { pickHost(a, Collections.<String>emptyList()); }
@@ -3138,18 +3234,23 @@ public final class ModLan {
             b.setMessage(ModLang.tr("No game found. Type the host's address (shown on the host's LAN co-op screen):"));
             b.setView(ip);
             b.setPositiveButton(ModLang.tr("Join"), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface d, int w) { connectTo(a, ip.getText().toString().trim()); }
+                public void onClick(DialogInterface d, int w) { connectTo(a, ip.getText().toString().trim(), ""); }   // a private room answers BADCODE: the code is asked then
             });
             b.setNegativeButton(ModLang.tr("Close"), null);
         }
         b.show();
     }
 
-    private static void connectTo(final Activity a, final String addr) {
+    /** The private local room at addr: the 4 code boxes, then the join. */
+    private static void askCode(final Activity a, final String addr) {
+        ModLanUi.codeBoxes(a, new ModLanUi.CodeCb() { public void code(String c) { connectTo(a, addr, c); } });
+    }
+
+    private static void connectTo(final Activity a, final String addr, final String code) {
         if (addr.length() == 0) return;
         new Thread(new Runnable() {
             public void run() {
-                join(addr);
+                join(addr, code);
                 a.runOnUiThread(new Runnable() { public void run() { showMenu(a); } });
             }
         }, "lan-join").start();
