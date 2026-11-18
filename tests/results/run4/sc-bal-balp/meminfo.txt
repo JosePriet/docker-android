@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 477303 Realtime: 477303
+
+** MEMINFO in pid 2533 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    33297    33232        0        0    35664    44684    35499     4995
+  Dalvik Heap    13684    13556        0        0    17804    20869    10451    10418
+ Dalvik Other     1691      944        0        0     3304                           
+        Stack      856      856        0        0      872                           
+       Ashmem     9913     8924        0        0    10968                           
+    Other dev      108        0      108        0      312                           
+     .so mmap     4551      248      668        0    43392                           
+    .jar mmap     1892        0      224        0    24264                           
+    .apk mmap     1151        0      104        0    25064                           
+    .ttf mmap      407        0      204        0     1028                           
+    .dex mmap     3019       12     2996        0     3148                           
+    .oat mmap      999        0        8        0    15972                           
+    .art mmap     1892     1300        0        0    19988                           
+   Other mmap      391       36       72        0     2656                           
+      Unknown      402      388        0        0      844                           
+        TOTAL    74253    59496     4384        0    74253    65553    45950    15413
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    14856                          37792
+         Native Heap:    33232                          35664
+                Code:     4468                         114392
