@@ -91,10 +91,10 @@
     .registers 6
 
     .prologue
-    .line 415
+    .line 416
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 403
+    .line 404
     const-string v0, ""
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->realm:Ljava/lang/String;
@@ -103,40 +103,40 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->nonce:Ljava/lang/String;
 
-    .line 408
+    .line 409
     new-instance v0, Ljava/util/HashMap;
 
     invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->chanOf:Ljava/util/HashMap;
 
-    .line 409
+    .line 410
     new-instance v0, Ljava/util/HashMap;
 
     invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->peerOf:Ljava/util/HashMap;
 
-    .line 410
+    .line 411
     new-instance v0, Ljava/util/HashSet;
 
     invoke-direct {v0}, Ljava/util/HashSet;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->perms:Ljava/util/HashSet;
 
-    .line 411
+    .line 412
     new-instance v0, Ljava/util/HashSet;
 
     invoke-direct {v0}, Ljava/util/HashSet;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->binding:Ljava/util/HashSet;
 
-    .line 413
+    .line 414
     const/16 v0, 0x4000
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->nextChan:I
 
-    .line 416
+    .line 417
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->w:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->server:Ljava/net/InetSocketAddress;
@@ -145,7 +145,7 @@
 
     iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->pass:Ljava/lang/String;
 
-    .line 417
+    .line 418
     return-void
 .end method
 
@@ -158,7 +158,7 @@
     .end annotation
 
     .prologue
-    .line 399
+    .line 400
     invoke-direct {p0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->request(I[[B)[B
 
     move-result-object v0
@@ -170,7 +170,7 @@
     .registers 2
 
     .prologue
-    .line 399
+    .line 400
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->perms:Ljava/util/HashSet;
 
     return-object v0
@@ -180,7 +180,7 @@
     .registers 2
 
     .prologue
-    .line 399
+    .line 400
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->peerOf:Ljava/util/HashMap;
 
     return-object v0
@@ -195,7 +195,7 @@
     .end annotation
 
     .prologue
-    .line 399
+    .line 400
     invoke-direct/range {p0 .. p5}, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->requestTx(I[BILjava/net/InetSocketAddress;[[B)[B
 
     move-result-object v0
@@ -207,7 +207,7 @@
     .registers 2
 
     .prologue
-    .line 399
+    .line 400
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->binding:Ljava/util/HashSet;
 
     return-object v0
@@ -232,23 +232,23 @@
 
     const/4 v1, 0x0
 
-    .line 420
+    .line 421
     move v2, v1
 
     :goto_8
     if-ge v2, v7, :cond_16e
 
-    .line 421
+    .line 422
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModNet;->txid()[B
 
     move-result-object v3
 
-    .line 422
+    .line 423
     new-instance v4, Ljava/util/ArrayList;
 
     invoke-direct {v4}, Ljava/util/ArrayList;-><init>()V
 
-    .line 423
+    .line 424
     array-length v5, p2
 
     move v0, v1
@@ -264,13 +264,13 @@
 
     goto :goto_15
 
-    .line 425
+    .line 426
     :cond_1f
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->key:[B
 
     if-eqz v0, :cond_7b
 
-    .line 426
+    .line 427
     const/4 v0, 0x6
 
     iget-object v5, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->user:Ljava/lang/String;
@@ -287,7 +287,7 @@
 
     invoke-virtual {v4, v0}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 427
+    .line 428
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->realm:Ljava/lang/String;
 
     const-string v5, "UTF-8"
@@ -302,7 +302,7 @@
 
     invoke-virtual {v4, v0}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 428
+    .line 429
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->nonce:Ljava/lang/String;
 
     const-string v5, "UTF-8"
@@ -317,7 +317,7 @@
 
     invoke-virtual {v4, v0}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 429
+    .line 430
     invoke-virtual {v4}, Ljava/util/ArrayList;->size()I
 
     move-result v0
@@ -340,7 +340,7 @@
 
     move-result-object v0
 
-    .line 431
+    .line 432
     :goto_67
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->w:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
@@ -352,7 +352,7 @@
 
     move-result-object v0
 
-    .line 432
+    .line 433
     if-nez v0, :cond_8c
 
     new-instance v0, Ljava/io/IOException;
@@ -363,7 +363,7 @@
 
     throw v0
 
-    .line 430
+    .line 431
     :cond_7b
     invoke-virtual {v4}, Ljava/util/ArrayList;->size()I
 
@@ -383,7 +383,7 @@
 
     goto :goto_67
 
-    .line 433
+    .line 434
     :cond_8c
     aget-byte v3, v0, v1
 
@@ -399,7 +399,7 @@
 
     or-int/2addr v3, v4
 
-    .line 434
+    .line 435
     and-int/lit16 v3, v3, 0x110
 
     const/16 v4, 0x100
@@ -408,7 +408,7 @@
 
     return-object v0
 
-    .line 435
+    .line 436
     :cond_9f
     array-length v3, v0
 
@@ -416,7 +416,7 @@
 
     move-result-object v3
 
-    .line 436
+    .line 437
     const/16 v0, 0x9
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -429,7 +429,7 @@
 
     check-cast v0, [B
 
-    .line 437
+    .line 438
     if-eqz v0, :cond_143
 
     array-length v4, v0
@@ -450,7 +450,7 @@
 
     add-int/2addr v0, v4
 
-    .line 438
+    .line 439
     :goto_c1
     const/16 v4, 0x191
 
@@ -483,7 +483,7 @@
 
     if-ge v2, v10, :cond_14f
 
-    .line 439
+    .line 440
     new-instance v4, Ljava/lang/String;
 
     invoke-static {v8}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -502,7 +502,7 @@
 
     iput-object v4, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->realm:Ljava/lang/String;
 
-    .line 440
+    .line 441
     new-instance v4, Ljava/lang/String;
 
     invoke-static {v9}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -521,7 +521,7 @@
 
     iput-object v4, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->nonce:Ljava/lang/String;
 
-    .line 442
+    .line 443
     :try_start_105
     const-string v0, "MD5"
 
@@ -581,7 +581,7 @@
     :try_end_13e
     .catch Ljava/security/NoSuchAlgorithmException; {:try_start_105 .. :try_end_13e} :catch_146
 
-    .line 420
+    .line 421
     add-int/lit8 v0, v2, 0x1
 
     move v2, v0
@@ -591,14 +591,14 @@
     :cond_143
     move v0, v1
 
-    .line 437
+    .line 438
     goto/16 :goto_c1
 
-    .line 443
+    .line 444
     :catch_146
     move-exception v0
 
-    .line 444
+    .line 445
     new-instance v0, Ljava/io/IOException;
 
     const-string v1, "no MD5"
@@ -607,7 +607,7 @@
 
     throw v0
 
-    .line 448
+    .line 449
     :cond_14f
     new-instance v1, Ljava/io/IOException;
 
@@ -639,7 +639,7 @@
 
     throw v1
 
-    .line 450
+    .line 451
     :cond_16e
     new-instance v0, Ljava/io/IOException;
 
@@ -661,7 +661,7 @@
     .prologue
     const/4 v3, 0x0
 
-    .line 472
+    .line 473
     invoke-virtual {p4}, Ljava/net/InetSocketAddress;->getAddress()Ljava/net/InetAddress;
 
     move-result-object v0
@@ -674,7 +674,7 @@
 
     move-result-object v0
 
-    .line 473
+    .line 474
     array-length v0, v0
 
     const/4 v1, 0x4
@@ -689,7 +689,7 @@
 
     throw v0
 
-    .line 474
+    .line 475
     :cond_19
     array-length v0, p5
 
@@ -697,7 +697,7 @@
 
     new-array v0, v0, [[B
 
-    .line 475
+    .line 476
     const/16 v1, 0xc
 
     new-array v1, v1, [B
@@ -712,14 +712,14 @@
 
     aput-object v1, v0, v3
 
-    .line 476
+    .line 477
     const/4 v1, 0x1
 
     array-length v2, p5
 
     invoke-static {p5, v3, v0, v1, v2}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 477
+    .line 478
     invoke-direct {p0, p1, v0}, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->request(I[[B)[B
 
     move-result-object v0
@@ -740,7 +740,7 @@
     .prologue
     const/4 v5, 0x1
 
-    .line 455
+    .line 456
     const/4 v0, 0x3
 
     new-array v1, v5, [[B
@@ -765,7 +765,7 @@
 
     move-result-object v1
 
-    .line 456
+    .line 457
     array-length v0, v1
 
     invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModNet;->attrs([BI)Ljava/util/HashMap;
@@ -793,7 +793,7 @@
 
     move-result-object v0
 
-    .line 457
+    .line 458
     if-nez v0, :cond_3a
 
     new-instance v0, Ljava/io/IOException;
@@ -804,26 +804,26 @@
 
     throw v0
 
-    .line 458
+    .line 459
     :cond_3a
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->relayed:Ljava/net/InetSocketAddress;
 
-    .line 459
+    .line 460
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
 
     iput-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->refreshAt:J
 
-    .line 460
+    .line 461
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->w:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
     iput-object p0, v0, Lfr/testudo/spacecorsair/mod/ModNet$Wire;->turn:Lfr/testudo/spacecorsair/mod/ModNet$Turn;
 
-    .line 461
+    .line 462
     return-void
 
-    .line 455
+    .line 456
     nop
 
     :array_48
@@ -848,10 +848,10 @@
 
     const/4 v8, 0x0
 
-    .line 483
+    .line 484
     monitor-enter p0
 
-    .line 484
+    .line 485
     :try_start_3
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->chanOf:Ljava/util/HashMap;
 
@@ -874,11 +874,11 @@
     :cond_15
     monitor-exit p0
 
-    .line 489
+    .line 490
     :goto_16
     return-void
 
-    .line 485
+    .line 486
     :cond_17
     iget v6, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->nextChan:I
 
@@ -886,12 +886,12 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->nextChan:I
 
-    .line 486
+    .line 487
     monitor-exit p0
     :try_end_1e
     .catchall {:try_start_3 .. :try_end_1e} :catchall_70
 
-    .line 487
+    .line 488
     const/16 v1, 0x9
 
     const/4 v2, 0x0
@@ -936,7 +936,7 @@
 
     invoke-direct/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->requestTx(I[BILjava/net/InetSocketAddress;[[B)[B
 
-    .line 488
+    .line 489
     monitor-enter p0
 
     :try_start_44
@@ -989,7 +989,7 @@
 
     throw v0
 
-    .line 486
+    .line 487
     :catchall_70
     move-exception v0
 
@@ -1007,7 +1007,7 @@
     .prologue
     const/4 v1, 0x1
 
-    .line 574
+    .line 577
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->relayed:Ljava/net/InetSocketAddress;
 
     if-eqz v0, :cond_9
@@ -1016,16 +1016,16 @@
 
     if-eqz v0, :cond_a
 
-    .line 583
+    .line 586
     :cond_9
     :goto_9
     return-void
 
-    .line 575
+    .line 578
     :cond_a
     iput-boolean v1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->dead:Z
 
-    .line 578
+    .line 581
     const/4 v0, 0x4
 
     :try_start_d
@@ -1079,7 +1079,7 @@
 
     const-string v6, "UTF-8"
 
-    .line 579
+    .line 582
     invoke-virtual {v5, v6}, Ljava/lang/String;->getBytes(Ljava/lang/String;)[B
 
     move-result-object v5
@@ -1108,12 +1108,12 @@
 
     aput-object v4, v2, v3
 
-    .line 578
+    .line 581
     invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModNet;->stunMsg(I[B[[B)[B
 
     move-result-object v0
 
-    .line 580
+    .line 583
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->key:[B
 
     if-eqz v1, :cond_63
@@ -1124,7 +1124,7 @@
 
     move-result-object v0
 
-    .line 581
+    .line 584
     :cond_63
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->w:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
@@ -1138,13 +1138,13 @@
 
     goto :goto_9
 
-    .line 582
+    .line 585
     :catch_6c
     move-exception v0
 
     goto :goto_9
 
-    .line 578
+    .line 581
     :array_6e
     .array-data 1
         0x0t
@@ -1158,12 +1158,12 @@
     .registers 7
 
     .prologue
-    .line 493
+    .line 494
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
 
-    .line 494
+    .line 495
     iget-boolean v2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->dead:Z
 
     if-nez v2, :cond_17
@@ -1182,16 +1182,16 @@
 
     if-gez v2, :cond_18
 
-    .line 515
+    .line 516
     :cond_17
     :goto_17
     return-void
 
-    .line 495
+    .line 496
     :cond_18
     iput-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->refreshAt:J
 
-    .line 496
+    .line 497
     new-instance v0, Ljava/lang/Thread;
 
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModNet$Turn$1;
@@ -1202,30 +1202,47 @@
 
     invoke-direct {v0, v1, v2}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
-    .line 514
+    .line 515
     invoke-virtual {v0}, Ljava/lang/Thread;->start()V
 
     goto :goto_17
 .end method
 
 .method onChannel([BI)V
-    .registers 13
+    .registers 14
 
     .prologue
     const/4 v3, 0x2
 
-    const/4 v9, 0x1
+    const/4 v10, 0x1
+
+    const/4 v9, 0x4
 
     const/4 v8, 0x0
 
-    .line 543
+    .line 544
+    if-eqz p1, :cond_b
+
+    if-lt p2, v9, :cond_b
+
+    array-length v0, p1
+
+    if-ge v0, v9, :cond_c
+
+    .line 555
+    :cond_b
+    :goto_b
+    return-void
+
+    .line 545
+    :cond_c
     aget-byte v0, p1, v8
 
     and-int/lit16 v0, v0, 0xff
 
     shl-int/lit8 v0, v0, 0x8
 
-    aget-byte v1, p1, v9
+    aget-byte v1, p1, v10
 
     and-int/lit16 v1, v1, 0xff
 
@@ -1245,21 +1262,15 @@
 
     or-int/2addr v1, v2
 
-    .line 544
+    .line 546
     add-int/lit8 v2, p2, -0x4
 
-    if-le v1, v2, :cond_1f
+    if-gt v1, v2, :cond_b
 
-    .line 553
-    :cond_1e
-    :goto_1e
-    return-void
-
-    .line 546
-    :cond_1f
+    .line 548
     monitor-enter p0
 
-    :try_start_20
+    :try_start_28
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->peerOf:Ljava/util/HashMap;
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -1273,22 +1284,22 @@
     check-cast v0, Ljava/net/InetSocketAddress;
 
     monitor-exit p0
-    :try_end_2d
-    .catchall {:try_start_20 .. :try_end_2d} :catchall_4f
+    :try_end_35
+    .catchall {:try_start_28 .. :try_end_35} :catchall_56
 
-    .line 547
+    .line 549
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->w:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
     iget-object v2, v2, Lfr/testudo/spacecorsair/mod/ModNet$Wire;->handler:Lfr/testudo/spacecorsair/mod/ModNet$PeerHandler;
 
-    .line 548
-    if-eqz v0, :cond_1e
+    .line 550
+    if-eqz v0, :cond_b
 
-    if-eqz v2, :cond_1e
+    if-eqz v2, :cond_b
 
-    if-lt v1, v3, :cond_1e
+    if-lt v1, v3, :cond_b
 
-    .line 549
+    .line 551
     iget-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->bytes:J
 
     int-to-long v6, v1
@@ -1297,35 +1308,33 @@
 
     iput-wide v4, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->bytes:J
 
-    .line 550
+    .line 552
     new-array v3, v1, [B
 
-    .line 551
-    const/4 v4, 0x4
+    .line 553
+    invoke-static {p1, v9, v3, v8, v1}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    invoke-static {p1, v4, v3, v8, v1}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
-
-    .line 552
+    .line 554
     aget-byte v4, v3, v8
 
     and-int/lit16 v4, v4, 0xff
 
     const/16 v5, 0xc5
 
-    if-ne v4, v5, :cond_1e
+    if-ne v4, v5, :cond_b
 
-    invoke-interface {v2, v0, v3, v1, v9}, Lfr/testudo/spacecorsair/mod/ModNet$PeerHandler;->onPeer(Ljava/net/InetSocketAddress;[BIZ)Z
+    invoke-interface {v2, v0, v3, v1, v10}, Lfr/testudo/spacecorsair/mod/ModNet$PeerHandler;->onPeer(Ljava/net/InetSocketAddress;[BIZ)Z
 
-    goto :goto_1e
+    goto :goto_b
 
-    .line 546
-    :catchall_4f
+    .line 548
+    :catchall_56
     move-exception v0
 
-    :try_start_50
+    :try_start_57
     monitor-exit p0
-    :try_end_51
-    .catchall {:try_start_50 .. :try_end_51} :catchall_4f
+    :try_end_58
+    .catchall {:try_start_57 .. :try_end_58} :catchall_56
 
     throw v0
 .end method
@@ -1334,16 +1343,33 @@
     .registers 13
 
     .prologue
+    const/16 v1, 0x14
+
     const/4 v3, 0x0
 
     const/4 v2, 0x1
 
-    .line 556
+    .line 558
+    if-eqz p1, :cond_b
+
+    if-lt p2, v1, :cond_b
+
+    array-length v0, p1
+
+    if-ge v0, v1, :cond_c
+
+    .line 574
+    :cond_b
+    :goto_b
+    return-void
+
+    .line 559
+    :cond_c
     invoke-static {p1, p2}, Lfr/testudo/spacecorsair/mod/ModNet;->attrs([BI)Ljava/util/HashMap;
 
     move-result-object v1
 
-    .line 557
+    .line 560
     const/16 v0, 0x13
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -1356,7 +1382,7 @@
 
     check-cast v0, [B
 
-    .line 558
+    .line 561
     const/16 v4, 0x12
 
     invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -1378,23 +1404,23 @@
 
     move-result-object v1
 
-    .line 559
+    .line 562
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->w:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
     iget-object v4, v4, Lfr/testudo/spacecorsair/mod/ModNet$Wire;->handler:Lfr/testudo/spacecorsair/mod/ModNet$PeerHandler;
 
-    .line 560
-    if-eqz v0, :cond_3c
+    .line 563
+    if-eqz v0, :cond_b
 
-    if-eqz v1, :cond_3c
+    if-eqz v1, :cond_b
 
-    if-eqz v4, :cond_3c
+    if-eqz v4, :cond_b
 
     array-length v5, v0
 
     const/4 v6, 0x2
 
-    if-lt v5, v6, :cond_3c
+    if-lt v5, v6, :cond_b
 
     aget-byte v5, v0, v3
 
@@ -1402,15 +1428,9 @@
 
     const/16 v6, 0xc5
 
-    if-eq v5, v6, :cond_3d
+    if-ne v5, v6, :cond_b
 
-    .line 571
-    :cond_3c
-    :goto_3c
-    return-void
-
-    .line 561
-    :cond_3d
+    .line 564
     iget-wide v6, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->bytes:J
 
     array-length v5, v0
@@ -1421,19 +1441,19 @@
 
     iput-wide v6, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->bytes:J
 
-    .line 562
+    .line 565
     array-length v5, v0
 
     invoke-interface {v4, v1, v0, v5, v2}, Lfr/testudo/spacecorsair/mod/ModNet$PeerHandler;->onPeer(Ljava/net/InetSocketAddress;[BIZ)Z
 
     move-result v0
 
-    if-eqz v0, :cond_3c
+    if-eqz v0, :cond_b
 
-    .line 564
+    .line 567
     monitor-enter p0
 
-    :try_start_4c
+    :try_start_55
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->chanOf:Ljava/util/HashMap;
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModNet;->show(Ljava/net/InetSocketAddress;)Ljava/lang/String;
@@ -1444,7 +1464,7 @@
 
     move-result v0
 
-    if-nez v0, :cond_82
+    if-nez v0, :cond_8b
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->binding:Ljava/util/HashSet;
 
@@ -1454,7 +1474,7 @@
 
     const/16 v4, 0x8
 
-    if-ge v0, v4, :cond_82
+    if-ge v0, v4, :cond_8b
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->binding:Ljava/util/HashSet;
 
@@ -1466,17 +1486,17 @@
 
     move-result v0
 
-    if-eqz v0, :cond_82
+    if-eqz v0, :cond_8b
 
     move v0, v2
 
-    :goto_6f
+    :goto_78
     monitor-exit p0
-    :try_end_70
-    .catchall {:try_start_4c .. :try_end_70} :catchall_84
+    :try_end_79
+    .catchall {:try_start_55 .. :try_end_79} :catchall_8d
 
-    .line 565
-    if-eqz v0, :cond_3c
+    .line 568
+    if-eqz v0, :cond_b
 
     new-instance v0, Ljava/lang/Thread;
 
@@ -1488,24 +1508,24 @@
 
     invoke-direct {v0, v2, v1}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
-    .line 570
+    .line 573
     invoke-virtual {v0}, Ljava/lang/Thread;->start()V
 
-    goto :goto_3c
+    goto :goto_b
 
-    :cond_82
+    :cond_8b
     move v0, v3
 
-    .line 564
-    goto :goto_6f
+    .line 567
+    goto :goto_78
 
-    :catchall_84
+    :catchall_8d
     move-exception v0
 
-    :try_start_85
+    :try_start_8e
     monitor-exit p0
-    :try_end_86
-    .catchall {:try_start_85 .. :try_end_86} :catchall_84
+    :try_end_8f
+    .catchall {:try_start_8e .. :try_end_8f} :catchall_8d
 
     throw v0
 .end method
@@ -1519,7 +1539,7 @@
     .end annotation
 
     .prologue
-    .line 465
+    .line 466
     const/16 v1, 0x8
 
     const/4 v2, 0x0
@@ -1544,7 +1564,7 @@
 
     invoke-direct/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->requestTx(I[BILjava/net/InetSocketAddress;[[B)[B
 
-    .line 466
+    .line 467
     monitor-enter p0
 
     :try_start_17
@@ -1562,10 +1582,10 @@
 
     monitor-exit p0
 
-    .line 467
+    .line 468
     return-void
 
-    .line 466
+    .line 467
     :catchall_26
     move-exception v0
 
@@ -1586,7 +1606,7 @@
 
     const/4 v6, 0x0
 
-    .line 518
+    .line 519
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->dead:Z
 
     if-nez v0, :cond_b
@@ -1595,12 +1615,12 @@
 
     if-nez v0, :cond_c
 
-    .line 540
+    .line 541
     :cond_b
     :goto_b
     return-void
 
-    .line 521
+    .line 522
     :cond_c
     monitor-enter p0
 
@@ -1639,7 +1659,7 @@
     :try_end_2c
     .catchall {:try_start_d .. :try_end_2c} :catchall_5e
 
-    .line 522
+    .line 523
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->bytes:J
 
     int-to-long v4, p3
@@ -1648,15 +1668,15 @@
 
     iput-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->bytes:J
 
-    .line 523
+    .line 524
     if-eqz v0, :cond_61
 
-    .line 524
+    .line 525
     add-int/lit8 v1, p3, 0x4
 
     new-array v1, v1, [B
 
-    .line 525
+    .line 526
     invoke-virtual {v0}, Ljava/lang/Integer;->intValue()I
 
     move-result v2
@@ -1687,12 +1707,12 @@
 
     aput-byte v2, v1, v0
 
-    .line 526
+    .line 527
     const/4 v0, 0x4
 
     invoke-static {p2, v6, v1, v0, p3}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 527
+    .line 528
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->w:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->server:Ljava/net/InetSocketAddress;
@@ -1703,7 +1723,7 @@
 
     goto :goto_b
 
-    .line 521
+    .line 522
     :catchall_5e
     move-exception v0
 
@@ -1714,22 +1734,22 @@
 
     throw v0
 
-    .line 530
+    .line 531
     :cond_61
     if-eqz v1, :cond_b
 
-    .line 532
+    .line 533
     :try_start_63
     new-array v0, p3, [B
 
-    .line 533
+    .line 534
     const/4 v1, 0x0
 
     const/4 v2, 0x0
 
     invoke-static {p2, v1, v0, v2, p3}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 534
+    .line 535
     const/16 v1, 0x16
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModNet;->txid()[B
@@ -1772,7 +1792,7 @@
 
     move-result-object v0
 
-    .line 536
+    .line 537
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->w:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModNet$Turn;->server:Ljava/net/InetSocketAddress;
@@ -1785,7 +1805,7 @@
 
     goto/16 :goto_b
 
-    .line 537
+    .line 538
     :catch_9b
     move-exception v0
 

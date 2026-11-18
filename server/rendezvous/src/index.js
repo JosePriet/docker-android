@@ -16,6 +16,7 @@ const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";   // no 0 O 1 I
 const LOBBY_LIST_MS = 2 * 60 * 1000;      // off the list this long after the last heartbeat
 const LOBBY_LIFE_MS = 2 * 60 * 60 * 1000; // code freed this long after the last heartbeat
 const JOIN_LIFE_MS = 60 * 1000;
+const KEEP_MS = 30 * 24 * 60 * 60 * 1000;   // reports and samples (privacy text: 30 days)
 const UNREACH_MS = 10 * 60 * 1000;
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -117,7 +118,7 @@ export class Registry {
     await this.ctx.storage.put("lobby:" + l.code, {
       code: l.code, token: l.token, ps: l.ps, pub: l.pub, id: l.id, nick: l.nick, ctry: l.ctry, ver: l.ver, pvp: l.pvp, sector: l.sector, level: l.level,
       hide: l.hide, createdAt: l.createdAt, beatAt: l.beatAt, full: l.full, seen: Array.from(l.seen), kicked: Array.from(l.kicked || []), dev: !!l.dev,
-      sessions: l.sessions || 0, samples: l.samples || 0,
+      sessions: l.sessions || 0, samples: l.samples || 0, joinSeq: l.joinSeq || 0, sessionSeq: l.sessionSeq || 0,
     });
   }
 
@@ -135,9 +136,60 @@ export class Registry {
     if (this.closed) for (const [k, c] of this.closed) if (t - c.at > 10 * 60 * 1000) this.closed.delete(k);
     if (!this.keptAt || t - this.keptAt > 60 * 60 * 1000) {   // second check S10: kick and ban records last a day, as the privacy text says
       this.keptAt = t;
-      for (const [k, v] of await this.ctx.storage.list({ prefix: "kick:", limit: 200 })) if (!(v || []).some((x) => t - x.at < DAY)) await this.ctx.storage.delete(k);
-      for (const [k, v] of await this.ctx.storage.list({ prefix: "ban:", limit: 200 })) if (!v || !(v.until > t)) await this.ctx.storage.delete(k);
+      await this.expire(t);
     }
+  }
+
+  /** Every page of one key prefix, oldest key first; fn returns false to stop (GPT checks R3, BH09: no fixed first page). */
+  async eachKey(prefix, fn, pages = 25) {
+    let after;
+    for (let i = 0; i < pages; i++) {
+      const opt = { prefix, limit: 200 };
+      if (after) opt.startAfter = after;
+      const page = await this.ctx.storage.list(opt);
+      let n = 0;
+      for (const [k, v] of page) {
+        if (after && k <= after) continue;
+        n++; after = k;
+        if ((await fn(k, v)) === false) return;
+      }
+      if (!n || page.size < 200) return;
+    }
+  }
+
+  /** Kicks and bans after a day, reports and samples after 30 days (keys of those two start with their time). */
+  async expire(t) {
+    await this.eachKey("kick:", async (k, v) => {
+      const keep = (v || []).filter((x) => x && t - x.at < DAY);   // GPT check R4: old entries leave a mixed record too
+      if (!keep.length) await this.ctx.storage.delete(k);
+      else if (keep.length !== (v || []).length) await this.ctx.storage.put(k, keep);
+    });
+    await this.eachKey("ban:", async (k, v) => { if (!v || !(v.until > t)) await this.ctx.storage.delete(k); });
+    for (const prefix of ["report:", "sample:"]) {   // GPT check BH09: expiry no longer waits for a new record
+      await this.eachKey(prefix, async (k, v) => {
+        if (v && t - v.at <= KEEP_MS) return false;   // oldest first: the rest are newer
+        await this.ctx.storage.delete(k);
+      });
+    }
+  }
+
+  /** GPT check BH09: a Durable Object alarm runs the expiry when no request comes in for a long time. */
+  async armExpiry() {
+    try {
+      const st = this.ctx.storage;
+      if (!st.setAlarm || !st.getAlarm) return;
+      if (await st.getAlarm()) return;
+      await st.setAlarm(this.now() + DAY);
+    } catch (e) { /* the next request's sweep still expires */ }
+  }
+
+  async alarm() {
+    const t = this.now();
+    this.keptAt = t;
+    await this.expire(t);
+    let left = false;
+    for (const prefix of ["report:", "sample:", "kick:", "ban:"]) if ((await this.ctx.storage.list({ prefix, limit: 1 })).size) left = true;
+    if (left) await this.armExpiry();
   }
 
   async overDay() {
@@ -294,7 +346,9 @@ export class Registry {
     if (l.pub && await this.banned(id)) return reply("banned", {}, null, 403);
     if (l.kicked && l.kicked.has(id)) return reply("kicked", {}, null, 403);
     if (l.full) return reply("full");
-    if (!this.allow("jn:" + ik, 20, 10 * 60 * 1000)) return reply("slow", {}, null, 429);
+    // GPT check BH02: a repeat of a join that is still waiting (the client repeats every 8 s) has its own, larger allowance
+    const again = l.joins.some((x) => x.id === id && t - x.at < JOIN_LIFE_MS);
+    if (!this.allow((again ? "jr:" : "jn:") + ik, again ? 90 : 20, 10 * 60 * 1000)) return reply("slow", {}, null, 429);
     const pid = await this.pid(l, id);   // before the slot check: nothing waits between the check and the insert
     l.joins = l.joins.filter((j) => t - j.at < JOIN_LIFE_MS);
     const prev = l.joins.find((x) => x.id === id);   // the same player again (with its relay address, or repeating the join): same session
@@ -310,6 +364,10 @@ export class Registry {
       dev: await this.isDev(id),
     };
     l.joins.push(j);
+    // GPT check R2: a session is counted only after a real join. A repeat of a join that has not led to a session yet is
+    // the same join; a join after a counted session (a reconnect) is a new one.
+    if (!prev || (prev.seq || 0) <= (l.sessionSeq || 0)) l.joinSeq = (l.joinSeq || 0) + 1;
+    j.seq = l.joinSeq;
     const known = l.seen.has(id);
     l.seen.set(id, t);
     if (l.seen.size > 50) l.seen.delete(l.seen.keys().next().value);
@@ -327,7 +385,7 @@ export class Registry {
     l.fresh = true;
     const was = l.full, pvp = l.pvp, sector = l.sector;
     l.full = f.full === "1";
-    if (l.full && !was) l.sessions = (l.sessions || 0) + 1;   // second check S11: one sample per guest session
+    if (l.full && !was && (l.joinSeq || 0) > (l.sessionSeq || 0)) { l.sessions = (l.sessions || 0) + 1; l.sessionSeq = l.joinSeq; }   // second check S11 + GPT R2: one sample per real guest session
     if (l.full) l.unreach.clear();   // a guest is in: the host can be reached
     if (f.pvp != null) l.pvp = f.pvp === "1";
     if (f.sector != null) l.sector = textOf(f.sector, 40).replace(/\n/g, " ");
@@ -353,6 +411,7 @@ export class Registry {
     const k = ((await this.ctx.storage.get("kick:" + id)) || []).filter((x) => t - x.at < DAY && x.by !== l.id);
     k.push({ by: l.id, at: t });
     await this.ctx.storage.put("kick:" + id, k);
+    await this.armExpiry();
     if (k.length >= 3) await this.ctx.storage.put("ban:" + id, { until: t + DAY });
     return reply("ok");
   }
@@ -472,7 +531,8 @@ export class Registry {
     s.flagged = s.ratio > 1;
     await this.ctx.storage.put("sample:" + s.at + ":" + token(3), s);
     const old = await this.ctx.storage.list({ prefix: "sample:", limit: 50 });
-    for (const [k, v] of old) if (s.at - v.at > 30 * DAY) await this.ctx.storage.delete(k);
+    for (const [k, v] of old) if (s.at - v.at > KEEP_MS) await this.ctx.storage.delete(k);
+    await this.armExpiry();
     return reply("ok");
   }
 
@@ -481,7 +541,7 @@ export class Registry {
     if (!this.allow("adm:" + ik, 20, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
     if (!(await this.adminKeyOk(f.key))) return reply("no", {}, null, 403);
     // second check S13: the newest 1000 of each, not the oldest
-    const rows = async (prefix) => Array.from((await this.ctx.storage.list({ prefix, limit: 1000, reverse: true })).values()).sort((a, b) => b.at - a.at);
+    const rows = async (prefix) => Array.from((await this.ctx.storage.list({ prefix, limit: 1000, reverse: true })).values()).filter((v) => v && this.now() - v.at <= KEEP_MS).sort((a, b) => b.at - a.at);   // GPT check BH09: expired rows never shown
     const body = JSON.stringify({ reports: await rows("report:"), samples: await rows("sample:") });
     return new Response(body, { headers: { "content-type": "application/json", "cache-control": "no-store" } });
   }
@@ -498,7 +558,8 @@ export class Registry {
     if (id === l.id && !about) return reply("bad", { why: "about" }, null, 400);
     await this.ctx.storage.put("report:" + t + ":" + token(3), { at: t, by: id, about, text: textOf(f.text, 8000) });
     const old = await this.ctx.storage.list({ prefix: "report:", limit: 50 });
-    for (const [k, v] of old) if (t - v.at > 30 * DAY) await this.ctx.storage.delete(k);
+    for (const [k, v] of old) if (t - v.at > KEEP_MS) await this.ctx.storage.delete(k);
+    await this.armExpiry();
     return reply("ok");
   }
 }

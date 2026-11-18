@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 661
+    .line 665
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$1;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 2
 
     .prologue
-    .line 661
+    .line 665
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModNet$Link$1;->this$0:Lfr/testudo/spacecorsair/mod/ModNet$Link;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModNet$Link;->tick()V

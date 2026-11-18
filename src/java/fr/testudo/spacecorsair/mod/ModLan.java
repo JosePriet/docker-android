@@ -101,7 +101,8 @@ public final class ModLan {
     private static final String HELLO = "SCLAN2";   // v45: + version, nickname, country, and a host reply byte
     static final int MAX_MSG = 256 * 1024;
     private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3;
-    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7, MSG_KILL = 8, MSG_PING = 9, MSG_LFRAME = 10, MSG_LSTATE = 11, MSG_STYLE = 12, MSG_DECL = 13;   // v45: 6 = a deflated FRAME / STATE (type byte first)
+    private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7, MSG_KILL = 8, MSG_PING = 9, MSG_LFRAME = 10, MSG_LSTATE = 11, MSG_STYLE = 12, MSG_DECL = 13,
+        MSG_DRONE = 14, MSG_DOOM = 15;   // GPT check BH04 prototype (switch ModLan.extra, off): guest drone launch, guest doomsday ticks   // v45: 6 = a deflated FRAME / STATE (type byte first)
     private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
     private static final int MAX_REMOTE = 2200;   // render queue holds 2500 per frame
 
@@ -705,6 +706,7 @@ public final class ModLan {
             if (s != null) new Thread(new Runnable() { public void run() { ModLobby.call("POST", "/sample", s); } }, "lobby-sample").start();
         }
         lastDecl = null;
+        if (role == GUEST && connected && !solo) { exitReload = true; exitReloadAt = System.currentTimeMillis() + 31000; }   // GPT check BH03: the emptied sector comes back once no reconnect is pending
         linkGen++;
         final Socket old = sock;
         final java.util.concurrent.locks.ReentrantLock wlOld = writeLock;
@@ -740,6 +742,9 @@ public final class ModLan {
         pvpWanted = false;
         seenRound = 0;
         defeatRound = -1;
+        doomShotId = Integer.MIN_VALUE; doomShotAt = 0; doomTicksShot = 0; droneLaunchAt = 0; askAt = 0;   // BH04 prototype: per session
+        lostRound = false;   // GPT check BH07: a round lost between frames does not carry into the next duel
+        restore = false;
         solo = false;
         marksOut = null;
         autoAccept = false;
@@ -834,7 +839,7 @@ public final class ModLan {
         slowAt = 0; marksAt = 0; slowLast = null; leanLevel = ""; leanDmg = 0; leanXp = 0; leanMission = ""; leanDone = false; leanMarks = null; leanMarksN = 0;
         synchronized (defOut) { defOut.clear(); }
         synchronized (defIn) { defIn.clear(); texIn.clear(); }
-        synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); }
+        synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); inDrones.clear(); inDooms.clear(); }
         dmgSent = 0; dmgSeen = 0; xpSent = 0; xpSeen = 0; xpBase = -1; dmgBase = -1;
         capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0;
         synchronized (inLock) { inKills.clear(); }
@@ -1105,6 +1110,7 @@ public final class ModLan {
     private static InFrame inFrame;
     private static volatile InState inState;
     private static final ArrayList<byte[]> inShots = new ArrayList<byte[]>();
+    private static final ArrayList<byte[]> inDrones = new ArrayList<byte[]>(), inDooms = new ArrayList<byte[]>();   // BH04 prototype
 
     // ------------------------------------------------------------------ v45: each player rolls its own loot
     static final class Kill { String cls; int level; boolean elite; float x, y; }
@@ -1332,6 +1338,12 @@ public final class ModLan {
             if (b.length > 4096) throw new IOException("shot too large");
             synchronized (inLock) { if (inShots.size() < 400) inShots.add(b); }
             shotsIn++;
+        } else if (type == MSG_DRONE && role == HOST && extra) {   // BH04 prototype: ignored while the switch is off
+            if (b.length > 8) throw new IOException("drone launch too large");
+            synchronized (inLock) { if (inDrones.size() < 4) inDrones.add(b); }
+        } else if (type == MSG_DOOM && role == HOST && extra) {
+            if (b.length > 64) throw new IOException("doomsday tick too large");
+            synchronized (inLock) { if (inDooms.size() < 50) inDooms.add(b); }
         }
     }
 
@@ -1648,7 +1660,11 @@ public final class ModLan {
      * its own missions, so its sector is rebuilt through the stock gate-travel path (LevelBuilder.jumpToLevel), which
      * spawns the sector's own ships again. The player comes out at the sector's closest gate.
      */
+    static volatile boolean exitReload;
+    private static volatile long exitReloadAt;
+
     static void preFrame() {
+        if (exitReload) exitFrame();
         if (!soloReload) return;
         soloReload = false;
         try {
@@ -1662,6 +1678,28 @@ public final class ModLan {
             ModDev.ev("lan", "solo: sector reloaded at " + p.portalName);
         } catch (Throwable t) {
             ModDev.ev("lan", "solo reload failed " + t);
+        }
+    }
+
+    /** GPT check BH03: a guest that stopped following the host gets its own sector rebuilt (stock gate travel), once no
+     *  reconnect is pending; kept for later while docked, on the map or in the prologue. */
+    private static void exitFrame() {
+        try {
+            if (role == GUEST) { if (connected && !solo) exitReload = false; return; }   // following again (that wipes it anyway), or still joining
+            if (role == HOST || ModTestMode.on || System.currentTimeMillis() > exitReloadAt + 60000) { exitReload = false; return; }   // cross-check: hosting now, another profile, or too late
+            if (System.currentTimeMillis() < exitReloadAt && (rejoinUntil > System.currentTimeMillis() || lastAddr != null || ModLobby.joined())) return;
+            fr.testudo.spacecorsair.game.levels.Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
+            PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+            if (lv == null || ps == null || ps.removed || ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode || ModPrologue.active) return;   // retried next frame
+            exitReload = false;
+            if (lv.id == LevelId.FFA_THE_PLAYER_PAY) return;   // the duel bay: leaveBay takes the ship home, which rebuilds it
+            fr.testudo.spacecorsair.business.world.Portal p = lv.findClosestPortal(ps.position);
+            if (p == null || p.portalName == null) { ModDev.ev("lan", "exit reload skipped: no gate"); return; }
+            fr.testudo.spacecorsair.game.levels.builders.LevelBuilder.jumpToLevel(lv.name, p.portalName);
+            ModDev.ev("lan", "guest exit: sector reloaded at " + p.portalName);
+        } catch (Throwable t) {
+            exitReload = false;
+            ModDev.ev("lan", "exit reload failed " + t);
         }
     }
 
@@ -1717,9 +1755,16 @@ public final class ModLan {
             if (announce) { announce = false; Mod.floatText(ps, ModLang.tr("CO-OP CONNECTED") + (peerNick.length() > 0 ? ": " + peerLabel() : ""), 0.3f, 1.0f, 0.5f); }
             if (lost) { lost = false; Mod.floatText(ps, ModLang.tr("CO-OP LINK LOST"), 1.0f, 0.4f, 0.3f); }
             testSwitch(now);
+            extraSwitch(now);
             if (joinAsk) { joinAsk = false; String w = pendingWho; if (w != null) Mod.floatText(ps, w + " " + ModLang.tr("wants to join your game."), 0.3f, 1.0f, 0.5f); }
             if (now - persistAt > 2000) { persistAt = now; persistedMission(ps); }
             guestPos(ps, now);
+            if (ModLobby.switchLocked() && (internet || ModLobby.hosting || ModLobby.joined())) {   // GPT check BH05
+                ModDev.ev("lan", "test switch seen: internet session ended");
+                if (internet) { noRejoin(); stop(); }
+                ModLobby.leave();
+                status = ModLang.tr("Test switches are in use. Internet games are off until the game restarts; local games still work.");
+            }
             if (!connected) {
                 leaveBay();
                 return;
@@ -1757,11 +1802,15 @@ public final class ModLan {
             }
         }
         InState s;
-        ArrayList<byte[]> shots;
+        ArrayList<byte[]> shots, dshots, dooms;
         synchronized (inLock) {
             s = inState;
             shots = new ArrayList<byte[]>(inShots);
             inShots.clear();
+            dshots = new ArrayList<byte[]>(inDrones);
+            inDrones.clear();
+            dooms = new ArrayList<byte[]>(inDooms);
+            inDooms.clear();
         }
         Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
         hostMarks(ps, lv);
@@ -1813,6 +1862,11 @@ public final class ModLan {
             if (++shotCount > MAX_SHOTS_S) { flags++; continue; }   // v45: above any weapon's fire rate
             fireShot(b, p);
         }
+        if (extra) {   // BH04 prototype
+            for (byte[] b : dshots) guestDrones(b, p);
+            for (byte[] b : dooms) guestDoom(b, p);
+        }
+        upkeepGuestDrones(p, dt);   // also after the switch went off: the drones still expire
         retarget -= dt;
         if (!pvp && retarget <= 0) {
             retarget = 1000;
@@ -1955,6 +2009,7 @@ public final class ModLan {
     }
 
     private static void removeProxy() {
+        dropGuestDrone(0); dropGuestDrone(1);   // BH04 prototype
         Ennemis p = proxy;
         proxy = null;
         if (p != null && !p.removed) p.remove();
@@ -1971,7 +2026,7 @@ public final class ModLan {
 
     /** Mod.isDrone: the stand-in is on the player's side in co-op; in a duel it is an opponent (stock enemy rules). */
     static boolean isAlly(Element e) {
-        return e != null && e == proxy && !pvp && !pvpRoom;   // v45: PvP room on = the players can hit each other in sectors too
+        return e != null && (e == proxy || isGuestDrone(e)) && !pvp && !pvpRoom;   // BH04 prototype: the guest's drones too. v45: PvP room on = the players can hit each other in sectors too
     }
 
     /** ModLive.draw for the stand-in: the guest's own ship sprites at the stand-in's position. True = drawn here. */
@@ -2034,6 +2089,167 @@ public final class ModLan {
         } catch (Throwable t) {
             ModDev.ev("lan", "shot failed " + t);   // one lost shot
         }
+    }
+
+    // ---------------------------------------------------------------- GPT check BH04 prototype (switch off)
+    /** BH04 prototype switch: guest drone shots and doomsday ticks reach the host. Off; the emulator turns it on with
+     *  /data/local/tmp/corsair_bh04 = on (both phones must have it on). Not for release until the owner approves. */
+    static volatile boolean extra;
+    static final long DRONE_GAP_MS = 15000;          // a guest drone launch at most this often (shortest Hive Bay drone life)
+    static final int DOOM_TICKS_S = 6;               // doomsday ticks a second (fastest lance: one every 200 ms = 5, +1 for the second boundary)
+    static final int DOOM_TICKS_SHOT = 80;           // ticks one doomsday shot may have (longest fire with slack)
+    static final long DOOM_GAP_MS = 15000;           // a new doomsday shot at most this often
+    static final float DOOM_ORIGIN = 2000f;          // the beam's nose this close to the guest's ship
+    private static long doomSec, doomShotAt, droneLaunchAt, askAt;
+    private static int doomInSec, doomShotId = Integer.MIN_VALUE, doomTicksShot;
+    private static long extraAt;
+    /** Host: the guest's Hive Bay drones, flown by the host's game next to the stand-in (the guest's sector has no enemies). */
+    private static final Ennemis[] gDrones = new Ennemis[2];
+    private static final int[] gDroneLeft = new int[2];
+    private static int gDroneRetarget;
+
+    /** Guest (Mod.launchDrones): asks the host to launch this ship's drones there. True = asked (the missile is used). */
+    static boolean askDrones(int tier) {
+        if (!extra || !guestActive()) return false;
+        long now = System.currentTimeMillis();
+        if (askAt != 0 && now - askAt < DRONE_GAP_MS) return false;   // verifier: the host would refuse; the local launch path answers instead
+        askAt = now;
+        try {
+            ByteArrayOutputStream bo = new ByteArrayOutputStream(4);
+            new DataOutputStream(bo).writeByte(Math.max(0, Math.min(3, tier)));
+            sendReliable(MSG_DRONE, bo);
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    /** Host: a drone launch of the guest, checked: a declared Hive Bay, at most once per its own reload, no duel room. */
+    private static void guestDrones(byte[] b, Ennemis from) {
+        try {
+            ModLanCheck.Decl d = lastDecl;
+            if (d == null || pvp || pvpRoom || !ModLanCheck.hiveDeclared(d)) { flags++; return; }
+            int tier = Math.max(0, Math.min(ModSpecs.HIVE_LIFE.length - 1, b.length > 0 ? b[0] & 255 : 0));
+            tier = Math.min(tier, ModLanCheck.hiveTier(d));   // never above the declared bay
+            long now = System.currentTimeMillis();
+            if (droneLaunchAt != 0 && now - droneLaunchAt < DRONE_GAP_MS) { flags++; return; }
+            Element t = Mod.findEnemy(from.position, Mod.DRONE_ENGAGE_RANGE);
+            if (t == null) return;
+            int lvl = Math.max(0, Math.min(999, d.level));
+            boolean any = false;
+            for (int i = 0; i < 2; i++) {
+                if (gDrones[i] != null && !gDrones[i].removed) continue;
+                Ennemis e = fr.testudo.spacecorsair.business.ennemis.EnnemisFactory.newEnnemis(
+                    i == 0 ? fr.testudo.spacecorsair.business.ennemis.EnnemisType.UFO_ALIEN : fr.testudo.spacecorsair.business.ennemis.EnnemisType.ALIEN_RAT, lvl, lvl);
+                e.level = lvl; e.levelStr = lvl + "";
+                e.spin = from.spin + 180.0f + (i == 0 ? -20.0f : 20.0f);
+                e.position.setSameAs(from.position).add(i == 0 ? -120.0f : 120.0f, 0.0f);
+                e.speed.setSameAs(from.speed);
+                e.updateSapCoords();
+                e.desengagementDistance = 4000.0f;
+                e.xp = 0;
+                e.radarColorR = 0.2f; e.radarColorG = 1.0f; e.radarColorB = 0.2f;
+                e.specificName = ModLang.tr("ATK DRONE");
+                e.specificNameDecalX = -1;
+                e.initAttackTarget(t);
+                e.addToCurrentLevel();
+                gDrones[i] = e;
+                gDroneLeft[i] = ModSpecs.HIVE_LIFE[tier];
+                any = true;
+            }
+            if (any) { droneLaunchAt = now; ModDev.ev("lan", "guest drones launched tier " + tier); }
+        } catch (Throwable t) {
+            flags++;
+            ModDev.ev("lan", "guest drones failed " + t);
+        }
+    }
+
+    /** Host: lifetime, leash to the stand-in and targets of the guest's drones. */
+    private static void upkeepGuestDrones(Ennemis from, long dt) {
+        boolean retarget = (gDroneRetarget -= (int) dt) <= 0;
+        if (retarget) gDroneRetarget = 1000;
+        for (int i = 0; i < 2; i++) {
+            Ennemis e = gDrones[i];
+            if (e == null) continue;
+            gDroneLeft[i] -= (int) dt;
+            if (e.removed || gDroneLeft[i] <= 0 || from == null || from.removed || e.position.distance(from.position) > 4000f) { dropGuestDrone(i); continue; }
+            if (retarget) {
+                Element t = Mod.findEnemy(from.position, Mod.DRONE_ENGAGE_RANGE);
+                if (t != null) e.initAttackTarget(t);
+            }
+        }
+    }
+
+    private static void dropGuestDrone(int i) {
+        Ennemis e = gDrones[i];
+        gDrones[i] = null;
+        if (e != null) { e.specificName = null; if (!e.removed) e.remove(); }
+    }
+
+    static boolean isGuestDrone(Element e) {
+        return e != null && (e == gDrones[0] || e == gDrones[1]) && !pvp && !pvpRoom;
+    }
+
+    /** Host: one doomsday tick of the guest, checked, then applied to the host's own enemies (ModTitan rules and caps). */
+    private static void guestDoom(byte[] b, Ennemis from) {
+        try {
+            ModLanCheck.Limits lm = limits;
+            ModLanCheck.Decl d = lastDecl;
+            if (lm == null || d == null || !lm.doom || pvp || pvpRoom) { flags++; return; }   // only a declared doomsday hull, never in a duel room
+            DataInputStream in = new DataInputStream(new java.io.ByteArrayInputStream(b));
+            int k = in.readUnsignedByte();
+            float ax = in.readFloat(), ay = in.readFloat(), spin = in.readFloat(), half = in.readFloat(), nova = in.readFloat();
+            boolean seq = in.readBoolean();
+            int shot = in.readInt();
+            if (bad(ax) || bad(ay) || bad(spin) || bad(half) || bad(nova)) { flags++; return; }
+            if (Math.hypot(ax - from.position.x, ay - from.position.y) > DOOM_ORIGIN) { flags++; return; }
+            long now = System.currentTimeMillis();
+            if (now / 1000 != doomSec) { doomSec = now / 1000; doomInSec = 0; }
+            if (++doomInSec > DOOM_TICKS_S) { flags++; return; }
+            if (shot != doomShotId) {
+                if (doomShotAt != 0 && now - doomShotAt < DOOM_GAP_MS) { flags++; return; }
+                doomShotId = shot; doomShotAt = now; doomTicksShot = 0;
+            }
+            if (++doomTicksShot > DOOM_TICKS_SHOT) { flags++; return; }
+            // verifier: the kind, the Leviathan sequence rule and the beam width come from the declared hull, not from the guest
+            fr.testudo.spacecorsair.business.loot.stuff.GearSpec hs = ModLanCheck.spec(d.ship);
+            if (!(hs instanceof fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec)) { flags++; return; }
+            fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec spec = (fr.testudo.spacecorsair.business.loot.stuff.playerShip.PlayerShipSpec) hs;
+            int dk = ModTitan.declaredKind(spec);
+            if (dk != k) { flags++; return; }
+            seq = seq && ModTitan.declaredSeq(spec);
+            half = Math.min(half, spec.drawableSize * 0.5f);
+            int n = ModTitan.guestDoomTick(from, Math.max(1, Math.min(999, d.level)), k, ax, ay, spin, half, nova, seq, shot);
+            if (n < 0) flags++;
+        } catch (Throwable t) {
+            flags++;
+        }
+    }
+
+    /** Guest (ModTitan.damageTick): one doomsday tick goes to the host as well. */
+    static void sendDoom(int k, float ax, float ay, float spin, float half, float nova, boolean seq, int shot) {
+        if (!extra || !guestActive()) return;
+        try {
+            ByteArrayOutputStream bo = new ByteArrayOutputStream(40);
+            DataOutputStream o = new DataOutputStream(bo);
+            o.writeByte(k); o.writeFloat(ax); o.writeFloat(ay); o.writeFloat(spin); o.writeFloat(half); o.writeFloat(nova);
+            o.writeBoolean(seq); o.writeInt(shot);
+            sendReliable(MSG_DOOM, bo);
+        } catch (Throwable t) {
+            // one tick not mirrored
+        }
+    }
+
+    private static boolean isOwnDrone(Object sender) {
+        Ennemis[] dr = Mod.playerDrones();
+        return sender != null && (sender == dr[0] || sender == dr[1]);
+    }
+
+    private static void extraSwitch(long now) {
+        if (now - extraAt < 2000) return;
+        extraAt = now;
+        String v = ModDev.testValue("corsair_bh04");
+        if (v != null) { boolean on = v.trim().equals("on"); if (on != extra) { extra = on; ModDev.ev("lan", "bh04 prototype " + on); } }
     }
 
     private static final HashMap<Class<?>, Method> poolMakers = new HashMap<Class<?>, Method>();
@@ -2304,9 +2520,16 @@ public final class ModLan {
                 o.writeUTF(lv.id != null ? lv.id.levelName : "");
                 o.writeFloat(ps.position.x); o.writeFloat(ps.position.y);
                 o.writeFloat(dmgSent);
-                long xp = ObjectRegistry.INSTANCE.game.playerInfo.curXp;
-                if (xpLastHost >= 0 && xp > xpLastHost) xpSent += xp - xpLastHost;   // a level-up lowers curXp: only gains count
+                fr.testudo.spacecorsair.business.player.PlayerInfo pinf = ObjectRegistry.INSTANCE.game.playerInfo;
+                long xp = pinf.curXp;
+                if (xpLastHost >= 0) {
+                    if (pinf.level == xpLastLevel && xp > xpLastHost) xpSent += xp - xpLastHost;
+                    else if (pinf.level == xpLastLevel + 1 && xpLastNext > 0) xpSent += Math.max(0, xpLastNext - xpLastHost) + Math.max(0, xp);   // GPT check BH08: the award that levelled the host up counts
+                    // anything else (several levels at once, a lower level): baseline only
+                }
                 xpLastHost = xp;
+                xpLastLevel = pinf.level;
+                xpLastNext = pinf.nextLevelXp;
                 if (ModLanSync.on) { leanHost(q, size, ps, lv, nowMs); return; }
                 o.writeLong(xpSent);
                 ByteArrayOutputStream rb = new ByteArrayOutputStream(32768);
@@ -2355,7 +2578,8 @@ public final class ModLan {
         }
     }
 
-    private static long xpLastHost = -1, lastSendMs, idleAt;
+    private static long xpLastHost = -1, lastSendMs, idleAt, xpLastNext;
+    private static int xpLastLevel;
     static final float FAR_FX = 1100f, FAR_FX_SIZE = 400f;
     static volatile long fxDropped;
 
@@ -2480,6 +2704,7 @@ public final class ModLan {
     private static int seenDefeats, seenRound, defeatRound = -1;
     private static long jumpAt;
     private static boolean lostRound, restore;
+    private static long roundAt;   // GPT check BH06: start of the current duel round
 
     /** Host UI: start or end a duel. The host's game takes both ships to the player bay (FFA, off the map). */
     static volatile boolean pvpRoom;   // v45 host room setting, off by default: no duel while off
@@ -2509,7 +2734,8 @@ public final class ModLan {
         if (pvpWanted && !pvp) {
             pvp = true;
             duelFrom = null;
-            round = 1; hostWins = 0; guestWins = 0; roundDmg = 0;
+            round = 1; hostWins = 0; guestWins = 0; roundDmg = 0; roundAt = System.currentTimeMillis();
+            lostRound = false; restore = false;   // GPT check BH07
             seenDefeats = s != null ? s.defeats : 0;
             jumpedIn = false;
             removeProxy();   // re-spawned on the duel side
@@ -2533,10 +2759,13 @@ public final class ModLan {
             return;
         }
         // v45: the host decides. A guest that soaked 4 hulls of damage without reporting a lost round has lost it.
-        boolean soaked = s != null && s.maxLife > 0 && roundDmg > 4.0f * s.maxLife + 2000f;
+        // GPT check BH06: what the declared shield can absorb and regenerate during this round counts too
+        ModLanCheck.Limits lmS = limits != null ? limits : undeclared();
+        float secs = Math.max(0f, (System.currentTimeMillis() - roundAt) / 1000f);
+        boolean soaked = s != null && s.maxLife > 0 && roundDmg > 4.0f * s.maxLife + 2000f + lmS.shield + lmS.regen * secs;
         if (soaked) { flags++; ModDev.ev("lan", "duel round forced, dmg " + roundDmg); }
         if (s != null && (s.defeats > seenDefeats || soaked)) {   // the guest's hull hit its floor: host wins the round
-            roundDmg = 0;
+            roundDmg = 0; roundAt = System.currentTimeMillis();
             seenDefeats = s.defeats;
             hostWins++;
             round++;
@@ -2546,7 +2775,7 @@ public final class ModLan {
         }
         if (lostRound) {   // the host's hull hit its floor: guest wins the round
             lostRound = false;
-            roundDmg = 0;
+            roundDmg = 0; roundAt = System.currentTimeMillis();
             guestWins++;
             round++;
             restore = true;

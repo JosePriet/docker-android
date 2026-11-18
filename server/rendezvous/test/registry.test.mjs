@@ -11,7 +11,7 @@ function storage() {
     get: async (k) => m.get(k),
     put: async (k, v) => { m.set(k, structuredClone(v)); },
     delete: async (k) => m.delete(k),
-    list: async ({ prefix, limit, reverse }) => { const a = [...m].filter(([k]) => k.startsWith(prefix)).sort((x, y) => (x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : 0)); if (reverse) a.reverse(); return new Map(a.slice(0, limit || 1000)); },
+    list: async ({ prefix, limit, reverse, startAfter }) => { const a = [...m].filter(([k]) => k.startsWith(prefix) && (startAfter === undefined || k > startAfter)).sort((x, y) => (x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : 0)); if (reverse) a.reverse(); return new Map(a.slice(0, limit || 1000)); },
   };
 }
 
@@ -243,6 +243,10 @@ is("garbage does not crash", (await call(reg, "POST", "/lobby/%00%ff/join", { id
   const l4 = await call(r4, "POST", "/lobby", { ...host, pub: "0", id: ID("9") }, "22.0.0.2");
   is("S11 sample before any guest is refused", (await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: l4.token }, "22.0.0.1")).status === 403);
   await call(r4, "POST", "/lobby/" + l4.code + "/beat", { token: l4.token, full: "1" }, "22.0.0.2");
+  is("R2 a full heartbeat without a join gives no sample", (await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: l4.token }, "22.0.0.1")).status === 403);
+  await call(r4, "POST", "/lobby/" + l4.code + "/beat", { token: l4.token, full: "0" }, "22.0.0.2");
+  await call(r4, "POST", "/lobby/" + l4.code + "/join", { id: ID("8"), ver: host.ver, sid: "5" }, "22.0.0.4");
+  await call(r4, "POST", "/lobby/" + l4.code + "/beat", { token: l4.token, full: "1" }, "22.0.0.2");
   is("S11 sample with a wrong token is refused", (await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: "nope" }, "22.0.0.1")).status === 403);
   const sm = await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: l4.token }, "22.0.0.1");
   is("S11 a second sample for the same session is refused", (await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: l4.token }, "22.0.0.1")).status === 403);
@@ -250,6 +254,7 @@ is("garbage does not crash", (await call(reg, "POST", "/lobby/%00%ff/join", { id
   is("D4 sample stored with ratio and flag", sm.first === "ok" && ss.length === 1 && ss[0][1].flagged === true && Math.abs(ss[0][1].ratio - 1.5) < 1e-6);
   is("D4 sample keeps no install id or nickname", JSON.stringify(ss[0][1]).indexOf(ID("z")) < 0 && JSON.stringify(ss[0][1]).indexOf("Me") < 0);
   await call(r4, "POST", "/lobby/" + l4.code + "/beat", { token: l4.token, full: "0" }, "22.0.0.2");
+  await call(r4, "POST", "/lobby/" + l4.code + "/join", { id: ID("8"), ver: host.ver, sid: "5" }, "22.0.0.4");
   await call(r4, "POST", "/lobby/" + l4.code + "/beat", { token: l4.token, full: "1" }, "22.0.0.2");
   await call(r4, "POST", "/lobby/" + l4.code + "/close", { token: l4.token }, "22.0.0.2");
   is("S11 the host's last sample lands just after the lobby closed", (await call(r4, "POST", "/sample", { ...smp, code: l4.code, token: l4.token }, "22.0.0.3")).first === "ok");
@@ -267,9 +272,10 @@ is("garbage does not crash", (await call(reg, "POST", "/lobby/%00%ff/join", { id
   const cell = new Function("return (" + page.match(/function cell\(v\)\{[^\n]*?\}(?=\s*\nfunction|\s*function)/)[0] + ")")();
   is("S12 CSV formula cells are quoted", cell("=HYPERLINK(1)") === "'=HYPERLINK(1)" && cell("+1") === "'+1" && cell("-1") === "'-1" && cell("@x") === "'@x" && cell("12") === "12" && cell("ok") === "ok");
   // S13: the newest rows, not the oldest
-  for (let i = 0; i < 1005; i++) sd.m.set("sample:" + (1700000000000 + i) + ":aa", { at: 1700000000000 + i, ratio: 0 });
+  const b13 = Date.now() - 100000;   // recent rows: the admin data never shows rows past 30 days (GPT check BH09)
+  for (let i = 0; i < 1005; i++) sd.m.set("sample:" + (b13 + i) + ":aa", { at: b13 + i, ratio: 0 });
   const ad2 = await (await rd.fetch(new Request("https://x/admin/data", { method: "POST", headers: { "x-sc-ip": "23.0.0.3" }, body: "key=admin-secret" }))).json();
-  is("S13 admin data shows the newest samples", ad2.samples.length === 1000 && ad2.samples[0].at === 1700000001004);
+  is("S13 admin data shows the newest samples", ad2.samples.length === 1000 && ad2.samples[0].at === b13 + 1004);
 }
 // S10: kick and ban records last a day
 {
@@ -282,6 +288,34 @@ is("garbage does not crash", (await call(reg, "POST", "/lobby/%00%ff/join", { id
   const rk = new Registry({ storage: sk }, {});
   await call(rk, "GET", "/lobbies?ver=x", null, "24.0.0.1");
   is("S10 old kick and ban records are swept, current ones kept", !sk.m.has("kick:" + ID("o")) && !sk.m.has("ban:" + ID("o")) && sk.m.has("kick:" + ID("n")) && sk.m.has("ban:" + ID("n")));
+}
+
+// GPT findings (2026-11-17): BH02 repeated joins, BH09 report/sample expiry without new records
+{
+  const sg = storage();
+  const rg = new Registry({ storage: sg }, { PUBLIC_OPEN: "1" });
+  let now = Date.now(); rg.now = () => now;
+  const h = await call(rg, "POST", "/lobby", { ...host, pub: "0", id: ID("1") }, "30.0.0.1");
+  let ok = 0;
+  for (let a = 0; a < 4; a++) for (let r = 0; r < 5; r++) {
+    now += 8000;
+    await call(rg, "POST", "/lobby/" + h.code + "/beat", { token: h.token, full: "0" }, "30.0.0.1");
+    if ((await call(rg, "POST", "/lobby/" + h.code + "/join", { id: ID("2"), ver: host.ver, sid: "7" }, "30.0.0.2")).first === "ok") ok++;
+  }
+  now += 8000;
+  await call(rg, "POST", "/lobby/" + h.code + "/beat", { token: h.token, full: "0" }, "30.0.0.1");
+  const next = await call(rg, "POST", "/lobby/" + h.code + "/join", { id: ID("2"), ver: host.ver, sid: "7" }, "30.0.0.2");
+  is("BH02 repeats of a waiting join do not use up the join allowance", ok === 20 && next.first === "ok");
+  sg.m.set("report:" + (now - 100) + ":aa", { at: now - 100, text: "x" });
+  sg.m.set("sample:" + (now - 100) + ":aa", { at: now - 100, ratio: 0 });
+  now += 31 * 24 * 3600 * 1000;
+  const fresh = new Registry({ storage: sg }, { PUBLIC_OPEN: "1" }); fresh.now = () => now;
+  await fresh.fetch(new Request("https://x/lobbies?ver=v45", { headers: { "x-sc-ip": "30.0.0.3" } }));
+  is("BH09 reports and samples expire after 30 days without a new record", ![...sg.m.keys()].some((k) => k.startsWith("report:") || k.startsWith("sample:")));
+  sg.m.set("sample:" + now + ":bb", { at: now, ratio: 0 });
+  now += 31 * 24 * 3600 * 1000;
+  await fresh.alarm();
+  is("BH09 the expiry alarm removes old rows with no request at all", !sg.m.has("sample:" + (now - 31 * 24 * 3600 * 1000) + ":bb"));
 }
 
 console.log(bad === 0 ? "REGISTRY OK" : "REGISTRY FAILED " + bad);

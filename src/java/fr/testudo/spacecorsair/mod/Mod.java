@@ -604,6 +604,17 @@ public class Mod {
         if (ps.nextShootMissileAlowed > 0 || ps.missileCount <= 0) {
             return true;
         }
+        if (ModLan.extra && ModLan.guestActive()) {   // GPT check BH04 prototype: a co-op guest's sector is empty; the host flies its drones
+            hiveTier = Math.max(0, ModSpecs.tierOf(ps.missileSpec));
+            if (ModLan.askDrones(hiveTier)) {
+                ObjectRegistry.INSTANCE.game.playerCurrentShipInventory.removeOne(SpaceObjectType.missile);
+                ps.updateRemainingMissiles();
+                ps.nextShootMissileAlowed = (long) (ps.milleSecBetweenMissileShots * ps.alterationReloadValue);
+                ObjectRegistry.INSTANCE.soundManager.playMissileStart();
+                floatText(ps, ModLang.tr("DRONES LAUNCHED"), 0.3f, 1.0f, 0.5f);
+                return true;
+            }
+        }
         Element t = findEnemy(ps.position, Math.max(DRONE_ENGAGE_RANGE, engageRange()));
         if (t == null) {
             floatText(ps, ModLang.tr("NO TARGET IN RANGE"), 1.0f, 0.6f, 0.3f);

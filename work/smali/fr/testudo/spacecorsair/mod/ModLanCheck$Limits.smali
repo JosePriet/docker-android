@@ -15,6 +15,8 @@
 
 
 # instance fields
+.field doom:Z
+
 .field dps:F
 
 .field dpsPvp:F
@@ -28,6 +30,8 @@
 .field flags:I
 
 .field hull:F
+
+.field regen:F
 
 .field shield:F
 
