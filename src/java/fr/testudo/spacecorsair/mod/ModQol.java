@@ -55,7 +55,7 @@ public class ModQol {
 
     // ================================================================== options (SharedPreferences, defaults below)
     private static SharedPreferences prefs;
-    private static boolean optStick = true, optBars = true, optDmg = true, optBig = false;
+    private static boolean optStick = true, optBars = true, optDmg = true, optBig = false, optThreat = false, optEdge = false;
     private static float optShake = 0.6f;
     private static boolean loaded;
 
@@ -79,6 +79,8 @@ public class ModQol {
         optBars = p.getBoolean("barNumbers", true);
         optDmg = p.getBoolean("damageNumbers", true);
         optBig = p.getBoolean("bigButtons", false);
+        optThreat = p.getBoolean("threatReadout", false);
+        optEdge = p.getBoolean("radarEdge", false);   // QoL prototype P4 (default off)
         optShake = p.getFloat("shake", 0.6f);
         loadInbox(p);
         // audit C7 (owner 2026-11-17): a new pilot gets one summary post instead of the old changelog posts;
@@ -214,6 +216,8 @@ public class ModQol {
     public static boolean barNumbers() { load(); return optBars; }
     public static boolean damageNumbers() { load(); return optDmg; }
     public static boolean bigButtons() { load(); return optBig; }
+    public static boolean threatReadout() { load(); return optThreat; }
+    public static boolean radarEdge() { load(); return optEdge; }
     public static float shakeLevel() { load(); return optShake; }
 
     // ---- economy (v16.5)
@@ -297,6 +301,8 @@ public class ModQol {
             box.addView(check(a, ModLang.tr("Numbers on hull and shield bars"), "barNumbers", optBars));
             box.addView(check(a, ModLang.tr("Damage numbers"), "damageNumbers", optDmg));
             box.addView(check(a, ModLang.tr("Bigger buttons"), "bigButtons", optBig));
+            box.addView(check(a, ModLang.tr("Threat readout (engaging enemies, top level)"), "threatReadout", optThreat));   // QoL prototype P3
+            box.addView(check(a, ModLang.tr("Radar edge pointers (bosses, hostile flagships)"), "radarEdge", optEdge));   // QoL prototype P4
             final TextView st = new TextView(a);
             st.setTextColor(Color.WHITE);
             st.setText(ModLang.tr("Screen shake: ") + Math.round(optShake * 100) + "%");
@@ -332,6 +338,8 @@ public class ModQol {
                 else if ("barNumbers".equals(key)) optBars = v;
                 else if ("damageNumbers".equals(key)) optDmg = v;
                 else if ("bigButtons".equals(key)) { optBig = v; buttonsDirty = true; }
+                else if ("threatReadout".equals(key)) optThreat = v;
+                else if ("radarEdge".equals(key)) optEdge = v;
                 save(key, v);
             }
         });
@@ -434,8 +442,10 @@ public class ModQol {
                     lifeA = l0;
                     lifeB = l1;
                 }
+                boolean low = l1 > 0 && l0 < l1 * 0.25f;   // QoL prototype P5: hull number pulses red under 25% (matches the hull alarm)
+                float la = low ? 0.55f + 0.45f * (float) Math.abs(Math.sin(System.currentTimeMillis() / 180.0d)) : 1.0f;
                 GameRenderer.drawText(gl, lifeText, x,
-                    GameRenderer.screenWidthY - (int) GameRenderer.lifeBar.centerPosition.y - 7, 1.0f, 1.0f, 0.55f, 0.55f, true, TextSize.LITTLE);
+                    GameRenderer.screenWidthY - (int) GameRenderer.lifeBar.centerPosition.y - 7, la, 1.0f, low ? 0.2f : 0.55f, low ? 0.15f : 0.55f, true, TextSize.LITTLE);
                 if (ps.shield != null && ps.shield.capacity > 0) {
                     int s0 = Math.max(0, Math.round(ps.shield.currentValue)), s1 = Math.round(ps.shield.capacity);
                     if (shieldText == null || s0 != shieldA || s1 != shieldB) {
@@ -447,6 +457,7 @@ public class ModQol {
                         GameRenderer.screenWidthY - (int) GameRenderer.shieldBar.centerPosition.y - 7, 1.0f, 0.55f, 0.85f, 1.0f, true, TextSize.LITTLE);
                 }
             }
+            if (threatReadout()) threatLine(gl, ps);   // QoL prototype P3
             int unread = ModPrologue.active ? 0 : unread();   // v46: no inbox banner during the prologue
             if (unread > 0) {
                 if (inboxText == null || unread != inboxN || GameRenderer.glTextLittle != inboxFont) {
@@ -464,6 +475,26 @@ public class ModQol {
         } catch (Exception e) {
             // HUD is cosmetic
         }
+    }
+
+    // ================================================================== QoL prototype P3: threat readout
+    private static String threatText;
+    private static int threatA = -1, threatB = -1;
+
+    /** "HOSTILES 4 · TOP Lv 47" under the shield bar while enemies engage; red when the top one is ModLive.SKULL_GAP+ levels up. */
+    private static void threatLine(GL10 gl, PlayerShip ps) {
+        int n = ModAlerts.threatN, top = ModAlerts.threatTop;
+        if (n <= 0 || GameRenderer.shieldBar == null) return;
+        if (threatText == null || n != threatA || top != threatB) {
+            threatText = ModLang.fmt("HOSTILES {0}  ·  TOP Lv {1}", n, top);
+            threatA = n;
+            threatB = top;
+        }
+        boolean skull = top - ModV34.playerLevel() >= ModLive.SKULL_GAP;
+        int x = (int) (GameRenderer.shieldBar.centerPosition.x - GameRenderer.shieldBar.witdh / 2.0f);
+        int y = GameRenderer.screenWidthY - (int) GameRenderer.shieldBar.centerPosition.y - 34;
+        if (skull) GameRenderer.drawText(gl, threatText, x, y, 1.0f, 1.0f, 0.3f, 0.25f, true, TextSize.LITTLE);
+        else GameRenderer.drawText(gl, threatText, x, y, 0.9f, 1.0f, 0.85f, 0.4f, true, TextSize.LITTLE);
     }
 
     // ================================================================== damage numbers + screen shake

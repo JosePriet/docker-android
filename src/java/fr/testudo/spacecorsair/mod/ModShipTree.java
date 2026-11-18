@@ -1078,7 +1078,7 @@ public final class ModShipTree {
         GearSpec gs = t.getGearSpec();
         if (gs instanceof PlayerShipSpec) {
             PlayerShipSpec ps = (PlayerShipSpec) gs;
-            sb.append("\nSpeed ").append(ps.maxSpeedInformational).append(ModLang.tr("  ·  Agility ")).append(ps.agilityInformational)
+            sb.append("\n").append(ModLang.tr("Speed")).append(" ").append(ps.maxSpeedInformational).append(ModLang.tr("  ·  Agility ")).append(ps.agilityInformational)
                 .append(ModLang.tr("  ·  Armor ")).append(ps.armorInformational).append(ModLang.tr("  ·  Guns ")).append(Math.max(ps.laserCount, ps.canonCount));
             if (ps.missileCount > 0) sb.append(ModLang.tr("  ·  Missiles ")).append(ps.missileCount);
         }

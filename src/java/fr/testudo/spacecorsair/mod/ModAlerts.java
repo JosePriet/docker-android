@@ -20,12 +20,16 @@ public final class ModAlerts {
     private static boolean combat;
     private static long combatSince, lastSting, clearAt, lastDisengage, lastAlarm;
     private static float lastShield = -1;
+    /** QoL prototype P3: enemies engaging the player within 2600 and the highest level among them (drones excluded). */
+    static volatile int threatN, threatTop;
     private static Object level;
     private static final Map<Ennemis, Boolean> engaged = new WeakHashMap<Ennemis, Boolean>();
     private static final ArrayList<Ennemis> drop = new ArrayList<Ennemis>();
 
     /** Audit B13 (owner): respawn in the same sector starts the alert state fresh. */
     static void reset() {
+        threatN = 0;
+        threatTop = 0;
         engaged.clear();
         combat = false;
         clearAt = 0;
@@ -43,6 +47,8 @@ public final class ModAlerts {
             engaged.clear();
             combat = false;
             clearAt = 0;
+            threatN = 0;
+            threatTop = 0;
         }
         // shield collapse (any time)
         if (ps.shield != null && ps.shield.capacity > 0) {
@@ -58,8 +64,8 @@ public final class ModAlerts {
         scanMs -= j;
         if (scanMs > 0) return;
         scanMs = 250;
-        if (ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode) return;
-        int near = 0;
+        if (ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode) { threatN = 0; threatTop = 0; return; }   // QoL P3: no stale readout
+        int near = 0, top = 0;
         List<Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
         for (int i = 0; i < els.size(); i++) {
             Element e = els.get(i);
@@ -67,9 +73,12 @@ public final class ModAlerts {
             Ennemis en = (Ennemis) e;
             if (en.attackTarget == ps && en.position.distance(ps.position) < 2600) {
                 near++;
+                if (!Mod.isDrone(en)) top = Math.max(top, en.level);
                 engaged.put(en, Boolean.TRUE);
             }
         }
+        threatN = near;      // QoL prototype P3: HUD threat readout (ModQol.drawHud)
+        threatTop = top;
         // enemies that were on the player and now broke off (fleeing / disengaging)
         drop.clear();
         for (Map.Entry<Ennemis, Boolean> en : engaged.entrySet()) {
