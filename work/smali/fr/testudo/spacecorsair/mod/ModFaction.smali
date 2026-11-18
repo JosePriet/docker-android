@@ -20,7 +20,7 @@
 
 .field static final TEXT_DONE:I = 0x7f7f07d0
 
-.field static final TITHE_CREDITS:I = 0x1e8480
+.field static final TITHE_CREDITS:I = 0x7a120
 
 .field static final TITHE_PARTS:I = 0x5
 
@@ -3648,7 +3648,7 @@
 
     move-result-wide v2
 
-    const-wide/32 v4, 0x1e8480
+    const-wide/32 v4, 0x7a120
 
     cmp-long v2, v2, v4
 
@@ -3667,7 +3667,7 @@
     if-eqz v2, :cond_8
 
     .line 1170
-    const v3, 0x1e8480
+    const v3, 0x7a120
 
     invoke-virtual {v0, v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->removeCredit(I)V
 
@@ -3689,7 +3689,7 @@
     .line 1172
     const-string v0, "lance"
 
-    const-string v1, "tithe paid 2000000 cr + 5 parts"
+    const-string v1, "tithe paid 500000 cr + 5 parts"
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
@@ -12232,7 +12232,7 @@
     .line 171
     const-string v0, "{TC}"
 
-    const v1, 0x1e8480
+    const v1, 0x7a120
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModFaction;->credits(I)Ljava/lang/String;
 

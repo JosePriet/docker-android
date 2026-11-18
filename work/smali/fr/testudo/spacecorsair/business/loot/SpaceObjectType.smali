@@ -10823,7 +10823,7 @@
     const v6, 0x7f0200ca
     const/4 v7, 0x0
     const/4 v8, 0x1
-    const v9, 0x16e360
+    const v9, 0x5b8d8
     invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
     move-result-object v9
     const/16 v10, 0x0
@@ -10842,7 +10842,7 @@
     const v6, 0x7f0200ca
     const/4 v7, 0x0
     const/4 v8, 0x1
-    const v9, 0x3567e0
+    const v9, 0xd59f8
     invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
     move-result-object v9
     const/16 v10, 0x1
@@ -10861,7 +10861,7 @@
     const v6, 0x7f0200ca
     const/4 v7, 0x0
     const/4 v8, 0x1
-    const v9, 0x7a1200
+    const v9, 0x1e8480
     invoke-static {v9}, Lfr/testudo/spacecorsair/business/economy/Price;->newStatic(I)Lfr/testudo/spacecorsair/business/economy/Price;
     move-result-object v9
     const/16 v10, 0x2
