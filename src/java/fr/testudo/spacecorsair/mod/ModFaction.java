@@ -125,7 +125,7 @@ public class ModFaction extends MissionListener {
     /** Order of the honour rows: not a contract, not a story step, not a finale (ModV35.finale stops below it). */
     static final int LANCE_ORDER = 9;
     /** The donation: credits + rare parts, taken in Spartan HQ (owner: "a fixed amount of credits/items"). */
-    static final int TITHE_CREDITS = 2000000, TITHE_PARTS = 5;
+    static final int TITHE_CREDITS = 500000, TITHE_PARTS = 5;   // owner 2026-11-18: 25% (was 2,000,000)
     // columns as the story rows (0-16), 17 unused number, 18 amends, 19 hunt, 20 lance. Text: Claude (EN), ES in i18n/gpt/v48_lance_es.json.
     private static final Object[][] LANCE_ROWS = {
         {"spartan", LANCE_ORDER, "Trial of the Phoenix", "BOUNTY", "HUGO_WISDOM", "HUGO_WISDOM", 1, 0, "", "Ashmaw, Reaver Warlord", "",

@@ -5,7 +5,7 @@ def rd(p): return open(B + p).read()
 def wr(p, s): open(B + p, 'w').write(s)
 
 NAMES = ["modPhoenixLance", "modPhoenixLanceMk2", "modPhoenixLanceMk3"]
-PRICE = [1500000, 3500000, 8000000]   # = ModLance.PRICE
+PRICE = [1500000, 3500000, 8000000]   # = ModLance.PRICE at v43a-17; hooks55_lanceprice set them to 375000, 875000, 2000000
 
 p = 'business/loot/SpaceObjectType.smali'; s = rd(p)
 T = 'Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;'
