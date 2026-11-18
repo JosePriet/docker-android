@@ -349,7 +349,7 @@ elif [ $GAME = sc ]; then
     case $STAGE in
       BAL0) TG="reaver warden"; FL="corsair_bal_off";;
       BAL1) TG="reaver kretari varn spartan warden";;
-      BALP) TG="police_warden police_varn police_spartan";;
+      BALP) TG="police_warden police_spartan police_reaver police_varn";;
     esac
     for x in $FL; do a shell "touch $T/$x"; done; a shell "chmod 644 $T/corsair_*; ls $T" | tee -a $OUT/flags.txt
     if fly hullLeviathan Leviathan leviathan; then
