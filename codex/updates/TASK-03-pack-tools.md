@@ -1,0 +1,7 @@
+# UPD-03: content pack builder, manifest signer, verifier
+Implement plan sections 4.1, 4.3, 4.4 as tools and tests.
+1. `codex/tools/upd-03/pack_build.py SRC_DIR OUT.zip --id content-52-3 --build 52 --api 1 --seq 3 [--requires content-52-2]`: writes pack.json, stores .webp/.ogg uncompressed, deflates .json, rejects any path outside modart/ modsfx/ music/ lang/ data/, any .dex .so .jar .apk, any non-lossless WebP (reuse scripts/verify_modart.py logic if usable).
+2. `pack_diff.py OLD_ASSET_DIR NEW_ASSET_DIR OUT_DIR`: copies only changed/added files and writes the `remove` list for deleted ones.
+3. `manifest_sign.py manifest.json KEY.pem`: validates the schema in plan 4.4, writes content.json + content.json.sig (ECDSA P-256 SHA-256, DER). Use `cryptography` only if present; else fall back to `openssl dgst -sha256 -sign` via subprocess.
+4. Java verifier `work/dtest/PackVerify.java` (Java 8, java.security only): checks the manifest signature against a public key, a pack's sha256 and size, pack.json fields vs the manifest entry, the chain (`requires`), and zip safety (.., absolute paths, disallowed folders/extensions, uncompressed size cap 4x declared and 300 MB).
+5. Test `work/dtest/V60C.java`: generates a throwaway keypair in temp, builds two chained packs, signs a manifest, verifies all; plus tamper cases (changed byte in pack, changed manifest, wrong key, wrong build, wrong contentApi, missing requires, zip-slip entry, .dex entry, zip bomb). Each must be refused with a clear reason.
