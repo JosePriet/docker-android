@@ -1,3 +1,6 @@
+# Handoff (2026-11-18): sector events + kill chain MERGED (not released)
+Owner OK 2026-11-18 03:14 UTC: ModEvents (distress call, bounty target, salvage race; random kind 40/35/25, random 4-6 min gap, first at 90 s, open sectors only) and ModChain (6 s window, +10%/link, cap +50%) always on. Radar marker in ModMap.radarPoint2. Emulator switch corsair_event=distress|bounty|salvage<N>, corsair_near=event; stage P52E on emulator-tests (run 138: no crash). Changes: /mnt/project-files/audits/v45-events-changes.md. Proposals: space-corsair/proposals/dynamic-sector-events.md, kill-chain.md. Needs the phone test (payouts, chain, radar marker, feel).
+
 # Handoff (2026-11-17): v45 audit fixes CODED
 Branch claude/project-thread-fuw6ke head de64570 (from 7684902): all 66 audit decisions coded except the ones listed as
 not done / not present in /mnt/project-files/audits/v45-audit-fixes-changes.md. check.sh 52 PASS. Verifier + cross-check:
