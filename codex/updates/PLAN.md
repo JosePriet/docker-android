@@ -20,13 +20,15 @@ Measured (another thread, 2026-11-18): v44 release APK vs v45 build 52 is 91.5 M
 | Mod art (738 files, 75 MB) | `assets/modart/*.webp/png` | `ModArt.open` (ModArt.java:814), `listAssets` (:258) caches the name list once | **Yes**, with one change: `open` and `listAssets` read an overlay directory first |
 | Remastered stock sprites | `assets/modart/orig_<entry>` | `ModArt.origAsset` (:884) via `open` | **Yes**, same overlay (the remaster hook already redirects game drawables to modart names) |
 | Stock sprites that have no remaster | `res/drawable-nodpi` | `TextureLibrary` → `Resources.openRawResource` | Yes, by shipping an `orig_<entry>` file in a pack (the existing remaster hook picks it up) |
-| Mod sound effects | `assets/modsfx/*.ogg` | `ModSound.copy` (ModSound.java:78) copies assets to a file, then SoundPool | **Yes**, overlay in `copy` |
+| Mod sound effects | `assets/modsfx/*.ogg` | `ModSound.copy` (ModSound.java:78) copies assets to a file, then SoundPool | **Yes**, overlay in `copy`. Its cache check skips the copy when the file size matches (ModSound.java:81), so the overlay must key the cached file name by pack id or always overwrite |
 | Music | `res/raw/*.ogg` (louder copies swapped in at build) | `engine/MusicManager` → `MediaPlayer.create(ctx, resId)` | Needs a new small hook in MusicManager to play a file path when the pack has `music/<name>.ogg` |
 | Spanish text | `assets/lang/es.json` | `ModLang.dict` (ModLang.java:160) | **Yes**, overlay plus merge (pack keys win) |
 | English mod text | string literals in the Java (`ModLang.tr("...")`) | code | Text corrections: a pack `lang/en.json` mapping old to new text (same mechanism as es.json). New screens need code |
 | Mission chains, lore, faction data | generated into Java (`ModFactionData.java` 13.7 KB, `ModV30Data.java` 15.8 KB, from `src/data/*.json` via `src/genmissions.py` etc.) | code | **Not today.** The updates build ships the same JSON as `assets/data/*.json` and reads it at start, keeping the Java tables as the fallback |
 | Balance numbers (enemy curve, damage multipliers, police, drones, events, chain, prices, refit costs) | `static final` constants across ModBal, ModV34, ModV35, ModPolice*, ModEvents, ModChain, ModAegisDrones and more | code | **Not today.** javac copies `static final` primitives into every use site, so a file cannot change them. The updates build routes the chosen numbers through `ModTune.f("key", default)` (section 5.3) |
 | Stock game tables (XpBuilder, stock gear specs) | base game classes in classes.dex | code | Only through ModTune hooks on the few values worth tuning |
+| Fonts, `assets/templates`, `assets/Licences` | APK assets, read by the base game | No (not worth a hook) |
+| Drawables fetched with `getIdentifier` (ModRefitScreen.java:824, ModUi.java:306-330) | `res/drawable*` | code | Only if that call is routed through `ModArt.origAsset`. Check each call when coding |
 | New hulls, weapons, skills, AI, UI screens, hooks | Java + smali | code | **No.** APK path only |
 | AndroidManifest, resources.arsc (Android string resources, layouts) | APK | Android | **No.** APK path only |
 
@@ -79,6 +81,7 @@ Size control: when a chain passes about 150 MB or 10 packs, publish a cumulative
 - The public key is baked into the APK (`ModContent.PUB`). Two slots allow key rotation: the current key and the next one.
 - Private key: `/mnt/project-files/space-corsair/keys/content-sign.pem` plus a GitHub Actions secret `CONTENT_SIGN_KEY`. Never in git or audits.
 - The manifest (4.4) is signed: `content.json` plus `content.json.sig`. It lists each pack's SHA-256 and size. The phone checks the manifest signature, downloads the pack, checks its SHA-256 before it is moved into `packs/`, then checks `pack.json` (id, build, contentApi, requires) against the manifest entry.
+- `remove` also drops the name from the ModArt name set, so `hasArt` gating hides that hull again.
 - Zip safety: reject entries containing `..`, absolute paths, names outside the allowed folders (`modart/ modsfx/ music/ lang/ data/`), and anything ending in `.dex .so .jar .apk`. Cap the uncompressed size (zip-bomb guard: 4x the declared size, hard cap 300 MB).
 - Data validation: every ModTune key has a min/max in code, out-of-range values are clamped and logged, and unknown keys are ignored. A bad JSON file falls back to the previous layer and is logged (`ModDev.ev("content", ...)`). A pack cannot crash the game through data.
 
@@ -86,7 +89,7 @@ Size control: when a chain passes about 150 MB or 10 packs, publish a cumulative
 One signed manifest per channel. It also carries the APK update data:
 
 ```json
-{ "channel": "stable", "generated": "2026-11-25T12:00:00Z",
+{ "channel": "stable", "seq": 17, "generated": "2026-11-25T12:00:00Z",
   "apk": { "version": "v46", "build": 53, "sha256": "...", "size": 91500000,
            "url": "https://github.com/JosePriet/docker-android/releases/download/v46/space-corsair-mod.apk",
            "patches": [ { "fromSha256": "<v45 apk sha>", "url": ".../v46/patch-v45-v46.scp", "sha256": "...", "size": 7100000 } ],
@@ -105,7 +108,7 @@ Rules on the phone:
 - `apk.minBuildForOnline`: below it, internet MP refuses to start with "Update the game to play online". LAN and solo are never blocked.
 
 ### 4.5 Rollback
-- **Automatic (crash guard).** At start with a new chain, `boot.json` gets `{chain, starts:+1}`. After 60 s of play it is reset. If a start finds `starts >= 2` for a chain that was never confirmed, the phone switches back to `previous.json` and shows "The last update was turned off after it failed to start."
+- **Automatic (crash guard).** `boot.json` is written first, before any pack is opened: `{chain, running:true}`. `running` is cleared on `onPause` or a clean exit, so quitting does not count. A chain is confirmed once the main menu is reached and 3 minutes of play pass with no crash. A start that finds `running:true` (the last run died) for an unconfirmed chain adds one crash. At 2 crashes the phone switches back to `previous.json` and shows "The last update was turned off after it failed to start." A crash inside the pack loader itself is covered because the flag is written before it runs.
 - **Manual.** Settings → Game updates → "Use built-in content only" (safe mode, ignores every pack) and "Undo last update" (switch back to `previous.json`).
 - **Server side.** Put the pack id in `revoked`, or republish the manifest without it. Phones drop it at the next check.
 - **APK.** Android refuses a lower versionCode, so a bad APK is "rolled back" by shipping a new build number with the old code. Packs are tied to their build, so this is clean.
@@ -115,13 +118,13 @@ Rules on the phone:
 ### 5.1 Patch format (`.scp`, "Space Corsair patch")
 The goal is to rebuild the exact released APK byte for byte, including the v2/v3 signing block. The phone never signs anything, and the result's SHA-256 must equal `apk.sha256` in the manifest.
 - Header: magic, `fromSha256`, `toSha256`, `toSize`.
-- Body: a list of ops in output order. `COPY offset len` copies a range of the installed APK, and `DATA len bytes` inserts new bytes. The whole body is deflated.
+- Body: a list of ops in output order. `COPY offset len` copies a range of the installed APK, and `DATA len bytes` inserts new bytes. The whole body is deflated. It needs the installed `base.apk` to be the untouched released file (no OEM re-sign, no split install). Any mismatch falls back to the full APK. Whether the new APK keeps the old entry order is proven by G2's real-size test.
 - Generator (Python, release workflow): walk the new APK's local entries in order. For each entry whose name, CRC and compressed bytes match an entry in the old APK, emit `COPY` of the old local header plus data. Otherwise emit `DATA`. The APK signing block, central directory and EOCD are always `DATA` (small). Measured, this gives about 7 MB for v44 → v45.
 - Applier (Java 8, about 150 lines in a new `ModUpdate`): read the installed APK (`getPackageCodePath()`, which is readable by the app), stream ops into `app_content/apk/new.apk`, hash it while writing, and delete it on mismatch.
 - Patches are published for the last three releases. A phone on anything older, or one whose installed APK hash matches no `fromSha256` (for example the DEV build or a test pre-release), gets the full APK link instead.
 
 ### 5.2 Install
-- `PackageInstaller` session API (Android 5+): write `new.apk` into a session and commit. No FileProvider is needed. A `file://` intent would throw `FileUriExposedException` at targetSdk 24.
+- `PackageInstaller` session API (Android 5+, API 21). The APK's minSdk is 9: below API 21 the panel shows only the full-APK link, with no in-game install: write `new.apk` into a session and commit. No FileProvider is needed. A `file://` intent would throw `FileUriExposedException` at targetSdk 24.
 - Manifest: add `android.permission.REQUEST_INSTALL_PACKAGES` (this one change needs `set_version_code.py`/manifest tooling). At targetSdk 24 it is not enforced (another thread read targetSdk 24 from the manifest; re-check this when coding), but it is required if targetSdk is ever raised to 26+, and Android shows the "Allow from this source" toggle under the game's name.
 - First time: Android asks the player to allow installs from Space Corsair (Settings toggle). The game shows a one-line explanation before sending them there.
 - Same package and same signing key (`work/key.p12`), so the save and prefs survive. The DEV APK is excluded (its hash matches no patch, and it gets no install offer).
@@ -143,7 +146,8 @@ The goal is to rebuild the exact released APK byte for byte, including the v2/v3
   - Game code: "Update game (7 MB)" → progress → "Install" (system dialog). If no patch fits: "Download full game (91 MB)", which opens the release link.
 - **Safety:** "Use built-in content only" and "Undo last update" (4.5).
 - **MP:** the multiplayer lobby shows its own content id, and a mismatch message says what to update (section 8).
-- Downloads run on a background thread with resume (HTTP Range) and survive the app going to the background. They pause during a match (no bandwidth fight with the MP stream).
+- Before a download, check free space: pack size x2, or patch size + full APK size for the APK path. Refuse with a clear message if there is not enough.
+- Downloads run on a background thread with resume (HTTP Range: after a redirect, the Range header is re-sent to the redirect target; connect/read timeouts 15/30 s; a partial file is kept as `<id>.part` and only renamed after the sha check) and survive the app going to the background. They pause during a match (no bandwidth fight with the MP stream).
 
 ## 7. Hosting and publishing
 
@@ -151,18 +155,21 @@ The goal is to rebuild the exact released APK byte for byte, including the v2/v3
 - Content packs: one release per pack, tag `content-52-3`, marked pre-release so it never replaces the APK as "latest".
 - Patches: attached to the APK release they produce (`v46/patch-v45-v46.scp`).
 - Manifest: a fixed release tag `channel-stable` whose assets `content.json` and `content.json.sig` are replaced on every publish. Fixed URL: `.../releases/download/channel-stable/content.json`. A `channel-test` tag gives owner test builds the same flow (matching the existing `-test` pre-release habit).
+- Replaced assets can be served stale from GitHub's CDN for minutes. The manifest carries a rising `seq`, and the phone ignores a manifest whose seq is lower than the last one it accepted. This also blocks replaying an old signed manifest.
 - The phone uses only plain download URLs (redirects to objects.githubusercontent.com are followed by HttpURLConnection), never the GitHub API (60 requests/hour per IP).
 - Workflow: extend `.github/workflows/release.yml` on `releases`, keeping the same owner-gated trigger style. A change to `content/VERSION` builds the pack zip from `content/<id>/`, signs it, and replaces the manifest. A change to `release/VERSION` also builds patches from the previous three APKs in `apk/` and updates `apk` in the manifest. Signing uses the `CONTENT_SIGN_KEY` secret. As today, nothing publishes without the owner's word.
 
 **Optional mirror: the lobby Worker** (`sc-rendezvous`). A `GET /updates/<channel>` that caches and serves the manifest from GitHub. It could also act as a kill switch independent of GitHub (`revoked`). It stays small (manifest only; Cloudflare free plan is fine). Packs stay on GitHub. It is a production deploy, so it needs the owner's word. Not needed for version 1.
 
 ## 8. LAN / internet MP compatibility
-- Today `ModLan.contentHash()` (ModLan.java:186) is the first 16 hex digits of SHA-256(APK file), sent in the handshake (:175). With packs, two phones with the same APK but different packs must be refused, because the art and the ModTune numbers differ (ModLanCheck limits and damage would disagree).
-- New value: `contentHash = SHA-256( apkHash16 + "|" + contentApi + "|" + id1:sha1 + "," + id2:sha2 ... )`, first 16 hex digits. "Built-in content only" mode hashes as an empty chain. The handshake field stays the same, so there is no protocol change.
+- Today `ModLan.contentHash()` (ModLan.java:186) is the first 16 hex digits of SHA-256(APK file), sent in the handshake (:176). It is cached in `hashCache`, which is safe because the chain only changes at process start, but the new hash must be computed after the chain is loaded. With packs, two phones with the same APK but different packs must be refused, because the art and the ModTune numbers differ (ModLanCheck limits and damage would disagree).
+- New value: `contentHash = SHA-256( apkHash16 + "|" + contentApi + "|" + id1:sha1 + "," + id2:sha2 ... )`, first 16 hex digits. Safe mode ("Built-in content only") counts as no packs: both hash the exact string `apkHash16|api|`. If the APK hash is unreadable, the result stays `"?"`, which the join check already refuses (ModLan.java:619). The handshake field stays the same, so there is no protocol change.
 - Mismatch text is split so the player knows what to do: the handshake adds a second field with the readable chain id (`content-52-3`). Messages: "Same game, different content update (yours: content-52-2, host: content-52-3). Open Settings → Game updates." / "Different game version: update the game." (EN+ES).
 - Lobby list: the room record carries the content id, and the client greys out rooms that do not match its own (client-side filter, so no server change is needed). A server-side filter can come later.
 - ModLanCheck host checks read weapon and gear numbers through the same ModTune, and both sides are guaranteed identical by the hash.
 - Save signature (ModSaveSig) is unaffected: packs never write the save.
+- Pack art that adds hulls makes `hasArt` differ between phones. The hash blocks that pairing, so the UI text tells both players to update.
+- ModLanSync sends texture ids as short numbers (ModLanSync.java:122, :136). Confirm while coding that pack art does not shift TextureLibrary id assignment. This is unverified, but the hash gate already separates mismatched phones.
 - Later option (not in v1): the host sends a missing pack to a LAN guest directly. Skipped for now because it adds a transfer channel and the sha/signature checks still apply.
 
 ## 9. Work split (to save Claude usage)
