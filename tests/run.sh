@@ -220,7 +220,8 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
   if [ "$STAGE" = V60U ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
     a shell "echo https://raw.githubusercontent.com/JosePriet/docker-android/emulator-tests/tests/upd/ > $T/corsair_upd_url; chmod 644 $T/corsair_*"
-    a shell appops set $PKG REQUEST_INSTALL_PACKAGES allow
+    a shell appops set $PKG REQUEST_INSTALL_PACKAGES allow   # Android kills the app on this change: relaunch
+    sleep 3; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 25
     sleep 8; need up_flight; shot up_flight
     sleep 20; for k in 1 2 3; do tap 57 55; sleep 4; dump up_menu; grep -q 'text="Updates' $OUT/last.xml && break; a shell input keyevent KEYCODE_BACK; sleep 3; done; shot up_menu
     log "EVIDENCE menu entries: $(grep -o 'text="\(Multiplayer\|Updates\)[^"]*"' $OUT/last.xml | tr '\n' ' ')"
@@ -241,7 +242,7 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     tap_text "^(Update the game|UPDATE THE GAME)" up_game; for k in 1 2 3 4 5 6 7 8 9; do sleep 10; shot up_game_$k; dump up_game_$k; grep -qiE 'text="(Install|INSTALL|Update|UPDATE)"' $OUT/last.xml && break; done
     log "EVIDENCE installer screen: $(grep -o 'text="[^"]*"' $OUT/last.xml | head -12 | tr '\n' ' ')"
     log "EVIDENCE update log 2: $(grep -E "ModTest.*: update" $LG | tail -6 | sed 's/^.*): //' | tr '\n' ' ')"
-    tap_text "^(Install|INSTALL|Update|UPDATE)$" up_install; sleep 30; shot up_installed; dump up_installed
+    tap_text "^(Install|INSTALL|Update|UPDATE)( |$)" up_install; sleep 30; shot up_installed; dump up_installed
     a shell dumpsys package $PKG | grep -E "lastUpdateTime" > $OUT/upd_after.txt
     log "EVIDENCE reinstall: before $(cat $OUT/upd_before.txt | tr -d ' ') after $(cat $OUT/upd_after.txt | tr -d ' ')"
     a shell "rm -f $T/corsair_upd_url"
