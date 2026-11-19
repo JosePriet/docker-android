@@ -161,7 +161,7 @@ public class ModV34 {
 
     /** v57c: original ships with a level 0 / 1,000 cr placeholder (owner: cheap, never below the ships before them in the tree). */
     static final String[] SHIP_FIX = {"policeShip", "megatronShip"};
-    static final int[] SHIP_FIX_STOCK_LV = {10, 13}, SHIP_FIX_PRICE = {400000, 1000000};
+    static final int[] SHIP_FIX_LV = {12, 20}, SHIP_FIX_PRICE = {400000, 1000000};   // owner 2026-11-19 02:59: police L12, Megatron L20 (new scale)
 
     /** v57c: the original (non-mod) player ships get their unlock level on the new scale; police ship and Megatron repriced. */
     private static void ships() {
@@ -176,7 +176,7 @@ public class ModV34 {
                     int fix = -1;
                     for (int i = 0; i < SHIP_FIX.length; i++) if (SHIP_FIX[i].equals(t.name())) fix = i;
                     fr.testudo.spacecorsair.business.loot.stuff.GearSpec g = t.getGearSpec();
-                    g.level = shipLevel(fix >= 0 ? SHIP_FIX_STOCK_LV[fix] : g.level);
+                    g.level = fix >= 0 ? SHIP_FIX_LV[fix] : shipLevel(g.level);
                     if (fix >= 0) {
                         fr.testudo.spacecorsair.business.economy.Price pr = t.getObjectPrice();
                         mn.setInt(pr, SHIP_FIX_PRICE[fix]);

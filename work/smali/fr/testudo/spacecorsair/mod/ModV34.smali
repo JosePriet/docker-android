@@ -46,9 +46,9 @@
 
 .field static final SHIP_FIX:[Ljava/lang/String;
 
-.field static final SHIP_FIX_PRICE:[I
+.field static final SHIP_FIX_LV:[I
 
-.field static final SHIP_FIX_STOCK_LV:[I
+.field static final SHIP_FIX_PRICE:[I
 
 .field public static final SHIP_LEVEL_CAP:I = 0x20
 
@@ -207,7 +207,7 @@
 
     fill-array-data v0, :array_12c
 
-    sput-object v0, Lfr/testudo/spacecorsair/mod/ModV34;->SHIP_FIX_STOCK_LV:[I
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModV34;->SHIP_FIX_LV:[I
 
     new-array v0, v2, [I
 
@@ -363,8 +363,8 @@
     .line 164
     :array_12c
     .array-data 4
-        0xa
-        0xd
+        0xc
+        0x14
     .end array-data
 
     :array_134
@@ -6015,17 +6015,13 @@
     move-result-object v6
 
     .line 179
-    if-ltz v1, :cond_8b
+    if-ltz v1, :cond_87
 
-    sget-object v2, Lfr/testudo/spacecorsair/mod/ModV34;->SHIP_FIX_STOCK_LV:[I
+    sget-object v2, Lfr/testudo/spacecorsair/mod/ModV34;->SHIP_FIX_LV:[I
 
     aget v2, v2, v1
 
     :goto_67
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModV34;->shipLevel(I)I
-
-    move-result v2
-
     iput v2, v6, Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;->level:I
 
     .line 180
@@ -6062,16 +6058,20 @@
     goto :goto_1e
 
     .line 186
-    :catch_89
+    :catch_85
     move-exception v0
 
     goto :goto_1e
 
     .line 179
-    :cond_8b
+    :cond_87
     iget v2, v6, Lfr/testudo/spacecorsair/business/loot/stuff/GearSpec;->level:I
-    :try_end_8d
-    .catch Ljava/lang/Throwable; {:try_start_2c .. :try_end_8d} :catch_89
+
+    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModV34;->shipLevel(I)I
+    :try_end_8c
+    .catch Ljava/lang/Throwable; {:try_start_2c .. :try_end_8c} :catch_85
+
+    move-result v2
 
     goto :goto_67
 
