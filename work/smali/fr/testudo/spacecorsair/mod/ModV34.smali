@@ -369,8 +369,8 @@
 
     :array_134
     .array-data 4
-        0x61a80
-        0xf4240
+        0x30d40
+        0x7a120
     .end array-data
 
     .line 271
