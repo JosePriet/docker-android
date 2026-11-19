@@ -186,6 +186,20 @@ public class ModPolice {
     private static int sectorFi = -1;
     private static final WeakHashMap<Element, Long> snareReady = new WeakHashMap<Element, Long>();
     private static final WeakHashMap<Element, Long> civilHit = new WeakHashMap<Element, Long>();
+    /** Owner 2026-11-18: player damage (shields included) taken by a calm police ship; heat only past the stock tolerance. */
+    private static final WeakHashMap<Element, Float> strayDmg = new WeakHashMap<Element, Float>();
+    /** Stock CivilShip.amountOfDamageAllowedInRatioByPlayerBeforeRebelion = 15: a ship takes maxLife / 15 from the player first. */
+    public static final float STRAY_RATIO = 1f / 15f;
+
+    /** True once the player's accumulated damage on a calm police ship passes the stock tolerance. */
+    public static boolean pastTolerance(float total, float maxLife) {
+        return maxLife <= 0 || total > maxLife * STRAY_RATIO;
+    }
+
+    /** Ships whose hostility is not a police matter: mission targets and faction wings / pursuers. */
+    static boolean notPoliceMatter(Element e) {
+        return e != null && (e.isMissionObjective || ModSector.factionShip(e));
+    }
     private static long nextPoliceHit;
 
     /** Current heat in this sector (agent C's police titan reads it). */
@@ -240,7 +254,7 @@ public class ModPolice {
         if (spawning || c == null) return;
         try {
             if (isPolice(c)) { policeHit(); return; }
-            if (ModCapitals.cap(c) != null) return;
+            if (ModCapitals.cap(c) != null || notPoliceMatter(c)) return;   // owner 2026-11-18: hostile wings / mission targets are not civilians
             civilHit(c, true);
         } catch (Throwable t) {
             // no police response
@@ -276,12 +290,29 @@ public class ModPolice {
             }
             boolean byPlayer = p.sender.isPlayer || p.sender == ps || Mod.isDrone(p.sender);
             if (!byPlayer) return dmg;
-            if (isPolice(target)) policeHit();   // v42 fix: shield-absorbed hits on police count as aggression too
-            else if (dmg > 0 && target instanceof CivilShip && ModCapitals.cap(target) == null) civilHit(target, false);
+            if (isPolice(target)) strayOrHit(target, dmg);   // v42 fix kept: shield-absorbed hits count; owner 2026-11-18: with stock tolerance
+            else if (dmg > 0 && target instanceof CivilShip && ModCapitals.cap(target) == null && !notPoliceMatter(target)) civilHit(target, false);
         } catch (Throwable t) {
             // stock hit
         }
         return dmg;
+    }
+
+    /**
+     * A player hit on a police ship. Police already fighting the player (wave ships, or any police while heat > 0) count at
+     * once; a calm patrol only after the stock tolerance (maxLife / 15 of player damage, shields included), so stray shots in
+     * a fight next to the police do nothing.
+     */
+    private static void strayOrHit(Element target, float dmg) {
+        if (heat > 0 || police.containsKey(target) || ModPoliceTitan.isPoliceTitan(target)) { policeHit(); return; }
+        if (dmg <= 0) return;
+        Float sum = strayDmg.get(target);
+        float total = (sum == null ? 0f : sum) + dmg;
+        strayDmg.put(target, total);
+        if (pastTolerance(total, target.maxLife)) {
+            strayDmg.remove(target);
+            policeHit();
+        }
     }
 
     /** Smali hook (hooks42b) in Element.applyDamage: the player (or a drone) destroyed e. */
@@ -296,7 +327,7 @@ public class ModPolice {
                 log("police kill: countdown " + waveTimer + " ms");
                 return;
             }
-            if (e instanceof CivilShip && ModCapitals.cap(e) == null && !Mod.isDrone(e)) offence(HEAT_CIVIL_KILL, "civilian kill");
+            if (e instanceof CivilShip && ModCapitals.cap(e) == null && !Mod.isDrone(e) && !notPoliceMatter(e)) offence(HEAT_CIVIL_KILL, "civilian kill");
         } catch (Throwable t) {
             // no heat
         }
@@ -484,6 +515,7 @@ public class ModPolice {
         police.clear();        // v42 fix: pooled PoliceShips reused elsewhere must not keep police weapons / timers
         snareReady.clear();
         civilHit.clear();
+        strayDmg.clear();
         active.clear();
         boosted.clear();
         titan = null;
@@ -493,7 +525,7 @@ public class ModPolice {
         quietMs = 0;
         sinceWave = Long.MAX_VALUE / 4;
         waveTimer = WAVE_MS;
-        here = safe(id) ? null : id;
+        here = safe(id) || ModSector.lawless(id) ? null : id;   // owner 2026-11-18: no police waves in pirate havens
         if (here == null) return;
         long[] rec = left.remove(here);
         if (rec != null && keptOnReturn(rec[2], ModSector.play())) {
