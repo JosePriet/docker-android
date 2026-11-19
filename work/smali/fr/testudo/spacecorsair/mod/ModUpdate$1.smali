@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 256
+    .line 255
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 3
 
     .prologue
-    .line 258
+    .line 257
     # getter for: Lfr/testudo/spacecorsair/mod/ModUpdate;->app:Landroid/content/Context;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$000()Landroid/content/Context;
 
@@ -44,7 +44,7 @@
 
     move-result-object v0
 
-    .line 259
+    .line 258
     # getter for: Lfr/testudo/spacecorsair/mod/ModUpdate;->app:Landroid/content/Context;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$000()Landroid/content/Context;
 
@@ -63,7 +63,7 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->post(Ljava/lang/Runnable;)V
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$200(Ljava/lang/Runnable;)V
 
-    .line 260
+    .line 259
     :cond_1a
     return-void
 .end method

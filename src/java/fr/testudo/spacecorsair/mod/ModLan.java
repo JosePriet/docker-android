@@ -208,7 +208,7 @@ public final class ModLan {
             if (!out.equals("?")) {
                 // v45 in-game updates: the active content packs are part of "the same game files"
                 String ck = "";
-                try { ck = ModContent.chainKey(ObjectRegistry.INSTANCE.game.context); } catch (Throwable t) { ck = ""; }
+                try { ck = ModContent.chainKey(ObjectRegistry.INSTANCE.game.context); } catch (Throwable t) { ck = ModContent.chainKey(null); }
                 if (ck.length() > 0) {
                     try {
                         byte[] d2 = java.security.MessageDigest.getInstance("SHA-256").digest((out + "|" + ModContent.API + "|" + ck).getBytes("UTF-8"));

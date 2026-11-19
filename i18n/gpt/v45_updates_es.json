@@ -4,7 +4,6 @@
  "Check now": "Buscar ahora",
  "Checking the installed game...": "Comprobando el juego instalado...",
  "Close": "Cerrar",
- "Content updated. Restart the game to apply it.": "Contenido actualizado. Reinicia el juego para aplicarlo.",
  "Content": "Contenido",
  "Download content": "Descargar contenido",
  "Download the full game in the browser": "Descargar el juego completo en el navegador",
@@ -37,5 +36,6 @@
  "Working...": "Trabajando...",
  "Your game is up to date.": "Tu juego está actualizado.",
  "The last update was turned off after it failed to start.": "La última actualización se desactivó porque el juego no pudo iniciarse.",
- "Same version, but the game files or content updates differ. Both phones need the same APK and the same updates (menu, Updates).": "Misma versión, pero los archivos del juego o las actualizaciones de contenido son distintos. Ambos teléfonos necesitan el mismo APK y las mismas actualizaciones (menú, Actualizaciones)."
+ "Same version, but the game files or content updates differ. Both phones need the same APK and the same updates (menu, Updates).": "Misma versión, pero los archivos del juego o las actualizaciones de contenido son distintos. Ambos teléfonos necesitan el mismo APK y las mismas actualizaciones (menú, Actualizaciones).",
+ "Content updated. Restart the game to apply it. If it does not open again by itself, open it from the home screen.": "Contenido actualizado. Reinicia el juego para aplicarlo. Si no se abre solo, ábrelo desde la pantalla de inicio."
 }

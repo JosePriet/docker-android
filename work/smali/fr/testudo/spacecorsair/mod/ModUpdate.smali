@@ -38,6 +38,8 @@
 
 .field private static panelRefresh:Ljava/lang/Runnable;
 
+.field private static receiver:Z
+
 .field private static volatile restartNeeded:Z
 
 .field private static volatile status:Ljava/lang/String;
@@ -202,7 +204,7 @@
     .registers 3
 
     .prologue
-    .line 222
+    .line 221
     if-eqz p1, :cond_14
 
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->gameUpdate(Landroid/content/Context;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)Z
@@ -699,15 +701,15 @@
     .prologue
     const/4 v3, 0x0
 
-    .line 637
+    .line 640
     const-string v4, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
-    .line 638
+    .line 641
     new-instance v5, Ljava/io/ByteArrayOutputStream;
 
     invoke-direct {v5}, Ljava/io/ByteArrayOutputStream;-><init>()V
 
-    .line 640
+    .line 643
     invoke-virtual {p0}, Ljava/lang/String;->toCharArray()[C
 
     move-result-object v6
@@ -725,22 +727,22 @@
 
     aget-char v3, v6, v2
 
-    .line 641
+    .line 644
     invoke-virtual {v4, v3}, Ljava/lang/String;->indexOf(I)I
 
     move-result v3
 
-    .line 642
+    .line 645
     if-gez v3, :cond_1d
 
-    .line 640
+    .line 643
     :cond_1a
     :goto_1a
     add-int/lit8 v2, v2, 0x1
 
     goto :goto_10
 
-    .line 643
+    .line 646
     :cond_1d
     shl-int/lit8 v1, v1, 0x6
 
@@ -748,7 +750,7 @@
 
     add-int/lit8 v0, v0, 0x6
 
-    .line 644
+    .line 647
     const/16 v3, 0x8
 
     if-lt v0, v3, :cond_1a
@@ -763,7 +765,7 @@
 
     goto :goto_1a
 
-    .line 646
+    .line 649
     :cond_30
     invoke-virtual {v5}, Ljava/io/ByteArrayOutputStream;->toByteArray()[B
 
@@ -939,7 +941,7 @@
     .end annotation
 
     .prologue
-    .line 314
+    .line 313
     new-instance v10, Ljava/io/File;
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -966,7 +968,7 @@
 
     invoke-direct {v10, v4}, Ljava/io/File;-><init>(Ljava/lang/String;)V
 
-    .line 315
+    .line 314
     invoke-virtual {v10}, Ljava/io/File;->isFile()Z
 
     move-result v4
@@ -977,7 +979,7 @@
 
     move-result-wide v4
 
-    .line 316
+    .line 315
     :goto_26
     cmp-long v6, v4, p2
 
@@ -987,7 +989,7 @@
 
     const-wide/16 v4, 0x0
 
-    .line 317
+    .line 316
     :cond_2f
     move-object/from16 v0, p0
 
@@ -995,7 +997,7 @@
 
     move-result-object v11
 
-    .line 318
+    .line 317
     invoke-virtual {v11}, Ljava/net/HttpURLConnection;->getResponseCode()I
 
     move-result v6
@@ -1012,35 +1014,35 @@
 
     const/4 v6, 0x1
 
-    .line 319
+    .line 318
     :goto_44
     if-nez v6, :cond_48
 
     const-wide/16 v4, 0x0
 
-    .line 320
+    .line 319
     :cond_48
     invoke-virtual {v11}, Ljava/net/HttpURLConnection;->getInputStream()Ljava/io/InputStream;
 
     move-result-object v12
 
-    .line 321
+    .line 320
     new-instance v13, Ljava/io/FileOutputStream;
 
     invoke-direct {v13, v10, v6}, Ljava/io/FileOutputStream;-><init>(Ljava/io/File;Z)V
 
-    .line 323
+    .line 322
     const/high16 v6, 0x10000
 
     :try_start_53
     new-array v14, v6, [B
 
-    .line 324
+    .line 323
     const-wide/16 v6, 0x0
 
     move-wide v8, v4
 
-    .line 325
+    .line 324
     :goto_58
     invoke-virtual {v12, v14}, Ljava/io/InputStream;->read([B)I
 
@@ -1048,7 +1050,7 @@
 
     if-lez v4, :cond_95
 
-    .line 326
+    .line 325
     const/4 v5, 0x0
 
     invoke-virtual {v13, v14, v5, v4}, Ljava/io/OutputStream;->write([BII)V
@@ -1057,7 +1059,7 @@
 
     add-long/2addr v4, v8
 
-    .line 327
+    .line 326
     cmp-long v8, v4, p2
 
     if-lez v8, :cond_80
@@ -1072,7 +1074,7 @@
     :try_end_70
     .catchall {:try_start_53 .. :try_end_70} :catchall_70
 
-    .line 330
+    .line 329
     :catchall_70
     move-exception v4
 
@@ -1084,19 +1086,19 @@
 
     throw v4
 
-    .line 315
+    .line 314
     :cond_7b
     const-wide/16 v4, 0x0
 
     goto :goto_26
 
-    .line 318
+    .line 317
     :cond_7e
     const/4 v6, 0x0
 
     goto :goto_44
 
-    .line 328
+    .line 327
     :cond_80
     if-eqz p5, :cond_d9
 
@@ -1123,7 +1125,7 @@
 
     goto :goto_58
 
-    .line 330
+    .line 329
     :cond_95
     invoke-virtual {v13}, Ljava/io/OutputStream;->close()V
 
@@ -1131,7 +1133,7 @@
 
     invoke-virtual {v11}, Ljava/net/HttpURLConnection;->disconnect()V
 
-    .line 331
+    .line 330
     invoke-virtual {v10}, Ljava/io/File;->length()J
 
     move-result-wide v4
@@ -1148,7 +1150,7 @@
 
     throw v4
 
-    .line 332
+    .line 331
     :cond_ae
     invoke-static {v10}, Lfr/testudo/spacecorsair/mod/ModContent;->sha256(Ljava/io/File;)Ljava/lang/String;
 
@@ -1172,11 +1174,11 @@
 
     throw v4
 
-    .line 333
+    .line 332
     :cond_c5
     invoke-virtual/range {p1 .. p1}, Ljava/io/File;->delete()Z
 
-    .line 334
+    .line 333
     move-object/from16 v0, p1
 
     invoke-virtual {v10, v0}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
@@ -1193,7 +1195,7 @@
 
     throw v4
 
-    .line 335
+    .line 334
     :cond_d8
     return-void
 
@@ -1209,7 +1211,7 @@
     .prologue
     const/4 v0, 0x1
 
-    .line 338
+    .line 337
     :try_start_1
     invoke-virtual {p0}, Ljava/io/File;->getUsableSpace()J
     :try_end_4
@@ -1245,7 +1247,7 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 228
+    .line 227
     :try_start_1
     new-instance v1, Ljava/lang/StringBuilder;
 
@@ -1275,7 +1277,7 @@
 
     move-result-object v1
 
-    .line 229
+    .line 228
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -1304,7 +1306,7 @@
 
     move-result-object v2
 
-    .line 230
+    .line 229
     const-string v3, "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwwv/CvQj2cg3ChnIOPTfwkLaxXUDJ1dYJ34bPAsZimbvTYn1i7TMod0MIEWB2ijJJWkso+yh4f9pHGetaTA/1Q=="
 
     invoke-static {v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModUpdate;->verify([B[BLjava/lang/String;)Z
@@ -1321,11 +1323,11 @@
 
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModUpdate;->status:Ljava/lang/String;
 
-    .line 243
+    .line 242
     :goto_4b
     return-object v0
 
-    .line 231
+    .line 230
     :cond_4c
     new-instance v2, Ljava/lang/String;
 
@@ -1337,7 +1339,7 @@
 
     move-result-object v1
 
-    .line 232
+    .line 231
     if-eqz v1, :cond_5d
 
     iget v2, v1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->seq:I
@@ -1357,11 +1359,11 @@
 
     goto :goto_4b
 
-    .line 240
+    .line 239
     :catch_66
     move-exception v1
 
-    .line 241
+    .line 240
     const-string v2, "Update check failed: no connection."
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1370,7 +1372,7 @@
 
     sput-object v2, Lfr/testudo/spacecorsair/mod/ModUpdate;->status:Ljava/lang/String;
 
-    .line 242
+    .line 241
     const-string v2, "update"
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -1395,7 +1397,7 @@
 
     goto :goto_4b
 
-    .line 233
+    .line 232
     :cond_88
     :try_start_88
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
@@ -1410,7 +1412,7 @@
 
     move-result v2
 
-    .line 234
+    .line 233
     iget v3, v1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->seq:I
 
     if-ge v3, v2, :cond_a2
@@ -1427,7 +1429,7 @@
 
     goto :goto_4b
 
-    .line 235
+    .line 234
     :cond_a2
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
@@ -1457,10 +1459,10 @@
 
     invoke-interface {v2}, Landroid/content/SharedPreferences$Editor;->commit()Z
 
-    .line 236
+    .line 235
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModUpdate;->last:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
 
-    .line 237
+    .line 236
     invoke-static {p0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->anything(Landroid/content/Context;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)Z
 
     move-result v2
@@ -1476,7 +1478,7 @@
     :goto_cd
     sput-object v2, Lfr/testudo/spacecorsair/mod/ModUpdate;->status:Ljava/lang/String;
 
-    .line 238
+    .line 237
     const-string v2, "update"
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -1543,10 +1545,10 @@
 
     move-object v0, v1
 
-    .line 239
+    .line 238
     goto/16 :goto_4b
 
-    .line 237
+    .line 236
     :cond_114
     const-string v2, "Your game is up to date."
 
@@ -2245,7 +2247,7 @@
     .registers 4
 
     .prologue
-    .line 220
+    .line 219
     if-eqz p1, :cond_14
 
     iget v0, p1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->apkBuild:I
@@ -2284,30 +2286,30 @@
     .end annotation
 
     .prologue
-    .line 275
+    .line 274
     const-wide/16 v0, -0x1
 
     invoke-static {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->open(Ljava/lang/String;J)Ljava/net/HttpURLConnection;
 
     move-result-object v1
 
-    .line 276
+    .line 275
     invoke-virtual {v1}, Ljava/net/HttpURLConnection;->getInputStream()Ljava/io/InputStream;
 
     move-result-object v2
 
-    .line 278
+    .line 277
     :try_start_a
     new-instance v0, Ljava/io/ByteArrayOutputStream;
 
     invoke-direct {v0}, Ljava/io/ByteArrayOutputStream;-><init>()V
 
-    .line 279
+    .line 278
     const/16 v3, 0x2000
 
     new-array v3, v3, [B
 
-    .line 280
+    .line 279
     :cond_13
     invoke-virtual {v2, v3}, Ljava/io/InputStream;->read([B)I
 
@@ -2335,7 +2337,7 @@
     :try_end_2b
     .catchall {:try_start_a .. :try_end_2b} :catchall_2b
 
-    .line 282
+    .line 281
     :catchall_2b
     move-exception v0
 
@@ -2345,7 +2347,7 @@
 
     throw v0
 
-    .line 281
+    .line 280
     :cond_33
     :try_start_33
     invoke-virtual {v0}, Ljava/io/ByteArrayOutputStream;->toByteArray()[B
@@ -2354,12 +2356,12 @@
 
     move-result-object v0
 
-    .line 282
+    .line 281
     invoke-virtual {v2}, Ljava/io/InputStream;->close()V
 
     invoke-virtual {v1}, Ljava/net/HttpURLConnection;->disconnect()V
 
-    .line 281
+    .line 280
     return-object v0
 .end method
 
@@ -2593,7 +2595,7 @@
 
     const/4 v9, 0x0
 
-    .line 392
+    .line 391
     sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
 
     const/16 v1, 0x15
@@ -2608,8 +2610,12 @@
     :goto_f
     return-void
 
-    .line 393
+    .line 392
     :cond_10
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->receiver:Z
+
+    if-nez v0, :cond_27
+
     invoke-virtual {p0}, Landroid/content/Context;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v0
@@ -2625,6 +2631,10 @@
     invoke-direct {v2, v3}, Landroid/content/IntentFilter;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v0, v1, v2}, Landroid/content/Context;->registerReceiver(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)Landroid/content/Intent;
+
+    .line 408
+    :cond_27
+    sput-boolean v10, Lfr/testudo/spacecorsair/mod/ModUpdate;->receiver:Z
 
     .line 409
     invoke-virtual {p0}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
@@ -2801,27 +2811,27 @@
     .line 418
     const/high16 v4, 0x10000
 
-    :try_start_ca
+    :try_start_d0
     new-array v4, v4, [B
 
     .line 419
-    :goto_cc
+    :goto_d2
     invoke-virtual {v3, v4}, Ljava/io/InputStream;->read([B)I
 
     move-result v5
 
-    if-lez v5, :cond_df
+    if-lez v5, :cond_e5
 
     const/4 v6, 0x0
 
     invoke-virtual {v0, v4, v6, v5}, Ljava/io/OutputStream;->write([BII)V
-    :try_end_d6
-    .catchall {:try_start_ca .. :try_end_d6} :catchall_d7
+    :try_end_dc
+    .catchall {:try_start_d0 .. :try_end_dc} :catchall_dd
 
-    goto :goto_cc
+    goto :goto_d2
 
     .line 421
-    :catchall_d7
+    :catchall_dd
     move-exception v1
 
     invoke-virtual {v3}, Ljava/io/InputStream;->close()V
@@ -2831,8 +2841,8 @@
     throw v1
 
     .line 420
-    :cond_df
-    :try_start_df
+    :cond_e5
+    :try_start_e5
     invoke-virtual {v1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v4
@@ -2862,8 +2872,8 @@
     aput-object v0, v5, v6
 
     invoke-virtual {v4, v1, v5}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
-    :try_end_fa
-    .catchall {:try_start_df .. :try_end_fa} :catchall_d7
+    :try_end_100
+    .catchall {:try_start_e5 .. :try_end_100} :catchall_dd
 
     .line 421
     invoke-virtual {v3}, Ljava/io/InputStream;->close()V
@@ -2925,7 +2935,7 @@
     .registers 10
 
     .prologue
-    .line 632
+    .line 635
     sget-object v0, Ljava/util/Locale;->US:Ljava/util/Locale;
 
     const-string v1, "%.1f MB"
@@ -3162,7 +3172,7 @@
 .end method
 
 .method static missing(Landroid/content/Context;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)Ljava/util/List;
-    .registers 10
+    .registers 12
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
@@ -3196,9 +3206,9 @@
     move-result-object v6
 
     .line 208
-    new-instance v3, Ljava/util/ArrayList;
+    new-instance v7, Ljava/util/ArrayList;
 
-    invoke-direct {v3}, Ljava/util/ArrayList;-><init>()V
+    invoke-direct {v7}, Ljava/util/ArrayList;-><init>()V
 
     .line 209
     invoke-interface {v5}, Ljava/util/List;->size()I
@@ -3207,34 +3217,36 @@
 
     invoke-interface {v6}, Ljava/util/List;->size()I
 
-    move-result v4
+    move-result v3
 
-    if-ne v0, v4, :cond_57
+    if-ne v0, v3, :cond_59
 
     move v0, v1
 
     :goto_1e
-    move v4, v2
+    move v3, v2
+
+    move v4, v0
 
     .line 210
-    :goto_1f
-    if-eqz v0, :cond_5b
+    :goto_20
+    if-eqz v4, :cond_5d
 
     invoke-interface {v5}, Ljava/util/List;->size()I
 
-    move-result v7
+    move-result v0
 
-    if-ge v4, v7, :cond_5b
+    if-ge v3, v0, :cond_5d
 
-    invoke-interface {v5, v4}, Ljava/util/List;->get(I)Ljava/lang/Object;
+    invoke-interface {v5, v3}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;
 
-    iget-object v7, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->id:Ljava/lang/String;
+    iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->id:Ljava/lang/String;
 
-    invoke-interface {v6, v4}, Ljava/util/List;->get(I)Ljava/lang/Object;
+    invoke-interface {v6, v3}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v0
 
@@ -3242,21 +3254,21 @@
 
     aget-object v0, v0, v2
 
-    invoke-virtual {v7, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v4, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_59
+    if-eqz v0, :cond_5b
 
-    invoke-interface {v5, v4}, Ljava/util/List;->get(I)Ljava/lang/Object;
+    invoke-interface {v5, v3}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;
 
-    iget-object v7, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->sha:Ljava/lang/String;
+    iget-object v4, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->sha:Ljava/lang/String;
 
-    invoke-interface {v6, v4}, Ljava/util/List;->get(I)Ljava/lang/Object;
+    invoke-interface {v6, v3}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v0
 
@@ -3264,54 +3276,46 @@
 
     aget-object v0, v0, v1
 
-    invoke-virtual {v7, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v4, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_59
+    if-eqz v0, :cond_5b
 
     move v0, v1
 
-    :goto_54
-    add-int/lit8 v4, v4, 0x1
+    :goto_55
+    add-int/lit8 v3, v3, 0x1
 
-    goto :goto_1f
+    move v4, v0
 
-    :cond_57
+    goto :goto_20
+
+    :cond_59
     move v0, v2
 
     .line 209
     goto :goto_1e
 
-    :cond_59
+    :cond_5b
     move v0, v2
 
     .line 210
-    goto :goto_54
+    goto :goto_55
 
     .line 211
-    :cond_5b
-    if-eqz v0, :cond_5f
-
-    move-object v0, v3
-
-    .line 217
-    :goto_5e
-    return-object v0
-
-    .line 212
-    :cond_5f
+    :cond_5d
     invoke-interface {v5}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
     move-result-object v1
 
-    :cond_63
-    :goto_63
+    :cond_61
+    :goto_61
     invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v0
 
-    if-eqz v0, :cond_89
+    if-eqz v0, :cond_87
 
     invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
@@ -3319,52 +3323,52 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;
 
-    .line 213
+    .line 212
     iget-object v2, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->id:Ljava/lang/String;
 
     invoke-static {p0, v2}, Lfr/testudo/spacecorsair/mod/ModContent;->packFile(Landroid/content/Context;Ljava/lang/String;)Ljava/io/File;
 
     move-result-object v2
 
-    .line 214
+    .line 213
     invoke-virtual {v2}, Ljava/io/File;->isFile()Z
 
-    move-result v4
+    move-result v3
 
-    if-eqz v4, :cond_85
+    if-eqz v3, :cond_83
 
     invoke-virtual {v2}, Ljava/io/File;->length()J
 
-    move-result-wide v4
+    move-result-wide v2
 
-    iget-wide v6, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->size:J
+    iget-wide v8, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->size:J
 
-    cmp-long v2, v4, v6
+    cmp-long v2, v2, v8
 
-    if-eqz v2, :cond_63
+    if-eqz v2, :cond_61
 
-    :cond_85
-    invoke-interface {v3, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+    :cond_83
+    invoke-interface {v7, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    goto :goto_63
+    goto :goto_61
 
-    .line 216
-    :cond_89
-    invoke-interface {v3}, Ljava/util/List;->isEmpty()Z
+    .line 215
+    :cond_87
+    invoke-interface {v7}, Ljava/util/List;->isEmpty()Z
 
     move-result v0
 
     if-eqz v0, :cond_93
 
+    if-nez v4, :cond_93
+
     const/4 v0, 0x0
 
-    invoke-interface {v3, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+    invoke-interface {v7, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
+    .line 216
     :cond_93
-    move-object v0, v3
-
-    .line 217
-    goto :goto_5e
+    return-object v7
 .end method
 
 .method static myBuild(Landroid/content/Context;)I
@@ -3443,7 +3447,7 @@
     .registers 7
 
     .prologue
-    .line 250
+    .line 249
     :try_start_0
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->autoDone:Z
 
@@ -3451,30 +3455,30 @@
 
     if-nez p0, :cond_7
 
-    .line 263
+    .line 262
     :cond_6
     :goto_6
     return-void
 
-    .line 251
+    .line 250
     :cond_7
     const/4 v0, 0x1
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->autoDone:Z
 
-    .line 252
+    .line 251
     invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v0
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->app:Landroid/content/Context;
 
-    .line 253
+    .line 252
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->app:Landroid/content/Context;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
-    .line 254
+    .line 253
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->notice:Ljava/lang/String;
 
     if-eqz v0, :cond_22
@@ -3487,7 +3491,7 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->toast(Ljava/lang/String;)V
 
-    .line 255
+    .line 254
     :cond_22
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
@@ -3523,7 +3527,7 @@
 
     if-eqz v0, :cond_6
 
-    .line 256
+    .line 255
     new-instance v0, Ljava/lang/Thread;
 
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModUpdate$1;
@@ -3534,14 +3538,14 @@
 
     invoke-direct {v0, v1, v2}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
-    .line 261
+    .line 260
     invoke-virtual {v0}, Ljava/lang/Thread;->start()V
     :try_end_53
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_53} :catch_54
 
     goto :goto_6
 
-    .line 262
+    .line 261
     :catch_54
     move-exception v0
 
@@ -3556,7 +3560,7 @@
 
     const/4 v2, 0x0
 
-    .line 267
+    .line 266
     :try_start_2
     const-string v0, "connectivity"
 
@@ -3566,12 +3570,12 @@
 
     check-cast v0, Landroid/net/ConnectivityManager;
 
-    .line 268
+    .line 267
     invoke-virtual {v0}, Landroid/net/ConnectivityManager;->getActiveNetworkInfo()Landroid/net/NetworkInfo;
 
     move-result-object v0
 
-    .line 269
+    .line 268
     if-eqz v0, :cond_1e
 
     invoke-virtual {v0}, Landroid/net/NetworkInfo;->isConnected()Z
@@ -3590,17 +3594,17 @@
 
     move v0, v1
 
-    .line 270
+    .line 269
     :goto_1d
     return v0
 
     :cond_1e
     move v0, v2
 
-    .line 269
+    .line 268
     goto :goto_1d
 
-    .line 270
+    .line 269
     :catch_20
     move-exception v0
 
@@ -3620,16 +3624,16 @@
     .prologue
     const/4 v2, 0x0
 
-    .line 287
+    .line 286
     move v1, v2
 
-    .line 288
+    .line 287
     :goto_2
     const/4 v0, 0x6
 
     if-ge v1, v0, :cond_9b
 
-    .line 289
+    .line 288
     new-instance v0, Ljava/net/URL;
 
     invoke-direct {v0, p0}, Ljava/net/URL;-><init>(Ljava/lang/String;)V
@@ -3640,30 +3644,30 @@
 
     check-cast v0, Ljava/net/HttpURLConnection;
 
-    .line 290
+    .line 289
     invoke-virtual {v0, v2}, Ljava/net/HttpURLConnection;->setInstanceFollowRedirects(Z)V
 
-    .line 291
+    .line 290
     const/16 v3, 0x3a98
 
     invoke-virtual {v0, v3}, Ljava/net/HttpURLConnection;->setConnectTimeout(I)V
 
-    .line 292
+    .line 291
     const/16 v3, 0x7530
 
     invoke-virtual {v0, v3}, Ljava/net/HttpURLConnection;->setReadTimeout(I)V
 
-    .line 293
+    .line 292
     const-string v3, "User-Agent"
 
     const-string v4, "SpaceCorsairMod"
 
     invoke-virtual {v0, v3, v4}, Ljava/net/HttpURLConnection;->setRequestProperty(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 294
+    .line 293
     invoke-virtual {v0, v2}, Ljava/net/HttpURLConnection;->setUseCaches(Z)V
 
-    .line 295
+    .line 294
     const-wide/16 v4, 0x0
 
     cmp-long v3, p1, v4
@@ -3698,13 +3702,13 @@
 
     invoke-virtual {v0, v3, v4}, Ljava/net/HttpURLConnection;->setRequestProperty(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 296
+    .line 295
     :cond_4b
     invoke-virtual {v0}, Ljava/net/HttpURLConnection;->getResponseCode()I
 
     move-result v3
 
-    .line 297
+    .line 296
     const/16 v4, 0x12c
 
     if-lt v3, v4, :cond_72
@@ -3713,17 +3717,17 @@
 
     if-ge v3, v4, :cond_72
 
-    .line 298
+    .line 297
     const-string v3, "Location"
 
     invoke-virtual {v0, v3}, Ljava/net/HttpURLConnection;->getHeaderField(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p0
 
-    .line 299
+    .line 298
     invoke-virtual {v0}, Ljava/net/HttpURLConnection;->disconnect()V
 
-    .line 300
+    .line 299
     if-eqz p0, :cond_6a
 
     const-string v0, "https://"
@@ -3743,7 +3747,7 @@
 
     throw v0
 
-    .line 304
+    .line 303
     :cond_72
     const/16 v1, 0xc8
 
@@ -3779,7 +3783,7 @@
 
     throw v0
 
-    .line 288
+    .line 287
     :cond_96
     add-int/lit8 v0, v1, 0x1
 
@@ -3787,7 +3791,7 @@
 
     goto/16 :goto_2
 
-    .line 307
+    .line 306
     :cond_9b
     new-instance v0, Ljava/io/IOException;
 
@@ -3797,7 +3801,7 @@
 
     throw v0
 
-    .line 305
+    .line 304
     :cond_a3
     return-object v0
 .end method
@@ -4321,7 +4325,7 @@
     .registers 3
 
     .prologue
-    .line 634
+    .line 637
     :try_start_0
     invoke-virtual {p0}, Ljava/lang/String;->trim()Ljava/lang/String;
 
@@ -4348,7 +4352,7 @@
     .registers 4
 
     .prologue
-    .line 623
+    .line 626
     const-class v1, Lfr/testudo/spacecorsair/mod/ModUpdate;
 
     monitor-enter v1
@@ -4372,6 +4376,49 @@
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->ui:Landroid/os/Handler;
 
     invoke-virtual {v0, p0}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+    :try_end_17
+    .catchall {:try_start_3 .. :try_end_17} :catchall_19
+
+    monitor-exit v1
+
+    return-void
+
+    :catchall_19
+    move-exception v0
+
+    monitor-exit v1
+
+    throw v0
+.end method
+
+.method private static declared-synchronized post2(Ljava/lang/Runnable;J)V
+    .registers 6
+
+    .prologue
+    .line 620
+    const-class v1, Lfr/testudo/spacecorsair/mod/ModUpdate;
+
+    monitor-enter v1
+
+    :try_start_3
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->ui:Landroid/os/Handler;
+
+    if-nez v0, :cond_12
+
+    new-instance v0, Landroid/os/Handler;
+
+    invoke-static {}, Landroid/os/Looper;->getMainLooper()Landroid/os/Looper;
+
+    move-result-object v2
+
+    invoke-direct {v0, v2}, Landroid/os/Handler;-><init>(Landroid/os/Looper;)V
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->ui:Landroid/os/Handler;
+
+    :cond_12
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->ui:Landroid/os/Handler;
+
+    invoke-virtual {v0, p0, p1, p2}, Landroid/os/Handler;->postDelayed(Ljava/lang/Runnable;J)Z
     :try_end_17
     .catchall {:try_start_3 .. :try_end_17} :catchall_19
 
@@ -4498,7 +4545,7 @@
     .registers 1
 
     .prologue
-    .line 619
+    .line 622
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->panelRefresh:Ljava/lang/Runnable;
 
     if-eqz v0, :cond_7
@@ -4566,25 +4613,39 @@
 
     invoke-virtual {v0, v2, v4, v5, v1}, Landroid/app/AlarmManager;->set(IJLandroid/app/PendingIntent;)V
     :try_end_2f
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_2f} :catch_3a
-
-    .line 615
-    :cond_2f
-    :goto_2f
-    invoke-virtual {p0}, Landroid/app/Activity;->finish()V
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_2f} :catch_40
 
     .line 616
-    invoke-static {}, Landroid/os/Process;->myPid()I
+    :cond_2f
+    :goto_2f
+    const/4 v0, 0x1
 
-    move-result v0
-
-    invoke-static {v0}, Landroid/os/Process;->killProcess(I)V
+    :try_start_30
+    invoke-virtual {p0, v0}, Landroid/app/Activity;->moveTaskToBack(Z)Z
+    :try_end_33
+    .catch Ljava/lang/Throwable; {:try_start_30 .. :try_end_33} :catch_3e
 
     .line 617
+    :goto_33
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModUpdate$18;
+
+    invoke-direct {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate$18;-><init>()V
+
+    const-wide/16 v2, 0x9c4
+
+    invoke-static {v0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModUpdate;->post2(Ljava/lang/Runnable;J)V
+
+    .line 618
     return-void
 
+    .line 616
+    :catch_3e
+    move-exception v0
+
+    goto :goto_33
+
     .line 614
-    :catch_3a
+    :catch_40
     move-exception v0
 
     goto :goto_2f
@@ -4601,7 +4662,7 @@
     .prologue
     const/4 v9, 0x1
 
-    .line 343
+    .line 342
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->myBuild(Landroid/content/Context;)I
 
     move-result v0
@@ -4610,10 +4671,10 @@
 
     move-result-object v4
 
-    .line 344
+    .line 343
     const-wide/16 v0, 0x0
 
-    .line 345
+    .line 344
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->missing(Landroid/content/Context;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)Ljava/util/List;
 
     move-result-object v2
@@ -4652,7 +4713,7 @@
 
     goto :goto_14
 
-    .line 346
+    .line 345
     :cond_2a
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->dir(Landroid/content/Context;)Ljava/io/File;
 
@@ -4676,13 +4737,13 @@
 
     throw v0
 
-    .line 347
+    .line 346
     :cond_40
     new-instance v7, Ljava/util/ArrayList;
 
     invoke-direct {v7}, Ljava/util/ArrayList;-><init>()V
 
-    .line 348
+    .line 347
     invoke-interface {v4}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
     move-result-object v8
@@ -4702,14 +4763,14 @@
 
     check-cast v6, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;
 
-    .line 349
+    .line 348
     iget-object v0, v6, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->id:Ljava/lang/String;
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModContent;->packFile(Landroid/content/Context;Ljava/lang/String;)Ljava/io/File;
 
     move-result-object v1
 
-    .line 350
+    .line 349
     invoke-virtual {v1}, Ljava/io/File;->isFile()Z
 
     move-result v0
@@ -4738,7 +4799,7 @@
 
     if-nez v0, :cond_86
 
-    .line 351
+    .line 350
     :cond_78
     iget-object v0, v6, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->url:Ljava/lang/String;
 
@@ -4752,7 +4813,7 @@
 
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModUpdate;->download(Ljava/lang/String;Ljava/io/File;JLjava/lang/String;Lfr/testudo/spacecorsair/mod/ModUpdate$Progress;)V
 
-    .line 353
+    .line 352
     :cond_86
     iget-object v0, v6, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->id:Ljava/lang/String;
 
@@ -4764,7 +4825,7 @@
 
     move-result-object v0
 
-    .line 354
+    .line 353
     if-eqz v0, :cond_c4
 
     invoke-virtual {v1}, Ljava/io/File;->delete()Z
@@ -4815,7 +4876,7 @@
 
     throw v1
 
-    .line 355
+    .line 354
     :cond_c4
     const/4 v0, 0x2
 
@@ -4835,15 +4896,15 @@
 
     goto/16 :goto_49
 
-    .line 357
+    .line 356
     :cond_d5
     invoke-static {p0, v7}, Lfr/testudo/spacecorsair/mod/ModContent;->setChain(Landroid/content/Context;Ljava/util/List;)V
 
-    .line 358
+    .line 357
     sput-boolean v9, Lfr/testudo/spacecorsair/mod/ModUpdate;->restartNeeded:Z
 
-    .line 359
-    const-string v0, "Content updated. Restart the game to apply it."
+    .line 358
+    const-string v0, "Content updated. Restart the game to apply it. If it does not open again by itself, open it from the home screen."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
 
@@ -4851,7 +4912,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->status:Ljava/lang/String;
 
-    .line 360
+    .line 359
     const-string v0, "update"
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -4878,7 +4939,7 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 361
+    .line 360
     return-void
 
     :cond_ff
@@ -4896,7 +4957,7 @@
     .end annotation
 
     .prologue
-    .line 365
+    .line 364
     new-instance v2, Ljava/io/File;
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->dir(Landroid/content/Context;)Ljava/io/File;
@@ -4907,17 +4968,17 @@
 
     invoke-direct {v2, v0, v1}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 366
+    .line 365
     invoke-virtual {v2}, Ljava/io/File;->mkdirs()Z
 
-    .line 367
+    .line 366
     new-instance v6, Ljava/io/File;
 
     const-string v0, "new.apk"
 
     invoke-direct {v6, v2, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 368
+    .line 367
     new-instance v7, Ljava/io/File;
 
     invoke-virtual {p0}, Landroid/content/Context;->getPackageCodePath()Ljava/lang/String;
@@ -4926,7 +4987,7 @@
 
     invoke-direct {v7, v0}, Ljava/io/File;-><init>(Ljava/lang/String;)V
 
-    .line 369
+    .line 368
     const-string v0, "Checking the installed game..."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -4935,15 +4996,15 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->setStatus(Ljava/lang/String;)V
 
-    .line 370
+    .line 369
     invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModContent;->sha256(Ljava/io/File;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 371
+    .line 370
     const/4 v4, 0x0
 
-    .line 372
+    .line 371
     iget-object v0, p1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->patches:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
@@ -4976,7 +5037,7 @@
 
     goto :goto_32
 
-    .line 373
+    .line 372
     :cond_48
     iget-wide v8, p1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->apkSize:J
 
@@ -5010,7 +5071,7 @@
 
     goto :goto_4e
 
-    .line 374
+    .line 373
     :cond_64
     invoke-virtual {v6}, Ljava/io/File;->isFile()Z
 
@@ -5040,18 +5101,18 @@
 
     if-nez v0, :cond_ae
 
-    .line 375
+    .line 374
     :cond_80
     if-eqz v4, :cond_cd
 
-    .line 376
+    .line 375
     new-instance v1, Ljava/io/File;
 
     const-string v0, "update.scp"
 
     invoke-direct {v1, v2, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 377
+    .line 376
     iget-object v0, v4, Lfr/testudo/spacecorsair/mod/ModUpdate$Patch;->url:Ljava/lang/String;
 
     iget-wide v2, v4, Lfr/testudo/spacecorsair/mod/ModUpdate$Patch;->size:J
@@ -5064,7 +5125,7 @@
 
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModUpdate;->download(Ljava/lang/String;Ljava/io/File;JLjava/lang/String;Lfr/testudo/spacecorsair/mod/ModUpdate$Progress;)V
 
-    .line 378
+    .line 377
     const-string v0, "Building the new game version..."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -5073,12 +5134,12 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->setStatus(Ljava/lang/String;)V
 
-    .line 379
+    .line 378
     new-instance v0, Ljava/io/FileInputStream;
 
     invoke-direct {v0, v1}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
 
-    .line 380
+    .line 379
     :try_start_a5
     invoke-static {v7, v0, v6}, Lfr/testudo/spacecorsair/mod/ModUpdate;->applyPatch(Ljava/io/File;Ljava/io/InputStream;Ljava/io/File;)V
     :try_end_a8
@@ -5088,7 +5149,7 @@
 
     invoke-virtual {v1}, Ljava/io/File;->delete()Z
 
-    .line 385
+    .line 384
     :cond_ae
     :goto_ae
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModContent;->sha256(Ljava/io/File;)Ljava/lang/String;
@@ -5113,7 +5174,7 @@
 
     throw v0
 
-    .line 380
+    .line 379
     :catchall_c5
     move-exception v2
 
@@ -5123,7 +5184,7 @@
 
     throw v2
 
-    .line 382
+    .line 381
     :cond_cd
     iget-object v0, p1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->apkUrl:Ljava/lang/String;
 
@@ -5141,7 +5202,7 @@
 
     goto :goto_ae
 
-    .line 386
+    .line 385
     :cond_dd
     const-string v0, "Opening the installer..."
 
@@ -5151,10 +5212,10 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->setStatus(Ljava/lang/String;)V
 
-    .line 387
+    .line 386
     invoke-static {p0, v6, p1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->install(Landroid/content/Context;Ljava/io/File;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)V
 
-    .line 388
+    .line 387
     return-void
 
     :cond_ea
@@ -5167,7 +5228,7 @@
     .registers 1
 
     .prologue
-    .line 621
+    .line 624
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModUpdate;->status:Ljava/lang/String;
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->refreshPanel()V
@@ -5336,14 +5397,14 @@
     .registers 2
 
     .prologue
-    .line 626
-    new-instance v0, Lfr/testudo/spacecorsair/mod/ModUpdate$18;
+    .line 629
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModUpdate$19;
 
-    invoke-direct {v0, p0}, Lfr/testudo/spacecorsair/mod/ModUpdate$18;-><init>(Ljava/lang/String;)V
+    invoke-direct {v0, p0}, Lfr/testudo/spacecorsair/mod/ModUpdate$19;-><init>(Ljava/lang/String;)V
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->post(Ljava/lang/Runnable;)V
 
-    .line 627
+    .line 630
     return-void
 .end method
 
@@ -5351,7 +5412,7 @@
     .registers 2
 
     .prologue
-    .line 630
+    .line 633
     :try_start_0
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
     :try_end_3

@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 259
+    .line 258
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$1$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$1;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 2
 
     .prologue
-    .line 259
+    .line 258
     const-string v0, "A game update is ready. Open the menu, then Updates."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;

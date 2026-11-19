@@ -5753,55 +5753,54 @@
     .registers 9
 
     .prologue
+    const/4 v1, 0x0
+
     const/4 v2, 0x0
 
     .line 187
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLan;->hashCache:Ljava/lang/String;
 
     .line 188
-    if-eqz v0, :cond_6
+    if-eqz v0, :cond_7
 
     .line 221
-    :goto_5
+    :goto_6
     return-object v0
 
     .line 189
-    :cond_6
+    :cond_7
     const-class v4, Lfr/testudo/spacecorsair/mod/ModLan;
 
     monitor-enter v4
 
     .line 190
-    :try_start_9
+    :try_start_a
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLan;->hashCache:Ljava/lang/String;
 
-    if-eqz v0, :cond_14
+    if-eqz v0, :cond_15
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLan;->hashCache:Ljava/lang/String;
 
     monitor-exit v4
 
-    goto :goto_5
+    goto :goto_6
 
     .line 222
-    :catchall_11
+    :catchall_12
     move-exception v0
 
     monitor-exit v4
-    :try_end_13
-    .catchall {:try_start_9 .. :try_end_13} :catchall_11
+    :try_end_14
+    .catchall {:try_start_a .. :try_end_14} :catchall_12
 
     throw v0
 
     .line 191
-    :cond_14
-    :try_start_14
+    :cond_15
+    :try_start_15
     const-string v0, "?"
-    :try_end_16
-    .catchall {:try_start_14 .. :try_end_16} :catchall_11
-
-    .line 192
-    const/4 v1, 0x0
+    :try_end_17
+    .catchall {:try_start_15 .. :try_end_17} :catchall_12
 
     .line 194
     :try_start_17
@@ -5827,7 +5826,7 @@
 
     invoke-direct {v0, v3}, Ljava/io/FileInputStream;-><init>(Ljava/lang/String;)V
     :try_end_2c
-    .catch Ljava/lang/Throwable; {:try_start_17 .. :try_end_2c} :catch_114
+    .catch Ljava/lang/Throwable; {:try_start_17 .. :try_end_2c} :catch_117
     .catchall {:try_start_17 .. :try_end_2c} :catchall_fc
 
     .line 197
@@ -5849,7 +5848,7 @@
     invoke-virtual {v5, v1, v6, v3}, Ljava/security/MessageDigest;->update([BII)V
     :try_end_3a
     .catch Ljava/lang/Throwable; {:try_start_2e .. :try_end_3a} :catch_3b
-    .catchall {:try_start_2e .. :try_end_3a} :catchall_110
+    .catchall {:try_start_2e .. :try_end_3a} :catchall_113
 
     goto :goto_30
 
@@ -5862,7 +5861,7 @@
     :try_start_3c
     const-string v1, "?"
     :try_end_3e
-    .catchall {:try_start_3c .. :try_end_3e} :catchall_110
+    .catchall {:try_start_3c .. :try_end_3e} :catchall_113
 
     .line 206
     if-eqz v0, :cond_43
@@ -5871,7 +5870,7 @@
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
     :try_end_43
     .catch Ljava/lang/Throwable; {:try_start_40 .. :try_end_43} :catch_f8
-    .catchall {:try_start_40 .. :try_end_43} :catchall_11
+    .catchall {:try_start_40 .. :try_end_43} :catchall_12
 
     :cond_43
     move-object v0, v1
@@ -5890,7 +5889,7 @@
     .line 210
     const-string v1, ""
     :try_end_4e
-    .catchall {:try_start_44 .. :try_end_4e} :catchall_11
+    .catchall {:try_start_44 .. :try_end_4e} :catchall_12
 
     .line 211
     :try_start_4e
@@ -5903,7 +5902,7 @@
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModContent;->chainKey(Landroid/content/Context;)Ljava/lang/String;
     :try_end_57
     .catch Ljava/lang/Throwable; {:try_start_4e .. :try_end_57} :catch_105
-    .catchall {:try_start_4e .. :try_end_57} :catchall_11
+    .catchall {:try_start_4e .. :try_end_57} :catchall_12
 
     move-result-object v1
 
@@ -5912,7 +5911,7 @@
     :try_start_58
     invoke-virtual {v1}, Ljava/lang/String;->length()I
     :try_end_5b
-    .catchall {:try_start_58 .. :try_end_5b} :catchall_11
+    .catchall {:try_start_58 .. :try_end_5b} :catchall_12
 
     move-result v2
 
@@ -5981,8 +5980,8 @@
 
     invoke-virtual {v0, v1, v2}, Ljava/lang/String;->substring(II)Ljava/lang/String;
     :try_end_9a
-    .catch Ljava/lang/Throwable; {:try_start_5e .. :try_end_9a} :catch_10a
-    .catchall {:try_start_5e .. :try_end_9a} :catchall_11
+    .catch Ljava/lang/Throwable; {:try_start_5e .. :try_end_9a} :catch_10d
+    .catchall {:try_start_5e .. :try_end_9a} :catchall_12
 
     move-result-object v0
 
@@ -6027,9 +6026,9 @@
     .line 221
     monitor-exit v4
     :try_end_be
-    .catchall {:try_start_9b .. :try_end_be} :catchall_11
+    .catchall {:try_start_9b .. :try_end_be} :catchall_12
 
-    goto/16 :goto_5
+    goto/16 :goto_6
 
     .line 199
     :cond_c0
@@ -6084,7 +6083,7 @@
     invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
     :try_end_eb
     .catch Ljava/lang/Throwable; {:try_start_c0 .. :try_end_eb} :catch_3b
-    .catchall {:try_start_c0 .. :try_end_eb} :catchall_110
+    .catchall {:try_start_c0 .. :try_end_eb} :catchall_113
 
     move-result-object v1
 
@@ -6095,7 +6094,7 @@
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
     :try_end_f1
     .catch Ljava/lang/Throwable; {:try_start_ee .. :try_end_f1} :catch_f4
-    .catchall {:try_start_ee .. :try_end_f1} :catchall_11
+    .catchall {:try_start_ee .. :try_end_f1} :catchall_12
 
     :cond_f1
     move-object v0, v1
@@ -6133,8 +6132,8 @@
     :try_start_101
     invoke-virtual {v3}, Ljava/io/InputStream;->close()V
     :try_end_104
-    .catch Ljava/lang/Throwable; {:try_start_101 .. :try_end_104} :catch_10e
-    .catchall {:try_start_101 .. :try_end_104} :catchall_11
+    .catch Ljava/lang/Throwable; {:try_start_101 .. :try_end_104} :catch_111
+    .catchall {:try_start_101 .. :try_end_104} :catchall_12
 
     .line 207
     :cond_104
@@ -6146,27 +6145,31 @@
     :catch_105
     move-exception v1
 
-    const-string v1, ""
+    const/4 v1, 0x0
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModContent;->chainKey(Landroid/content/Context;)Ljava/lang/String;
+
+    move-result-object v1
 
     goto/16 :goto_58
 
     .line 216
-    :catch_10a
+    :catch_10d
     move-exception v0
 
     const-string v0, "?"
-    :try_end_10d
-    .catchall {:try_start_104 .. :try_end_10d} :catchall_11
+    :try_end_110
+    .catchall {:try_start_104 .. :try_end_110} :catchall_12
 
     goto :goto_9b
 
     .line 206
-    :catch_10e
+    :catch_111
     move-exception v0
 
     goto :goto_104
 
-    :catchall_110
+    :catchall_113
     move-exception v1
 
     move-object v2, v1
@@ -6176,7 +6179,7 @@
     goto :goto_ff
 
     .line 203
-    :catch_114
+    :catch_117
     move-exception v0
 
     move-object v0, v1

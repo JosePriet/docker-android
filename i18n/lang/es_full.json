@@ -399,7 +399,7 @@
 "Connecting...": "Conectando...",
 "Connecting... This can take up to a minute. The host has to accept.": "Conectando... Puede tardar hasta un minuto. El anfitrión tiene que aceptar.",
 "Content": "Contenido",
-"Content updated. Restart the game to apply it.": "Contenido actualizado. Reinicia el juego para aplicarlo.",
+"Content updated. Restart the game to apply it. If it does not open again by itself, open it from the home screen.": "Contenido actualizado. Reinicia el juego para aplicarlo. Si no se abre solo, ábrelo desde la pantalla de inicio.",
 "Contract Enforcer": "Ejecutor de contratos",
 "Contract Null": "Contrato nulo",
 "Contract fleets": "Flotas por contrato",

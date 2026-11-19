@@ -180,7 +180,7 @@ public final class ModUpdate {
     private static volatile String status = "";
     private static volatile boolean busy;
     private static volatile boolean restartNeeded;
-    private static boolean autoDone;
+    private static boolean autoDone, receiver;
     private static TextView menuLabel;
     private static Runnable panelRefresh;
     private static Context app;
@@ -208,12 +208,11 @@ public final class ModUpdate {
         List<Pack> out = new ArrayList<Pack>();
         boolean same = want.size() == have.size();
         for (int i = 0; same && i < want.size(); i++) same = want.get(i).id.equals(have.get(i)[0]) && want.get(i).sha.equals(have.get(i)[1]);
-        if (same) return out;
         for (Pack p : want) {
             File f = ModContent.packFile(c, p.id);
             if (!f.isFile() || f.length() != p.size) out.add(p);
         }
-        if (out.isEmpty()) out.add(null);   // only the order / revoked list changed: rewrite the chain
+        if (out.isEmpty() && !same) out.add(null);   // only the order / revoked list changed: rewrite the chain
         return out;
     }
 
@@ -356,7 +355,7 @@ public final class ModUpdate {
         }
         ModContent.setChain(c, chain);
         restartNeeded = true;
-        status = tr("Content updated. Restart the game to apply it.");
+        status = tr("Content updated. Restart the game to apply it. If it does not open again by itself, open it from the home screen.");
         ModDev.ev("update", "chain set " + ModContent.keyOf(chain));
     }
 
@@ -390,7 +389,7 @@ public final class ModUpdate {
     /** PackageInstaller session (API 21+, through reflection: the build compiles against API 16). */
     private static void install(final Context c, File apk, final Manifest m) throws Exception {
         if (Build.VERSION.SDK_INT < 21) { openLink(c, m.apkUrl); return; }
-        c.getApplicationContext().registerReceiver(new BroadcastReceiver() {
+        if (!receiver) c.getApplicationContext().registerReceiver(new BroadcastReceiver() {
             public void onReceive(Context x, Intent i) {
                 try {
                     int st = i.getIntExtra("android.content.pm.extra.STATUS", 1);
@@ -406,6 +405,7 @@ public final class ModUpdate {
                 } catch (Throwable t) { setStatus(String.valueOf(t)); }
             }
         }, new IntentFilter(ACTION));
+        receiver = true;
         Object pm = c.getPackageManager();
         Object pi = pm.getClass().getMethod("getPackageInstaller").invoke(pm);
         Class<?> sp = Class.forName("android.content.pm.PackageInstaller$SessionParams");
@@ -612,9 +612,12 @@ public final class ModUpdate {
                 am.set(android.app.AlarmManager.RTC, System.currentTimeMillis() + 800, p);
             }
         } catch (Throwable t) { /* the player reopens the game */ }
-        a.finish();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        // the game saves when its screens pause: send it to the background first, then end the process
+        try { a.moveTaskToBack(true); } catch (Throwable t) { /* ignore */ }
+        post2(new Runnable() { public void run() { android.os.Process.killProcess(android.os.Process.myPid()); } }, 2500);
     }
+
+    private static synchronized void post2(Runnable r, long ms) { if (ui == null) ui = new Handler(Looper.getMainLooper()); ui.postDelayed(r, ms); }
 
     private static void refreshPanel() { Runnable r = panelRefresh; if (r != null) post(r); }
 

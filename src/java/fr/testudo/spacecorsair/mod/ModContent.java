@@ -37,7 +37,22 @@ public final class ModContent {
     static final String[] FOLDERS = {"modart/", "modsfx/", "lang/"};
     static final String[] EXTS = {".webp", ".png", ".ogg", ".json", ".txt"};
     static final long MAX_UNPACKED = 300L << 20;
-    static final int GUARD_STARTS = 3;
+    static final int GUARD_CRASHES = 2;
+    private static String guardKey;
+    private static int guardCrashes;
+    private static boolean guardOk;
+    private static String guardState = "";
+    private static int buildNow = -1;   // -1 = not checked (JVM tests)
+
+    /** Writes boot.txt (state "run"/"paused", null = keep). Cheap; only when something changed. */
+    private static synchronized void guard(String state) {
+        try {
+            if (guardKey == null || dir == null) return;
+            if (state != null) { if (state.equals(guardState) && !guardOk) return; guardState = state; }
+            writeText(new File(dir, "boot.txt"), guardKey + "\n" + guardCrashes + "\n" + guardState + "\n" + (guardOk ? "ok\n" : ""));
+            if (guardOk && state != null) guardKey = null;   // confirmed: no more writes this process
+        } catch (Throwable t) { /* guard is best effort */ }
+    }
     static final long CONFIRM_MS = 45000;
 
     private static boolean ready;
@@ -63,38 +78,56 @@ public final class ModContent {
             List<String[]> chain = readChain(new File(dir, "active.txt"));
             if (chain.isEmpty()) return;
             String key = keyOf(chain);
-            // crash guard: count starts of a chain that never reached CONFIRM_MS
+            // crash guard: boot.txt = key / crashes / state. "run" is written while a screen is in front and "paused"
+            // when it leaves (activity callbacks), so a normal quit never counts; a start that finds "run" for an
+            // unconfirmed chain means the last run died. GUARD_CRASHES such deaths turn the chain off.
             String[] g = readLines(new File(dir, "boot.txt"));
-            int starts = g.length >= 2 && g[0].equals(key) ? parseInt(g[1], 0) : 0;
-            boolean confirmed = g.length >= 3 && g[0].equals(key) && "ok".equals(g[2]);
+            boolean same = g.length >= 3 && g[0].equals(key);
+            int crashes = same ? parseInt(g[1], 0) : 0;
+            boolean confirmed = same && g.length >= 4 && "ok".equals(g[3]);
+            if (!confirmed && same && "run".equals(g[2])) crashes++;
+            if (!confirmed && crashes >= GUARD_CRASHES) {
+                ModDev.ev("content", "crash guard: chain " + key + " off after " + crashes + " crashes");
+                File prev = new File(dir, "previous.txt");
+                List<String[]> p = readChain(prev);
+                writeChain(new File(dir, "active.txt"), p);
+                writeChain(prev, new ArrayList<String[]>());
+                notice = "The last update was turned off after it failed to start.";
+                chain = p;
+                key = keyOf(chain);
+                crashes = 0; confirmed = false;
+                if (chain.isEmpty()) { writeText(new File(dir, "boot.txt"), ""); return; }
+            }
+            guardKey = key; guardCrashes = crashes; guardOk = confirmed;
+            guard("run");
             if (!confirmed) {
-                starts++;
-                if (starts > GUARD_STARTS) {
-                    ModDev.ev("content", "crash guard: chain " + key + " off after " + (starts - 1) + " short starts");
-                    File prev = new File(dir, "previous.txt");
-                    List<String[]> p = readChain(prev);
-                    writeChain(new File(dir, "active.txt"), p);
-                    writeChain(prev, new ArrayList<String[]>());
-                    notice = "The last update was turned off after it failed to start.";
-                    chain = p;
-                    key = keyOf(chain);
-                    starts = 1;
-                    if (chain.isEmpty()) { writeText(new File(dir, "boot.txt"), ""); return; }
-                }
-                writeText(new File(dir, "boot.txt"), key + "\n" + starts + "\n");
-                final String k = key;
                 Thread t = new Thread(new Runnable() {
                     public void run() {
-                        try { Thread.sleep(CONFIRM_MS); writeText(new File(dir, "boot.txt"), k + "\n0\nok\n"); } catch (Throwable x) { /* not confirmed */ }
+                        try { Thread.sleep(CONFIRM_MS); synchronized (ModContent.class) { guardOk = true; guardCrashes = 0; } guard(null); } catch (Throwable x) { /* not confirmed */ }
                     }
                 }, "content-guard");
                 t.setDaemon(true);
                 t.start();
             }
+            try {
+                ((android.app.Application) (a != null ? a : c)).registerActivityLifecycleCallbacks(new android.app.Application.ActivityLifecycleCallbacks() {
+                    public void onActivityResumed(android.app.Activity x) { guard("run"); }
+                    public void onActivityPaused(android.app.Activity x) { guard("paused"); }
+                    public void onActivityCreated(android.app.Activity x, android.os.Bundle b) { }
+                    public void onActivityStarted(android.app.Activity x) { }
+                    public void onActivityStopped(android.app.Activity x) { }
+                    public void onActivitySaveInstanceState(android.app.Activity x, android.os.Bundle b) { }
+                    public void onActivityDestroyed(android.app.Activity x) { }
+                });
+            } catch (Throwable t) { /* no callbacks: every start counts as clean */ guard("paused"); }
+            int build = -1;
+            try { build = c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionCode - 1000; } catch (Throwable t) { build = -1; }
+            buildNow = build;
             load(chain);
             chainKey = key;
             ModDev.ev("content", "chain " + key + " (" + index.size() + " files)");
         } catch (Throwable t) {
+            for (ZipFile z : zips) { try { z.close(); } catch (Throwable x) { /* closed */ } }
             index.clear(); removed.clear(); zips.clear(); chainIds.clear(); chainKey = "";
             ModDev.ev("content", "chain not loaded: " + t);
         }
@@ -105,7 +138,13 @@ public final class ModContent {
             File f = new File(new File(dir, "packs"), e[0] + ".zip");
             if (!f.isFile()) throw new IOException("missing pack " + e[0]);
             ZipFile z = new ZipFile(f);
+            zips.add(z);
             String[] info = packInfo(z);
+            if (buildNow >= 0) {   // packs made for another game build never load (e.g. right after a game update)
+                boolean ok = false;
+                for (String l : info) if (l.equals("build=" + buildNow)) ok = true;
+                if (!ok) throw new IOException("pack " + e[0] + " is for another game build");
+            }
             for (String l : info) {
                 if (!l.startsWith("remove=")) continue;
                 String r = l.substring(7).trim();
@@ -123,7 +162,6 @@ public final class ModContent {
                 index.put(n, z);
                 removed.remove(base(n));
             }
-            zips.add(z);
             chainIds.add(e[0]);
         }
     }
