@@ -3,7 +3,7 @@
 .source "ModLanUi.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Landroid/view/View$OnKeyListener;
 
 
 # annotations
@@ -18,14 +18,16 @@
 
 
 # instance fields
+.field final synthetic val$at:I
+
 .field final synthetic val$bx:[Landroid/widget/EditText;
 
-.field final synthetic val$join:Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
+.field final synthetic val$e:Landroid/widget/EditText;
 
 
 # direct methods
-.method constructor <init>([Landroid/widget/EditText;Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;)V
-    .registers 3
+.method constructor <init>(Landroid/widget/EditText;I[Landroid/widget/EditText;)V
+    .registers 4
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -33,10 +35,12 @@
     .end annotation
 
     .prologue
-    .line 823
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$bx:[Landroid/widget/EditText;
+    .line 821
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$e:Landroid/widget/EditText;
 
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$join:Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
+    iput p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$at:I
+
+    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$bx:[Landroid/widget/EditText;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -45,57 +49,70 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 9
+.method public onKey(Landroid/view/View;ILandroid/view/KeyEvent;)Z
+    .registers 6
 
     .prologue
-    const/4 v5, 0x4
+    .line 823
+    const/16 v0, 0x43
 
-    .line 825
-    new-instance v1, Ljava/lang/StringBuilder;
+    if-ne p2, v0, :cond_34
 
-    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-virtual {p3}, Landroid/view/KeyEvent;->getAction()I
 
-    .line 826
-    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$bx:[Landroid/widget/EditText;
+    move-result v0
 
-    array-length v3, v2
+    if-nez v0, :cond_34
 
-    const/4 v0, 0x0
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$e:Landroid/widget/EditText;
 
-    :goto_a
-    if-ge v0, v3, :cond_18
-
-    aget-object v4, v2, v0
-
-    invoke-virtual {v4}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
-
-    move-result-object v4
-
-    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/CharSequence;)Ljava/lang/StringBuilder;
-
-    add-int/lit8 v0, v0, 0x1
-
-    goto :goto_a
-
-    .line 827
-    :cond_18
-    invoke-static {v1, v5}, Lfr/testudo/spacecorsair/mod/ModLanUi;->codeChars(Ljava/lang/CharSequence;I)Ljava/lang/String;
+    invoke-virtual {v0}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
 
     move-result-object v0
 
+    invoke-interface {v0}, Landroid/text/Editable;->length()I
+
+    move-result v0
+
+    if-nez v0, :cond_34
+
+    iget v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$at:I
+
+    if-lez v0, :cond_34
+
+    .line 824
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$bx:[Landroid/widget/EditText;
+
+    iget v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$at:I
+
+    add-int/lit8 v1, v1, -0x1
+
+    aget-object v0, v0, v1
+
+    const-string v1, ""
+
+    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
+
+    .line 825
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$bx:[Landroid/widget/EditText;
+
+    iget v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$at:I
+
+    add-int/lit8 v1, v1, -0x1
+
+    aget-object v0, v0, v1
+
+    invoke-virtual {v0}, Landroid/widget/EditText;->requestFocus()Z
+
+    .line 826
+    const/4 v0, 0x1
+
     .line 828
-    invoke-virtual {v0}, Ljava/lang/String;->length()I
+    :goto_33
+    return v0
 
-    move-result v1
+    :cond_34
+    const/4 v0, 0x0
 
-    if-ne v1, v5, :cond_27
-
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$join:Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
-
-    invoke-interface {v1, v0}, Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;->code(Ljava/lang/String;)V
-
-    .line 829
-    :cond_27
-    return-void
+    goto :goto_33
 .end method

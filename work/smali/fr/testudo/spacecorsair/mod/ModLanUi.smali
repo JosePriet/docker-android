@@ -1474,7 +1474,7 @@
     :goto_38
     const/4 v0, 0x4
 
-    if-ge v2, v0, :cond_88
+    if-ge v2, v0, :cond_9f
 
     .line 780
     new-instance v4, Landroid/widget/EditText;
@@ -1508,7 +1508,35 @@
 
     invoke-virtual {v4, v0}, Landroid/widget/EditText;->setSelectAllOnFocus(Z)V
 
-    .line 786
+    .line 788
+    const/high16 v9, 0x10000000
+
+    .line 789
+    const/4 v0, 0x3
+
+    if-ne v2, v0, :cond_9d
+
+    const/4 v0, 0x6
+
+    :goto_5f
+    or-int/2addr v0, v9
+
+    .line 788
+    invoke-virtual {v4, v0}, Landroid/widget/EditText;->setImeOptions(I)V
+
+    .line 790
+    const/4 v0, 0x3
+
+    if-ne v2, v0, :cond_6e
+
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$23;
+
+    invoke-direct {v0, v8}, Lfr/testudo/spacecorsair/mod/ModLanUi$23;-><init>([Landroid/app/AlertDialog;)V
+
+    invoke-virtual {v4, v0}, Landroid/widget/EditText;->setOnEditorActionListener(Landroid/widget/TextView$OnEditorActionListener;)V
+
+    .line 797
+    :cond_6e
     new-instance v0, Landroid/widget/LinearLayout$LayoutParams;
 
     const/high16 v9, 0x42600000    # 56.0f
@@ -1521,7 +1549,7 @@
 
     invoke-direct {v0, v9, v10}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
-    .line 787
+    .line 798
     const/high16 v9, 0x40c00000    # 6.0f
 
     mul-float/2addr v9, v6
@@ -1540,23 +1568,23 @@
 
     invoke-virtual {v0, v9, v10, v11, v12}, Landroid/widget/LinearLayout$LayoutParams;->setMargins(IIII)V
 
-    .line 788
+    .line 799
     invoke-virtual {v7, v4, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 789
+    .line 800
     aput-object v4, v3, v2
 
-    .line 790
-    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$23;
+    .line 801
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$24;
 
-    invoke-direct/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModLanUi$23;-><init>([ZI[Landroid/widget/EditText;Landroid/widget/EditText;Ljava/lang/Runnable;)V
+    invoke-direct/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModLanUi$24;-><init>([ZI[Landroid/widget/EditText;Landroid/widget/EditText;Ljava/lang/Runnable;)V
 
     invoke-virtual {v4, v0}, Landroid/widget/EditText;->addTextChangedListener(Landroid/text/TextWatcher;)V
 
-    .line 810
-    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$24;
+    .line 821
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;
 
-    invoke-direct {v0, v4, v2, v3}, Lfr/testudo/spacecorsair/mod/ModLanUi$24;-><init>(Landroid/widget/EditText;I[Landroid/widget/EditText;)V
+    invoke-direct {v0, v4, v2, v3}, Lfr/testudo/spacecorsair/mod/ModLanUi$25;-><init>(Landroid/widget/EditText;I[Landroid/widget/EditText;)V
 
     invoke-virtual {v4, v0}, Landroid/widget/EditText;->setOnKeyListener(Landroid/view/View$OnKeyListener;)V
 
@@ -1565,8 +1593,14 @@
 
     goto :goto_38
 
-    .line 821
-    :cond_88
+    .line 789
+    :cond_9d
+    const/4 v0, 0x5
+
+    goto :goto_5f
+
+    .line 832
+    :cond_9f
     const/4 v0, 0x0
 
     new-instance v1, Landroid/app/AlertDialog$Builder;
@@ -1593,21 +1627,21 @@
 
     move-result-object v1
 
-    .line 822
+    .line 833
     invoke-virtual {v1, v7}, Landroid/app/AlertDialog$Builder;->setView(Landroid/view/View;)Landroid/app/AlertDialog$Builder;
 
     move-result-object v1
 
     const-string v2, "Join"
 
-    .line 823
+    .line 834
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v2
 
-    new-instance v4, Lfr/testudo/spacecorsair/mod/ModLanUi$25;
+    new-instance v4, Lfr/testudo/spacecorsair/mod/ModLanUi$26;
 
-    invoke-direct {v4, v3, p1}, Lfr/testudo/spacecorsair/mod/ModLanUi$25;-><init>([Landroid/widget/EditText;Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;)V
+    invoke-direct {v4, v3, p1}, Lfr/testudo/spacecorsair/mod/ModLanUi$26;-><init>([Landroid/widget/EditText;Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;)V
 
     invoke-virtual {v1, v2, v4}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
@@ -1615,7 +1649,7 @@
 
     const-string v2, "Close"
 
-    .line 830
+    .line 841
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v2
@@ -1632,7 +1666,7 @@
 
     aput-object v1, v8, v0
 
-    .line 831
+    .line 842
     const/4 v0, 0x0
 
     aget-object v0, v8, v0
@@ -1645,34 +1679,34 @@
 
     invoke-virtual {v0, v1}, Landroid/view/Window;->setSoftInputMode(I)V
 
-    .line 832
+    .line 843
     const/4 v0, 0x0
 
     aget-object v0, v8, v0
 
     invoke-virtual {v0}, Landroid/app/AlertDialog;->show()V
 
-    .line 833
+    .line 844
     invoke-interface {v5}, Ljava/lang/Runnable;->run()V
 
-    .line 834
+    .line 845
     const/4 v0, 0x0
 
     aget-object v0, v3, v0
 
     invoke-virtual {v0}, Landroid/widget/EditText;->requestFocus()Z
-    :try_end_e0
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_e0} :catch_e1
+    :try_end_f7
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_f7} :catch_f8
 
-    .line 838
-    :goto_e0
+    .line 849
+    :goto_f7
     return-void
 
-    .line 835
-    :catch_e1
+    .line 846
+    :catch_f8
     move-exception v0
 
-    goto :goto_e0
+    goto :goto_f7
 .end method
 
 .method static codeChars(Ljava/lang/CharSequence;I)Ljava/lang/String;

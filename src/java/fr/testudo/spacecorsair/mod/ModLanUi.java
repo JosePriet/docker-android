@@ -783,6 +783,17 @@ final class ModLanUi {
                 e.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
                 e.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
                 e.setSelectAllOnFocus(true);
+                // v45 release: no full-screen keyboard in landscape (it hid the boxes and the JOIN button); the last
+                // box's Done key joins once all four characters are in
+                e.setImeOptions(android.view.inputmethod.EditorInfo.IME_FLAG_NO_EXTRACT_UI
+                    | (at == 3 ? android.view.inputmethod.EditorInfo.IME_ACTION_DONE : android.view.inputmethod.EditorInfo.IME_ACTION_NEXT));
+                if (at == 3) e.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
+                    public boolean onEditorAction(android.widget.TextView v, int id, android.view.KeyEvent ev) {
+                        Button ok = dlg[0] == null ? null : dlg[0].getButton(AlertDialog.BUTTON_POSITIVE);
+                        if (ok != null && ok.isEnabled()) ok.performClick();
+                        return true;
+                    }
+                });
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (56 * d), ViewGroup.LayoutParams.WRAP_CONTENT);
                 lp.setMargins((int) (6 * d), 0, (int) (6 * d), 0);
                 row.addView(e, lp);
