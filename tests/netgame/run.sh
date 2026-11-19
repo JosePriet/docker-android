@@ -109,8 +109,12 @@ else
   [ -n "$xy" ] && a shell input tap $xy; sleep 1
   for c in $(echo $CODE | grep -o .); do a shell input text $c; sleep 0.7; done
   sleep 1; shot code_typed; dump code_typed; log "typed: $(texts)"
-  grep -q 'text="DONE"\|text="Done"' $OUT/last.xml && { tap_text "^(DONE|Done)( |$)" done2; sleep 2; }
-  tap_text "android:id/button1" join || res "FAIL no Join in the code dialog"
+  # Done on the last box joins (v45 release fix); if the dialog is still up, hide the keyboard and tap JOIN
+  a shell input keyevent KEYCODE_ENTER; sleep 3; dump after_enter
+  if grep -q 'Type the 4-character code' $OUT/last.xml; then
+    log "enter did not join; JOIN by hand"; a shell input keyevent KEYCODE_BACK; sleep 2; dump kb_hidden
+    grep -q 'Type the 4-character code' $OUT/last.xml && { tap_text "android:id/button1" join || res "FAIL no Join in the code dialog"; }
+  else res "GUEST Done key joined"; fi
   JOINED=0
   for i in $(seq 1 40); do
     sleep 4; dump joining
