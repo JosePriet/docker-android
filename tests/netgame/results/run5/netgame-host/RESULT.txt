@@ -1,0 +1,7 @@
+HOST code=B4B9
+HOST accepted=0
+HOST state 1: Multiplayer|Waiting for a player to join...&#10;&#10;Game code:  B4B9&#10;&#10;Private game: only players with the code can join. You accept or decline each player.|Share code|PvP: OFF (tap to turn on)|Stop hosting|Close|
+HOST state 2: astrodroid 4.4|Congratulation, you just made your first hyperdrive jump.&#10;&#10;This is the end of the tutorial, your adventure is starting in this sector, more precisely at the Genesis command center where the governor Rob Thomas is waiting for you.&#10;&#10;Follow the yellow mark, it will lead you to the mission station. (Top of your screen). &#10;&#10;Before you go, let me show you a quick summary of the game controls.|
+HOST state 3: Multiplayer|Waiting for a player to join...&#10;&#10;Game code:  B4B9&#10;&#10;Private game: only players with the code can join. You accept or decline each player.|Share code|PvP: OFF (tap to turn on)|Stop hosting|Close|
+HOST end: Multiplayer|Waiting for a player to join...&#10;&#10;Game code:  B4B9&#10;&#10;Private game: only players with the code can join. You accept or decline each player.|Share code|PvP: OFF (tap to turn on)|Stop hosting|Close|
+host errors: 2635 lines

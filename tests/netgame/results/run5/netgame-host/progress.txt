@@ -1,0 +1,9 @@
+[9s] first pid 2513
+[242s] pid after prologue 3672
+[305s] tap '^(Save|SAVE)( |$)' at 1607 838
+[312s] lobby: Multiplayer|NetHost ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[314s] no match for '^Host private game \(code only\)'
+[320s] no match for '^Host private game \(code only\)'
+[326s] tap '^Host private game \(code only\)' at 1074 781
+[333s] after host tap: Multiplayer|Opening the game...|PvP: OFF (tap to turn on)|Stop hosting|Close|
+[362s] hosting: Multiplayer|Waiting for a player to join...&#10;&#10;Game code:  B4B9&#10;&#10;Private game: only players with the code can join. You accept or decline each player.|Share code|PvP: OFF (tap to turn on)|Stop hosting|Close|
