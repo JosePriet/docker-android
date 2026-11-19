@@ -159,9 +159,14 @@ public class ModV34 {
         }
     }
 
-    /** v57c: original ships with a level 0 / 1,000 cr placeholder (owner: cheap, never below the ships before them in the tree). */
-    static final String[] SHIP_FIX = {"policeShip", "megatronShip"};
-    static final int[] SHIP_FIX_LV = {12, 20}, SHIP_FIX_PRICE = {200000, 500000};   // owner 2026-11-19: police L12 200k, Megatron L20 500k
+    /**
+     * v57c-f: original ships with fixed unlock levels / prices (owner 2026-11-19). Police ship and Megatron: owner levels;
+     * non-faction ships priced below the faction ships of the same class and level (owner 03:26); alien ships: owner prices,
+     * levels set for their class (they were L0 / 1,000 placeholders). Level -1 = stock level through shipLevel.
+     */
+    static final String[] SHIP_FIX = {"policeShip", "megatronShip", "condorPlayerShip", "hullBreaker", "corvette", "alienRat", "alienUfo", "alienBlatte"};
+    static final int[] SHIP_FIX_LV = {12, 20, -1, -1, -1, 10, 19, 28},
+        SHIP_FIX_PRICE = {140000, 500000, 45000, 110000, 480000, 30000, 250000, 1300000};
 
     /** v57c: the original (non-mod) player ships get their unlock level on the new scale; police ship and Megatron repriced. */
     private static void ships() {
@@ -172,11 +177,18 @@ public class ModV34 {
             mx.setAccessible(true);
             for (fr.testudo.spacecorsair.business.loot.SpaceObjectType t : fr.testudo.spacecorsair.business.loot.SpaceObjectType.ALL_SHIPS) {
                 try {
-                    if (t == null || ModShips.hull(t) != null || t.name().startsWith("alien") || t.getGearSpec() == null) continue;
+                    if (t == null || t.getGearSpec() == null) continue;
+                    ModShips.Hull hl = ModShips.hull(t);
+                    if (hl != null) {   // v57f: the shop price follows ModShips (the SpaceObjectType constants were baked in by an old hook)
+                        fr.testudo.spacecorsair.business.economy.Price pr = t.getObjectPrice();
+                        if (!hl.dev && pr != null && !pr.inapp && pr.min != hl.price) { mn.setInt(pr, hl.price); mx.setInt(pr, hl.price); pr.current = hl.price; }
+                        continue;
+                    }
                     int fix = -1;
                     for (int i = 0; i < SHIP_FIX.length; i++) if (SHIP_FIX[i].equals(t.name())) fix = i;
+                    if (fix < 0 && t.name().startsWith("alien")) continue;
                     fr.testudo.spacecorsair.business.loot.stuff.GearSpec g = t.getGearSpec();
-                    g.level = fix >= 0 ? SHIP_FIX_LV[fix] : shipLevel(g.level);
+                    g.level = fix >= 0 && SHIP_FIX_LV[fix] >= 0 ? SHIP_FIX_LV[fix] : shipLevel(g.level);
                     if (fix >= 0) {
                         fr.testudo.spacecorsair.business.economy.Price pr = t.getObjectPrice();
                         mn.setInt(pr, SHIP_FIX_PRICE[fix]);

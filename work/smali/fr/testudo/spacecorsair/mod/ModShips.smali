@@ -1772,7 +1772,7 @@
 
     const/16 v8, 0x11
 
-    const v9, 0x6acfc0
+    const v9, 0x3d0900
 
     sget-object v10, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
@@ -3931,7 +3931,7 @@
 
     const/16 v8, 0x11
 
-    const v9, 0x5b8d80
+    const v9, 0x3d0900
 
     sget-object v10, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 
@@ -4419,7 +4419,7 @@
 
     const/16 v8, 0x10
 
-    const v9, 0x30d400
+    const v9, 0x2625a0
 
     sget-object v10, Lfr/testudo/spacecorsair/business/loot/LootRarety;->LEGENDARY:Lfr/testudo/spacecorsair/business/loot/LootRarety;
 

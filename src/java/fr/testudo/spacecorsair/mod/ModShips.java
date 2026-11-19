@@ -146,7 +146,7 @@ public class ModShips {
         h.spec = turret(h, 0.16f, 1.006f, 0.28f, 6.0f, 4200, PlayerShipSpec.LaserType.ROTATIVE_TRIPLE, gua, 1.2f);
         twinMissiles(h.spec, 90, -210);
         // ---- Titan
-        h = HULLS[i++] = new Hull("hullLeviathan", "Leviathan", TITAN, 3, ModLang.tr("Titan"), "leviathan", 1000, 17, 7000000, LootRarety.LEGENDARY,
+        h = HULLS[i++] = new Hull("hullLeviathan", "Leviathan", TITAN, 3, ModLang.tr("Titan"), "leviathan", 1000, 17, 4000000, LootRarety.LEGENDARY,
             ModLang.tr("<b>Titan</b>: +25% laser damage, +50% shield capacity, six heavy turrets (2.5x damage per shot), four siege-missile tubes (1.9x damage, 55% wider blast, slower reload).<br>"
             + "<b>Doomsday Lance</b> (DOOMSDAY button): 2.5 s charge, then a 4 s lance straight ahead (2800 range, 60% as wide as the hull) that wipes everything in its path; mission bosses lose ~8% of their hull per lance and titan-class capitals ~2.5% (they take dozens). "
             + "The titan cannot move, turn or fire while it charges and fires. 90 s cooldown."),
@@ -271,7 +271,7 @@ public class ModShips {
         h.spec = turret(h, 0.13f, 1.006f, 0.22f, 9.0f, 9000, PlayerShipSpec.LaserType.ROTATIVE_TRIPLE, new float[]{0, -60, -260, 40, 260, 40}, 1.1f);
         twinMissiles(h.spec, 200, 0);
         // ---- Titan II: Crimson Throne (Reaver flagship; index 38 = hooks6 enum slot)
-        h = HULLS[i++] = new Hull("hullThrone", "Crimson Throne", TITAN, 3, ModLang.tr("Raider titan"), "crimson_throne", 1000, 17, 6000000, LootRarety.LEGENDARY,
+        h = HULLS[i++] = new Hull("hullThrone", "Crimson Throne", TITAN, 3, ModLang.tr("Raider titan"), "crimson_throne", 1000, 17, 4000000, LootRarety.LEGENDARY,
             ModLang.tr("<b>Raider titan</b>: +45% laser damage, 10% faster reload, six heavy plasma cannons (2.5x damage per shot), four siege-missile tubes (1.9x damage, 55% wider blast, slower reload).<br>"
             + "<b>Furnace Nova</b> (DOOMSDAY button): 2 s charge, then a 3.5 s ring of fire that grows to 1400 around the hull and burns everything inside. "
             + "The titan cannot move, turn or fire while it charges and burns. 75 s cooldown.<br>"
@@ -322,7 +322,7 @@ public class ModShips {
         h.dmg = 1.1f;
         h.spec = turret(h, 0.22f, 1.007f, 0.5f, 4.8f, 2000, PlayerShipSpec.LaserType.ROTATIVE_TRIPLE, new float[]{-50, -60, 50, -60, -61, 69, 61, 69, 0, 91}, 1.3f);
         twinMissiles(h.spec, 70, -150);
-        h = HULLS[i++] = new Hull("hullSecretReaver", "Pillager's Due", BATTLESHIP, 3, ModLang.tr("Close-range raider"), "secret_reaver", 640, 16, 3200000, LootRarety.LEGENDARY,
+        h = HULLS[i++] = new Hull("hullSecretReaver", "Pillager's Due", BATTLESHIP, 3, ModLang.tr("Close-range raider"), "secret_reaver", 640, 16, 2500000, LootRarety.LEGENDARY,
             ModLang.tr("<b>Close-range raider</b> (Honored with the Crimson Reavers): +50% laser damage, 10% faster reload, slow hull self-repair."), ModLang.tr("Crews earn the Due by surviving a season aboard it; its mismatched armor is a record of every ship that failed to take it."));
         h.faction = "Crimson Reavers";
         h.secret = "reaver";
