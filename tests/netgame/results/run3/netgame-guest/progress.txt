@@ -1,0 +1,10 @@
+[8s] first pid 2478
+[877s] pid after prologue 2478
+[938s] tap '^(Save|SAVE)( |$)' at 1607 838
+[945s] lobby: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[2202s] lobby again: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[2204s] no match for '^Join by code'
+[2209s] no match for '^Join by code'
+[2215s] tap '^Join by code' at 1074 952
+[2225s] typed: Join by code|Type the 4-character code your friend sees on the host screen.|CLOSE|JOIN|
+[2226s] tap '^(Join|JOIN)( |$)' at 1074 320
