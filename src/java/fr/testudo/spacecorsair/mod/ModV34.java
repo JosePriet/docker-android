@@ -49,6 +49,16 @@ public class ModV34 {
         return t;
     }
 
+    /** v57b (owner 2026-11-19): kill XP falls 10% per level below the pilot (0 at 10+ below; stock: 30%, 0 at 4+ below), +15% per level above (stock). */
+    public static final float XP_BELOW = 10f, XP_ABOVE = 15f;
+
+    /** Hook (hooks57b): XpBuilder.getMitigedXp(enemyLevel, xp). */
+    public static float mitigedXp(int enemyLv, int xp) {
+        int d = enemyLv - playerLevel();
+        float f = xp + (d < 0 ? XP_BELOW : XP_ABOVE) * d / 100f * xp;
+        return f < 0 ? 0 : f;
+    }
+
     static final String RELEVEL_KEY = "v57_xp_relevel";
 
     /** {level, curXp} for a total XP on a table (level capped at CAP). */

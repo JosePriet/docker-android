@@ -28,3 +28,4 @@ hooks54_testjump 2026-11-17: PlayerShip.initHyperdriveJumpRequest canHyperdriveJ
 hooks55_lanceprice 2026-11-18: SpaceObjectType Phoenix Lance prices 1.5M/3.5M/8M -> 375k/875k/2M (owner 2026-11-18, 25%)
 hooks56_mpmenu 2026-11-18: MenuDisplayer.init -> ModLan.menuEntry (flight menu Multiplayer entry), showMenu -> ModLan.menuShown (v46 restore MP button)
 hooks57_leveling 2026-11-18: stock mission engines -> ModMissionSpawn (P3 cap mission level +2), stock Mission <init> -> ModStockSpawn.mission (P2 level on 0-40 scale) (v57 leveling)
+hooks57b_xpwindow 2026-11-19: XpBuilder.getMitigedXp -> ModV34.mitigedXp (0 XP at 10+ levels below the pilot, -10%/level; +15%/level above kept) (v57b)
