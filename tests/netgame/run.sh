@@ -15,7 +15,9 @@ dump() { rm -f $OUT/last.xml; timeout 12 adb shell uiautomator dump /sdcard/ui.x
 xy_of() { python3 tests/tap.py $OUT/last.xml "$1"; }
 tap_text() { dump "$2"; [ -f $OUT/last.xml ] || return 1; xy=$(xy_of "$1"); [ -n "$xy" ] || { log "no match for '$1'"; return 1; }; log "tap '$1' at $xy"; a shell input tap $xy; }
 # a menu item that may be below the fold of the lobby dialog: scroll it into view
-tap_scroll() { for i in 1 2 3 4 5; do tap_text "$1" "$2" && return 0; a shell input swipe 1170 800 1170 350 400; sleep 1; done; return 1; }
+tap_scroll() { for i in 1 2 3 4 5 6; do tap_text "$1" "$2" && return 0; a shell input swipe 1070 820 1070 420 1200; sleep 2; done; return 1; }
+# closes the open dialog (BACK; the exit prompt it may raise in flight is cancelled)
+close_dlg() { a shell input keyevent KEYCODE_BACK; sleep 2; noexit; }
 noexit() { dump noexit; if grep -q "exit the game" $OUT/last.xml 2>/dev/null; then xy=$(xy_of "^Cancel"); [ -n "$xy" ] && a shell input tap $xy; sleep 2; fi; }
 texts() { grep -o 'text="[^"]\{3,\}"' $OUT/last.xml 2>/dev/null | sed 's/^text="//;s/"$//' | tr '\n' '|' | cut -c1-900; }
 pid() { timeout 5 adb shell pidof $PKG; }
@@ -56,12 +58,13 @@ shot lobby; dump lobby; log "lobby: $(texts)"
 
 if [ $ROLE = host ]; then
   tap_scroll "^Host private game \(code only\)" host || res "FAIL no host button"
+  sleep 3; shot host_tapped; dump host_tapped; log "after host tap: $(texts)"
   CODE=""
   for i in $(seq 1 12); do
     sleep 5; dump hosting
     CODE=$(grep -o 'Game code:  [A-Z0-9]\{4\}' $OUT/last.xml | head -1 | awk '{print $3}')
     [ -n "$CODE" ] && break
-    tap_text "^(Close|CLOSE)$" close; sleep 2; open_mp   # the menu shows the code once the service answered
+    close_dlg; open_mp   # the menu shows the code once the service answered
   done
   shot hosting; log "hosting: $(texts)"
   [ -n "$CODE" ] || { res "FAIL host got no code: $(texts)"; }
@@ -71,7 +74,7 @@ if [ $ROLE = host ]; then
     git config user.name netgame-bot; git config user.email netgame-bot@users.noreply.github.com
     git add tests/netgame/codes/$RID.txt && git commit -qm "netgame code $RID [skip ci]"
     for i in 1 2 3 4 5; do git pull -q --rebase origin $BR && git push -q origin HEAD:$BR && break; sleep 5; done
-    tap_text "^(Close|CLOSE)$" close; sleep 2
+    close_dlg
     # wait for the join request (up to 20 min: the guest's emulator boots and plays the prologue too) and accept it
     ACC=0
     for i in $(seq 1 400); do
@@ -83,7 +86,7 @@ if [ $ROLE = host ]; then
     sleep 15; shot host_coop_1
     for k in 1 2 3; do
       open_mp; dump host_state_$k; shot host_state_$k; res "HOST state $k: $(texts)"
-      tap_text "^(Close|CLOSE)$" close; sleep 1
+      close_dlg
       a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 700; sleep 6; a shell input motionevent UP 222 700
       a shell input tap 1700 700; sleep 20; shot host_coop_$((k+1))
     done
@@ -97,6 +100,7 @@ else
     [ -n "$CODE" ] && break; sleep 8
   done
   res "GUEST got code=$CODE"
+  close_dlg; open_mp; shot guest_lobby2; dump guest_lobby2; log "lobby again: $(texts)"
   tap_scroll "^Join by code" joinbtn || res "FAIL no join button"
   sleep 2; dump codebox
   xy=$(python3 -c "import re,sys;x=open(sys.argv[1]).read();m=re.search(r'class=\"android.widget.EditText\"[^>]*bounds=\"\\[(\\d+),(\\d+)\\]\\[(\\d+),(\\d+)\\]',x);print((int(m.group(1))+int(m.group(3)))//2,(int(m.group(2))+int(m.group(4)))//2) if m else None" $OUT/last.xml 2>/dev/null)
@@ -112,14 +116,14 @@ else
     grep -q "Connecting" $OUT/last.xml || { [ $i -gt 3 ] && break; }
   done
   shot guest_after_join; res "GUEST join screen: $(texts)"
-  [ $JOINED = 0 ] && { tap_text "^(Close|CLOSE)$" c0; sleep 1; open_mp; dump g0; grep -q "You joined the game of" $OUT/last.xml && JOINED=1; res "GUEST menu: $(texts)"; }
+  [ $JOINED = 0 ] && { close_dlg; open_mp; dump g0; grep -q "You joined the game of" $OUT/last.xml && JOINED=1; res "GUEST menu: $(texts)"; }
   res "GUEST joined=$JOINED"
-  tap_text "^(Close|CLOSE)$" close; sleep 2
+  close_dlg
   for k in 1 2 3; do
     a shell input motionevent DOWN 220 860; sleep 0.2; a shell input motionevent MOVE 222 700; sleep 5; a shell input motionevent UP 222 700
     a shell input tap 1700 700; sleep 12; shot guest_coop_$k
     open_mp; dump guest_state_$k; shot guest_state_$k; res "GUEST state $k: $(texts)"
-    tap_text "^(Close|CLOSE)$" close; sleep 10
+    close_dlg; sleep 8
   done
 fi
 kill $LC 2>/dev/null

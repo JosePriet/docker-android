@@ -55,7 +55,7 @@ jobs:
       - name: Commit results back to this branch (skip ci)
         run: |
           D=tests/netgame/results/run${{ github.run_number }}; mkdir -p $D
-          for d in dl/*; do t=$(basename $d); mkdir -p $D/$t; cp $d/*.txt $d/*.png $D/$t/ 2>/dev/null || true; rm -f $D/$t/logcat_live.txt; grep -E "ModLobby|ModNet|ModLan|lobby|AndroidRuntime|FATAL" $d/logcat_live.txt | tail -400 > $D/$t/logcat_net.txt || true; done
+          for d in dl/*; do t=$(basename $d); mkdir -p $D/$t; cp $d/*.txt $d/*.png $d/*.xml $D/$t/ 2>/dev/null || true; rm -f $D/$t/logcat_live.txt; grep -E "ModLobby|ModNet|ModLan|lobby|FATAL|E/AndroidRuntime" $d/logcat_live.txt | tail -400 > $D/$t/logcat_net.txt || true; done
           git config user.name netgame-bot; git config user.email netgame-bot@users.noreply.github.com
           git add tests/netgame/results && git commit -qm "netgame results run ${{ github.run_number }} [skip ci]"
           for i in 1 2 3; do git pull -q --rebase origin ${{ github.ref_name }} && git push -q origin HEAD:${{ github.ref_name }} && break; sleep 5; done
