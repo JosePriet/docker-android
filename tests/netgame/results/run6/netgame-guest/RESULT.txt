@@ -1,0 +1,8 @@
+GUEST got code=55JK
+GUEST Done key joined
+GUEST join screen: Multiplayer|You joined the game of NetHost ?. You follow the host between sectors.&#10;&#10;Same mission: you work on it together. When the host completes it, it completes for both.&#10;&#10;Direct, ping 132 ms. Data used: 0.0 MB|Fly my own missions|Report player|Disconnect|Close|
+GUEST joined=1
+GUEST state 1: Multiplayer|You joined the game of NetHost ?. You follow the host between sectors.&#10;&#10;Same mission: you work on it together. When the host completes it, it completes for both.&#10;&#10;Direct, ping 69 ms. Data used: 0.2 MB|Fly my own missions|Report player|Disconnect|Close|
+GUEST state 2: Multiplayer|You joined the game of NetHost ?. You follow the host between sectors.&#10;&#10;Same mission: you work on it together. When the host completes it, it completes for both.&#10;&#10;Direct, ping 73 ms. Data used: 0.5 MB|Fly my own missions|Report player|Disconnect|Close|
+GUEST state 3: Multiplayer|You joined the game of NetHost ?. You follow the host between sectors.&#10;&#10;Same mission: you work on it together. When the host completes it, it completes for both.&#10;&#10;Direct, ping 71 ms. Data used: 0.7 MB|Fly my own missions|Report player|Disconnect|Close|
+guest errors: 633 lines

@@ -1,0 +1,11 @@
+[10s] first pid 2465
+[245s] pid after prologue 3655
+[308s] tap '^(Save|SAVE)( |$)' at 1607 838
+[314s] lobby: Multiplayer|NetHost ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[316s] no match for '^Host private game \(code only\)'
+[322s] no match for '^Host private game \(code only\)'
+[328s] tap '^Host private game \(code only\)' at 1074 855
+[334s] after host tap: Multiplayer|Opening the game...|PvP: OFF (tap to turn on)|Stop hosting|Close|
+[364s] hosting: Multiplayer|Waiting for a player to join...&#10;&#10;Game code:  55JK&#10;&#10;Private game: only players with the code can join. You accept or decline each player.|Share code|PvP: OFF (tap to turn on)|Stop hosting|Close|
+[423s] request: LAN co-op|NetGuest ? wants to join your game.|DECLINE|ACCEPT|
+[425s] tap '^accept .*android:id/button1' at 1588 679

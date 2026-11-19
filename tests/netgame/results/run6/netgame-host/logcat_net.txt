@@ -1,0 +1,1 @@
+11-19 04:43:32.405 W/do.spacecorsai( 3655): Long monitor contention with owner net-wire (4304) at void fr.testudo.spacecorsair.mod.ModNet$Link.onPeer0(java.net.InetSocketAddress, byte[], int, boolean)(ModNet.java:818) waiters=2 in void fr.testudo.spacecorsair.mod.ModNet$Link.tick() for 103ms
