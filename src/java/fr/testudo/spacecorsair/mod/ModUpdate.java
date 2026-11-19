@@ -609,12 +609,12 @@ public final class ModUpdate {
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 PendingIntent p = PendingIntent.getActivity(a, 4711, i, PendingIntent.FLAG_CANCEL_CURRENT);
                 android.app.AlarmManager am = (android.app.AlarmManager) a.getSystemService(Context.ALARM_SERVICE);
-                am.set(android.app.AlarmManager.RTC, System.currentTimeMillis() + 800, p);
+                am.set(android.app.AlarmManager.RTC, System.currentTimeMillis() + 4500, p);   // after the kill below: a launch into the dying process would vanish
             }
         } catch (Throwable t) { /* the player reopens the game */ }
         // the game saves when its screens pause: send it to the background first, then end the process
         try { a.moveTaskToBack(true); } catch (Throwable t) { /* ignore */ }
-        post2(new Runnable() { public void run() { android.os.Process.killProcess(android.os.Process.myPid()); } }, 2500);
+        post2(new Runnable() { public void run() { android.os.Process.killProcess(android.os.Process.myPid()); } }, 2000);
     }
 
     private static synchronized void post2(Runnable r, long ms) { if (ui == null) ui = new Handler(Looper.getMainLooper()); ui.postDelayed(r, ms); }

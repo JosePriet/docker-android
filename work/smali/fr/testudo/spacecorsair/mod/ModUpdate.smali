@@ -4607,7 +4607,7 @@
 
     move-result-wide v4
 
-    const-wide/16 v6, 0x320
+    const-wide/16 v6, 0x1194
 
     add-long/2addr v4, v6
 
@@ -4631,7 +4631,7 @@
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate$18;-><init>()V
 
-    const-wide/16 v2, 0x9c4
+    const-wide/16 v2, 0x7d0
 
     invoke-static {v0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModUpdate;->post2(Ljava/lang/Runnable;J)V
 
