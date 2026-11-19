@@ -1,0 +1,61 @@
+# v45 release check: a real internet game between two emulators on two runners (tests/netgame/run.sh).
+name: netgame
+on:
+  push:
+    branches: [claude/project-thread-9bas6i]
+    paths: ['.github/workflows/netgame.yml', 'tests/netgame/run.sh', 'tests/netgame/sc.apk']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: netgame
+  cancel-in-progress: true
+jobs:
+  phone:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        role: [host, guest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Play ${{ matrix.role }}
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          arch: x86_64
+          profile: pixel_4
+          cores: 4
+          ram-size: 4096M
+          disk-size: 6000M
+          emulator-build: "7425822"
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: timeout 2700 bash tests/netgame/run.sh ${{ matrix.role }} ${{ github.run_id }} || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: netgame-${{ matrix.role }}
+          path: out
+  results:
+    needs: phone
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: dl }
+      - name: Commit results back to this branch (skip ci)
+        run: |
+          D=tests/netgame/results/run${{ github.run_number }}; mkdir -p $D
+          for d in dl/*; do t=$(basename $d); mkdir -p $D/$t; cp $d/*.txt $d/*.png $D/$t/ 2>/dev/null || true; rm -f $D/$t/logcat_live.txt; grep -E "ModLobby|ModNet|ModLan|lobby|AndroidRuntime|FATAL" $d/logcat_live.txt | tail -400 > $D/$t/logcat_net.txt || true; done
+          git config user.name netgame-bot; git config user.email netgame-bot@users.noreply.github.com
+          git add tests/netgame/results && git commit -qm "netgame results run ${{ github.run_number }} [skip ci]"
+          for i in 1 2 3; do git pull -q --rebase origin ${{ github.ref_name }} && git push -q origin HEAD:${{ github.ref_name }} && break; sleep 5; done
