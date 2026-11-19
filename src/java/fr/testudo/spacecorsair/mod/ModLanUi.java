@@ -789,8 +789,9 @@ final class ModLanUi {
                     | (at == 3 ? android.view.inputmethod.EditorInfo.IME_ACTION_DONE : android.view.inputmethod.EditorInfo.IME_ACTION_NEXT));
                 if (at == 3) e.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
                     public boolean onEditorAction(android.widget.TextView v, int id, android.view.KeyEvent ev) {
+                        if (ev != null && ev.getAction() != android.view.KeyEvent.ACTION_DOWN) return true;   // a hardware Enter comes as down + up: one join
                         Button ok = dlg[0] == null ? null : dlg[0].getButton(AlertDialog.BUTTON_POSITIVE);
-                        if (ok != null && ok.isEnabled()) ok.performClick();
+                        if (ok != null && ok.isEnabled() && dlg[0].isShowing()) ok.performClick();
                         return true;
                     }
                 });

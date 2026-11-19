@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 821
+    .line 822
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$e:Landroid/widget/EditText;
 
     iput p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$at:I
@@ -53,7 +53,7 @@
     .registers 6
 
     .prologue
-    .line 823
+    .line 824
     const/16 v0, 0x43
 
     if-ne p2, v0, :cond_34
@@ -80,7 +80,7 @@
 
     if-lez v0, :cond_34
 
-    .line 824
+    .line 825
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$bx:[Landroid/widget/EditText;
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$at:I
@@ -93,7 +93,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
 
-    .line 825
+    .line 826
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$bx:[Landroid/widget/EditText;
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$25;->val$at:I
@@ -104,10 +104,10 @@
 
     invoke-virtual {v0}, Landroid/widget/EditText;->requestFocus()Z
 
-    .line 826
+    .line 827
     const/4 v0, 0x1
 
-    .line 828
+    .line 829
     :goto_33
     return v0
 

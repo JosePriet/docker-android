@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 834
+    .line 835
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$26;->val$bx:[Landroid/widget/EditText;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$26;->val$join:Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;
@@ -51,12 +51,12 @@
     .prologue
     const/4 v5, 0x4
 
-    .line 836
+    .line 837
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 837
+    .line 838
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$26;->val$bx:[Landroid/widget/EditText;
 
     array-length v3, v2
@@ -78,13 +78,13 @@
 
     goto :goto_a
 
-    .line 838
+    .line 839
     :cond_18
     invoke-static {v1, v5}, Lfr/testudo/spacecorsair/mod/ModLanUi;->codeChars(Ljava/lang/CharSequence;I)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 839
+    .line 840
     invoke-virtual {v0}, Ljava/lang/String;->length()I
 
     move-result v1
@@ -95,7 +95,7 @@
 
     invoke-interface {v1, v0}, Lfr/testudo/spacecorsair/mod/ModLanUi$CodeCb;->code(Ljava/lang/String;)V
 
-    .line 840
+    .line 841
     :cond_27
     return-void
 .end method

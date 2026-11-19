@@ -42,43 +42,66 @@
 
 # virtual methods
 .method public onEditorAction(Landroid/widget/TextView;ILandroid/view/KeyEvent;)Z
-    .registers 6
+    .registers 8
 
     .prologue
-    const/4 v1, 0x0
+    const/4 v3, 0x1
+
+    const/4 v2, 0x0
 
     .line 792
+    if-eqz p3, :cond_b
+
+    invoke-virtual {p3}, Landroid/view/KeyEvent;->getAction()I
+
+    move-result v0
+
+    if-eqz v0, :cond_b
+
+    .line 795
+    :cond_a
+    :goto_a
+    return v3
+
+    .line 793
+    :cond_b
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$23;->val$dlg:[Landroid/app/AlertDialog;
 
-    aget-object v0, v0, v1
+    aget-object v0, v0, v2
 
-    if-nez v0, :cond_15
+    if-nez v0, :cond_28
 
     const/4 v0, 0x0
 
-    .line 793
-    :goto_8
-    if-eqz v0, :cond_13
+    .line 794
+    :goto_12
+    if-eqz v0, :cond_a
 
     invoke-virtual {v0}, Landroid/widget/Button;->isEnabled()Z
 
     move-result v1
 
-    if-eqz v1, :cond_13
+    if-eqz v1, :cond_a
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$23;->val$dlg:[Landroid/app/AlertDialog;
+
+    aget-object v1, v1, v2
+
+    invoke-virtual {v1}, Landroid/app/AlertDialog;->isShowing()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_a
 
     invoke-virtual {v0}, Landroid/widget/Button;->performClick()Z
 
-    .line 794
-    :cond_13
-    const/4 v0, 0x1
+    goto :goto_a
 
-    return v0
-
-    .line 792
-    :cond_15
+    .line 793
+    :cond_28
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$23;->val$dlg:[Landroid/app/AlertDialog;
 
-    aget-object v0, v0, v1
+    aget-object v0, v0, v2
 
     const/4 v1, -0x1
 
@@ -86,5 +109,5 @@
 
     move-result-object v0
 
-    goto :goto_8
+    goto :goto_12
 .end method
