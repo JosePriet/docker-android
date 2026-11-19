@@ -81,7 +81,7 @@ if [ $ROLE = host ]; then
     ACC=0
     for i in $(seq 1 400); do
       dump wait
-      if grep -q "wants to join" $OUT/last.xml; then shot join_request; log "request: $(texts)"; tap_text "^(Accept|ACCEPT)( |$)" accept && ACC=1; break; fi
+      if grep -q "wants to join" $OUT/last.xml; then shot join_request; log "request: $(texts)"; tap_text "^accept .*android:id/button1" accept && ACC=1; break; fi
       sleep 1
     done
     res "HOST accepted=$ACC"
@@ -110,7 +110,7 @@ else
   for c in $(echo $CODE | grep -o .); do a shell input text $c; sleep 0.7; done
   sleep 1; shot code_typed; dump code_typed; log "typed: $(texts)"
   grep -q 'text="DONE"\|text="Done"' $OUT/last.xml && { tap_text "^(DONE|Done)( |$)" done2; sleep 2; }
-  tap_text "^(Join|JOIN)( |$)" join || res "FAIL no Join in the code dialog"
+  tap_text "android:id/button1" join || res "FAIL no Join in the code dialog"
   JOINED=0
   for i in $(seq 1 40); do
     sleep 4; dump joining
