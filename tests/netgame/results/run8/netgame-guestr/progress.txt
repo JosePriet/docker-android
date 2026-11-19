@@ -1,0 +1,14 @@
+[8s] first pid 2508
+[240s] pid after prologue 3710
+[303s] tap '^(Save|SAVE)( |$)' at 1607 838
+[310s] lobby: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[434s] lobby again: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[435s] no match for '^Hide my IP: OFF'
+[441s] no match for '^Hide my IP: OFF'
+[447s] no match for '^Hide my IP: OFF'
+[452s] tap '^Hide my IP: OFF' at 1074 722
+[457s] after hide: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[459s] no match for '^Join by code'
+[464s] no match for '^Join by code'
+[470s] tap '^Join by code' at 1074 944
+[485s] typed: Join by code|Type the 4-character code your friend sees on the host screen.|

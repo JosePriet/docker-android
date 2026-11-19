@@ -1,0 +1,11 @@
+[9s] first pid 2530
+[256s] pid after prologue 3740
+[318s] tap '^(Save|SAVE)( |$)' at 1607 838
+[325s] lobby: Multiplayer|NetHost ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[326s] no match for '^Host private game \(code only\)'
+[332s] no match for '^Host private game \(code only\)'
+[338s] tap '^Host private game \(code only\)' at 1074 796
+[344s] after host tap: Multiplayer|Opening the game...|PvP: OFF (tap to turn on)|Stop hosting|Close|
+[374s] hosting: Multiplayer|Waiting for a player to join...&#10;&#10;Game code:  PWMH&#10;&#10;Private game: only players with the code can join. You accept or decline each player.|Share code|PvP: OFF (tap to turn on)|Stop hosting|Close|
+[472s] request: LAN co-op|NetGuest ? wants to join your game.|DECLINE|ACCEPT|
+[474s] tap '^accept .*android:id/button1' at 1588 679

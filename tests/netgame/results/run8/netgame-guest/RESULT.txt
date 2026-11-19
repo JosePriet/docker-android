@@ -1,0 +1,8 @@
+GUEST got code=PWMH
+GUEST Done key joined
+GUEST join screen: Multiplayer|You joined the game of NetHost ?. You follow the host between sectors.&#10;&#10;Same mission: you work on it together. When the host completes it, it completes for both.&#10;&#10;Relayed, ping 139 ms. Data used: 0.0 MB Data saver is on.|Fly my own missions|Report player|Disconnect|Close|
+GUEST joined=1
+GUEST state 1: Multiplayer|You joined the game of NetHost ?. You follow the host between sectors.&#10;&#10;Same mission: you work on it together. When the host completes it, it completes for both.&#10;&#10;Relayed, ping 81 ms. Data used: 0.1 MB Data saver is on.|Fly my own missions|Report player|Disconnect|Close|
+GUEST state 2: Multiplayer|You joined the game of NetHost ?. You follow the host between sectors.&#10;&#10;Same mission: you work on it together. When the host completes it, it completes for both.&#10;&#10;Relayed, ping 84 ms. Data used: 0.2 MB Data saver is on.|Fly my own missions|Report player|Disconnect|Close|
+GUEST state 3: Multiplayer|You joined the game of NetHost ?. You follow the host between sectors.&#10;&#10;Same mission: you work on it together. When the host completes it, it completes for both.&#10;&#10;Relayed, ping 99 ms. Data used: 0.4 MB Data saver is on.|Fly my own missions|Report player|Disconnect|Close|
+guest errors: 625 lines

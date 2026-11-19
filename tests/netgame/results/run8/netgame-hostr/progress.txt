@@ -1,0 +1,11 @@
+[9s] first pid 2490
+[263s] pid after prologue 3659
+[328s] tap '^(Save|SAVE)( |$)' at 1607 838
+[335s] lobby: Multiplayer|NetHost ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[337s] no match for '^Host private game \(code only\)'
+[343s] no match for '^Host private game \(code only\)'
+[348s] tap '^Host private game \(code only\)' at 1074 809
+[356s] after host tap: Multiplayer|Opening the game...|PvP: OFF (tap to turn on)|Stop hosting|Close|
+[385s] hosting: Multiplayer|Waiting for a player to join...&#10;&#10;Game code:  QW92&#10;&#10;Private game: only players with the code can join. You accept or decline each player.|Share code|PvP: OFF (tap to turn on)|Stop hosting|Close|
+[470s] request: LAN co-op|NetGuest ? wants to join your game.|DECLINE|ACCEPT|
+[472s] tap '^accept .*android:id/button1' at 1588 679
