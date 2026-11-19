@@ -1,0 +1,7 @@
+sc-manifest=1
+seq=1
+apk.version=v45
+apk.build=52
+apk.sha256=58c889c3db494afbeb20d6021a601c2bbecceefbe8f281ceced237fa495d399b
+apk.size=91732969
+apk.url=https://github.com/JosePriet/docker-android/releases/download/v45/space-corsair-mod.apk

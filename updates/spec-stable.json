@@ -1,0 +1,6 @@
+{"seq": 1,
+ "apk": {"version": "v45", "build": 52, "path": "apk/space-corsair-mod-signed-v45.apk",
+         "url": "https://github.com/JosePriet/docker-android/releases/download/v45/space-corsair-mod.apk"},
+ "patches": [],
+ "packs": [],
+ "revoked": []}
