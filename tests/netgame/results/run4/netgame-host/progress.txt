@@ -1,0 +1,9 @@
+[10s] first pid 2483
+[202s] pid after prologue 3538
+[267s] tap '^(Save|SAVE)( |$)' at 1607 838
+[274s] lobby: Multiplayer|NetHost ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[276s] no match for '^Host private game \(code only\)'
+[282s] no match for '^Host private game \(code only\)'
+[287s] tap '^Host private game \(code only\)' at 1074 789
+[294s] after host tap: Multiplayer|Opening the game...|PvP: OFF (tap to turn on)|Stop hosting|Close|
+[323s] hosting: Multiplayer|Waiting for a player to join...&#10;&#10;Game code:  HSQF&#10;&#10;Private game: only players with the code can join. You accept or decline each player.|Share code|PvP: OFF (tap to turn on)|Stop hosting|Close|
