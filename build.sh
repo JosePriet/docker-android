@@ -29,6 +29,8 @@ java -cp "tools/d2j/*" com.googlecode.dex2jar.tools.Dex2jarCmd -f -o work/game_v
 (cd work/dtest && rm -f V44S.class && javac -nowarn -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V44S.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls V44S 2>&1 | grep -v JAVA_TOOL | grep -v "^ok ")
 # v49 LAN co-op: render-list round trip, shot mirror, link; must end with V49 VALUES-OK (checked by scripts/check.sh)
 (cd work/dtest && rm -f fr/testudo/spacecorsair/mod/V49.class && javac -nowarn -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls fr/testudo/spacecorsair/mod/V49.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls fr.testudo.spacecorsair.mod.V49 2>&1 | grep -v JAVA_TOOL | grep -v "^ok ")
+# v45 in-game updates: manifest signature, pack safety + layering, .scp delta; must end with V60U VALUES-OK
+(cd work/dtest && rm -f fr/testudo/spacecorsair/mod/V60U.class && javac -nowarn -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls fr/testudo/spacecorsair/mod/V60U.java 2>&1 | grep -v JAVA_TOOL || true; java -Xverify:all -cp .:../game_v${V}.jar:../../tools/android-4.1.1.4.jar:../stubcls fr.testudo.spacecorsair.mod.V60U 2>&1 | grep -v JAVA_TOOL | grep -v "^ok ")
 # v30: modart is lossless WebP (ModArt.open tries <name>.webp, then <name>.png); each name must ship once
 shopt -s nullglob
 dups=$(for f in work/modart/*.png work/modart/*.webp; do b=$(basename "$f"); echo "${b%.*}"; done | sort | uniq -d)
@@ -49,6 +51,7 @@ MODVER=$V
 MODNAME=${MODVER_NAME:-v$MODVER}
 SET_STRINGS="app_version=mod $MODNAME (base 1.5.1)" python3 -I es/add_locale.py base/space-corsair-mod-signed-v12.apk i18n/values-es work/resources_v${V}.arsc es fr
 python3 -I src/set_version_code.py base/space-corsair-mod-signed-v12.apk $((1000 + MODVER)) "mod $MODNAME (base 1.5.1)" work/AndroidManifest_v${V}.xml
+python3 -I src/add_permission.py work/AndroidManifest_v${V}.xml android.permission.REQUEST_INSTALL_PACKAGES   # v45 in-game updates (PackageInstaller)
 python3 -I -c "import json,sys; json.load(open(sys.argv[1],encoding='utf-8'))" i18n/lang/es_full.json
 python3 -I src/rebuild.py base/space-corsair-mod-signed-v12.apk work/unsigned${V}.apk classes.dex=work/classes_v${V}.dex resources.arsc=work/resources_v${V}.arsc AndroidManifest.xml=work/AndroidManifest_v${V}.xml +assets/lang/es.json=i18n/lang/es_full.json $MUSIC $ADDS | tail -1
 unzip -tq work/unsigned${V}.apk

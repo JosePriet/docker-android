@@ -34,7 +34,7 @@
     .registers 6
 
     .prologue
-    .line 340
+    .line 342
     iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$a:Landroid/app/Activity;
 
     iput p5, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$d:F
@@ -52,21 +52,21 @@
     .prologue
     const/4 v2, 0x0
 
-    .line 342
+    .line 344
     invoke-super {p0, p1, p2, p3}, Landroid/widget/ArrayAdapter;->getView(ILandroid/view/View;Landroid/view/ViewGroup;)Landroid/view/View;
 
     move-result-object v0
 
     check-cast v0, Landroid/widget/TextView;
 
-    .line 343
+    .line 345
     invoke-virtual {p0, p1}, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->getItem(I)Ljava/lang/Object;
 
     move-result-object v1
 
     check-cast v1, Ljava/lang/String;
 
-    .line 344
+    .line 346
     const-string v3, "?"
 
     invoke-virtual {v1, v3}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
@@ -80,7 +80,7 @@
     :goto_16
     invoke-virtual {v0, v1, v2, v2, v2}, Landroid/widget/TextView;->setCompoundDrawables(Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
 
-    .line 345
+    .line 347
     const/high16 v1, 0x41200000    # 10.0f
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$d:F
@@ -91,10 +91,10 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setCompoundDrawablePadding(I)V
 
-    .line 346
+    .line 348
     return-object v0
 
-    .line 344
+    .line 346
     :cond_23
     iget-object v3, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$5;->val$a:Landroid/app/Activity;
 

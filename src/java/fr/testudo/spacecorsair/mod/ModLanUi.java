@@ -97,6 +97,7 @@ final class ModLanUi {
                 }
             });
             bar.addView(e, at);
+            ModUpdate.menuEntry(ctx, bar, e);   // v45 in-game updates
         } catch (Throwable t) {
             // never break the flight menu
         }
@@ -105,6 +106,7 @@ final class ModLanUi {
     /** hooks56: the flight menu is opening; the label shows the link state ("Multiplayer *" while connected). */
     static void menuShown() {
         try { TextView t = menuLabel; if (t != null) t.setText(ModLan.buttonLabel()); } catch (Throwable x) { /* ignore */ }
+        ModUpdate.refreshLabel();
     }
 
     /** The Settings icon's cyan broken ring with its gear cleared, and two white ship chevrons inside. */

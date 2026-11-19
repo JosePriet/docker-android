@@ -60,7 +60,9 @@ public final class ModSound {
             dir.mkdirs();
             for (String n : NAMES) {
                 File f = new File(dir, n + ".ogg");
-                copy(ctx, "modsfx/" + n + ".ogg", f);
+                InputStream pk = ModContent.open(ctx, "modsfx/" + n + ".ogg");   // v45 updates: a pack's sound wins
+                if (pk != null) { f = new File(dir, n + "_pack.ogg"); copyStream(pk, f); }
+                else copy(ctx, "modsfx/" + n + ".ogg", f);
                 ids.put(n, sp.load(f.getAbsolutePath(), 1));
                 last.put(n, new long[1]);
             }
@@ -73,6 +75,17 @@ public final class ModSound {
             try { if (sp != null) sp.release(); } catch (Throwable e) { /* ignore */ }
             pool = null;
         }
+    }
+
+    /** v45 updates: pack sounds are always rewritten (a same-size replacement must not keep the old file). */
+    private static void copyStream(InputStream in, File to) throws Exception {
+        try {
+            OutputStream out = new FileOutputStream(to);
+            try {
+                byte[] b = new byte[16384];
+                for (int n; (n = in.read(b)) > 0; ) out.write(b, 0, n);
+            } finally { out.close(); }
+        } finally { in.close(); }
     }
 
     private static void copy(Context c, String asset, File to) throws Exception {

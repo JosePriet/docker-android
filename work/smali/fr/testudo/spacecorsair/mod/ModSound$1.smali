@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 253
+    .line 266
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModSound$1;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 7
 
     .prologue
-    .line 255
+    .line 268
     int-to-float v0, p2
 
     const/high16 v1, 0x41200000    # 10.0f
@@ -60,7 +60,7 @@
     # setter for: Lfr/testudo/spacecorsair/mod/ModSound;->sfx:F
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSound;->access$002(F)F
 
-    .line 256
+    .line 269
     const-string v0, "sfx"
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -89,7 +89,7 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 257
+    .line 270
     :try_start_29
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModSound$1;->val$a:Landroid/app/Activity;
 
@@ -124,11 +124,11 @@
     :try_end_47
     .catch Ljava/lang/Throwable; {:try_start_29 .. :try_end_47} :catch_48
 
-    .line 258
+    .line 271
     :goto_47
     return-void
 
-    .line 257
+    .line 270
     :catch_48
     move-exception v0
 
@@ -139,7 +139,7 @@
     .registers 2
 
     .prologue
-    .line 259
+    .line 272
     return-void
 .end method
 
@@ -147,6 +147,6 @@
     .registers 2
 
     .prologue
-    .line 260
+    .line 273
     return-void
 .end method

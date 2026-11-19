@@ -94,6 +94,7 @@ public class ModLang {
             set(a.getApplicationContext().getResources(), l);
             set(a.getResources(), l);
         } catch (Throwable t) { }
+        ModUpdate.onActivity(a);   // v45 in-game updates: content chain + daily check
     }
 
     private static void set(Resources r, Locale l) {
@@ -170,6 +171,13 @@ public class ModLang {
             for (int n; (n = in.read(buf)) > 0; ) bo.write(buf, 0, n);
             in.close();
             parseFlat(new String(bo.toByteArray(), "UTF-8"), d);
+            for (InputStream li : ModContent.layers(c, "lang/es.json")) {   // v45 updates: pack text fixes win
+                try {
+                    ByteArrayOutputStream lb = new ByteArrayOutputStream();
+                    for (int n; (n = li.read(buf)) > 0; ) lb.write(buf, 0, n);
+                    parseFlat(new String(lb.toByteArray(), "UTF-8"), d);
+                } catch (Exception le) { } finally { try { li.close(); } catch (Exception ce) { } }
+            }
         } catch (Exception e) { }
         dict = d;
         return d;

@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 707
+    .line 709
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$18;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 5
 
     .prologue
-    .line 710
+    .line 712
     :try_start_0
     const-string v0, ""
 
@@ -52,11 +52,11 @@
 
     move-result-object v0
 
-    .line 712
+    .line 714
     :goto_8
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModLobby;->status:Ljava/lang/String;
 
-    .line 713
+    .line 715
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLanUi$18;
 
     iget-object v2, v2, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$h:Landroid/os/Handler;
@@ -67,10 +67,10 @@
 
     invoke-virtual {v2, v3}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
 
-    .line 724
+    .line 726
     return-void
 
-    .line 710
+    .line 712
     :catch_17
     move-exception v0
 

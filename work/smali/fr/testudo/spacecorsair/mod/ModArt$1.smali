@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 471
+    .line 472
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -38,13 +38,13 @@
 
     const/4 v10, 0x0
 
-    .line 474
+    .line 475
     # getter for: Lfr/testudo/spacecorsair/mod/ModArt;->appCtx:Landroid/content/Context;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModArt;->access$000()Landroid/content/Context;
 
     move-result-object v0
 
-    .line 475
+    .line 476
     if-eqz v0, :cond_a
 
     if-nez p1, :cond_c
@@ -52,12 +52,12 @@
     :cond_a
     move-object v0, v8
 
-    .line 492
+    .line 493
     :cond_b
     :goto_b
     return-object v0
 
-    .line 478
+    .line 479
     :cond_c
     :try_start_c
     invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModArt;->open(Landroid/content/Context;Ljava/lang/String;)Ljava/io/InputStream;
@@ -67,18 +67,18 @@
 
     move-result-object v9
 
-    .line 479
+    .line 480
     :try_start_10
     new-instance v0, Landroid/graphics/BitmapFactory$Options;
 
     invoke-direct {v0}, Landroid/graphics/BitmapFactory$Options;-><init>()V
 
-    .line 480
+    .line 481
     sget-object v1, Landroid/graphics/Bitmap$Config;->ARGB_8888:Landroid/graphics/Bitmap$Config;
 
     iput-object v1, v0, Landroid/graphics/BitmapFactory$Options;->inPreferredConfig:Landroid/graphics/Bitmap$Config;
 
-    .line 481
+    .line 482
     const/4 v1, 0x0
 
     iput-boolean v1, v0, Landroid/graphics/BitmapFactory$Options;->inScaled:Z
@@ -86,7 +86,7 @@
     .catch Ljava/lang/Throwable; {:try_start_10 .. :try_end_1c} :catch_7b
     .catchall {:try_start_10 .. :try_end_1c} :catchall_79
 
-    .line 482
+    .line 483
     :try_start_1c
     const-class v1, Landroid/graphics/BitmapFactory$Options;
 
@@ -103,7 +103,7 @@
     .catch Ljava/lang/Throwable; {:try_start_1c .. :try_end_28} :catch_7e
     .catchall {:try_start_1c .. :try_end_28} :catchall_79
 
-    .line 483
+    .line 484
     :goto_28
     const/4 v1, 0x0
 
@@ -115,10 +115,10 @@
 
     move-result-object v0
 
-    .line 484
+    .line 485
     if-nez v0, :cond_36
 
-    .line 494
+    .line 495
     if-eqz v9, :cond_34
 
     :try_start_31
@@ -130,10 +130,10 @@
     :goto_34
     move-object v0, v8
 
-    .line 484
+    .line 485
     goto :goto_b
 
-    .line 485
+    .line 486
     :cond_36
     :try_start_36
     invoke-virtual {v0}, Landroid/graphics/Bitmap;->getWidth()I
@@ -144,12 +144,12 @@
 
     move-result v7
 
-    .line 486
+    .line 487
     mul-int v1, v3, v7
 
     new-array v1, v1, [I
 
-    .line 487
+    .line 488
     const/4 v2, 0x0
 
     const/4 v4, 0x0
@@ -160,7 +160,7 @@
 
     invoke-virtual/range {v0 .. v7}, Landroid/graphics/Bitmap;->getPixels([IIIIIII)V
 
-    .line 488
+    .line 489
     invoke-virtual {v0}, Landroid/graphics/Bitmap;->hasAlpha()Z
 
     move-result v2
@@ -169,11 +169,11 @@
 
     const/4 v2, 0x1
 
-    .line 489
+    .line 490
     :goto_50
     invoke-virtual {v0}, Landroid/graphics/Bitmap;->recycle()V
 
-    .line 490
+    .line 491
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModPoliceGen$Img;
 
     invoke-direct {v0, v3, v7, v1, v2}, Lfr/testudo/spacecorsair/mod/ModPoliceGen$Img;-><init>(II[IZ)V
@@ -181,7 +181,7 @@
     .catch Ljava/lang/Throwable; {:try_start_36 .. :try_end_58} :catch_7b
     .catchall {:try_start_36 .. :try_end_58} :catchall_79
 
-    .line 494
+    .line 495
     if-eqz v9, :cond_b
 
     :try_start_5a
@@ -199,16 +199,16 @@
     :cond_60
     move v2, v10
 
-    .line 488
+    .line 489
     goto :goto_50
 
-    .line 491
+    .line 492
     :catch_62
     move-exception v0
 
     move-object v0, v8
 
-    .line 494
+    .line 495
     :goto_64
     if-eqz v0, :cond_69
 
@@ -221,10 +221,10 @@
     :goto_69
     move-object v0, v8
 
-    .line 492
+    .line 493
     goto :goto_b
 
-    .line 494
+    .line 495
     :catchall_6b
     move-exception v0
 
@@ -238,12 +238,12 @@
     :try_end_72
     .catch Ljava/lang/Exception; {:try_start_6f .. :try_end_72} :catch_77
 
-    .line 495
+    .line 496
     :cond_72
     :goto_72
     throw v0
 
-    .line 494
+    .line 495
     :catch_73
     move-exception v0
 
@@ -264,7 +264,7 @@
 
     goto :goto_6d
 
-    .line 491
+    .line 492
     :catch_7b
     move-exception v0
 
@@ -272,7 +272,7 @@
 
     goto :goto_64
 
-    .line 482
+    .line 483
     :catch_7e
     move-exception v1
 

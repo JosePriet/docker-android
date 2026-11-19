@@ -265,6 +265,7 @@ public class ModArt {
                 int dot = f.lastIndexOf('.');
                 s.add(dot > 0 ? f.substring(0, dot) : f);
             }
+            try { s.removeAll(ModContent.removedNames(appCtx, "modart/")); s.addAll(ModContent.names(appCtx, "modart/")); } catch (Throwable t) { /* v45 updates: APK art only */ }
             try { s.addAll(ModPoliceGen.virtualNames(s)); } catch (Throwable t) { /* v43: no generated art */ }
             assetNames = s;
         } catch (Throwable t) {
@@ -812,6 +813,11 @@ public class ModArt {
     // ------------------------------------------------------------------ UI bitmaps
     /** v24: opens assets/modart/<name>.webp (lossless), falling back to .png. Caller closes the stream. */
     public static InputStream open(Context ctx, String name) throws java.io.IOException {
+        // v45 in-game updates: content packs win over the APK; a pack can hide a name (ModContent)
+        InputStream pk = ModContent.open(ctx, "modart/" + name + ".webp");
+        if (pk == null) pk = ModContent.open(ctx, "modart/" + name + ".png");
+        if (pk != null) return pk;
+        if (ModContent.removed(ctx, "modart/" + name)) throw new java.io.FileNotFoundException("removed by update: " + name);
         try {
             return ctx.getAssets().open("modart/" + name + ".webp");
         } catch (java.io.IOException e) {

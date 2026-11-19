@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 3129
+    .line 3140
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 2
 
     .prologue
-    .line 3129
+    .line 3140
     # getter for: Lfr/testudo/spacecorsair/mod/ModLan;->pvpWanted:Z
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLan;->access$1500()Z
 

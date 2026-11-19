@@ -43,7 +43,7 @@
     .end annotation
 
     .prologue
-    .line 700
+    .line 702
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$h:Landroid/os/Handler;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$dlg:Landroid/app/AlertDialog;
@@ -71,12 +71,12 @@
     .prologue
     const/4 v4, 0x0
 
-    .line 702
+    .line 704
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$h:Landroid/os/Handler;
 
     invoke-virtual {v0, p0}, Landroid/os/Handler;->removeCallbacks(Ljava/lang/Runnable;)V
 
-    .line 703
+    .line 705
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$dlg:Landroid/app/AlertDialog;
 
     invoke-virtual {v0}, Landroid/app/AlertDialog;->isShowing()Z
@@ -93,12 +93,12 @@
 
     if-eqz v0, :cond_17
 
-    .line 726
+    .line 728
     :cond_16
     :goto_16
     return-void
 
-    .line 704
+    .line 706
     :cond_17
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$h:Landroid/os/Handler;
 
@@ -106,21 +106,21 @@
 
     invoke-virtual {v0, p0, v2, v3}, Landroid/os/Handler;->postDelayed(Ljava/lang/Runnable;J)Z
 
-    .line 705
+    .line 707
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$loading:[Z
 
     aget-boolean v0, v0, v4
 
     if-nez v0, :cond_16
 
-    .line 706
+    .line 708
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$18;->val$loading:[Z
 
     const/4 v1, 0x1
 
     aput-boolean v1, v0, v4
 
-    .line 707
+    .line 709
     new-instance v0, Ljava/lang/Thread;
 
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModLanUi$18$1;
@@ -131,7 +131,7 @@
 
     invoke-direct {v0, v1, v2}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
-    .line 725
+    .line 727
     invoke-virtual {v0}, Ljava/lang/Thread;->start()V
 
     goto :goto_16

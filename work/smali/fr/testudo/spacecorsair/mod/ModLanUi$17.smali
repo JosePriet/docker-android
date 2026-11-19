@@ -34,7 +34,7 @@
     .registers 6
 
     .prologue
-    .line 675
+    .line 677
     iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$a:Landroid/app/Activity;
 
     iput p5, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$d:F
@@ -60,14 +60,14 @@
 
     const/4 v5, 0x2
 
-    .line 677
+    .line 679
     instance-of v0, p2, Landroid/widget/TextView;
 
     if-eqz v0, :cond_f0
 
     check-cast p2, Landroid/widget/TextView;
 
-    .line 678
+    .line 680
     :goto_d
     invoke-virtual {p0, p1}, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->getItem(I)Ljava/lang/Object;
 
@@ -75,7 +75,7 @@
 
     check-cast v0, [Ljava/lang/String;
 
-    .line 679
+    .line 681
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$d:F
 
     mul-float/2addr v1, v4
@@ -102,12 +102,12 @@
 
     invoke-virtual {p2, v1, v2, v3, v4}, Landroid/widget/TextView;->setPadding(IIII)V
 
-    .line 680
+    .line 682
     const/high16 v1, 0x41800000    # 16.0f
 
     invoke-virtual {p2, v5, v1}, Landroid/widget/TextView;->setTextSize(IF)V
 
-    .line 681
+    .line 683
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -227,7 +227,7 @@
 
     move-result-object v2
 
-    .line 682
+    .line 684
     const-string v1, "1"
 
     const/4 v3, 0x3
@@ -273,10 +273,10 @@
 
     move-result-object v1
 
-    .line 681
+    .line 683
     invoke-virtual {p2, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 683
+    .line 685
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$a:Landroid/app/Activity;
 
     aget-object v2, v0, v5
@@ -290,7 +290,7 @@
 
     invoke-virtual {p2, v1, v6, v6, v6}, Landroid/widget/TextView;->setCompoundDrawables(Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
 
-    .line 684
+    .line 686
     const/high16 v1, 0x41200000    # 10.0f
 
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$17;->val$d:F
@@ -301,7 +301,7 @@
 
     invoke-virtual {p2, v1}, Landroid/widget/TextView;->setCompoundDrawablePadding(I)V
 
-    .line 685
+    .line 687
     const-string v1, "2"
 
     aget-object v0, v0, v8
@@ -317,10 +317,10 @@
     :goto_ec
     invoke-virtual {p2, v0}, Landroid/widget/TextView;->setAlpha(F)V
 
-    .line 686
+    .line 688
     return-object p2
 
-    .line 677
+    .line 679
     :cond_f0
     new-instance p2, Landroid/widget/TextView;
 
@@ -330,13 +330,13 @@
 
     goto/16 :goto_d
 
-    .line 681
+    .line 683
     :cond_f9
     const-string v1, ""
 
     goto/16 :goto_4d
 
-    .line 682
+    .line 684
     :cond_fd
     const-string v1, "PvP off"
 
@@ -346,7 +346,7 @@
 
     goto :goto_ad
 
-    .line 685
+    .line 687
     :cond_104
     const/high16 v0, 0x3f800000    # 1.0f
 

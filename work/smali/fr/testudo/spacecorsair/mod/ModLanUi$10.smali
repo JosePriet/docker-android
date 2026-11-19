@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 439
+    .line 441
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModLanUi$10;->val$head:Ljava/lang/String;
@@ -53,7 +53,7 @@
     .registers 5
 
     .prologue
-    .line 441
+    .line 443
     :try_start_0
     new-instance v0, Landroid/app/AlertDialog$Builder;
 
@@ -89,11 +89,11 @@
     :try_end_21
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_21} :catch_22
 
-    .line 442
+    .line 444
     :goto_21
     return-void
 
-    .line 441
+    .line 443
     :catch_22
     move-exception v0
 

@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 524
+    .line 526
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 3
 
     .prologue
-    .line 525
+    .line 527
     return-void
 .end method
 
@@ -42,7 +42,7 @@
     .registers 2
 
     .prologue
-    .line 537
+    .line 539
     return-void
 .end method
 
@@ -50,7 +50,7 @@
     .registers 2
 
     .prologue
-    .line 528
+    .line 530
     return-void
 .end method
 
@@ -58,7 +58,7 @@
     .registers 2
 
     .prologue
-    .line 527
+    .line 529
     return-void
 .end method
 
@@ -66,7 +66,7 @@
     .registers 3
 
     .prologue
-    .line 536
+    .line 538
     return-void
 .end method
 
@@ -74,7 +74,7 @@
     .registers 2
 
     .prologue
-    .line 526
+    .line 528
     # operator++ for: Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$408()I
 
@@ -85,11 +85,11 @@
     .registers 3
 
     .prologue
-    .line 530
+    .line 532
     # operator-- for: Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$410()I
 
-    .line 531
+    .line 533
     # getter for: Lfr/testudo/spacecorsair/mod/ModLanUi;->started:I
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLanUi;->access$400()I
 
@@ -101,12 +101,12 @@
 
     if-eqz v0, :cond_19
 
-    .line 532
+    .line 534
     const/4 v0, 0x0
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModLan;->underMenu:Z
 
-    .line 533
+    .line 535
     :try_start_10
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -118,12 +118,12 @@
     :try_end_19
     .catch Ljava/lang/Throwable; {:try_start_10 .. :try_end_19} :catch_1a
 
-    .line 535
+    .line 537
     :cond_19
     :goto_19
     return-void
 
-    .line 533
+    .line 535
     :catch_1a
     move-exception v0
 

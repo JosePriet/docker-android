@@ -1,0 +1,34 @@
+# Copy to .github/workflows/channel.yml on branch `releases` (v45 in-game updates).
+# A change under updates/channel-stable/ uploads every file there (manifest.txt, manifest.sig, packs *.zip,
+# patches *.scp) to the fixed pre-release tag `channel-stable`, replacing files of the same name.
+# The game reads https://github.com/JosePriet/docker-android/releases/download/channel-stable/manifest.txt
+# (and manifest.sig). updates/channel-test/ does the same for tag `channel-test` (emulator / owner tests).
+name: channel
+on:
+  push:
+    branches: [releases]
+    paths: ['updates/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  channel:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ch: [channel-stable, channel-test]
+    steps:
+      - uses: actions/checkout@v4
+      - id: has
+        run: if ls updates/${{ matrix.ch }}/manifest.txt >/dev/null 2>&1; then echo "go=1" >> $GITHUB_OUTPUT; fi
+      - if: steps.has.outputs.go == '1'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ matrix.ch }}
+          target_commitish: ${{ github.sha }}
+          name: In-game update channel (${{ matrix.ch }})
+          body: Files the game downloads by itself (signed list + content packs + game patches). Not for manual install.
+          prerelease: true
+          make_latest: false
+          overwrite_files: true
+          files: updates/${{ matrix.ch }}/*

@@ -205,13 +205,24 @@ public final class ModLan {
             } finally {
                 try { if (in != null) in.close(); } catch (Throwable t) { /* closed */ }
             }
+            if (!out.equals("?")) {
+                // v45 in-game updates: the active content packs are part of "the same game files"
+                String ck = "";
+                try { ck = ModContent.chainKey(ObjectRegistry.INSTANCE.game.context); } catch (Throwable t) { ck = ""; }
+                if (ck.length() > 0) {
+                    try {
+                        byte[] d2 = java.security.MessageDigest.getInstance("SHA-256").digest((out + "|" + ModContent.API + "|" + ck).getBytes("UTF-8"));
+                        out = ModContent.hex(d2).substring(0, 16);
+                    } catch (Throwable t) { out = "?"; }
+                }
+            }
             if (!out.equals("?")) hashCache = out;   // verify: a failed read is tried again next time
             ModDev.ev("lan", "content hash " + out);
             return out;
         }
     }
 
-    static String filesText() { return ModLang.tr("Same version, but the game files differ. Both phones need the same APK file."); }
+    static String filesText() { return ModLang.tr("Same version, but the game files or content updates differ. Both phones need the same APK and the same updates (menu, Updates)."); }
 
     /** UI: computes the hash off the UI thread so the first handshake does not wait for it. */
     static void warmHash() {

@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 313
+    .line 321
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->val$root:Landroid/view/View;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -47,7 +47,7 @@
     .registers 5
 
     .prologue
-    .line 315
+    .line 323
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->val$root:Landroid/view/View;
 
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLang$2;->seen:J
