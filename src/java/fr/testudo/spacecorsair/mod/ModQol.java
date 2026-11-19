@@ -825,6 +825,9 @@ public class ModQol {
     /** Hook: LevelAnimator.onCivilAttackedByPlayer (base class only; Highway and Ventohigh keep their own). v42: ModPolice escalation. */
     public static void civilAttacked(CivilShip c) {
         if (ModPolice.spawning) return;   // police joining the fight (setAtackPlayerMode) is not an offence
+        // owner 2026-11-18: mod code turning a ship on the player (pursuits, police titans, flagships) is not an attack by the
+        // player; the stock rebellion always follows player damage
+        if (c == null || c.damageRecievedByPlayer <= 0) return;
         ModCapitals.civilAttacked(c);
         try { ModRep.civilAttacked(c); } catch (Throwable t) { /* standing is a bonus system */ }
         ModPolice.civilAttacked(c);

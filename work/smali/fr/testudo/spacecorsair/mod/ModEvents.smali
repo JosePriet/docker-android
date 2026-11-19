@@ -65,6 +65,8 @@
 
 .field private static nextAt:J
 
+.field private static policeVictim:Z
+
 .field private static rivalLeft:F
 
 .field static salvageDouble:Z
@@ -95,14 +97,14 @@
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModEvents;->nextAt:J
 
-    .line 42
+    .line 43
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
-    .line 203
+    .line 207
     const/4 v0, 0x6
 
     new-array v0, v0, [Ljava/lang/String;
@@ -160,7 +162,7 @@
     .registers 8
 
     .prologue
-    .line 132
+    .line 133
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v0
@@ -173,7 +175,7 @@
 
     mul-double/2addr v0, v2
 
-    .line 133
+    .line 134
     new-instance v2, Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-direct {v2, p0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>(Lfr/testudo/spacecorsair/engine/Vector2;)V
@@ -209,7 +211,7 @@
 
     const/4 v6, 0x0
 
-    .line 137
+    .line 138
     iget v0, p1, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -226,7 +228,7 @@
 
     sub-float/2addr v1, v2
 
-    .line 138
+    .line 139
     const/16 v2, 0x8
 
     new-array v2, v2, [Ljava/lang/String;
@@ -271,7 +273,7 @@
 
     const-string v4, "west"
 
-    .line 139
+    .line 140
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -308,7 +310,7 @@
 
     aput-object v4, v2, v3
 
-    .line 140
+    .line 141
     neg-float v1, v1
 
     float-to-double v4, v1
@@ -319,7 +321,7 @@
 
     move-result-wide v0
 
-    .line 141
+    .line 142
     const-wide v4, 0x3fe921fb54442d18L    # 0.7853981633974483
 
     div-double/2addr v0, v4
@@ -332,7 +334,7 @@
 
     and-int/lit8 v0, v0, 0x7
 
-    .line 142
+    .line 143
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
@@ -396,7 +398,7 @@
     .registers 8
 
     .prologue
-    .line 264
+    .line 268
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->wanted:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->dead(Lfr/testudo/spacecorsair/business/Element;)Z
@@ -405,7 +407,7 @@
 
     if-eqz v0, :cond_2f
 
-    .line 265
+    .line 269
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->wanted:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     if-eqz v0, :cond_29
@@ -420,19 +422,19 @@
 
     if-gtz v0, :cond_29
 
-    .line 266
+    .line 270
     const/16 v0, 0x2ee0
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->missionPay(I)I
 
     move-result v0
 
-    .line 267
+    .line 271
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModEvents;->wanted:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModQol;->addCredits(ILfr/testudo/spacecorsair/business/Element;)V
 
-    .line 268
+    .line 272
     const-string v0, "Bounty collected."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -441,18 +443,18 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 270
+    .line 274
     :cond_29
     const-string v0, "bountydead"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
 
-    .line 278
+    .line 282
     :cond_2e
     :goto_2e
     return-void
 
-    .line 273
+    .line 277
     :cond_2f
     sget-wide v0, Lfr/testudo/spacecorsair/mod/ModEvents;->endsAt:J
 
@@ -486,7 +488,7 @@
 
     if-lez v0, :cond_2e
 
-    .line 274
+    .line 278
     :cond_4f
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -516,14 +518,14 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 275
+    .line 279
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->wanted:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     const/4 v1, 0x1
 
     iput-boolean v1, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->removed:Z
 
-    .line 276
+    .line 280
     const-string v0, "jumped"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
@@ -535,7 +537,7 @@
     .registers 3
 
     .prologue
-    .line 216
+    .line 220
     if-eqz p0, :cond_d
 
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/business/Element;->removed:Z
@@ -574,7 +576,7 @@
 
     const/4 v4, 0x1
 
-    .line 220
+    .line 224
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->size()I
@@ -613,7 +615,7 @@
 
     goto :goto_d
 
-    .line 221
+    .line 225
     :cond_26
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
@@ -635,18 +637,18 @@
 
     if-lez v0, :cond_40
 
-    .line 222
+    .line 226
     :cond_3a
     const-string v0, "gone"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
 
-    .line 261
+    .line 265
     :cond_3f
     :goto_3f
     return-void
 
-    .line 225
+    .line 229
     :cond_40
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
@@ -654,18 +656,23 @@
 
     move-result v0
 
-    if-eqz v0, :cond_57
+    if-eqz v0, :cond_5e
 
-    .line 226
-    const-string v0, "The freighter was lost."
+    .line 230
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->policeVictim:Z
 
+    if-eqz v0, :cond_5b
+
+    const-string v0, "The police cruiser was lost."
+
+    :goto_4e
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 227
+    .line 231
     const-string v0, "lost"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
@@ -673,7 +680,13 @@
     goto :goto_3f
 
     .line 230
-    :cond_57
+    :cond_5b
+    const-string v0, "The freighter was lost."
+
+    goto :goto_4e
+
+    .line 234
+    :cond_5e
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->play()J
 
     move-result-wide v0
@@ -682,9 +695,9 @@
 
     cmp-long v0, v0, v2
 
-    if-ltz v0, :cond_7a
+    if-ltz v0, :cond_81
 
-    .line 231
+    .line 235
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
     new-array v1, v7, [Lfr/testudo/spacecorsair/business/world/civil/CivilActivity;
@@ -703,18 +716,18 @@
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->setActivity([Lfr/testudo/spacecorsair/business/world/civil/CivilActivity;)V
 
-    .line 232
+    .line 236
     const-string v0, "timeout"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
 
     goto :goto_3f
 
-    .line 235
-    :cond_7a
+    .line 239
+    :cond_81
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hold:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    if-eqz v0, :cond_87
+    if-eqz v0, :cond_8e
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
@@ -724,13 +737,13 @@
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 236
-    :cond_87
+    .line 240
+    :cond_8e
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->engaged:Z
 
-    if-nez v0, :cond_e8
+    if-nez v0, :cond_ef
 
-    .line 237
+    .line 241
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
@@ -745,25 +758,25 @@
 
     cmpg-float v0, v0, v1
 
-    if-gez v0, :cond_ba
+    if-gez v0, :cond_c1
 
-    .line 238
+    .line 242
     sput-boolean v4, Lfr/testudo/spacecorsair/mod/ModEvents;->engaged:Z
 
-    .line 239
+    .line 243
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->iterator()Ljava/util/Iterator;
 
     move-result-object v1
 
-    :cond_a4
-    :goto_a4
+    :cond_ab
+    :goto_ab
     invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v0
 
-    if-eqz v0, :cond_e8
+    if-eqz v0, :cond_ef
 
     invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
@@ -773,25 +786,25 @@
 
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-eqz v2, :cond_a4
+    if-eqz v2, :cond_ab
 
     check-cast v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->initChasePlayer()Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    goto :goto_a4
+    goto :goto_ab
 
-    .line 240
-    :cond_ba
+    .line 244
+    :cond_c1
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->isEmpty()Z
 
     move-result v0
 
-    if-nez v0, :cond_e8
+    if-nez v0, :cond_ef
 
-    .line 241
+    .line 245
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
     iget v1, v0, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->life:F
@@ -816,7 +829,7 @@
 
     iput v1, v0, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->life:F
 
-    .line 242
+    .line 246
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
     iget v0, v0, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->life:F
@@ -835,21 +848,21 @@
 
     goto/16 :goto_3f
 
-    .line 246
-    :cond_e8
+    .line 250
+    :cond_ef
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->isEmpty()Z
 
     move-result v0
 
-    if-eqz v0, :cond_117
+    if-eqz v0, :cond_11e
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->engaged:Z
 
-    if-nez v0, :cond_117
+    if-nez v0, :cond_11e
 
-    .line 247
+    .line 251
     const-string v0, "The raiders broke off."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -858,7 +871,7 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 248
+    .line 252
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
     new-array v1, v7, [Lfr/testudo/spacecorsair/business/world/civil/CivilActivity;
@@ -877,15 +890,15 @@
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->setActivity([Lfr/testudo/spacecorsair/business/world/civil/CivilActivity;)V
 
-    .line 249
+    .line 253
     const-string v0, "brokeoff"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
 
     goto/16 :goto_3f
 
-    .line 252
-    :cond_117
+    .line 256
+    :cond_11e
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->isEmpty()Z
@@ -894,7 +907,7 @@
 
     if-eqz v0, :cond_3f
 
-    .line 253
+    .line 257
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
     new-array v1, v7, [Lfr/testudo/spacecorsair/business/world/civil/CivilActivity;
@@ -913,66 +926,71 @@
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->setActivity([Lfr/testudo/spacecorsair/business/world/civil/CivilActivity;)V
 
-    .line 254
+    .line 258
     const/16 v0, 0x1770
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->missionPay(I)I
 
-    move-result v0
-
-    .line 255
-    sget-object v1, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
-
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModQol;->addCredits(ILfr/testudo/spacecorsair/business/Element;)V
-
-    .line 256
-    sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
-    iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
-
-    iget-object v1, v1, Lfr/testudo/spacecorsair/game/Game;->currentLevel:Lfr/testudo/spacecorsair/game/levels/Level;
-
-    iget-object v1, v1, Lfr/testudo/spacecorsair/game/levels/Level;->id:Lfr/testudo/spacecorsair/game/levels/LevelId;
-
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModSector;->baseFaction(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
-
     move-result v1
 
-    .line 257
-    if-ltz v1, :cond_156
+    .line 259
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
+
+    invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModQol;->addCredits(ILfr/testudo/spacecorsair/business/Element;)V
+
+    .line 260
+    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+
+    iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
+
+    iget-object v0, v0, Lfr/testudo/spacecorsair/game/Game;->currentLevel:Lfr/testudo/spacecorsair/game/levels/Level;
+
+    iget-object v0, v0, Lfr/testudo/spacecorsair/game/levels/Level;->id:Lfr/testudo/spacecorsair/game/levels/LevelId;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModSector;->baseFaction(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
+
+    move-result v0
+
+    .line 261
+    if-ltz v0, :cond_15d
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
-    aget-object v1, v2, v1
+    aget-object v0, v2, v0
 
-    iget-object v1, v1, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->key:Ljava/lang/String;
+    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->key:Ljava/lang/String;
 
     const/high16 v2, 0x40400000    # 3.0f
 
-    invoke-static {v1, v2, v5}, Lfr/testudo/spacecorsair/mod/ModRep;->change(Ljava/lang/String;FZ)V
+    invoke-static {v0, v2, v5}, Lfr/testudo/spacecorsair/mod/ModRep;->change(Ljava/lang/String;FZ)V
 
-    .line 258
-    :cond_156
-    const-string v1, "Freighter saved. The crew sends their thanks."
+    .line 262
+    :cond_15d
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->policeVictim:Z
 
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+    if-eqz v0, :cond_182
 
-    move-result-object v1
+    const-string v0, "Police cruiser saved. The crew sends their thanks."
 
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
+    :goto_163
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
-    .line 259
-    new-instance v1, Ljava/lang/StringBuilder;
+    move-result-object v0
 
-    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
+
+    .line 263
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
     const-string v2, "saved pay="
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v1
+    move-result-object v0
 
-    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -983,13 +1001,19 @@
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
 
     goto/16 :goto_3f
+
+    .line 262
+    :cond_182
+    const-string v0, "Freighter saved. The crew sends their thanks."
+
+    goto :goto_163
 .end method
 
 .method static enabled()Z
     .registers 1
 
     .prologue
-    .line 50
+    .line 51
     const/4 v0, 0x1
 
     return v0
@@ -1003,7 +1027,7 @@
 
     const/4 v6, 0x0
 
-    .line 295
+    .line 299
     sget v0, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
     if-eqz v0, :cond_2a
@@ -1042,7 +1066,7 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 296
+    .line 300
     :cond_2a
     sget v0, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
@@ -1070,31 +1094,31 @@
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModEvents;->nextAt:J
 
-    .line 297
+    .line 301
     :cond_44
     sput v7, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
-    .line 298
+    .line 302
     sput-object v6, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
-    .line 299
+    .line 303
     sput-object v6, Lfr/testudo/spacecorsair/mod/ModEvents;->hold:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 300
+    .line 304
     sput-object v6, Lfr/testudo/spacecorsair/mod/ModEvents;->wanted:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    .line 301
+    .line 305
     sput-object v6, Lfr/testudo/spacecorsair/mod/ModEvents;->target:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 302
+    .line 306
     sput-boolean v7, Lfr/testudo/spacecorsair/mod/ModEvents;->engaged:Z
 
-    .line 303
+    .line 307
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->clear()V
 
-    .line 304
+    .line 308
     return-void
 .end method
 
@@ -1104,19 +1128,19 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 86
+    .line 87
     if-eqz p0, :cond_7
 
     sget v1, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
     if-nez v1, :cond_8
 
-    .line 89
+    .line 90
     :cond_7
     :goto_7
     return v0
 
-    .line 87
+    .line 88
     :cond_8
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
@@ -1126,7 +1150,7 @@
 
     goto :goto_7
 
-    .line 88
+    .line 89
     :cond_e
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModEvents;->wanted:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
@@ -1143,21 +1167,21 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 55
+    .line 56
     const/4 v0, 0x0
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
 
-    .line 56
+    .line 57
     sput-boolean v1, Lfr/testudo/spacecorsair/mod/ModEvents;->salvageDouble:Z
 
-    .line 57
+    .line 58
     sput v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
-    .line 58
+    .line 59
     sput-boolean v1, Lfr/testudo/spacecorsair/mod/ModEvents;->fieldStripped:Z
 
-    .line 59
+    .line 60
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->play()J
 
     move-result-wide v0
@@ -1168,7 +1192,7 @@
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModEvents;->nextAt:J
 
-    .line 60
+    .line 61
     return-void
 .end method
 
@@ -1180,7 +1204,7 @@
 
     const/high16 v4, 0x44480000    # 800.0f
 
-    .line 281
+    .line 285
     sget v0, Lfr/testudo/spacecorsair/mod/ModEvents;->rivalLeft:F
 
     sget v1, Lfr/testudo/spacecorsair/mod/ModEvents;->rivalLeft:F
@@ -1213,7 +1237,7 @@
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModEvents;->rivalLeft:F
 
-    .line 282
+    .line 286
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModEvents;->target:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1226,10 +1250,10 @@
 
     if-gez v0, :cond_39
 
-    .line 283
+    .line 287
     sput-boolean v5, Lfr/testudo/spacecorsair/mod/ModEvents;->salvageDouble:Z
 
-    .line 284
+    .line 288
     const-string v0, "You reached the wreck field first. Its salvage is yours, twice over."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1238,17 +1262,17 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 285
+    .line 289
     const-string v0, "salvagewon"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
 
-    .line 292
+    .line 296
     :cond_38
     :goto_38
     return-void
 
-    .line 286
+    .line 290
     :cond_39
     sget v0, Lfr/testudo/spacecorsair/mod/ModEvents;->rivalLeft:F
 
@@ -1262,14 +1286,14 @@
 
     if-ltz v0, :cond_38
 
-    .line 287
+    .line 291
     :cond_45
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->stripField()V
 
-    .line 288
+    .line 292
     sput-boolean v5, Lfr/testudo/spacecorsair/mod/ModEvents;->fieldStripped:Z
 
-    .line 289
+    .line 293
     const-string v0, "The scavengers stripped the wreck field."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1278,7 +1302,7 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 290
+    .line 294
     const-string v0, "salvagelost"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
@@ -1290,7 +1314,7 @@
     .registers 8
 
     .prologue
-    .line 121
+    .line 122
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->play()J
 
     move-result-wide v0
@@ -1313,19 +1337,19 @@
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModEvents;->nextAt:J
 
-    .line 122
+    .line 123
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v0
 
-    .line 123
+    .line 124
     const/4 v2, 0x1
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModSector;->poiAt(I)Lfr/testudo/spacecorsair/engine/Vector2;
 
     move-result-object v2
 
-    .line 124
+    .line 125
     const-wide v4, 0x3fd999999999999aL    # 0.4
 
     cmpg-double v3, v0, v4
@@ -1334,7 +1358,7 @@
 
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModEvents;->startDistress(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
-    .line 128
+    .line 129
     :goto_2b
     const-string v0, "event"
 
@@ -1374,10 +1398,10 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 129
+    .line 130
     return-void
 
-    .line 125
+    .line 126
     :cond_54
     const-wide/high16 v4, 0x3fe8000000000000L    # 0.75
 
@@ -1392,7 +1416,7 @@
 
     goto :goto_2b
 
-    .line 126
+    .line 127
     :cond_60
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->fieldStripped:Z
 
@@ -1407,7 +1431,7 @@
 
     goto :goto_2b
 
-    .line 127
+    .line 128
     :cond_6c
     invoke-static {p0, v2}, Lfr/testudo/spacecorsair/mod/ModEvents;->startSalvage(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;)V
 
@@ -1422,7 +1446,7 @@
 
     const v8, 0x3e99999a    # 0.3f
 
-    .line 180
+    .line 184
     const/16 v0, 0x28
 
     iget v1, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
@@ -1437,30 +1461,30 @@
 
     move-result v0
 
-    .line 181
+    .line 185
     const-string v1, "reaver"
 
     invoke-static {v1, v0, v2}, Lfr/testudo/spacecorsair/mod/ModSector;->wingShip(Ljava/lang/String;IZ)Lfr/testudo/spacecorsair/business/Element;
 
     move-result-object v0
 
-    .line 182
+    .line 186
     instance-of v1, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     if-nez v1, :cond_1d
 
-    .line 201
+    .line 205
     :goto_1c
     return-void
 
-    .line 183
+    .line 187
     :cond_1d
     check-cast v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    .line 184
+    .line 188
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModV34;->elite(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;)V
 
-    .line 185
+    .line 189
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v2
@@ -1475,7 +1499,7 @@
 
     move-result-object v1
 
-    .line 186
+    .line 190
     if-eqz v1, :cond_3d
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1499,16 +1523,16 @@
 
     move-result-object v1
 
-    .line 187
+    .line 191
     :cond_45
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {v2, v1}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 188
+    .line 192
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->updateSapCoords()V
 
-    .line 189
+    .line 193
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -1551,7 +1575,7 @@
 
     iput-object v2, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->specificName:Ljava/lang/String;
 
-    .line 190
+    .line 194
     new-instance v2, Lfr/testudo/spacecorsair/business/ennemis/EnnemisActivitySequence;
 
     invoke-direct {v2}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisActivitySequence;-><init>()V
@@ -1566,7 +1590,7 @@
 
     const/16 v6, 0x640
 
-    .line 191
+    .line 195
     invoke-virtual {v3, v4, v5, v6}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisActivity;->initGotoRandom(FFI)Lfr/testudo/spacecorsair/business/ennemis/EnnemisActivity;
 
     move-result-object v3
@@ -1581,7 +1605,7 @@
 
     const/16 v4, 0xbb8
 
-    .line 192
+    .line 196
     invoke-virtual {v3, v4}, Lfr/testudo/spacecorsair/business/ennemis/EnnemisActivity;->initIdleDuring(I)Lfr/testudo/spacecorsair/business/ennemis/EnnemisActivity;
 
     move-result-object v3
@@ -1590,19 +1614,19 @@
 
     move-result-object v2
 
-    .line 190
+    .line 194
     invoke-virtual {v0, v2}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->setActivitySequence(Lfr/testudo/spacecorsair/business/ennemis/EnnemisActivitySequence;)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    .line 193
+    .line 197
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->addToCurrentLevel()V
 
-    .line 194
+    .line 198
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->wanted:Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    .line 195
+    .line 199
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModEvents;->target:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 196
+    .line 200
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->play()J
 
     move-result-wide v2
@@ -1613,12 +1637,12 @@
 
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModEvents;->endsAt:J
 
-    .line 197
+    .line 201
     const/4 v2, 0x2
 
     sput v2, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
-    .line 198
+    .line 202
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -1659,7 +1683,7 @@
 
     const-string v1, ". Three minutes before it jumps out."
 
-    .line 199
+    .line 203
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -1672,10 +1696,10 @@
 
     move-result-object v0
 
-    .line 198
+    .line 202
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 200
+    .line 204
     const-string v0, "BOUNTY TARGET IN SECTOR"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1693,7 +1717,7 @@
     .registers 14
 
     .prologue
-    .line 146
+    .line 147
     const/4 v0, 0x1
 
     iget v1, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
@@ -1702,7 +1726,46 @@
 
     move-result v0
 
-    .line 147
+    .line 148
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModSector;->lawless(Lfr/testudo/spacecorsair/game/levels/LevelId;)Z
+
+    move-result v1
+
+    sput-boolean v1, Lfr/testudo/spacecorsair/mod/ModEvents;->policeVictim:Z
+
+    .line 149
+    sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModEvents;->policeVictim:Z
+
+    if-eqz v1, :cond_25
+
+    iget v1, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
+
+    invoke-static {v0, v1}, Ljava/lang/Math;->max(II)I
+
+    move-result v1
+
+    iget v2, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
+
+    invoke-static {v0, v2}, Ljava/lang/Math;->max(II)I
+
+    move-result v0
+
+    invoke-static {v1, v0}, Lfr/testudo/spacecorsair/business/world/civil/CivilFactory;->newPolice(II)Lfr/testudo/spacecorsair/business/world/civil/PoliceShip;
+
+    move-result-object v0
+
+    move-object v3, v0
+
+    .line 151
+    :goto_22
+    if-nez v3, :cond_31
+
+    .line 181
+    :goto_24
+    return-void
+
+    .line 150
+    :cond_25
     iget v1, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
 
     invoke-static {v0, v1}, Ljava/lang/Math;->max(II)I
@@ -1711,17 +1774,14 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/business/world/civil/CivilFactory;->newTrasnporteur(II)Lfr/testudo/spacecorsair/business/world/civil/TransportCivilShip;
 
-    move-result-object v3
+    move-result-object v0
 
-    .line 148
-    if-nez v3, :cond_14
+    move-object v3, v0
 
-    .line 177
-    :goto_13
-    return-void
+    goto :goto_22
 
-    .line 149
-    :cond_14
+    .line 152
+    :cond_31
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     const/high16 v1, 0x45480000    # 3200.0f
@@ -1730,19 +1790,24 @@
 
     move-result-object v4
 
-    .line 150
+    .line 153
     iget-object v0, v3, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {v0, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 151
+    .line 154
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->policeVictim:Z
+
+    if-nez v0, :cond_48
+
     invoke-static {}, Lfr/testudo/spacecorsair/business/world/UniverseName;->getRandomTransporteurName()Ljava/lang/String;
 
     move-result-object v0
 
     iput-object v0, v3, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->specificName:Ljava/lang/String;
 
-    .line 152
+    .line 155
+    :cond_48
     const/4 v0, 0x1
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/business/world/civil/CivilActivity;
@@ -1759,14 +1824,14 @@
 
     invoke-virtual {v3, v0}, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->setActivity([Lfr/testudo/spacecorsair/business/world/civil/CivilActivity;)V
 
-    .line 153
+    .line 156
     new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-direct {v0, v4}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>(Lfr/testudo/spacecorsair/engine/Vector2;)V
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hold:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 154
+    .line 157
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -1777,10 +1842,10 @@
 
     invoke-interface {v0, v3}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 155
+    .line 158
     sput-object v3, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
-    .line 156
+    .line 159
     const/4 v0, 0x1
 
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
@@ -1795,7 +1860,7 @@
 
     move-result v5
 
-    .line 157
+    .line 160
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v0
@@ -1804,22 +1869,22 @@
 
     cmpg-double v0, v0, v6
 
-    if-gez v0, :cond_77
+    if-gez v0, :cond_98
 
     const/4 v0, 0x1
 
-    :goto_62
+    :goto_83
     add-int/lit8 v6, v0, 0x2
 
-    .line 158
+    .line 161
     const/4 v0, 0x0
 
     move v2, v0
 
-    :goto_66
-    if-ge v2, v6, :cond_b3
+    :goto_87
+    if-ge v2, v6, :cond_d4
 
-    .line 159
+    .line 162
     const-string v0, "reaver"
 
     const/4 v1, 0x0
@@ -1828,27 +1893,27 @@
 
     move-result-object v1
 
-    .line 160
+    .line 163
     instance-of v0, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-nez v0, :cond_79
+    if-nez v0, :cond_9a
 
-    .line 158
-    :goto_73
+    .line 161
+    :goto_94
     add-int/lit8 v0, v2, 0x1
 
     move v2, v0
 
-    goto :goto_66
+    goto :goto_87
 
-    .line 157
-    :cond_77
+    .line 160
+    :cond_98
     const/4 v0, 0x0
 
-    goto :goto_62
+    goto :goto_83
 
-    .line 161
-    :cond_79
+    .line 164
+    :cond_9a
     iget-object v0, v1, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {v0, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1885,52 +1950,52 @@
 
     invoke-virtual {v0, v7, v8}, Lfr/testudo/spacecorsair/engine/Vector2;->add(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 162
+    .line 165
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/business/Element;->updateSapCoords()V
 
     move-object v0, v1
 
-    .line 163
+    .line 166
     check-cast v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->addToCurrentLevel()V
 
-    .line 164
+    .line 167
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
     invoke-virtual {v0, v1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    goto :goto_73
+    goto :goto_94
 
-    .line 166
-    :cond_b3
+    .line 169
+    :cond_d4
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->isEmpty()Z
 
     move-result v0
 
-    if-eqz v0, :cond_c3
+    if-eqz v0, :cond_e4
 
-    .line 167
+    .line 170
     const/4 v0, 0x1
 
     iput-boolean v0, v3, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->removed:Z
 
-    .line 168
+    .line 171
     const/4 v0, 0x0
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->victim:Lfr/testudo/spacecorsair/business/world/civil/CivilShip;
 
-    goto/16 :goto_13
+    goto/16 :goto_24
 
-    .line 171
-    :cond_c3
+    .line 174
+    :cond_e4
     const/4 v0, 0x0
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->engaged:Z
 
-    .line 172
+    .line 175
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->play()J
 
     move-result-wide v0
@@ -1941,12 +2006,81 @@
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModEvents;->endsAt:J
 
-    .line 173
+    .line 176
     const/4 v0, 0x1
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
-    .line 174
+    .line 177
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->policeVictim:Z
+
+    if-eqz v0, :cond_139
+
+    new-instance v0, Ljava/lang/StringBuilder;
+
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v1, "Distress call: a police cruiser is under pirate attack, "
+
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-static {p0, v4}, Lfr/testudo/spacecorsair/mod/ModEvents;->bearing(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v1, "."
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
+
+    .line 179
+    :goto_11c
+    const-string v0, "DISTRESS CALL"
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    const/high16 v1, 0x3f800000    # 1.0f
+
+    const/high16 v2, 0x3f400000    # 0.75f
+
+    const v3, 0x3e4ccccd    # 0.2f
+
+    invoke-static {p0, v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/Mod;->floatText(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
+
+    .line 180
+    const-string v0, "warp_in"
+
+    const/high16 v1, 0x3f000000    # 0.5f
+
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    const-wide/16 v4, 0x5dc
+
+    invoke-static {v0, v1, v2, v4, v5}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
+
+    goto/16 :goto_24
+
+    .line 178
+    :cond_139
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -1997,43 +2131,17 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 175
-    const-string v0, "DISTRESS CALL"
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    const/high16 v1, 0x3f800000    # 1.0f
-
-    const/high16 v2, 0x3f400000    # 0.75f
-
-    const v3, 0x3e4ccccd    # 0.2f
-
-    invoke-static {p0, v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/Mod;->floatText(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
-
-    .line 176
-    const-string v0, "warp_in"
-
-    const/high16 v1, 0x3f000000    # 0.5f
-
-    const/high16 v2, 0x3f800000    # 1.0f
-
-    const-wide/16 v4, 0x5dc
-
-    invoke-static {v0, v1, v2, v4, v5}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
-
-    goto/16 :goto_13
+    goto :goto_11c
 .end method
 
 .method private static startSalvage(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;)V
     .registers 6
 
     .prologue
-    .line 206
+    .line 210
     sput-object p1, Lfr/testudo/spacecorsair/mod/ModEvents;->target:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 207
+    .line 211
     const v0, 0x44bb8000    # 1500.0f
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2052,7 +2160,7 @@
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModEvents;->rivalLeft:F
 
-    .line 208
+    .line 212
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->play()J
 
     move-result-wide v0
@@ -2063,12 +2171,12 @@
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModEvents;->endsAt:J
 
-    .line 209
+    .line 213
     const/4 v0, 0x3
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
-    .line 210
+    .line 214
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -2107,7 +2215,7 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 211
+    .line 215
     const-string v0, "SALVAGE RACE"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2122,7 +2230,7 @@
 
     invoke-static {p0, v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/Mod;->floatText(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    .line 212
+    .line 216
     return-void
 .end method
 
@@ -2130,12 +2238,12 @@
     .registers 8
 
     .prologue
-    .line 98
+    .line 99
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v0
 
-    .line 99
+    .line 100
     sget-wide v2, Lfr/testudo/spacecorsair/mod/ModEvents;->testAt:J
 
     sub-long v2, v0, v2
@@ -2154,23 +2262,23 @@
 
     if-nez v2, :cond_17
 
-    .line 110
+    .line 111
     :cond_16
     :goto_16
     return-void
 
-    .line 100
+    .line 101
     :cond_17
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModEvents;->testAt:J
 
-    .line 101
+    .line 102
     const-string v0, "corsair_event"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testValue(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 102
+    .line 103
     if-eqz v0, :cond_16
 
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModEvents;->testLast:Ljava/lang/String;
@@ -2181,10 +2289,10 @@
 
     if-nez v1, :cond_16
 
-    .line 103
+    .line 104
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->testLast:Ljava/lang/String;
 
-    .line 104
+    .line 105
     sget v1, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
     if-eqz v1, :cond_34
@@ -2193,7 +2301,7 @@
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
 
-    .line 105
+    .line 106
     :cond_34
     const/4 v1, 0x1
 
@@ -2201,7 +2309,7 @@
 
     move-result-object v1
 
-    .line 106
+    .line 107
     const-string v2, "distress"
 
     invoke-virtual {v0, v2}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
@@ -2212,7 +2320,7 @@
 
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModEvents;->startDistress(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
-    .line 109
+    .line 110
     :cond_44
     :goto_44
     const-string v1, "event"
@@ -2265,7 +2373,7 @@
 
     goto :goto_16
 
-    .line 107
+    .line 108
     :cond_77
     const-string v2, "bounty"
 
@@ -2279,7 +2387,7 @@
 
     goto :goto_44
 
-    .line 108
+    .line 109
     :cond_83
     const-string v2, "salvage"
 
@@ -2300,7 +2408,7 @@
     .registers 2
 
     .prologue
-    .line 114
+    .line 115
     sget v0, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
     const/4 v1, 0x1
@@ -2315,11 +2423,11 @@
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/business/world/civil/CivilShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 116
+    .line 117
     :goto_d
     return-object v0
 
-    .line 115
+    .line 116
     :cond_e
     sget v0, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
@@ -2337,7 +2445,7 @@
 
     goto :goto_d
 
-    .line 116
+    .line 117
     :cond_1c
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->target:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -2348,7 +2456,7 @@
     .registers 10
 
     .prologue
-    .line 64
+    .line 65
     if-eqz p0, :cond_14
 
     if-eqz p1, :cond_14
@@ -2369,18 +2477,18 @@
 
     if-eqz v0, :cond_15
 
-    .line 82
+    .line 83
     :cond_14
     :goto_14
     return-void
 
-    .line 65
+    .line 66
     :cond_15
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->play()J
 
     move-result-wide v0
 
-    .line 66
+    .line 67
     sget-wide v2, Lfr/testudo/spacecorsair/mod/ModEvents;->nextAt:J
 
     const-wide/16 v4, 0x0
@@ -2395,11 +2503,11 @@
 
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModEvents;->nextAt:J
 
-    .line 67
+    .line 68
     :cond_27
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModEvents;->testForce(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
-    .line 69
+    .line 70
     :try_start_2a
     sget v2, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
@@ -2407,7 +2515,7 @@
 
     goto :goto_14
 
-    .line 71
+    .line 72
     :pswitch_30
     sget-wide v2, Lfr/testudo/spacecorsair/mod/ModEvents;->nextAt:J
 
@@ -2421,11 +2529,11 @@
 
     goto :goto_14
 
-    .line 78
+    .line 79
     :catch_3a
     move-exception v0
 
-    .line 79
+    .line 80
     const-string v1, "event"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -2448,27 +2556,27 @@
 
     invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 80
+    .line 81
     const-string v0, "error"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
 
     goto :goto_14
 
-    .line 73
+    .line 74
     :pswitch_59
     :try_start_59
     invoke-static {p0, p2, p3}, Lfr/testudo/spacecorsair/mod/ModEvents;->distress(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
 
     goto :goto_14
 
-    .line 74
+    .line 75
     :pswitch_5d
     invoke-static {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModEvents;->bounty(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
 
     goto :goto_14
 
-    .line 75
+    .line 76
     :pswitch_61
     invoke-static {p0, v0, v1, p2, p3}, Lfr/testudo/spacecorsair/mod/ModEvents;->salvage(Lfr/testudo/spacecorsair/business/player/PlayerShip;JJ)V
     :try_end_64
@@ -2476,7 +2584,7 @@
 
     goto :goto_14
 
-    .line 69
+    .line 70
     nop
 
     :pswitch_data_66

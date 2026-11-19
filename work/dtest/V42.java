@@ -35,4 +35,12 @@ eq("police BS hull L20 = base x 3.0 x curve x 1.25",ModPolice.hull(1000,BS,20),1
 eq("tutorial safe",ModPolice.safe(LevelId.TUTORIAL)?1:0,1,0);eq("genesis safe",ModPolice.safe(LevelId.GENESIS)?1:0,1,0);eq("arena safe",ModPolice.safe(LevelId.GALACTIC_ARENA)?1:0,1,0);eq("ffa safe",ModPolice.safe(LevelId.FFA_THE_PLAYER_PAY)?1:0,1,0);eq("pirate bay policed",ModPolice.safe(LevelId.PIRATE_BAY)?1:0,0,0);
 // weapons
 eq("snare -35%",ModPolice.SNARE,0.65,1e-6);eq("snare 3 s",ModPolice.SNARE_MS,3000,0);eq("snare cd 6 s",ModPolice.SNARE_CD_MS,6000,0);eq("drain x1.5",ModPolice.DRAIN,1.5,1e-6);eq("credits per ship",ModPolice.CREDITS_PER_SHIP,1000,0);eq("credits per titan",ModPolice.CREDITS_PER_TITAN,10000,0);eq("kill cut floor",ModPolice.cutCountdown(9000,60000),8000,0);eq("kill cut 30%",ModPolice.cutCountdown(40000,40000),28000,0);eq("frigate base",ModPolice.waveBase(0),30000,0);
+// owner 2026-11-18 pirate havens + stray-shot tolerance
+LevelId[] red={LevelId.PIRATE_BAY,LevelId.HUGO_WISDOM,LevelId.THE_HIVE,LevelId.HERMES,LevelId.THE_WAVE,LevelId.SOLAR_FIELD,LevelId.THE_VAULT,LevelId.DELTA_NODE};
+for(LevelId l:red)eq("lawless "+l,ModSector.lawless(l)?1:0,1,0);
+LevelId[] lawful={LevelId.GENESIS,LevelId.VENTOHIGH,LevelId.SPARTAN_HQ,LevelId.OMICRON_PRIME,LevelId.HIGHWAY,LevelId.ORE_BELT,LevelId.GREEN_BORDER,LevelId.HELIOSTAT};
+for(LevelId l:lawful)eq("lawful "+l,ModSector.lawless(l)?1:0,0,0);
+eq("lawless null",ModSector.lawless(null)?1:0,0,0);
+eq("haven trader roll hit",ModSector.traderTarget(true,0,0.1),1,0);eq("haven trader roll miss",ModSector.traderTarget(true,6,0.9),0,0);eq("lawful traders unchanged",ModSector.traderTarget(false,0,0.1),3,0);
+eq("stray 6% of hull ignored",ModPolice.pastTolerance(60f,1000f)?1:0,0,0);eq("stray 6.67% of hull ignored",ModPolice.pastTolerance(66f,1000f)?1:0,0,0);eq("7% of hull counts",ModPolice.pastTolerance(70f,1000f)?1:0,1,0);
 System.out.println(bad==0?"V42 VALUES-OK":"V42 VALUES-FAIL "+bad);}}
