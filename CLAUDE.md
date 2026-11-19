@@ -12,7 +12,7 @@ Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and mer
 - `work/smali/fr/testudo/spacecorsair/mod/`: the built mod smali is committed with each build.
 
 ## Branches and versions (updated 2026-11-17, audit I1/I5)
-- `sc-mod-workspace`: the work branch; every update branches from it and merges back after the owner's OK. Released: v44 (build 51).
+- `sc-mod-workspace`: the work branch; every update branches from it and merges back after the owner's OK. Released: v45 (build 52, 113d24f, 2026-11-19).
 - v45 (build 52): internet play + the whole-game audit fixes + the owner's fix list; merged into sc-mod-workspace 2026-11-17 (owner OK), not released. Two builds: public, and a private DEV build (`DEV_KEY_FILE=<key> bash build.sh`; key in /mnt/project-files/space-corsair/keys/dev.key; never publish the DEV APK).
 - `releases`: GitHub Release workflow (`.github/workflows/release.yml`); bump `release/VERSION` or nothing publishes. Links: releases/download/<ver>/space-corsair-mod.apk.
 - `emulator-tests` / `emulator-results`: CI emulator flow (also the two-runner internet check, `tests/netcloud/`).
@@ -55,3 +55,5 @@ Visuals, balance, AI behaviour (bosses, flagship skills), wreck physics, loot fe
 - AssetRipper, Il2CppDumper: Unity tools. Space Corsair has no Unity or native code; they belong to Global Assault (on hold).
 - Asset repos (`/home/user/josepriet`): eve-ships/eve-stls are EVE Online (CCP) ship models: reference only, never ship them. spaceship-2d (public domain generator) and gamedev-free-resources (link list) are usable references; art itself stays ChatGPT's job.
 - Android emulator QA plugin: needs a local adb/emulator, which this container lacks; emulator tests run in GitHub Actions.
+- Internet play check (real game, two emulators on two GitHub runners, no switch files): branch `claude/project-thread-9bas6i`, `.github/workflows/netgame.yml` + `tests/netgame/run.sh` (pairs host/guest and hostr/guestr = relay only). Put the APK at tests/netgame/sc.apk and push; results land in tests/netgame/results/runN/.
+- In-game update channel: releases branch `updates/spec-stable.json` -> `tools/updates/manifest_sign.py` -> updates/channel-stable/ (seq must rise). Every new release: bump seq, apk = the new release.
