@@ -25,12 +25,80 @@ public class ModV34 {
     public static final int CAP = 40;
 
     // ------------------------------------------------------------------ levels
-    /** Stock XP per level L0-16 (XpBuilder.XP_CAP), then +5% per level (owner A2 fix). Index = current level. */
+    /**
+     * v57 (owner OK 2026-11-18, leveling P1): XP per level at the stock game's own pace on the stretched 0-40 world.
+     * One stock level = 3 levels here (see lvl), so each level costs about a third of the stock kills for that stage;
+     * L3-L10 are interpolated so no level costs less than the one before. Index = current level. Total to L40: 824,200.
+     */
+    static final long[] XP_V57 = {1200, 1300, 1600, 2800, 3000, 3100, 3300, 3400, 3600, 3700,
+        3900, 4200, 4500, 6500, 6900, 7300, 9400, 10500, 11900, 13000,
+        14600, 15600, 17200, 18400, 19700, 21900, 23400, 25000, 27300, 29200,
+        31300, 35700, 38200, 40900, 47500, 50900, 54400, 64700, 69200, 74000, 80000};
+
     public static long[] xpCap() {
+        long[] t = new long[CAP + 1];
+        for (int i = 0; i <= CAP; i++) t[i] = XP_V57[Math.min(i, XP_V57.length - 1)];
+        return t;
+    }
+
+    /** The v34-v56 table (stock XP per level L0-16, then +5% per level): only for converting old saves. */
+    public static long[] xpCapOld() {
         long[] stock = {1200, 1300, 1600, 2800, 4500, 5000, 8000, 12000, 15000, 16000, 18000, 20000, 22000, 25000, 29000, 34000, 37000};
         long[] t = new long[CAP + 1];
         for (int i = 0; i <= CAP; i++) t[i] = i < stock.length ? stock[i] : Math.round(37000 * Math.pow(1.05, i - 16));
         return t;
+    }
+
+    /** v57b (owner 2026-11-19): kill XP falls 10% per level below the pilot (0 at 10+ below; stock: 30%, 0 at 4+ below), +15% per level above (stock). */
+    public static final float XP_BELOW = 10f, XP_ABOVE = 15f;
+
+    /** Hook (hooks57b): XpBuilder.getMitigedXp(enemyLevel, xp). */
+    public static float mitigedXp(int enemyLv, int xp) {
+        int d = enemyLv - playerLevel();
+        float f = xp + (d < 0 ? XP_BELOW : XP_ABOVE) * d / 100f * xp;
+        return f < 0 ? 0 : f;
+    }
+
+    static final String RELEVEL_KEY = "v57_xp_relevel";
+
+    /** {level, curXp} for a total XP on a table (level capped at CAP). */
+    public static long[] levelOf(long total, long[] t) {
+        int lv = 0;
+        while (lv < CAP && total >= t[lv]) { total -= t[lv]; lv++; }
+        return new long[] {lv, lv >= CAP ? 0 : total};
+    }
+
+    /** Total XP a level + progress stands for on a table. */
+    public static long totalOf(int level, long cur, long[] t) {
+        long sum = Math.max(0, cur);
+        for (int i = 0; i < Math.min(CAP, level); i++) sum += t[i];
+        return sum;
+    }
+
+    /**
+     * Save load (ModSave.sanitize), once per profile: the save's total XP is kept and its level is recomputed on the v57
+     * table (old L14 -> L22). Skipped in test mode (it sets its own level). The level never goes down.
+     */
+    public static void relevel(PlayerInfo pi) {
+        try {
+            if (pi == null || ModTestMode.on) return;
+            SharedPreferences p = ModQol.prefs();
+            if (p == null || p.getBoolean(RELEVEL_KEY, false)) return;
+            if (!p.edit().putBoolean(RELEVEL_KEY, true).commit()) return;   // flag first: a throw below can never re-level twice
+            int old = pi.level;
+            long[] nw = levelOf(totalOf(old, pi.curXp, xpCapOld()), xpCap());
+            if (nw[0] > old) {
+                pi.level = (int) nw[0];
+                pi.curXp = nw[1];
+                pi.init();
+                pi.levelPourc = pi.nextLevelXp > 0 ? pi.curXp * 100f / pi.nextLevelXp : 0;
+                try { PlayerShip.instance().level = pi.level; } catch (Throwable t) { /* ship not built yet: init() at spawn */ }
+                try { fr.testudo.spacecorsair.game.achievements.AchievementEventListener.onLevelUp(pi.level); } catch (Throwable t) { /* achievements catch up on the next level */ }
+                ModQol.post(ModLang.fmt("New leveling curve: your XP now puts you at level {0} (was {1}).", pi.level, old));
+            }
+        } catch (Throwable t) {
+            // flag already set: the save keeps whatever was applied
+        }
     }
 
     /** Stock base hull L0-23 (XpBuilder.PLAYER_SHIP_LIFE), then +7% per level like the enemy curve. */
@@ -59,11 +127,26 @@ public class ModV34 {
             mx.setAccessible(true);
             for (LevelId id : LevelId.values()) {
                 if (id == LevelId.GALACTIC_ARENA || id == LevelId.FFA_THE_PLAYER_PAY) continue;
-                mn.setInt(id, lvl(id.levelMin));
-                mx.setInt(id, lvl(id.levelMax));
+                int a = id.levelMin, b = id.levelMax;
+                mn.setInt(id, lvl(a));
+                mx.setInt(id, lvl(b));
+                range(id, a, b);
             }
         } catch (Throwable t) {
             // sectors keep the stock bands
+        }
+    }
+
+    /** v57 (leveling P4): the hyperdrive jump text (LevelId.levelRange) was built from the stock band; rebuilt with the new one. */
+    private static void range(LevelId id, int stockMin, int stockMax) {
+        try {
+            Field r = LevelId.class.getDeclaredField("levelRange");
+            r.setAccessible(true);
+            String s = (String) r.get(id), tail = " " + stockMin + " - " + stockMax;
+            if (s == null || !s.endsWith(tail)) return;
+            r.set(id, s.substring(0, s.length() - tail.length()) + " " + id.levelMin + " - " + id.levelMax);
+        } catch (Throwable t) {
+            // keep the stock text
         }
     }
 

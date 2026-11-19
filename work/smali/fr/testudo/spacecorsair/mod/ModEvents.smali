@@ -1447,17 +1447,9 @@
     const v8, 0x3e99999a    # 0.3f
 
     .line 184
-    const/16 v0, 0x28
+    iget v0, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
 
-    iget v1, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
-
-    invoke-static {v2, v1}, Ljava/lang/Math;->max(II)I
-
-    move-result v1
-
-    add-int/lit8 v1, v1, 0x2
-
-    invoke-static {v0, v1}, Ljava/lang/Math;->min(II)I
+    invoke-static {v2, v0}, Ljava/lang/Math;->max(II)I
 
     move-result v0
 
@@ -1471,14 +1463,14 @@
     .line 186
     instance-of v1, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-nez v1, :cond_1d
+    if-nez v1, :cond_15
 
     .line 205
-    :goto_1c
+    :goto_14
     return-void
 
     .line 187
-    :cond_1d
+    :cond_15
     check-cast v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
     .line 188
@@ -1500,7 +1492,7 @@
     move-result-object v1
 
     .line 190
-    if-eqz v1, :cond_3d
+    if-eqz v1, :cond_35
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -1512,9 +1504,9 @@
 
     cmpg-float v2, v2, v3
 
-    if-gez v2, :cond_45
+    if-gez v2, :cond_3d
 
-    :cond_3d
+    :cond_35
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     const/high16 v2, 0x457a0000    # 4000.0f
@@ -1524,7 +1516,7 @@
     move-result-object v1
 
     .line 191
-    :cond_45
+    :cond_3d
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {v2, v1}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1710,7 +1702,7 @@
 
     invoke-static {p0, v0, v1, v8, v8}, Lfr/testudo/spacecorsair/mod/Mod;->floatText(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    goto/16 :goto_1c
+    goto/16 :goto_14
 .end method
 
 .method private static startDistress(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/game/levels/LevelId;)V
@@ -1848,13 +1840,25 @@
     .line 159
     const/4 v0, 0x1
 
-    sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+    iget v1, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
 
-    iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
+    iget v2, p1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
 
-    iget-object v1, v1, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
+    sget-object v5, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    iget v1, v1, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+    iget-object v5, v5, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
+
+    iget-object v5, v5, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
+
+    iget v5, v5, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
+
+    invoke-static {v2, v5}, Ljava/lang/Math;->min(II)I
+
+    move-result v2
+
+    invoke-static {v1, v2}, Ljava/lang/Math;->max(II)I
+
+    move-result v1
 
     invoke-static {v0, v1}, Ljava/lang/Math;->max(II)I
 
@@ -1869,11 +1873,11 @@
 
     cmpg-double v0, v0, v6
 
-    if-gez v0, :cond_98
+    if-gez v0, :cond_a4
 
     const/4 v0, 0x1
 
-    :goto_83
+    :goto_8f
     add-int/lit8 v6, v0, 0x2
 
     .line 161
@@ -1881,8 +1885,8 @@
 
     move v2, v0
 
-    :goto_87
-    if-ge v2, v6, :cond_d4
+    :goto_93
+    if-ge v2, v6, :cond_e0
 
     .line 162
     const-string v0, "reaver"
@@ -1896,24 +1900,24 @@
     .line 163
     instance-of v0, v1, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-nez v0, :cond_9a
+    if-nez v0, :cond_a6
 
     .line 161
-    :goto_94
+    :goto_a0
     add-int/lit8 v0, v2, 0x1
 
     move v2, v0
 
-    goto :goto_87
+    goto :goto_93
 
     .line 160
-    :cond_98
+    :cond_a4
     const/4 v0, 0x0
 
-    goto :goto_83
+    goto :goto_8f
 
     .line 164
-    :cond_9a
+    :cond_a6
     iget-object v0, v1, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {v0, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1965,17 +1969,17 @@
 
     invoke-virtual {v0, v1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    goto :goto_94
+    goto :goto_a0
 
     .line 169
-    :cond_d4
+    :cond_e0
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents;->hostiles:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->isEmpty()Z
 
     move-result v0
 
-    if-eqz v0, :cond_e4
+    if-eqz v0, :cond_f0
 
     .line 170
     const/4 v0, 0x1
@@ -1990,7 +1994,7 @@
     goto/16 :goto_24
 
     .line 174
-    :cond_e4
+    :cond_f0
     const/4 v0, 0x0
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->engaged:Z
@@ -2014,7 +2018,7 @@
     .line 177
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModEvents;->policeVictim:Z
 
-    if-eqz v0, :cond_139
+    if-eqz v0, :cond_145
 
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -2051,7 +2055,7 @@
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
     .line 179
-    :goto_11c
+    :goto_128
     const-string v0, "DISTRESS CALL"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2080,7 +2084,7 @@
     goto/16 :goto_24
 
     .line 178
-    :cond_139
+    :cond_145
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -2131,7 +2135,7 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    goto :goto_11c
+    goto :goto_128
 .end method
 
 .method private static startSalvage(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/engine/Vector2;)V

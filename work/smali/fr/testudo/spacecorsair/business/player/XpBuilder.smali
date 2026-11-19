@@ -229,65 +229,12 @@
 .end method
 
 .method public static getMitigedXp(II)F
-    .registers 7
+    .registers 3
 
-    .prologue
-    const/4 v1, 0x0
+    invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModV34;->mitigedXp(II)F
 
-    .line 53
-    const/high16 v0, 0x41700000    # 15.0f
+    move-result v0
 
-    .line 54
-    sget-object v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
-    iget-object v2, v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
-
-    iget-object v2, v2, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
-
-    iget v2, v2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
-
-    if-ge p0, v2, :cond_f
-
-    .line 55
-    const/high16 v0, 0x41f00000    # 30.0f
-
-    .line 57
-    :cond_f
-    int-to-float v2, p1
-
-    int-to-float v3, p1
-
-    sget-object v4, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
-    iget-object v4, v4, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
-
-    iget-object v4, v4, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
-
-    iget v4, v4, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
-
-    sub-int v4, p0, v4
-
-    int-to-float v4, v4
-
-    mul-float/2addr v0, v4
-
-    const/high16 v4, 0x42c80000    # 100.0f
-
-    div-float/2addr v0, v4
-
-    mul-float/2addr v0, v3
-
-    add-float/2addr v0, v2
-
-    .line 58
-    cmpg-float v2, v0, v1
-
-    if-gez v2, :cond_27
-
-    move v0, v1
-
-    .line 61
-    :cond_27
     return v0
 .end method
 

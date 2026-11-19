@@ -832,18 +832,6 @@
 
     iget v3, v0, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
 
-    sget-object v4, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
-
-    iget-object v4, v4, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
-
-    iget-object v4, v4, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
-
-    iget v4, v4, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
-
-    invoke-static {v3, v4}, Ljava/lang/Math;->max(II)I
-
-    move-result v3
-
     invoke-static {v2, v3}, Ljava/lang/Math;->max(II)I
 
     move-result v8
@@ -856,10 +844,10 @@
 
     move v10, v2
 
-    :goto_71
+    :goto_65
     array-length v2, v13
 
-    if-ge v10, v2, :cond_d1
+    if-ge v10, v2, :cond_c5
 
     .line 89
     const/4 v2, 0x0
@@ -868,10 +856,10 @@
 
     move v11, v3
 
-    :goto_77
+    :goto_6b
     aget v2, v14, v10
 
-    if-ge v12, v2, :cond_cc
+    if-ge v12, v2, :cond_c0
 
     .line 90
     aget-object v2, v13, v10
@@ -968,20 +956,20 @@
 
     move v12, v2
 
-    goto :goto_77
+    goto :goto_6b
 
     .line 88
-    :cond_cc
+    :cond_c0
     add-int/lit8 v2, v10, 0x1
 
     move v10, v2
 
     move v3, v11
 
-    goto :goto_71
+    goto :goto_65
 
     .line 98
-    :cond_d1
+    :cond_c5
     return-void
 .end method
 

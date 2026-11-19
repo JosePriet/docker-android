@@ -4,8 +4,8 @@ public class V34{static int bad=0;
 static Object mk(Class<?> c)throws Exception{java.lang.reflect.Field f=sun.misc.Unsafe.class.getDeclaredField("theUnsafe");f.setAccessible(true);return ((sun.misc.Unsafe)f.get(null)).allocateInstance(c);}
 static void eq(String n,double got,double want,double tol){boolean ok=Math.abs(got-want)<=tol;if(!ok)bad++;System.out.println((ok?"ok V34 ":"FAIL V34 ")+n+" = "+got+(ok?"":" (want "+want+")"));}
 public static void main(String[] a) throws Exception{
-long[] xp=ModV34.xpCap();eq("xp entries",xp.length,41,0);eq("xp L16 stock",xp[16],37000,0);eq("xp L17 +5%",xp[17],38850,0);
-long tot=0;for(int i=0;i<40;i++)tot+=xp[i];eq("xp total to L40 (~1.9M)",tot/1e6,1.9,0.15);
+long[] xp=ModV34.xpCap();eq("xp entries",xp.length,41,0);eq("xp L16 v57",xp[16],9400,0);eq("xp L17 v57",xp[17],10500,0);for(int i=1;i<40;i++)if(xp[i]<xp[i-1])eq("xp never drops L"+i,xp[i],xp[i-1],0);{long[] ra=ModV34.levelOf(ModV34.totalOf(14,0,ModV34.xpCapOld()),xp);eq("relevel old L14 -> 22",ra[0],22,0);long[] b=ModV34.levelOf(ModV34.totalOf(10,500,ModV34.xpCapOld()),xp);eq("relevel old L10 -> 16",b[0],16,0);long[] c=ModV34.levelOf(ModV34.totalOf(40,0,ModV34.xpCapOld()),xp);eq("relevel cap 40",c[0],40,0);eq("relevel cap xp 0",c[1],0,0);long[] d=ModV34.levelOf(ModV34.totalOf(0,0,ModV34.xpCapOld()),xp);eq("relevel new game 0",d[0],0,0);eq("relevel keeps xp",ModV34.totalOf((int)b[0],b[1],xp),ModV34.totalOf(10,500,ModV34.xpCapOld()),0);}
+long tot=0;for(int i=0;i<40;i++)tot+=xp[i];eq("xp total to L40 (v57 824,200)",tot,824200,0);
 int[] hl=ModV34.shipLife();eq("hull entries",hl.length,41,0);eq("hull L17 stock",hl[17],3700,0);eq("hull L24 +7%",hl[24],10807,1);
 eq("pilot ATK1000 DEF0",ModV34.pilot(1000,0),2.0,1e-4);eq("pilot ATK0 DEF1000",ModV34.pilot(0,1000),0.7,1e-4);eq("pilot ATK800 DEF800",ModV34.pilot(800,800),1.2,1e-4);
 eq("pilot DEF leads by 200: no base cut",ModV34.pilot(0,200),1.0,1e-4);

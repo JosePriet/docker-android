@@ -156,7 +156,7 @@ public final class ModEvents {
         hold = new Vector2(at);   // cross-check: it stays put (pinned in distress()) until saved, then leaves
         ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(c);
         victim = c;
-        int plv = Math.max(1, ObjectRegistry.INSTANCE.game.playerInfo.level);
+        int plv = Math.max(1, Math.max(here.levelMin, Math.min(here.levelMax, ObjectRegistry.INSTANCE.game.playerInfo.level)));   // v57 P4: player level, kept inside the sector band
         int n = 2 + (Math.random() < 0.5 ? 1 : 0);
         for (int k = 0; k < n; k++) {
             Element e = ModSector.wingShip("reaver", plv, false);
@@ -181,7 +181,7 @@ public final class ModEvents {
     }
 
     private static void startBounty(PlayerShip ps, LevelId here) {
-        int lv = Math.min(40, Math.max(1, here.levelMax) + 2);
+        int lv = Math.max(1, here.levelMax);   // v57 leveling P4 (owner OK 2026-11-18): inside the sector band (was top + 2)
         Element e = ModSector.wingShip("reaver", lv, true);
         if (!(e instanceof Ennemis)) return;
         Ennemis w = (Ennemis) e;
