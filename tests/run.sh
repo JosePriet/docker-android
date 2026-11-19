@@ -222,22 +222,23 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     a shell "echo https://raw.githubusercontent.com/JosePriet/docker-android/emulator-tests/tests/upd/ > $T/corsair_upd_url; chmod 644 $T/corsair_*"
     a shell appops set $PKG REQUEST_INSTALL_PACKAGES allow
     sleep 8; need up_flight; shot up_flight
-    tap 57 55; sleep 3; shot up_menu; dump up_menu
+    sleep 20; for k in 1 2 3; do tap 57 55; sleep 4; dump up_menu; grep -q 'text="Updates' $OUT/last.xml && break; a shell input keyevent KEYCODE_BACK; sleep 3; done; shot up_menu
     log "EVIDENCE menu entries: $(grep -o 'text="\(Multiplayer\|Updates\)[^"]*"' $OUT/last.xml | tr '\n' ' ')"
-    tap_text "^Updates" up_tap; sleep 12; shot up_panel; dump up_panel
+    tap_text "^Updates" up_tap; for k in 1 2 3 4; do sleep 8; dump up_panel; grep -q 'DOWNLOAD CONTENT\|Download content' $OUT/last.xml && break; tap_text "^(Check now|CHECK NOW)" up_check; done; shot up_panel
     log "EVIDENCE panel: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'version|Content|update|Download|Check|signed|connection' | tr '\n' ' ')"
-    tap_text "^Download content" up_dl; sleep 20; shot up_dl_done; dump up_dl_done
+    tap_text "^(Download content|DOWNLOAD CONTENT)" up_dl; sleep 20; shot up_dl_done; dump up_dl_done
     log "EVIDENCE after download: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Restart|Content|refused|fail|space' | tr '\n' ' ')"
     log "EVIDENCE update log 1: $(grep -E "ModTest.*: (update|content)" $LG | sed 's/^.*): //' | tr '\n' ' ')"
     P1=$(timeout 5 adb shell pidof $PKG)
-    tap_text "^Restart the game now" up_restart; sleep 25; P2=$(timeout 5 adb shell pidof $PKG); log "EVIDENCE restart pid $P1 -> $P2"
+    tap_text "^(Restart the game now|RESTART THE GAME NOW)" up_restart; sleep 25; P2=$(timeout 5 adb shell pidof $PKG); log "EVIDENCE restart pid $P1 -> $P2"
     [ -z "$P2" ] && { a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 20; }
     need up_after; shot up_after
     log "EVIDENCE chain live: $(grep -E "ModTest.*: content" $LG | sed 's/^.*): //' | tr '\n' ' ')"
-    tap 57 55; sleep 3; tap_text "^Updates" up_tap2; sleep 12; shot up_panel2; dump up_panel2
+    sleep 10; for k in 1 2 3; do tap 57 55; sleep 4; dump up_menu2; grep -q 'text="Updates' $OUT/last.xml && break; a shell input keyevent KEYCODE_BACK; sleep 3; done
+    tap_text "^Updates" up_tap2; sleep 12; shot up_panel2; dump up_panel2
     log "EVIDENCE panel 2: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Content|update|version' | tr '\n' ' ')"
     a shell dumpsys package $PKG | grep -E "lastUpdateTime" > $OUT/upd_before.txt
-    tap_text "^Update the game" up_game; for k in 1 2 3 4 5 6 7 8 9; do sleep 10; shot up_game_$k; dump up_game_$k; grep -qiE 'text="(Install|INSTALL|Update|UPDATE)"' $OUT/last.xml && break; done
+    tap_text "^(Update the game|UPDATE THE GAME)" up_game; for k in 1 2 3 4 5 6 7 8 9; do sleep 10; shot up_game_$k; dump up_game_$k; grep -qiE 'text="(Install|INSTALL|Update|UPDATE)"' $OUT/last.xml && break; done
     log "EVIDENCE installer screen: $(grep -o 'text="[^"]*"' $OUT/last.xml | head -12 | tr '\n' ' ')"
     log "EVIDENCE update log 2: $(grep -E "ModTest.*: update" $LG | tail -6 | sed 's/^.*): //' | tr '\n' ' ')"
     tap_text "^(Install|INSTALL|Update|UPDATE)$" up_install; sleep 30; shot up_installed; dump up_installed
