@@ -1,0 +1,10 @@
+GUEST got code=
+FAIL no join button
+FAIL no Join in the code dialog
+GUEST join screen: astrodroid 4.4|
+GUEST menu: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+GUEST joined=0
+GUEST state 1: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+GUEST state 2: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+GUEST state 3: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+guest errors: 531 lines

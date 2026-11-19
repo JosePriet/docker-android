@@ -1,0 +1,16 @@
+[10s] first pid 2494
+[394s] pid after prologue 2494
+[456s] tap '^(Save|SAVE)( |$)' at 1607 838
+[462s] lobby: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[1695s] no match for '^Join by code'
+[1699s] no match for '^Join by code'
+[1702s] no match for '^Join by code'
+[1706s] no match for '^Join by code'
+[1710s] no match for '^Join by code'
+[1720s] typed: astrodroid 4.4|
+[1722s] no match for '^(Join|JOIN)$'
+[1748s] no match for '^(Close|CLOSE)$'
+[1774s] no match for '^(Close|CLOSE)$'
+[1815s] no match for '^(Close|CLOSE)$'
+[1864s] no match for '^(Close|CLOSE)$'
+[1913s] no match for '^(Close|CLOSE)$'

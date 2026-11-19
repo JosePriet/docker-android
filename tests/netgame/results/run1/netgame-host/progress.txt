@@ -1,0 +1,20 @@
+[9s] first pid 2485
+[394s] pid after prologue 2485
+[454s] tap '^(Save|SAVE)( |$)' at 1607 838
+[460s] lobby: Multiplayer|NetHost ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[461s] no match for '^Host private game \(code only\)'
+[465s] no match for '^Host private game \(code only\)'
+[469s] tap '^Host private game \(code only\)' at 1074 785
+[480s] no match for '^(Close|CLOSE)$'
+[530s] no match for '^(Close|CLOSE)$'
+[566s] no match for '^(Close|CLOSE)$'
+[601s] no match for '^(Close|CLOSE)$'
+[636s] no match for '^(Close|CLOSE)$'
+[670s] no match for '^(Close|CLOSE)$'
+[705s] no match for '^(Close|CLOSE)$'
+[740s] no match for '^(Close|CLOSE)$'
+[775s] no match for '^(Close|CLOSE)$'
+[809s] no match for '^(Close|CLOSE)$'
+[844s] no match for '^(Close|CLOSE)$'
+[879s] no match for '^(Close|CLOSE)$'
+[905s] hosting: Ship|Missions|Achievements|Stats|Constellation|Multiplayer|Settings|
