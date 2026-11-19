@@ -1,0 +1,9 @@
+[9s] first pid 2484
+[394s] pid after prologue 2484
+[455s] tap '^(Save|SAVE)( |$)' at 1607 838
+[461s] lobby: Multiplayer|NetHost ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[463s] no match for '^Host private game \(code only\)'
+[469s] no match for '^Host private game \(code only\)'
+[474s] tap '^Host private game \(code only\)' at 1074 816
+[483s] after host tap: loading|
+[761s] hosting: Ship|Missions|Achievements|Stats|Constellation|Multiplayer|Settings|

@@ -1,0 +1,9 @@
+GUEST got code=
+FAIL no Join in the code dialog
+GUEST join screen: Join by code|Type the 4-character code your friend sees on the host screen.|CLOSE|JOIN|
+GUEST menu: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+GUEST joined=0
+GUEST state 1: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+GUEST state 2: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+GUEST state 3: Multiplayer|NetGuest ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+guest errors: 580 lines
