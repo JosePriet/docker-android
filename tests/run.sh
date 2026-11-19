@@ -81,7 +81,7 @@ timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ] || [ "$GAME" = sc44 ]; then
-  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ]; } && NOPRO=/data/local/tmp/corsair_noprologue
+  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ] || [ "$STAGE" = V60U ]; } && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
@@ -215,6 +215,37 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
   fi
   # v46 (owner 2026-11-18): Multiplayer entry restored in the flight menu bar (hooks56). Open menu -> Multiplayer ->
   # nickname -> lobby menu -> host a private local game (code shown) -> stop hosting.
+  # ---- v45 in-game updates (2026-11-19): signed test channel on this branch (tests/upd): download the content pack,
+  # restart, check the chain is live, then the game update path (full APK via PackageInstaller, same build re-installed)
+  if [ "$STAGE" = V60U ]; then
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt
+    a shell "echo https://raw.githubusercontent.com/JosePriet/docker-android/emulator-tests/tests/upd/ > $T/corsair_upd_url; chmod 644 $T/corsair_*"
+    a shell appops set $PKG REQUEST_INSTALL_PACKAGES allow
+    sleep 8; need up_flight; shot up_flight
+    tap 57 55; sleep 3; shot up_menu; dump up_menu
+    log "EVIDENCE menu entries: $(grep -o 'text="\(Multiplayer\|Updates\)[^"]*"' $OUT/last.xml | tr '\n' ' ')"
+    tap_text "^Updates" up_tap; sleep 12; shot up_panel; dump up_panel
+    log "EVIDENCE panel: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'version|Content|update|Download|Check|signed|connection' | tr '\n' ' ')"
+    tap_text "^Download content" up_dl; sleep 20; shot up_dl_done; dump up_dl_done
+    log "EVIDENCE after download: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Restart|Content|refused|fail|space' | tr '\n' ' ')"
+    log "EVIDENCE update log 1: $(grep -E "ModTest.*: (update|content)" $LG | sed 's/^.*): //' | tr '\n' ' ')"
+    P1=$(timeout 5 adb shell pidof $PKG)
+    tap_text "^Restart the game now" up_restart; sleep 25; P2=$(timeout 5 adb shell pidof $PKG); log "EVIDENCE restart pid $P1 -> $P2"
+    [ -z "$P2" ] && { a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 20; }
+    need up_after; shot up_after
+    log "EVIDENCE chain live: $(grep -E "ModTest.*: content" $LG | sed 's/^.*): //' | tr '\n' ' ')"
+    tap 57 55; sleep 3; tap_text "^Updates" up_tap2; sleep 12; shot up_panel2; dump up_panel2
+    log "EVIDENCE panel 2: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Content|update|version' | tr '\n' ' ')"
+    a shell dumpsys package $PKG | grep -E "lastUpdateTime" > $OUT/upd_before.txt
+    tap_text "^Update the game" up_game; for k in 1 2 3 4 5 6 7 8 9; do sleep 10; shot up_game_$k; dump up_game_$k; grep -qiE 'text="(Install|INSTALL|Update|UPDATE)"' $OUT/last.xml && break; done
+    log "EVIDENCE installer screen: $(grep -o 'text="[^"]*"' $OUT/last.xml | head -12 | tr '\n' ' ')"
+    log "EVIDENCE update log 2: $(grep -E "ModTest.*: update" $LG | tail -6 | sed 's/^.*): //' | tr '\n' ' ')"
+    tap_text "^(Install|INSTALL|Update|UPDATE)$" up_install; sleep 30; shot up_installed; dump up_installed
+    a shell dumpsys package $PKG | grep -E "lastUpdateTime" > $OUT/upd_after.txt
+    log "EVIDENCE reinstall: before $(cat $OUT/upd_before.txt | tr -d ' ') after $(cat $OUT/upd_after.txt | tr -d ' ')"
+    a shell "rm -f $T/corsair_upd_url"
+    finish; exit 0
+  fi
   if [ "$STAGE" = V56M ]; then
     sleep 8; need mp_flight; shot mp_flight
     tap 57 55; sleep 3; shot mp_menu; dump mp_menu

@@ -1,0 +1,8 @@
+sc-manifest=1
+seq=1
+apk.version=v45-emu
+apk.build=53
+apk.sha256=48be58783fc9e304ab427a2a07d2d6e91b04afea79238ff87150cd2d5f6885b7
+apk.size=91724777
+apk.url=https://raw.githubusercontent.com/JosePriet/docker-android/emulator-tests/tests/apks/space-corsair.apk
+pack=52|1|content-52-1|https://raw.githubusercontent.com/JosePriet/docker-android/emulator-tests/tests/upd/content-52-1.zip|244d443ed14f73b245532e1584d6747d1f1ede0083ab20c5a488f6610e141d67|329055|Emulator test pack|Paquete de prueba
