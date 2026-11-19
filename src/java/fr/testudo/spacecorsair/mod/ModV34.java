@@ -135,6 +135,61 @@ public class ModV34 {
         } catch (Throwable t) {
             // sectors keep the stock bands
         }
+        ships();
+    }
+
+    /** v57c (owner 2026-11-19): highest ship unlock level. */
+    public static final int SHIP_LEVEL_CAP = 32;
+
+    /**
+     * v57c: ship unlock levels were on the stock 0-17 scale; now on the 0-40 world like sectors (lvl), with the top
+     * compressed so the last ships unlock at 32 (owner: never 40): stock 12-17 -> 27-32.
+     */
+    public static int shipLevel(int stock) {
+        if (stock <= 11) return lvl(stock);
+        return Math.min(SHIP_LEVEL_CAP, 15 + stock);
+    }
+
+    /** v57c hook (hooks57c, start of SpaceObjectType.canEquip): a ship the pilot already owns stays flyable after its unlock level moved up. */
+    public static boolean ownedShip(fr.testudo.spacecorsair.business.loot.SpaceObjectType t) {
+        try {
+            return t != null && fr.testudo.spacecorsair.business.loot.SpaceObjectType.ALL_SHIPS.contains(t) && ObjectRegistry.INSTANCE.game.playerInfo.availShips.contains(t);
+        } catch (Throwable e) {
+            return false;
+        }
+    }
+
+    /** v57c: original ships with a level 0 / 1,000 cr placeholder (owner: cheap, never below the ships before them in the tree). */
+    static final String[] SHIP_FIX = {"policeShip", "megatronShip"};
+    static final int[] SHIP_FIX_STOCK_LV = {10, 13}, SHIP_FIX_PRICE = {400000, 1000000};
+
+    /** v57c: the original (non-mod) player ships get their unlock level on the new scale; police ship and Megatron repriced. */
+    private static void ships() {
+        try {
+            Field mn = fr.testudo.spacecorsair.business.economy.Price.class.getDeclaredField("min"),
+                mx = fr.testudo.spacecorsair.business.economy.Price.class.getDeclaredField("max");
+            mn.setAccessible(true);
+            mx.setAccessible(true);
+            for (fr.testudo.spacecorsair.business.loot.SpaceObjectType t : fr.testudo.spacecorsair.business.loot.SpaceObjectType.ALL_SHIPS) {
+                try {
+                    if (t == null || ModShips.hull(t) != null || t.name().startsWith("alien") || t.getGearSpec() == null) continue;
+                    int fix = -1;
+                    for (int i = 0; i < SHIP_FIX.length; i++) if (SHIP_FIX[i].equals(t.name())) fix = i;
+                    fr.testudo.spacecorsair.business.loot.stuff.GearSpec g = t.getGearSpec();
+                    g.level = shipLevel(fix >= 0 ? SHIP_FIX_STOCK_LV[fix] : g.level);
+                    if (fix >= 0) {
+                        fr.testudo.spacecorsair.business.economy.Price pr = t.getObjectPrice();
+                        mn.setInt(pr, SHIP_FIX_PRICE[fix]);
+                        mx.setInt(pr, SHIP_FIX_PRICE[fix]);
+                        pr.current = SHIP_FIX_PRICE[fix];
+                    }
+                } catch (Throwable t1) {
+                    // this ship keeps its stock level / price
+                }
+            }
+        } catch (Throwable t) {
+            // stock levels and prices
+        }
     }
 
     /** v57 (leveling P4): the hyperdrive jump text (LevelId.levelRange) was built from the stock band; rebuilt with the new one. */

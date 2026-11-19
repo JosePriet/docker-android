@@ -950,7 +950,7 @@ public final class ModShipTree {
 
     private static boolean levelOk(SpaceObjectType t) {
         try {
-            return ModUi.level(t) <= ObjectRegistry.INSTANCE.game.playerInfo.level;
+            return ModUi.level(t) <= ObjectRegistry.INSTANCE.game.playerInfo.level || ModV34.ownedShip(t);   // v57c: owned ships stay flyable
         } catch (Exception e) {
             return true;
         }

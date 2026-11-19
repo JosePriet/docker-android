@@ -13504,6 +13504,15 @@
     .registers 3
 
     .prologue
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->ownedShip(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
+
+    move-result v0
+
+    if-eqz v0, :own57_no
+
+    return v0
+
+    :own57_no
     .line 607
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->equipable:Z
 

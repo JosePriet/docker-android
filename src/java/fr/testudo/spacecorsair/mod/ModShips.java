@@ -449,7 +449,7 @@ public class ModShips {
 
     private static PlayerShipSpec base(Hull h, float force, float drag, float turn, float life, int mass) {
         PlayerShipSpec s = new PlayerShipSpec();
-        s.level = h.level;
+        s.level = h.dev ? h.level : ModV34.shipLevel(h.level);   // v57c: unlock level on the 0-40 world, max 32
         s.image = image(h);
         s.rarety = h.rarity;
         s.drawableSize = h.size;

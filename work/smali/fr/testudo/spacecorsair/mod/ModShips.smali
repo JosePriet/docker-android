@@ -6408,8 +6408,13 @@
     invoke-direct {v1}, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;-><init>()V
 
     .line 452
+    iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->dev:Z
+
+    if-eqz v0, :cond_c8
+
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->level:I
 
+    :goto_e
     iput v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->level:I
 
     .line 453
@@ -6536,11 +6541,11 @@
     .line 470
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
-    if-ge v0, v4, :cond_c4
+    if-ge v0, v4, :cond_d0
 
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;->SMALL:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;
 
-    :goto_70
+    :goto_74
     iput-object v0, v1, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;->sizeInformational:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;
 
     .line 471
@@ -6646,33 +6651,43 @@
     .line 479
     return-object v1
 
+    .line 452
+    :cond_c8
+    iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->level:I
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModV34;->shipLevel(I)I
+
+    move-result v0
+
+    goto/16 :goto_e
+
     .line 470
-    :cond_c4
+    :cond_d0
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
     const/16 v2, 0xfa
 
-    if-ge v0, v2, :cond_cd
+    if-ge v0, v2, :cond_d9
 
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;->MIDDLE:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;
 
-    goto :goto_70
+    goto :goto_74
 
-    :cond_cd
+    :cond_d9
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->size:I
 
     const/16 v2, 0x1f4
 
-    if-ge v0, v2, :cond_d6
+    if-ge v0, v2, :cond_e2
 
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;->LARGE:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;
 
-    goto :goto_70
+    goto :goto_74
 
-    :cond_d6
+    :cond_e2
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;->VERY_LARGE:Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec$Size;
 
-    goto :goto_70
+    goto :goto_74
 .end method
 
 .method public static canBuy(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
