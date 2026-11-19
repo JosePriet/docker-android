@@ -32,7 +32,9 @@ log "first pid $P0"
 # first start: intro cinematic, then the 120 s prologue, then the game restarts itself into the tutorial
 for i in $(seq 1 30); do sleep 4; a shell input tap 1170 540; done   # skips the intro; in the prologue it just fires
 shot prologue
-for w in $(seq 1 180); do P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; sleep 4; done
+# the prologue only starts once the game runs in flight (a character dialog holds it): BACK closes dialogs until the
+# prologue has played and restarted the process (exit prompt cancelled)
+for w in $(seq 1 70); do P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; a shell input keyevent KEYCODE_BACK; sleep 2; noexit; sleep 6; [ $w = 12 ] && shot prologue_mid; done
 log "pid after prologue $P1"
 [ -z "$P1" ] && a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
 sleep 25; shot tutorial
