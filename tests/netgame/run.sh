@@ -5,6 +5,8 @@
 # host private game (code only) / join by code. The host's code reaches the guest runner through a [skip ci] commit.
 # bash tests/netgame/run.sh host|guest RUNID
 ROLE=$1; RID=$2; OUT=out; mkdir -p $OUT
+# hostr / guestr: a second pair where the guest turns on "Hide my IP" (relay only), so the relay path is proven too
+RELAY=0; case $ROLE in hostr) ROLE=host; RID=${RID}r; RELAY=1 ;; guestr) ROLE=guest; RID=${RID}r; RELAY=1 ;; esac
 PKG=fr.testudo.spacecorsair; APK=tests/netgame/sc.apk; BR=${GITHUB_REF_NAME}
 T0=$(date +%s); log() { echo "[$(( $(date +%s) - T0 ))s] $*" | tee -a $OUT/progress.txt; }
 res() { echo "$*" | tee -a $OUT/RESULT.txt; }
@@ -103,6 +105,7 @@ else
   done
   res "GUEST got code=$CODE"
   close_dlg; open_mp; shot guest_lobby2; dump guest_lobby2; log "lobby again: $(texts)"
+  if [ $RELAY = 1 ]; then tap_scroll "^Hide my IP: OFF" hide && { sleep 3; res "GUEST hide my IP on"; dump hid; log "after hide: $(texts)"; } || res "FAIL no Hide my IP toggle"; fi
   tap_scroll "^Join by code" joinbtn || res "FAIL no join button"
   sleep 2; dump codebox
   xy=$(python3 -c "import re,sys;x=open(sys.argv[1]).read();m=re.search(r'class=\"android.widget.EditText\"[^>]*bounds=\"\\[(\\d+),(\\d+)\\]\\[(\\d+),(\\d+)\\]',x);print((int(m.group(1))+int(m.group(3)))//2,(int(m.group(2))+int(m.group(4)))//2) if m else None" $OUT/last.xml 2>/dev/null)
