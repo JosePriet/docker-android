@@ -1,0 +1,7 @@
+HOST code=C8UA
+HOST accepted=0
+HOST state 1: Gallery|Phone|Messaging|WebView Browser Tester|Camera|
+HOST state 2: Gallery|Phone|Messaging|WebView Browser Tester|Camera|
+HOST state 3: Gallery|Phone|Messaging|WebView Browser Tester|Camera|
+HOST end: Gallery|Phone|Messaging|WebView Browser Tester|Camera|
+host errors: 3037 lines

@@ -1,0 +1,9 @@
+[9s] first pid 2455
+[212s] pid after prologue 3535
+[272s] tap '^(Save|SAVE)( |$)' at 1607 838
+[278s] lobby: Multiplayer|NetHost ?|Edit|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|Join by address|
+[280s] no match for '^Host private game \(code only\)'
+[285s] no match for '^Host private game \(code only\)'
+[291s] tap '^Host private game \(code only\)' at 1074 791
+[297s] after host tap: Multiplayer|Opening the game...|PvP: OFF (tap to turn on)|Stop hosting|Close|
+[326s] hosting: Multiplayer|Waiting for a player to join...&#10;&#10;Game code:  C8UA&#10;&#10;Private game: only players with the code can join. You accept or decline each player.|Share code|PvP: OFF (tap to turn on)|Stop hosting|Close|

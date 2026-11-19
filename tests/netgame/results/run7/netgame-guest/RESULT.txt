@@ -1,0 +1,9 @@
+GUEST got code=C8UA
+GUEST Done key joined
+GUEST join screen: Multiplayer|NetGuest ?|Edit|Could not reach the host. Their network or yours blocks direct play and the relay did not help.|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|
+GUEST menu: Multiplayer|NetGuest ?|Edit|Could not reach the host. Their network or yours blocks direct play and the relay did not help.|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|
+GUEST joined=0
+GUEST state 1: Multiplayer|NetGuest ?|Edit|Could not reach the host. Their network or yours blocks direct play and the relay did not help.|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|
+GUEST state 2: Multiplayer|NetGuest ?|Edit|Could not reach the host. Their network or yours blocks direct play and the relay did not help.|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|
+GUEST state 3: Multiplayer|NetGuest ?|Edit|Could not reach the host. Their network or yours blocks direct play and the relay did not help.|Local game (same Wi-Fi)|Host public local game|Host private local game (code)|Find local games|
+guest errors: 705 lines
