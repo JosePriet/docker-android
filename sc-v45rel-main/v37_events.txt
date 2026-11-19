@@ -1,0 +1,19 @@
+11-19 03:59:38.682 I/ModTest ( 2507): update check failed java.io.IOException: HTTP 404
+11-19 03:59:38.833 I/ModTest ( 2507): v40test profile main
+11-19 03:59:38.891 I/ModTest ( 2507): v40test loaded main level 0 xp 0 ships 1 credits 200 parts 0 sectors 0 done missions 0
+11-19 03:59:38.894 I/ModTest ( 2507): fresh mod progress cleared: 1 keys
+11-19 03:59:38.894 I/ModTest ( 2507): prologue pending (first start)
+11-19 03:59:44.705 I/ModTest ( 2507): audio bal42 sfx=0.7
+11-19 03:59:44.709 I/ModTest ( 2507): audio mus42 music=1.0
+11-19 03:59:50.238 I/ModTest ( 2507): prologue pristine save copied aside
+11-19 03:59:50.238 I/ModTest ( 2507): prologue outfit L25 corvette
+11-19 03:59:50.244 I/ModTest ( 2507): prologue level built, elements 52
+11-19 03:59:50.281 I/ModTest ( 2507): art freed 0 textures on sector change
+11-19 03:59:50.387 I/ModTest ( 2507): prologue entered, hull 46252 boss 2550000
+11-19 03:59:52.988 I/ModTest ( 2507): art freed 0 textures on sector change
+11-19 03:59:55.488 I/ModTest ( 2507): prologue level crept to 34, held at 25 (logged once)
+11-19 04:00:25.150 I/ModTest ( 2507): prologue save blocked
+11-19 04:00:55.373 I/ModTest ( 2507): prologue save blocked
+11-19 04:01:06.635 I/ModTest ( 2507): prologue save blocked
+11-19 04:01:23.211 I/ModTest ( 2507): prologue save blocked
+11-19 04:01:59.655 I/ModSound( 2507): music player bay playing=true enabled=true

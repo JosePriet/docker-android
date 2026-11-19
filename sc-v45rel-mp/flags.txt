@@ -1,0 +1,5 @@
+total 20
+-rw-r--r-- 1 root root 3 2026-11-19 03:59 corsair_level
+-rw-r--r-- 1 root root 0 2026-11-19 03:59 corsair_nodialog
+-rw-r--r-- 1 root root 0 2026-11-19 03:59 corsair_noprologue
+-rw-r--r-- 1 root root 0 2026-11-19 03:59 corsair_titans

@@ -1,0 +1,34 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[24s] shot launch ok
+[32s] cancel exit prompt
+[39s] shot after_back ok
+[56s] shot steering ok
+[56s] direct: BuyInapp gift
+[75s] tap 'id/txtGift' at 620 926
+[86s] tap 'id/btnGift' at 1253 939
+[91s] shot gift_box_redeemed ok
+[101s] direct: Settings
+[106s] shot settings_v36 ok
+[108s] seekbars on settings: 3
+[127s] shot mp_flight ok
+[127s] tap 57 55
+[135s] shot mp_menu ok
+[138s] EVIDENCE menu entry: text="Multiplayer"
+[140s] tap '^Multiplayer' at 1477 158
+[146s] shot mp_who ok
+[160s] tap '^(Save|SAVE)( |$)' at 1607 838
+[164s] shot mp_lobby ok
+[166s] EVIDENCE lobby: text="Local game (same Wi-Fi)" text="Host public local game" text="Host private local game (code)" text="Find local games" text="Join by address" 
+[169s] tap '^Host private local game' at 1074 710
+[174s] shot mp_hosting ok
+[176s] EVIDENCE hosting: Game code:  9W38&#10;&#10;Private local game: only players with the code can join. You accept or decline each player.
+[178s] tap '^Stop hosting' at 1074 940
+[185s] shot mp_after ok
+[185s] tap 57 55
+[192s] tap '^Multiplayer' at 1477 158
+[196s] shot mp_lobby2 ok
+[201s] no match for '^(Close|CLOSE)( |$)'
+[203s] shot mp_closed ok
+[205s] done; errors: 225 lines
+80 frames

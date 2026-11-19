@@ -1,0 +1,20 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[25s] shot launch ok
+[33s] cancel exit prompt
+[40s] shot after_back ok
+[53s] shot steering ok
+[53s] direct: BuyInapp gift
+[73s] tap 'id/txtGift' at 620 926
+[84s] tap 'id/btnGift' at 1253 939
+[89s] shot gift_box_redeemed ok
+[95s] direct: Settings
+[103s] shot settings_v36 ok
+[105s] seekbars on settings: 3
+[121s] Leviathan page found=1
+[127s] tap '^(Use|USE)' at 1971 1008
+[148s] shot leviathan_player_titan ok
+[155s] cancel exit prompt
+[168s] shot stage_start ok
+[172s] done; errors: 165 lines
+57 frames

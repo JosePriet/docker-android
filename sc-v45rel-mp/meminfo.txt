@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 233412 Realtime: 233412
+
+** MEMINFO in pid 2525 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    29974    29908        0        0    32268    38712    31277     2853
+  Dalvik Heap    13929    13808        0        0    17784    19176     9588     9588
+ Dalvik Other     1298     1040        0        0     2280                           
+        Stack      676      676        0        0      692                           
+       Ashmem    10619    10340        0        0    10964                           
+    Other dev      124        0      124        0      332                           
+     .so mmap     4748      252      508        0    44840                           
+    .jar mmap     1831        0       88        0    24032                           
+    .apk mmap     1185        0       88        0    25100                           
+    .ttf mmap      119        0       44        0      492                           
+    .dex mmap     2768       12     2744        0     2896                           
+    .oat mmap     1187        0        8        0    16280                           
+    .art mmap     2041     1436        4        0    19980                           
+   Other mmap      350       36       64        0     2540                           
+      Unknown      411      396        0        0      848                           
+        TOTAL    71260    57904     3672        0    71260    57888    40865    12441
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    15248                          37764
+         Native Heap:    29908                          32268
+                Code:     3744                         114192
