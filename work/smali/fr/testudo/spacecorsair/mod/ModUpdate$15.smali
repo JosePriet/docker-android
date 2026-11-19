@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 571
+    .line 586
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$c:Landroid/content/Context;
@@ -49,7 +49,7 @@
     .registers 4
 
     .prologue
-    .line 572
+    .line 587
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$a:Landroid/app/Activity;
 
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModUpdate$15$1;

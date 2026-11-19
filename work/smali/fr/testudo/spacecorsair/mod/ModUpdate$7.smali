@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 512
+    .line 527
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$box:Landroid/widget/LinearLayout;
@@ -53,7 +53,7 @@
     .registers 4
 
     .prologue
-    .line 512
+    .line 527
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$a:Landroid/app/Activity;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$box:Landroid/widget/LinearLayout;

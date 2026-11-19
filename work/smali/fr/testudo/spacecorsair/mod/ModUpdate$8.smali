@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 513
+    .line 528
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 3
 
     .prologue
-    .line 513
+    .line 528
     const/4 v0, 0x0
 
     # setter for: Lfr/testudo/spacecorsair/mod/ModUpdate;->panelRefresh:Ljava/lang/Runnable;

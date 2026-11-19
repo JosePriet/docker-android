@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 350
+    .line 365
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$2;->val$p:Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 8
 
     .prologue
-    .line 350
+    .line 365
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V

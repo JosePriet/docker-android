@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 529
+    .line 544
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$10$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$10;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 1
 
     .prologue
-    .line 529
+    .line 544
     # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->refreshPanel()V
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$800()V
 

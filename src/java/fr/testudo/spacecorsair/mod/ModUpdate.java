@@ -308,8 +308,23 @@ public final class ModUpdate {
 
     interface Progress { void at(long done, long total); }
 
-    /** Downloads to dest via dest.part (resumed), then checks size and sha-256. */
+    /** Downloads to dest via dest.part, resuming after a dropped connection (up to 6 tries), then checks size and sha-256. */
     static void download(String url, File dest, long size, String sha, Progress p) throws Exception {
+        for (int attempt = 1; ; attempt++) {
+            try { download1(url, dest, size, sha, p); return; }
+            catch (IOException e) {
+                File part = new File(dest.getPath() + ".part");
+                boolean resumable = part.isFile() && part.length() > 0 && part.length() < size;
+                ModDev.ev("update", "download try " + attempt + " stopped at " + part.length() + ": " + e);
+                if (attempt >= 6 || e.getMessage() != null && e.getMessage().startsWith("download damaged")) {
+                    throw new IOException(tr("The download stopped. Tap the button again to continue where it stopped."));
+                }
+                if (!resumable) Thread.sleep(2000L * attempt);
+            }
+        }
+    }
+
+    private static void download1(String url, File dest, long size, String sha, Progress p) throws Exception {
         File part = new File(dest.getPath() + ".part");
         long have = part.isFile() ? part.length() : 0;
         if (have >= size) { part.delete(); have = 0; }

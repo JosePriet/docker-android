@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 569
+    .line 584
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$14;->val$c:Landroid/content/Context;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$14;->val$m:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
@@ -49,7 +49,7 @@
     .registers 4
 
     .prologue
-    .line 569
+    .line 584
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$14;->val$c:Landroid/content/Context;
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$14;->val$m:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;

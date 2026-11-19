@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 555
+    .line 570
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$11;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 3
 
     .prologue
-    .line 555
+    .line 570
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$11;->val$a:Landroid/app/Activity;
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->restart(Landroid/app/Activity;)V

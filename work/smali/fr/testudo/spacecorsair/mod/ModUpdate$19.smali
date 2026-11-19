@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 629
+    .line 644
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$19;->val$s:Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 4
 
     .prologue
-    .line 629
+    .line 644
     :try_start_0
     # getter for: Lfr/testudo/spacecorsair/mod/ModUpdate;->app:Landroid/content/Context;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$000()Landroid/content/Context;

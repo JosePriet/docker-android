@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 560
+    .line 575
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$12$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$12;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .end annotation
 
     .prologue
-    .line 560
+    .line 575
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$12$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$12;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$12;->val$c:Landroid/content/Context;
