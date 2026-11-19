@@ -32,7 +32,7 @@ log "first pid $P0"
 # first start: intro cinematic, then the 120 s prologue, then the game restarts itself into the tutorial
 for i in $(seq 1 30); do sleep 4; a shell input tap 1170 540; done   # skips the intro; in the prologue it just fires
 shot prologue
-for w in $(seq 1 60); do P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; sleep 4; done
+for w in $(seq 1 180); do P1=$(pid); [ -n "$P1" ] && [ "$P1" != "$P0" ] && break; sleep 4; done
 log "pid after prologue $P1"
 [ -z "$P1" ] && a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null
 sleep 25; shot tutorial
@@ -79,7 +79,7 @@ if [ $ROLE = host ]; then
     ACC=0
     for i in $(seq 1 400); do
       dump wait
-      if grep -q "wants to join" $OUT/last.xml; then shot join_request; log "request: $(texts)"; tap_text "^Accept$" accept && ACC=1; break; fi
+      if grep -q "wants to join" $OUT/last.xml; then shot join_request; log "request: $(texts)"; tap_text "^(Accept|ACCEPT)( |$)" accept && ACC=1; break; fi
       sleep 1
     done
     res "HOST accepted=$ACC"
@@ -107,8 +107,8 @@ else
   [ -n "$xy" ] && a shell input tap $xy; sleep 1
   for c in $(echo $CODE | grep -o .); do a shell input text $c; sleep 0.7; done
   sleep 1; shot code_typed; dump code_typed; log "typed: $(texts)"
-  grep -q 'text="DONE"\|text="Done"' $OUT/last.xml && { tap_text "^(DONE|Done)$" done2; sleep 2; }
-  tap_text "^(Join|JOIN)$" join || res "FAIL no Join in the code dialog"
+  grep -q 'text="DONE"\|text="Done"' $OUT/last.xml && { tap_text "^(DONE|Done)( |$)" done2; sleep 2; }
+  tap_text "^(Join|JOIN)( |$)" join || res "FAIL no Join in the code dialog"
   JOINED=0
   for i in $(seq 1 40); do
     sleep 4; dump joining
