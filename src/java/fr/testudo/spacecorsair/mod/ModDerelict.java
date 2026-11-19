@@ -83,7 +83,7 @@ public final class ModDerelict {
         java.util.Random rnd = new java.util.Random(id.name().hashCode() * 31L + i);
         String[] hulls = ModV30Data.SITE_HULLS[i];
         int[] counts = ModV30Data.SITE_COUNTS[i];
-        int lvl = Math.max(1, Math.max(id.levelMax, ObjectRegistry.INSTANCE.game.playerInfo.level));
+        int lvl = Math.max(1, id.levelMax);   // v57 leveling P4 (owner OK 2026-11-18): sector top, no longer follows the player above the band
         int n = 0;
         for (int h = 0; h < hulls.length; h++) {
             for (int c = 0; c < counts[h]; c++, n++) {

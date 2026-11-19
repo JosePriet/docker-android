@@ -39,6 +39,7 @@ public final class ModEvents {
     static int kind = NONE;
     private static long nextAt = -1, endsAt;
     private static CivilShip victim;
+    private static boolean policeVictim;   // lawless sectors: the distress victim is a police cruiser
     private static final ArrayList<Element> hostiles = new ArrayList<Element>();
     private static Ennemis wanted;
     private static Vector2 target, hold;
@@ -144,16 +145,18 @@ public final class ModEvents {
 
     private static void startDistress(PlayerShip ps, LevelId here) {
         int lv = Math.max(1, here.levelMin);
-        CivilShip c = CivilFactory.newTrasnporteur(lv, Math.max(lv, here.levelMax));
+        policeVictim = ModSector.lawless(here);   // owner 2026-11-18: in pirate havens the call comes from a police cruiser
+        CivilShip c = policeVictim ? CivilFactory.newPolice(Math.max(lv, here.levelMax), Math.max(lv, here.levelMax))
+            : CivilFactory.newTrasnporteur(lv, Math.max(lv, here.levelMax));
         if (c == null) return;
         Vector2 at = around(ps.position, DISTRESS_RANGE);
         c.position.setSameAs(at);
-        c.specificName = fr.testudo.spacecorsair.business.world.UniverseName.getRandomTransporteurName();
+        if (!policeVictim) c.specificName = fr.testudo.spacecorsair.business.world.UniverseName.getRandomTransporteurName();
         c.setActivity(new CivilActivity[] {CivilActivity.newWaitUntilPlayerClose((int) RESCUE_RANGE)});
         hold = new Vector2(at);   // cross-check: it stays put (pinned in distress()) until saved, then leaves
         ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(c);
         victim = c;
-        int plv = Math.max(1, ObjectRegistry.INSTANCE.game.playerInfo.level);
+        int plv = Math.max(1, Math.max(here.levelMin, Math.min(here.levelMax, ObjectRegistry.INSTANCE.game.playerInfo.level)));   // v57 P4: player level, kept inside the sector band
         int n = 2 + (Math.random() < 0.5 ? 1 : 0);
         for (int k = 0; k < n; k++) {
             Element e = ModSector.wingShip("reaver", plv, false);
@@ -171,13 +174,14 @@ public final class ModEvents {
         engaged = false;
         endsAt = ModSector.play() + DISTRESS_MS;
         kind = DISTRESS;
-        ModQol.post(ModLang.tr("Distress call: the freighter ") + c.specificName + ModLang.tr(" is under pirate attack, ") + bearing(ps, at) + ".");
+        if (policeVictim) ModQol.post(ModLang.tr("Distress call: a police cruiser is under pirate attack, ") + bearing(ps, at) + ".");
+        else ModQol.post(ModLang.tr("Distress call: the freighter ") + c.specificName + ModLang.tr(" is under pirate attack, ") + bearing(ps, at) + ".");
         Mod.floatText(ps, ModLang.tr("DISTRESS CALL"), 1.0f, 0.75f, 0.2f);
         ModSound.play("warp_in", 0.5f, 1.0f, 1500);
     }
 
     private static void startBounty(PlayerShip ps, LevelId here) {
-        int lv = Math.min(40, Math.max(1, here.levelMax) + 2);
+        int lv = Math.max(1, here.levelMax);   // v57 leveling P4 (owner OK 2026-11-18): inside the sector band (was top + 2)
         Element e = ModSector.wingShip("reaver", lv, true);
         if (!(e instanceof Ennemis)) return;
         Ennemis w = (Ennemis) e;
@@ -223,7 +227,7 @@ public final class ModEvents {
             return;
         }
         if (dead(victim)) {
-            ModQol.post(ModLang.tr("The freighter was lost."));
+            ModQol.post(ModLang.tr(policeVictim ? "The police cruiser was lost." : "The freighter was lost."));
             end("lost");
             return;
         }
@@ -255,7 +259,7 @@ public final class ModEvents {
             ModQol.addCredits(pay, victim);
             int owner = ModSector.baseFaction(ObjectRegistry.INSTANCE.game.currentLevel.id);
             if (owner >= 0) ModRep.change(ModCapitals.FACTIONS[owner].key, DISTRESS_STANDING, false);
-            ModQol.post(ModLang.tr("Freighter saved. The crew sends their thanks."));
+            ModQol.post(ModLang.tr(policeVictim ? "Police cruiser saved. The crew sends their thanks." : "Freighter saved. The crew sends their thanks."));
             end("saved pay=" + pay);
         }
     }

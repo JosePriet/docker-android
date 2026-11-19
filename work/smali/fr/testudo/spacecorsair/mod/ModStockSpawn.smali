@@ -3,23 +3,137 @@
 .source "ModStockSpawn.java"
 
 
+# static fields
+.field static volatile band:Lfr/testudo/spacecorsair/game/levels/LevelId;
+
+
 # direct methods
 .method public constructor <init>()V
     .registers 1
 
     .prologue
-    .line 22
+    .line 27
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
+.end method
+
+.method static L(I)I
+    .registers 5
+
+    .prologue
+    .line 38
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+
+    move-result v0
+
+    .line 39
+    sget-object v1, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->band:Lfr/testudo/spacecorsair/game/levels/LevelId;
+
+    .line 40
+    if-eqz v1, :cond_12
+
+    iget v2, v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
+
+    iget v3, v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
+
+    if-lt v2, v3, :cond_12
+
+    sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModPrologue;->active:Z
+
+    if-eqz v2, :cond_13
+
+    .line 41
+    :cond_12
+    :goto_12
+    return v0
+
+    :cond_13
+    iget v2, v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMin:I
+
+    iget v1, v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
+
+    invoke-static {v1, v0}, Ljava/lang/Math;->min(II)I
+
+    move-result v0
+
+    invoke-static {v2, v0}, Ljava/lang/Math;->max(II)I
+
+    move-result v0
+
+    goto :goto_12
+.end method
+
+.method static building(Ljava/lang/String;)V
+    .registers 3
+
+    .prologue
+    .line 32
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModQol;->levelByName(Ljava/lang/String;)Lfr/testudo/spacecorsair/game/levels/LevelId;
+
+    move-result-object v0
+
+    .line 33
+    if-eqz v0, :cond_12
+
+    sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->GALACTIC_ARENA:Lfr/testudo/spacecorsair/game/levels/LevelId;
+
+    if-eq v0, v1, :cond_12
+
+    sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->FFA_THE_PLAYER_PAY:Lfr/testudo/spacecorsair/game/levels/LevelId;
+
+    if-eq v0, v1, :cond_12
+
+    sget-object v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->TUTORIAL:Lfr/testudo/spacecorsair/game/levels/LevelId;
+
+    if-ne v0, v1, :cond_13
+
+    :cond_12
+    const/4 v0, 0x0
+
+    :cond_13
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->band:Lfr/testudo/spacecorsair/game/levels/LevelId;
+
+    .line 34
+    return-void
+.end method
+
+.method public static mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
+    .registers 2
+
+    .prologue
+    .line 46
+    if-eqz p0, :cond_a
+
+    :try_start_2
+    iget v0, p0, Lfr/testudo/spacecorsair/business/mission/Mission;->level:I
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+
+    move-result v0
+
+    iput v0, p0, Lfr/testudo/spacecorsair/business/mission/Mission;->level:I
+    :try_end_a
+    .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_a} :catch_b
+
+    .line 47
+    :cond_a
+    :goto_a
+    return-void
+
+    .line 46
+    :catch_b
+    move-exception v0
+
+    goto :goto_a
 .end method
 
 .method public static newAlbatros(I)Lfr/testudo/spacecorsair/business/ennemis/Albatros;
     .registers 2
 
     .prologue
-    .line 23
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 49
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
@@ -34,12 +148,12 @@
     .registers 4
 
     .prologue
-    .line 24
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 50
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v1
 
@@ -54,12 +168,12 @@
     .registers 4
 
     .prologue
-    .line 25
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 51
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v1
 
@@ -74,8 +188,8 @@
     .registers 2
 
     .prologue
-    .line 26
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 52
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
@@ -90,8 +204,8 @@
     .registers 2
 
     .prologue
-    .line 27
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 53
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
@@ -106,12 +220,12 @@
     .registers 4
 
     .prologue
-    .line 28
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 54
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v1
 
@@ -126,8 +240,8 @@
     .registers 2
 
     .prologue
-    .line 29
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 55
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
@@ -142,12 +256,12 @@
     .registers 4
 
     .prologue
-    .line 30
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 56
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v1
 
@@ -162,12 +276,12 @@
     .registers 5
 
     .prologue
-    .line 31
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 57
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
-    invoke-static {p2}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    invoke-static {p2}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v1
 
@@ -182,8 +296,8 @@
     .registers 2
 
     .prologue
-    .line 32
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 58
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
@@ -198,12 +312,12 @@
     .registers 4
 
     .prologue
-    .line 33
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 59
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v1
 
@@ -218,8 +332,8 @@
     .registers 2
 
     .prologue
-    .line 34
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 60
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
@@ -234,12 +348,12 @@
     .registers 4
 
     .prologue
-    .line 35
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 61
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v1
 
@@ -254,12 +368,12 @@
     .registers 4
 
     .prologue
-    .line 36
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 62
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v1
 
@@ -274,12 +388,12 @@
     .registers 4
 
     .prologue
-    .line 37
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 63
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v1
 
@@ -294,12 +408,12 @@
     .registers 4
 
     .prologue
-    .line 38
-    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    .line 64
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v0
 
-    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->lvl(I)I
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->L(I)I
 
     move-result v1
 

@@ -104,6 +104,7 @@ public final class ModPrologue {
 
     /** LevelBuilder.getLevelByName (hooks46): the player bay, built here; null leaves the stock dispatch alone. */
     public static Level level(String name) {
+        try { ModStockSpawn.building(name); } catch (Throwable t) { /* v57: no band, stock-mapped levels */ }
         if (!active) return ModLan.arenaLevel(name);   // v49: the LAN duel bay
         if (name == null || !LevelId.FFA_THE_PLAYER_PAY.levelName.equals(name)) return null;
         try {

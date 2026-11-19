@@ -60,6 +60,37 @@ public final class ModSector {
         return e != null && (patrols.contains(e) || faction.containsKey(e));
     }
 
+    /**
+     * Owner 2026-11-18 (pirate havens): the sectors the stock galaxy map colours RED are lawless. No police patrols or police
+     * waves there, traders are rare, and police only show up hunting a pirate pack (or in a "police under attack" event).
+     */
+    public static boolean lawless(LevelId id) {
+        if (id == null) return false;
+        switch (id) {
+            case PIRATE_BAY:
+            case HUGO_WISDOM:
+            case THE_HIVE:
+            case HERMES:
+            case THE_WAVE:
+            case SOLAR_FIELD:
+            case THE_VAULT:
+            case DELTA_NODE:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /** Lawless sectors [P]: chance of one trader per visit, chance of one police hunt per visit. */
+    public static final float LAWLESS_TRADER_CHANCE = 0.25f, LAWLESS_HUNT_CHANCE = 0.20f;
+    public static final int HUNT_PIRATES_MIN = 2, HUNT_PIRATES_MAX = 3;
+
+    /** Traders a sector gets: lawless = 1 at the given chance roll, else the usual target. */
+    public static int traderTarget(boolean lawless, int stockCivilians, double roll) {
+        if (lawless) return roll < LAWLESS_TRADER_CHANCE ? 1 : 0;
+        return traders(stockCivilians);
+    }
+
     static boolean excluded(LevelId id) {
         if (id == null || id.isMulti) return true;
         switch (id) {
@@ -77,6 +108,7 @@ public final class ModSector {
     private static LevelId here;
     private static final ArrayList<CivilShip> traders = new ArrayList<CivilShip>(), patrols = new ArrayList<CivilShip>();
     private static int traderTarget, refill;
+    private static boolean huntPending;
     private static final Vector2[] poi = new Vector2[4];
     static final int OUTPOST = 0, WRECKS = 1, MINING = 2, BASE = 3;
 
@@ -85,6 +117,7 @@ public final class ModSector {
         traders.clear();
         patrols.clear();
         traderTarget = 0;
+        huntPending = false;
         here = null;
         pending = 0;
         try {
@@ -133,6 +166,7 @@ public final class ModSector {
             prune(patrols);
             ModDev.ev("traffic", here.name() + " traders=" + traders.size() + "/" + traderTarget + " patrols=" + patrols.size() + "/" + PATROLS);
             if (traders.size() < traderTarget) trader(here);       // one at a time: traffic builds up instead of popping in
+            else if (lawless(here)) { if (huntPending) { huntPending = false; hunt(here, ps); } }   // pirate havens: no patrols
             else if (patrols.size() < PATROLS) patrol(here);
         } catch (Throwable t) {
             // no traffic this round
@@ -162,7 +196,9 @@ public final class ModSector {
             if (e instanceof CivilShip && ModCapitals.cap(e) == null) civ++;
             if (e instanceof Portal || e instanceof Station) busy.add(new Vector2(e.position));
         }
-        traderTarget = traders(civ);
+        boolean lw = lawless(id);
+        traderTarget = traderTarget(lw, civ, Math.random());
+        huntPending = lw && Math.random() < LAWLESS_HUNT_CHANCE;
         refill = 2000;
         places(id, busy);
         outpost(id);
@@ -402,6 +438,43 @@ public final class ModSector {
     }
 
     /**
+     * Lawless sectors: one police cruiser hunting a small Reaver pack at a point of interest, away from the player. They fight
+     * each other; the player may help or ignore it. The cruiser is not a patrol (it never joins police waves) and fights back
+     * only if the player keeps shooting it (stock tolerance).
+     */
+    private static void hunt(LevelId id, PlayerShip ps) {
+        Vector2 at = null;
+        for (int tries = 0; tries < 4 && at == null; tries++) {
+            Vector2 v = poi[(int) (Math.random() * poi.length)];
+            if (v != null && (ps == null || v.distance(ps.position) >= 2500)) at = v;
+        }
+        if (at == null) return;
+        int lv = Math.max(1, id.levelMax);
+        PoliceShip p = CivilFactory.newPolice(lv, lv);
+        if (p == null) return;
+        p.position.setSameAs(at).add((float) (Math.random() * 400 - 200), (float) (Math.random() * 400 - 200));
+        ArrayList<Ennemis> pack = new ArrayList<Ennemis>();
+        int n = HUNT_PIRATES_MIN + (int) (Math.random() * (HUNT_PIRATES_MAX - HUNT_PIRATES_MIN + 1));
+        int plv = Math.max(1, (id.levelMin + id.levelMax) / 2);
+        for (int k = 0; k < n; k++) {
+            Element e = wingShip("reaver", plv, false);
+            if (!(e instanceof Ennemis)) continue;
+            faction.remove(e);   // plain pirates, not a faction wing
+            e.position.setSameAs(at).add((float) (Math.random() * 1200 - 600), (float) (Math.random() * 1200 - 600));
+            e.updateSapCoords();
+            pack.add((Ennemis) e);
+        }
+        if (pack.isEmpty()) return;
+        ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(p);
+        for (Ennemis e : pack) {
+            e.addToCurrentLevel();
+            e.initChase(p);
+        }
+        p.setAtackEnnemisMode(pack.get(0));
+        ModDev.ev("hunt", id.name() + " police vs " + pack.size() + " pirates at " + at);
+    }
+
+    /**
      * One faction ship from existing art: Reaver and Kre'tari NPC hulls (ModFleet); the other factions fly a police cruiser
      * in their colours (their own hulls join the NPC pools with the titans, v34 req 14).
      */
@@ -487,7 +560,8 @@ public final class ModSector {
                 ((Ennemis) e).initChasePlayer();
             } else {
                 ObjectRegistry.INSTANCE.game.currentLevel.toAdd.add(e);
-                ((CivilShip) e).setAtackPlayerMode();
+                ModPolice.spawning = true;   // owner 2026-11-18: a pursuit spawn is not the player attacking a civilian
+                try { ((CivilShip) e).setAtackPlayerMode(); } finally { ModPolice.spawning = false; }
             }
         }
         ModCapitals.Faction f = ModCapitals.FACTIONS[ModFaction.faction(key)];

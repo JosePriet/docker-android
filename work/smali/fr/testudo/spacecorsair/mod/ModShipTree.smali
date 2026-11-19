@@ -4446,26 +4446,33 @@
     iget-object v2, v2, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
 
     iget v2, v2, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
-    :try_end_d
-    .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_d} :catch_12
 
-    if-gt v1, v2, :cond_10
+    if-le v1, v2, :cond_15
+
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModV34;->ownedShip(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z
+    :try_end_12
+    .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_12} :catch_18
+
+    move-result v1
+
+    if-eqz v1, :cond_16
 
     .line 955
-    :goto_f
+    :cond_15
+    :goto_15
     return v0
 
     .line 953
-    :cond_10
+    :cond_16
     const/4 v0, 0x0
 
-    goto :goto_f
+    goto :goto_15
 
     .line 954
-    :catch_12
+    :catch_18
     move-exception v1
 
-    goto :goto_f
+    goto :goto_15
 .end method
 
 .method static listed(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Z

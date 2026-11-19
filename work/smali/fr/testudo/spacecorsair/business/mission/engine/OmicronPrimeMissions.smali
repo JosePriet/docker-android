@@ -209,6 +209,9 @@
 
     invoke-direct/range {v0 .. v9}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
 
+
+    invoke-static/range {v0 .. v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
+
     .line 79
     return-object v0
 .end method
@@ -671,6 +674,9 @@
 
     invoke-direct/range {v0 .. v9}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
 
+
+    invoke-static/range {v0 .. v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
+
     .line 330
     return-object v0
 .end method
@@ -757,6 +763,9 @@
 
     invoke-direct/range {v1 .. v10}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
 
+
+    invoke-static/range {v1 .. v1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
+
     .line 434
     return-object v1
 .end method
@@ -818,6 +827,9 @@
     move-object v8, v0
 
     invoke-direct/range {v1 .. v10}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
+
+
+    invoke-static/range {v1 .. v1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
 
     .line 215
     return-object v1
@@ -882,6 +894,9 @@
     move v10, v11
 
     invoke-direct/range {v1 .. v10}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
+
+
+    invoke-static/range {v1 .. v1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
 
     .line 270
     return-object v1
@@ -957,6 +972,9 @@
     move v13, v9
 
     invoke-direct/range {v4 .. v13}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
+
+
+    invoke-static/range {v4 .. v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
 
     .line 126
     const-string v0, "OMICRON_PRIME_GATHER_ALIEN_JELLY2"
@@ -1036,6 +1054,9 @@
 
     invoke-direct/range {v4 .. v13}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
 
+
+    invoke-static/range {v4 .. v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
+
     .line 95
     return-object v4
 .end method
@@ -1108,6 +1129,9 @@
     move v13, v9
 
     invoke-direct/range {v4 .. v13}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
+
+
+    invoke-static/range {v4 .. v4}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
 
     .line 110
     const-string v0, "OMICRON_PRIME_GATHER_ALIEN_JELLY"
@@ -1190,6 +1214,9 @@
     move v10, v11
 
     invoke-direct/range {v1 .. v10}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
+
+
+    invoke-static/range {v1 .. v1}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
 
     .line 161
     return-object v1
@@ -1345,6 +1372,9 @@
 
     invoke-direct/range {v0 .. v9}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
 
+
+    invoke-static/range {v0 .. v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
+
     .line 484
     return-object v0
 .end method
@@ -1435,6 +1465,9 @@
     const/4 v9, 0x1
 
     invoke-direct/range {v0 .. v9}, Lfr/testudo/spacecorsair/business/mission/Mission;-><init>(Ljava/lang/String;IIIZILfr/testudo/spacecorsair/business/mission/MissionListener;Lfr/testudo/spacecorsair/business/mission/MissionReward;Z)V
+
+
+    invoke-static/range {v0 .. v0}, Lfr/testudo/spacecorsair/mod/ModStockSpawn;->mission(Lfr/testudo/spacecorsair/business/mission/Mission;)V
 
     .line 144
     return-object v0
