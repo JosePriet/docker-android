@@ -1,5 +1,5 @@
 # Batch 2 task 03
 
-Implementation and experiments complete. The [report](report.md) covers all eight arena switches and four default-off game ports. The Java 8 build, 31 JVM checks, 42 shipped-fighter probes, a 306-step reference fight and the rendezvous registry tests passed. A second 48,000-run experiment reproduced all data and frames byte-for-byte.
+Completed and opened [PR #6](https://github.com/JosePriet/docker-android/pull/6) against `sc-mod-workspace` from `codex/b2-03-ai-overhaul`. The PR is open for review.
 
-The task branch is `codex/b2-03-ai-overhaul`, based on `claude/project-thread-kci9au`. Publication for review against `sc-mod-workspace` is the final step. Android playtesting is outside the headless validation.
+The [report](report.md) contains the current behavior map, eight arena experiments, four default-off game ports, paired results and replay frames. The Java 8 build, 31 JVM decision checks, 42 shipped-fighter probes, a 306-step reference fight and the rendezvous registry tests passed. Repeating all 48,000 runs reproduced the data and images byte-for-byte. Validation was headless; Android playtesting remains outstanding.
