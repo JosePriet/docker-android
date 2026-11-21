@@ -24,16 +24,22 @@ NOISY_RE = re.compile(r"^(?:bash\s+(?:\./)?build\.sh|\./build\.sh|\./gradlew|apk
                       r"java\s+-jar\s+tools/[\w./-]*(?:apktool|smali|baksmali|uber-apk-signer|dex2jar)[\w.-]*\.jar|"
                       r"jadx\s|adb\s+(?:logcat\s+-d|install)|dotnet\s+(?:build|publish))")
 # Commands rewritten (and auto-allowed) must be one plain command: optional `cd <path> &&`, optional plain
-# VAR=value prefixes (not LD_*/PATH/BASH_ENV), then only safe characters: no $ ` ; | & < > # quotes or newlines.
-SAFE_CMD_RE = re.compile(r"^(?:cd\s+[\w./~-]+\s+&&\s+)?(?:(?!LD_|PATH=|BASH_ENV=|ENV=)[A-Z_][A-Z0-9_]*=[\w./:,-]*\s+)*"
+# MODVER_NAME/DEV_KEY_FILE prefixes, then only safe characters: no $ ` ; | & < > # quotes, newlines or "..".
+UNSAFE_ARG_RE = re.compile(r"\.\.|--init-script|\s-I\b|javaagent|--settings-file|--output|--ext-diff")
+SAFE_CMD_RE = re.compile(r"^(?:cd\s+[\w./~-]+\s+&&\s+)?(?:(?:MODVER_NAME|DEV_KEY_FILE)=[\w./:,-]*\s+)*"
                          r"([\w./:=,@+~^ -]+)$")
 GIT_OPTS = r"\bgit\s+(?:(?:-C|-c)\s+\S+\s+|--?[\w-]+(?:=\S+)?\s+)*"
 COMMIT_RE = re.compile(GIT_OPTS + r"commit\b")
 PUSH_RE = re.compile(GIT_OPTS + r"push\b")
 BYPASS_RE = re.compile(r"(?:^|[;&|(]\s*)SC_HOOK_OK=1\s")
-DOWNLOADS = r"(?:Users[\\/][^\\/\s]+|~|\$HOME|\$\{HOME\}|mnt)[\\/]+Downloads\b"
+DOWNLOADS = r"(?:Users[\\/][^\\/\s]+|home/[^/\s]+|root|~|\$HOME|\$\{HOME\}|mnt)[\\/]+Downloads\b"
+DEL_VERB = r"(?:\b(?:rm|rmdir|del|erase|rd|unlink|shred|mv|move)\b|Remove-Item|rmtree|os\.remove|-delete\b)"
 DEL_RE = re.compile(r"(?:\b(?:rm|rmdir|del|erase|rd|unlink|shred|mv|move)\b|Remove-Item|rmtree|os\.remove)[^;&|\n]*" + DOWNLOADS
-                    + r"|\bfind\b[^;&|\n]*" + DOWNLOADS + r"[^;&|\n]*-delete", re.I)
+                    + r"|\bfind\b[^;&|\n]*" + DOWNLOADS + r"[^;&|\n]*-delete"
+                    + r"|\b(?:cd|pushd|Set-Location)\s+[\"']?" + DOWNLOADS + r".*" + DEL_VERB, re.I | re.S)
+# Inline scripts that rewrite files (the Edit tool is safer: no quoting breakage, no wiped files).
+SCRIPT_EDIT_RE = re.compile(r"\bsed\s+(?:-[a-zA-Z]*\s+)*-[a-zA-Z]*i|\bperl\s+-[a-zA-Z]*i|"
+                            r"\bpython3?\s+(?:-I\s+)?(?:-c\b|-\s*<<)[\s\S]*(?:\.write\(|write_text\(|open\([^)]*['\"][wa]['\"])")
 DIFF_RE = re.compile(r"^git\s+(?:-C\s+\S+\s+)?(?:diff|show|log\s+.*-p)\b")
 
 
@@ -66,6 +72,8 @@ def repo_dir(cmd, cwd):
 
 def simple_body(cmd):
     """The command body if cmd is one plain command (see SAFE_CMD_RE), else None."""
+    if UNSAFE_ARG_RE.search(cmd):
+        return None
     m = SAFE_CMD_RE.match(cmd.strip())
     return m.group(1).strip() if m else None
 
@@ -79,6 +87,11 @@ def pre_bash(data):
     if DEL_RE.search(cmd):
         deny("Owner rule: nothing is deleted or moved out of the owner's Downloads folder. Copy instead, or ask the owner.")
 
+    # 1b. Keys never staged (no bypass).
+    for m in re.finditer(r"\bgit\s+add\b([^;&|\n]*)", cmd):
+        bad = [a.strip("\"'") for a in m.group(1).split() if KEY_RE.search(a.strip("\"'"))]
+        if bad:
+            deny("Signing keys/credentials never go into git: " + ", ".join(bad[:5]) + ".")
     is_commit = COMMIT_RE.search(cmd)
     is_push = PUSH_RE.search(cmd)
     if is_commit or is_push:
@@ -93,8 +106,9 @@ def pre_bash(data):
                     files |= {l[3:].split(" -> ")[-1] for l in git(["status", "--porcelain", "-uall"], top).splitlines()}
             if is_push:
                 files |= set(git(["log", "--name-only", "--format=", "HEAD", "--not", "--remotes"], top).split())
-            # 2. Signing keys never go into git (no bypass).
-            keys = sorted(f for f in files if KEY_RE.search(f))
+            # 2. Signing keys never go into git (no bypass). Modified tracked keys count too (pathspec commits).
+            worktree = set(git(["diff", "--name-only"], top).split()) if is_commit else set()
+            keys = sorted(f for f in files | worktree if KEY_RE.search(f))
             if keys:
                 deny("Signing keys/credentials never go into git: " + ", ".join(keys[:5]) +
                      ". Unstage them (git rm --cached) and keep them in /mnt/project-files/*/keys/.")
@@ -119,6 +133,10 @@ def pre_bash(data):
 
     if bypass:
         return
+    # 4b. Soft rule: edit source files with the Edit tool, not inline sed/perl/python rewrites.
+    if SCRIPT_EDIT_RE.search(cmd):
+        deny("Edit files with the Edit tool, not inline sed -i/perl -i/python writes (they break quoting and can "
+             "wipe files). For a bulk mechanical change or a generated file, rerun with SC_HOOK_OK=1 in front.")
     # 5. Token saver: noisy build/install commands -> full log to file, short summary to context.
     body = simple_body(cmd)
     if body is None:
