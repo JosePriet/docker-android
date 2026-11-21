@@ -395,6 +395,7 @@ public final class ModTitan {
                 }
                 if (timer <= 0) {
                     state = FIRE;
+                    ModLan.guestDoom();
                     timer = levSeq ? ModLevDoom.FIRE_MS : FIRE_MS[k];
                     tickAcc = levSeq ? -ModLevDoom.DAMAGE_DELAY_MS : 0;
                     novaRadius = 200;
@@ -504,6 +505,7 @@ public final class ModTitan {
     }
 
     private static void damageTick(PlayerShip ps, int k) {
+        if (ModNet.FIX_BH04 && ModLan.guestActive()) return;
         if (doomShot == null) doomShot = new LaserBeam();
         doomShot.sender = ps;
         doomShot.level = ps.level;
@@ -520,7 +522,7 @@ public final class ModTitan {
                 Element e = targets.get(i);
                 if (e.removed) continue;
                 if (e.position.distance(ps.position) <= novaRadius + radiusOf(e)) {
-                    doomHit(e, DMG[k] + ps.level * DMG_LVL[k], TICK_MS[k]);
+                    doomHit(e, doomShot, TICK_MS[k], levSeq, doomDealt, null);
                     ModFx.part("fx_fire", e.position.x, e.position.y, 0, 0, 400, 40, 120, 1.0f, 0.5f, 0.15f, 0.9f, true, true);
                     if (e.removed || e.life <= 0) ModFx.boom(e.position.x, e.position.y, Math.max(160, radiusOf(e) * 4), 850, 1.0f, 0.8f, 0.6f);
                 }
@@ -537,7 +539,7 @@ public final class ModTitan {
                 if (along < -radiusOf(e) || along > REACH[k]) continue;
                 float perp = Math.abs(dx * b.y - dy * b.x);
                 if (perp <= half + radiusOf(e)) {
-                    doomHit(e, DMG[k] + ps.level * DMG_LVL[k], TICK_MS[k]);
+                    doomHit(e, doomShot, TICK_MS[k], levSeq, doomDealt, null);
                     float[] col = COL[k];
                     ModFx.part("fx_core", e.position.x, e.position.y, 0, 0, 260, 60, 180, col[0], col[1], col[2], 1.0f, true, true);
                     if (e.removed || e.life <= 0) ModFx.boom(e.position.x, e.position.y, Math.max(160, radiusOf(e) * 4), 850, 1.0f, 0.85f, 0.7f);
@@ -548,9 +550,11 @@ public final class ModTitan {
 
     /** Full beam width = 60% of the firing titan's width (wingtip to wingtip, from the sprite). */
     static float beamWidth(PlayerShip ps) {
-        float sz = ps.shipSpec.drawableSize;
-        ModCaps.Profile p = ModCaps.profile(ps);
-        float w = p.data >= 0 ? (ModFxData.NAV[p.data][2] - ModFxData.NAV[p.data][0]) * sz : sz * 0.4f;
+        return beamWidth(ps.shipSpec.drawableSize, ModCaps.profile(ps).data);
+    }
+
+    private static float beamWidth(float sz, int data) {
+        float w = data >= 0 ? (ModFxData.NAV[data][2] - ModFxData.NAV[data][0]) * sz : sz * 0.4f;
         return Math.max(sz * 0.2f, w * 0.6f);
     }
 
@@ -572,9 +576,73 @@ public final class ModTitan {
     static final java.util.Map<Element, Float> doomDealt = new java.util.WeakHashMap<Element, Float>();
     static final int DOOM_LANCE_TICKS = 22;
 
-    private static void doomHit(Element e, float base, int tickMs) {
+    /** Host game thread. A guest requests one firing cycle. Its declared hull supplies the
+     * cadence, geometry and cooldown, and shares the projectile damage allowance. */
+    static final class RemoteDoom {
+        private long session = -1, readyAt, firedAt, nextTick;
+        private ModShips.Hull firing;
+        private final java.util.Map<Element, Float> dealt = new java.util.WeakHashMap<Element, Float>();
+        private final ArrayList<Element> enemies = new ArrayList<Element>();
+        private LaserBeam hit;
+
+        void frame(boolean request, Element from, PlayerShip host, ModLanCheck.Limits limits, long generation, long now) {
+            if (session != generation) { session = generation; readyAt = 0; firing = null; dealt.clear(); }
+            ModShips.Hull hull = limits == null ? null : limits.doomHull;
+            if (hull != firing) firing = null;
+            if (hull == null) return;
+            int k = hull.dev ? DEV : "crimson_throne".equals(hull.art) ? THRONE : LEVIATHAN;
+            boolean spartan = "leviathan".equals(hull.art);
+            long duration = spartan ? ModLevDoom.FIRE_MS : FIRE_MS[k];
+            if (request && now >= readyAt) {
+                firing = hull;
+                firedAt = now;
+                nextTick = now + TICK_MS[k] + (spartan ? ModLevDoom.DAMAGE_DELAY_MS : 0);
+                readyAt = now + duration + COOL_MS[k] + (spartan ? ModLevDoom.OVER_MS + ModLevDoom.CHARGE_MS : CHARGE_MS[k]);
+                dealt.clear();
+            }
+            if (firing == null || now < nextTick) return;
+            if (now > firedAt + duration) { firing = null; return; }
+            nextTick += TICK_MS[k];
+            if (hit == null) hit = new LaserBeam();
+            hit.sender = from;
+            hit.level = from.level;
+            hit.destroyedOnImpact = false;
+            hit.ignoreImactDecalOnTarget = true;
+            hit.mass = 0;
+            hit.alterationSpecs = fr.testudo.spacecorsair.business.loot.stuff.alteration.AlterationSpecs.DEFAULT;
+            hit.resolveAlteration();
+            Mod.enemiesInto(enemies);
+            if (ModLan.pvp) enemies.add(host);
+            ModFx.local(from.position, from.spin, 0, -hull.size * 0.48f, a);
+            b.set(0, -1).applyRotatation(Math.toRadians(from.spin));
+            float half = beamWidth(hull.size, ModFxData.index(hull.art)) / 2;
+            float radius = Math.min(REACH[k], 200 + (now - firedAt) * 1.6f);
+            for (Element target : enemies) {
+                if (target == from || target.removed) continue;
+                float edge = radiusOf(target);
+                if (k == THRONE) {
+                    if (target.position.distance(from.position) > radius + edge) continue;
+                } else {
+                    float dx = target.position.x - a.x, dy = target.position.y - a.y;
+                    float along = dx * b.x + dy * b.y;
+                    if (along < -edge || along > REACH[k] || Math.abs(dx * b.y - dy * b.x) > half + edge) continue;
+                }
+                doomHit(target, hit, TICK_MS[k], spartan, dealt, limits);
+            }
+        }
+    }
+
+    private static float allowedDoomDamage(ModLanCheck.Limits limits, float ask) {
+        if (limits == null) return ask;
+        long now = System.currentTimeMillis();
+        if (!ModLanCheck.record(limits, ask, now)) return 0;
+        return ModLanCheck.allow(limits, ask, now, ModLan.pvp || ModLan.pvpRoom);
+    }
+
+    private static void doomHit(Element e, LaserBeam hit, int tickMs, boolean spartan,
+                                java.util.Map<Element, Float> dealt, ModLanCheck.Limits limits) {
         float pct = -1;
-        float tp = levSeq ? DOOM_TITAN_PCT : DOOM_TITAN_PCT_OTHER, bp = levSeq ? DOOM_BIG_PCT : DOOM_BIG_PCT_OTHER;
+        float tp = spartan ? DOOM_TITAN_PCT : DOOM_TITAN_PCT_OTHER, bp = spartan ? DOOM_BIG_PCT : DOOM_BIG_PCT_OTHER;
         boolean flagship = ModCapitals.cap(e) != null;
         if (flagship && ModPoliceTitan.isPoliceTitan(e)) pct = tp;                 // police titans are titans
         else if (flagship || ModBoss.isBoss(e)) pct = bp;
@@ -582,23 +650,25 @@ public final class ModTitan {
         else if (e instanceof fr.testudo.spacecorsair.business.ennemis.Ennemis
                  && ModV35.enemyClass((fr.testudo.spacecorsair.business.ennemis.Ennemis) e) >= ModShips.CAPITAL) pct = bp;
         if (pct > 0) {
-            Float done = doomDealt.get(e);
+            Float done = dealt.get(e);
             float d0 = done == null ? 0 : done, step = Math.min(pct / DOOM_LANCE_TICKS, pct - d0);
             if (step <= 0) return;                       // this shot's share is used up
-            doomDealt.put(e, d0 + step);
-            float slice = e.maxLife * step;
+            float slice = allowedDoomDamage(limits, e.maxLife * step);
+            if (slice <= 0) return;
+            dealt.put(e, d0 + (limits == null ? step : slice / e.maxLife));
             if (e.life - slice > 1) {                    // straight off the hull: no resistances, no shield
                 e.life -= slice;
                 e.lifeInPourc = e.maxLife > 0 ? 100f * e.life / e.maxLife : 0;
                 if (e.lifeBar != null) e.lifeBar.setValue(e.lifeInPourc);
-                doomShot.damage = 0.001f;               // still a hit by the player (aggro, hostility, kill credit)
+                hit.damage = 0.001f;               // still a hit by the player (aggro, hostility, kill credit)
             } else {
-                doomShot.damage = e.life + e.maxLife;    // the slice finishes it: the normal kill path
+                hit.damage = limits == null ? e.life + e.maxLife : slice;    // the slice finishes it: the normal kill path
             }
         } else {
-            doomShot.damage = DOOM_FIXED_PER_S * tickMs / 1000f;   // fixed, mitigated like any other hit
+            hit.damage = allowedDoomDamage(limits, DOOM_FIXED_PER_S * tickMs / 1000f);
+            if (hit.damage <= 0) return;   // fixed, mitigated like any other hit
         }
-        e.applyProjectileHit(doomShot);
+        e.applyProjectileHit(hit);
     }
 
     private static float radiusOf(Element e) {

@@ -103,6 +103,8 @@ export class Registry {
   /** After a sleep: the open lobbies, without addresses (those arrive with the next heartbeat). */
   async load() {
     if (this.loaded) return;
+    if (this.env.FIX_BH09 === "1" && await this.ctx.storage.getAlarm() === null)
+      await this.scheduleExpiry();
     this.loaded = true;
     const saved = await this.ctx.storage.list({ prefix: "lobby:", limit: 1000 });
     for (const [, c] of saved) {
@@ -294,10 +296,19 @@ export class Registry {
     if (l.pub && await this.banned(id)) return reply("banned", {}, null, 403);
     if (l.kicked && l.kicked.has(id)) return reply("kicked", {}, null, 403);
     if (l.full) return reply("full");
-    if (!this.allow("jn:" + ik, 20, 10 * 60 * 1000)) return reply("slow", {}, null, 429);
+    if (this.env.FIX_BH02 !== "1" && !this.allow("jn:" + ik, 20, 10 * 60 * 1000)) return reply("slow", {}, null, 429);
+    const fixed = this.env.FIX_BH02 === "1";
+    const dev = fixed ? await this.isDev(id) : false;
     const pid = await this.pid(l, id);   // before the slot check: nothing waits between the check and the insert
     l.joins = l.joins.filter((j) => t - j.at < JOIN_LIFE_MS);
     const prev = l.joins.find((x) => x.id === id);   // the same player again (with its relay address, or repeating the join): same session
+    const sid = num(f.sid, -2147483648, 2147483647);
+    if (fixed) {
+      if (l.full) return reply("full");
+      const repeat = prev && prev.sid === sid;
+      if (!this.allow((repeat ? "retry:" : "jn:") + ik, repeat ? 120 : 20, 10 * 60 * 1000))
+        return reply("slow", {}, null, 429);
+    }
     l.joins = l.joins.filter((x) => x.id !== id);
     // two waiting joins per caller address (two phones on one wifi), the oldest gives way: one caller cannot hold every slot
     const same = l.joins.filter((x) => x.ik === ik);
@@ -305,9 +316,9 @@ export class Registry {
     if (l.joins.length >= 4) return reply("full");
     // the joiner picks the session number (random 32 bits), so repeating a join gives the same one even after this object slept
     const j = {
-      jid: prev ? prev.jid : token(4), sid: num(f.sid, -2147483648, 2147483647), id, ik, pid, at: t,
+      jid: prev && (!fixed || prev.sid === sid) ? prev.jid : token(4), sid, id, ik, pid, at: t,
       nick: nickOf(f.nick), ctry: ctryOf(f.ctry), cands: f.hide === "1" ? "" : candsOf(f.cands), relay: relayOf(f.relay),
-      dev: await this.isDev(id),
+      dev: fixed ? dev : await this.isDev(id),
     };
     l.joins.push(j);
     const known = l.seen.has(id);
@@ -470,10 +481,49 @@ export class Registry {
     };
     s.ratio = Math.max(s.expShot > 0 ? s.peakShot / s.expShot : 0, s.expDps > 0 ? s.peakDps / s.expDps : 0);
     s.flagged = s.ratio > 1;
-    await this.ctx.storage.put("sample:" + s.at + ":" + token(3), s);
-    const old = await this.ctx.storage.list({ prefix: "sample:", limit: 50 });
-    for (const [k, v] of old) if (s.at - v.at > 30 * DAY) await this.ctx.storage.delete(k);
+    await this.storeRecord("sample:", s);
     return reply("ok");
+  }
+
+  // Keys start with the millisecond timestamp. The oldest row sets the next alarm,
+  // including rows written by a previous deployment. No traffic is needed afterward.
+  async scheduleExpiry() {
+    const storage = this.ctx.storage;
+    let first = Infinity;
+    for (const prefix of ["report:", "sample:"]) {
+      const rows = await storage.list({ prefix, limit: 1 });
+      for (const row of rows.values()) first = Math.min(first, row.at);
+    }
+    if (Number.isFinite(first)) await storage.setAlarm(Math.max(this.now(), first + 30 * DAY));
+  }
+
+  async alarm() {
+    if (this.env.FIX_BH09 !== "1") return;
+    const cutoff = this.now() - 30 * DAY;
+    for (const prefix of ["report:", "sample:"]) {
+      const rows = await this.ctx.storage.list({ prefix, limit: 128 });
+      const expired = Array.from(rows).filter(([, row]) => row.at <= cutoff).map(([key]) => key);
+      if (expired.length) await this.ctx.storage.delete(expired);
+    }
+    // Another bounded invocation drains any remaining expired pages.
+    await this.scheduleExpiry();
+  }
+
+  async storeRecord(prefix, row) {
+    const storage = this.ctx.storage;
+    const key = prefix + row.at + ":" + token(3);
+    if (this.env.FIX_BH09 === "1") {
+      await storage.transaction(async (txn) => {
+        const alarm = await txn.getAlarm();
+        const due = row.at + 30 * DAY;
+        if (alarm === null || due < alarm) await txn.setAlarm(due);
+        await txn.put(key, row);
+      });
+    } else {
+      await storage.put(key, row);
+      const old = await storage.list({ prefix, limit: 50 });
+      for (const [k, v] of old) if (row.at - v.at > 30 * DAY) await storage.delete(k);
+    }
   }
 
   /** Fix list 4A/4B (owner 2026-11-17): the owner reads the stored reports and samples with the admin key (JSON). */
@@ -481,7 +531,8 @@ export class Registry {
     if (!this.allow("adm:" + ik, 20, 60 * 60 * 1000)) return reply("slow", {}, null, 429);
     if (!(await this.adminKeyOk(f.key))) return reply("no", {}, null, 403);
     // second check S13: the newest 1000 of each, not the oldest
-    const rows = async (prefix) => Array.from((await this.ctx.storage.list({ prefix, limit: 1000, reverse: true })).values()).sort((a, b) => b.at - a.at);
+    const rows = async (prefix) => Array.from((await this.ctx.storage.list({ prefix, limit: 1000, reverse: true })).values())
+      .filter((row) => this.env.FIX_BH09 !== "1" || row.at > this.now() - 30 * DAY).sort((a, b) => b.at - a.at);
     const body = JSON.stringify({ reports: await rows("report:"), samples: await rows("sample:") });
     return new Response(body, { headers: { "content-type": "application/json", "cache-control": "no-store" } });
   }
@@ -496,9 +547,7 @@ export class Registry {
     // audit E5 (owner): the host names the guest it reports by that guest's lobby-only name, resolved here as kicks are
     const about = id === l.id ? await this.idOfPid(l, idOf(f.about)) : l.id;
     if (id === l.id && !about) return reply("bad", { why: "about" }, null, 400);
-    await this.ctx.storage.put("report:" + t + ":" + token(3), { at: t, by: id, about, text: textOf(f.text, 8000) });
-    const old = await this.ctx.storage.list({ prefix: "report:", limit: 50 });
-    for (const [k, v] of old) if (t - v.at > 30 * DAY) await this.ctx.storage.delete(k);
+    await this.storeRecord("report:", { at: t, by: id, about, text: textOf(f.text, 8000) });
     return reply("ok");
   }
 }

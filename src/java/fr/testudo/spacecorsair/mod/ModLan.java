@@ -102,6 +102,7 @@ public final class ModLan {
     static final int MAX_MSG = 256 * 1024;
     private static final int OK = 0, DECLINED = 1, VERSION = 2, KICKED = 3;
     private static final int MSG_DEF = 1, MSG_FRAME = 2, MSG_STATE = 3, MSG_SHOT = 4, MSG_BYE = 5, MSG_Z = 6, MSG_CHAT = 7, MSG_KILL = 8, MSG_PING = 9, MSG_LFRAME = 10, MSG_LSTATE = 11, MSG_STYLE = 12, MSG_DECL = 13;   // v45: 6 = a deflated FRAME / STATE (type byte first)
+    static final int MSG_DOOM_START = 16;
     private static final int R_SPRITE = 0, R_FX = 1, R_TEXT = 2, R_POINT = 3, R_BAR = 4;
     private static final int MAX_REMOTE = 2200;   // render queue holds 2500 per frame
 
@@ -178,6 +179,7 @@ public final class ModLan {
     /** Guest: connects to a host address. Any thread but the UI one. */
     /** ModLobby: hosting through the lobby service. No listener here: joining players arrive as ModNet links. */
     static void hostNet() {
+        if (ModNet.FIX_BH05 && ModLobby.switchLocked()) return;
         stop();
         internet = true;
         role = HOST;
@@ -189,7 +191,7 @@ public final class ModLan {
     static boolean acceptNet(Socket s, String install) {
         try {
             long gen = linkGen;
-            if (role != HOST || !internet || connected) return false;
+            if (role != HOST || !internet || connected || (ModNet.FIX_BH05 && ModLobby.switchLocked())) return false;
             netJoinId = install == null ? "" : install;
             if (!hello(s, gen) || gen != linkGen) return false;
             netPeerId = netJoinId;
@@ -202,6 +204,7 @@ public final class ModLan {
 
     /** ModLobby (its thread): the path to an internet host is up. Runs the guest's handshake. True = playing. */
     static boolean joinNet(Socket s) {
+        if (ModNet.FIX_BH05 && ModLobby.switchLocked()) return false;
         stop();
         internet = true;
         role = GUEST;
@@ -740,6 +743,7 @@ public final class ModLan {
         pvpWanted = false;
         seenRound = 0;
         defeatRound = -1;
+        resetRoundResult();
         solo = false;
         marksOut = null;
         autoAccept = false;
@@ -834,7 +838,8 @@ public final class ModLan {
         slowAt = 0; marksAt = 0; slowLast = null; leanLevel = ""; leanDmg = 0; leanXp = 0; leanMission = ""; leanDone = false; leanMarks = null; leanMarksN = 0;
         synchronized (defOut) { defOut.clear(); }
         synchronized (defIn) { defIn.clear(); texIn.clear(); }
-        synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); }
+        synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); doomRequested = false; pendingDecl = null; }
+        if (ModNet.FIX_BH08) xpLastHost = -1;
         dmgSent = 0; dmgSeen = 0; xpSent = 0; xpSeen = 0; xpBase = -1; dmgBase = -1;
         capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0;
         synchronized (inLock) { inKills.clear(); }
@@ -1104,6 +1109,13 @@ public final class ModLan {
     private static final Object inLock = new Object();
     private static InFrame inFrame;
     private static volatile InState inState;
+    private static boolean doomRequested;
+    private static final ModTitan.RemoteDoom remoteDoom = new ModTitan.RemoteDoom();
+
+    static void guestDoom() {
+        if (ModNet.FIX_BH04 && guestActive()) sendReliable(MSG_DOOM_START, new ByteArrayOutputStream(0));
+    }
+
     private static final ArrayList<byte[]> inShots = new ArrayList<byte[]>();
 
     // ------------------------------------------------------------------ v45: each player rolls its own loot
@@ -1280,10 +1292,7 @@ public final class ModLan {
             // v45 sanity: a view no larger than the widest zoom, a hull the game could have
             s.halfW = Math.max(100, Math.min(MAX_VIEW, s.halfW)); s.halfH = Math.max(100, Math.min(MAX_VIEW, s.halfH));
             if (s.maxLife > MAX_HULL || s.maxLife < 0) { s.maxLife = Math.max(0, Math.min(MAX_HULL, s.maxLife)); flags++; }
-            ModLanCheck.Limits lm = limits;
-            if (lm == null) lm = undeclared();
-            if (s.maxLife > lm.hull) { s.maxLife = lm.hull; if (!hullFlagged) { hullFlagged = true; flags++; } }   // v45: no more hull than the declared ship can have
-            s.life = Math.min(s.life, s.maxLife);
+            if (!ModNet.FIX_NS01) limitHull(s);
             s.n = in.readUnsignedShort();
             if (s.n > 200) throw new IOException("too many ship records");
             if (type == MSG_LSTATE) { s.recs = ModLanSync.read(in, s.n, 0, 0); s.n = ModLanSync.compact(s.recs, s.n); }
@@ -1321,18 +1330,35 @@ public final class ModLan {
                 status = why;
                 return;
             }
-            ModLanCheck.Limits lm = ModLanCheck.limits(dc);   // always taken (two gear changes can follow each other closely)
-            lastDecl = dc;
-            if (now - declAt > 500) flags += lm.flags;                            // only the flag count is rate limited
-            declAt = now;
-            hullFlagged = false;
-            limits = lm;
-            ModDev.ev("lan", "guest declared: exact=" + lm.exact + " shot<=" + (int) lm.shot + " dps<=" + (int) lm.dps + " hull<=" + (int) lm.hull + " flags=" + lm.flags);
+            if (ModNet.FIX_NS01) {
+                synchronized (inLock) { pendingDecl = dc; }
+            } else applyDeclaration(dc, now);
+        } else if (type == MSG_DOOM_START && role == HOST && ModNet.FIX_BH04 && b.length == 0) {
+            synchronized (inLock) { doomRequested = true; }
         } else if (type == MSG_SHOT && role == HOST) {
             if (b.length > 4096) throw new IOException("shot too large");
             synchronized (inLock) { if (inShots.size() < 400) inShots.add(b); }
             shotsIn++;
         }
+    }
+
+    private static ModLanCheck.Decl pendingDecl;
+
+    private static void limitHull(InState s) {
+        ModLanCheck.Limits lm = limits;
+        if (lm == null) lm = undeclared();
+        if (s.maxLife > lm.hull) { s.maxLife = lm.hull; if (!hullFlagged) { hullFlagged = true; flags++; } }   // v45: no more hull than the declared ship can have
+        s.life = Math.min(s.life, s.maxLife);
+    }
+
+    private static void applyDeclaration(ModLanCheck.Decl dc, long now) {
+        ModLanCheck.Limits lm = ModLanCheck.limits(dc);   // always taken (two gear changes can follow each other closely)
+        lastDecl = dc;
+        if (now - declAt > 500) flags += lm.flags;                    // only the flag count is rate limited
+        declAt = now;
+        hullFlagged = false;
+        limits = lm;
+        ModDev.ev("lan", "guest declared: exact=" + lm.exact + " shot<=" + (int) lm.shot + " dps<=" + (int) lm.dps + " hull<=" + (int) lm.hull + " flags=" + lm.flags);
     }
 
     // ------------------------------------------------------------------ v45: validation of everything received
@@ -1642,6 +1668,8 @@ public final class ModLan {
 
     // ------------------------------------------------------------------ audit E8: back to own missions
     static volatile boolean soloReload;
+    // Game-thread only. Identity prevents rebuilding a fresh sector after travel.
+    private static Level strippedLevel;
 
     /**
      * ModIntro.dt, top of the frame (the prologue's level swap point, outside GameThread.doPhysic): the guest switched to
@@ -1649,16 +1677,23 @@ public final class ModLan {
      * spawns the sector's own ships again. The player comes out at the sector's closest gate.
      */
     static void preFrame() {
-        if (!soloReload) return;
+        if (ModNet.FIX_BH05 && ModLobby.switchLocked() && internet) {
+            ModLobby.leave();
+            stop();
+        }
+        boolean recover = ModNet.FIX_BH03 && strippedLevel != null && !guestActive();
+        if (!soloReload && !recover) return;
         soloReload = false;
         try {
-            if (role != GUEST || !solo) return;
+            if (!recover && (role != GUEST || !solo)) return;
             fr.testudo.spacecorsair.game.levels.Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
+            if (recover && lv != null && strippedLevel != lv) { strippedLevel = null; return; }
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             if (lv == null || ps == null || ps.removed || ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode || ModPrologue.active) return;
             fr.testudo.spacecorsair.business.world.Portal p = lv.findClosestPortal(ps.position);
             if (p == null || p.portalName == null) { ModDev.ev("lan", "solo reload skipped: no gate"); return; }
             fr.testudo.spacecorsair.game.levels.builders.LevelBuilder.jumpToLevel(lv.name, p.portalName);
+            strippedLevel = null;
             ModDev.ev("lan", "solo: sector reloaded at " + p.portalName);
         } catch (Throwable t) {
             ModDev.ev("lan", "solo reload failed " + t);
@@ -1758,12 +1793,20 @@ public final class ModLan {
         }
         InState s;
         ArrayList<byte[]> shots;
+        boolean startDoom;
+        ModLanCheck.Decl declaration;
         synchronized (inLock) {
             s = inState;
+            declaration = pendingDecl;
+            pendingDecl = null;
+            startDoom = doomRequested;
+            doomRequested = false;
             shots = new ArrayList<byte[]>(inShots);
             inShots.clear();
         }
         Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
+        if (declaration != null) applyDeclaration(declaration, nowDg);
+        if (ModNet.FIX_NS01 && s != null) limitHull(s);
         hostMarks(ps, lv);
         hostDuel(ps, lv, s);
         boolean here = s != null && s.alive && System.currentTimeMillis() - s.at < 2000 && lv.id != null && lv.id.levelName.equals(s.level)
@@ -1813,6 +1856,7 @@ public final class ModLan {
             if (++shotCount > MAX_SHOTS_S) { flags++; continue; }   // v45: above any weapon's fire rate
             fireShot(b, p);
         }
+        if (ModNet.FIX_BH04 && !s.solo) remoteDoom.frame(startDoom, p, ps, limits, linkGen, nowDg);
         retarget -= dt;
         if (!pvp && retarget <= 0) {
             retarget = 1000;
@@ -2064,7 +2108,10 @@ public final class ModLan {
             if (e == ps || e.removed || Mod.isDrone(e)) continue;   // own drones stay
             if (e instanceof LootElement && myLoot.containsKey(e)) continue;   // v45: loot this player rolled
             if (e instanceof Ennemis || e instanceof CivilShip || e instanceof Asteroid || e instanceof LootElement || e instanceof Mine
-                || (e instanceof Projectile && ((Projectile) e).sender != ps)) e.remove();
+                || (e instanceof Projectile && ((Projectile) e).sender != ps)) {
+                if (ModNet.FIX_BH03) strippedLevel = lv;
+                e.remove();
+            }
         }
         ArrayList<Kill> kills = null;
         synchronized (inLock) { if (!inKills.isEmpty()) { kills = new ArrayList<Kill>(inKills); inKills.clear(); } }
@@ -2188,7 +2235,7 @@ public final class ModLan {
                 if (o instanceof LootElement) { myLoot.put((Element) o, Boolean.TRUE); lootMine++; continue; }   // v45: only this player's rolls add loot here
                 if (!(o instanceof Projectile) || o instanceof LaserBeam) continue;
                 Projectile p = (Projectile) o;
-                if (p.sender != ps) continue;
+                if (p.sender != ps && !(ModNet.FIX_BH04 && p.sender != null && Mod.isDrone(p.sender))) continue;
                 ByteArrayOutputStream bo = new ByteArrayOutputStream();
                 DataOutputStream out = new DataOutputStream(bo);
                 out.writeUTF(p.getClass().getName());
@@ -2304,9 +2351,7 @@ public final class ModLan {
                 o.writeUTF(lv.id != null ? lv.id.levelName : "");
                 o.writeFloat(ps.position.x); o.writeFloat(ps.position.y);
                 o.writeFloat(dmgSent);
-                long xp = ObjectRegistry.INSTANCE.game.playerInfo.curXp;
-                if (xpLastHost >= 0 && xp > xpLastHost) xpSent += xp - xpLastHost;   // a level-up lowers curXp: only gains count
-                xpLastHost = xp;
+                accountHostXp(ObjectRegistry.INSTANCE.game.playerInfo);
                 if (ModLanSync.on) { leanHost(q, size, ps, lv, nowMs); return; }
                 o.writeLong(xpSent);
                 ByteArrayOutputStream rb = new ByteArrayOutputStream(32768);
@@ -2353,6 +2398,22 @@ public final class ModLan {
         } catch (Throwable t) {
             // frame not sent
         }
+    }
+
+    private static int xpLevel;
+    private static long xpThreshold;
+
+    private static void accountHostXp(fr.testudo.spacecorsair.business.player.PlayerInfo pilot) {
+        long delta = pilot.curXp - xpLastHost;
+        if (ModNet.FIX_BH08 && xpLastHost >= 0 && pilot.level > xpLevel) {
+            delta += xpThreshold;
+            for (int crossed = xpLevel + 1; crossed < pilot.level; crossed++)
+                delta += fr.testudo.spacecorsair.business.player.XpBuilder.getNextLevelXp(crossed);
+        }
+        if (xpLastHost >= 0 && delta > 0 && (!ModNet.FIX_BH08 || pilot.level >= xpLevel)) xpSent += delta;
+        xpLastHost = pilot.curXp;
+        xpLevel = pilot.level;
+        xpThreshold = pilot.nextLevelXp;
     }
 
     private static long xpLastHost = -1, lastSendMs, idleAt;
@@ -2479,7 +2540,11 @@ public final class ModLan {
     static int round, hostWins, guestWins, defeats;
     private static int seenDefeats, seenRound, defeatRound = -1;
     private static long jumpAt;
-    private static boolean lostRound, restore;
+    private static volatile boolean lostRound, restore;
+
+    private static void resetRoundResult() {
+        if (ModNet.FIX_BH07) { lostRound = false; restore = false; }
+    }
 
     /** Host UI: start or end a duel. The host's game takes both ships to the player bay (FFA, off the map). */
     static volatile boolean pvpRoom;   // v45 host room setting, off by default: no duel while off
@@ -2507,6 +2572,7 @@ public final class ModLan {
 
     private static void hostDuel(PlayerShip ps, Level lv, InState s) {
         if (pvpWanted && !pvp) {
+            resetRoundResult();
             pvp = true;
             duelFrom = null;
             round = 1; hostWins = 0; guestWins = 0; roundDmg = 0;
@@ -2515,6 +2581,7 @@ public final class ModLan {
             removeProxy();   // re-spawned on the duel side
         }
         if (pvp && !pvpWanted) {
+            resetRoundResult();
             pvp = false;
             removeProxy();
             leaveBay();
@@ -2533,7 +2600,7 @@ public final class ModLan {
             return;
         }
         // v45: the host decides. A guest that soaked 4 hulls of damage without reporting a lost round has lost it.
-        boolean soaked = s != null && s.maxLife > 0 && roundDmg > 4.0f * s.maxLife + 2000f;
+        boolean soaked = s != null && s.maxLife > 0 && (!ModNet.FIX_BH06 || s.life <= 1) && roundDmg > 4.0f * s.maxLife + 2000f;
         if (soaked) { flags++; ModDev.ev("lan", "duel round forced, dmg " + roundDmg); }
         if (s != null && (s.defeats > seenDefeats || soaked)) {   // the guest's hull hit its floor: host wins the round
             roundDmg = 0;
@@ -2573,6 +2640,7 @@ public final class ModLan {
     }
 
     private static void guestDuel(PlayerShip ps, InFrame f) {
+        if (pvp != f.pvp) resetRoundResult();
         pvp = f.pvp;
         if (!pvp) { seenRound = f.round; return; }
         if (lostRound) {   // once per round: further hits at the floor before the host's next round count nothing

@@ -37,6 +37,12 @@ import java.util.Random;
 final class ModNet {
     private ModNet() {}
 
+    // Roll out independently. The service owns its BH02/BH09 switches.
+    static boolean FIX_BH01, FIX_BH02, FIX_BH03, FIX_BH04, FIX_BH05;
+    static boolean FIX_BH06, FIX_BH07, FIX_BH08, FIX_BH09, FIX_BH10;
+
+    static boolean FIX_NS01;  // derive guest build limits on the game thread
+
     static final int MAGIC = 0xC5;
     static final int K_PUNCH = 1, K_PUNCH_ACK = 2, K_DATA = 3, K_ACK = 4, K_LATEST = 5, K_PING = 6, K_PONG = 7, K_FIN = 8;
     static final int SEG = 1100, FRAG = 1150, HDR = 6;
@@ -47,7 +53,7 @@ final class ModNet {
     interface PeerHandler { boolean onPeer(InetSocketAddress from, byte[] b, int n, boolean viaTurn); }
 
     // ================================================================== wire
-    static final class Wire {
+    static class Wire {
         final DatagramSocket sock;
         volatile PeerHandler handler;
         volatile Turn turn;
@@ -59,6 +65,9 @@ final class ModNet {
         private java.util.Timer delayT;
         private final HashMap<String, byte[]> waiting = new HashMap<String, byte[]>();
         private static final byte[] NONE = new byte[0];
+
+        // Deterministic test transports supply their own datagrams.
+        Wire() { sock = null; }
 
         Wire(int port) throws IOException {
             DatagramSocket s;
@@ -409,7 +418,29 @@ final class ModNet {
         private final HashMap<Integer, InetSocketAddress> peerOf = new HashMap<Integer, InetSocketAddress>();
         private final HashSet<String> perms = new HashSet<String>();
         private final HashSet<String> binding = new HashSet<String>();
-        private long refreshAt;
+        private volatile long refreshAt;
+        private volatile long refreshInterval = 180000;
+
+        private void renewed(byte[] reply) throws IOException {
+            byte[] lifetime = FIX_BH10 ? attrs(reply, reply.length).get(0x000D) : null;
+            if (lifetime != null && lifetime.length == 4) {
+                long seconds = Link.get4(lifetime, 0) & 0xffffffffL;
+                if (seconds == 0) throw new IOException("relay allocation expired");
+                refreshInterval = Math.min(180000L, seconds * 500L);
+            }
+            refreshAt = System.currentTimeMillis();
+        }
+
+        long untilRefresh() { return refreshAt + refreshInterval - System.currentTimeMillis(); }
+
+        // Called on the waiting lobby worker, before publishing its address.
+        boolean keepWaiting() {
+            if (!dead && untilRefresh() <= 0) {
+                try { renewed(request(0x0004, attr(0x000D, new byte[]{0, 0, 2, 88}))); }
+                catch (IOException e) { dead = true; }
+            }
+            return !dead;
+        }
         private int nextChan = 0x4000;
 
         Turn(Wire w, InetSocketAddress server, String user, String pass) {
@@ -456,7 +487,7 @@ final class ModNet {
             InetSocketAddress x = addrOf(attrs(r, r.length).get(0x0016), txOf(r), true);
             if (x == null) throw new IOException("relay gave no address");
             relayed = x;
-            refreshAt = System.currentTimeMillis();
+            renewed(r);
             w.turn = this;
         }
 
@@ -491,12 +522,13 @@ final class ModNet {
         /** Every few seconds from the link timer: keeps the allocation, permissions and channels alive (they expire in 5-10 minutes). */
         void keep() {
             long now = System.currentTimeMillis();
-            if (dead || relayed == null || now - refreshAt < 180000) return;
+            if (dead || relayed == null || now - refreshAt < refreshInterval) return;
             refreshAt = now;
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        request(0x0004, attr(0x000D, new byte[]{0, 0, 2, 88}));   // LIFETIME 600 s
+                        byte[] reply = request(0x0004, attr(0x000D, new byte[]{0, 0, 2, 88}));
+                        if (FIX_BH10) renewed(reply);   // LIFETIME 600 s
                         String[] ips; InetSocketAddress[] peers; Integer[] chans;
                         synchronized (Turn.this) {
                             ips = perms.toArray(new String[0]);
@@ -655,12 +687,16 @@ final class ModNet {
         private final Thread timer;
 
         Link(Wire w, int sid) {
+            this(w, sid, true);
+        }
+
+        Link(Wire w, int sid, boolean automaticTimer) {
             this.w = w;
             this.sid = sid;
             w.handler = this;
             timer = new Thread(new Runnable() { public void run() { tick(); } }, "net-link");
             timer.setDaemon(true);
-            timer.start();
+            if (automaticTimer) timer.start();
         }
 
         InetSocketAddress remote() { return remote; }
@@ -966,19 +1002,8 @@ final class ModNet {
         byte[] next(int maxLen) throws IOException {
             synchronized (this) {
                 for (;;) {
-                    byte[] newest = null;
-                    while (!latWait.isEmpty() && ((Long) latWait.get(0)[1]).longValue() <= consumed) newest = (byte[]) latWait.remove(0)[0];
-                    if (newest != null) return newest;   // older ones that became due at the same time are skipped
-                    if (inSize >= 5) {
-                        int len = ((in[(inHead + 1) % in.length] & 255) << 24) | ((in[(inHead + 2) % in.length] & 255) << 16)
-                            | ((in[(inHead + 3) % in.length] & 255) << 8) | (in[(inHead + 4) % in.length] & 255);
-                        if (len < 0 || len > maxLen) throw new IOException("bad length " + len);
-                        if (inSize >= 5 + len) {
-                            byte[] m = new byte[5 + len];
-                            take(m, 0, 5 + len);
-                            return m;
-                        }
-                    }
+                    byte[] message = pollMessage(maxLen);
+                    if (message != null) return message;
                     if (closed) throw new IOException("closed");
                     if (dead) throw new IOException("no answer for 10 s");
                     if (finSeen) throw new IOException("bye");
@@ -987,36 +1012,58 @@ final class ModNet {
             }
         }
 
+        /** Complete message available now, or null while a fragment is outstanding. */
+        synchronized byte[] pollMessage(int maxLen) throws IOException {
+            byte[] newest = null;
+            while (!latWait.isEmpty() && ((Long) latWait.get(0)[1]).longValue() <= consumed) newest = (byte[]) latWait.remove(0)[0];
+            if (newest != null) return newest;
+            if (inSize >= 5) {
+                int len = ((in[(inHead + 1) % in.length] & 255) << 24) | ((in[(inHead + 2) % in.length] & 255) << 16)
+                    | ((in[(inHead + 3) % in.length] & 255) << 8) | (in[(inHead + 4) % in.length] & 255);
+                if (len < 0 || len > maxLen) throw new IOException("bad length " + len);
+                if (inSize >= 5 + len) {
+                    byte[] m = new byte[5 + len];
+                    take(m, 0, 5 + len);
+                    return m;
+                }
+            }
+            return null;
+        }
+
         // ---- timers
         private void tick() {
             while (!closed) {
                 try { Thread.sleep(20); } catch (InterruptedException e) { return; }
-                long now = System.currentTimeMillis();
-                boolean ping = false;
-                synchronized (this) {
-                    if (!started) { lastRecv = now; continue; }
-                    if (now - lastRecv > DEAD_MS && !dead) { dead = true; notifyAll(); }
-                    int rto = Math.max(80, Math.min(2000, rttMs * 3 / 2));
-                    for (Seg s : unacked) {
-                        if (s.sacked) continue;
-                        long wait = Math.min(2000L, (long) rto << Math.min(4, Math.max(0, s.tries - 1)));
-                        if (now - s.sentAt >= wait) sendSeg(s, now);
-                    }
-                    pump(now);
-                    if (now - lastPing >= PING_MS) { lastPing = now; ping = true; }
+                tickOnce();
+            }
+        }
+
+        void tickOnce() {
+            long now = System.currentTimeMillis();
+            boolean ping = false;
+            synchronized (this) {
+                if (!started) { lastRecv = now; return; }
+                if (now - lastRecv > DEAD_MS && !dead) { dead = true; notifyAll(); }
+                int rto = Math.max(80, Math.min(2000, rttMs * 3 / 2));
+                for (Seg s : unacked) {
+                    if (s.sacked) continue;
+                    long wait = Math.min(2000L, (long) rto << Math.min(4, Math.max(0, s.tries - 1)));
+                    if (now - s.sentAt >= wait) sendSeg(s, now);
                 }
-                if (ping) {
-                    byte[] p = pkt(K_PING, 8);
-                    put4(p, HDR, (int) (now >>> 32)); put4(p, HDR + 4, (int) now);
-                    out(p);
-                    Turn t = w.turn;
-                    if (t != null) t.keep();
-                    ArrayList<InetSocketAddress> d = direct;
-                    if (d != null && now - lastRetry > 20000 && relayed()) {   // relayed: keep trying the direct way (a few bytes)
-                        lastRetry = now;
-                        byte[] q = pkt(K_PUNCH, 0);
-                        for (InetSocketAddress c : d) w.send(c, q, q.length);
-                    }
+                pump(now);
+                if (now - lastPing >= PING_MS) { lastPing = now; ping = true; }
+            }
+            if (ping) {
+                byte[] p = pkt(K_PING, 8);
+                put4(p, HDR, (int) (now >>> 32)); put4(p, HDR + 4, (int) now);
+                out(p);
+                Turn t = w.turn;
+                if (t != null) t.keep();
+                ArrayList<InetSocketAddress> d = direct;
+                if (d != null && now - lastRetry > 20000 && relayed()) {   // relayed: keep trying the direct way (a few bytes)
+                    lastRetry = now;
+                    byte[] q = pkt(K_PUNCH, 0);
+                    for (InetSocketAddress c : d) w.send(c, q, q.length);
                 }
             }
         }

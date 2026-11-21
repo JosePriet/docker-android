@@ -56,6 +56,7 @@ final class ModLanCheck {
         float expShot, expDps;   // audit D4: the highest the declared build can really produce (no slack)
         int shotsPerSec;
         int flags;        // what the declaration itself got wrong (unknown item, item above the level)
+        ModShips.Hull doomHull;
         boolean exact;    // false = no usable declaration: the level's best stock items stand in
     }
 
@@ -199,7 +200,7 @@ final class ModLanCheck {
                 cannons = Math.max(1, Math.max(ps.canonCount, ps.laserCount));
                 try {
                     ModShips.Hull h = ModShips.hullFor(ps);
-                    if (h != null) { hullDmg = Math.max(1f, h.dmg); hullShield = Math.max(1f, h.shieldCap); doomsday = h.doomsday; hullRate = 1f / Math.max(0.5f, Math.min(1f, h.reload)); misRate = 1f / Math.max(0.25f, Math.min(1f, h.missileReload)); }
+                    if (h != null) { hullDmg = Math.max(1f, h.dmg); hullShield = Math.max(1f, h.shieldCap); doomsday = h.doomsday; if (doomsday && ModNet.FIX_BH04) m.doomHull = h; hullRate = 1f / Math.max(0.5f, Math.min(1f, h.reload)); misRate = 1f / Math.max(0.25f, Math.min(1f, h.missileReload)); }
                 } catch (Throwable t) { /* a stock hull */ }
             }
             refit = Math.max(0, Math.min(ModV35.REFIT_MAX, d.refit));

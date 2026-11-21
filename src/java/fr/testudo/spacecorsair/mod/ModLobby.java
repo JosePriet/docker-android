@@ -169,7 +169,11 @@ final class ModLobby {
      *  until the game restarts (local games still work); the test profile cannot play multiplayer at all (ModLan too). */
     private static volatile boolean switchUsed;
 
-    static void switchSeen() { switchUsed = true; }
+    static synchronized void switchSeen() {
+        if (switchUsed) return;
+        switchUsed = true;
+        if (ModNet.FIX_BH05) leave();  // invalidate workers immediately; the game frame handles the session
+    }
 
     static boolean switchLocked() { return switchUsed; }
 
@@ -364,7 +368,7 @@ final class ModLobby {
 
     // ------------------------------------------------------------------ hosting
     /** Opens a lobby and keeps it alive until the player stops hosting. Starts its own thread. */
-    static void host(final boolean isPublic) {
+    static synchronized void host(final boolean isPublic) {
         if (!available()) return;
         String block = onlineBlock();
         if (block != null) { status = block; return; }
@@ -388,13 +392,17 @@ final class ModLobby {
         return g == gen && ModLan.internet && ModLan.role == ModLan.HOST;
     }
 
+    static boolean waitingRelayLive(ModNet.Turn turn) {
+        return !ModNet.FIX_BH10 || turn.keepWaiting();
+    }
+
     private static void hostLoop(long g) {
         String myCode = "", myTok = "";
         ModNet.Wire w = null;
         ModNet.Turn turn = null;
         String cands = "";
         final HashSet<String> tried = new HashSet<String>();
-        final boolean[] connecting = {false};
+        final java.util.concurrent.atomic.AtomicBoolean connecting = new java.util.concurrent.atomic.AtomicBoolean();
         boolean wasConnected = false;
         int beats = 0;
         long relayAt = 0, relayWait = 30000;
@@ -435,6 +443,11 @@ final class ModLobby {
                     status = ModLang.tr("Waiting for a player to join...");
                     ModDev.ev("lobby", "hosting " + (pub ? "public" : "private"));
                 }
+                if (hide && turn != null && !ModLan.connected && !connecting.get() && !waitingRelayLive(turn)) {
+                    w.turn = null;
+                    turn = null;
+                    tried.clear();
+                }
                 if (hide && turn == null && System.currentTimeMillis() >= relayAt) {
                     turn = relay(w, myCode, myTok);
                     if (turn == null) { relayAt = System.currentTimeMillis() + relayWait; relayWait = Math.min(relayWait * 2, 600000); }   // refused or away: ask less and less often
@@ -443,24 +456,24 @@ final class ModLobby {
                 boolean conn = ModLan.connected;
                 if (wasConnected && !conn) { tried.clear(); openedAt = System.currentTimeMillis(); }   // waiting again: 2 fast minutes again
                 wasConnected = conn;
-                if (!conn && !connecting[0] && ++beats % 2 == 0 && !hide) cands = candidates(w);   // keeps the router's mapping alive and current
+                if (!conn && !connecting.get() && ++beats % 2 == 0 && !hide) cands = candidates(w);   // keeps the router's mapping alive and current
                 Reply b = call("POST", "/lobby/" + myCode + "/beat", "token", myTok, "full", conn ? "1" : "0", "pvp", ModLan.pvpRoom ? "1" : "0",
                     "sector", sector(), "level", level(), "cands", cands, "hide", hide ? "1" : "0",
                     "relay", turn != null && turn.relayed != null ? ModNet.show(turn.relayed) : "");
                 if (b.status == 404 || b.status == 403) { myCode = ""; code = ""; continue; }   // the service forgot the lobby (restart): open it again
-                if (b.ok() && !conn && !connecting[0]) {
+                if (b.ok() && !conn && !connecting.get()) {
                     for (final String[] row : b.rows) {
                         if (row.length < 8 || !"join".equals(row[0])) continue;
                         final String key = row[1] + "|" + row[6] + "|" + row[7];
                         if (row[6].length() == 0 && row[7].length() == 0) continue;   // no address yet (a hidden guest still getting its relay)
                         if (!tried.add(key)) continue;
-                        connecting[0] = true;
+                        connecting.set(true);
                         final ModNet.Wire fw = w;
                         final boolean fh = hide;
                         final long fg = g;
                         Thread t = new Thread(new Runnable() {
                             public void run() {
-                                try { accept(fg, fw, row, fh); } finally { connecting[0] = false; }
+                                try { accept(fg, fw, row, fh); } finally { connecting.set(false); }
                             }
                         }, "lobby-accept");
                         t.setDaemon(true);
@@ -473,6 +486,7 @@ final class ModLobby {
                 long wait = conn ? BEAT_FULL_MS : System.currentTimeMillis() - openedAt < BEAT_FAST_FOR_MS ? BEAT_MS : BEAT_SLOW_MS;
                 for (long s = 0; s < wait && g == gen; s += 250) {
                     Thread.sleep(250);
+                    if (ModNet.FIX_BH10 && hide && turn != null && !conn && !connecting.get() && turn.untilRefresh() <= 0) break;
                     if (wasConnected != ModLan.connected) break;   // tell the list at once when the seat fills or frees
                 }
             }
@@ -519,12 +533,20 @@ final class ModLobby {
     // ------------------------------------------------------------------ joining
     /** Joins a lobby by its 4-character code (typed, or from the public list). Blocks; never on the UI thread. True = linked. */
     static boolean join(String c) {
-        if (!available()) return false;
-        String block = onlineBlock();
-        if (block != null) { status = block; return false; }
-        leave();
-        final long g = ++gen;
-        busy = true;
+        return join(c, -1);
+    }
+
+    private static boolean join(String c, long expected) {
+        final long g;
+        synchronized (ModLobby.class) {
+            if (expected != -1 && (expected != gen || ModLan.role != ModLan.NONE || busy)) return false;
+            if (!available()) return false;
+            String block = onlineBlock();
+            if (block != null) { status = block; return false; }
+            leave();
+            g = ++gen;
+            busy = true;
+        }
         final String jc = c == null ? "" : c.trim().toUpperCase(java.util.Locale.US);
         ModNet.Wire w = null;
         ModNet.Link l = null;
@@ -601,7 +623,12 @@ final class ModLobby {
             status = ModLang.tr("The lobby service did not answer. Check your internet connection.");
             return false;
         } finally {
-            busy = false;
+            synchronized (ModLobby.class) {
+                if (g == gen) {
+                    busy = false;
+                    if (expected != -1 && !ModLan.connected) ModLan.status = ModLang.tr("Co-op link lost");
+                }
+            }
             if (w != null && (l == null || link != l)) w.close();
         }
     }
@@ -652,14 +679,15 @@ final class ModLobby {
     }
 
     /** Guest side of a dropped internet link: one more join of the same lobby. */
-    static void rejoin() {
+    static synchronized void rejoin() {
+        final long expected = ModNet.FIX_BH01 ? gen : -1;
         final String jc = joinedCode;
         if (jc.length() != 4) return;
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try { Thread.sleep(3000); } catch (InterruptedException e) { return; }
                 if (ModLan.role != ModLan.NONE || busy) return;   // the player hosted or joined something else meanwhile
-                if (!join(jc)) ModLan.status = ModLang.tr("Co-op link lost");
+                if (!join(jc, expected) && (expected == -1 || expected == gen)) ModLan.status = ModLang.tr("Co-op link lost");
             }
         }, "lobby-rejoin");
         t.setDaemon(true);
@@ -734,7 +762,7 @@ final class ModLobby {
     }
 
     /** Stops hosting / forgets the joined lobby. The lobby closes on the service from the host thread. */
-    static void leave() {
+    static synchronized void leave() {
         gen++;
         hosting = false;
         busy = false;
