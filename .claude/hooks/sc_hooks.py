@@ -10,7 +10,7 @@ Usage (from settings.json):  python3 sc_hooks.py <mode>
 Fails open: any internal error lets the tool call run unchanged.
 Bypass for the soft guards: put SC_HOOK_OK=1 in the command (key and Downloads guards cannot be bypassed).
 """
-import json, os, re, subprocess, sys, time
+import json, os, re, shlex, subprocess, sys, time
 
 AUDITS = "/mnt/project-files/audits"
 AUDIT_MAX_AGE_H = 24
@@ -20,10 +20,20 @@ BIN_EXT = {".apk", ".aab", ".obb", ".dex", ".jar", ".class", ".so", ".arsc", ".p
            ".mp4", ".mkv", ".webm", ".mp3", ".ogg", ".wav", ".unity3d", ".assets", ".bundle"}
 VIEWABLE_EXT = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".pdf", ".ipynb"}
 KEY_RE = re.compile(r"(\.p12|\.jks|\.keystore|\.key)$|(^|/)keys/|(key|priv)[^/]*\.pem$", re.I)  # work/cert.pem is public
-NOISY_RE = re.compile(r"^(?:[A-Z_][A-Z0-9_]*=\S*\s+)*(?:bash\s+(?:\./)?build\.sh|\./build\.sh|\./gradlew|gradle\s|"
-                      r"apktool\s|java\s+-jar\s+\S*(?:apktool|smali|baksmali|uber-apk-signer|dex2jar)\S*|"
-                      r"jadx\s|adb\s+(?:logcat\s+-d|install)|dotnet\s+(?:build|publish|run)|npm\s+(?:install|ci)|"
-                      r"pip3?\s+install|apt-get\s+install|d2j-\S+)")
+NOISY_RE = re.compile(r"^(?:bash\s+(?:\./)?build\.sh|\./build\.sh|\./gradlew|apktool\s|"
+                      r"java\s+-jar\s+tools/[\w./-]*(?:apktool|smali|baksmali|uber-apk-signer|dex2jar)[\w.-]*\.jar|"
+                      r"jadx\s|adb\s+(?:logcat\s+-d|install)|dotnet\s+(?:build|publish))")
+# Commands rewritten (and auto-allowed) must be one plain command: optional `cd <path> &&`, optional plain
+# VAR=value prefixes (not LD_*/PATH/BASH_ENV), then only safe characters: no $ ` ; | & < > # quotes or newlines.
+SAFE_CMD_RE = re.compile(r"^(?:cd\s+[\w./~-]+\s+&&\s+)?(?:(?!LD_|PATH=|BASH_ENV=|ENV=)[A-Z_][A-Z0-9_]*=[\w./:,-]*\s+)*"
+                         r"([\w./:=,@+~^ -]+)$")
+GIT_OPTS = r"\bgit\s+(?:(?:-C|-c)\s+\S+\s+|--?[\w-]+(?:=\S+)?\s+)*"
+COMMIT_RE = re.compile(GIT_OPTS + r"commit\b")
+PUSH_RE = re.compile(GIT_OPTS + r"push\b")
+BYPASS_RE = re.compile(r"(?:^|[;&|(]\s*)SC_HOOK_OK=1\s")
+DOWNLOADS = r"(?:Users[\\/][^\\/\s]+|~|\$HOME|\$\{HOME\}|mnt)[\\/]+Downloads\b"
+DEL_RE = re.compile(r"(?:\b(?:rm|rmdir|del|erase|rd|unlink|shred|mv|move)\b|Remove-Item|rmtree|os\.remove)[^;&|\n]*" + DOWNLOADS
+                    + r"|\bfind\b[^;&|\n]*" + DOWNLOADS + r"[^;&|\n]*-delete", re.I)
 DIFF_RE = re.compile(r"^git\s+(?:-C\s+\S+\s+)?(?:diff|show|log\s+.*-p)\b")
 
 
@@ -54,35 +64,33 @@ def repo_dir(cmd, cwd):
     return top or None
 
 
-def strip_cd(cmd):
-    return re.sub(r"^\s*cd\s+(\"[^\"]+\"|'[^']+'|\S+)\s*&&\s*", "", cmd)
-
-
-def is_simple(cmd):
-    """One command, optionally after one leading `cd X &&`; no chaining, pipes, redirects or substitution."""
-    return not re.search(r"[;&|<>`]|\$\(|\n", strip_cd(cmd))
+def simple_body(cmd):
+    """The command body if cmd is one plain command (see SAFE_CMD_RE), else None."""
+    m = SAFE_CMD_RE.match(cmd.strip())
+    return m.group(1).strip() if m else None
 
 
 def pre_bash(data):
     cmd = (data.get("tool_input") or {}).get("command", "") or ""
     cwd = data.get("cwd") or os.getcwd()
-    bypass = "SC_HOOK_OK=1" in cmd
+    bypass = bool(BYPASS_RE.search(cmd))
 
     # 1. Owner's Downloads folder: never delete there (no bypass).
-    if re.search(r"downloads", cmd, re.I) and re.search(
-            r"\b(rm|rmdir|del|erase|rd|unlink|shred)\b|Remove-Item|rmtree|os\.remove|\bmv\b", cmd, re.I):
+    if DEL_RE.search(cmd):
         deny("Owner rule: nothing is deleted or moved out of the owner's Downloads folder. Copy instead, or ask the owner.")
 
-    is_commit = re.search(r"\bgit\b[^\n;&|]*\bcommit\b", cmd)
-    is_push = re.search(r"\bgit\b[^\n;&|]*\bpush\b", cmd)
+    is_commit = COMMIT_RE.search(cmd)
+    is_push = PUSH_RE.search(cmd)
     if is_commit or is_push:
-        top = repo_dir(cmd, cwd)
+        top = repo_dir(cmd, cwd) or git(["rev-parse", "--show-toplevel"], cwd).strip()
         if top:
             files = set()
             if is_commit:
                 files |= set(git(["diff", "--cached", "--name-only"], top).split())
-                if re.search(r"commit\b[^\n;&|]*\s-[a-zA-Z]*a", cmd):
+                if re.search(r"commit\b[^\n;&|]*\s(-[a-zA-Z]*a|--all)\b", cmd):
                     files |= set(git(["diff", "--name-only"], top).split())
+                if re.search(r"\bgit\s+add\b", cmd):  # staged later in the same command: count every change
+                    files |= {l[3:].split(" -> ")[-1] for l in git(["status", "--porcelain", "-uall"], top).splitlines()}
             if is_push:
                 files |= set(git(["log", "--name-only", "--format=", "HEAD", "--not", "--remotes"], top).split())
             # 2. Signing keys never go into git (no bypass).
@@ -112,10 +120,13 @@ def pre_bash(data):
     if bypass:
         return
     # 5. Token saver: noisy build/install commands -> full log to file, short summary to context.
-    body = strip_cd(cmd).strip()
-    if is_simple(cmd) and NOISY_RE.search(body):
+    body = simple_body(cmd)
+    if body is None:
+        return
+    if NOISY_RE.search(body):
         logdir = os.path.join(os.environ.get("TMPDIR", "/tmp"), "sc-hooklogs")
         log = os.path.join(logdir, time.strftime("%H%M%S") + "-%d.log" % os.getpid())
+        logdir, log = shlex.quote(logdir), shlex.quote(log)
         new = ("mkdir -p %s; L=%s; { %s ; } >\"$L\" 2>&1; rc=$?; "
                "grep -niE 'error|fail|exception|fatal|warning: unresolved' \"$L\" | grep -v JAVA_TOOL | tail -n 15 | cut -c1-300; "
                "echo '--- last lines ---'; tail -n 25 \"$L\" | cut -c1-300; "
@@ -127,7 +138,7 @@ def pre_bash(data):
                                     "permissionDecisionReason": "project hook: build output trimmed to a log",
                                     "updatedInput": ti}})
     # 6. Token saver: unbounded diffs are cut at 400 lines.
-    if is_simple(cmd) and DIFF_RE.search(body) and not re.search(r"--(stat|name-only|name-status|shortstat|numstat)|\s-s\b|--oneline", body):
+    if DIFF_RE.search(body) and not re.search(r"--(stat|name-only|name-status|shortstat|numstat|output|ext-diff)|\s-s\b|--oneline", body):
         new = ("set -o pipefail; %s | awk 'NR<=400{print} END{if(NR>400) print \"[project hook: cut at 400 of \" NR "
                "\" lines; use --stat, a path, or SC_HOOK_OK=1]\"}'" % cmd)
         ti = dict(data.get("tool_input") or {})
@@ -158,7 +169,9 @@ def pre_read(data):
 def stop(data):
     if data.get("stop_hook_active"):
         return
-    sid = re.sub(r"[^\w-]", "", str(data.get("session_id", "x")))
+    sid = re.sub(r"[^\w-]", "", str(data.get("session_id") or ""))
+    if not sid:
+        return
     marker = os.path.join(os.environ.get("TMPDIR", "/tmp"), "sc-hooks-stop-" + sid)
     tp = data.get("transcript_path") or ""
     if os.path.exists(marker) or not os.path.isfile(tp):
@@ -178,7 +191,7 @@ def stop(data):
                 n, inp = b.get("name"), b.get("input") or {}
                 if n in ("Agent", "Task"):
                     agents += 1
-                elif n == "Bash" and re.search(r"\bgit\b[^\n;&|]*\bcommit\b", inp.get("command", "") or ""):
+                elif n == "Bash" and COMMIT_RE.search(inp.get("command", "") or ""):
                     committed = True
     if committed and agents < 2:
         open(marker, "w").close()
