@@ -4,7 +4,7 @@
 Usage (from settings.json):  python3 sc_hooks.py <mode>
   pre-bash   PreToolUse on Bash: rule guards + trims noisy build/diff output
   pre-read   PreToolUse on Read: blocks binaries and whole reads of huge files
-  stop       Stop: one reminder per session about two-agent verification
+  stop       Stop: once-per-session reminders (two-agent check on big code changes; long threads)
   start      SessionStart: a few lines of rules
 
 Fails open: any internal error lets the tool call run unchanged.
@@ -13,7 +13,6 @@ Bypass for the soft guards: put SC_HOOK_OK=1 in the command (key and Downloads g
 import json, os, re, shlex, subprocess, sys, time
 
 AUDITS = "/mnt/project-files/audits"
-AUDIT_MAX_AGE_H = 24
 BIG_READ_BYTES = 256 * 1024
 BIN_EXT = {".apk", ".aab", ".obb", ".dex", ".jar", ".class", ".so", ".arsc", ".p12", ".jks",
            ".keystore", ".zip", ".gz", ".tgz", ".tar", ".7z", ".rar", ".bin", ".dll", ".exe",
@@ -139,6 +138,15 @@ def pre_bash(data):
         a = g.split()
         if len(a) > 2 and re.search(r"(^|[-_.])dev([-_.]|$)|/private/", a[2], re.I):
             deny("Never publish the DEV APK. Release the public build.")
+    for g in rel:  # Owner 2026-11-21: one directive audit per release, covering everything in it (no bypass).
+        a = g.split()
+        ver = a[1] if len(a) > 1 else ""
+        ver = ver if ver[:1] in ("v", "V") else "v" + ver
+        names = os.listdir(AUDITS) if os.path.isdir(AUDITS) else None
+        if names is not None and not all(any(n.startswith(ver + "-") and n.endswith(x) for n in names)
+                                         for x in ("-changes.md", "-directive-audit.md")):
+            deny("Release %s needs %s/%s-*changes.md (everything in the release) and %s-*directive-audit.md (the "
+                 "once-per-release audit) plus the final two-agent check before publishing." % (ver, AUDITS, ver, ver))
     if rel and not bypass:
         deny("Releases need the owner's word in this thread. If given, rerun with SC_HOOK_OK=1 in front.")
     if not bypass and any(re.match(r"wrangler\s+(?:deploy|publish)\b|npm\s+run\s+deploy\b", g) for g in segs):
@@ -164,16 +172,6 @@ def pre_bash(data):
             if keys:
                 deny("Signing keys/credentials never go into git: " + ", ".join(keys[:5]) +
                      ". Unstage them (git rm --cached) and keep them in /mnt/project-files/*/keys/.")
-            # 3. Standing rule: a changes file in audits/ for every patch.
-            code = [f for f in files if not re.search(r"\.(md|txt)$|^\.claude/|^\.github/", f)]
-            if is_commit and code and not bypass and os.path.isdir(AUDITS):
-                now = time.time()
-                fresh = [f for f in os.listdir(AUDITS) if f.endswith("-changes.md")
-                         and now - os.path.getmtime(os.path.join(AUDITS, f)) < AUDIT_MAX_AGE_H * 3600]
-                if not fresh:
-                    deny("Standing rule: write /mnt/project-files/audits/<ver>-changes.md (everything this patch "
-                         "changes) before committing code. None was written in the last %dh. If this commit is not "
-                         "a patch, rerun with SC_HOOK_OK=1 in the command." % AUDIT_MAX_AGE_H)
             # 3b. Shipped art is lossless WebP only (no bypass).
             lossy = []
             for f in files:
@@ -249,18 +247,27 @@ def pre_read(data):
              % (os.path.basename(p), size // 1024))
 
 
+CODE_EXT = {".java", ".py", ".smali", ".js", ".mjs", ".ts", ".sh", ".cs", ".kt", ".gradle", ".c", ".cpp", ".h", ".yml", ".yaml"}
+BIG_CODE_LINES = 150
+LONG_TRANSCRIPT_BYTES = 3 * 1024 * 1024
+
+
 def stop(data):
+    """Owner 2026-11-21: two-agent check only for big code changes (>=150 code lines edited this session) and the
+    final pre-release check; plus a once-per-session nudge when a non-audit thread has grown long."""
     if data.get("stop_hook_active"):
         return
     sid = re.sub(r"[^\w-]", "", str(data.get("session_id") or ""))
-    if not sid:
-        return
-    marker = os.path.join(os.environ.get("TMPDIR", "/tmp"), "sc-hooks-stop-" + sid)
     tp = data.get("transcript_path") or ""
-    if os.path.exists(marker) or not os.path.isfile(tp):
+    if not sid or not os.path.isfile(tp):
         return
-    agents, committed = 0, False
+    tmp = os.environ.get("TMPDIR", "/tmp")
+    m_verify, m_long = os.path.join(tmp, "sc-hooks-stop-" + sid), os.path.join(tmp, "sc-hooks-long-" + sid)
+    agents, code_lines, audit_thread = 0, 0, False
     with open(tp, errors="replace") as f:
+        head = f.read(20000)
+        audit_thread = bool(re.search(r"directive audit|Audit each version", head, re.I))
+        f.seek(0)
         for line in f:
             if '"tool_use"' not in line:
                 continue
@@ -274,23 +281,32 @@ def stop(data):
                 n, inp = b.get("name"), b.get("input") or {}
                 if n in ("Agent", "Task"):
                     agents += 1
-                elif n == "Bash" and COMMIT_RE.search(inp.get("command", "") or ""):
-                    committed = True
-    if committed and agents < 2:
-        open(marker, "w").close()
+                elif n in ("Edit", "Write", "MultiEdit") and \
+                        os.path.splitext(inp.get("file_path", "") or "")[1].lower() in CODE_EXT:
+                    text = inp.get("new_string") or inp.get("content") or \
+                        "".join(e.get("new_string", "") for e in inp.get("edits") or [] if isinstance(e, dict))
+                    code_lines += text.count("\n") + 1
+    if code_lines >= BIG_CODE_LINES and agents < 2 and not os.path.exists(m_verify):
+        open(m_verify, "w").close()
         out({"decision": "block", "reason":
-             "[project hook, once per session] You committed work but ran %d subagent(s). Standing rule: one "
-             "subagent verifies the work, a second cross-checks it, both findings discussed briefly; and "
-             "/mnt/project-files/audits/<ver>-changes.md lists the changes. Do it now, or say in your reply why "
-             "it does not apply." % agents})
+             "[project hook, once] Big code change (~%d lines edited) with %d subagent(s). Owner rule: big code "
+             "changes get the two-agent check (one verifies, a second cross-checks). Do it now, or say why not."
+             % (code_lines, agents)})
+    if not audit_thread and os.path.getsize(tp) > LONG_TRANSCRIPT_BYTES and not os.path.exists(m_long):
+        open(m_long, "w").close()
+        out({"decision": "block", "reason":
+             "[project hook, once] This thread is long (%d MB of history, re-sent every turn). Owner rule: don't "
+             "keep threads alive too long. Finish or hand off (update HANDOFF.md), and tell the owner in your reply "
+             "that the thread has run long." % (os.path.getsize(tp) // 1048576)})
 
 
 def start(_):
     out({"hookSpecificOutput": {"hookEventName": "SessionStart", "additionalContext":
-         "Project hooks active: binaries and whole reads of files >256 KB are blocked (grep, then offset/limit); "
-         "build/install output and long diffs are trimmed to a log file; commits of code need a fresh "
-         "/mnt/project-files/audits/<ver>-changes.md; keys never committed; no deletes in the owner's Downloads; "
-         "pushes to `releases` need release/VERSION + update-channel bumps; inline sed -i/python file rewrites blocked (use Edit); applied smali patches can't re-run; art must be lossless WebP; release.sh and wrangler deploy need the owner's word. Soft guards accept SC_HOOK_OK=1 at the start of the command."}})
+         "Project hooks enforce the mechanical rules; a blocked call says why; `SC_HOOK_OK=1 <cmd>` passes soft "
+         "guards for real exceptions. Owner policy 2026-11-21: two-agent check only for big code changes and the "
+         "final pre-release check; one directive audit per release. Models: Opus 5.5 for coding; Sonnet 5.5 for "
+         "docs, audits, prompts, packaging, subagent verification; Haiku 5.5 for lookups and simple searches. "
+         "Subagents: pass `model` accordingly."}})
 
 
 def main():
