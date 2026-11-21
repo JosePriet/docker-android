@@ -1,5 +1,10 @@
-# Task 01 progress
+# Task 01 status
 
-The simulator, default-off fixes and regression cases are implemented. The first paired comparison completed for seeds 1–10000. All 10,000 baseline sessions left a stripped sector, 9,896 missed XP, and one cold-start session recorded game-table field access on the network reader. The enabled run recorded zero invariant breaks.
+Implementation and verification are complete on `codex/b2-01-netsim`, based on `claude/project-thread-kci9au` at `a02248c`.
 
-The remaining work is the final verification transcript, the per-seed data and the PR against `sc-mod-workspace`.
+- All ten focused findings reproduced on the baseline and passed with their fixes enabled. BH10 uses an expiring simulated TURN allocation.
+- Seeds 1–10000 ran with fixes off and on. The baseline recorded a stripped sector in 10,000 sessions, lost XP in 9,896, and reader-thread game-table access in one cold-start session (NS01). The enabled run recorded zero invariant breaks. A repeated sweep produced identical per-seed files.
+- Java compiled with `--release 8`. The existing suites ended with `V49 VALUES-OK` and `REGISTRY OK`.
+- Review destination: `sc-mod-workspace`. The two branches have overlapping changes in four files. Integration remains with the reviewers.
+
+[Report](report.md) · [All seed outcomes](seed-ranges.tsv) · [Reader access sites](reader-access.tsv)
