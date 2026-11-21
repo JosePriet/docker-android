@@ -71,11 +71,14 @@ def repo_dir(cmd, cwd):
 
 
 def segments(cmd):
-    """Each simple command, without leading env assignments and wrappers (bash/sh/python/exec/env/npx)."""
+    """Each simple command, without leading env assignments and wrappers (bash/sh/python/exec/env/npx).
+    Heredoc bodies and quoted strings are blanked first, so commit messages and file text never count."""
+    cmd = re.sub(r"<<-?\s*['\"]?(\w+)['\"]?[^\n]*\n[\s\S]*?\n\s*\1\s*(?=\n|$)", "<<H", cmd)
+    cmd = re.sub(r"'[^']*'|\"(?:[^\"\\]|\\.)*\"", "Q", cmd)
     for seg in re.split(r"&&|\|\||[;|\n(){}]", cmd):
         seg = seg.strip()
         while True:
-            n = re.sub(r"^(?:[A-Za-z_]\w*=\S*\s+|(?:exec|env|command|time|nohup|npx|bash|sh|python3?)\s+(?:-[A-Za-z]+\s+)*)", "", seg)
+            n = re.sub(r"^(?:[A-Za-z_]\w*=\S*\s+|(?:exec|env|command|time|nohup|npx|sudo|bash|sh|python3?|then|do|else)\s+(?:-[A-Za-z]+\s+)*|timeout\s+\S+\s+)", "", seg)
             if n == seg:
                 break
             seg = n
@@ -122,7 +125,7 @@ def pre_bash(data):
             deny("Signing keys/credentials never go into git: " + ", ".join(bad[:5]) + ".")
     # 1c. Smali patch scripts are applied once (work/HOOKS_APPLIED.txt); never re-run one (no bypass).
     segs = list(segments(cmd))
-    for m in (re.match(r"(?:\S*/)?src/patch/(hooks\w*)\.py\b", g) for g in segs):
+    for m in (re.match(r"(?:\S*/)?(hooks\w*)\.py\b", g) for g in segs):
         if not m:
             continue
         top0 = repo_dir(cmd, cwd) or git(["rev-parse", "--show-toplevel"], cwd).strip()
