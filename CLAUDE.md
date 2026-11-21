@@ -1,6 +1,6 @@
 # Space Corsair mod: working rules
 
-Mechanical rules are enforced by hooks (`.claude/hooks/sc_hooks.py`; active in every project thread via `/mnt/project-files/claude-hooks/`): no binaries or whole reads of files >256 KB, build output and long diffs trimmed to a log, keys never in git, fresh `audits/<ver>-changes.md` before code commits, smali patches never re-run, lossless WebP only, release.sh / wrangler deploy need the owner's word, DEV APK never released, `releases` pushes need release/VERSION + update-channel seq bumps, no deletes in the owner's Downloads, inline sed -i/python file rewrites blocked (use Edit), two-agent reminder. A blocked call says why; `SC_HOOK_OK=1 <cmd>` passes the soft ones when the exception is legitimate.
+Mechanical rules are enforced by hooks (`.claude/hooks/sc_hooks.py`; active in every project thread via `/mnt/project-files/claude-hooks/`): no binaries or whole reads of files >256 KB, build output and long diffs trimmed to a log, keys never in git, release.sh needs `audits/<ver>-*changes.md` + `<ver>-*directive-audit.md`, smali patches never re-run, lossless WebP only, release.sh / wrangler deploy need the owner's word, DEV APK never released, `releases` pushes need release/VERSION + update-channel seq bumps, no deletes in the owner's Downloads, inline sed -i/python file rewrites blocked (use Edit), two-agent reminder on big code changes, long-thread nudge. A blocked call says why; `SC_HOOK_OK=1 <cmd>` passes the soft ones when the exception is legitimate.
 
 ## Project
 Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and merged into the patched game smali, then the APK is rebuilt and signed.
@@ -30,8 +30,11 @@ Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and mer
 - Start with the relevant files; grep before reading; widen only when needed or asked.
 - Reuse existing scripts and patterns; no new frameworks. Stay in scope. Plan briefly with the owner for complex or uncertain work; make small clear fixes directly.
 - Run the relevant checks, fix failures, report actual results; full logs stay in `out/`. If two fixes fail, reassess the cause first.
-- Verification per update: one subagent verifies, a second cross-checks (standing rule; was "one subagent review once or twice per update").
-- Subagents: at most one at a time beside the main agent, distinct substantial work, narrow scope, concise result, cheaper model/low effort.
+- Two-agent check (one subagent verifies, a second cross-checks) only for big code changes and the final pre-release check of everything in the release. Skip it for art, docs, proposals, packaging and small fixes (owner 2026-11-21).
+- Directive audit once per release, covering everything in it (not per patch); the release's changes file lists everything in it (owner 2026-11-21).
+- Models (owner 2026-11-21): Opus 5.5 for coding; Sonnet 5.5 for docs, audits, prompts, packaging and subagent verification; Haiku 5.5 for lookups and simple searches. Pass `model` to subagents accordingly. A hook cannot pick a thread's model; the coordinator sets it at thread start.
+- Don't keep threads alive long on simple tasks; tell the owner when one runs long (audit threads excepted).
+- Subagents: at most one at a time beside the main agent, distinct substantial work, narrow scope, concise result, low effort.
 - Replies: concise (changes, checks, remaining issues), end with a check list.
 - ChatGPT does art, lore, translations and long text; Claude does code, integration, builds, tests, releases.
 - Before ending an unfinished session: update `HANDOFF.md`. Current task: `TASK.md`.
