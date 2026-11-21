@@ -3,7 +3,7 @@
 set -e -o pipefail
 V=${1:-33}   # mod version: bash build.sh 32
 mkdir -p out
-test -f work/key.p12 || { echo "work/key.p12 missing: copy the signing key here (see HANDOFF.md)"; exit 1; }
+test -f work/key.p12 || { echo "work/key.p12 missing: copy the signing key here (see CLAUDE.md)"; exit 1; }
 rm -rf work/modcls && mkdir work/modcls
 javac --release 8 -nowarn -cp work/game_v168.jar:tools/android-4.1.1.4.jar:work/stubcls -d work/modcls src/java/fr/testudo/spacecorsair/mod/*.java 2>&1 | grep -v "JAVA_TOOL\|Note:" || true
 test -f work/modcls/fr/testudo/spacecorsair/mod/ModTitan.class && test -f work/modcls/fr/testudo/spacecorsair/mod/ModUi.class
