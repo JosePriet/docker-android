@@ -168,6 +168,7 @@ public class ModPolice {
     // ================================================================== state
     private static int heat;
     private static int lastTop = NONE;
+    private static int lastRadioTier = NONE;
     private static boolean heatRose;
     private static long quietMs, sinceWave = Long.MAX_VALUE / 4, waveTimer, joinTimer, swTimer;
     private static LevelId here;
@@ -212,6 +213,12 @@ public class ModPolice {
     /** A police kill: the countdown drops by KILL_CUT of the base, never below the 8 s floor. */
     public static long cutCountdown(long timer, long base) {
         return Math.max(WAVE_FLOOR_MS, timer - (long) (KILL_CUT * base));
+    }
+
+    /** One wounded survivor can advance the ordinary wave timer once at each escalation tier. */
+    static long radioTimer(long remaining, int top, int calledTier, float life, float maxLife) {
+        if (top < FRIGATE || top >= TITAN || calledTier == top || life <= 0 || maxLife <= 0 || life / maxLife >= 0.6f) return remaining;
+        return Math.min(remaining, Math.max(WAVE_FLOOR_MS, 14000L - 2000L * top));
     }
 
     static int classOf(Element e) {
@@ -309,6 +316,7 @@ public class ModPolice {
         titan = null;
         heat = 0;
         lastTop = NONE;
+        lastRadioTier = NONE;
         log("titan killed: heat reset");
         standDown(ObjectRegistry.INSTANCE.playerShip);
     }
@@ -449,6 +457,13 @@ public class ModPolice {
                 if (e.removed || e.life <= 0) { active.remove(i); unvisual(e); continue; }   // v43: pooled hulls lose police visuals
                 long[] st = police.get(e);
                 if (st != null) missiles(ps, e, st, j);
+                if (ModTitanAI.AI2_RADIO && heat > 0 && !ModCalm.active()) {
+                    long called = radioTimer(waveTimer, lastTop, lastRadioTier, e.life, e.maxLife);
+                    if (called < waveTimer) {
+                        waveTimer = called;
+                        lastRadioTier = lastTop;
+                    }
+                }
             }
             if (titan != null && (titan.removed || titan.life <= 0)) { ModPoliceAura.remove(titan); titan = null; }
             if (sinceWave < Long.MAX_VALUE / 4) sinceWave += j;
@@ -489,6 +504,7 @@ public class ModPolice {
         titan = null;
         heat = 0;
         lastTop = NONE;
+        lastRadioTier = NONE;
         heatRose = false;
         quietMs = 0;
         sinceWave = Long.MAX_VALUE / 4;
@@ -526,6 +542,7 @@ public class ModPolice {
             titan = null;
             boosted.clear();
             lastTop = NONE;
+            lastRadioTier = NONE;
             heatRose = false;
             log("stand down (" + n + " ships)");
             if (n > 0 && ps != null) {

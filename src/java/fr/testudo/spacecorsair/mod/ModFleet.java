@@ -203,6 +203,7 @@ public class ModFleet {
     // ------------------------------------------------------------ spawner
 
     private static final ArrayList<Ennemis> fleet = new ArrayList<Ennemis>();
+    private static final Vector2 rangePoint = new Vector2();
     private static Level lastLevel;
     private static int spawnTimer = 30000;
 
@@ -233,6 +234,13 @@ public class ModFleet {
             if (fleet.get(i).removed) fleet.remove(i);
         }
         if (ps.removed || ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode || lvl == null || excluded(lvl.id)) return;
+        if (ModTitanAI.AI2_KITE) {
+            for (Ennemis e : fleet) {
+                if (!(e instanceof Fighter) || e.attackTarget != ps || e.life <= 0 || ModWarpOut.active(e)) continue;
+                ModTitanAI.rangePoint(rangePoint, e.position, ps.position, e.distanceShoot * 0.58f, e.distanceShoot * 0.84f);
+                ModTitanAI.steer(e.position, e.speed, rangePoint, j);
+            }
+        }
         spawnTimer = (int) (spawnTimer - j);
         if (spawnTimer > 0) return;
         spawnTimer = 24000 + (int) (Math.random() * 16000);   // v35 (E1b): 2.5x the wing traffic (was 60-100 s, 6 ships)
