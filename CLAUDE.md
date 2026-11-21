@@ -1,59 +1,55 @@
 # Space Corsair mod: working rules
 
+Mechanical rules are enforced by hooks (`.claude/hooks/sc_hooks.py`; active in every project thread via `/mnt/project-files/claude-hooks/`): no binaries or whole reads of files >256 KB, build output and long diffs trimmed to a log, keys never in git, fresh `audits/<ver>-changes.md` before code commits, smali patches never re-run, lossless WebP only, release.sh / wrangler deploy need the owner's word, DEV APK never released, `releases` pushes need release/VERSION + update-channel seq bumps, no deletes in the owner's Downloads, inline sed -i/python file rewrites blocked (use Edit), two-agent reminder. A blocked call says why; `SC_HOOK_OK=1 <cmd>` passes the soft ones when the exception is legitimate.
+
 ## Project
 Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and merged into the patched game smali, then the APK is rebuilt and signed.
-- `src/java/fr/testudo/spacecorsair/mod/*.java`: mod code (Java 8, against `work/game_v168.jar`)
-- `src/patch/hooks*.py`: smali patches, ALREADY APPLIED to `work/smali` (see `work/HOOKS_APPLIED.txt`). Never run one twice; a new hook = a new script, run once, logged.
-- `work/modart/`: shipped art, lossless WebP only (`scripts/losslessify.py`). Never downscale or lossily compress art.
+- `src/java/fr/testudo/spacecorsair/mod/*.java`: mod code (Java 8, against `work/game_v168.jar`).
+- `src/patch/hooks*.py`: smali patches, already applied to `work/smali` (logged in `work/HOOKS_APPLIED.txt`). A new patch = a new script, run once, logged.
+- `work/modart/`: shipped art (`scripts/losslessify.py`). Never downscale art.
 - `i18n/`: Spanish (`i18n/lang/build_es_json.py` rebuilds `es_full.json`). New player-facing text needs EN and ES.
 - `incoming/`: ChatGPT art and data not yet integrated. `emulator-tests/`: CI test flow (branch `emulator-tests`).
-- Signing key: `work/key.p12` (not in git; the owner does not keep a copy; one is at `/mnt/project-files/space-corsair/keys/key.p12`; password `android`).
-- `server/rendezvous/`: internet lobby service (Cloudflare Worker + Durable Object, live at sc-rendezvous.spacecs-coop.workers.dev; owner page /admin uses keys/admin.key, `python3 scripts/sc_reports.py` downloads CSVs). Tests: `node test/registry.test.mjs` (REGISTRY OK). Deploying it changes production: owner's word first. Credentials only in `/mnt/project-files/space-corsair/keys/` (never in git).
-- `work/smali/fr/testudo/spacecorsair/mod/`: the built mod smali is committed with each build.
+- Signing key `work/key.p12` (not in git; owner keeps no copy; copy at `/mnt/project-files/space-corsair/keys/key.p12`; password `android`).
+- `server/rendezvous/`: internet lobby (Cloudflare Worker + Durable Object, live at sc-rendezvous.spacecs-coop.workers.dev; owner page /admin uses keys/admin.key; `python3 scripts/sc_reports.py` downloads CSVs). Tests: `node test/registry.test.mjs` (REGISTRY OK). Credentials only in `/mnt/project-files/space-corsair/keys/`.
+- `work/smali/fr/testudo/spacecorsair/mod/`: built mod smali, committed with each build.
 
 ## Branches and versions (updated 2026-11-17, audit I1/I5)
-- `sc-mod-workspace`: the work branch; every update branches from it and merges back after the owner's OK. Released: v45 (build 52, 113d24f, 2026-11-19).
-- v45 (build 52): internet play + the whole-game audit fixes + the owner's fix list; merged into sc-mod-workspace 2026-11-17 (owner OK), not released. Two builds: public, and a private DEV build (`DEV_KEY_FILE=<key> bash build.sh`; key in /mnt/project-files/space-corsair/keys/dev.key; never publish the DEV APK).
-- `releases`: GitHub Release workflow (`.github/workflows/release.yml`); bump `release/VERSION` or nothing publishes. Links: releases/download/<ver>/space-corsair-mod.apk.
+- `sc-mod-workspace`: work branch; every update branches from it and merges back after the owner's OK. Released: v45 (build 52, 113d24f, 2026-11-19).
+- v45 (build 52): internet play + whole-game audit fixes + owner's fix list. Two builds: public, and private DEV (`DEV_KEY_FILE=<key> bash build.sh`; key /mnt/project-files/space-corsair/keys/dev.key).
+- `releases`: GitHub Release workflow (`.github/workflows/release.yml`), publishes on a release/VERSION change. Links: releases/download/<ver>/space-corsair-mod.apk.
 - `emulator-tests` / `emulator-results`: CI emulator flow (also the two-runner internet check, `tests/netcloud/`).
-- `claude/project-thread-qs9twg`: titan damage-test harness; not merged by design (test code only).
+- `claude/project-thread-qs9twg`: titan damage-test harness; not merged by design.
 - `master`: unused, 52 commits apart from `sc-mod-workspace`; nothing deleted (owner 2026-11-17).
 
 ## Commands
-- Build + checks: `MODVER_NAME=v45 bash scripts/check.sh 52` (build number, shown name). Runs `build.sh`: javac, dex, smali, JVM `-Xverify:all` tests (V17, V30, V34, V35, V37W, V42, V44S, V49 ...), Spanish locale, version stamp, signing. Prints PASS/FAIL; full log in `out/build-v<version>.log`; the exit code is preserved.
-- Emulator test: copy the APK to `tests/apks/space-corsair.apk` on branch `emulator-tests`, set the matrix tag, push; results land on branch `emulator-results`. Free-tier minutes: batch fixes, one run per update.
-- Release: `scripts/release.sh v<version> <apk> "<notes>"` (needs a worktree of branch `releases`), then bump `release/VERSION` so the workflow publishes. Only with the owner's word.
+- Build + checks: `MODVER_NAME=v45 bash scripts/check.sh 52` (build number, shown name). Runs `build.sh` (javac, dex, smali, JVM `-Xverify:all` tests V17 V30 V34 V35 V37W V42 V44S V49 ..., Spanish locale, version stamp, signing); prints PASS/FAIL; log `out/build-v<version>.log`; exit code preserved.
+- Emulator test: APK to `tests/apks/space-corsair.apk` on branch `emulator-tests`, set the matrix tag, push; results on `emulator-results`. Free-tier minutes: batch fixes, one run per update.
+- Release: `scripts/release.sh v<version> <apk> "<notes>"` (needs a worktree of `releases`), then bump `release/VERSION`.
 
 ## Working rules
-- Start with the files relevant to the task; search for symbols or filenames before reading large files; widen only when needed or asked.
-- Keep command output short; keep full logs in `out/` and show only the relevant failures.
-- Reuse existing scripts and patterns; no new frameworks.
-- Stay within the requested scope. Plan briefly with the owner for complex or uncertain work; make small clear fixes directly.
-- Run the relevant checks, fix failures, report actual results. Have one subagent review the work once or twice per update.
-- If two fixes fail, reassess the cause before trying again.
-- Subagents: at most one at a time beside the main agent, only for distinct substantial work, narrow scope, concise result.
-- Replies: concise (changes made, checks run, remaining issues) and end with a check list.
-- Division of labour: ChatGPT does art, lore and translations; Claude does code, integration, builds, tests, releases.
-- Before ending an unfinished session: update `HANDOFF.md`. Current task lives in `TASK.md`.
-- Requests from the owner should follow: "Update TASK.md for this change: [...]. Include these acceptance criteria: [...]. Implement it, run the relevant checks, and report the result." Remind the owner of this format when a request lacks it.
-- Global Assault and Corsair Nova are on the back burner; do not work on them unless asked.
+- Start with the relevant files; grep before reading; widen only when needed or asked.
+- Reuse existing scripts and patterns; no new frameworks. Stay in scope. Plan briefly with the owner for complex or uncertain work; make small clear fixes directly.
+- Run the relevant checks, fix failures, report actual results. If two fixes fail, reassess the cause first.
+- Subagents: at most one at a time beside the main agent, distinct substantial work, narrow scope, concise result, cheaper model/low effort.
+- Replies: concise (changes, checks, remaining issues), end with a check list.
+- ChatGPT does art, lore, translations and long text; Claude does code, integration, builds, tests, releases.
+- Before ending an unfinished session: update `HANDOFF.md`. Current task: `TASK.md`.
+- Owner requests should follow: "Update TASK.md for this change: [...]. Include these acceptance criteria: [...]. Implement it, run the relevant checks, and report the result." Remind the owner when a request lacks it.
+- Global Assault and Corsair Nova are on the back burner unless asked.
 
 ## Usage budget
 - One session per update: start fresh from `HANDOFF.md` + `TASK.md`; never continue a long session (every turn re-sends the whole context).
-- Do not read large smali/Java files whole; grep, then read line ranges. Never paste build logs; `scripts/check.sh` prints PASS/FAIL only.
-- Subagents run on a cheaper model/low effort and return a short verdict.
-- No recurring routines or self check-ins; GitHub Actions runs are fine (they do not use Claude usage).
-- Art, lore, translations and long text go to ChatGPT.
+- No recurring routines or self check-ins; GitHub Actions runs are fine.
 
 ## Needs in-game testing (cannot be proven by the build)
-Visuals, balance, AI behaviour (bosses, flagship skills), wreck physics, loot feel, Spanish text fitting the screen. Use the emulator run, then the owner's phone.
+Visuals, balance, AI behaviour (bosses, flagship skills), wreck physics, loot feel, Spanish text fitting the screen. Emulator run, then the owner's phone.
 
 ## External tools and forks (checked 2026-10-20; clones in /home/user)
-- Used by the build already (same projects, older pinned versions in `tools/`): smali/baksmali 2.5.2 (fork: 3.0.10), dex2jar 2.4.6, uber-apk-signer 1.3.0. Keep the pinned versions; upgrade only to fix a concrete bug.
-- jadx: decompile the game for reading (`jadx -d <out> <apk>`); read-only reference, never rebuild from it.
-- Apktool: not needed (APK is rebuilt by `src/rebuild.py`, resources by `es/arsc.py`); fallback only for manifest/resource edits those scripts cannot do.
-- AssetRipper, Il2CppDumper: Unity tools. Space Corsair has no Unity or native code; they belong to Global Assault (on hold).
-- Asset repos (`/home/user/josepriet`): eve-ships/eve-stls are EVE Online (CCP) ship models: reference only, never ship them. spaceship-2d (public domain generator) and gamedev-free-resources (link list) are usable references; art itself stays ChatGPT's job.
-- Android emulator QA plugin: needs a local adb/emulator, which this container lacks; emulator tests run in GitHub Actions.
-- Internet play check (real game, two emulators on two GitHub runners, no switch files): branch `claude/project-thread-9bas6i`, `.github/workflows/netgame.yml` + `tests/netgame/run.sh` (pairs host/guest and hostr/guestr = relay only). Put the APK at tests/netgame/sc.apk and push; results land in tests/netgame/results/runN/.
-- In-game update channel: releases branch `updates/spec-stable.json` -> `tools/updates/manifest_sign.py` -> updates/channel-stable/ (seq must rise). Every new release: bump seq, apk = the new release.
+- Pinned in `tools/` (upgrade only for a concrete bug): smali/baksmali 2.5.2 (fork 3.0.10), dex2jar 2.4.6, uber-apk-signer 1.3.0.
+- jadx: read-only decompile (`jadx -d <out> <apk>`), never rebuild from it.
+- Apktool: fallback only for manifest/resource edits `src/rebuild.py` / `es/arsc.py` cannot do.
+- AssetRipper, Il2CppDumper: Unity tools for Global Assault (on hold); Space Corsair has no Unity or native code.
+- `/home/user/josepriet`: eve-ships/eve-stls are EVE Online (CCP) models, reference only, never ship. spaceship-2d (public domain) and gamedev-free-resources are usable references; art stays ChatGPT's job.
+- Android emulator QA plugin needs a local adb/emulator (not here); emulator tests run in GitHub Actions.
+- Internet play check (two emulators, two runners): branch `claude/project-thread-9bas6i`, `.github/workflows/netgame.yml` + `tests/netgame/run.sh` (host/guest and hostr/guestr = relay only). APK at tests/netgame/sc.apk, push; results in tests/netgame/results/runN/.
+- In-game update channel: releases branch `updates/spec-stable.json` -> `tools/updates/manifest_sign.py` -> updates/channel-stable/ (seq must rise; apk = the new release).

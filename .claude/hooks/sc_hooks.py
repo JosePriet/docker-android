@@ -92,6 +92,21 @@ def pre_bash(data):
         bad = [a.strip("\"'") for a in m.group(1).split() if KEY_RE.search(a.strip("\"'"))]
         if bad:
             deny("Signing keys/credentials never go into git: " + ", ".join(bad[:5]) + ".")
+    # 1c. Smali patch scripts are applied once (work/HOOKS_APPLIED.txt); never re-run one (no bypass).
+    for m in re.finditer(r"\bsrc/patch/(hooks\w*)\.py\b", cmd):
+        top0 = repo_dir(cmd, cwd) or git(["rev-parse", "--show-toplevel"], cwd).strip()
+        applied = os.path.join(top0 or cwd, "work", "HOOKS_APPLIED.txt")
+        if os.path.isfile(applied) and re.search(r"^" + re.escape(m.group(1)) + r"\s+applied", open(applied).read(), re.M):
+            deny("%s is already applied (work/HOOKS_APPLIED.txt). Never run a smali patch twice; write a new "
+                 "hooksNN script, run it once, log it." % m.group(1))
+    # 1d. Never publish the DEV build (no bypass); releases and production deploys need the owner's word.
+    if re.search(r"\brelease\.sh\b[^;&|\n]*dev", cmd, re.I):
+        deny("Never publish the DEV APK. Release the public build.")
+    if not bypass and re.search(r"\brelease\.sh\b", cmd):
+        deny("Releases need the owner's word in this thread. If given, rerun with SC_HOOK_OK=1 in front.")
+    if not bypass and re.search(r"\bwrangler\s+(?:deploy|publish)\b|\bnpm\s+run\s+deploy\b", cmd):
+        deny("Deploying the rendezvous service changes production: owner's word first. If given, rerun with "
+             "SC_HOOK_OK=1 in front.")
     is_commit = COMMIT_RE.search(cmd)
     is_push = PUSH_RE.search(cmd)
     if is_commit or is_push:
@@ -122,6 +137,16 @@ def pre_bash(data):
                     deny("Standing rule: write /mnt/project-files/audits/<ver>-changes.md (everything this patch "
                          "changes) before committing code. None was written in the last %dh. If this commit is not "
                          "a patch, rerun with SC_HOOK_OK=1 in the command." % AUDIT_MAX_AGE_H)
+            # 3b. Shipped art is lossless WebP only (no bypass).
+            lossy = []
+            for f in files:
+                if f.startswith("work/modart") and f.lower().endswith(".webp") and os.path.isfile(os.path.join(top, f)):
+                    with open(os.path.join(top, f), "rb") as fh:
+                        if b"VP8 " in fh.read():
+                            lossy.append(f)
+            if lossy:
+                deny("Lossy WebP in shipped art: %s. Art is lossless only (scripts/losslessify.py on the "
+                     "original, never re-encode a lossy file)." % ", ".join(sorted(lossy)[:5]))
             # 4. Release workflow publishes only when release/VERSION changes.
             branch = git(["rev-parse", "--abbrev-ref", "HEAD"], top).strip()
             if is_push and not bypass and (branch == "releases" or re.search(r"\breleases\b", cmd)) \
@@ -130,6 +155,10 @@ def pre_bash(data):
                 if "release/VERSION" not in changed:
                     deny("Pushing to `releases` without a release/VERSION change: the workflow will not publish. "
                          "Bump release/VERSION, or rerun with SC_HOOK_OK=1 if no release is intended.")
+                if "updates/spec-stable.json" not in changed \
+                        and git(["ls-tree", "--name-only", "origin/releases", "updates/spec-stable.json"], top).strip():
+                    deny("New release without an update-channel bump: raise seq and set apk in updates/spec-stable.json "
+                         "(tools/updates/manifest_sign.py). Rerun with SC_HOOK_OK=1 if this release skips the channel.")
 
     if bypass:
         return
@@ -225,7 +254,7 @@ def start(_):
          "Project hooks active: binaries and whole reads of files >256 KB are blocked (grep, then offset/limit); "
          "build/install output and long diffs are trimmed to a log file; commits of code need a fresh "
          "/mnt/project-files/audits/<ver>-changes.md; keys never committed; no deletes in the owner's Downloads; "
-         "pushes to `releases` need a release/VERSION bump. Soft guards accept SC_HOOK_OK=1 in the command."}})
+         "pushes to `releases` need release/VERSION + update-channel bumps; inline sed -i/python file rewrites blocked (use Edit); applied smali patches can't re-run; art must be lossless WebP; release.sh and wrangler deploy need the owner's word. Soft guards accept SC_HOOK_OK=1 at the start of the command."}})
 
 
 def main():
