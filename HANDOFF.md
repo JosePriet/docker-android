@@ -1,3 +1,5 @@
+Status 2026-11-21: v45 RELEASED 2026-11-19 (build 52); entries below say "not released" as of their date.
+
 # Handoff (2026-11-19): in-game updates MERGED (not released)
 ModContent (signed content packs: modart/modsfx/lang, chain in app_content, crash guard, safe mode, undo) + ModUpdate (signed manifest from releases/download/channel-stable/, pack downloads, .scp delta APK + PackageInstaller, Updates entry in the flight menu). MP join hash covers the active packs. Publishing: tools/updates/README.md (pack_build.py, scp_make.py, manifest_sign.py, channel-workflow.yml for branch releases). Manifest key: /mnt/project-files/space-corsair/keys/content-sign.pem (never in git). Test: V60U (JVM), emulator stage V60U (run 147: pack download, restart, chain live, patch, installer, reinstall). Changes: /mnt/project-files/audits/v45-updates-changes.md. Not in yet: ModTune (balance numbers in packs), missions/lore JSON, music overlay.
 

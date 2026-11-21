@@ -6,7 +6,7 @@ Mechanical rules are enforced by hooks (`.claude/hooks/sc_hooks.py`; active in e
 Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and merged into the patched game smali, then the APK is rebuilt and signed.
 - `src/java/fr/testudo/spacecorsair/mod/*.java`: mod code (Java 8, against `work/game_v168.jar`).
 - `src/patch/hooks*.py`: smali patches, already applied to `work/smali` (logged in `work/HOOKS_APPLIED.txt`). A new patch = a new script, run once, logged.
-- `work/modart/`: shipped art (`scripts/losslessify.py`). Never downscale art.
+- `work/modart/`: shipped art, lossless WebP only (`scripts/losslessify.py`). Never downscale or lossily compress art.
 - `i18n/`: Spanish (`i18n/lang/build_es_json.py` rebuilds `es_full.json`). New player-facing text needs EN and ES.
 - `incoming/`: ChatGPT art and data not yet integrated. `emulator-tests/`: CI test flow (branch `emulator-tests`).
 - Signing key `work/key.p12` (not in git; owner keeps no copy; copy at `/mnt/project-files/space-corsair/keys/key.p12`; password `android`).
@@ -18,7 +18,7 @@ Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and mer
 - v45 (build 52): internet play + whole-game audit fixes + owner's fix list. Two builds: public, and private DEV (`DEV_KEY_FILE=<key> bash build.sh`; key /mnt/project-files/space-corsair/keys/dev.key).
 - `releases`: GitHub Release workflow (`.github/workflows/release.yml`), publishes on a release/VERSION change. Links: releases/download/<ver>/space-corsair-mod.apk.
 - `emulator-tests` / `emulator-results`: CI emulator flow (also the two-runner internet check, `tests/netcloud/`).
-- `claude/project-thread-qs9twg`: titan damage-test harness; not merged by design.
+- `claude/project-thread-qs9twg`: titan damage-test harness; not merged by design (test code only).
 - `master`: unused, 52 commits apart from `sc-mod-workspace`; nothing deleted (owner 2026-11-17).
 
 ## Commands
@@ -29,7 +29,8 @@ Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and mer
 ## Working rules
 - Start with the relevant files; grep before reading; widen only when needed or asked.
 - Reuse existing scripts and patterns; no new frameworks. Stay in scope. Plan briefly with the owner for complex or uncertain work; make small clear fixes directly.
-- Run the relevant checks, fix failures, report actual results. If two fixes fail, reassess the cause first.
+- Run the relevant checks, fix failures, report actual results; full logs stay in `out/`. If two fixes fail, reassess the cause first.
+- Verification per update: one subagent verifies, a second cross-checks (standing rule; was "one subagent review once or twice per update").
 - Subagents: at most one at a time beside the main agent, distinct substantial work, narrow scope, concise result, cheaper model/low effort.
 - Replies: concise (changes, checks, remaining issues), end with a check list.
 - ChatGPT does art, lore, translations and long text; Claude does code, integration, builds, tests, releases.
@@ -39,7 +40,7 @@ Android game mod (Space Corsair 1.5.1). Java mod code is compiled, dexed and mer
 
 ## Usage budget
 - One session per update: start fresh from `HANDOFF.md` + `TASK.md`; never continue a long session (every turn re-sends the whole context).
-- No recurring routines or self check-ins; GitHub Actions runs are fine.
+- No recurring routines or self check-ins; GitHub Actions runs are fine (they do not use Claude usage).
 
 ## Needs in-game testing (cannot be proven by the build)
 Visuals, balance, AI behaviour (bosses, flagship skills), wreck physics, loot feel, Spanish text fitting the screen. Emulator run, then the owner's phone.

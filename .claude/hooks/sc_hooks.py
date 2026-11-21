@@ -31,7 +31,7 @@ SAFE_CMD_RE = re.compile(r"^(?:cd\s+[\w./~-]+\s+&&\s+)?(?:(?:MODVER_NAME|DEV_KEY
 GIT_OPTS = r"\bgit\s+(?:(?:-C|-c)\s+\S+\s+|--?[\w-]+(?:=\S+)?\s+)*"
 COMMIT_RE = re.compile(GIT_OPTS + r"commit\b")
 PUSH_RE = re.compile(GIT_OPTS + r"push\b")
-BYPASS_RE = re.compile(r"(?:^|[;&|(]\s*)SC_HOOK_OK=1\s")
+BYPASS_RE = re.compile(r"^\s*(?:cd\s+\S+\s*&&\s*)?SC_HOOK_OK=1\s")
 DOWNLOADS = r"(?:Users[\\/][^\\/\s]+|home/[^/\s]+|root|~|\$HOME|\$\{HOME\}|mnt)[\\/]+Downloads\b"
 DEL_VERB = r"(?:\b(?:rm|rmdir|del|erase|rd|unlink|shred|mv|move)\b|Remove-Item|rmtree|os\.remove|-delete\b)"
 DEL_RE = re.compile(r"(?:\b(?:rm|rmdir|del|erase|rd|unlink|shred|mv|move)\b|Remove-Item|rmtree|os\.remove)[^;&|\n]*" + DOWNLOADS
@@ -70,6 +70,34 @@ def repo_dir(cmd, cwd):
     return top or None
 
 
+def segments(cmd):
+    """Each simple command, without leading env assignments and wrappers (bash/sh/python/exec/env/npx)."""
+    for seg in re.split(r"&&|\|\||[;|\n(){}]", cmd):
+        seg = seg.strip()
+        while True:
+            n = re.sub(r"^(?:[A-Za-z_]\w*=\S*\s+|(?:exec|env|command|time|nohup|npx|bash|sh|python3?)\s+(?:-[A-Za-z]+\s+)*)", "", seg)
+            if n == seg:
+                break
+            seg = n
+        if seg:
+            yield seg
+
+
+def lossy_webp(path):
+    """True if the WebP file has a lossy 'VP8 ' bitstream chunk (walks RIFF chunks, not a byte search)."""
+    with open(path, "rb") as fh:
+        d = fh.read()
+    if d[:4] != b"RIFF" or d[8:12] != b"WEBP":
+        return False
+    i = 12
+    while i + 8 <= len(d):
+        tag, size = d[i:i + 4], int.from_bytes(d[i + 4:i + 8], "little")
+        if tag == b"VP8 ":
+            return True
+        i += 8 + size + (size & 1)
+    return False
+
+
 def simple_body(cmd):
     """The command body if cmd is one plain command (see SAFE_CMD_RE), else None."""
     if UNSAFE_ARG_RE.search(cmd):
@@ -93,18 +121,24 @@ def pre_bash(data):
         if bad:
             deny("Signing keys/credentials never go into git: " + ", ".join(bad[:5]) + ".")
     # 1c. Smali patch scripts are applied once (work/HOOKS_APPLIED.txt); never re-run one (no bypass).
-    for m in re.finditer(r"\bsrc/patch/(hooks\w*)\.py\b", cmd):
+    segs = list(segments(cmd))
+    for m in (re.match(r"(?:\S*/)?src/patch/(hooks\w*)\.py\b", g) for g in segs):
+        if not m:
+            continue
         top0 = repo_dir(cmd, cwd) or git(["rev-parse", "--show-toplevel"], cwd).strip()
         applied = os.path.join(top0 or cwd, "work", "HOOKS_APPLIED.txt")
         if os.path.isfile(applied) and re.search(r"^" + re.escape(m.group(1)) + r"\s+applied", open(applied).read(), re.M):
             deny("%s is already applied (work/HOOKS_APPLIED.txt). Never run a smali patch twice; write a new "
                  "hooksNN script, run it once, log it." % m.group(1))
     # 1d. Never publish the DEV build (no bypass); releases and production deploys need the owner's word.
-    if re.search(r"\brelease\.sh\b[^;&|\n]*dev", cmd, re.I):
-        deny("Never publish the DEV APK. Release the public build.")
-    if not bypass and re.search(r"\brelease\.sh\b", cmd):
+    rel = [g for g in segs if re.match(r"(?:\S*/)?release\.sh\b", g)]
+    for g in rel:
+        a = g.split()
+        if len(a) > 2 and re.search(r"(^|[-_.])dev([-_.]|$)|/private/", a[2], re.I):
+            deny("Never publish the DEV APK. Release the public build.")
+    if rel and not bypass:
         deny("Releases need the owner's word in this thread. If given, rerun with SC_HOOK_OK=1 in front.")
-    if not bypass and re.search(r"\bwrangler\s+(?:deploy|publish)\b|\bnpm\s+run\s+deploy\b", cmd):
+    if not bypass and any(re.match(r"wrangler\s+(?:deploy|publish)\b|npm\s+run\s+deploy\b", g) for g in segs):
         deny("Deploying the rendezvous service changes production: owner's word first. If given, rerun with "
              "SC_HOOK_OK=1 in front.")
     is_commit = COMMIT_RE.search(cmd)
@@ -141,9 +175,8 @@ def pre_bash(data):
             lossy = []
             for f in files:
                 if f.startswith("work/modart") and f.lower().endswith(".webp") and os.path.isfile(os.path.join(top, f)):
-                    with open(os.path.join(top, f), "rb") as fh:
-                        if b"VP8 " in fh.read():
-                            lossy.append(f)
+                    if lossy_webp(os.path.join(top, f)):
+                        lossy.append(f)
             if lossy:
                 deny("Lossy WebP in shipped art: %s. Art is lossless only (scripts/losslessify.py on the "
                      "original, never re-encode a lossy file)." % ", ".join(sorted(lossy)[:5]))
