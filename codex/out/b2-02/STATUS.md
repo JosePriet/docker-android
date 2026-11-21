@@ -1,5 +1,7 @@
 # Batch 2 task 02
 
-Implementation and source audit, fitting and held-out comparisons, full matchup CSVs, hull ranking, paired sensitivity scenarios, plots and report are complete. The grid contains 174,944 verified rows and 174,944,000 fights. Fitted replay clocks meet both targets (28/28 within 25%, median 6.85%). Before-fight predictions reach 20/28, median 12.99%.
+Complete: source audit, simulator, fitting and held-out comparisons, full matchup CSVs, paired multiplier/station/Hive Bay experiments, figures, hull rankings and report. The four level grids reproduced byte-for-byte. The 174,944 rows cover 174,944,000 seeded fights. Java compilation, JVM checks, oracle, dataset validation and registry tests passed.
 
-In progress: reproduce the grid, compare its checksums, and open the PR against sc-mod-workspace.
+The fitted replay meets both timing targets (28/28 within 25%, median 6.85%). Pre-fight predictions reach 20/28, median 12.99%. The held-out Warlord results and timing gaps are in [the report](report.md).
+
+Next step: open the pull request against sc-mod-workspace for review.

@@ -1,0 +1,33 @@
+hull,level,refit,enemy,item,stance,in_range_dps,ttk_s,ttd_s,wins,losses,ties,timeouts,fights,seed
+Nebula Moth,10,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,defense,187.3,>180,3.0,0,1000,0,0,1000,490450674
+Nebula Moth,10,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,attack,127.37,>180,3.0,0,1000,0,0,1000,490450674
+DEV Prototype X-0,10,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,defense,187.3,>180,6.0,0,1000,0,0,1000,1481481268
+DEV Prototype X-0,10,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,attack,127.37,>180,6.0,0,1000,0,0,1000,1481481268
+Cradle of Echoes,10,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,defense,187.3,>180,1.5,0,1000,0,0,1000,203253127
+Cradle of Echoes,10,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,attack,127.37,>180,1.5,0,1000,0,0,1000,203253127
+alienBlatte,10,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,defense,144.08,>180,2.0,0,1000,0,0,1000,1785054912
+alienBlatte,10,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,attack,97.97,>180,2.0,0,1000,0,0,1000,1785054912
+Nebula Moth,20,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,defense,840.05,>180,7.5,0,1000,0,0,1000,621029475
+Nebula Moth,20,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,attack,571.24,>180,7.5,0,1000,0,0,1000,621029475
+DEV Prototype X-0,20,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,defense,840.05,>180,>180,165,323,0,512,1000,3137603538
+DEV Prototype X-0,20,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,attack,571.24,>180,>180,168,323,0,509,1000,3137603538
+Cradle of Echoes,20,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,defense,840.05,>180,3.0,0,1000,0,0,1000,2301326163
+Cradle of Echoes,20,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,attack,571.24,>180,3.0,0,1000,0,0,1000,2301326163
+alienBlatte,20,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,defense,646.2,>180,4.5,0,1000,0,0,1000,1437672523
+alienBlatte,20,10,Flagship Bloodforge (8 mounts),regentHiveBayL5,attack,439.41,>180,4.5,0,1000,0,0,1000,1437672523
+Nebula Moth,30,10,Flagship Bloodforge (8 mounts),regentHiveBayL10,defense,7691.99,>180,>180,0,0,0,1000,1000,2218634381
+Nebula Moth,30,10,Flagship Bloodforge (8 mounts),regentHiveBayL10,attack,5230.55,>180,>180,0,0,0,1000,1000,2218634381
+DEV Prototype X-0,30,10,Flagship Bloodforge (8 mounts),regentHiveBayL10,defense,7691.99,76.5,>180,1000,0,0,0,1000,1394046769
+DEV Prototype X-0,30,10,Flagship Bloodforge (8 mounts),regentHiveBayL10,attack,5230.55,76.5,>180,1000,0,0,0,1000,1394046769
+Cradle of Echoes,30,10,Flagship Bloodforge (8 mounts),regentHiveBayL10,defense,7691.99,>180,>180,0,0,0,1000,1000,1125713122
+Cradle of Echoes,30,10,Flagship Bloodforge (8 mounts),regentHiveBayL10,attack,5230.55,>180,>180,0,0,0,1000,1000,1125713122
+alienBlatte,30,10,Flagship Bloodforge (8 mounts),regentHiveBayL10,defense,5916.91,>180,>180,0,0,0,1000,1000,4131060743
+alienBlatte,30,10,Flagship Bloodforge (8 mounts),regentHiveBayL10,attack,4023.5,>180,>180,0,0,0,1000,1000,4131060743
+Nebula Moth,40,10,Flagship Bloodforge (8 mounts),regentHiveBayL15,defense,39784.92,>180,>180,46,0,0,954,1000,1433868933
+Nebula Moth,40,10,Flagship Bloodforge (8 mounts),regentHiveBayL15,attack,27053.74,>180,>180,288,0,0,712,1000,1433868933
+DEV Prototype X-0,40,10,Flagship Bloodforge (8 mounts),regentHiveBayL15,defense,39784.92,49.0,>180,1000,0,0,0,1000,2799824597
+DEV Prototype X-0,40,10,Flagship Bloodforge (8 mounts),regentHiveBayL15,attack,27053.74,48.0,>180,1000,0,0,0,1000,2799824597
+Cradle of Echoes,40,10,Flagship Bloodforge (8 mounts),regentHiveBayL15,defense,39784.92,>180,>180,12,0,0,988,1000,1480479932
+Cradle of Echoes,40,10,Flagship Bloodforge (8 mounts),regentHiveBayL15,attack,27053.74,>180,>180,339,0,0,661,1000,1480479932
+alienBlatte,40,10,Flagship Bloodforge (8 mounts),regentHiveBayL15,defense,30603.78,>180,>180,0,0,0,1000,1000,708528481
+alienBlatte,40,10,Flagship Bloodforge (8 mounts),regentHiveBayL15,attack,20810.57,>180,>180,0,0,0,1000,1000,708528481

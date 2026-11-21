@@ -1,0 +1,29 @@
+enemy,police,multiplier,ttk_s,ttd_s,wins,losses,ties,timeouts,fights,seed
+Flagship SRS Aegis (8 mounts),False,3,14.5,57.0,743,257,0,0,1000,1409971742
+Flagship SRS Aegis (8 mounts),False,1,14.5,>180,919,80,1,0,1000,1409971742
+Police titan SRS Aegis (8 mounts),True,3,44.5,44.0,378,617,5,0,1000,827870926
+Police titan SRS Aegis (8 mounts),True,1,44.5,123.5,731,210,0,59,1000,827870926
+Flagship Bloodforge (8 mounts),False,3,32.5,>180,1000,0,0,0,1000,3526666528
+Flagship Bloodforge (8 mounts),False,1,32.5,>180,1000,0,0,0,1000,3526666528
+Police titan Bloodforge (8 mounts),True,3,83.0,45.0,100,895,5,0,1000,1877742940
+Police titan Bloodforge (8 mounts),True,1,83.0,117.5,960,40,0,0,1000,1877742940
+Flagship Brood-Mother (6 mounts),False,3,14.5,>180,1000,0,0,0,1000,4135001424
+Flagship Brood-Mother (6 mounts),False,1,14.5,>180,1000,0,0,0,1000,4135001424
+Police titan Brood-Mother (6 mounts),True,3,54.0,42.5,226,774,0,0,1000,3171054902
+Police titan Brood-Mother (6 mounts),True,1,54.0,106.5,1000,0,0,0,1000,3171054902
+Flagship Syndicate Crown (8 mounts),False,3,17.5,>180,1000,0,0,0,1000,517330349
+Flagship Syndicate Crown (8 mounts),False,1,17.5,>180,1000,0,0,0,1000,517330349
+Police titan Syndicate Crown (8 mounts),True,3,43.5,43.5,464,521,15,0,1000,1726851558
+Police titan Syndicate Crown (8 mounts),True,1,43.5,127.5,1000,0,0,0,1000,1726851558
+Flagship IMS Bastion (8 mounts),False,3,35.0,72.0,1000,0,0,0,1000,3430015060
+Flagship IMS Bastion (8 mounts),False,1,35.0,78.0,1000,0,0,0,1000,3430015060
+Police titan IMS Bastion (8 mounts),True,3,63.5,30.0,0,1000,0,0,1000,3179162935
+Police titan IMS Bastion (8 mounts),True,1,63.5,52.5,3,983,14,0,1000,3179162935
+Flagship Sunspire (8 mounts),False,3,18.0,148.0,1000,0,0,0,1000,3183879737
+Flagship Sunspire (8 mounts),False,1,18.0,172.0,1000,0,0,0,1000,3183879737
+Police titan Sunspire (8 mounts),True,3,42.5,36.0,307,684,9,0,1000,1397160961
+Police titan Sunspire (8 mounts),True,1,42.5,77.0,1000,0,0,0,1000,1397160961
+Flagship FAV Warden (8 mounts),False,3,18.5,110.5,1000,0,0,0,1000,1800657988
+Flagship FAV Warden (8 mounts),False,1,18.5,119.5,1000,0,0,0,1000,1800657988
+Police titan FAV Warden (8 mounts),True,3,60.0,35.0,0,999,1,0,1000,3599515656
+Police titan FAV Warden (8 mounts),True,1,60.0,65.5,670,311,19,0,1000,3599515656

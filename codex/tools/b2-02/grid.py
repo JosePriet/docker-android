@@ -4,6 +4,9 @@ import csv
 import gzip
 import io
 import itertools
+from contextlib import contextmanager
+from pathlib import Path
+from tempfile import TemporaryDirectory
 import zlib
 from concurrent.futures import ProcessPoolExecutor
 
@@ -27,6 +30,20 @@ def cohort(e):
     return "normal"
 
 
+@contextmanager
+def write_matchups(path):
+    # A stopped run must leave the last complete table readable.
+    with TemporaryDirectory(dir=path.parent) as directory:
+        pending = Path(directory) / path.name
+        with (
+            pending.open("wb") as raw,
+            gzip.GzipFile(filename="", fileobj=raw, mode="wb", mtime=0) as gz,
+            io.TextIOWrapper(gz, newline="") as stream,
+        ):
+            yield stream
+        pending.replace(path)
+
+
 def write_level(job):
     level, params = job
     foes = roster(level)
@@ -34,11 +51,7 @@ def write_level(job):
     routes = {e: library(corpus, e) for e in foes}
     path = OUT / f"matchups-L{level}.csv.gz"
     count = 0
-    with (
-        path.open("wb") as raw,
-        gzip.GzipFile(filename="", fileobj=raw, mode="wb", mtime=0) as gz,
-        io.TextIOWrapper(gz, newline="") as f,
-    ):
+    with write_matchups(path) as f:
         w = csv.writer(f, lineterminator="\n")
         w.writerow(
             (

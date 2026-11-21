@@ -1,0 +1,49 @@
+level,kind,mounts,raw_dps,target,enemy,ttk_s,ttd_s,wins
+10,mining,2,375.0,wanted player,Flagship Bloodforge (8 mounts),inf,8.0,0
+10,mining,2,375.0,enemy flagship,Flagship Bloodforge (8 mounts),inf,9.5,0
+10,mining,2,375.0,wanted player,Police titan Bloodforge (8 mounts),inf,3.5,0
+10,outpost,3,562.5,wanted player,Flagship Bloodforge (8 mounts),inf,7.5,0
+10,outpost,3,562.5,enemy flagship,Flagship Bloodforge (8 mounts),inf,9.5,0
+10,outpost,3,562.5,wanted player,Police titan Bloodforge (8 mounts),inf,3.0,0
+10,outpost,4,750.0,wanted player,Flagship Bloodforge (8 mounts),inf,7.5,0
+10,outpost,4,750.0,enemy flagship,Flagship Bloodforge (8 mounts),inf,9.5,0
+10,outpost,4,750.0,wanted player,Police titan Bloodforge (8 mounts),inf,3.0,0
+10,base,4,1250.0,wanted player,Flagship Bloodforge (8 mounts),inf,7.0,0
+10,base,4,1250.0,enemy flagship,Flagship Bloodforge (8 mounts),172.0,9.5,0
+10,base,4,1250.0,wanted player,Police titan Bloodforge (8 mounts),inf,3.0,0
+20,mining,2,1122.04,wanted player,Flagship Bloodforge (8 mounts),89.0,15.5,0
+20,mining,2,1122.04,enemy flagship,Flagship Bloodforge (8 mounts),85.0,44.0,0
+20,mining,2,1122.04,wanted player,Police titan Bloodforge (8 mounts),inf,7.5,0
+20,outpost,3,1683.06,wanted player,Flagship Bloodforge (8 mounts),89.0,14.5,0
+20,outpost,3,1683.06,enemy flagship,Flagship Bloodforge (8 mounts),83.0,44.0,0
+20,outpost,3,1683.06,wanted player,Police titan Bloodforge (8 mounts),inf,7.5,0
+20,outpost,4,2244.08,wanted player,Flagship Bloodforge (8 mounts),89.0,13.5,0
+20,outpost,4,2244.08,enemy flagship,Flagship Bloodforge (8 mounts),81.0,44.0,0
+20,outpost,4,2244.08,wanted player,Police titan Bloodforge (8 mounts),inf,7.0,0
+20,base,4,3740.14,wanted player,Flagship Bloodforge (8 mounts),89.0,11.5,0
+20,base,4,3740.14,enemy flagship,Flagship Bloodforge (8 mounts),77.0,44.0,0
+20,base,4,3740.14,wanted player,Police titan Bloodforge (8 mounts),inf,7.0,0
+30,mining,2,2207.23,wanted player,Flagship Bloodforge (8 mounts),44.5,108.0,1000
+30,mining,2,2207.23,enemy flagship,Flagship Bloodforge (8 mounts),42.5,inf,1000
+30,mining,2,2207.23,wanted player,Police titan Bloodforge (8 mounts),137.5,25.0,0
+30,outpost,3,3310.84,wanted player,Flagship Bloodforge (8 mounts),44.5,76.0,1000
+30,outpost,3,3310.84,enemy flagship,Flagship Bloodforge (8 mounts),41.5,inf,1000
+30,outpost,3,3310.84,wanted player,Police titan Bloodforge (8 mounts),137.5,22.5,0
+30,outpost,4,4414.45,wanted player,Flagship Bloodforge (8 mounts),44.5,55.5,1000
+30,outpost,4,4414.45,enemy flagship,Flagship Bloodforge (8 mounts),41.0,inf,1000
+30,outpost,4,4414.45,wanted player,Police titan Bloodforge (8 mounts),137.0,20.0,0
+30,base,4,7357.42,wanted player,Flagship Bloodforge (8 mounts),44.5,33.5,0
+30,base,4,7357.42,enemy flagship,Flagship Bloodforge (8 mounts),38.5,inf,1000
+30,base,4,7357.42,wanted player,Police titan Bloodforge (8 mounts),137.5,16.0,0
+40,mining,2,4341.95,wanted player,Flagship Bloodforge (8 mounts),19.0,102.5,1000
+40,mining,2,4341.95,enemy flagship,Flagship Bloodforge (8 mounts),18.5,inf,1000
+40,mining,2,4341.95,wanted player,Police titan Bloodforge (8 mounts),85.0,33.0,0
+40,outpost,3,6512.92,wanted player,Flagship Bloodforge (8 mounts),19.0,71.5,1000
+40,outpost,3,6512.92,enemy flagship,Flagship Bloodforge (8 mounts),18.5,inf,1000
+40,outpost,3,6512.92,wanted player,Police titan Bloodforge (8 mounts),85.0,28.5,0
+40,outpost,4,8683.89,wanted player,Flagship Bloodforge (8 mounts),18.5,53.0,1000
+40,outpost,4,8683.89,enemy flagship,Flagship Bloodforge (8 mounts),18.0,inf,1000
+40,outpost,4,8683.89,wanted player,Police titan Bloodforge (8 mounts),85.0,25.0,0
+40,base,4,14473.15,wanted player,Flagship Bloodforge (8 mounts),18.5,33.0,948
+40,base,4,14473.15,enemy flagship,Flagship Bloodforge (8 mounts),17.0,inf,1000
+40,base,4,14473.15,wanted player,Police titan Bloodforge (8 mounts),85.0,19.0,0
