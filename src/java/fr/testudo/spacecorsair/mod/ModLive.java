@@ -568,6 +568,7 @@ public final class ModLive {
             out = ModV35.damage(target, out, p);   // v35 kill-time targets by advantage
             out = ModTitanAI.damageIn(target, out, p);
             out = ModPolice.armor(target, out);   // v43a-11 (owner 11-14): police take 25% less, police titans 30% less
+            out = ModCcef.damageIn(target, out, p);   // CCEF hunt: CCEF hulls take 50%, the player deals +15%
             out = ModPoliceTitan.overAbsorb(target, out);   // owner 2026-11-12: police titan overshield, before its shield
             out = ModV34.shieldAbsorb(target, out, p);   // v37: big enemies' default shield
             out = ModPolice.hit(target, out, p);   // v42: police heat from player hits, police-only weapons on the player

@@ -374,7 +374,7 @@ public final class ModTitanAI {
             if (enrageNow) { s.plates = full(g); say(g, ModLang.spanish() ? "BLINDAJE RESTAURADO" : "ARMOUR RESTORED", 1.0f, 0.8f, 0.3f); }
             if (s.a <= 0 && dist < 3800) {           // telegraphed artillery
                 s.a = 6000; s.act = 2000; s.hitDone = false;
-                artilleryPoint(s.p1, ps.position, ps.speed, AI2_PREDICT_ARTILLERY);
+                artilleryPoint(s.p1, ps.position, ps.speed, AI2_PREDICT_ARTILLERY || ModCcef.isCcef(g));   // CCEF titan: PR #6 predictive artillery
                 use(g, f, d[6], 1.0f, 0.8f, 0.3f);
             }
             if (pa > 0 && s.act <= 0 && !s.hitDone) {

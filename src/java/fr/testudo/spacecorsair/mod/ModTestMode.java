@@ -340,7 +340,7 @@ public final class ModTestMode {
     public static boolean missionAllowsJump(boolean stock) { return stock || (on && !ModPrologue.active); }
 
     /** PlayerShip.initHyperdriveJumpRequest: hyperdrive charge time in ms (stock 5000, test mode 0 = next frame). */
-    public static int jumpTime() { return on ? 0 : 5000; }
+    public static int jumpTime() { return on ? 0 : ModCcef.jumpTime(5000); }   // CCEF local lockdown: +50%
 
     private static String tJump;
 

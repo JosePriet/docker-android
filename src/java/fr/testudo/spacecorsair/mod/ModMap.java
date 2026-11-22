@@ -57,6 +57,7 @@ public final class ModMap {
      */
     public static void radarPoint2(fr.testudo.spacecorsair.engine.RenderQueue q, fr.testudo.spacecorsair.engine.Vector2 at, boolean b,
                                    float r, float g, float bl, float a, float size, fr.testudo.spacecorsair.business.Element e) {
+        if (ModCcef.radar(q, at, b, a, size, e)) return;   // CCEF hunt: only the CCEF signature on the radar
         try {
             int m = ModEvents.mark(e);   // sector events: pulsing radar marker on the freighter / bounty target
             if (m != 0) {

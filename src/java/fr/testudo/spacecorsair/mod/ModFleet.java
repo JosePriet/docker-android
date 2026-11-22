@@ -247,6 +247,7 @@ public class ModFleet {
                 ModTitanAI.steer(e.position, e.speed, rangePoint, j);
             }
         }
+        if (ModCcef.chase()) return;   // CCEF hunt: no new enemy traffic, only the CCEF
         spawnTimer = (int) (spawnTimer - j);
         if (spawnTimer > 0) return;
         spawnTimer = 24000 + (int) (Math.random() * 16000);   // v35 (E1b): 2.5x the wing traffic (was 60-100 s, 6 ships)

@@ -2461,33 +2461,39 @@
 
     .prologue
     .line 65
-    if-eqz p0, :cond_14
+    if-eqz p0, :cond_1a
 
-    if-eqz p1, :cond_14
+    if-eqz p1, :cond_1a
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModEvents;->enabled()Z
 
     move-result v0
 
-    if-eqz v0, :cond_14
+    if-eqz v0, :cond_1a
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModCalm;->active()Z
 
     move-result v0
 
-    if-nez v0, :cond_14
+    if-nez v0, :cond_1a
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModPrologue;->active:Z
 
-    if-eqz v0, :cond_15
+    if-nez v0, :cond_1a
+
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModCcef;->chase()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_1b
 
     .line 83
-    :cond_14
-    :goto_14
+    :cond_1a
+    :goto_1a
     return-void
 
     .line 66
-    :cond_15
+    :cond_1b
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModSector;->play()J
 
     move-result-wide v0
@@ -2499,7 +2505,7 @@
 
     cmp-long v2, v2, v4
 
-    if-gez v2, :cond_27
+    if-gez v2, :cond_2d
 
     const-wide/32 v2, 0x15f90
 
@@ -2508,33 +2514,33 @@
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModEvents;->nextAt:J
 
     .line 68
-    :cond_27
+    :cond_2d
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModEvents;->testForce(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/game/levels/LevelId;)V
 
     .line 70
-    :try_start_2a
+    :try_start_30
     sget v2, Lfr/testudo/spacecorsair/mod/ModEvents;->kind:I
 
-    packed-switch v2, :pswitch_data_66
+    packed-switch v2, :pswitch_data_6c
 
-    goto :goto_14
+    goto :goto_1a
 
     .line 72
-    :pswitch_30
+    :pswitch_36
     sget-wide v2, Lfr/testudo/spacecorsair/mod/ModEvents;->nextAt:J
 
     cmp-long v0, v0, v2
 
-    if-ltz v0, :cond_14
+    if-ltz v0, :cond_1a
 
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModEvents;->start(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/game/levels/LevelId;)V
-    :try_end_39
-    .catch Ljava/lang/Throwable; {:try_start_2a .. :try_end_39} :catch_3a
+    :try_end_3f
+    .catch Ljava/lang/Throwable; {:try_start_30 .. :try_end_3f} :catch_40
 
-    goto :goto_14
+    goto :goto_1a
 
     .line 79
-    :catch_3a
+    :catch_40
     move-exception v0
 
     .line 80
@@ -2565,37 +2571,37 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModEvents;->end(Ljava/lang/String;)V
 
-    goto :goto_14
+    goto :goto_1a
 
     .line 74
-    :pswitch_59
-    :try_start_59
+    :pswitch_5f
+    :try_start_5f
     invoke-static {p0, p2, p3}, Lfr/testudo/spacecorsair/mod/ModEvents;->distress(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
 
-    goto :goto_14
+    goto :goto_1a
 
     .line 75
-    :pswitch_5d
+    :pswitch_63
     invoke-static {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModEvents;->bounty(Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
 
-    goto :goto_14
+    goto :goto_1a
 
     .line 76
-    :pswitch_61
+    :pswitch_67
     invoke-static {p0, v0, v1, p2, p3}, Lfr/testudo/spacecorsair/mod/ModEvents;->salvage(Lfr/testudo/spacecorsair/business/player/PlayerShip;JJ)V
-    :try_end_64
-    .catch Ljava/lang/Throwable; {:try_start_59 .. :try_end_64} :catch_3a
+    :try_end_6a
+    .catch Ljava/lang/Throwable; {:try_start_5f .. :try_end_6a} :catch_40
 
-    goto :goto_14
+    goto :goto_1a
 
     .line 70
     nop
 
-    :pswitch_data_66
+    :pswitch_data_6c
     .packed-switch 0x0
-        :pswitch_30
-        :pswitch_59
-        :pswitch_5d
-        :pswitch_61
+        :pswitch_36
+        :pswitch_5f
+        :pswitch_63
+        :pswitch_67
     .end packed-switch
 .end method

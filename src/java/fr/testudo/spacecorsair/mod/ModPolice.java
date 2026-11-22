@@ -202,6 +202,14 @@ public class ModPolice {
         return e != null && (e.isMissionObjective || ModSector.factionShip(e));
     }
     private static long nextPoliceHit;
+    /** CCEF co-op: heat raised by each player (the guest = its stand-in ship and drones on the host). */
+    private static int hostHeat, guestHeat;
+    private static boolean lastByGuest;
+
+    /** CCEF: the guest raised more of this sector's heat than the host. */
+    static boolean guestHeatLeads() {
+        return guestHeat > hostHeat;
+    }
 
     /** Current heat in this sector (agent C's police titan reads it). */
     public static int heat() {
@@ -248,6 +256,8 @@ public class ModPolice {
     // ================================================================== offences
     private static void offence(int add, String why) {
         if (here == null || add <= 0) return;
+        if (ModCcef.chase()) return;   // CCEF hunt: regular police are out of it
+        if (lastByGuest) guestHeat += add; else hostHeat += add;   // CCEF co-op priority
         boolean first = heat <= 0 || (active.isEmpty() && sinceWave >= WAVE_MS);
         heat += add;
         heatRose = true;
@@ -297,6 +307,7 @@ public class ModPolice {
             }
             boolean byPlayer = p.sender.isPlayer || p.sender == ps || Mod.isDrone(p.sender);
             if (!byPlayer) return dmg;
+            lastByGuest = ModLan.proxy != null && (p.sender == ModLan.proxy || ModLan.isGuestDrone(p.sender));
             if (isPolice(target)) strayOrHit(target, dmg);   // v42 fix kept: shield-absorbed hits count; owner 2026-11-18: with stock tolerance
             else if (dmg > 0 && target instanceof CivilShip && ModCapitals.cap(target) == null && !notPoliceMatter(target)) civilHit(target, false);
         } catch (Throwable t) {
@@ -325,7 +336,7 @@ public class ModPolice {
     /** Smali hook (hooks42b) in Element.applyDamage: the player (or a drone) destroyed e. */
     public static void killedByPlayer(Element e) {
         try {
-            if (e == null || here == null || e == titan || ModPoliceTitan.isPoliceTitan(e)) return;   // the titan: ModPoliceTitan
+            if (e == null || here == null || e == titan || ModPoliceTitan.isPoliceTitan(e) || ModCcef.isCcef(e)) return;   // the titan: ModPoliceTitan; CCEF: ModCcef
             if (isPolice(e)) {
                 int cls = classOf(e);
                 offence(killHeat(cls), "police kill class " + cls);
@@ -350,6 +361,19 @@ public class ModPolice {
         lastRadioTier = NONE;
         log("titan killed: heat reset");
         standDown(ObjectRegistry.INSTANCE.playerShip);
+        ModCcef.regularTitanKilled();   // owner 2026-11-22: killing a regular police titan brings the CCEF
+    }
+
+    /** CCEF hunt start: every regular police ship and the regular titan leave, heat back to 0. */
+    static void ccefStandDown(PlayerShip ps) {
+        heat = 0;
+        titan = null;
+        standDown(ps);
+    }
+
+    /** Police tech state of a built hull ({class, missile cooldown, volley count}), or null. */
+    static long[] policeState(Element e) {
+        return police.get(e);
     }
 
     // ================================================================== v43a-11: police armour
@@ -460,7 +484,7 @@ public class ModPolice {
         }
     }
 
-    private static void missiles(PlayerShip ps, Ennemis e, long[] st, long j) {
+    static void missiles(PlayerShip ps, Ennemis e, long[] st, long j) {
         int cls = (int) st[0];
         if (cls != FRIGATE && cls != BATTLESHIP && cls != CAPITAL) return;
         st[1] -= j;
@@ -481,6 +505,7 @@ public class ModPolice {
             swTimer -= j;
             if (swTimer <= 0) { swTimer = 1000; switches(ps); }
             if (here == null || ps == null || ps.removed || ps.isDocked || ObjectRegistry.INSTANCE.game.mapMode) return;
+            if (ModCcef.chase()) return;   // owner 2026-11-22: no regular police during a CCEF hunt (ModCcef runs its squad)
             boosts(ps);
             boolean activeAtStart = !active.isEmpty();
             for (int i = active.size() - 1; i >= 0; i--) {
@@ -524,6 +549,7 @@ public class ModPolice {
     }
 
     private static void enter(LevelId id) {
+        if (here != null && titan != null && titan.life > 0) ModCcef.titanEscaped(here);   // owner 2026-11-22: escaping a police titan brings the CCEF
         if (here != null && heat > 0) left.put(here, new long[] {leaveHeat(heat), lastTop, ModSector.play()});
         try { sectorFi = id == null || id.isMulti ? -1 : factionIndex(id); } catch (Throwable t) { sectorFi = -1; }   // v43a-13
         visualsClear();        // v43
@@ -541,6 +567,7 @@ public class ModPolice {
         quietMs = 0;
         sinceWave = Long.MAX_VALUE / 4;
         waveTimer = WAVE_MS;
+        hostHeat = guestHeat = 0;
         here = safe(id) || ModSector.lawless(id) ? null : id;   // owner 2026-11-18: no police waves in pirate havens
         if (here == null) return;
         long[] rec = left.remove(here);
@@ -621,6 +648,7 @@ public class ModPolice {
                 titan = t;
                 lastTop = TITAN;
                 log("wave titan " + ModCapitals.FACTIONS[fi].key + " L" + lv);
+                ModCcef.titanWarning();   // owner 2026-11-22 01:02: warn without naming the CCEF
                 return;
             }
             top = CAPITAL;
@@ -699,9 +727,15 @@ public class ModPolice {
 
     /** One police ship (null if its art is not loaded yet). */
     static Ennemis build(int fi, int cls, int lv) {
+        return build(fi, cls, lv, false);
+    }
+
+    /** ccef: a CCEF hull (scheme 3 livery, cyan lights, no faction aura; ModCcef adds its name and numbers). */
+    static Ennemis build(int fi, int cls, int lv, boolean ccef) {
         ModPoliceData.Hull h = ModPoliceData.randomHull(fi, cls);
         if (h == null) return null;
         Drawable d = ModPoliceData.drawable(h);
+        if (d != null && ccef) d = ModCcef.livery(h.art, h.size, d);
         if (d == null) return null;
         ModArt.prefetch(d.myTexture);
         Vector2 phys = new Vector2(h.size * 0.7f, h.size * 0.7f);
@@ -744,6 +778,7 @@ public class ModPolice {
         if (e.lifeBar != null) e.lifeBar.setValue(100.0f);
         police.put(e, new long[] {cls, cls == FRIGATE ? MISSILE_MS / 2 : MISSILE_MS_BIG, 0});
         factionOf.put(e, fi);   // v43a-9
+        if (ccef) return e;   // CCEF: cyan lights (ModCcef.lights), no faction aura or Monolith effect
         if (!ModPoliceTitan.council(ModCapitals.FACTIONS[fi].key)) lightBar.put(e, (float) h.size);
         ModPoliceAura.put(e, h.art, fi, h.size);   // v43: animated faction aura
         if ("monolith".equals(h.art)) policeMono.put(e, Boolean.TRUE);   // v43a-17: the hull itself, kept apart from the aura effect
@@ -783,6 +818,8 @@ public class ModPolice {
 
     /** Hook (ModLive.draw, after the hull): the red/blue light bar of a police ship, flashing in a double-blink pattern. */
     static void lights(Element e) {
+        float cz = ModCcef.lightSize(e);
+        if (cz > 0) { if (!e.removed) ModCcef.lights(e, cz); return; }
         Float sz = lightBar.get(e);
         if (sz == null || e.removed) return;
         long t = System.currentTimeMillis() % LIGHT_CYCLE_MS;

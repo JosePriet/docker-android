@@ -350,7 +350,7 @@ public final class ModLance {
                 b.damage *= 1 + HULL_RAMP * ramp;
                 lastHit = now;
                 hit.setSameAs(target.position);
-                burnTarget = target;
+                burnTarget = ModCcef.immuneTo(target) ? null : target;   // CCEF: immune to damage over time
                 burnUntil = now + BURN_MS;
                 burnDps = DPS[tier(ps)] * BURN_FRAC;
                 ModFx.part("fx_fire", target.position.x + ModFx.rnd(-20, 20), target.position.y + ModFx.rnd(-20, 20), ModFx.rnd(-80, 80), ModFx.rnd(-80, 80), 300, 30, 70 + 50 * ramp, 1.0f, 0.55f, 0.15f, 0.9f, true, true);

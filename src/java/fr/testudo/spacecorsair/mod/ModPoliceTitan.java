@@ -72,6 +72,19 @@ public final class ModPoliceTitan {
     }   // police titan level >= player level + 2
 
     public static Element spawn(String factionKey, int level, Vector2 at) {
+        return spawn(factionKey, level, at, false, 1.0f);
+    }
+
+    /** CCEF titan (owner 2026-11-22): the police titan's stats x {@code scale} (repeat hunts), faster, quicker skills, no arrival post. */
+    static Element spawnCcef(String factionKey, int level, Vector2 at, float scale) {
+        return spawn(factionKey, level, at, true, scale);
+    }
+
+    private static final ModCapitals.Faction[] CC = new ModCapitals.Faction[ModCapitals.FACTIONS.length];
+    private static boolean ccef;
+    static final float CCEF_SKILL_CD = 0.7f;   // CCEF titan: skill cooldowns x0.7 ("harder AI") [Claude pick]
+
+    private static Element spawn(String factionKey, int level, Vector2 at, boolean asCcef, float scale) {
         try {
             if (active() || at == null) return null;
             int fi = ModCapitals.FACTIONS.length - 1;    // unowned / unknown: Frontier Authority (warden, last)
@@ -84,15 +97,22 @@ public final class ModPoliceTitan {
             // owner 2026-11-03 22:22 (card pending, recommended option): titans always out-level the player -> max(sector top, player + 2)
             int pl = ObjectRegistry.INSTANCE.game.playerInfo != null ? ObjectRegistry.INSTANCE.game.playerInfo.level : 0;
             int lvl = Math.max(0, Math.min(ModV34.CAP, Math.max(level, pl + TITAN_OVER_PLAYER)));
-            GuardianCivilShip g = ModCapitals.spawnPolice(fi, lvl, at, POL[fi], POLICE_TITAN_MULT);
+            if (asCcef && CC[fi] == null) CC[fi] = new ModCapitals.Faction(f.key, f.name, ModLang.tr("CCEF Titan"), f.hq, ModCcef.R, ModCcef.G, ModCcef.B);
+            GuardianCivilShip g = ModCapitals.spawnPolice(fi, lvl, at, asCcef ? CC[fi] : POL[fi], POLICE_TITAN_MULT * scale);
             if (g == null) return null;
+            ccef = asCcef;
+            if (asCcef) {
+                g.maxPouseeForce *= ModCcef.SPEED;
+                g.pouseeForce *= ModCcef.SPEED;
+                g.maxTurnFactor *= ModCcef.TURN;
+            }
             float[] sh = ModV34.shieldStats(lvl, lvl, ModShips.TITAN);   // flagships carry none: a titan-class one, x1.2
             // audit 2026-11-12: x1.2 over its own faction flagship's shield (ModCapitals.SHIELD_MULT), owner "+20% on everything"
             float fm = fi < ModCapitals.SHIELD_MULT.length ? ModCapitals.SHIELD_MULT[fi] : 1.0f;
             if (sh != null) {
                 ModV34.Sh h = new ModV34.Sh();
-                h.cap = h.cur = sh[0] * fm * POLICE_TITAN_SHIELD_MULT;
-                h.rate = sh[1] * fm * POLICE_TITAN_SHIELD_MULT;
+                h.cap = h.cur = sh[0] * fm * POLICE_TITAN_SHIELD_MULT * scale;
+                h.rate = sh[1] * fm * POLICE_TITAN_SHIELD_MULT * scale;
                 ModV34.bigShield.put(g, h);
             }
             ModArt.lazyTex("pol_cap_" + f.key);   // v42 fix: register before prefetch
@@ -108,9 +128,11 @@ public final class ModPoliceTitan {
             lockMs = 0;
             chargeMs = 0;
             try { g.attackPlayerIfItNotTheCaseAlready(); } catch (Throwable t) { /* re-armed every frame */ }
-            ModSound.play("flagship_horn", 1.0f, 0.85f, 3000);
-            ModSound.play("warp_in", 0.9f, 0.7f, 1000);
-            ModQol.post(ModLang.trf("%s has arrived. It will not stop until you are destroyed.", name));
+            if (!asCcef) {   // CCEF: ModCcef plays the landing and its own notice
+                ModSound.play("flagship_horn", 1.0f, 0.85f, 3000);
+                ModSound.play("warp_in", 0.9f, 0.7f, 1000);
+                ModQol.post(ModLang.trf("%s has arrived. It will not stop until you are destroyed.", name));
+            }
             log("spawn " + f.key + " L" + lvl + " hull=" + Math.round(g.maxLife) + " shield=" + (sh == null ? 0 : Math.round(sh[0] * fm * POLICE_TITAN_SHIELD_MULT)));
             return g;
         } catch (Throwable t) {
@@ -152,6 +174,7 @@ public final class ModPoliceTitan {
     /** Sector change (ModCapitals.onLevel, after the caps are cleared). */
     static void onLevel() {
         titan = null;
+        ccef = false;
         overBar = null;
         endLockdown();
         testMs = ModDev.testFlag("corsair_poltitan") ? TEST_DELAY_MS : -1;
@@ -159,9 +182,10 @@ public final class ModPoliceTitan {
 
     /** ModCapitals.checkDestroyed: the police titan left the level; killed = destroyed (not warped out). */
     static void gone(GuardianCivilShip g, boolean killed) {
-        if (g == titan) { titan = null; endLockdown(); }
+        boolean wasCcef = g == titan && ccef;
+        if (g == titan) { titan = null; ccef = false; endLockdown(); }
         ModV34.bigShield.remove(g);
-        if (!killed) return;
+        if (!killed || wasCcef) return;   // a CCEF titan's death is ModCcef's (no heat reset, no second hunt)
         log("killed");
         try {
             ModPolice.onTitanKilled();
@@ -289,7 +313,7 @@ public final class ModPoliceTitan {
         lockCd -= j;
         breakCd -= j;
         if (lockCd <= 0 && lockMs <= 0 && dist < LOCKDOWN_RANGE) {
-            lockCd = LOCKDOWN_COOLDOWN_MS;
+            lockCd = ccef ? (int) (LOCKDOWN_COOLDOWN_MS * CCEF_SKILL_CD) : LOCKDOWN_COOLDOWN_MS;
             lockMs = LOCKDOWN_MS;
             jamSaid = false;
             use(g, ModLang.tr("LOCKDOWN"), 1.0f, 0.3f, 0.3f);
@@ -298,7 +322,7 @@ public final class ModPoliceTitan {
             lockdown(ps);
         }
         if (chargeMs <= 0 && breakCd <= 0 && dist < SHIELD_BREAK_RANGE) {
-            breakCd = SHIELD_BREAK_COOLDOWN_MS;
+            breakCd = ccef ? (int) (SHIELD_BREAK_COOLDOWN_MS * CCEF_SKILL_CD) : SHIELD_BREAK_COOLDOWN_MS;
             chargeMs = SHIELD_BREAK_CHARGE_MS;
             use(g, ModLang.tr("SHIELD BREAKER"), POLICE_R, POLICE_G, POLICE_B);
         } else if (chargeMs > 0) {

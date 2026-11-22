@@ -30,3 +30,4 @@ hooks56_mpmenu 2026-11-18: MenuDisplayer.init -> ModLan.menuEntry (flight menu M
 hooks57_leveling 2026-11-18: stock mission engines -> ModMissionSpawn (P3 cap mission level +2), stock Mission <init> -> ModStockSpawn.mission (P2 level on 0-40 scale) (v57 leveling)
 hooks57b_xpwindow 2026-11-19: XpBuilder.getMitigedXp -> ModV34.mitigedXp (0 XP at 10+ levels below the pilot, -10%/level; +15%/level above kept) (v57b)
 hooks57c_ownedships 2026-11-19: SpaceObjectType.canEquip -> ModV34.ownedShip first (owned ships stay flyable after the v57c unlock-level move)
+hooks58_ccef 2026-11-22: Achievement.escapeCertainDeath (secret CCEF achievement, ordinal 0x6d) + getLocalizedLabel/Desc -> ModCcef.achText (CCEF hunt)
