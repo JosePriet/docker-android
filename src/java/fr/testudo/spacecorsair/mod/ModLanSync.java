@@ -295,14 +295,66 @@ final class ModLanSync {
         return idx;
     }
 
+    /** One received frame, at most MAX_REMOTE records. Group original indices by key in
+     * encounter order so an ordinal is a direct array lookup. No mutable cross-frame cache. */
+    static final class RecordIndex {
+        final int[] keys, counts, starts, positions;
+
+        RecordIndex(ModLan.Rec[] records, int n) {
+            int capacity = Integer.highestOneBit(Math.max(1, n)) * 4;
+            keys = new int[capacity];
+            counts = new int[capacity];
+            starts = new int[capacity];
+            positions = new int[n];
+            for (int i = 0; i < n; i++) {
+                ModLan.Rec record = records[i];
+                int slot = slot(record.key);
+                keys[slot] = record.key;
+                record.ord = counts[slot]++;
+            }
+            int start = 0;
+            for (int slot = 0; slot < capacity; slot++) {
+                starts[slot] = start;
+                start += counts[slot];
+            }
+            for (int i = 0; i < n; i++) {
+                ModLan.Rec record = records[i];
+                positions[starts[slot(record.key)] + record.ord] = i;
+            }
+        }
+
+        private int slot(int key) {
+            int hash = key * 0x9e3779b9;
+            int mask = keys.length - 1;
+            int slot = (hash ^ (hash >>> 16)) & mask;
+            while (counts[slot] != 0 && keys[slot] != key) slot = (slot + 1) & mask;
+            return slot;
+        }
+
+        int find(int key, int ordinal) {
+            int slot = slot(key);
+            return ordinal < counts[slot] ? positions[starts[slot] + ordinal] : -1;
+        }
+    }
+
     /** Pairs each record of the new frame with the same-numbered record of the same look in the previous frame. */
     static void pair(ModLan.Rec[] recs, int n, ModLan.Rec[] prev, HashMap<Long, Integer> prevIdx) {
-        if (prev == null || prevIdx == null) return;
+        pair(recs, n, prev, prevIdx, null);
+    }
+
+    static void pair(ModLan.Rec[] recs, int n, ModLan.Rec[] prev, HashMap<Long, Integer> prevIdx, RecordIndex recordIndex) {
+        if (prev == null || (prevIdx == null && recordIndex == null)) return;
         for (ModLan.Rec p : prev) if (p != null) p.from = null;   // one frame of history only
         for (int i = 0; i < n; i++) {
             ModLan.Rec r = recs[i];
-            Integer j = prevIdx.get(((long) r.key << 20) | r.ord);
-            if (j == null || j >= prev.length) continue;
+            int j;
+            if (recordIndex != null) {
+                j = recordIndex.find(r.key, r.ord);
+            } else {
+                Integer boxed = prevIdx.get(((long) r.key << 20) | r.ord);
+                j = boxed == null ? -1 : boxed;
+            }
+            if (j < 0 || j >= prev.length) continue;
             ModLan.Rec p = prev[j];
             float dx = r.tx - p.tx, dy = r.ty - p.ty;
             if (dx * dx + dy * dy > GLIDE_MAX * GLIDE_MAX) continue;

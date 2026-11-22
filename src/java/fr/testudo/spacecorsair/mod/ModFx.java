@@ -18,6 +18,10 @@ import javax.microedition.khronos.opengles.GL10;
 public final class ModFx {
     private ModFx() {}
 
+    // Opt-in CPU/allocation experiments. Keep the shipped frame paths as the default.
+    public static boolean PERF_RADAR_BUFFER = false;
+    public static boolean PERF_FRAME_INDEX = false;
+
     // ------------------------------------------------------------------ scalable sprite
     private static final FloatBuffer QUAD = buf(new float[]{-0.5f, -0.5f, 0, 0.5f, -0.5f, 0, -0.5f, 0.5f, 0, 0.5f, 0.5f, 0});
     private static final FloatBuffer UV = buf(new float[]{0, 0, 1, 0, 0, 1, 1, 1});

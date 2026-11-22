@@ -1087,6 +1087,12 @@ public final class ModLan {
         long at, span;
         float phx, phy;
         HashMap<Long, Integer> idx;
+        ModLanSync.RecordIndex recordIndex;
+
+        void indexRecords() {
+            if (ModFx.PERF_FRAME_INDEX) recordIndex = new ModLanSync.RecordIndex(recs, n);
+            else idx = ModLanSync.index(recs, n);
+        }
     }
 
     static final class InState {
@@ -1259,15 +1265,18 @@ public final class ModLan {
                 else { leanMarks = null; leanMarksN = 0; }
             }
             f.marks = leanMarks; f.marksN = leanMarksN;
-            f.idx = ModLanSync.index(f.recs, f.n);
+            f.indexRecords();
             InFrame prev;
             synchronized (inLock) { prev = inFrame; }
             if (prev != null && prev.lean && prev.level.equals(f.level) && f.at - prev.at < 400) {
-                ModLanSync.pair(f.recs, f.n, prev.recs, prev.idx);
+                ModLanSync.pair(f.recs, f.n, prev.recs, prev.idx, prev.recordIndex);
                 f.span = Math.max(30, Math.min(250, f.at - prev.at));
                 f.phx = prev.hx; f.phy = prev.hy;
             }
-            if (prev != null) prev.idx = null;
+            if (prev != null) {
+                prev.idx = null;
+                prev.recordIndex = null;
+            }
             synchronized (inLock) { inFrame = f; }
             gotFrames++;
             lastRecs = f.n;
@@ -1494,10 +1503,23 @@ public final class ModLan {
     static volatile boolean solo;
     private static volatile boolean soloReset;   // guest: flies its own game (own missions) while staying linked
 
+    // Only hostMarks (game thread) touches this buffer. The published copy belongs to its reader.
+    private static ByteArrayOutputStream radarScratch;
+
     /** Host, game thread: what the guest's radar shows (the host's enemies, civilians, rocks, loot, mines, objectives). */
-    private static void hostMarks(PlayerShip ps, Level lv) {
+    static void hostMarks(PlayerShip ps, Level lv) {
         try {
-            ByteArrayOutputStream bo = new ByteArrayOutputStream(4096);
+            boolean reuse = ModFx.PERF_RADAR_BUFFER;
+            ByteArrayOutputStream bo;
+            if (reuse) {
+                if (radarScratch == null) radarScratch = new ByteArrayOutputStream(4096);
+                bo = radarScratch;
+                bo.reset();
+                bo.write(0);
+                bo.write(0);
+            } else {
+                bo = new ByteArrayOutputStream(4096);
+            }
             DataOutputStream o = new DataOutputStream(bo);
             int n = 0;
             o.writeFloat(ps.position.x); o.writeFloat(ps.position.y); o.writeByte(MK_POINT); o.writeByte(0);
@@ -1518,9 +1540,15 @@ public final class ModLan {
                 n++;
             }
             o.flush();
-            byte[] body = bo.toByteArray(), all = new byte[body.length + 2];
+            byte[] all;
+            if (reuse) {
+                all = bo.toByteArray();
+            } else {
+                byte[] body = bo.toByteArray();
+                all = new byte[body.length + 2];
+                System.arraycopy(body, 0, all, 2, body.length);
+            }
             all[0] = (byte) (n >> 8); all[1] = (byte) n;
-            System.arraycopy(body, 0, all, 2, body.length);
             marksOut = all;   // one volatile write: count and bytes stay paired
         } catch (Throwable t) {
             marksOut = null;
