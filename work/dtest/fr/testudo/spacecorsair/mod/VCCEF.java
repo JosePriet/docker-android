@@ -14,7 +14,7 @@ public final class VCCEF {
         ok(ModCcef.ON && ModCcef.AI, "CCEF on, own AI flag on");
         ok(ModCcef.WARP_IN_MS == 20000 && ModCcef.SURVIVE_MS == 120000, "20 s warp-in, 120 s from the countdown start");
         ok(!ModCcef.survived(119999) && ModCcef.survived(120000), "achievement at 120 s");
-        ok(ModCcef.follows(100000) && !ModCcef.follows(120000), "hunt follows before 120 s only");
+        ok(ModCcef.follows(0) && ModCcef.follows(4) && !ModCcef.follows(5), "hunt follows through up to 5 sectors");
         ok(!ModCcef.evasive(1) && ModCcef.evasive(2), "off-screen evasion after 2 kills");
         ok(near(ModCcef.scale(0), 1f) && near(ModCcef.scale(1), 1.05f) && near(ModCcef.scale(2), 1.10f) && near(ModCcef.scale(10), 1.5f), "+5% per clear (added)");
         ok(ModCcef.extras(0) == 0 && ModCcef.extras(1) == 0 && ModCcef.extras(2) == 1 && ModCcef.extras(5) == 2, "one extra ship every 2 clears");
@@ -27,6 +27,8 @@ public final class VCCEF {
         ok(near(ModCcef.playerHit(100, true, false), 115f) && near(ModCcef.playerHit(100, false, true), 100f), "boost only in the chase");
         ok(!ModCcef.secondarySlot(0) && !ModCcef.secondarySlot(1) && ModCcef.secondarySlot(2), "co-op: 2 of 3 on the heat earner");
         ok(ModCcef.REWARD_CREDITS == 10000000 && ModCcef.REWARD_NEUTRAL_CORES == 10 && ModCcef.REWARD_FACTION_CORES == 2 && ModCcef.REWARD_ALIEN == 20, "kill rewards");
+        ok(near(ModCcef.hideRadius(1000, 100, 1200), 1200f), "hides just past the default view");
+        ok(ModCcef.hideRadius(4000, 100, 1200) == 0, "a titan's wide view: small ship stays in sight");
         ok(!ModCcef.chase(), "no chase at rest");
         System.out.println("VCCEF VALUES-OK (" + n + ")");
     }

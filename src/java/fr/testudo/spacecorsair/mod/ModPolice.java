@@ -398,6 +398,7 @@ public class ModPolice {
     private static int swapN;
     public static void factionGuns(List<?> toAdd) {
         try {
+            ModCcef.dropHidden(toAdd);   // CCEF: nothing unseen fires at the player
             policeGuns(toAdd);
         } finally {
             ModEnemyGuns.swap(toAdd);   // v43a-15: every other faction ship + signatures (after the police swap)

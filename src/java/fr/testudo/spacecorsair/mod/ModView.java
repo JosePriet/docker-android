@@ -38,6 +38,23 @@ public final class ModView {
         return Math.min(halfW, halfH) * INSIDE;
     }
 
+    /**
+     * CCEF (owner 2026-11-22 02:54): smaller visible half-size at the default flight zoom, without the player's extended
+     * zoom setting (Config.defaultZoom, added to Camera.MINIDECAL by the stock renderer) and without pinch zoom; the hull
+     * class's zoom bonus (Mod.zoomBonus, bigger hulls see farther) is included.
+     */
+    static float defaultRadius() {
+        try {
+            float t = (float) Math.tan(GameRenderer.fov_radians / 2.0f);
+            float z = fr.testudo.spacecorsair.engine.Camera.MINIDECAL - Math.max(0, ObjectRegistry.INSTANCE.config.defaultZoom) + Mod.zoomBonus();   // the hull class's own zoom counts (owner 02:55)
+            float h = (GameRenderer.camZ + Math.max(0, z)) * t;
+            if (t > 0 && h > 100) return Math.min(h, h * Math.max(0.3f, GameRenderer.aspect));
+        } catch (Throwable x) {
+            // current view below
+        }
+        return radius() / INSIDE;
+    }
+
     /** True when {@code p} is outside the visible screen (with the INSIDE margin, minus {@code pad} for a big hull). */
     static boolean outside(Vector2 p, float pad) {
         refresh();

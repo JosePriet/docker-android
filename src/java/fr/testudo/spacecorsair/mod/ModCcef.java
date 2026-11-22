@@ -111,10 +111,24 @@ public final class ModCcef {
         return kills >= EVADE_KILLS;
     }
 
-    /** Leaving the sector before 120 s: the hunt follows; after it the hunters lose the trail. */
-    public static boolean follows(long clockMs) {
-        return !survived(clockMs);
+    /** Owner 2026-11-22 02:54: the hunt follows the player through up to 5 sectors (warp-out or gate), then loses the trail. */
+    public static final int FOLLOW_SECTORS = 5;
+
+    /** Owner 02:55 "within reason": a hiding ship stays at most this many gun ranges from the player. */
+    public static final float HIDE_MAX = 2.0f;
+
+    /** Off-screen standoff for a hull of {@code size} and gun range {@code range} against a view half-size; 0 = too far to hide (it stays in view). */
+    public static float hideRadius(float view, float size, float range) {
+        float out = view * 1.1f + size;
+        return out > range * HIDE_MAX ? 0 : out;
     }
+
+    /** Leaving the sector after {@code hops} follows already made: the hunt follows again. */
+    public static boolean follows(int hops) {
+        return hops < FOLLOW_SECTORS;
+    }
+
+    private static int hops;
 
     /** Warp-out time under the lockdown. */
     public static int warpTime(int ms, boolean lockdown) {
@@ -212,6 +226,7 @@ public final class ModCcef {
             phase = PENDING;
             clock = 0;
             kills = 0;
+            hops = 0;
             achGiven = false;
             save();
             log("trigger: titan killed in " + id);
@@ -230,6 +245,7 @@ public final class ModCcef {
             phase = PENDING;
             clock = 0;
             kills = 0;
+            hops = 0;
             achGiven = false;
             save();
             log("trigger: titan escaped from " + from);
@@ -292,7 +308,7 @@ public final class ModCcef {
                 if (e.removed) { squad.remove(i); queue(ModPolice.classOf(e), 1f); snapshot(); log("ship lost without a kill: redeploy"); continue; }
                 immune(e);
                 long[] s = ModPolice.policeState(e);
-                if (s != null) ModPolice.missiles(ps, e, s, j);
+                if (s != null && !ModView.outside(e)) ModPolice.missiles(ps, e, s, j);   // no missiles from off screen
                 aim(e, i, ps, j);
             }
             if (titan != null) {
@@ -307,7 +323,7 @@ public final class ModCcef {
         }
     }
 
-    /** Sector change: a running hunt follows the player until 120 s, then the hunters lose the trail. */
+    /** Sector change: a running hunt follows the player into up to 5 sectors, then the hunters lose the trail. */
     private static void onLevel(LevelId id) {
         lockPortals(null, false);
         boolean wasOn = phase == WARP || phase == HUNT;
@@ -321,8 +337,8 @@ public final class ModCcef {
         snapshot();
         landed = false;
         if (phase == NONE) { restore(); return; }
-        if (wasOn && !follows(clock)) { end("trail lost", true); return; }
-        if (wasOn) { phase = PENDING; log("hunt follows into " + id); }
+        if (wasOn && !follows(hops)) { end("trail lost", true); return; }
+        if (wasOn) { hops++; phase = PENDING; save(); log("hunt follows into " + id + " (" + hops + "/" + FOLLOW_SECTORS + ")"); }
     }
 
     private static void start(PlayerShip ps) {
@@ -497,6 +513,21 @@ public final class ModCcef {
         }
     }
 
+    /** ModPolice.factionGuns (Level.commitChanges): shots a CCEF ship fires from outside the player's screen are dropped. */
+    static void dropHidden(List<?> toAdd) {
+        if (!chase() || members.length == 0 || toAdd == null) return;
+        try {
+            for (int i = toAdd.size() - 1; i >= 0; i--) {
+                Object o = toAdd.get(i);
+                if (!(o instanceof Projectile)) continue;
+                Element snd = ((Projectile) o).sender;
+                if (snd != null && snd != titan && isCcef(snd) && ModView.outside(snd)) toAdd.remove(i);
+            }
+        } catch (Throwable t) {
+            // shots kept this frame
+        }
+    }
+
     /** ModTitan doomsday %: CCEF hulls take half of the capped share. */
     public static float doomScale(Element e) {
         return chase() && isCcef(e) ? DMG_TAKEN : 1.0f;
@@ -659,11 +690,13 @@ public final class ModCcef {
             float near = e.distanceShoot * 0.55f, far = e.distanceShoot * 0.8f;
             boolean onPlayer = tg.isPlayer || tg == ModLan.proxy;
             if (onPlayer && evasive(kills)) {
-                float out = ModView.radius() / ModView.INSIDE * 1.1f + e.getPhysicDimension().x;
+                // owner 02:54-02:55: outside the player's DEFAULT view for its hull (class zoom bonus counted, extended zoom
+                // setting and pinch not), within reason: a ship never hides farther than HIDE_MAX x its gun range (a titan's
+                // wide view simply sees it), and it never fires while off screen (dropHidden), so nothing unseen hits the player
+                float out = hideRadius(ModView.defaultRadius(), e.getPhysicDimension().x, e.distanceShoot);
                 s[1] -= j;
                 if (s[1] <= 0) { s[0] = s[0] == 0 ? 1 : 0; s[1] = s[0] == 1 ? 2500 : 3000 + (float) (Math.random() * 2000); }
-                if (e.distanceShoot * 0.95f > out) { near = out; far = e.distanceShoot * 0.95f; }   // its guns reach: snipe from off screen
-                else if (s[0] == 0) { near = out; far = out * 1.25f; }                           // out of sight, then a fast run in
+                if (out > 0 && s[0] == 0) { near = out; far = out * 1.2f; }   // out of sight, then a fast run in to fire
             }
             ModTitanAI.rangePoint(goal, e.position, tg.position, near, far);
             // orbit: slide the band point sideways so it never sits still in the player's line of fire
@@ -833,7 +866,7 @@ public final class ModCcef {
             SharedPreferences p = ModQol.prefs();
             if (p == null) return;
             if (phase == NONE) p.edit().remove("ccef_pending").apply();
-            else p.edit().putString("ccef_pending", fi + "," + lv + "," + clock + "," + (achGiven ? 1 : 0) + "," + kills).apply();
+            else p.edit().putString("ccef_pending", fi + "," + lv + "," + clock + "," + (achGiven ? 1 : 0) + "," + kills + "," + hops).apply();
         } catch (Throwable t) {
             // not kept
         }
@@ -854,7 +887,7 @@ public final class ModCcef {
             clock = Long.parseLong(a[2]);
             achGiven = "1".equals(a[3]);
             kills = Integer.parseInt(a[4]);
-            if (!follows(clock)) { p.edit().remove("ccef_pending").apply(); return; }
+            hops = a.length > 5 ? Integer.parseInt(a[5]) : 0;
             queueFresh();
             guestPrime = false;
             phase = PENDING;
@@ -879,6 +912,7 @@ public final class ModCcef {
                 phase = PENDING;
                 clock = 0;
                 kills = 0;
+            hops = 0;
                 achGiven = false;
                 log("test trigger");
             } catch (Throwable t) {
