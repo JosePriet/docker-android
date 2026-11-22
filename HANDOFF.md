@@ -1,6 +1,9 @@
 Status 2026-11-21: v45 RELEASED 2026-11-19 (build 52); entries below say "not released" as of their date.
 Policy 2026-11-21 (see CLAUDE.md): project hooks active; two-agent check only for big code changes + final pre-release; one directive audit per release; models by task.
 
+# Handoff (2026-11-22): CCEF elite police hunt CODED (not merged, not released)
+Branch claude/project-thread-0fm5bo (head after this entry): ModCcef (owner spec space-corsair/proposals/ccef-design.md) + Codex PR #6 merged in (AI2_* flags stay off; B2ArenaAI now runs in build). Smali patch hooks58_ccef (Achievement.escapeCertainDeath, secret). JVM test VCCEF. ES strings i18n/gpt/v58_ccef_es.json. Changes: /mnt/project-files/audits/v58-ccef-changes.md; two-agent check: audits/v58-ccef-two-agent-check.md. Test APK (build 52 name v45, not a release): space-corsair/v58-ccef/space-corsair-ccef-test.apk. Emulator switch corsair_ccef starts a hunt. Needs: owner OK on the picks, emulator run, phone test, GPT ccef_<art> (scheme 3) later.
+
 # Handoff (2026-11-19): in-game updates MERGED (not released)
 ModContent (signed content packs: modart/modsfx/lang, chain in app_content, crash guard, safe mode, undo) + ModUpdate (signed manifest from releases/download/channel-stable/, pack downloads, .scp delta APK + PackageInstaller, Updates entry in the flight menu). MP join hash covers the active packs. Publishing: tools/updates/README.md (pack_build.py, scp_make.py, manifest_sign.py, channel-workflow.yml for branch releases). Manifest key: /mnt/project-files/space-corsair/keys/content-sign.pem (never in git). Test: V60U (JVM), emulator stage V60U (run 147: pack download, restart, chain live, patch, installer, reinstall). Changes: /mnt/project-files/audits/v45-updates-changes.md. Not in yet: ModTune (balance numbers in packs), missions/lore JSON, music overlay.
 
