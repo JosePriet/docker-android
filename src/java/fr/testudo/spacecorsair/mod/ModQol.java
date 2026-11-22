@@ -93,78 +93,90 @@ public class ModQol {
         catch (ClassCastException e) { if (ModSave.strictInputs) return fallback; throw e; }
     }
 
+    /** Read each option independently so one damaged entry does not hide the remaining options. */
+    private static final class Options {
+        private final SharedPreferences store;
+
+        Options(SharedPreferences store) { this.store = store; }
+        boolean getBoolean(String key, boolean fallback) { return saved(store, key, fallback); }
+        float getFloat(String key, float fallback) { return saved(store, key, fallback); }
+        int getInt(String key, int fallback) { return saved(store, key, fallback); }
+        SharedPreferences.Editor edit() { return store.edit(); }
+    }
+
     private static void load() {
         if (loaded) return;
-        SharedPreferences p = prefs();
-        if (p == null) return;
+        SharedPreferences store = prefs();
+        if (store == null) return;
+        Options p = new Options(store);
         loaded = true;
-        optStick = saved(p, "fixedStick", true);
-        optBars = saved(p, "barNumbers", true);
-        optDmg = saved(p, "damageNumbers", true);
-        optBig = saved(p, "bigButtons", false);
-        optShake = saved(p, "shake", 0.6f);
+        optStick = p.getBoolean("fixedStick", true);
+        optBars = p.getBoolean("barNumbers", true);
+        optDmg = p.getBoolean("damageNumbers", true);
+        optBig = p.getBoolean("bigButtons", false);
+        optShake = p.getFloat("shake", 0.6f);
         if (ModSave.strictInputs && !(optShake >= 0f && optShake <= 1.5f)) optShake = 0.6f;
-        loadInbox(p);
+        loadInbox(store);
         // audit C7 (owner 2026-11-17): a new pilot gets one summary post instead of the old changelog posts;
         // existing profiles keep their inbox as it is
-        if (saved(p, "modVersion", 0) == 0 && !ModPrologue.active) {
+        if (p.getInt("modVersion", 0) == 0 && !ModPrologue.active) {
             p.edit().putInt("modVersion", 31).commit();
             note(ModLang.tr("Welcome, pilot. This version of Space Corsair adds faction standings and faction missions (Standings button), "
                 + "refits at every station (REFIT), new hulls up to titans, faction flagships and sector police, bosses and elite enemies, "
                 + "the Ship tree on the Ships screen, and options in Settings such as damage numbers, bar numbers, screen shake and a floating joystick. "
                 + "New notices arrive here in the Inbox (Ships or Station screen)."));
         }
-        if (saved(p, "modVersion", 0) < 16) {
+        if (p.getInt("modVersion", 0) < 16) {
             p.edit().putInt("modVersion", 16).commit();
             note(ModLang.tr("Mod v16: Ship tree (Ships screen), Inbox, Sort and Sell junk buttons in shops, confirm before selling Rare+ items, "
                 + "where-to-find lines in item descriptions, ship comparisons, gate and galaxy-map level ranges, damage numbers, bar numbers, "
                 + "screen shake, optional floating joystick and bigger buttons (Settings), free repairs for Tech I hulls, sector police, "
                 + "and two titans at level 17: Leviathan and the new Crimson Throne."));
         }
-        if (saved(p, "modVersion", 0) < 17) {
+        if (p.getInt("modVersion", 0) < 17) {
             p.edit().putInt("modVersion", 17).commit();
             note(ModLang.tr("Mod v16.5 economy: enemies now pay a credit bounty that grows with their level (bosses pay 8x, elites 2x; "
                 + "nothing for enemies 4+ levels below you), story missions pay 3x credits, gear sells for 25% of its value "
                 + "instead of 15%, and ship prices were rebalanced (battleships about 1.1-2M, Nebula Moth 3.5M, "
                 + "Crimson Throne 6M, Leviathan 7M)."));
         }
-        if (saved(p, "modVersion", 0) < 18) {
+        if (p.getInt("modVersion", 0) < 18) {
             p.edit().putInt("modVersion", 18).commit();
             note(ModLang.tr("Mod v16.6: shop and inventory lists now scroll clear of the mod toolbar, so the last BUY/SELL/DETAILS buttons are "
                 + "always reachable. Stations have a new Gift code button."));
         }
-        if (saved(p, "modVersion", 0) < 19) {
+        if (p.getInt("modVersion", 0) < 19) {
             p.edit().putInt("modVersion", 19).commit();
             note(ModLang.tr("Mod v16.8: scrollbars stay visible on every scrollable screen (item details, missions, lists, settings), "
                 + "and long ship descriptions scroll inside their box with a scrollbar. Fixed the Ships screen crash."));
         }
-        if (saved(p, "modVersion", 0) < 20) {
+        if (p.getInt("modVersion", 0) < 20) {
             p.edit().putInt("modVersion", 20).commit();
             note(ModLang.tr("Mod v17 capital ships: engine plumes, running lights, auras and wakes on the top tier of every class; big hulls now show "
                 + "smoke, fire, scorch marks and hull cracks as they take damage (they disappear once repaired), plus a visible self-repair effect. "
                 + "Titans get new turrets with heavier shots, siege missiles with a wider blast, and a manual EVE-style doomsday: "
                 + "Leviathan and X-0 fire a sustained lance, the Crimson Throne a furnace nova. Press DOOMSDAY at the bottom of the screen."));
         }
-        if (saved(p, "modVersion", 0) < 21) {
+        if (p.getInt("modVersion", 0) < 21) {
             p.edit().putInt("modVersion", 21).commit();
             note(ModLang.tr("Mod v19: six new weapon families (Railgun, Autocannon, Artillery, Blaster, Disintegrator, Arc Projector) in 4 tiers at laser shops "
                 + "(Ventohigh, Spartan HQ, smugglers, Omicron Prime) and as rare drops. Each faction now keeps a flagship at its HQ "
                 + "(Spartan HQ, Pirate Bay, The Hive, Omicron Prime, Ore Belt, Heliostat, Highway): neutral unless you deal 10% of its hull or attack "
                 + "civilians near it. The DEV kit now only fits the X-0 and swaps in and out with it. Doomsday lances are as wide as 60% of the titan."));
         }
-        if (saved(p, "modVersion", 0) < 22) {
+        if (p.getInt("modVersion", 0) < 22) {
             p.edit().putInt("modVersion", 22).commit();
             note(ModLang.tr("Mod v20: the doomsday lance is now a solid band as wide as its damage area. Railgun slugs and artillery shells are larger "
                 + "and leave trails. Fixed a crash when Android restored the Ships screen after closing the game in the background."));
         }
-        if (saved(p, "modVersion", 0) < 23) {
+        if (p.getInt("modVersion", 0) < 23) {
             p.edit().putInt("modVersion", 23).commit();
             note(ModLang.tr("Mod v21: the seven factions now have commanders and story chains (21 missions). Fly to a faction HQ and press TALK TO COMMANDER "
                 + "to talk to its commander aboard the flagship: Spartan HQ, Pirate Bay, The Hive, Omicron Prime, Ore Belt, Heliostat, Highway. "
                 + "Chains open from level 10 and end in battles beside, or against, the flagships. The Leviathan and Crimson Throne have new hulls "
                 + "and turrets, and every faction flagship has new turrets."));
         }
-        if (saved(p, "modVersion", 0) < 24) {
+        if (p.getInt("modVersion", 0) < 24) {
             p.edit().putInt("modVersion", 24).commit();
             note(ModLang.tr("Mod v22: faction STANDINGS (toolbar button). Missions (+15, finale +20) and contracts (+8) raise your standing; "
                 + "allies share half, enemies lose half. Friendly: +10% payouts, the flagship forgives 25% friendly fire. Trusted: +20%, "
@@ -172,14 +184,14 @@ public class ModQol {
                 + "Each HQ now offers two daily contracts, or amends jobs if you are Unfriendly. New flagship, Nebula Moth and faction emblem art, "
                 + "weapon-family icons, and combat sounds (alerts, all clear, disengaging enemies, low hull alarm, shield collapse)."));
         }
-        if (saved(p, "modVersion", 0) < 25) {
+        if (p.getInt("modVersion", 0) < 25) {
             p.edit().putInt("modVersion", 25).commit();
             note(ModLang.tr("Mod v23: 21 Exceptional hulls redrawn (each with its own engine glow; Shade, Hornet, Raptor, Sanctum, Bulwark, Warlord, "
                 + "Harbinger and Tempest now belong to factions). Weapon families bring their own turrets: rails, rotary cannons, artillery barrels, "
                 + "blasters, prism emitters and tesla coils, sized to the hull. Seven secret faction ships appear on the Ships screen at Trusted "
                 + "and can be bought at Honored: SRS Resolute, Pillager's Due, Cradle of Echoes, Indemnity Crown, Foundry Sentinel, Far Meridian, Wayfarer Prime."));
         }
-        if (saved(p, "modVersion", 0) < 26) {
+        if (p.getInt("modVersion", 0) < 26) {
             p.edit().putInt("modVersion", 26).commit();
             note(ModLang.tr("Mod v24: the Ships screen is now a faction tech tree (tap a faction emblem, tap a ship for its card, OPEN for its page; "
                 + "BACK returns to the tree). My Ship is a fitting view: hull art with hardpoints, slots around it, full stats; CLASSIC switches back. "
@@ -187,14 +199,14 @@ public class ModQol {
                 + "after that it recharges at half speed until you use a repair. The original alien hulls (Rat, Ufo, Blatte) now sit in the "
                 + "Kre'tari Brood tree. Ship art is back at full resolution and loads only when needed."));
         }
-        if (saved(p, "modVersion", 0) < 27) {
+        if (p.getInt("modVersion", 0) < 27) {
             p.edit().putInt("modVersion", 27).commit();
             note(ModLang.tr("Mod v25: Spanish! Settings > Language / Idioma (Auto, English, Espanol); restart the game after switching. "
                 + "15 more hulls redrawn in their new factions' styles (Viper, Bastion, Albatros, Mule, Tortoise, Monolith, Comet, Kite, Seraph, "
                 + "Bulldog, Ironside, Tidewarden, Mantis, Verdant, Imperator) with new lore; new Ships tree and fitting screen art; "
                 + "a new shield bubble with hit ripples; new doomsday charge, nova ring, lance core and explosion effects."));
         }
-        if (saved(p, "modVersion", 0) < 28) {
+        if (p.getInt("modVersion", 0) < 28) {
             p.edit().putInt("modVersion", 28).commit();
             note(ModLang.spanish()
                 ? "Mod v26: todo el mod en espanol: misiones de faccion, contratos, reputacion, descripciones y lore de naves, armas y avisos. "
@@ -202,7 +214,7 @@ public class ModQol {
                 : "Mod v26: the whole mod is now in Spanish when Spanish is selected (faction missions, contracts, standings, ship and weapon "
                     + "descriptions, lore, alerts). All 15 batch-3 hulls now use the new hybrid finish.");
         }
-        if (saved(p, "modVersion", 0) < 29) {
+        if (p.getInt("modVersion", 0) < 29) {
             p.edit().putInt("modVersion", 29).commit();
             note(ModLang.spanish()
                 ? "Mod v28: las naves originales del juego (Corsair one, Condor, Hullraiser, Cosmowarrior, Enforcer, Arwing, Regent y el crucero Guardian) "
@@ -210,7 +222,7 @@ public class ModQol {
                 : "Mod v28: the original game ships (Corsair one, Condor, Hullraiser, Cosmowarrior, Enforcer, Arwing, Regent and the Guardian cruiser) "
                     + "are remastered in the hybrid finish, as enemies too. The UFO keeps its original spin animation.");
         }
-        if (saved(p, "modVersion", 0) < 30) {
+        if (p.getInt("modVersion", 0) < 30) {
             p.edit().putInt("modVersion", 30).commit();
             note(ModLang.spanish()
                 ? "Mod v29: el mapa galactico muestra el territorio de cada faccion (capital con emblema y nombre, sectores controlados con su color; "
@@ -218,7 +230,7 @@ public class ModQol {
                 : "Mod v29: the galaxy map shows faction territory (capitals with emblem and name, controlled sectors in faction colours; unclaimed space "
                     + "stays neutral). Fixed item bonus texts showing missingString, and the shield bubble now covers the whole hull.");
         }
-        if (saved(p, "modVersion", 0) < 31) {
+        if (p.getInt("modVersion", 0) < 31) {
             p.edit().putInt("modVersion", 31).commit();
             note(ModLang.spanish()
                 ? "Mod v30: escudos por segmentos que se apagan al perder carga (sin grietas), pulso de recarga y onda en el punto de impacto; "
