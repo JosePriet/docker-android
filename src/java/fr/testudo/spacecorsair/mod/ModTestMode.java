@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -50,6 +51,7 @@ public final class ModTestMode {
 
     /** True while the test profile is the loaded one. */
     public static boolean on;
+    static volatile boolean profileUncertain;
 
     static final int LEVEL = ModV34.CAP;
     static final long CREDITS = 1000000000L, CREDITS_LOW = 900000000L;
@@ -64,9 +66,18 @@ public final class ModTestMode {
 
     /** hooks40: first line of StorageManager.restore. Applies a pending login / logout, then sets {@link #on}. */
     public static void beforeRestore() {
+        if (ModSave.strictInputs) {
+            on = false;
+            profileUncertain = true;
+        }
         try {
             Context c = ObjectRegistry.INSTANCE.mainActivity.getApplicationContext();
             File r = root(c);
+            if (ModSave.strictInputs) {
+                restoreChecked(c, r);
+                profileUncertain = false;
+                return;
+            }
             String active = read(new File(r, "active"), "main");
             String pending = read(new File(r, "pending"), null);
             if (pending != null && !pending.equals(active) && ("main".equals(pending) || "test".equals(pending))) {
@@ -92,11 +103,69 @@ public final class ModTestMode {
         }
     }
 
+    // The writers store four ASCII bytes. A missing active marker is normal before the first switch.
+    static String profileMarker(File f, String missing) throws IOException {
+        if (!f.exists()) return missing;
+        byte[] bytes = new byte[16];
+        int count = 0;
+        try (FileInputStream input = new FileInputStream(f)) {
+            int b;
+            while ((b = input.read()) >= 0) {
+                if (count == bytes.length) throw new IOException("invalid profile marker");
+                bytes[count++] = (byte) b;
+            }
+        }
+        String value = new String(bytes, 0, count, "UTF-8");
+        if (!"main".equals(value) && !"test".equals(value)) throw new IOException("invalid profile marker");
+        return value;
+    }
+
+    private static void replaceMarker(File marker, String value) throws Exception {
+        File tmp = new File(marker.getParentFile(), marker.getName() + ".tmp");
+        write(tmp, value);
+        if (!tmp.renameTo(marker)) throw new IOException("could not commit profile marker");
+    }
+
+    static void restoreChecked(Context c, File root) throws Exception {
+        File activeFile = new File(root, "active"), pendingFile = new File(root, "pending");
+        File prepared = new File(root, "prepared");
+        File main = new File(root, "main"), test = new File(root, "test");
+        String active = profileMarker(activeFile, main.exists() ? null : "main");
+        if (active == null) throw new IOException("unknown active profile");
+        String target = profileMarker(pendingFile, null);
+        String ready = profileMarker(prepared, null);
+        if (ready != null && !ready.equals(active) && !ready.equals(target)) throw new IOException("incomplete switch");
+        if (target != null && !target.equals(active)) {
+            if (!activeFile.exists()) replaceMarker(activeFile, active);
+            if (!target.equals(ready)) {
+                if ("main".equals(active)) store(c, main);
+                // On retry, the live files may already be partly restored. Preserve the original backup.
+                replaceMarker(prepared, target);
+            }
+            File dest = "main".equals(target) ? main : test;
+            if (dest.exists() || "main".equals(target)) {
+                if (!new File(dest, "complete").isFile()) throw new IOException("incomplete profile");
+                load(c, dest);
+            }
+            replaceMarker(activeFile, target);
+            active = target;
+        }
+        if ("main".equals(active) && ("main".equals(target) || "main".equals(ready))) {
+            delete(test);
+            if (test.exists()) throw new IOException("could not discard old test profile");
+        }
+        if (prepared.exists() && !prepared.delete()) throw new IOException("could not finish switch");
+        if (pendingFile.exists() && !pendingFile.delete()) throw new IOException("could not finish switch");
+        on = "test".equals(active);
+    }
+
     /** Copies the live save into dir (files + preferences), then marks it complete. */
     static void store(Context c, File dir) throws Exception {
         delete(dir);
+        if (ModSave.strictInputs && dir.exists()) throw new IOException("could not replace old snapshot");
         File files = new File(dir, "files");
-        files.mkdirs();
+        boolean created = files.mkdirs();
+        if (ModSave.strictInputs && !created && !files.isDirectory()) throw new IOException("could not create snapshot");
         copyTree(c.getFilesDir(), files);
         for (String n : PREFS) {
             HashMap<String, Object> m = new HashMap<String, Object>(c.getSharedPreferences(n, Context.MODE_PRIVATE).getAll());
@@ -109,18 +178,38 @@ public final class ModTestMode {
     /** Replaces the live save with the copy in dir. Preferences go through the API so cached instances follow. */
     @SuppressWarnings("unchecked")
     static void load(Context c, File dir) throws Exception {
+        Map<String, Map<String, Object>> checked = new HashMap<String, Map<String, Object>>();
+        if (ModSave.strictInputs) {
+            if (new File(dir, "files").listFiles() == null) throw new IOException("missing profile files");
+            for (String n : PREFS) {
+                File f = new File(dir, "prefs_" + n + ".ser");
+                if (!f.exists() && n.equals("corsair_audio")) continue; // pre-v45 profile
+                Map<String, Object> values = readPrefs(f);
+                for (Map.Entry<?, ?> entry : values.entrySet()) {
+                    Object v = entry.getValue();
+                    if (!(entry.getKey() instanceof String)) throw new IOException("invalid preference name");
+                    if (v instanceof Set) {
+                        for (Object item : (Set<?>) v) if (!(item instanceof String)) throw new IOException("invalid preference set");
+                    } else if (!(v instanceof String || v instanceof Boolean || v instanceof Integer
+                            || v instanceof Float || v instanceof Long)) throw new IOException("invalid preference type");
+                }
+                checked.put(n, values);
+            }
+        }
         File live = c.getFilesDir();
         File[] old = live.listFiles();
-        if (old != null) for (File f : old) delete(f);
+        if (ModSave.strictInputs && old == null) throw new IOException("unreadable live directory");
+        if (old != null) for (File f : old) {
+            delete(f);
+            if (ModSave.strictInputs && f.exists()) throw new IOException("could not replace live file");
+        }
         copyTree(new File(dir, "files"), live);
         for (String n : PREFS) {
             File f = new File(dir, "prefs_" + n + ".ser");
             if (!f.exists() && n.equals("corsair_audio")) continue;   // a copy made before v45: keep the live sound settings
             Map<String, Object> m = new HashMap<String, Object>();
-            if (f.exists()) {
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream(f));
-                try { m = (Map<String, Object>) in.readObject(); } finally { in.close(); }
-            }
+            if (ModSave.strictInputs) m = checked.get(n);
+            else if (f.exists()) m = readPrefs(f);
             SharedPreferences.Editor e = c.getSharedPreferences(n, Context.MODE_PRIVATE).edit().clear();
             for (Map.Entry<String, Object> en : m.entrySet()) {
                 Object v = en.getValue();
@@ -132,16 +221,51 @@ public final class ModTestMode {
                 else if (v instanceof String) e.putString(k, (String) v);
                 else if (v instanceof Set) e.putStringSet(k, (Set<String>) v);
             }
-            e.commit();
+            boolean committed = e.commit();
+            if (ModSave.strictInputs && !committed) throw new IOException("could not restore preferences");
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Map<String, Object> readPrefs(File f) throws Exception {
+        try (FileInputStream file = new FileInputStream(f);
+             ObjectInputStream in = ModSave.strictInputs ? new PreferenceInput(file) : new ObjectInputStream(file)) {
+            Object value = in.readObject();
+            if (ModSave.strictInputs && !(value instanceof Map)) throw new IOException("invalid preference map");
+            return (Map<String, Object>) value;
+        }
+    }
+
+    /** The backup writer emits one HashMap of Android preference values. */
+    private static final class PreferenceInput extends ObjectInputStream {
+        PreferenceInput(InputStream file) throws IOException { super(file); }
+        @Override protected Class<?> resolveClass(java.io.ObjectStreamClass descriptor) throws IOException, ClassNotFoundException {
+            String name = descriptor.getName();
+            if (name.equals("java.util.HashMap") || name.equals("java.util.HashSet") || name.equals("java.util.LinkedHashSet")
+                    || name.equals("java.lang.Number") || name.equals("java.lang.Boolean") || name.equals("java.lang.Long")
+                    || name.equals("java.lang.Integer") || name.equals("java.lang.Float") || name.equals("java.lang.String"))
+                return super.resolveClass(descriptor);
+            throw new java.io.InvalidClassException("unexpected preference value type");
+        }
+        @Override protected Class<?> resolveProxyClass(String[] interfaces) throws IOException {
+            throw new java.io.InvalidClassException("unexpected preference value type");
         }
     }
 
     static void copyTree(File src, File dst) throws Exception {
         File[] fs = src.listFiles();
-        if (fs == null) return;
+        if (fs == null) {
+            if (ModSave.strictInputs) throw new IOException("unreadable profile directory");
+            return;
+        }
         for (File f : fs) {
             File t = new File(dst, f.getName());
-            if (f.isDirectory()) { t.mkdirs(); copyTree(f, t); continue; }
+            if (f.isDirectory()) {
+                boolean created = t.mkdirs();
+                if (ModSave.strictInputs && !created && !t.isDirectory()) throw new IOException("could not copy directory");
+                copyTree(f, t);
+                continue;
+            }
             InputStream in = new FileInputStream(f);
             OutputStream out = new FileOutputStream(t);
             try {
@@ -452,11 +576,13 @@ public final class ModTestMode {
     /** Saves the running profile, marks the switch and restarts the process; the swap itself runs at the next start. */
     static void switchTo(Activity a, String target) {
         try {
+            if (ModSave.strictInputs && profileUncertain) throw new IOException("unknown active profile");
             ModDev.ev("v40test", "switch to " + target);
             ObjectRegistry.INSTANCE.storageManager.save();
             Context c = a.getApplicationContext();
             for (String n : PREFS) c.getSharedPreferences(n, Context.MODE_PRIVATE).edit().putLong("v40_flush", System.currentTimeMillis()).commit();
-            write(new File(root(c), "pending"), target);
+            File pending = new File(root(c), "pending");
+            if (ModSave.strictInputs) replaceMarker(pending, target); else write(pending, target);
             Intent i = c.getPackageManager().getLaunchIntentForPackage(c.getPackageName());
             if (i != null) {
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

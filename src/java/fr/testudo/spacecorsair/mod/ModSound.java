@@ -166,7 +166,7 @@ public final class ModSound {
         if (sfxLoaded || c == null) return;
         try {
             android.content.SharedPreferences sp = c.getApplicationContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-            sfx = clamp01(sp.getFloat("sfx", SFX_DEFAULT));
+            sfx = clamp01(ModQol.saved(sp, "sfx", SFX_DEFAULT));
             // v42: music was still under the effects at default bars. One-time rebalance: a music bar left at the stock 0.4
             // goes to 1.0 (+8 dB); an effects bar never moved (1.0) goes to SFX_DEFAULT (-3 dB). Bars the player moved are kept.
             if (!sp.getBoolean("bal42", false)) {

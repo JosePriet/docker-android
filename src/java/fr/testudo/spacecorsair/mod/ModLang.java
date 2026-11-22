@@ -177,6 +177,23 @@ public class ModLang {
 
     /** Minimal parser for a flat JSON object of string -> string (the es.json format). */
     static void parseFlat(String j, Map<String, String> out) {
+        if (ModSave.strictInputs) {
+            com.google.gson.stream.JsonReader reader = new com.google.gson.stream.JsonReader(new java.io.StringReader(j));
+            Map<String, String> parsed = new HashMap<String, String>();
+            try {
+                reader.beginObject();
+                while (reader.hasNext()) {
+                    String key = reader.nextName();
+                    if (reader.peek() != com.google.gson.stream.JsonToken.STRING) return;
+                    parsed.put(key, reader.nextString());
+                }
+                reader.endObject();
+                if (reader.peek() == com.google.gson.stream.JsonToken.END_DOCUMENT) out.putAll(parsed);
+            } catch (Exception e) {
+                // A broken asset must not install a partial dictionary.
+            }
+            return;
+        }
         int[] p = {0};
         String key = null;
         while (p[0] < j.length()) {

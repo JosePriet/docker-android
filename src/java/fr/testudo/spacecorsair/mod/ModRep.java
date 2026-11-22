@@ -75,7 +75,8 @@ public final class ModRep {
     private static float read(String key) {
         SharedPreferences p = prefs();
         float def = "kretari".equals(key) ? -20f : 0f;
-        return p == null ? def : p.getFloat(prefKey(key), def);
+        float value = p == null ? def : ModQol.saved(p, prefKey(key), def);
+        return ModSave.strictInputs ? Math.max(-100f, Math.min(100f, value)) : value;
     }
 
     private static String prefKey(String key) {

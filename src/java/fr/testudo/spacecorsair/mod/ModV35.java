@@ -144,19 +144,23 @@ public class ModV35 {
     public static int level(SpaceObjectType t) {
         SharedPreferences p = ModQol.prefs();
         if (p == null || t == null) return 0;
-        return Math.max(0, Math.min(REFIT_MAX, p.getInt("v35_refit_" + t.name(), 0)));
+        return Math.max(0, Math.min(REFIT_MAX, ModQol.saved(p, "v35_refit_" + t.name(), 0)));
     }
 
     public static int parts() {
         SharedPreferences p = ModQol.prefs();
-        return p == null ? 0 : Math.max(0, p.getInt("v35_parts", 0));
+        return p == null ? 0 : Math.max(0, ModQol.saved(p, "v35_parts", 0));
+    }
+
+    static int addCount(int count, int gain) {
+        return ModSave.strictInputs ? (int) Math.min(Integer.MAX_VALUE, (long) count + gain) : count + gain;
     }
 
     static void addParts(int n, Element at) {
         if (ModPrologue.active) return;   // v46: nothing picked up in the prologue is kept
         SharedPreferences p = ModQol.prefs();
         if (p == null || n <= 0) return;
-        p.edit().putInt("v35_parts", parts() + n).apply();
+        p.edit().putInt("v35_parts", addCount(parts(), n)).apply();
         try {
             Element e = at != null && fr.testudo.spacecorsair.engine.GameThread.isElementVisible(at) ? at : ObjectRegistry.INSTANCE.playerShip;
             Mod.floatText(e, "+" + n + " " + ModLang.tr("RARE PART"), 0.8f, 0.55f, 1.0f);
@@ -189,13 +193,14 @@ public class ModV35 {
 
     public static int cores(String key) {
         SharedPreferences p = ModQol.prefs();
-        return p == null ? 0 : p.getInt("v35_core_" + key, 0);
+        int count = p == null ? 0 : ModQol.saved(p, "v35_core_" + key, 0);
+        return ModSave.strictInputs ? Math.max(0, count) : count;
     }
 
     static void addCore(String key, Element at) {
         SharedPreferences p = ModQol.prefs();
         if (p == null || key == null) return;
-        p.edit().putInt("v35_core_" + key, cores(key) + 1).apply();
+        p.edit().putInt("v35_core_" + key, addCount(cores(key), 1)).apply();
         ModDev.ev("core", key + " total=" + cores(key));
         try {
             Element e = at != null && fr.testudo.spacecorsair.engine.GameThread.isElementVisible(at) ? at : ObjectRegistry.INSTANCE.playerShip;
@@ -262,7 +267,7 @@ public class ModV35 {
 
     static long[] huntTimes(String key) {
         SharedPreferences p = ModQol.prefs();
-        String s = p == null ? "" : p.getString("v35_hunts_" + key, "");
+        String s = p == null ? "" : ModQol.saved(p, "v35_hunts_" + key, "");
         if (s.length() == 0) return new long[0];
         String[] a = s.split(",");
         long[] r = new long[a.length];
@@ -294,7 +299,7 @@ public class ModV35 {
     /** ModFaction.addAvailable: the first time a renegade hunt is offered, a one-time note about its daily limit (owner). */
     static void huntNote() {
         SharedPreferences p = ModQol.prefs();
-        if (p == null || p.getBoolean("v35_hunt_note", false)) return;
+        if (p == null || ModQol.saved(p, "v35_hunt_note", false)) return;
         p.edit().putBoolean("v35_hunt_note", true).apply();
         ModQol.post(ModLang.tr("Renegade hunts: up to 5 per faction every 12 hours. Stock bosses and rival flagships also drop faction cores."));
     }

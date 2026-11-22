@@ -15,6 +15,9 @@ import java.util.Map;
  * nulls right after the save is loaded so a renamed/removed item can never crash the game.
  */
 public class ModSave {
+    /** Opt-in validation of stored preferences, profile markers and peer records. */
+    static boolean strictInputs = false;
+
     public static void sanitize() {
         ModV34.boot();
         try {

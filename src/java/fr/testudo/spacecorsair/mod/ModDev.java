@@ -236,15 +236,25 @@ public final class ModDev {
             java.io.File f = new java.io.File("/data/local/tmp/" + name);
             if (!f.exists()) return null;
             ModLobby.switchSeen();   // audit D3
-            java.io.BufferedReader r = new java.io.BufferedReader(new java.io.FileReader(f));
-            try {
-                String l = r.readLine();
-                return l == null ? null : l.trim();
-            } finally {
-                r.close();
-            }
+            return switchValue(f);
         } catch (Throwable t) {
             return null;
+        }
+    }
+
+    static String switchValue(java.io.File f) throws java.io.IOException {
+        try (java.io.BufferedReader r = new java.io.BufferedReader(new java.io.FileReader(f))) {
+            if (!ModSave.strictInputs) {
+                String line = r.readLine();
+                return line == null ? null : line.trim();
+            }
+            StringBuilder line = new StringBuilder();
+            int ch;
+            while ((ch = r.read()) != -1 && ch != '\n' && ch != '\r') {
+                if (line.length() == 4096) return null;
+                line.append((char) ch);
+            }
+            return ch == -1 && line.length() == 0 ? null : line.toString().trim();
         }
     }
 
