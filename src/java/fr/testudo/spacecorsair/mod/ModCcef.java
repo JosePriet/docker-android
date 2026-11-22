@@ -246,6 +246,7 @@ public final class ModCcef {
     }
 
     private static void queueFresh() {
+        landTries = 0;
         toLand.clear();
         toLandLife.clear();
         for (int c : squad(clears(), null)) { toLand.add(c); toLandLife.add(1f); }
@@ -326,6 +327,7 @@ public final class ModCcef {
 
     private static void start(PlayerShip ps) {
         phase = WARP;
+        landTries = 0;
         warpLeft = WARP_IN_MS;
         ModPolice.ccefStandDown(ps);
         clearPolice();
@@ -381,6 +383,8 @@ public final class ModCcef {
                 toLand.clear();
                 toLandLife.clear();
                 titanToLand = false;
+                landTries = 0;
+                if (squad.isEmpty() && titan == null) { end("landing failed", false); return; }   // nothing on the field: no hunt, no reward
             } else { phase = WARP; warpLeft = 500; }   // retry the rest shortly
         } else landTries = 0;
         if (made > 0) landed = true;
