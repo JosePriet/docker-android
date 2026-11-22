@@ -61,7 +61,7 @@ public final class ModCcef {
     public static final long SURVIVE_MS = 120000;         // owner 01:05: from the start of the countdown
     public static final float DMG_TAKEN = 0.5f;           // of every player hit
     public static final float SPEED = 1.35f, TURN = 1.3f; // "faster, more agile" [Claude pick]
-    public static final float SCALE_PER_CLEAR = 1.05f;    // owner 01:07: +5% stats each squad kill (compounding)
+    public static final float SCALE_PER_CLEAR = 0.05f;    // owner 01:07: +5% stats each squad kill (added, not compounded)
     public static final int CLEARS_PER_EXTRA = 2;         // owner 01:07: every 2 clears one more ship
     public static final float PLAYER_DMG = 1.15f;        // owner 01:05: hidden +15% damage during the chase
     public static final float PLAYER_AGILITY = 1.1f;     // owner 01:05: "slight agility increase" [Claude pick: +10% turn]
@@ -81,7 +81,7 @@ public final class ModCcef {
     // ================================================================== pure rules (work/dtest/fr/testudo/spacecorsair/mod/VCCEF.java)
     /** CCEF stat factor after {@code clears} squad kills. */
     public static float scale(int clears) {
-        return (float) Math.pow(SCALE_PER_CLEAR, Math.max(0, clears));
+        return 1.0f + SCALE_PER_CLEAR * Math.max(0, clears);
     }
 
     /** Extra ships of a random class after {@code clears} squad kills. */
@@ -141,6 +141,11 @@ public final class ModCcef {
     private static int kills, fi = -1, lv;
     private static Object lastLevel;
     private static final ArrayList<Integer> toLand = new ArrayList<Integer>();
+    /** Hull fraction each queued ship lands with (a ship that follows the player keeps its damage). */
+    private static final ArrayList<Float> toLandLife = new ArrayList<Float>();
+    private static float titanLife = 1f;
+    private static int landTries;
+    static final int LAND_TRIES = 30;   // 15 s of retries, then the missing ships are dropped (art or titan slot unavailable)
     private static boolean titanToLand;
     private static final ArrayList<Ennemis> squad = new ArrayList<Ennemis>();
     private static GuardianCivilShip titan;
@@ -168,10 +173,21 @@ public final class ModCcef {
         if (phase != NONE) end("player destroyed", false);
     }
 
+    /** Snapshot of the squad + titan for any thread (radar and lights run on the render thread). */
+    private static volatile Object[] members = new Object[0];
+
+    private static void snapshot() {
+        Object[] m = new Object[squad.size() + (titan != null ? 1 : 0)];
+        for (int i = 0; i < squad.size(); i++) m[i] = squad.get(i);
+        if (titan != null) m[m.length - 1] = titan;
+        members = m;
+    }
+
     public static boolean isCcef(Object e) {
         if (e == null) return false;
-        if (e == titan && titan != null) return true;
-        return e instanceof Ennemis && st.containsKey(e) && squad.contains(e);
+        Object[] m = members;
+        for (int i = 0; i < m.length; i++) if (m[i] == e) return true;
+        return false;
     }
 
     // ================================================================== triggers (ModPolice / ModPoliceTitan)
@@ -207,24 +223,39 @@ public final class ModCcef {
     /** ModPolice.enter: the player left a sector with a regular police titan up. */
     static void titanEscaped(LevelId from) {
         if (!ON || phase != NONE) return;
-        PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
-        if (diedSinceTitan || ps == null || ps.life <= 0) { log("titan sector left by death: no hunt"); return; }
-        setOrigin(from);
-        phase = PENDING;
-        clock = 0;
-        kills = 0;
-        achGiven = false;
-        save();
-        log("trigger: titan escaped from " + from);
+        try {
+            PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+            if (diedSinceTitan || ps == null || ps.life <= 0) { log("titan sector left by death: no hunt"); return; }
+            setOrigin(from);
+            phase = PENDING;
+            clock = 0;
+            kills = 0;
+            achGiven = false;
+            save();
+            log("trigger: titan escaped from " + from);
+        } catch (Throwable t) {
+            phase = NONE;   // never breaks the police sector change
+        }
     }
 
     private static void setOrigin(LevelId id) {
         fi = ModPolice.factionIndex(id);
         lv = ModPolice.level(id == null ? 1 : id.levelMax);
         guestPrime = ModPolice.guestHeatLeads();
+        queueFresh();
+    }
+
+    private static void queueFresh() {
         toLand.clear();
-        for (int c : squad(clears(), null)) toLand.add(c);
+        toLandLife.clear();
+        for (int c : squad(clears(), null)) { toLand.add(c); toLandLife.add(1f); }
         titanToLand = true;
+        titanLife = 1f;
+    }
+
+    private static void queue(int cls, float frac) {
+        toLand.add(cls);
+        toLandLife.add(Math.max(0.05f, Math.min(1f, frac)));
     }
 
     // ================================================================== per frame (ModCaps.tick, after ModPolice)
@@ -256,19 +287,19 @@ public final class ModCcef {
             scanShots(lvl, ps);
             for (int i = squad.size() - 1; i >= 0; i--) {
                 Ennemis e = squad.get(i);
-                if (e.life <= 0) { squad.remove(i); kills++; log("ship down, kills=" + kills); continue; }
-                if (e.removed) { squad.remove(i); toLand.add(ModPolice.classOf(e)); log("ship lost without a kill: redeploy"); continue; }
+                if (e.life <= 0) { squad.remove(i); snapshot(); kills++; log("ship down, kills=" + kills); continue; }
+                if (e.removed) { squad.remove(i); queue(ModPolice.classOf(e), 1f); snapshot(); log("ship lost without a kill: redeploy"); continue; }
                 immune(e);
                 long[] s = ModPolice.policeState(e);
                 if (s != null) ModPolice.missiles(ps, e, s, j);
                 aim(e, i, ps, j);
             }
             if (titan != null) {
-                if (titan.life <= 0) { titan = null; kills++; log("titan down, kills=" + kills); }
-                else if (titan.removed) { titan = null; titanToLand = true; }
+                if (titan.life <= 0) { titan = null; snapshot(); kills++; log("titan down, kills=" + kills); }
+                else if (titan.removed) { titan = null; snapshot(); titanToLand = true; titanLife = 1f; }
                 else immune(titan);
             }
-            if (!toLand.isEmpty() || titanToLand) { if (phase == HUNT) { phase = WARP; warpLeft = 3000; } }   // lost ships come back
+            if (!toLand.isEmpty() || titanToLand) { if (phase == HUNT) { phase = WARP; warpLeft = 3000; landTries = 0; } }   // lost ships come back
             else if (squad.isEmpty() && titan == null) win(ps);
         } catch (Throwable t) {
             // the hunt skips a frame
@@ -280,12 +311,13 @@ public final class ModCcef {
         lockPortals(null, false);
         boolean wasOn = phase == WARP || phase == HUNT;
         if (wasOn) {
-            for (Ennemis e : squad) if (e.life > 0) toLand.add(ModPolice.classOf(e));
-            if (titan != null && titan.life > 0) titanToLand = true;
+            for (Ennemis e : squad) if (e.life > 0) queue(ModPolice.classOf(e), e.maxLife > 0 ? e.life / e.maxLife : 1f);
+            if (titan != null && titan.life > 0) { titanToLand = true; titanLife = titan.maxLife > 0 ? titan.life / titan.maxLife : 1f; }
         }
         squad.clear();
         st.clear();
         titan = null;
+        snapshot();
         landed = false;
         if (phase == NONE) { restore(); return; }
         if (wasOn && !follows(clock)) { end("trail lost", true); return; }
@@ -319,6 +351,8 @@ public final class ModCcef {
             Ennemis e = ModPolice.build(fi, toLand.get(k), lv, true);
             if (e == null) continue;   // art not loaded: next landing check
             dress(e, toLand.get(k), sc);
+            float lf = k < toLandLife.size() ? toLandLife.get(k) : 1f;
+            if (lf < 1f) { e.life = e.maxLife * lf; e.lifeInPourc = 100f * lf; if (e.lifeBar != null) e.lifeBar.setValue(e.lifeInPourc); }
             e.position.setSameAs(at).add((float) (Math.random() * 900 - 450), (float) (Math.random() * 900 - 450));
             e.updateSapCoords();
             e.addToCurrentLevel();
@@ -326,13 +360,29 @@ public final class ModCcef {
             st.put(e, new float[] {0, 0, 0, Math.random() < 0.5 ? -1 : 1});
             squad.add(e);
             toLand.remove(k);
+            if (k < toLandLife.size()) toLandLife.remove(k);
             made++;
         }
         if (titanToLand) {
             Element t = ModPoliceTitan.spawnCcef(ModCapitals.FACTIONS[Math.max(0, fi)].key, lv, new Vector2(at.x, at.y), sc);
-            if (t instanceof GuardianCivilShip) { titan = (GuardianCivilShip) t; titanToLand = false; made++; }
+            if (t instanceof GuardianCivilShip) {
+                titan = (GuardianCivilShip) t;
+                titanToLand = false;
+                titan.specificName = ModLang.tr("CCEF Titan");
+                ModPoliceTitan.rename(titan.specificName);
+                if (titanLife < 1f) { titan.life = titan.maxLife * titanLife; titan.lifeInPourc = 100f * titanLife; }
+                made++;
+            }
         }
-        if (!toLand.isEmpty() || titanToLand) { phase = WARP; warpLeft = 500; }   // retry the rest shortly
+        snapshot();
+        if (!toLand.isEmpty() || titanToLand) {
+            if (++landTries >= LAND_TRIES) {   // never soft-lock the hunt on a ship that cannot spawn
+                log("landing gave up on " + toLand.size() + (titanToLand ? " + titan" : ""));
+                toLand.clear();
+                toLandLife.clear();
+                titanToLand = false;
+            } else { phase = WARP; warpLeft = 500; }   // retry the rest shortly
+        } else landTries = 0;
         if (made > 0) landed = true;
         if (made > 0 && first) {
             ModLive.fx("fx_shock", 1, 1, at.x, at.y, 2400, 1200, R, G, B, true);
@@ -386,10 +436,19 @@ public final class ModCcef {
         log("end: " + why);
         phase = NONE;
         toLand.clear();
+        toLandLife.clear();
         titanToLand = false;
+        try {   // survivors warp out (never left behind as plain police hulls)
+            Level lvl = ObjectRegistry.INSTANCE.game.currentLevel;
+            for (Ennemis e : squad) if (!e.removed) { e.removed = true; if (lvl != null) lvl.toDelete.add(e); }
+        } catch (Throwable t) {
+            // the sector change takes them
+        }
+        if (titan != null && !titan.removed) ModPoliceTitan.standDown();
         squad.clear();
         st.clear();
         titan = null;
+        snapshot();
         landed = false;
         lockPortals(null, false);
         save();
@@ -541,7 +600,7 @@ public final class ModCcef {
         if (guestPrime && other != null) { Element t = prime; prime = other; other = t; }
         Element want = other != null && secondarySlot(index) ? other : prime;
         Element cur = e.attackTarget;
-        boolean prey = cur != null && cur != ps && cur != other && cur instanceof Ennemis && !cur.removed && cur.life > 0;
+        boolean prey = cur != null && cur != ps && cur != other && cur instanceof Ennemis && !Mod.isDrone(cur) && !cur.removed && cur.life > 0;
         s[2] -= j;
         if (s[2] <= 0) {
             s[2] = PREY_CHECK_MS;
@@ -792,9 +851,7 @@ public final class ModCcef {
             achGiven = "1".equals(a[3]);
             kills = Integer.parseInt(a[4]);
             if (!follows(clock)) { p.edit().remove("ccef_pending").apply(); return; }
-            toLand.clear();
-            for (int c : squad(clears(), null)) toLand.add(c);
-            titanToLand = true;
+            queueFresh();
             guestPrime = false;
             phase = PENDING;
             log("restored pending hunt");
@@ -804,9 +861,13 @@ public final class ModCcef {
     }
 
     private static boolean testOn;
+    private static long testAt;
 
-    /** Emulator only: /data/local/tmp/corsair_ccef starts a hunt in the current sector. */
+    /** Emulator only: /data/local/tmp/corsair_ccef starts a hunt in the current sector (checked once a second). */
     private static void test(PlayerShip ps) {
+        long now = System.currentTimeMillis();
+        if (now - testAt < 1000) return;
+        testAt = now;
         boolean f = ModDev.testFlag("corsair_ccef");
         if (f && !testOn && phase == NONE) {
             try {

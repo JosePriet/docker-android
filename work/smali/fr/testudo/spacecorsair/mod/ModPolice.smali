@@ -2732,11 +2732,14 @@
 
     if-lez v1, :cond_11
 
+    :try_start_9
     iget-boolean v1, p0, Lfr/testudo/spacecorsair/business/Element;->removed:Z
 
     if-nez v1, :cond_10
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModCcef;->lights(Lfr/testudo/spacecorsair/business/Element;F)V
+    :try_end_10
+    .catch Ljava/lang/Throwable; {:try_start_9 .. :try_end_10} :catch_b8
 
     .line 833
     :cond_10
@@ -2945,6 +2948,12 @@
     const v9, 0x3df5c28f    # 0.12f
 
     goto :goto_a3
+
+    .line 822
+    :catch_b8
+    move-exception v0
+
+    goto/16 :goto_10
 .end method
 
 .method static log(Ljava/lang/String;)V

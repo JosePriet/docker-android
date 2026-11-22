@@ -143,10 +143,10 @@
     .registers 2
 
     .prologue
-    .line 145
+    .line 150
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
-    .line 146
+    .line 151
     if-eqz v0, :cond_12
 
     iget-boolean v1, v0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->removed:Z
@@ -190,35 +190,35 @@
     .registers 16
 
     .prologue
-    .line 355
+    .line 360
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
     if-eq p0, v0, :cond_5
 
-    .line 372
+    .line 377
     :cond_4
     :goto_4
     return-void
 
-    .line 356
+    .line 361
     :cond_5
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v11, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
-    .line 357
+    .line 362
     if-eqz v11, :cond_4
 
     iget-boolean v0, v11, Lfr/testudo/spacecorsair/business/player/PlayerShip;->removed:Z
 
     if-nez v0, :cond_4
 
-    .line 358
+    .line 363
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v12
 
-    .line 359
+    .line 364
     const-wide/16 v0, 0x1f4
 
     rem-long v0, v12, v0
@@ -231,13 +231,13 @@
 
     const/4 v0, 0x1
 
-    .line 360
+    .line 365
     :goto_1e
     sget v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockMs:I
 
     if-lez v1, :cond_7c
 
-    .line 361
+    .line 366
     if-eqz v0, :cond_e8
 
     const/high16 v6, 0x3f800000    # 1.0f
@@ -252,7 +252,7 @@
 
     const v8, 0x3dcccccd    # 0.1f
 
-    .line 362
+    .line 367
     :goto_30
     const-string v0, "marker_hostile"
 
@@ -284,7 +284,7 @@
 
     invoke-static/range {v0 .. v10}, Lfr/testudo/spacecorsair/mod/ModFx;->sprR(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 363
+    .line 368
     const-string v0, "fx_shock"
 
     iget-object v1, v11, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -307,7 +307,7 @@
 
     invoke-static/range {v0 .. v10}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 364
+    .line 369
     const-string v0, "fx_beam"
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -334,13 +334,13 @@
 
     invoke-static/range {v0 .. v10}, Lfr/testudo/spacecorsair/mod/ModFx;->strip(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 366
+    .line 371
     :cond_7c
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
 
     if-lez v0, :cond_4
 
-    .line 367
+    .line 372
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
 
     int-to-float v0, v0
@@ -349,7 +349,7 @@
 
     div-float v14, v0, v1
 
-    .line 368
+    .line 373
     const/high16 v0, 0x43be0000    # 380.0f
 
     const/high16 v1, 0x44af0000    # 1400.0f
@@ -358,7 +358,7 @@
 
     add-float v3, v0, v1
 
-    .line 369
+    .line 374
     const-string v0, "marker_hostile"
 
     iget-object v1, v11, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -395,7 +395,7 @@
 
     invoke-static/range {v0 .. v10}, Lfr/testudo/spacecorsair/mod/ModFx;->sprR(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 370
+    .line 375
     const-string v0, "fx_beam"
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -450,13 +450,13 @@
 
     goto/16 :goto_4
 
-    .line 359
+    .line 364
     :cond_e5
     const/4 v0, 0x0
 
     goto/16 :goto_1e
 
-    .line 361
+    .line 366
     :cond_e8
     const v6, 0x3e19999a    # 0.15f
 
@@ -479,22 +479,22 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 299
+    .line 304
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockMs:I
 
-    .line 300
+    .line 305
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
 
-    .line 301
+    .line 306
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->jamSaid:Z
 
-    .line 303
+    .line 308
     :try_start_7
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
-    .line 304
+    .line 309
     if-eqz v0, :cond_1c
 
     iget v1, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->alterationSnareValue:F
@@ -515,12 +515,12 @@
     :try_end_1c
     .catch Ljava/lang/Throwable; {:try_start_7 .. :try_end_1c} :catch_1d
 
-    .line 308
+    .line 313
     :cond_1c
     :goto_1c
     return-void
 
-    .line 305
+    .line 310
     :catch_1d
     move-exception v0
 
@@ -533,7 +533,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 185
+    .line 190
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
     if-ne p0, v0, :cond_20
@@ -544,7 +544,7 @@
 
     const/4 v0, 0x1
 
-    .line 186
+    .line 191
     :goto_a
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
@@ -558,18 +558,18 @@
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->endLockdown()V
 
-    .line 187
+    .line 192
     :cond_16
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModV34;->bigShield:Ljava/util/WeakHashMap;
 
     invoke-virtual {v1, p0}, Ljava/util/WeakHashMap;->remove(Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 188
+    .line 193
     if-eqz p1, :cond_1f
 
     if-eqz v0, :cond_22
 
-    .line 195
+    .line 200
     :cond_1f
     :goto_1f
     return-void
@@ -577,16 +577,16 @@
     :cond_20
     move v0, v1
 
-    .line 185
+    .line 190
     goto :goto_a
 
-    .line 189
+    .line 194
     :cond_22
     const-string v0, "killed"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->log(Ljava/lang/String;)V
 
-    .line 191
+    .line 196
     :try_start_27
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModPolice;->onTitanKilled()V
     :try_end_2a
@@ -594,7 +594,7 @@
 
     goto :goto_1f
 
-    .line 192
+    .line 197
     :catch_2b
     move-exception v0
 
@@ -605,12 +605,12 @@
     .registers 2
 
     .prologue
-    .line 169
+    .line 174
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModCapitals;->cap(Ljava/lang/Object;)Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;
 
     move-result-object v0
 
-    .line 170
+    .line 175
     if-eqz v0, :cond_c
 
     iget-boolean v0, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
@@ -638,7 +638,7 @@
 
     const v3, 0x3e99999a    # 0.3f
 
-    .line 285
+    .line 290
     iget v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->alterationSnareValue:F
 
     cmpl-float v1, v1, v2
@@ -647,7 +647,7 @@
 
     iput v2, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->alterationSnareValue:F
 
-    .line 286
+    .line 291
     :cond_e
     iget v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->alterationSnareDuree:I
 
@@ -659,16 +659,16 @@
 
     iput v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->alterationSnareDuree:I
 
-    .line 287
+    .line 292
     :cond_18
     iget-boolean v1, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->hyperDriveJumpRequested:Z
 
     if-eqz v1, :cond_30
 
-    .line 288
+    .line 293
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->hyperDriveJumpRequested:Z
 
-    .line 289
+    .line 294
     sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->jamSaid:Z
 
     if-nez v1, :cond_30
@@ -687,7 +687,7 @@
 
     invoke-static {p0, v1, v2, v3, v3}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->say(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    .line 291
+    .line 296
     :cond_30
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -699,7 +699,7 @@
 
     move v2, v0
 
-    .line 292
+    .line 297
     :goto_39
     invoke-interface {v3}, Ljava/util/List;->size()I
 
@@ -707,14 +707,14 @@
 
     if-ge v2, v0, :cond_56
 
-    .line 293
+    .line 298
     invoke-interface {v3, v2}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Lfr/testudo/spacecorsair/business/Element;
 
-    .line 294
+    .line 299
     instance-of v1, v0, Lfr/testudo/spacecorsair/business/world/Portal;
 
     if-eqz v1, :cond_52
@@ -729,7 +729,7 @@
 
     iput v0, v1, Lfr/testudo/spacecorsair/business/world/Portal;->jumpCountDown:I
 
-    .line 292
+    .line 297
     :cond_52
     add-int/lit8 v0, v2, 0x1
 
@@ -737,7 +737,7 @@
 
     goto :goto_39
 
-    .line 296
+    .line 301
     :cond_56
     return-void
 .end method
@@ -746,7 +746,7 @@
     .registers 2
 
     .prologue
-    .line 376
+    .line 381
     const-string v0, "corsair_nodialog"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testFlag(Ljava/lang/String;)Z
@@ -759,7 +759,7 @@
 
     invoke-static {v0, p0}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 377
+    .line 382
     :cond_d
     return-void
 .end method
@@ -770,21 +770,21 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 176
+    .line 181
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
-    .line 177
+    .line 182
     const/4 v0, 0x0
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->ccef:Z
 
-    .line 178
+    .line 183
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overBar:Lfr/testudo/spacecorsair/display/hud/InfoBarEnnemis;
 
-    .line 179
+    .line 184
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->endLockdown()V
 
-    .line 180
+    .line 185
     const-string v0, "corsair_poltitan"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testFlag(Ljava/lang/String;)Z
@@ -798,10 +798,10 @@
     :goto_15
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->testMs:I
 
-    .line 181
+    .line 186
     return-void
 
-    .line 180
+    .line 185
     :cond_18
     const/4 v0, -0x1
 
@@ -822,7 +822,7 @@
 
     const/4 v4, 0x0
 
-    .line 200
+    .line 205
     cmpg-float v0, p1, v4
 
     if-lez v0, :cond_15
@@ -833,25 +833,25 @@
 
     if-eq p0, v0, :cond_16
 
-    .line 212
+    .line 217
     :cond_15
     :goto_15
     return p1
 
-    .line 201
+    .line 206
     :cond_16
     const-wide/16 v2, 0x0
 
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overQuietMs:J
 
-    .line 202
+    .line 207
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
 
     cmpg-float v0, v0, v4
 
     if-lez v0, :cond_15
 
-    .line 203
+    .line 208
     mul-float v0, p1, v13
 
     sget v2, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
@@ -860,24 +860,24 @@
 
     move-result v12
 
-    .line 204
+    .line 209
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
 
     sub-float/2addr v0, v12
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
 
-    .line 205
+    .line 210
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
 
     cmpg-float v0, v0, v4
 
     if-gtz v0, :cond_65
 
-    .line 206
+    .line 211
     sput v4, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
 
-    .line 207
+    .line 212
     const-string v0, "fx_shock"
 
     iget-object v2, p0, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -900,7 +900,7 @@
 
     invoke-static/range {v0 .. v11}, Lfr/testudo/spacecorsair/mod/ModLive;->fx(Ljava/lang/String;IIFFFJFFFZ)V
 
-    .line 208
+    .line 213
     const-string v0, "warp_in"
 
     const v1, 0x3fcccccd    # 1.6f
@@ -909,7 +909,7 @@
 
     invoke-static {v0, v13, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    .line 209
+    .line 214
     const-string v0, "OVERSHIELD DOWN"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -920,12 +920,12 @@
 
     invoke-static {p0, v0, v8, v9, v1}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->say(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    .line 210
+    .line 215
     const-string v0, "overshield down"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->log(Ljava/lang/String;)V
 
-    .line 212
+    .line 217
     :cond_65
     sub-float/2addr p1, v12
 
@@ -938,7 +938,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 241
+    .line 246
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
     if-ne p0, v0, :cond_15
@@ -959,12 +959,12 @@
 
     if-nez v0, :cond_16
 
-    .line 250
+    .line 255
     :cond_15
     :goto_15
     return-void
 
-    .line 243
+    .line 248
     :cond_16
     :try_start_16
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overBar:Lfr/testudo/spacecorsair/display/hud/InfoBarEnnemis;
@@ -993,7 +993,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overBar:Lfr/testudo/spacecorsair/display/hud/InfoBarEnnemis;
 
-    .line 244
+    .line 249
     :cond_2e
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overBar:Lfr/testudo/spacecorsair/display/hud/InfoBarEnnemis;
 
@@ -1009,7 +1009,7 @@
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/display/hud/InfoBarEnnemis;->setValue(F)V
 
-    .line 245
+    .line 250
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {p1, v0}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1028,7 +1028,7 @@
 
     invoke-virtual {v0, v1, v2}, Lfr/testudo/spacecorsair/engine/Vector2;->add(FF)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 246
+    .line 251
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->renderQueue:Lfr/testudo/spacecorsair/engine/RenderQueue;
@@ -1041,7 +1041,7 @@
 
     goto :goto_15
 
-    .line 247
+    .line 252
     :catch_57
     move-exception v0
 
@@ -1054,7 +1054,7 @@
     .prologue
     const/4 v5, 0x0
 
-    .line 233
+    .line 238
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
     if-ne p0, v0, :cond_11
@@ -1071,12 +1071,12 @@
 
     if-gtz v0, :cond_12
 
-    .line 237
+    .line 242
     :cond_11
     :goto_11
     return-void
 
-    .line 234
+    .line 239
     :cond_12
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
 
@@ -1088,7 +1088,7 @@
 
     mul-float v3, p1, v0
 
-    .line 235
+    .line 240
     const v0, 0x3f59999a    # 0.85f
 
     const v1, 0x3e19999a    # 0.15f
@@ -1113,7 +1113,7 @@
 
     add-float v9, v0, v1
 
-    .line 236
+    .line 241
     const-string v0, "shield_shell"
 
     iget-object v1, p0, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1155,7 +1155,7 @@
     .prologue
     const/4 v5, 0x0
 
-    .line 217
+    .line 222
     if-eqz p0, :cond_d
 
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->removed:Z
@@ -1168,12 +1168,12 @@
 
     if-gtz v0, :cond_e
 
-    .line 229
+    .line 234
     :cond_d
     :goto_d
     return-void
 
-    .line 218
+    .line 223
     :cond_e
     iget v0, p0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->life:F
 
@@ -1187,13 +1187,13 @@
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overQuietMs:J
 
-    .line 219
+    .line 224
     :cond_1a
     iget v0, p0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->life:F
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overLastLife:F
 
-    .line 220
+    .line 225
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
 
     sget v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overCap:F
@@ -1202,14 +1202,14 @@
 
     if-gez v0, :cond_d
 
-    .line 221
+    .line 226
     sget-wide v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overQuietMs:J
 
     add-long/2addr v0, p1
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overQuietMs:J
 
-    .line 222
+    .line 227
     sget-wide v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overQuietMs:J
 
     const-wide/16 v2, 0x4e20
@@ -1218,7 +1218,7 @@
 
     if-ltz v0, :cond_d
 
-    .line 223
+    .line 228
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
 
     cmpg-float v0, v0, v5
@@ -1227,7 +1227,7 @@
 
     const/4 v0, 0x1
 
-    .line 224
+    .line 229
     :goto_3a
     sget v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overCap:F
 
@@ -1251,7 +1251,7 @@
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
 
-    .line 225
+    .line 230
     if-eqz v0, :cond_d
 
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->over:F
@@ -1260,7 +1260,7 @@
 
     if-lez v0, :cond_d
 
-    .line 226
+    .line 231
     const-string v0, "OVERSHIELD RESTORED"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1275,7 +1275,7 @@
 
     invoke-static {p0, v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->say(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    .line 227
+    .line 232
     const-string v0, "warp_in"
 
     const/high16 v1, 0x3f000000    # 0.5f
@@ -1288,28 +1288,39 @@
 
     goto :goto_d
 
-    .line 223
+    .line 228
     :cond_73
     const/4 v0, 0x0
 
     goto :goto_3a
 .end method
 
+.method static rename(Ljava/lang/String;)V
+    .registers 1
+
+    .prologue
+    .line 145
+    sput-object p0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->name:Ljava/lang/String;
+
+    .line 146
+    return-void
+.end method
+
 .method static skills(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;Lfr/testudo/spacecorsair/business/player/PlayerShip;JF)V
     .registers 19
 
     .prologue
-    .line 312
+    .line 317
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
     if-eq p0, v0, :cond_5
 
-    .line 343
+    .line 348
     :cond_4
     :goto_4
     return-void
 
-    .line 313
+    .line 318
     :cond_5
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockCd:I
 
@@ -1321,7 +1332,7 @@
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockCd:I
 
-    .line 314
+    .line 319
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->breakCd:I
 
     int-to-long v0, v0
@@ -1332,7 +1343,7 @@
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->breakCd:I
 
-    .line 315
+    .line 320
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockCd:I
 
     if-gtz v0, :cond_5f
@@ -1347,7 +1358,7 @@
 
     if-gez v0, :cond_5f
 
-    .line 316
+    .line 321
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->ccef:Z
 
     if-eqz v0, :cond_8d
@@ -1357,17 +1368,17 @@
     :goto_2a
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockCd:I
 
-    .line 317
+    .line 322
     const/16 v0, 0x1770
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockMs:I
 
-    .line 318
+    .line 323
     const/4 v0, 0x0
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->jamSaid:Z
 
-    .line 319
+    .line 324
     const-string v0, "LOCKDOWN"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1382,7 +1393,7 @@
 
     invoke-static {p0, v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->use(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;Ljava/lang/String;FFF)V
 
-    .line 320
+    .line 325
     const-string v0, "Engines locked down, jump drive jammed!"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1397,17 +1408,17 @@
 
     invoke-static {p2, v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->say(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    .line 321
+    .line 326
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->soundManager:Lfr/testudo/spacecorsair/engine/SoundManager;
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/engine/SoundManager;->playDanger()V
 
-    .line 322
+    .line 327
     invoke-static {p2}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockdown(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 324
+    .line 329
     :cond_5f
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
 
@@ -1423,7 +1434,7 @@
 
     if-gez v0, :cond_93
 
-    .line 325
+    .line 330
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->ccef:Z
 
     if-eqz v0, :cond_90
@@ -1433,12 +1444,12 @@
     :goto_74
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->breakCd:I
 
-    .line 326
+    .line 331
     const/16 v0, 0x4b0
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
 
-    .line 327
+    .line 332
     const-string v0, "SHIELD BREAKER"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1455,25 +1466,25 @@
 
     goto/16 :goto_4
 
-    .line 316
+    .line 321
     :cond_8d
     const/16 v0, 0x61a8
 
     goto :goto_2a
 
-    .line 325
+    .line 330
     :cond_90
     const/16 v0, 0x4650
 
     goto :goto_74
 
-    .line 328
+    .line 333
     :cond_93
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
 
     if-lez v0, :cond_4
 
-    .line 329
+    .line 334
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
 
     int-to-long v0, v0
@@ -1484,20 +1495,20 @@
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
 
-    .line 330
+    .line 335
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
 
     if-gtz v0, :cond_4
 
-    .line 331
+    .line 336
     const/4 v0, 0x0
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->chargeMs:I
 
-    .line 332
+    .line 337
     const/4 v0, 0x0
 
-    .line 333
+    .line 338
     iget-object v1, p2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     if-eqz v1, :cond_c3
@@ -1512,7 +1523,7 @@
 
     if-lez v1, :cond_c3
 
-    .line 334
+    .line 339
     iget-object v0, p2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     iget v0, v0, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
@@ -1521,7 +1532,7 @@
 
     mul-float/2addr v0, v1
 
-    .line 335
+    .line 340
     iget-object v1, p2, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
 
     iget v2, v1, Lfr/testudo/spacecorsair/business/player/Shield;->currentValue:F
@@ -1533,7 +1544,7 @@
     :cond_c3
     move v12, v0
 
-    .line 337
+    .line 342
     const-string v0, "fx_shock"
 
     const/4 v1, 0x1
@@ -1562,14 +1573,14 @@
 
     invoke-static/range {v0 .. v11}, Lfr/testudo/spacecorsair/mod/ModLive;->fx(Ljava/lang/String;IIFFFJFFFZ)V
 
-    .line 338
+    .line 343
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->soundManager:Lfr/testudo/spacecorsair/engine/SoundManager;
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/engine/SoundManager;->playShockWave()V
 
-    .line 339
+    .line 344
     const-string v0, "Shield drained!"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1584,7 +1595,7 @@
 
     invoke-static {p2, v0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->say(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    .line 340
+    .line 345
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -2281,33 +2292,33 @@
     .registers 13
 
     .prologue
-    .line 151
+    .line 156
     sget-object v12, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
-    .line 152
+    .line 157
     if-nez v12, :cond_5
 
-    .line 166
+    .line 171
     :cond_4
     :goto_4
     return-void
 
-    .line 153
+    .line 158
     :cond_5
     const/4 v0, 0x0
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
-    .line 154
+    .line 159
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->endLockdown()V
 
-    .line 156
+    .line 161
     :try_start_b
     iget-boolean v0, v12, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->removed:Z
 
     if-nez v0, :cond_4
 
-    .line 157
+    .line 162
     const-string v0, "fx_shock"
 
     const/4 v1, 0x1
@@ -2336,7 +2347,7 @@
 
     invoke-static/range {v0 .. v11}, Lfr/testudo/spacecorsair/mod/ModLive;->fx(Ljava/lang/String;IIFFFJFFFZ)V
 
-    .line 158
+    .line 163
     const-string v0, "warp_in"
 
     const v1, 0x3f4ccccd    # 0.8f
@@ -2347,12 +2358,12 @@
 
     invoke-static {v0, v1, v2, v4, v5}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    .line 159
+    .line 164
     const/4 v0, 0x1
 
     iput-boolean v0, v12, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->removed:Z
 
-    .line 160
+    .line 165
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -2363,7 +2374,7 @@
 
     invoke-interface {v0, v12}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 161
+    .line 166
     const-string v0, "%s warps out."
 
     const/4 v1, 0x1
@@ -2382,7 +2393,7 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 162
+    .line 167
     const-string v0, "stand down"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->log(Ljava/lang/String;)V
@@ -2391,7 +2402,7 @@
 
     goto :goto_4
 
-    .line 163
+    .line 168
     :catch_5e
     move-exception v0
 
@@ -2402,7 +2413,7 @@
     .registers 9
 
     .prologue
-    .line 272
+    .line 277
     :try_start_0
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -2412,12 +2423,12 @@
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/game/levels/Level;->id:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
-    .line 273
+    .line 278
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModMap;->owner(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
 
     move-result v0
 
-    .line 274
+    .line 279
     if-ltz v0, :cond_75
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
@@ -2432,7 +2443,7 @@
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->key:Ljava/lang/String;
 
-    .line 275
+    .line 280
     :goto_19
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->v:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -2464,7 +2475,7 @@
 
     invoke-virtual {v2, v3}, Lfr/testudo/spacecorsair/engine/Vector2;->add(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 276
+    .line 281
     iget v2, v1, Lfr/testudo/spacecorsair/game/levels/LevelId;->levelMax:I
 
     new-instance v3, Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2483,7 +2494,7 @@
 
     move-result-object v2
 
-    .line 277
+    .line 282
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -2523,17 +2534,17 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->log(Ljava/lang/String;)V
 
-    .line 281
+    .line 286
     :goto_74
     return-void
 
-    .line 274
+    .line 279
     :cond_75
     const-string v0, "warden"
 
     goto :goto_19
 
-    .line 277
+    .line 282
     :cond_78
     const-string v0, ""
     :try_end_7a
@@ -2541,11 +2552,11 @@
 
     goto :goto_69
 
-    .line 278
+    .line 283
     :catch_7b
     move-exception v0
 
-    .line 279
+    .line 284
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
@@ -2573,17 +2584,17 @@
     .registers 8
 
     .prologue
-    .line 254
+    .line 259
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
     invoke-static {v0, p1, p2}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->overTick(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;J)V
 
-    .line 255
+    .line 260
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->testMs:I
 
     if-ltz v0, :cond_1d
 
-    .line 256
+    .line 261
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->testMs:I
 
     int-to-long v0, v0
@@ -2594,7 +2605,7 @@
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->testMs:I
 
-    .line 257
+    .line 262
     sget v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->testMs:I
 
     if-gez v0, :cond_1d
@@ -2607,11 +2618,11 @@
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->testSpawn(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 259
+    .line 264
     :cond_1d
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->titan:Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;
 
-    .line 260
+    .line 265
     if-eqz v0, :cond_32
 
     iget-boolean v1, v0, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->removed:Z
@@ -2628,13 +2639,13 @@
 
     if-nez v1, :cond_32
 
-    .line 261
+    .line 266
     :try_start_2f
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;->attackPlayerIfItNotTheCaseAlready()V
     :try_end_32
     .catch Ljava/lang/Throwable; {:try_start_2f .. :try_end_32} :catch_51
 
-    .line 263
+    .line 268
     :cond_32
     :goto_32
     sget v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockMs:I
@@ -2643,7 +2654,7 @@
 
     if-eqz p0, :cond_4c
 
-    .line 264
+    .line 269
     sget v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockMs:I
 
     int-to-long v2, v1
@@ -2654,7 +2665,7 @@
 
     sput v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockMs:I
 
-    .line 265
+    .line 270
     sget v1, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockMs:I
 
     if-lez v1, :cond_49
@@ -2668,18 +2679,18 @@
     :cond_49
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->endLockdown()V
 
-    .line 268
+    .line 273
     :cond_4c
     :goto_4c
     return-void
 
-    .line 266
+    .line 271
     :cond_4d
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->lockdown(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
     goto :goto_4c
 
-    .line 261
+    .line 266
     :catch_51
     move-exception v1
 
@@ -2690,10 +2701,10 @@
     .registers 11
 
     .prologue
-    .line 347
+    .line 352
     invoke-static {p0, p1, p2, p3, p4}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->say(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
-    .line 348
+    .line 353
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->name:Ljava/lang/String;
 
     const/16 v5, 0x898
@@ -2708,7 +2719,7 @@
 
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->callout(Ljava/lang/String;Ljava/lang/String;FFFI)V
 
-    .line 349
+    .line 354
     const-string v0, "doom_charge"
 
     const/high16 v1, 0x3f400000    # 0.75f
@@ -2719,7 +2730,7 @@
 
     invoke-static {v0, v1, v2, v4, v5}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    .line 350
+    .line 355
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -2740,6 +2751,6 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModPoliceTitan;->log(Ljava/lang/String;)V
 
-    .line 351
+    .line 356
     return-void
 .end method

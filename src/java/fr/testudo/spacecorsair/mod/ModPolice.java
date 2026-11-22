@@ -819,7 +819,7 @@ public class ModPolice {
     /** Hook (ModLive.draw, after the hull): the red/blue light bar of a police ship, flashing in a double-blink pattern. */
     static void lights(Element e) {
         float cz = ModCcef.lightSize(e);
-        if (cz > 0) { if (!e.removed) ModCcef.lights(e, cz); return; }
+        if (cz > 0) { try { if (!e.removed) ModCcef.lights(e, cz); } catch (Throwable t) { /* no lights this frame */ } return; }
         Float sz = lightBar.get(e);
         if (sz == null || e.removed) return;
         long t = System.currentTimeMillis() % LIGHT_CYCLE_MS;

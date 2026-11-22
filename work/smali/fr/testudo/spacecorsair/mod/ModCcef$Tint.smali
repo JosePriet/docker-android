@@ -25,7 +25,7 @@
     .prologue
     const/high16 v1, 0x42c80000    # 100.0f
 
-    .line 676
+    .line 735
     new-instance v2, Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v0, p1, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -46,13 +46,13 @@
 
     invoke-direct {p0, v2, v0}, Lfr/testudo/spacecorsair/display/Drawable;-><init>(Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/display/Texture;)V
 
-    .line 677
+    .line 736
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModCcef$Tint;->base:Lfr/testudo/spacecorsair/display/Drawable;
 
-    .line 678
+    .line 737
     return-void
 
-    .line 676
+    .line 735
     :cond_18
     iget-object v0, p1, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -74,7 +74,7 @@
     .registers 22
 
     .prologue
-    .line 682
+    .line 741
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModCcef$Tint;->base:Lfr/testudo/spacecorsair/display/Drawable;
 
     const v1, 0x3f0f5c29    # 0.56f
@@ -105,6 +105,6 @@
 
     invoke-virtual/range {v0 .. v10}, Lfr/testudo/spacecorsair/display/Drawable;->draw(Ljavax/microedition/khronos/opengles/GL10;Lfr/testudo/spacecorsair/engine/Vector2;FZFFFFZZ)V
 
-    .line 683
+    .line 742
     return-void
 .end method

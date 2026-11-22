@@ -140,6 +140,11 @@ public final class ModPoliceTitan {
         }
     }
 
+    /** CCEF titan: its shown name (callouts and notices). */
+    static void rename(String n) {
+        name = n;
+    }
+
     /** A police titan is alive in this sector. */
     public static boolean active() {
         GuardianCivilShip g = titan;
