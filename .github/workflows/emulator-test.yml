@@ -16,8 +16,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v45rel-main, stage: MAIN }
-          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v45rel-mp, stage: V56M }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v46t1-main, stage: MAIN }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v46t1-mp, stage: V56M }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v46t1-events, stage: P52E }
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM
