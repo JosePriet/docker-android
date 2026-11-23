@@ -104,19 +104,28 @@ final class ModLobby {
             }
             int st = c.getResponseCode();
             InputStream in = st >= 400 ? c.getErrorStream() : c.getInputStream();
-            ByteArrayOutputStream bo = new ByteArrayOutputStream();
-            if (in != null) {
-                byte[] buf = new byte[4096];
-                int n;
-                while ((n = in.read(buf)) > 0 && bo.size() < 65536) bo.write(buf, 0, n);
-                in.close();
-            }
-            return parse(bo.toString("UTF-8"), st);
+            return readReply(in, st);
         } catch (Throwable t) {
             return new Reply();
         } finally {
             if (c != null) c.disconnect();
         }
+    }
+
+    static Reply readReply(InputStream body, int status) throws java.io.IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        if (body != null) {
+            try (InputStream in = body) {
+                byte[] buffer = new byte[4096];
+                int n;
+                while ((n = in.read(buffer)) > 0) {
+                    if (ModSave.strictInputs && n > 65536 - bytes.size()) return new Reply();
+                    if (bytes.size() >= 65536) break;
+                    bytes.write(buffer, 0, n);
+                }
+            }
+        }
+        return parse(bytes.toString("UTF-8"), status);
     }
 
     // ------------------------------------------------------------------ audit D1/D2/D3: who may play online
@@ -178,6 +187,7 @@ final class ModLobby {
 
     /** Fix list 3B: the test profile never plays with others, DEV install or not (LAN and internet). */
     static String testProfileBlock() {
+        if (ModSave.strictInputs && ModTestMode.profileUncertain) return ModLang.tr("Could not switch profiles.");
         return ModTestMode.on ? ModLang.tr("Multiplayer is off in the test profile. Log out of test mode to play with others.") : null;
     }
 

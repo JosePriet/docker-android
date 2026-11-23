@@ -70,10 +70,45 @@ public class ModQol {
         return prefs;
     }
 
+    static String saved(SharedPreferences p, String key, String fallback) {
+        try { return p.getString(key, fallback); }
+        catch (ClassCastException e) { if (ModSave.strictInputs) return fallback; throw e; }
+    }
+
+    static float saved(SharedPreferences p, String key, float fallback) {
+        try {
+            float value = p.getFloat(key, fallback);
+            return ModSave.strictInputs && (Float.isNaN(value) || Float.isInfinite(value)) ? fallback : value;
+        }
+        catch (ClassCastException e) { if (ModSave.strictInputs) return fallback; throw e; }
+    }
+
+    static boolean saved(SharedPreferences p, String key, boolean fallback) {
+        try { return p.getBoolean(key, fallback); }
+        catch (ClassCastException e) { if (ModSave.strictInputs) return fallback; throw e; }
+    }
+
+    static int saved(SharedPreferences p, String key, int fallback) {
+        try { return p.getInt(key, fallback); }
+        catch (ClassCastException e) { if (ModSave.strictInputs) return fallback; throw e; }
+    }
+
+    /** Read each option independently so one damaged entry does not hide the remaining options. */
+    private static final class Options {
+        private final SharedPreferences store;
+
+        Options(SharedPreferences store) { this.store = store; }
+        boolean getBoolean(String key, boolean fallback) { return saved(store, key, fallback); }
+        float getFloat(String key, float fallback) { return saved(store, key, fallback); }
+        int getInt(String key, int fallback) { return saved(store, key, fallback); }
+        SharedPreferences.Editor edit() { return store.edit(); }
+    }
+
     private static void load() {
         if (loaded) return;
-        SharedPreferences p = prefs();
-        if (p == null) return;
+        SharedPreferences store = prefs();
+        if (store == null) return;
+        Options p = new Options(store);
         loaded = true;
         optStick = p.getBoolean("fixedStick", true);
         optBars = p.getBoolean("barNumbers", true);
@@ -82,7 +117,8 @@ public class ModQol {
         optThreat = p.getBoolean("threatReadout", false);
         optEdge = p.getBoolean("radarEdge", false);   // QoL prototype P4 (default off)
         optShake = p.getFloat("shake", 0.6f);
-        loadInbox(p);
+        if (ModSave.strictInputs && !(optShake >= 0f && optShake <= 1.5f)) optShake = 0.6f;
+        loadInbox(store);
         // audit C7 (owner 2026-11-17): a new pilot gets one summary post instead of the old changelog posts;
         // existing profiles keep their inbox as it is
         if (p.getInt("modVersion", 0) == 0 && !ModPrologue.active) {
@@ -582,11 +618,16 @@ public class ModQol {
 
     private static synchronized void loadInbox(SharedPreferences p) {
         inbox.clear();
-        String all = p.getString("inbox", "");
+        String all = saved(p, "inbox", "");
         if (all.length() > 0) {
             for (String s : all.split("\n")) if (s.length() > 0) inbox.add(s);
         }
-        readCount = Math.min(inbox.size(), p.getInt("inboxRead", 0));
+        readCount = Math.min(inbox.size(), saved(p, "inboxRead", 0));
+        if (ModSave.strictInputs) {
+            int excess = Math.max(0, inbox.size() - 40);
+            inbox.subList(0, excess).clear();
+            readCount = Math.max(0, Math.max(0, readCount) - excess);
+        }
     }
 
     private static synchronized void saveInbox() {

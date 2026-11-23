@@ -110,6 +110,8 @@ final class ModLanCheck {
         d.level = in.readInt();
         d.refit = in.readInt();
         d.maxHull = in.readFloat(); d.maxShield = in.readFloat();
+        if (ModSave.strictInputs && (!(d.maxHull >= 0 && d.maxHull <= Float.MAX_VALUE)
+                || !(d.maxShield >= 0 && d.maxShield <= Float.MAX_VALUE))) throw new IOException("invalid capacity");
         d.ship = ModLan.clean(in.readUTF(), MAX_NAME);
         d.laser = ModLan.clean(in.readUTF(), MAX_NAME);
         d.missile = ModLan.clean(in.readUTF(), MAX_NAME);

@@ -26,10 +26,21 @@ const ctryOf = (s) => { const c = clean(s, 3, /[^A-Z]/g); return c.length === 3 
 const idOf = (s) => clean(s, 32, /[^a-f0-9]/g);
 const verOf = (s) => clean(s, 40, /[^A-Za-z0-9 .()#_-]/g);
 const textOf = (s, max) => clean(s, max, /[^\x20-\x7E -￿\n]/g);
-const addrOk = (a) => /^(\d{1,3}(\.\d{1,3}){3}|\[[0-9a-fA-F:]{2,39}\]):\d{1,5}$/.test(a);
+function addrOk(value) {
+  const parts = /^(\d{1,3}(?:\.\d{1,3}){3}|\[[0-9a-fA-F:]{2,39}\]):(\d{1,5})$/.exec(value);
+  if (!parts || Number(parts[2]) < 1 || Number(parts[2]) > 65535) return false;
+  const host = parts[1];
+  if (host[0] !== "[") return host.split(".").every(octet => Number(octet) <= 255);
+  try {
+    new URL("http://" + host); // validate IPv6 compression and the number of groups locally
+    return true;
+  } catch {
+    return false;
+  }
+}
 const candsOf = (s) => String(s || "").split(",").map((x) => x.trim()).filter(addrOk).slice(0, 24).join(",");
 const relayOf = (s) => { const a = String(s || "").trim(); return addrOk(a) ? a : ""; };
-const num = (s, lo, hi) => { const v = parseInt(s, 10); return Number.isFinite(v) ? Math.max(lo, Math.min(hi, v)) : lo; };
+const num = (s, lo, hi) => { const v = /^[+-]?\d+$/.test(s) ? Number(s) : NaN; return Number.isFinite(v) ? Math.max(lo, Math.min(hi, v)) : lo; };
 
 function reply(first, fields, rows, status) {
   let out = first;
@@ -519,15 +530,23 @@ export class Registry {
     const lob = this.lobbies.get(code) || (this.closed && this.closed.get(code));
     if (!lob || !f.token || f.token !== lob.token) return reply("no", {}, null, 403);
     if ((lob.samples || 0) >= (lob.sessions || 0)) return reply("no", { why: "one per session" }, null, 403);
-    lob.samples = (lob.samples || 0) + 1;
-    if (this.lobbies.get(code) === lob) await this.save(lob);   // the count survives a sleep
-    const n = (k) => { const v = parseFloat(f[k]); return Number.isFinite(v) && v >= 0 ? Math.min(v, 1e12) : 0; };
+    // Older clients can omit measurements. Present values must be complete decimal numbers.
+    const n = (k) => {
+      if (f[k] == null || f[k] === "") return 0;
+      if (!/^[+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?$/i.test(f[k])) return NaN;
+      const value = Number(f[k]);
+      return Number.isFinite(value) && value >= 0 ? Math.min(value, 1e12) : NaN;
+    };
     const s = {
       at: this.now(), ver: verOf(f.ver), level: num(f.level, 0, 999), ship: clean(f.ship, 64, /[^A-Za-z0-9_]/g), refit: num(f.refit, 0, 99),
       laser: clean(f.laser, 64, /[^A-Za-z0-9_]/g), missile: clean(f.missile, 64, /[^A-Za-z0-9_]/g),
       peakShot: n("peakShot"), expShot: n("expShot"), peakDps: n("peakDps"), expDps: n("expDps"), pvp: f.pvp === "1",
     };
+    if (![s.peakShot, s.expShot, s.peakDps, s.expDps].every(Number.isFinite)) return reply("bad", {}, null, 400);
     s.ratio = Math.max(s.expShot > 0 ? s.peakShot / s.expShot : 0, s.expDps > 0 ? s.peakDps / s.expDps : 0);
+    if (!Number.isFinite(s.ratio)) return reply("bad", {}, null, 400);
+    lob.samples = (lob.samples || 0) + 1;
+    if (this.lobbies.get(code) === lob) await this.save(lob);   // the count survives a sleep
     s.flagged = s.ratio > 1;
     await this.ctx.storage.put("sample:" + s.at + ":" + token(3), s);
     const old = await this.ctx.storage.list({ prefix: "sample:", limit: 50 });
