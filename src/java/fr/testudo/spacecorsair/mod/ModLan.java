@@ -970,7 +970,7 @@ public final class ModLan {
         slowAt = 0; marksAt = 0; slowLast = null; leanLevel = ""; leanDmg = 0; leanXp = 0; leanMission = ""; leanDone = false; leanMarks = null; leanMarksN = 0;
         synchronized (defOut) { defOut.clear(); }
         synchronized (defIn) { defIn.clear(); texIn.clear(); }
-        synchronized (inLock) { inFrame = null; inState = null; inShots.clear(); inDrones.clear(); inDooms.clear(); }
+        synchronized (inLock) { inFrame = null; inState = null; pendingDecl = null; inShots.clear(); inDrones.clear(); inDooms.clear(); }
         dmgSent = 0; dmgSeen = 0; xpSent = 0; xpSeen = 0; xpBase = -1; dmgBase = -1;
         capAt = 0; moveAt = 0; moveHold = false; roundDmg = 0; jumps = 0; jumpWin = 0; moveSeen = 0; moveGrace = 0; graceAt = 0; obsSpeed = 0;
         synchronized (inLock) { inKills.clear(); }
@@ -1417,10 +1417,7 @@ public final class ModLan {
             // v45 sanity: a view no larger than the widest zoom, a hull the game could have
             s.halfW = Math.max(100, Math.min(MAX_VIEW, s.halfW)); s.halfH = Math.max(100, Math.min(MAX_VIEW, s.halfH));
             if (s.maxLife > MAX_HULL || s.maxLife < 0) { s.maxLife = Math.max(0, Math.min(MAX_HULL, s.maxLife)); flags++; }
-            ModLanCheck.Limits lm = limits;
-            if (lm == null) lm = undeclared();
-            if (s.maxLife > lm.hull) { s.maxLife = lm.hull; if (!hullFlagged) { hullFlagged = true; flags++; } }   // v45: no more hull than the declared ship can have
-            s.life = Math.min(s.life, s.maxLife);
+            s.life = Math.min(s.life, s.maxLife);   // Codex NS01: the declared-hull clamp runs in hostFrame (game thread)
             s.n = in.readUnsignedShort();
             if (s.n > 200) throw new IOException("too many ship records");
             if (type == MSG_LSTATE) { s.recs = ModLanSync.read(in, s.n, 0, 0); s.n = ModLanSync.compact(s.recs, s.n); }
@@ -1458,13 +1455,7 @@ public final class ModLan {
                 status = why;
                 return;
             }
-            ModLanCheck.Limits lm = ModLanCheck.limits(dc);   // always taken (two gear changes can follow each other closely)
-            lastDecl = dc;
-            if (now - declAt > 500) flags += lm.flags;                            // only the flag count is rate limited
-            declAt = now;
-            hullFlagged = false;
-            limits = lm;
-            ModDev.ev("lan", "guest declared: exact=" + lm.exact + " shot<=" + (int) lm.shot + " dps<=" + (int) lm.dps + " hull<=" + (int) lm.hull + " flags=" + lm.flags);
+            synchronized (inLock) { pendingDecl = dc; }   // Codex NS01: limits read game tables, so they are derived in hostFrame
         } else if (type == MSG_SHOT && role == HOST) {
             if (b.length > 4096) throw new IOException("shot too large");
             synchronized (inLock) { if (inShots.size() < 400) inShots.add(b); }
@@ -1934,7 +1925,10 @@ public final class ModLan {
         }
         InState s;
         ArrayList<byte[]> shots, dshots, dooms;
+        ModLanCheck.Decl declaration;
         synchronized (inLock) {
+            declaration = pendingDecl;
+            pendingDecl = null;
             s = inState;
             shots = new ArrayList<byte[]>(inShots);
             inShots.clear();
@@ -1943,6 +1937,8 @@ public final class ModLan {
             dooms = new ArrayList<byte[]>(inDooms);
             inDooms.clear();
         }
+        if (declaration != null) applyDeclaration(declaration, nowDg);
+        if (s != null) limitHull(s);
         Level lv = ObjectRegistry.INSTANCE.game.currentLevel;
         hostMarks(ps, lv);
         hostDuel(ps, lv, s);
@@ -2049,6 +2045,27 @@ public final class ModLan {
     static final long DECL_WAIT_MS = 10000;
 
     /** Ceilings while the guest has declared nothing: the top of the stock tables, no special allowances. Never stored as the guest's limits. */
+    private static ModLanCheck.Decl pendingDecl;   // Codex NS01: latest declaration from the reader, applied on the game thread
+
+    /** Codex NS01 (game thread): a guest declaration turns into limits here, not on the network reader. */
+    private static void applyDeclaration(ModLanCheck.Decl dc, long now) {
+        ModLanCheck.Limits lm = ModLanCheck.limits(dc);   // always taken (two gear changes can follow each other closely)
+        lastDecl = dc;
+        if (now - declAt > 500) flags += lm.flags;                            // only the flag count is rate limited
+        declAt = now;
+        hullFlagged = false;
+        limits = lm;
+        ModDev.ev("lan", "guest declared: exact=" + lm.exact + " shot<=" + (int) lm.shot + " dps<=" + (int) lm.dps + " hull<=" + (int) lm.hull + " flags=" + lm.flags);
+    }
+
+    /** Codex NS01 (game thread): no more hull than the declared ship can have (v45). */
+    private static void limitHull(InState s) {
+        ModLanCheck.Limits lm = limits;
+        if (lm == null) lm = undeclared();
+        if (s.maxLife > lm.hull) { s.maxLife = lm.hull; if (!hullFlagged) { hullFlagged = true; flags++; } }
+        s.life = Math.min(s.life, s.maxLife);
+    }
+
     private static ModLanCheck.Limits undeclared() {
         ModLanCheck.Limits m = noDecl;
         if (m == null) noDecl = m = ModLanCheck.limits(null);
