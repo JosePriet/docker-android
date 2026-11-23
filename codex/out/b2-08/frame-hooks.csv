@@ -1,0 +1,99 @@
+status,method,frequency,caller,site
+CONFIRMED,Mod.creditKiller,per candidate pair or actual hit,Element.applyDamage,work/smali/fr/testudo/spacecorsair/business/Element.smali:1065
+CONFIRMED,ModPolice.killedByPlayer,per candidate pair or actual hit,Element.applyDamage,work/smali/fr/testudo/spacecorsair/business/Element.smali:1171
+CONFIRMED,Mod.sideCheck,per candidate pair or actual hit,Element.applyProjectileHit,work/smali/fr/testudo/spacecorsair/business/Element.smali:1414
+CONFIRMED,ModLive.hit,per candidate pair or actual hit,Element.applyProjectileHit,work/smali/fr/testudo/spacecorsair/business/Element.smali:1539
+CONFIRMED,ModWreck.onDestroyed,"per impact, affected object or destruction",Element.onDestroyed,work/smali/fr/testudo/spacecorsair/business/Element.smali:2615
+CONFIRMED,ModV35.skin,per applicable object draw or dimension query,Element.registerYourselfToDrawQueue,work/smali/fr/testudo/spacecorsair/business/Element.smali:2698
+CONFIRMED,Mod.ignoreCollision,per candidate pair or actual hit,Element.testColide,work/smali/fr/testudo/spacecorsair/business/Element.smali:3018
+CONFIRMED,ModWreck.beamTarget,per applicable AI or targeting update,AlienBlatte.doAttackIa,work/smali/fr/testudo/spacecorsair/business/ennemis/AlienBlatte.smali:715
+CONFIRMED,ModWreck.beamTarget,per applicable AI or targeting update,AlienBlatte.doAttackIa,work/smali/fr/testudo/spacecorsair/business/ennemis/AlienBlatte.smali:729
+CONFIRMED,ModWreck.beamTarget,per applicable object draw or dimension query,AlienBlatte.registerYourselfToDrawQueue,work/smali/fr/testudo/spacecorsair/business/ennemis/AlienBlatte.smali:1821
+CONFIRMED,Mod.isDrone,per applicable AI or targeting update,Ennemis.checkIfPlayerDetected,work/smali/fr/testudo/spacecorsair/business/ennemis/Ennemis.smali:206
+CONFIRMED,ModV35.ai,per physics update of this object,Ennemis.doPhysic,work/smali/fr/testudo/spacecorsair/business/ennemis/Ennemis.smali:1388
+CONFIRMED,ModLoot.onEnemyKilled,"per impact, affected object or destruction",Ennemis.onDestroyed,work/smali/fr/testudo/spacecorsair/business/ennemis/Ennemis.smali:1815
+CONFIRMED,ModQol.bounty,"per impact, affected object or destruction",Ennemis.onDestroyed,work/smali/fr/testudo/spacecorsair/business/ennemis/Ennemis.smali:1843
+CONFIRMED,ModWreck.beamTarget,per applicable AI or targeting update,UfoAlienShip.doAttackIa,work/smali/fr/testudo/spacecorsair/business/ennemis/UfoAlienShip.smali:322
+CONFIRMED,ModWreck.beamTarget,per applicable AI or targeting update,UfoAlienShip.doAttackIa,work/smali/fr/testudo/spacecorsair/business/ennemis/UfoAlienShip.smali:333
+CONFIRMED,ModWreck.beamTarget,per applicable AI or targeting update,UfoAlienShip.doAttackIa,work/smali/fr/testudo/spacecorsair/business/ennemis/UfoAlienShip.smali:347
+CONFIRMED,ModWreck.beamTarget,per applicable object draw or dimension query,UfoAlienShip.registerYourselfToDrawQueue,work/smali/fr/testudo/spacecorsair/business/ennemis/UfoAlienShip.smali:821
+CONFIRMED,ModShips.cargoMult,"per inventory, mission or text query",Inventory.getCapacityInTon,work/smali/fr/testudo/spacecorsair/business/player/Inventory.smali:1258
+CONFIRMED,Mod.addBullet,per applicable weapon request or shot,PlayerCanon.processShoot,work/smali/fr/testudo/spacecorsair/business/player/PlayerCanon.smali:569
+CONFIRMED,Mod.playLaserSound,per applicable weapon request or shot,PlayerCanon.requestShoot,work/smali/fr/testudo/spacecorsair/business/player/PlayerCanon.smali:765
+CONFIRMED,ModMissile.fetch,per applicable AI or targeting update,PlayerShip.fetchEnnemisTarget,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:1256
+CONFIRMED,Mod.addBullet,per applicable weapon request or shot,PlayerShip.shootEnergyBullet,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:1837
+CONFIRMED,ModTitan.onMissile,per applicable weapon request or shot,PlayerShip.shootMissile,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:2037
+CONFIRMED,ModPrologue.damage,per candidate pair or actual hit,PlayerShip.applyDamage,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:2605
+CONFIRMED,Mod.tick,per physics update of this object,PlayerShip.doPhysic,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:2847
+CONFIRMED,Mod.fixTextures,per applicable object draw or dimension query,PlayerShip.ensureImageLoaded,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:3006
+CONFIRMED,Mod.frame,per applicable object draw or dimension query,PlayerShip.getDrawableObject,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:3147
+CONFIRMED,ModCaps.drawOver,per applicable object draw or dimension query,PlayerShip.registerYourselfToDrawQueue,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:3884
+CONFIRMED,Mod.playLaserSound,per applicable weapon request or shot,PlayerShip.shoot,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:4607
+CONFIRMED,Mod.beamShoot,per applicable weapon request or shot,PlayerShip.beamShoot,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:4934
+CONFIRMED,Mod.drawBeam,per applicable object draw or dimension query,PlayerShip.drawBeam,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:4941
+CONFIRMED,Mod.onMissileLock,per applicable weapon request or shot,PlayerShip.onMissileLockedOnMe,work/smali/fr/testudo/spacecorsair/business/player/PlayerShip.smali:4948
+CONFIRMED,ModShield.rate,per physics update of this object,Shield.doPhysic,work/smali/fr/testudo/spacecorsair/business/player/Shield.smali:597
+CONFIRMED,ModTitan.bullet,per applicable object draw or dimension query,EnergyBullet.getDrawableObject,work/smali/fr/testudo/spacecorsair/business/projectiles/EnergyBullet.smali:86
+CONFIRMED,ModWeapons.onImpact,"per impact, affected object or destruction",EnergyBullet.onImpactWithElement,work/smali/fr/testudo/spacecorsair/business/projectiles/EnergyBullet.smali:154
+CONFIRMED,ModWreck.blastPush,"per impact, affected object or destruction",Missile.applyRadiusDamage,work/smali/fr/testudo/spacecorsair/business/projectiles/Missile.smali:834
+CONFIRMED,ModMissile.track,per applicable AI or targeting update,Missile.doIa,work/smali/fr/testudo/spacecorsair/business/projectiles/Missile.smali:943
+CONFIRMED,ModArt.missile,per applicable object draw or dimension query,Missile.getDrawableObject,work/smali/fr/testudo/spacecorsair/business/projectiles/Missile.smali:984
+CONFIRMED,ModTitan.blastRange,"per impact, affected object or destruction",Missile.onDestroyed,work/smali/fr/testudo/spacecorsair/business/projectiles/Missile.smali:1551
+CONFIRMED,ModWreck.blastPush,"per impact, affected object or destruction",Mine.applyRadiusDamage,work/smali/fr/testudo/spacecorsair/business/world/Mine.smali:323
+CONFIRMED,ModQol.gateLabel,per applicable object draw or dimension query,Portal.registerYourselfToDrawQueue,work/smali/fr/testudo/spacecorsair/business/world/Portal.smali:847
+CONFIRMED,ModCapitals.drawable,per applicable object draw or dimension query,GuardianCivilShip.getDrawableObject,work/smali/fr/testudo/spacecorsair/business/world/civil/GuardianCivilShip.smali:1061
+CONFIRMED,ModCapitals.physic,per applicable object draw or dimension query,GuardianCivilShip.getPhysicDimension,work/smali/fr/testudo/spacecorsair/business/world/civil/GuardianCivilShip.smali:1086
+CONFIRMED,ModCapitals.prune,per candidate pair or actual hit,GuardianCivilShip.pruneColide,work/smali/fr/testudo/spacecorsair/business/world/civil/GuardianCivilShip.smali:1470
+CONFIRMED,ModCapitals.draw,per applicable object draw or dimension query,GuardianCivilShip.registerYourselfToDrawQueue,work/smali/fr/testudo/spacecorsair/business/world/civil/GuardianCivilShip.smali:1636
+CONFIRMED,ModV34.freighterArt,per applicable object draw or dimension query,TransportCivilShip.getDrawableObject,work/smali/fr/testudo/spacecorsair/business/world/civil/TransportCivilShip.smali:649
+CONFIRMED,ModPoi.drawable,per applicable object draw or dimension query,AlienTradeStation.getDrawableObject,work/smali/fr/testudo/spacecorsair/business/world/station/AlienTradeStation.smali:182
+CONFIRMED,ModPoi.drawable,per applicable object draw or dimension query,BasicTradeStation.getDrawableObject,work/smali/fr/testudo/spacecorsair/business/world/station/BasicTradeStation.smali:200
+CONFIRMED,ModPoi.drawable,per applicable object draw or dimension query,CasinoStation.getDrawableObject,work/smali/fr/testudo/spacecorsair/business/world/station/CasinoStation.smali:186
+CONFIRMED,Mod.dockRange,per physics update of this object,DockPoint.doPhysic,work/smali/fr/testudo/spacecorsair/business/world/station/DockPoint.smali:177
+CONFIRMED,ModPoi.drawable,per applicable object draw or dimension query,MissionStation.getDrawableObject,work/smali/fr/testudo/spacecorsair/business/world/station/MissionStation.smali:186
+CONFIRMED,ModPoi.drawable,per applicable object draw or dimension query,ThreeDockStation.getDrawableObject,work/smali/fr/testudo/spacecorsair/business/world/station/ThreeDockStation.smali:217
+CONFIRMED,ModQol.joyTouch,per applicable touch or sound request,Joystick.doesTouche,work/smali/fr/testudo/spacecorsair/display/hud/Joystick.smali:155
+CONFIRMED,ModQol.joyUp,per applicable touch or sound request,Joystick.setFingerUp,work/smali/fr/testudo/spacecorsair/display/hud/Joystick.smali:769
+CONFIRMED,ModQol.camCenter,per HUD draw / queue swap / camera update,Camera.snapToTarget,work/smali/fr/testudo/spacecorsair/engine/Camera.smali:285
+CONFIRMED,Mod.zoomBonus,per HUD draw / queue swap / camera update,Camera.snapToTarget,work/smali/fr/testudo/spacecorsair/engine/Camera.smali:304
+CONFIRMED,ModQol.drawHud,per HUD draw / queue swap / camera update,GameRenderer.drawHud,work/smali/fr/testudo/spacecorsair/engine/GameRenderer.smali:2440
+CONFIRMED,ModIntro.draw,per HUD draw / queue swap / camera update,GameRenderer.drawHud,work/smali/fr/testudo/spacecorsair/engine/GameRenderer.smali:2442
+CONFIRMED,ModQol.galaxyExtra,per displayed map entry or processed input event,GameThread.displayLevelOfGalaxy,work/smali/fr/testudo/spacecorsair/engine/GameThread.smali:787
+CONFIRMED,ModLive.frameStart,once per physics frame,GameThread.doPhysic,work/smali/fr/testudo/spacecorsair/engine/GameThread.smali:2063
+CONFIRMED,ModLive.draw,per visible element in this draw pass,GameThread.doPhysic,work/smali/fr/testudo/spacecorsair/engine/GameThread.smali:2139
+CONFIRMED,ModMap.radarPoint2,per applicable object draw or dimension query,GameThread.drawOnRadarAndCalcNearby,work/smali/fr/testudo/spacecorsair/engine/GameThread.smali:3429
+CONFIRMED,ModLan.alsoVisible,per visibility or radar candidate,GameThread.isElementVisible,work/smali/fr/testudo/spacecorsair/engine/GameThread.smali:3743
+CONFIRMED,ModIntro.touch,per displayed map entry or processed input event,GameThread.processInputEvent,work/smali/fr/testudo/spacecorsair/engine/GameThread.smali:4878
+CONFIRMED,ModIntro.dt,per game-loop iteration,GameThread.run,work/smali/fr/testudo/spacecorsair/engine/GameThread.smali:7883
+CONFIRMED,ModBoss.text,"per inventory, mission or text query",ObjectRegistry.getLocalizedString,work/smali/fr/testudo/spacecorsair/engine/ObjectRegistry.smali:208
+CONFIRMED,ModBoss.text,"per inventory, mission or text query",ObjectRegistry.getStringRessource,work/smali/fr/testudo/spacecorsair/engine/ObjectRegistry.smali:244
+CONFIRMED,ModV35.tag,"per glyph, measurement or text enqueue",RenderQueue.addTextToTextWaitingQueue,work/smali/fr/testudo/spacecorsair/engine/RenderQueue.smali:189
+CONFIRMED,ModLan.beforeSwap,per HUD draw / queue swap / camera update,RenderQueue.swapQueues,work/smali/fr/testudo/spacecorsair/engine/RenderQueue.smali:642
+CONFIRMED,ModSound.sfx,per applicable touch or sound request,SoundManager.playSound,work/smali/fr/testudo/spacecorsair/engine/SoundManager.smali:1197
+CONFIRMED,ModPolice.factionGuns,per newly committed element at level update,Level.commitChanges,work/smali/fr/testudo/spacecorsair/game/levels/Level.smali:978
+CONFIRMED,ModCalm.add,per newly committed element at level update,Level.commitChanges,work/smali/fr/testudo/spacecorsair/game/levels/Level.smali:1065
+CONFIRMED,ModLan.countsAsEnemy,per element visited by an enemy-count query,Level.countEnemiesInLevel,work/smali/fr/testudo/spacecorsair/game/levels/Level.smali:1342
+CONFIRMED,ModLan.countsAsEnemy,per element visited by an enemy-count query,Level.hasMoreThanEnnemiesAttackingTargetThan,work/smali/fr/testudo/spacecorsair/game/levels/Level.smali:1853
+CONFIRMED,ModLan.countsAsEnemy,per element visited by an enemy-count query,Level.isThereMoreAttackingPlayerEnemiesThan,work/smali/fr/testudo/spacecorsair/game/levels/Level.smali:1961
+CONFIRMED,ModLan.countsAsEnemy,per element visited by an enemy-count query,Level.isThereMoreEnnemiesThan,work/smali/fr/testudo/spacecorsair/game/levels/Level.smali:2083
+CONFIRMED,ModLan.countsAsEnemy,per element visited by an enemy-count query,Level.isZoneEnnemyCleaned,work/smali/fr/testudo/spacecorsair/game/levels/Level.smali:2163
+CONFIRMED,ModLang.glIndex,"per glyph, measurement or text enqueue",GLText.draw,work/smali/fr/testudo/spacecorsair/textengine/GLText.smali:292
+CONFIRMED,ModLang.glIndex,"per glyph, measurement or text enqueue",GLText.getCharWidth,work/smali/fr/testudo/spacecorsair/textengine/GLText.smali:530
+CONFIRMED,ModLang.glIndex,"per glyph, measurement or text enqueue",GLText.getLength,work/smali/fr/testudo/spacecorsair/textengine/GLText.smali:613
+CONFIRMED,ModComms.hailing,"per inventory, mission or text query",MissionUtils.isDockedToMission,work/smali/fr/testudo/spacecorsair/utils/MissionUtils.smali:45
+CONFIRMED,ModArt$Art.draw,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModArt.java:79
+CONFIRMED,ModFitting$Bar.onDraw,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModFitting.java:1034
+CONFIRMED,ModFitting$RingView.onDraw,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModFitting.java:1339
+CONFIRMED,ModFx$Sprite.draw,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModFx.java:75
+CONFIRMED,ModIntro.draw,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModIntro.java:45
+CONFIRMED,ModLan.receive,"per received message, compact frame branch at receive cadence",virtual callback,src/java/fr/testudo/spacecorsair/mod/ModLan.java:1211
+CONFIRMED,ModLang$2.onGlobalLayout,per Android layout callback,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModLang.java:315
+CONFIRMED,ModPoliceData$Tinted.draw,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModPoliceData.java:135
+CONFIRMED,ModPrologue.draw,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModPrologue.java:392
+CONFIRMED,ModRefitScreen$Bay.onDraw,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModRefitScreen.java:208
+CONFIRMED,ModScroll$2.onGlobalLayout,per Android layout callback,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModScroll.java:70
+CONFIRMED,ModShipTree$Lines.onDraw,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:839
+CONFIRMED,ModShipTree$Slice.draw,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:792
+CONFIRMED,ModUi$10.onGlobalLayout,per Android layout callback,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModUi.java:244
+CONFIRMED,ModWreck.doPhysic,per active wreck physics tick,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModWreck.java:123
+CONFIRMED,ModWreck.registerYourselfToDrawQueue,per applicable drawable/view invocation,virtual callback,src/java/fr/testudo/spacecorsair/mod/ModWreck.java:262

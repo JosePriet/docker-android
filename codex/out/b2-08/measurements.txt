@@ -1,0 +1,101 @@
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+FRAME PARITY OK (256 frame pairs, 64 radar scenarios)
+fork=1 flags=off
+hostMarks,22116.36,6448.00
+capture,87674.02,0.00
+read,78980.06,31456.00
+indexRecords,18588.06,22736.00
+pair,7065.97,5328.00
+glide,1484.63,0.00
+replay,10171.72,0.00
+findEnemyInFront,3487.80,0.00
+findEnemy,153.24,0.00
+enemiesInto,455.59,232.00
+update,641.26,0.00
+drawParticles,10028.39,0.00
+local,42.79,0.00
+sprTex,52.34,0.00
+sprite,367.24,0.00
+fork=1 flags=on
+hostMarks,15838.52,1216.00
+capture,94146.89,0.00
+read,69648.12,31456.00
+indexRecords,18389.07,7128.00
+pair,2511.17,0.00
+glide,532.77,0.00
+replay,9937.54,0.00
+findEnemyInFront,3581.73,0.00
+findEnemy,80.84,0.00
+enemiesInto,616.37,232.00
+update,356.89,0.00
+drawParticles,8117.46,0.00
+local,38.63,0.00
+sprTex,35.65,0.00
+sprite,369.17,0.00
+fork=2 flags=on
+hostMarks,21023.42,1216.00
+capture,87106.62,0.00
+read,73797.81,31456.00
+indexRecords,24437.47,7128.00
+pair,2181.39,0.00
+glide,893.06,0.00
+replay,13144.77,0.00
+findEnemyInFront,3512.22,0.00
+findEnemy,158.33,0.00
+enemiesInto,569.78,232.00
+update,990.72,0.00
+drawParticles,5724.41,0.00
+local,49.09,0.00
+sprTex,40.66,0.00
+sprite,379.26,0.00
+fork=2 flags=off
+hostMarks,15609.02,6448.00
+capture,89000.69,0.00
+read,69550.27,31456.00
+indexRecords,18701.49,22736.00
+pair,3400.03,5328.00
+glide,556.65,0.00
+replay,8132.76,0.00
+findEnemyInFront,3385.18,0.00
+findEnemy,80.01,0.00
+enemiesInto,243.06,232.00
+update,1420.67,0.00
+drawParticles,7458.77,0.00
+local,36.63,0.00
+sprTex,47.37,0.00
+sprite,357.41,0.00
+fork=3 flags=off
+hostMarks,16581.63,6448.00
+capture,86958.26,0.00
+read,73188.06,31456.00
+indexRecords,24734.10,22736.00
+pair,8042.47,5328.00
+glide,1620.74,0.00
+replay,14453.64,0.00
+findEnemyInFront,3526.95,0.00
+findEnemy,81.27,0.00
+enemiesInto,261.84,232.00
+update,1292.68,0.00
+drawParticles,6880.61,0.00
+local,41.32,0.00
+sprTex,67.76,0.00
+sprite,387.88,0.00
+fork=3 flags=on
+hostMarks,15082.71,1216.00
+capture,83414.26,0.00
+read,70640.42,31456.00
+indexRecords,3686.34,7128.00
+pair,1279.29,0.00
+glide,507.03,0.00
+replay,13238.69,0.00
+findEnemyInFront,3418.56,0.00
+findEnemy,84.88,0.00
+enemiesInto,721.61,232.00
+update,1515.37,0.00
+drawParticles,7728.10,0.00
+local,38.19,0.00
+sprTex,39.60,0.00
+sprite,363.36,0.00
