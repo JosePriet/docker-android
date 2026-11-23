@@ -96,7 +96,7 @@ public final class ModWings {
         ang = Math.max(-1, Math.min(MAX_ANG + 2, ang));
     }
 
-    private static float lx(float px) { return ((px + 0.5f) / 1024f - 0.5f) * D; }
+    private static float lx(float px) { return ModSpriteSpace.local(px, D); }
 
     /** Wing sprite centre (512,512) rotated by deg about the wing pivot -> ship-local offset. */
     private static Vector2 wingPt(boolean left, float deg, Vector2 out) {
