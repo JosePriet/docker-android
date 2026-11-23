@@ -2972,7 +2972,7 @@
     :try_start_a
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
+    iget-object v1, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->playerShip:Lfr/testudo/spacecorsair/business/player/PlayerShip;
 
     .line 343
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
@@ -2980,14 +2980,14 @@
     move-result-wide v2
 
     .line 344
-    iget-object v1, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->sender:Lfr/testudo/spacecorsair/business/Element;
+    iget-object v0, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->sender:Lfr/testudo/spacecorsair/business/Element;
 
-    if-ne v1, v0, :cond_b1
+    if-ne v0, v1, :cond_ba
 
     .line 345
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModV34;->shieldUp(Lfr/testudo/spacecorsair/business/Element;)Z
 
-    move-result v1
+    move-result v0
 
     .line 346
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModLance;->rampTarget:Lfr/testudo/spacecorsair/business/Element;
@@ -3014,13 +3014,13 @@
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModLance;->rampLast:J
 
     .line 348
-    if-eqz v1, :cond_32
+    if-eqz v0, :cond_32
 
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModLance;->rampSince:J
 
     .line 349
     :cond_32
-    const/high16 v1, 0x3f800000    # 1.0f
+    const/high16 v0, 0x3f800000    # 1.0f
 
     sget-wide v4, Lfr/testudo/spacecorsair/mod/ModLance;->rampSince:J
 
@@ -3032,12 +3032,12 @@
 
     div-float/2addr v4, v5
 
-    invoke-static {v1, v4}, Ljava/lang/Math;->min(FF)F
+    invoke-static {v0, v4}, Ljava/lang/Math;->min(FF)F
 
     move-result v7
 
     .line 350
-    iget v1, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->damage:F
+    iget v0, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->damage:F
 
     const/high16 v4, 0x3f800000    # 1.0f
 
@@ -3047,22 +3047,31 @@
 
     add-float/2addr v4, v5
 
-    mul-float/2addr v1, v4
+    mul-float/2addr v0, v4
 
-    iput v1, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->damage:F
+    iput v0, p0, Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;->damage:F
 
     .line 351
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModLance;->lastHit:J
 
     .line 352
-    sget-object v1, Lfr/testudo/spacecorsair/mod/ModLance;->hit:Lfr/testudo/spacecorsair/engine/Vector2;
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModLance;->hit:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v4, p1, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    invoke-virtual {v1, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
+    invoke-virtual {v0, v4}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
     .line 353
-    sput-object p1, Lfr/testudo/spacecorsair/mod/ModLance;->burnTarget:Lfr/testudo/spacecorsair/business/Element;
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModCcef;->immuneTo(Lfr/testudo/spacecorsair/business/Element;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_b8
+
+    const/4 v0, 0x0
+
+    :goto_5b
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModLance;->burnTarget:Lfr/testudo/spacecorsair/business/Element;
 
     .line 354
     const-wide/16 v4, 0xbb8
@@ -3072,13 +3081,13 @@
     sput-wide v2, Lfr/testudo/spacecorsair/mod/ModLance;->burnUntil:J
 
     .line 355
-    sget-object v1, Lfr/testudo/spacecorsair/mod/ModLance;->DPS:[F
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModLance;->DPS:[F
 
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLance;->tier(Lfr/testudo/spacecorsair/business/player/PlayerShip;)I
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLance;->tier(Lfr/testudo/spacecorsair/business/player/PlayerShip;)I
 
-    move-result v0
+    move-result v1
 
-    aget v0, v1, v0
+    aget v0, v0, v1
 
     const/high16 v1, 0x3e800000    # 0.25f
 
@@ -3160,28 +3169,34 @@
     invoke-static/range {v0 .. v13}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
     .line 363
-    :cond_ae
-    :goto_ae
+    :cond_b5
+    :goto_b5
     const/4 v0, 0x1
 
     goto/16 :goto_9
 
+    :cond_b8
+    move-object v0, p1
+
+    .line 353
+    goto :goto_5b
+
     .line 357
-    :cond_b1
-    if-ne p1, v0, :cond_ae
+    :cond_ba
+    if-ne p1, v1, :cond_b5
 
     .line 358
-    invoke-static {p0, v0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModLance;->enemyHit(Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
-    :try_end_b6
-    .catch Ljava/lang/Throwable; {:try_start_a .. :try_end_b6} :catch_b7
+    invoke-static {p0, v1, v2, v3}, Lfr/testudo/spacecorsair/mod/ModLance;->enemyHit(Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
+    :try_end_bf
+    .catch Ljava/lang/Throwable; {:try_start_a .. :try_end_bf} :catch_c0
 
-    goto :goto_ae
+    goto :goto_b5
 
     .line 360
-    :catch_b7
+    :catch_c0
     move-exception v0
 
-    goto :goto_ae
+    goto :goto_b5
 .end method
 
 .method static onLevel()V

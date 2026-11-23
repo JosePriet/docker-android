@@ -318,7 +318,7 @@ public final class ModCapitals {
                 ModArt.lazyTex(pn);   // v42 fix: register the police livery before binding
                 if (polSprites[i] == null) polSprites[i] = ModFx.fixed(pn, SIZE, SIZE, false);
                 if (polSprites[i].myTexture == null) ModFx.rebind(polSprites[i], pn);
-                if (polSprites[i].myTexture != null) return polSprites[i];
+                if (polSprites[i].myTexture != null) return ModCcef.titanLivery(g, polSprites[i]);   // CCEF titan: gunmetal
             }
             if (hullSprites[i] == null) hullSprites[i] = ModFx.fixed("cap_" + c.f.key, SIZE, SIZE, false);
             if (hullSprites[i].myTexture == null) ModFx.rebind(hullSprites[i], "cap_" + c.f.key);
@@ -414,10 +414,13 @@ public final class ModCapitals {
                     ModFx.spr("fx_core", a.x, a.y, 70, 70, 0, 0.5f, 0.2f, 0.8f, pu, true);
                 } else {
                 if (c.police) { on = (t % 700) < 350 ? 1 : 0.15f; on2 = 1.15f - on; }   // v42: police red/blue strobe
+                boolean cc = c.police && ModCcef.isCcef(g);   // CCEF titan: cyan on both sides
                 ModFx.local(g.position, g.spin, nv[0] * sz, nv[1] * sz, a);
-                ModFx.spr("fx_core", a.x, a.y, 60 * (1 + on), 60 * (1 + on), 0, 1, 0.15f, 0.1f, on, true);
+                if (cc) ModFx.spr("fx_core", a.x, a.y, 60 * (1 + on), 60 * (1 + on), 0, ModCcef.R, ModCcef.G, ModCcef.B, on, true);
+                else ModFx.spr("fx_core", a.x, a.y, 60 * (1 + on), 60 * (1 + on), 0, 1, 0.15f, 0.1f, on, true);
                 ModFx.local(g.position, g.spin, nv[2] * sz, nv[3] * sz, a);
-                if (c.police) ModFx.spr("fx_core", a.x, a.y, 70 * (1 + on2), 70 * (1 + on2), 0, 0.15f, 0.4f, 1, on2, true);
+                if (cc) ModFx.spr("fx_core", a.x, a.y, 70 * (1 + on2), 70 * (1 + on2), 0, ModCcef.R, ModCcef.G, ModCcef.B, on2, true);
+                else if (c.police) ModFx.spr("fx_core", a.x, a.y, 70 * (1 + on2), 70 * (1 + on2), 0, 0.15f, 0.4f, 1, on2, true);
                 else ModFx.spr("fx_core", a.x, a.y, 60 * (1 + on), 60 * (1 + on), 0, 0.15f, 1, 0.3f, on, true);
                 }
                 // battle damage as the hull drops

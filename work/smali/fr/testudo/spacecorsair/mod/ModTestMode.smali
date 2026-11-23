@@ -1375,6 +1375,10 @@
     :cond_6
     const/16 v0, 0x1388
 
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModCcef;->jumpTime(I)I
+
+    move-result v0
+
     goto :goto_5
 .end method
 

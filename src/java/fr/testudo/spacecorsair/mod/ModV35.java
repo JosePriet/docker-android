@@ -785,6 +785,7 @@ public class ModV35 {
 
     /** Smali hook at the end of Ennemis.doPhysic (after the stock doIa): steering by advantage while it fights the player. */
     public static void ai(Ennemis e, long j) {
+        if (ModCcef.ai(e, j)) return;   // CCEF squad: its own steering (PR #6 kiting, harder)
         try {
             Element tg = e.attackTarget;
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;

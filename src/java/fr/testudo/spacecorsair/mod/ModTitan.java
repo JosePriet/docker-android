@@ -656,7 +656,7 @@ public final class ModTitan {
             float d0 = done == null ? 0 : done, step = Math.min(pct / DOOM_LANCE_TICKS, pct - d0);
             if (step <= 0) return;                       // this shot's share is used up
             doomDealt.put(e, d0 + step);
-            float slice = e.maxLife * step;
+            float slice = e.maxLife * step * ModCcef.doomScale(e);   // CCEF: half of the capped share
             if (e.life - slice > 1) {                    // straight off the hull: no resistances, no shield
                 e.life -= slice;
                 e.lifeInPourc = e.maxLife > 0 ? 100f * e.life / e.maxLife : 0;

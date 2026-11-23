@@ -62,7 +62,7 @@ public final class ModEvents {
 
     /** Per frame from ModSector.tick, only while flying in an open sector. */
     static void tick(PlayerShip ps, LevelId here, long j) {
-        if (ps == null || here == null || !enabled() || ModCalm.active() || ModPrologue.active) return;
+        if (ps == null || here == null || !enabled() || ModCalm.active() || ModPrologue.active || ModCcef.chase()) return;   // no sector events during a CCEF hunt
         long now = ModSector.play();
         if (nextAt < 0) nextAt = now + FIRST_MS;
         testForce(ps, here);

@@ -3230,7 +3230,7 @@
     :goto_1f
     cmpl-float v0, v1, v2
 
-    if-lez v0, :cond_b0
+    if-lez v0, :cond_b5
 
     .line 655
     invoke-interface {p4, p0}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -3351,6 +3351,12 @@
 
     mul-float/2addr v0, v1
 
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModCcef;->doomScale(Lfr/testudo/spacecorsair/business/Element;)F
+
+    move-result v1
+
+    mul-float/2addr v0, v1
+
     .line 660
     iget v1, p0, Lfr/testudo/spacecorsair/business/Element;->life:F
 
@@ -3360,7 +3366,7 @@
 
     cmpl-float v1, v1, v3
 
-    if-lez v1, :cond_a8
+    if-lez v1, :cond_ad
 
     .line 661
     iget v1, p0, Lfr/testudo/spacecorsair/business/Element;->life:F
@@ -3374,7 +3380,7 @@
 
     cmpl-float v0, v0, v2
 
-    if-lez v0, :cond_92
+    if-lez v0, :cond_97
 
     const/high16 v0, 0x42c80000    # 100.0f
 
@@ -3386,13 +3392,13 @@
 
     div-float v2, v0, v1
 
-    :cond_92
+    :cond_97
     iput v2, p0, Lfr/testudo/spacecorsair/business/Element;->lifeInPourc:F
 
     .line 663
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/Element;->lifeBar:Lfr/testudo/spacecorsair/display/hud/InfoBarEnnemis;
 
-    if-eqz v0, :cond_9f
+    if-eqz v0, :cond_a4
 
     iget-object v0, p0, Lfr/testudo/spacecorsair/business/Element;->lifeBar:Lfr/testudo/spacecorsair/display/hud/InfoBarEnnemis;
 
@@ -3401,19 +3407,19 @@
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/display/hud/InfoBarEnnemis;->setValue(F)V
 
     .line 664
-    :cond_9f
+    :cond_a4
     const v0, 0x3a83126f    # 0.001f
 
     iput v0, p3, Lfr/testudo/spacecorsair/business/projectiles/LaserBeam;->damage:F
 
     .line 671
-    :goto_a4
+    :goto_a9
     invoke-virtual {p0, p3}, Lfr/testudo/spacecorsair/business/Element;->applyProjectileHit(Lfr/testudo/spacecorsair/business/projectiles/Projectile;)V
 
     goto :goto_39
 
     .line 666
-    :cond_a8
+    :cond_ad
     iget v0, p0, Lfr/testudo/spacecorsair/business/Element;->life:F
 
     iget v1, p0, Lfr/testudo/spacecorsair/business/Element;->maxLife:F
@@ -3422,10 +3428,10 @@
 
     iput v0, p3, Lfr/testudo/spacecorsair/business/projectiles/LaserBeam;->damage:F
 
-    goto :goto_a4
+    goto :goto_a9
 
     .line 669
-    :cond_b0
+    :cond_b5
     const v0, 0x47c35000    # 100000.0f
 
     int-to-float v1, p2
@@ -3438,7 +3444,7 @@
 
     iput v0, p3, Lfr/testudo/spacecorsair/business/projectiles/LaserBeam;->damage:F
 
-    goto :goto_a4
+    goto :goto_a9
 .end method
 
 .method static drawOver(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/mod/ModCaps$Profile;)V

@@ -66,11 +66,20 @@ public final class ModAegisDrones {
                     }
                 }
             } else w.next = RESPAWN_MS;
-            for (Ennemis e : w.drones) fly(e, ps, j);
+            for (int i = 0; i < w.drones.size(); i++) {
+                Ennemis e = w.drones.get(i);
+                if (ModTitanAI.AI2_SCREEN && !ps.removed &&
+                        ModTitanAI.screenPoint(formationPoint, g.position, ps.position, i, w.drones.size())) {
+                    ModTitanAI.steer(e.position, e.speed, formationPoint, j);
+                }
+                fly(e, ps, j);
+            }
         } catch (Throwable t) {
             // no drones this frame
         }
     }
+
+    private static final Vector2 formationPoint = new Vector2();
 
     /** Carrier gone (killed, sector change, pooled): its drones go too. */
     static void drop(GuardianCivilShip g) {

@@ -145,7 +145,7 @@ public final class ModCaps {
         ModV34.settleElites();  // audit F16: the game's own elite factors come back off
         // audit B7/B13: player death empties the drone bay; respawn resets the alert sounds
         boolean deadNow = ps == null || ps.removed || ps.life <= 0;
-        if (deadNow && !deadSeen) { deadSeen = true; Mod.dronesOnDeath(); }
+        if (deadNow && !deadSeen) { deadSeen = true; Mod.dronesOnDeath(); ModCcef.playerDied(); }   // CCEF: death ends the hunt
         else if (!deadNow && deadSeen) { deadSeen = false; ModAlerts.reset(); }
         now += j;
         if (ps.shipSpec == null || ps.removed) return;
@@ -178,6 +178,7 @@ public final class ModCaps {
         ModDerelict.tick(ps, j);
         ModSector.tick(ps, j);
         ModPolice.tick(ps, j);   // v42 police escalation
+        ModCcef.tick(ps, j);   // CCEF hunt (owner 2026-11-22)
         ModStationGuns.tick(ps, j);   // v44 station turrets
         ModEnemyGuns.tick(ps, j);   // v43a-15 faction weapon signatures
         ModLance.tick(ps, j);   // v43a-17 Phoenix Lance heat, burn, sweep
@@ -499,6 +500,7 @@ public final class ModCaps {
                 ModFx.spr("fx_streak", ps.position.x, ps.position.y, sz * 3.5f * (0.4f + k), sz * 0.6f, 0, 1, 1, 1, k, true);
             }
             ModTitanAI.drawCallout(ps, sz);
+            ModCcef.drawOver(ps, sz);   // CCEF warp-in countdown
         } catch (Exception e) {
             // visuals never break the frame
         }

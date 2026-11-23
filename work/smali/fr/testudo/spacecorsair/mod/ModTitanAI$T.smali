@@ -99,10 +99,10 @@
     .registers 2
 
     .prologue
-    .line 36
+    .line 80
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 37
+    .line 81
     const/16 v0, 0xfa0
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->a:I
@@ -115,7 +115,7 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->c:I
 
-    .line 42
+    .line 86
     new-instance v0, Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-direct {v0}, Lfr/testudo/spacecorsair/engine/Vector2;-><init>()V
@@ -128,33 +128,33 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->p2:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 45
+    .line 89
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->mirror:Ljava/util/ArrayList;
 
-    .line 46
+    .line 90
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->trail:Ljava/util/ArrayList;
 
-    .line 48
+    .line 92
     const/high16 v0, -0x40800000    # -1.0f
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->baseForce:F
 
-    .line 49
+    .line 93
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModTitanAI$T;->domed:Ljava/util/ArrayList;
 
-    .line 50
+    .line 94
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V

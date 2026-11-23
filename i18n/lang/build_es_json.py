@@ -31,5 +31,6 @@ for k, v in json.load(open(S + '/i18n/gpt/v54_mp_rules_es.json', encoding='utf-8
 for k, v in json.load(open(S + '/i18n/gpt/v45_updates_es.json', encoding='utf-8')).items(): d[k] = v   # v45 in-game updates panel (Claude ES 2026-11-19; owner: simple strings need no GPT pass)
 for k, v in json.load(open(S + '/i18n/gpt/v55_havens_es.json', encoding='utf-8')).items(): d[k] = v   # pirate havens police rescue (Claude ES 2026-11-19; owner: simple strings need no GPT pass)
 for k, v in json.load(open(S + '/i18n/gpt/v57_leveling_es.json', encoding='utf-8')).items(): d[k] = v   # v57 leveling curve (Claude ES 2026-11-18; owner: simple strings need no GPT pass)
+for k, v in json.load(open(S + '/i18n/gpt/v58_ccef_es.json', encoding='utf-8')).items(): d[k] = v   # CCEF hunt (Claude ES 2026-11-22; owner: notices get Spanish)
 json.dump(d, open(S + '/i18n/lang/es_full.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=0, sort_keys=True)
 print('entries', len(d))

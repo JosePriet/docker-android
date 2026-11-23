@@ -246,6 +246,8 @@
 
 .field public static final enum winMultiplayer:Lfr/testudo/spacecorsair/game/achievements/Achievement;
 
+.field public static final enum escapeCertainDeath:Lfr/testudo/spacecorsair/game/achievements/Achievement;
+
 
 # instance fields
 .field public desc:I
@@ -2483,8 +2485,30 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/game/achievements/Achievement;->winMultiplayer:Lfr/testudo/spacecorsair/game/achievements/Achievement;
 
+    new-instance v1, Lfr/testudo/spacecorsair/game/achievements/Achievement;
+
+    const-string v2, "escapeCertainDeath"
+
+    const/16 v3, 0x6d
+
+    const v4, 0x7f0700e3
+
+    const v5, 0x7f0700e4
+
+    sget-object v6, Lfr/testudo/spacecorsair/game/achievements/AchievementKind;->qualitative:Lfr/testudo/spacecorsair/game/achievements/AchievementKind;
+
+    const v7, 0x7f020137
+
+    const-wide/16 v8, 0x1
+
+    const/4 v10, 0x1
+
+    invoke-direct/range {v1 .. v10}, Lfr/testudo/spacecorsair/game/achievements/Achievement;-><init>(Ljava/lang/String;IIILfr/testudo/spacecorsair/game/achievements/AchievementKind;IJZ)V
+
+    sput-object v1, Lfr/testudo/spacecorsair/game/achievements/Achievement;->escapeCertainDeath:Lfr/testudo/spacecorsair/game/achievements/Achievement;
+
     .line 16
-    const/16 v0, 0x6d
+    const/16 v0, 0x6e
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/game/achievements/Achievement;
 
@@ -3142,6 +3166,12 @@
 
     aput-object v2, v0, v1
 
+    const/16 v1, 0x6d
+
+    sget-object v2, Lfr/testudo/spacecorsair/game/achievements/Achievement;->escapeCertainDeath:Lfr/testudo/spacecorsair/game/achievements/Achievement;
+
+    aput-object v2, v0, v1
+
     sput-object v0, Lfr/testudo/spacecorsair/game/achievements/Achievement;->$VALUES:[Lfr/testudo/spacecorsair/game/achievements/Achievement;
 
     .line 246
@@ -3516,6 +3546,18 @@
 .method public getLocalizedDesc()Ljava/lang/String;
     .registers 3
 
+    const/4 v0, 0x1
+
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModCcef;->achText(Lfr/testudo/spacecorsair/game/achievements/Achievement;Z)Ljava/lang/String;
+
+    move-result-object v0
+
+    if-eqz v0, :mod_ccef_stock
+
+    return-object v0
+
+    :mod_ccef_stock
+
     .prologue
     .line 233
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
@@ -3531,6 +3573,18 @@
 
 .method public getLocalizedLabel()Ljava/lang/String;
     .registers 3
+
+    const/4 v0, 0x0
+
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModCcef;->achText(Lfr/testudo/spacecorsair/game/achievements/Achievement;Z)Ljava/lang/String;
+
+    move-result-object v0
+
+    if-eqz v0, :mod_ccef_stock
+
+    return-object v0
+
+    :mod_ccef_stock
 
     .prologue
     .line 229

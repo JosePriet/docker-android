@@ -91,6 +91,8 @@ public final class ModShield {
             if (s.isPlayerShield) {
                 if (ModPolice.regenStopped()) return 0;   // v42: police shield drain stops the regen 3 s
                 if (ModEnemyGuns.ionStopped()) return 0;   // v43a-15: Warden ion arc pauses the regen 2 s
+                float cc = ModCcef.shieldRate(f);   // owner 2026-11-22 01:05: stock rate during a CCEF chase (no curve, no half rate)
+                if (cc >= 0) return cc;
                 if (slow) k *= SLOW;
                 return f * k * ModV34.levelShield();
             }

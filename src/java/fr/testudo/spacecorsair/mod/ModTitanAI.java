@@ -33,6 +33,50 @@ import java.util.WeakHashMap;
 public final class ModTitanAI {
     private ModTitanAI() {}
 
+    // Independent owner switches for the arena prototypes.
+    public static final boolean AI2_SCREEN = false;
+    public static final boolean AI2_KITE = false;
+    public static final boolean AI2_RADIO = false;
+    public static final boolean AI2_PREDICT_ARTILLERY = false;
+
+    /** Stations across the carrier-to-attacker line. Release the wing back to stock chase at rail range. */
+    static boolean screenPoint(Vector2 out, Vector2 carrier, Vector2 target, int slot, int count) {
+        float dx = target.x - carrier.x, dy = target.y - carrier.y;
+        float d = (float) Math.sqrt(dx * dx + dy * dy);
+        if (d <= 1 || d >= ModAegisDrones.RAIL_RANGE) return false;
+        float offset = (slot - (count - 1) * 0.5f) * ModAegisDrones.SIZE;
+        float forward = Math.min(680, d * 0.5f);
+        out.set(carrier.x + (dx * forward - dy * offset) / d,
+                carrier.y + (dy * forward + dx * offset) / d);
+        return true;
+    }
+
+    static void rangePoint(Vector2 out, Vector2 pos, Vector2 target, float near, float far) {
+        float dx = pos.x - target.x, dy = pos.y - target.y;
+        float d = (float) Math.sqrt(dx * dx + dy * dy);
+        if (d < 0.001f) { out.set(target.x + near, target.y); return; }
+        float radius = Math.max(near, Math.min(far, d));
+        out.set(target.x + dx * radius / d, target.y + dy * radius / d);
+    }
+
+    /** Damp stock velocity toward the formation slot without moving the collision box by hand. */
+    static void steer(Vector2 pos, Vector2 speed, Vector2 goal, long ms) {
+        float dx = goal.x - pos.x, dy = goal.y - pos.y;
+        float scale = Math.min(0.01f, 6f / Math.max(1f, (float) Math.sqrt(dx * dx + dy * dy)));
+        float blend = Math.min(1f, Math.max(0L, ms) / 300f);
+        speed.add((dx * scale - speed.x) * blend, (dy * scale - speed.y) * blend);
+    }
+
+    /** World velocity is per 10 ms. The warning and impact share this frozen point.
+     * Lead half the existing two-second fuse, capped at two blast radii for boosted players. */
+    static void artilleryPoint(Vector2 out, Vector2 target, Vector2 speed, boolean predict) {
+        out.setSameAs(target);
+        if (!predict) return;
+        float length = (float) Math.sqrt(speed.x * speed.x + speed.y * speed.y);
+        float scale = Math.min(100f, 760f / Math.max(0.001f, length));
+        out.add(speed.x * scale, speed.y * scale);
+    }
+
     static final class T {
         int a = 4000, b = 7000, c = 10000;   // skill timers
         int act, act2;                        // active effect time left
@@ -330,7 +374,7 @@ public final class ModTitanAI {
             if (enrageNow) { s.plates = full(g); say(g, ModLang.spanish() ? "BLINDAJE RESTAURADO" : "ARMOUR RESTORED", 1.0f, 0.8f, 0.3f); }
             if (s.a <= 0 && dist < 3800) {           // telegraphed artillery
                 s.a = 6000; s.act = 2000; s.hitDone = false;
-                s.p1.setSameAs(ps.position);
+                artilleryPoint(s.p1, ps.position, ps.speed, AI2_PREDICT_ARTILLERY || ModCcef.isCcef(g));   // CCEF titan: PR #6 predictive artillery
                 use(g, f, d[6], 1.0f, 0.8f, 0.3f);
             }
             if (pa > 0 && s.act <= 0 && !s.hitDone) {

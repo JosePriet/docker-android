@@ -68,6 +68,8 @@ public class Mod {
 
     /** 0 = no drone involved (original rules), 1 = same side (no hit), 2 = opposite sides (hit). */
     public static int sideCheck(Element sender, Element target) {
+        int cc = ModCcef.side(sender, target);   // CCEF shots hit hostile NPC ships
+        if (cc != 0) return cc;
         int st = ModStationGuns.side(sender, target);   // v44: station turret shots hit only what the station may shoot
         if (st != 0) return st;
         boolean ds = isDrone(sender);
