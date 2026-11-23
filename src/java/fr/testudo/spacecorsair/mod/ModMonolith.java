@@ -165,7 +165,7 @@ public final class ModMonolith {
     private static final float[] core = new float[3], edge = new float[3];
 
     // ------------------------------------------------------------------ geometry (1024 px sprite -> ship local -> screen)
-    private static float lx(float px) { return ((px + 0.5f) / 1024f - 0.5f) * D; }
+    private static float lx(float px) { return ModSpriteSpace.local(px, D); }
 
     /** Wing-local px point -> ship-local world offset (wing rotated by deg about its pivot), into out. */
     private static Vector2 wingPt(boolean left, float px, float py, float deg, Vector2 out) {

@@ -1,0 +1,948 @@
+kind,symbol or asset,source,status,evidence / limitation
+art,albatros,work/modart/albatros.webp,CONFIRMED,exact key appears in Java source
+art,albatros_glow_e,work/modart/albatros_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,albatros_glow_l,work/modart/albatros_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,aurora,work/modart/aurora.webp,CONFIRMED,exact key appears in Java source
+art,aurora_glow_e,work/modart/aurora_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,aurora_glow_l,work/modart/aurora_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastille,work/modart/bastille.webp,CONFIRMED,exact key appears in Java source
+art,bastille_glow_e,work/modart/bastille_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastille_glow_l,work/modart/bastille_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastion,work/modart/bastion.webp,CONFIRMED,exact key appears in Java source
+art,bastion_stage1,work/modart/bastion_stage1.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,bastion_stage1_glow_e,work/modart/bastion_stage1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastion_stage1_glow_l,work/modart/bastion_stage1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastion_stage2,work/modart/bastion_stage2.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,bastion_stage2_glow_e,work/modart/bastion_stage2_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastion_stage2_glow_l,work/modart/bastion_stage2_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastion_stage3,work/modart/bastion_stage3.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,bastion_stage3_glow_e,work/modart/bastion_stage3_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastion_stage3_glow_l,work/modart/bastion_stage3_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastion_stage4,work/modart/bastion_stage4.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,bastion_stage4_glow_e,work/modart/bastion_stage4_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastion_stage4_glow_l,work/modart/bastion_stage4_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastion_stage5,work/modart/bastion_stage5.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,bastion_stage5_glow_e,work/modart/bastion_stage5_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bastion_stage5_glow_l,work/modart/bastion_stage5_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,boss_enrage_empress,work/modart/boss_enrage_empress.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,boss_enrage_guardian,work/modart/boss_enrage_guardian.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,boss_enrage_matriarch,work/modart/boss_enrage_matriarch.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,boss_sigil_empress,work/modart/boss_sigil_empress.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,boss_sigil_guardian,work/modart/boss_sigil_guardian.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,boss_sigil_matriarch,work/modart/boss_sigil_matriarch.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bulldog,work/modart/bulldog.webp,CONFIRMED,exact key appears in Java source
+art,bulwark,work/modart/bulwark.webp,CONFIRMED,exact key appears in Java source
+art,bulwark_glow_e,work/modart/bulwark_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,bulwark_glow_l,work/modart/bulwark_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_helion,work/modart/cap_helion.webp,CONFIRMED,exact key appears in Java source
+art,cap_helion_glow_e,work/modart/cap_helion_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_helion_glow_l,work/modart/cap_helion_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_ironclad,work/modart/cap_ironclad.webp,CONFIRMED,exact key appears in Java source
+art,cap_ironclad_glow_e,work/modart/cap_ironclad_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_ironclad_glow_l,work/modart/cap_ironclad_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_kretari,work/modart/cap_kretari.webp,CONFIRMED,exact key appears in Java source
+art,cap_kretari_anim_01,work/modart/cap_kretari_anim_01.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,cap_kretari_anim_02,work/modart/cap_kretari_anim_02.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,cap_kretari_anim_03,work/modart/cap_kretari_anim_03.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,cap_kretari_anim_04,work/modart/cap_kretari_anim_04.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,cap_kretari_anim_05,work/modart/cap_kretari_anim_05.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,cap_kretari_anim_06,work/modart/cap_kretari_anim_06.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,cap_kretari_anim_07,work/modart/cap_kretari_anim_07.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,cap_kretari_anim_08,work/modart/cap_kretari_anim_08.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,cap_kretari_glow_e,work/modart/cap_kretari_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_kretari_glow_l,work/modart/cap_kretari_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_kretari_veins,work/modart/cap_kretari_veins.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_reaver,work/modart/cap_reaver.webp,CONFIRMED,exact key appears in Java source
+art,cap_reaver_glow_e,work/modart/cap_reaver_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_reaver_glow_l,work/modart/cap_reaver_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_spartan,work/modart/cap_spartan.webp,CONFIRMED,exact key appears in Java source
+art,cap_spartan_glow_e,work/modart/cap_spartan_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_spartan_glow_l,work/modart/cap_spartan_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_varn,work/modart/cap_varn.webp,CONFIRMED,exact key appears in Java source
+art,cap_varn_glow_e,work/modart/cap_varn_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_varn_glow_l,work/modart/cap_varn_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_warden,work/modart/cap_warden.webp,CONFIRMED,exact key appears in Java source
+art,cap_warden_glow_e,work/modart/cap_warden_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cap_warden_glow_l,work/modart/cap_warden_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cardinal,work/modart/cardinal.webp,CONFIRMED,exact key appears in Java source
+art,cardinal_glow_e,work/modart/cardinal_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cardinal_glow_l,work/modart/cardinal_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,civil1_glow_l,work/modart/civil1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,civil3_glow_l,work/modart/civil3_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cobalt,work/modart/cobalt.webp,CONFIRMED,exact key appears in Java source
+art,cobalt_glow_e,work/modart/cobalt_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,cobalt_glow_l,work/modart/cobalt_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,comet,work/modart/comet.webp,CONFIRMED,exact key appears in Java source
+art,crest_bastion,work/modart/crest_bastion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,crest_leviathan,work/modart/crest_leviathan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,crest_mantis,work/modart/crest_mantis.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,crest_monolith,work/modart/crest_monolith.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,crest_verdant,work/modart/crest_verdant.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,crimson_throne,work/modart/crimson_throne.webp,CONFIRMED,exact key appears in Java source
+art,crimson_throne_glow_e,work/modart/crimson_throne_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,crimson_throne_glow_l,work/modart/crimson_throne_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,croiseur_glow_e,work/modart/croiseur_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,croiseur_glow_l,work/modart/croiseur_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,debris_sheet,work/modart/debris_sheet.webp,CONFIRMED,exact key appears in Java source
+art,defensor_glow_l,work/modart/defensor_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,dev_prototype,work/modart/dev_prototype.webp,CONFIRMED,exact key appears in Java source
+art,drone_aegis,work/modart/drone_aegis.webp,CONFIRMED,exact key appears in Java source
+art,emblem_helion,work/modart/emblem_helion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,emblem_ironclad,work/modart/emblem_ironclad.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,emblem_kretari,work/modart/emblem_kretari.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,emblem_reaver,work/modart/emblem_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,emblem_spartan,work/modart/emblem_spartan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,emblem_varn,work/modart/emblem_varn.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,emblem_warden,work/modart/emblem_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ennemis_1_glow_e,work/modart/ennemis_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ennemis_1_glow_l,work/modart/ennemis_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ennemis_orange_glow_e,work/modart/ennemis_orange_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ennemis_orange_glow_l,work/modart/ennemis_orange_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,flags,work/modart/flags.webp,CONFIRMED,exact key appears in Java source
+art,foundry,work/modart/foundry.webp,CONFIRMED,exact key appears in Java source
+art,foundry_glow_e,work/modart/foundry_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,foundry_glow_l,work/modart/foundry_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,frelon_glow_e,work/modart/frelon_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,frelon_glow_l,work/modart/frelon_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,fx_beam,work/modart/fx_beam.webp,CONFIRMED,exact key appears in Java source
+art,fx_beamcore,work/modart/fx_beamcore.webp,CONFIRMED,exact key appears in Java source
+art,fx_bolt,work/modart/fx_bolt.webp,CONFIRMED,exact key appears in Java source
+art,fx_core,work/modart/fx_core.webp,CONFIRMED,exact key appears in Java source
+art,fx_crack,work/modart/fx_crack.webp,CONFIRMED,exact key appears in Java source
+art,fx_explosion_big_sheet,work/modart/fx_explosion_big_sheet.webp,CONFIRMED,exact key appears in Java source
+art,fx_fire,work/modart/fx_fire.webp,CONFIRMED,exact key appears in Java source
+art,fx_fire_sheet,work/modart/fx_fire_sheet.webp,CONFIRMED,exact key appears in Java source
+art,fx_flame,work/modart/fx_flame.webp,CONFIRMED,exact key appears in Java source
+art,fx_glow,work/modart/fx_glow.webp,CONFIRMED,exact key appears in Java source
+art,fx_hex,work/modart/fx_hex.webp,CONFIRMED,exact key appears in Java source
+art,fx_ichor_sheet,work/modart/fx_ichor_sheet.webp,CONFIRMED,exact key appears in Java source
+art,fx_lance,work/modart/fx_lance.webp,CONFIRMED,exact key appears in Java source
+art,fx_plus,work/modart/fx_plus.webp,CONFIRMED,exact key appears in Java source
+art,fx_ring,work/modart/fx_ring.webp,CONFIRMED,exact key appears in Java source
+art,fx_scorch,work/modart/fx_scorch.webp,CONFIRMED,exact key appears in Java source
+art,fx_shock,work/modart/fx_shock.webp,CONFIRMED,exact key appears in Java source
+art,fx_smoke,work/modart/fx_smoke.webp,CONFIRMED,exact key appears in Java source
+art,fx_smoke_sheet,work/modart/fx_smoke_sheet.webp,CONFIRMED,exact key appears in Java source
+art,fx_spark,work/modart/fx_spark.webp,CONFIRMED,exact key appears in Java source
+art,fx_sparks_sheet,work/modart/fx_sparks_sheet.webp,CONFIRMED,exact key appears in Java source
+art,fx_spore_sheet,work/modart/fx_spore_sheet.webp,CONFIRMED,exact key appears in Java source
+art,fx_streak,work/modart/fx_streak.webp,CONFIRMED,exact key appears in Java source
+art,fx_vent_sheet,work/modart/fx_vent_sheet.webp,CONFIRMED,exact key appears in Java source
+art,graywall,work/modart/graywall.webp,CONFIRMED,exact key appears in Java source
+art,graywall_glow_e,work/modart/graywall_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,graywall_glow_l,work/modart/graywall_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,harbinger,work/modart/harbinger.webp,CONFIRMED,exact key appears in Java source
+art,harbinger_anim_01,work/modart/harbinger_anim_01.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,harbinger_anim_02,work/modart/harbinger_anim_02.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,harbinger_anim_03,work/modart/harbinger_anim_03.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,harbinger_anim_04,work/modart/harbinger_anim_04.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,harbinger_anim_05,work/modart/harbinger_anim_05.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,harbinger_anim_06,work/modart/harbinger_anim_06.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,harbinger_anim_07,work/modart/harbinger_anim_07.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,harbinger_anim_08,work/modart/harbinger_anim_08.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,harbinger_glow_e,work/modart/harbinger_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,harbinger_glow_l,work/modart/harbinger_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,harbinger_veins,work/modart/harbinger_veins.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,helion_battleship_1,work/modart/helion_battleship_1.webp,CONFIRMED,exact key appears in Java source
+art,helion_battleship_1_glow_e,work/modart/helion_battleship_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,helion_battleship_1_glow_l,work/modart/helion_battleship_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,helion_capital_1,work/modart/helion_capital_1.webp,CONFIRMED,exact key appears in Java source
+art,helion_capital_1_glow_e,work/modart/helion_capital_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,helion_capital_1_glow_l,work/modart/helion_capital_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,helion_cruiser_1,work/modart/helion_cruiser_1.webp,CONFIRMED,exact key appears in Java source
+art,helion_cruiser_1_glow_e,work/modart/helion_cruiser_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,helion_cruiser_1_glow_l,work/modart/helion_cruiser_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet,work/modart/hornet.webp,CONFIRMED,exact key appears in Java source
+art,hornet_glow_e,work/modart/hornet_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_glow_l,work/modart/hornet_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage2,work/modart/hornet_stage2.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,hornet_stage2_glow_e,work/modart/hornet_stage2_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage2_glow_l,work/modart/hornet_stage2_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage3,work/modart/hornet_stage3.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,hornet_stage3_glow_e,work/modart/hornet_stage3_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage3_glow_l,work/modart/hornet_stage3_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage4,work/modart/hornet_stage4.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,hornet_stage4_glow_e,work/modart/hornet_stage4_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage4_glow_l,work/modart/hornet_stage4_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage5,work/modart/hornet_stage5.webp,CONFIRMED,exact key appears in Java source
+art,hornet_stage5_core,work/modart/hornet_stage5_core.webp,CONFIRMED,exact key appears in Java source
+art,hornet_stage5_glow_e,work/modart/hornet_stage5_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage5_glow_l,work/modart/hornet_stage5_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage5_hull,work/modart/hornet_stage5_hull.webp,CONFIRMED,exact key appears in Java source
+art,hornet_stage5_hull_glow_e,work/modart/hornet_stage5_hull_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage5_hull_glow_l,work/modart/hornet_stage5_hull_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hornet_stage5_wFL,work/modart/hornet_stage5_wFL.webp,CONFIRMED,exact key appears in Java source
+art,hornet_stage5_wFL_glow_l,work/modart/hornet_stage5_wFL_glow_l.webp,CONFIRMED,exact key appears in Java source
+art,hornet_stage5_wFR,work/modart/hornet_stage5_wFR.webp,CONFIRMED,exact key appears in Java source
+art,hornet_stage5_wFR_glow_l,work/modart/hornet_stage5_wFR_glow_l.webp,CONFIRMED,exact key appears in Java source
+art,hornet_stage5_wRL,work/modart/hornet_stage5_wRL.webp,CONFIRMED,exact key appears in Java source
+art,hornet_stage5_wRL_glow_l,work/modart/hornet_stage5_wRL_glow_l.webp,CONFIRMED,exact key appears in Java source
+art,hornet_stage5_wRR,work/modart/hornet_stage5_wRR.webp,CONFIRMED,exact key appears in Java source
+art,hornet_stage5_wRR_glow_l,work/modart/hornet_stage5_wRR_glow_l.webp,CONFIRMED,exact key appears in Java source
+art,hw_missile_albatros,work/modart/hw_missile_albatros.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_aurora,work/modart/hw_missile_aurora.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_bastille,work/modart/hw_missile_bastille.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_bastion,work/modart/hw_missile_bastion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_bulldog,work/modart/hw_missile_bulldog.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_bulwark,work/modart/hw_missile_bulwark.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_cardinal,work/modart/hw_missile_cardinal.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_cobalt,work/modart/hw_missile_cobalt.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_comet,work/modart/hw_missile_comet.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_crimson_throne,work/modart/hw_missile_crimson_throne.webp,CONFIRMED,exact key appears in Java source
+art,hw_missile_dev_prototype,work/modart/hw_missile_dev_prototype.webp,CONFIRMED,exact key appears in Java source
+art,hw_missile_foundry,work/modart/hw_missile_foundry.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_graywall,work/modart/hw_missile_graywall.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_harbinger,work/modart/hw_missile_harbinger.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_hornet,work/modart/hw_missile_hornet.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_hydra,work/modart/hw_missile_hydra.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_imperator,work/modart/hw_missile_imperator.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_ironside,work/modart/hw_missile_ironside.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_kite,work/modart/hw_missile_kite.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_leviathan,work/modart/hw_missile_leviathan.webp,CONFIRMED,exact key appears in Java source
+art,hw_missile_mantis,work/modart/hw_missile_mantis.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_monolith,work/modart/hw_missile_monolith.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_moth,work/modart/hw_missile_moth.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_mule,work/modart/hw_missile_mule.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_nightjar,work/modart/hw_missile_nightjar.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_raptor,work/modart/hw_missile_raptor.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_raven,work/modart/hw_missile_raven.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_sanctum,work/modart/hw_missile_sanctum.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_secret_helion,work/modart/hw_missile_secret_helion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_secret_ironclad,work/modart/hw_missile_secret_ironclad.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_secret_kretari,work/modart/hw_missile_secret_kretari.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_secret_reaver,work/modart/hw_missile_secret_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_secret_spartan,work/modart/hw_missile_secret_spartan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_secret_varn,work/modart/hw_missile_secret_varn.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_secret_warden,work/modart/hw_missile_secret_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_seraph,work/modart/hw_missile_seraph.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_shade,work/modart/hw_missile_shade.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_sovereign,work/modart/hw_missile_sovereign.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_sunlance,work/modart/hw_missile_sunlance.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_talon,work/modart/hw_missile_talon.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_tempest,work/modart/hw_missile_tempest.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_tidewarden,work/modart/hw_missile_tidewarden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_tortoise,work/modart/hw_missile_tortoise.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_verdant,work/modart/hw_missile_verdant.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_viper,work/modart/hw_missile_viper.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_warlord,work/modart/hw_missile_warlord.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_missile_wraith,work/modart/hw_missile_wraith.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_albatros,work/modart/hw_turret_albatros.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_aurora,work/modart/hw_turret_aurora.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_bastille,work/modart/hw_turret_bastille.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_bastion,work/modart/hw_turret_bastion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_bulldog,work/modart/hw_turret_bulldog.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_bulwark,work/modart/hw_turret_bulwark.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_cap_helion,work/modart/hw_turret_cap_helion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_cap_ironclad,work/modart/hw_turret_cap_ironclad.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_cap_kretari,work/modart/hw_turret_cap_kretari.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_cap_reaver,work/modart/hw_turret_cap_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_cap_spartan,work/modart/hw_turret_cap_spartan.webp,CONFIRMED,exact key appears in Java source
+art,hw_turret_cap_varn,work/modart/hw_turret_cap_varn.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_cap_warden,work/modart/hw_turret_cap_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_cardinal,work/modart/hw_turret_cardinal.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_cobalt,work/modart/hw_turret_cobalt.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_crimson_throne,work/modart/hw_turret_crimson_throne.webp,CONFIRMED,exact key appears in Java source
+art,hw_turret_dev_prototype,work/modart/hw_turret_dev_prototype.webp,CONFIRMED,exact key appears in Java source
+art,hw_turret_foundry,work/modart/hw_turret_foundry.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_graywall,work/modart/hw_turret_graywall.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_harbinger,work/modart/hw_turret_harbinger.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_hornet,work/modart/hw_turret_hornet.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_hydra,work/modart/hw_turret_hydra.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_imperator,work/modart/hw_turret_imperator.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_ironside,work/modart/hw_turret_ironside.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_leviathan,work/modart/hw_turret_leviathan.webp,CONFIRMED,exact key appears in Java source
+art,hw_turret_mantis,work/modart/hw_turret_mantis.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_monolith,work/modart/hw_turret_monolith.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_moth,work/modart/hw_turret_moth.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_mule,work/modart/hw_turret_mule.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_raptor,work/modart/hw_turret_raptor.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_sanctum,work/modart/hw_turret_sanctum.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_secret_helion,work/modart/hw_turret_secret_helion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_secret_ironclad,work/modart/hw_turret_secret_ironclad.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_secret_kretari,work/modart/hw_turret_secret_kretari.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_secret_reaver,work/modart/hw_turret_secret_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_secret_spartan,work/modart/hw_turret_secret_spartan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_secret_varn,work/modart/hw_turret_secret_varn.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_secret_warden,work/modart/hw_turret_secret_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_seraph,work/modart/hw_turret_seraph.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_sovereign,work/modart/hw_turret_sovereign.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_sunlance,work/modart/hw_turret_sunlance.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_tempest,work/modart/hw_turret_tempest.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_tidewarden,work/modart/hw_turret_tidewarden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_tortoise,work/modart/hw_turret_tortoise.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_verdant,work/modart/hw_turret_verdant.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_warlord,work/modart/hw_turret_warlord.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hw_turret_wraith,work/modart/hw_turret_wraith.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hydra,work/modart/hydra.webp,CONFIRMED,exact key appears in Java source
+art,hydra_glow_e,work/modart/hydra_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,hydra_glow_l,work/modart/hydra_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,icon_arc,work/modart/icon_arc.webp,CONFIRMED,exact key appears in Java source
+art,icon_artillery,work/modart/icon_artillery.webp,CONFIRMED,exact key appears in Java source
+art,icon_autocannon,work/modart/icon_autocannon.webp,CONFIRMED,exact key appears in Java source
+art,icon_blaster,work/modart/icon_blaster.webp,CONFIRMED,exact key appears in Java source
+art,icon_boss,work/modart/icon_boss.webp,CONFIRMED,exact key appears in Java source
+art,icon_disintegrator,work/modart/icon_disintegrator.webp,CONFIRMED,exact key appears in Java source
+art,icon_elite,work/modart/icon_elite.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,icon_railgun,work/modart/icon_railgun.webp,CONFIRMED,exact key appears in Java source
+art,icon_skull,work/modart/icon_skull.webp,CONFIRMED,exact key appears in Java source
+art,imperator,work/modart/imperator.webp,CONFIRMED,exact key appears in Java source
+art,imperator_glow_e,work/modart/imperator_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,imperator_glow_l,work/modart/imperator_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ironclad_battlecruiser_1,work/modart/ironclad_battlecruiser_1.webp,CONFIRMED,exact key appears in Java source
+art,ironclad_battlecruiser_1_glow_e,work/modart/ironclad_battlecruiser_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ironclad_battlecruiser_1_glow_l,work/modart/ironclad_battlecruiser_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ironclad_capital_1,work/modart/ironclad_capital_1.webp,CONFIRMED,exact key appears in Java source
+art,ironclad_capital_1_glow_e,work/modart/ironclad_capital_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ironclad_capital_1_glow_l,work/modart/ironclad_capital_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ironclad_destroyer_1,work/modart/ironclad_destroyer_1.webp,CONFIRMED,exact key appears in Java source
+art,ironclad_destroyer_1_glow_e,work/modart/ironclad_destroyer_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ironclad_destroyer_1_glow_l,work/modart/ironclad_destroyer_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ironclad_frigate_1,work/modart/ironclad_frigate_1.webp,CONFIRMED,exact key appears in Java source
+art,ironclad_frigate_1_glow_e,work/modart/ironclad_frigate_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ironclad_frigate_1_glow_l,work/modart/ironclad_frigate_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ironside,work/modart/ironside.webp,CONFIRMED,exact key appears in Java source
+art,ironside_glow_e,work/modart/ironside_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ironside_glow_l,work/modart/ironside_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,kite,work/modart/kite.webp,CONFIRMED,exact key appears in Java source
+art,kt_battlecruiser,work/modart/kt_battlecruiser.webp,CONFIRMED,exact key appears in Java source
+art,kt_battleship,work/modart/kt_battleship.webp,CONFIRMED,exact key appears in Java source
+art,kt_bomber,work/modart/kt_bomber.webp,CONFIRMED,exact key appears in Java source
+art,kt_cruiser,work/modart/kt_cruiser.webp,CONFIRMED,exact key appears in Java source
+art,kt_destroyer,work/modart/kt_destroyer.webp,CONFIRMED,exact key appears in Java source
+art,kt_frigate,work/modart/kt_frigate.webp,CONFIRMED,exact key appears in Java source
+art,kt_heavycruiser,work/modart/kt_heavycruiser.webp,CONFIRMED,exact key appears in Java source
+art,kt_mothership,work/modart/kt_mothership.webp,CONFIRMED,exact key appears in Java source
+art,kt_scout,work/modart/kt_scout.webp,CONFIRMED,exact key appears in Java source
+art,lev_anchor_end,work/modart/lev_anchor_end.webp,CONFIRMED,exact key appears in Java source
+art,lev_anchor_seg,work/modart/lev_anchor_seg.webp,CONFIRMED,exact key appears in Java source
+art,leviathan,work/modart/leviathan.webp,CONFIRMED,exact key appears in Java source
+art,leviathan_glow_e,work/modart/leviathan_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_glow_l,work/modart/leviathan_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage1,work/modart/leviathan_stage1.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,leviathan_stage1_glow_e,work/modart/leviathan_stage1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage1_glow_l,work/modart/leviathan_stage1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage2,work/modart/leviathan_stage2.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,leviathan_stage2_glow_e,work/modart/leviathan_stage2_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage2_glow_l,work/modart/leviathan_stage2_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage3,work/modart/leviathan_stage3.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,leviathan_stage3_glow_e,work/modart/leviathan_stage3_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage3_glow_l,work/modart/leviathan_stage3_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage4,work/modart/leviathan_stage4.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,leviathan_stage4_glow_e,work/modart/leviathan_stage4_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage4_glow_l,work/modart/leviathan_stage4_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage5,work/modart/leviathan_stage5.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,leviathan_stage5_glow_e,work/modart/leviathan_stage5_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage5_glow_l,work/modart/leviathan_stage5_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,leviathan_stage5_ringseg,work/modart/leviathan_stage5_ringseg.webp,CONFIRMED,exact key appears in Java source
+art,leviathan_stage5_spine,work/modart/leviathan_stage5_spine.webp,CONFIRMED,exact key appears in Java source
+art,leviathan_stage5_trims,work/modart/leviathan_stage5_trims.webp,CONFIRMED,exact key appears in Java source
+art,loot_beam,work/modart/loot_beam.webp,CONFIRMED,exact key appears in Java source
+art,mantis,work/modart/mantis.webp,CONFIRMED,exact key appears in Java source
+art,mantis_glow_l,work/modart/mantis_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage1,work/modart/mantis_stage1.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,mantis_stage1_glow_e,work/modart/mantis_stage1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage1_glow_l,work/modart/mantis_stage1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage2,work/modart/mantis_stage2.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,mantis_stage2_glow_e,work/modart/mantis_stage2_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage2_glow_l,work/modart/mantis_stage2_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage3,work/modart/mantis_stage3.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,mantis_stage3_glow_e,work/modart/mantis_stage3_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage3_glow_l,work/modart/mantis_stage3_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage4,work/modart/mantis_stage4.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,mantis_stage4_glow_e,work/modart/mantis_stage4_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage4_glow_l,work/modart/mantis_stage4_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage5,work/modart/mantis_stage5.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,mantis_stage5_glow_e,work/modart/mantis_stage5_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage5_glow_l,work/modart/mantis_stage5_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage5_hull,work/modart/mantis_stage5_hull.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage5_hull_glow_e,work/modart/mantis_stage5_hull_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage5_hull_glow_l,work/modart/mantis_stage5_hull_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage5_wingL,work/modart/mantis_stage5_wingL.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage5_wingL_glow_l,work/modart/mantis_stage5_wingL_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage5_wingR,work/modart/mantis_stage5_wingR.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mantis_stage5_wingR_glow_l,work/modart/mantis_stage5_wingR_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,map_border,work/modart/map_border.webp,CONFIRMED,exact key appears in Java source
+art,map_territory_helion,work/modart/map_territory_helion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,map_territory_ironclad,work/modart/map_territory_ironclad.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,map_territory_kretari,work/modart/map_territory_kretari.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,map_territory_reaver,work/modart/map_territory_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,map_territory_spartan,work/modart/map_territory_spartan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,map_territory_varn,work/modart/map_territory_varn.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,map_territory_warden,work/modart/map_territory_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,marker_friendly,work/modart/marker_friendly.webp,CONFIRMED,exact key appears in Java source
+art,marker_hostile,work/modart/marker_hostile.webp,CONFIRMED,exact key appears in Java source
+art,mfx_mono_aura_hull_a,work/modart/mfx_mono_aura_hull_a.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_mono_aura_hull_ai,work/modart/mfx_mono_aura_hull_ai.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_mono_aura_s4_a,work/modart/mfx_mono_aura_s4_a.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_mono_aura_s4_ai,work/modart/mfx_mono_aura_s4_ai.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_mono_aura_wing_a,work/modart/mfx_mono_aura_wing_a.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_mono_aura_wing_ai,work/modart/mfx_mono_aura_wing_ai.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_mono_plasma_core,work/modart/mfx_mono_plasma_core.webp,CONFIRMED,exact key appears in Java source
+art,mfx_mono_plasma_glow,work/modart/mfx_mono_plasma_glow.webp,CONFIRMED,exact key appears in Java source
+art,mfx_mono_plasma_white,work/modart/mfx_mono_plasma_white.webp,CONFIRMED,exact key appears in Java source
+art,mfx_pa_albatros,work/modart/mfx_pa_albatros.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_aurora,work/modart/mfx_pa_aurora.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_bastion,work/modart/mfx_pa_bastion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_bulldog,work/modart/mfx_pa_bulldog.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_cap_helion,work/modart/mfx_pa_cap_helion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_cap_ironclad,work/modart/mfx_pa_cap_ironclad.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_cap_kretari,work/modart/mfx_pa_cap_kretari.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_cap_reaver,work/modart/mfx_pa_cap_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_cap_spartan,work/modart/mfx_pa_cap_spartan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_cap_varn,work/modart/mfx_pa_cap_varn.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_cap_warden,work/modart/mfx_pa_cap_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_comet,work/modart/mfx_pa_comet.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_crimson_throne,work/modart/mfx_pa_crimson_throne.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_harbinger,work/modart/mfx_pa_harbinger.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_hornet,work/modart/mfx_pa_hornet.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_kite,work/modart/mfx_pa_kite.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_kt_battlecruiser,work/modart/mfx_pa_kt_battlecruiser.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_kt_battleship,work/modart/mfx_pa_kt_battleship.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_kt_bomber,work/modart/mfx_pa_kt_bomber.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_kt_cruiser,work/modart/mfx_pa_kt_cruiser.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_kt_destroyer,work/modart/mfx_pa_kt_destroyer.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_kt_frigate,work/modart/mfx_pa_kt_frigate.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_kt_heavycruiser,work/modart/mfx_pa_kt_heavycruiser.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_kt_mothership,work/modart/mfx_pa_kt_mothership.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_kt_scout,work/modart/mfx_pa_kt_scout.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_leviathan,work/modart/mfx_pa_leviathan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_mantis,work/modart/mfx_pa_mantis.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_monolith,work/modart/mfx_pa_monolith.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_nightjar,work/modart/mfx_pa_nightjar.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_raptor,work/modart/mfx_pa_raptor.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_raven,work/modart/mfx_pa_raven.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_rv_corsair,work/modart/mfx_pa_rv_corsair.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_rv_dreadnought,work/modart/mfx_pa_rv_dreadnought.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_rv_gunship,work/modart/mfx_pa_rv_gunship.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_rv_hunter,work/modart/mfx_pa_rv_hunter.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_rv_lancer,work/modart/mfx_pa_rv_lancer.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_rv_marauder,work/modart/mfx_pa_rv_marauder.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_rv_raider,work/modart/mfx_pa_rv_raider.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_rv_warlord,work/modart/mfx_pa_rv_warlord.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_secret_helion,work/modart/mfx_pa_secret_helion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_secret_kretari,work/modart/mfx_pa_secret_kretari.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_secret_reaver,work/modart/mfx_pa_secret_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_secret_spartan,work/modart/mfx_pa_secret_spartan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_secret_warden,work/modart/mfx_pa_secret_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_seraph,work/modart/mfx_pa_seraph.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_shade,work/modart/mfx_pa_shade.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_talon,work/modart/mfx_pa_talon.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_tidewarden,work/modart/mfx_pa_tidewarden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_verdant,work/modart/mfx_pa_verdant.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_viper,work/modart/mfx_pa_viper.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mfx_pa_warlord,work/modart/mfx_pa_warlord.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,missile_dev,work/modart/missile_dev.webp,CONFIRMED,exact key appears in Java source
+art,mobile_shop_icon_glow_e,work/modart/mobile_shop_icon_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mobile_shop_icon_glow_l,work/modart/mobile_shop_icon_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith,work/modart/monolith.webp,CONFIRMED,exact key appears in Java source
+art,monolith_glow_e,work/modart/monolith_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_glow_l,work/modart/monolith_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage1,work/modart/monolith_stage1.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,monolith_stage1_glow_e,work/modart/monolith_stage1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage1_glow_l,work/modart/monolith_stage1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage2,work/modart/monolith_stage2.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,monolith_stage2_glow_e,work/modart/monolith_stage2_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage2_glow_l,work/modart/monolith_stage2_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage3,work/modart/monolith_stage3.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,monolith_stage3_glow_e,work/modart/monolith_stage3_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage3_glow_l,work/modart/monolith_stage3_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage4,work/modart/monolith_stage4.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,monolith_stage4_aura,work/modart/monolith_stage4_aura.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,monolith_stage4_glow_e,work/modart/monolith_stage4_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage4_glow_l,work/modart/monolith_stage4_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage4_hot,work/modart/monolith_stage4_hot.webp,CONFIRMED,exact key appears in Java source
+art,monolith_stage5,work/modart/monolith_stage5.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,monolith_stage5_glow_e,work/modart/monolith_stage5_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage5_glow_l,work/modart/monolith_stage5_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage5_hull,work/modart/monolith_stage5_hull.webp,CONFIRMED,exact key appears in Java source
+art,monolith_stage5_hull_aura,work/modart/monolith_stage5_hull_aura.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,monolith_stage5_hull_glow_e,work/modart/monolith_stage5_hull_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage5_hull_glow_l,work/modart/monolith_stage5_hull_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage5_hull_hot,work/modart/monolith_stage5_hull_hot.webp,CONFIRMED,exact key appears in Java source
+art,monolith_stage5_wingL,work/modart/monolith_stage5_wingL.webp,CONFIRMED,exact key appears in Java source
+art,monolith_stage5_wingL_aura,work/modart/monolith_stage5_wingL_aura.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,monolith_stage5_wingL_glow_e,work/modart/monolith_stage5_wingL_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage5_wingL_glow_l,work/modart/monolith_stage5_wingL_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage5_wingL_hot,work/modart/monolith_stage5_wingL_hot.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage5_wingR,work/modart/monolith_stage5_wingR.webp,CONFIRMED,exact key appears in Java source
+art,monolith_stage5_wingR_aura,work/modart/monolith_stage5_wingR_aura.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,monolith_stage5_wingR_glow_e,work/modart/monolith_stage5_wingR_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage5_wingR_glow_l,work/modart/monolith_stage5_wingR_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,monolith_stage5_wingR_hot,work/modart/monolith_stage5_wingR_hot.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,moth,work/modart/moth.webp,CONFIRMED,exact key appears in Java source
+art,moth_glow_e,work/modart/moth_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,moth_glow_l,work/modart/moth_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,mule,work/modart/mule.webp,CONFIRMED,exact key appears in Java source
+art,nightjar,work/modart/nightjar.webp,CONFIRMED,exact key appears in Java source
+art,nightjar_glow_e,work/modart/nightjar_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,nightjar_glow_l,work/modart/nightjar_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_alien_blatte,work/modart/orig_alien_blatte.webp,CONFIRMED,exact key appears in Java source
+art,orig_alien_blatte_anim_01,work/modart/orig_alien_blatte_anim_01.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_blatte_anim_02,work/modart/orig_alien_blatte_anim_02.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_blatte_anim_03,work/modart/orig_alien_blatte_anim_03.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_blatte_anim_04,work/modart/orig_alien_blatte_anim_04.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_blatte_anim_05,work/modart/orig_alien_blatte_anim_05.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_blatte_anim_06,work/modart/orig_alien_blatte_anim_06.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_blatte_anim_07,work/modart/orig_alien_blatte_anim_07.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_blatte_anim_08,work/modart/orig_alien_blatte_anim_08.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_blatte_glow_l,work/modart/orig_alien_blatte_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_alien_blatte_veins,work/modart/orig_alien_blatte_veins.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_alien_rat0,work/modart/orig_alien_rat0.webp,CONFIRMED,exact key appears in Java source
+art,orig_alien_rat0_anim_01,work/modart/orig_alien_rat0_anim_01.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_rat0_anim_02,work/modart/orig_alien_rat0_anim_02.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_rat0_anim_03,work/modart/orig_alien_rat0_anim_03.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_rat0_anim_04,work/modart/orig_alien_rat0_anim_04.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_rat0_anim_05,work/modart/orig_alien_rat0_anim_05.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_rat0_anim_06,work/modart/orig_alien_rat0_anim_06.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_rat0_anim_07,work/modart/orig_alien_rat0_anim_07.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_rat0_anim_08,work/modart/orig_alien_rat0_anim_08.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,orig_alien_rat0_glow_e,work/modart/orig_alien_rat0_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_alien_rat0_glow_l,work/modart/orig_alien_rat0_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_alien_rat0_veins,work/modart/orig_alien_rat0_veins.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_croiseur_gentil,work/modart/orig_croiseur_gentil.webp,CONFIRMED,exact key appears in Java source
+art,orig_croiseur_gentil_glow_e,work/modart/orig_croiseur_gentil_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_croiseur_gentil_glow_l,work/modart/orig_croiseur_gentil_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_player_ship_condor,work/modart/orig_player_ship_condor.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_player_ship_corvette,work/modart/orig_player_ship_corvette.webp,CONFIRMED,exact key appears in Java source
+art,orig_player_ship_corvette_glow_e,work/modart/orig_player_ship_corvette_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_player_ship_corvette_glow_l,work/modart/orig_player_ship_corvette_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_player_ship_hullbreaker,work/modart/orig_player_ship_hullbreaker.webp,CONFIRMED,exact key appears in Java source
+art,orig_player_ship_hullbreaker_glow_e,work/modart/orig_player_ship_hullbreaker_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_player_ship_hullbreaker_glow_l,work/modart/orig_player_ship_hullbreaker_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_playership_3,work/modart/orig_playership_3.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_police,work/modart/orig_police.webp,CONFIRMED,exact key appears in Java source
+art,orig_police_glow_e,work/modart/orig_police_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,orig_police_glow_l,work/modart/orig_police_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,player_titan_signature,work/modart/player_titan_signature.webp,CONFIRMED,exact key appears in Java source
+art,poi_base_helion,work/modart/poi_base_helion.webp,CONFIRMED,exact key appears in Java source
+art,poi_base_ironclad,work/modart/poi_base_ironclad.webp,CONFIRMED,exact key appears in Java source
+art,poi_base_kretari,work/modart/poi_base_kretari.webp,CONFIRMED,exact key appears in Java source
+art,poi_base_reaver,work/modart/poi_base_reaver.webp,CONFIRMED,exact key appears in Java source
+art,poi_base_spartan,work/modart/poi_base_spartan.webp,CONFIRMED,exact key appears in Java source
+art,poi_base_varn,work/modart/poi_base_varn.webp,CONFIRMED,exact key appears in Java source
+art,poi_base_warden,work/modart/poi_base_warden.webp,CONFIRMED,exact key appears in Java source
+art,poi_mining_1,work/modart/poi_mining_1.webp,CONFIRMED,exact key appears in Java source
+art,poi_mining_2,work/modart/poi_mining_2.webp,CONFIRMED,exact key appears in Java source
+art,poi_mining_3,work/modart/poi_mining_3.webp,CONFIRMED,exact key appears in Java source
+art,poi_outpost_1,work/modart/poi_outpost_1.webp,CONFIRMED,exact key appears in Java source
+art,poi_outpost_2,work/modart/poi_outpost_2.webp,CONFIRMED,exact key appears in Java source
+art,poi_outpost_3,work/modart/poi_outpost_3.webp,CONFIRMED,exact key appears in Java source
+art,polfx_drop,work/modart/polfx_drop.webp,CONFIRMED,exact key appears in Java source
+art,portrait_helion,work/modart/portrait_helion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,portrait_ironclad,work/modart/portrait_ironclad.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,portrait_kretari,work/modart/portrait_kretari.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,portrait_reaver,work/modart/portrait_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,portrait_spartan,work/modart/portrait_spartan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,portrait_varn,work/modart/portrait_varn.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,portrait_warden,work/modart/portrait_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,proj_cap_helion,work/modart/proj_cap_helion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,proj_cap_ironclad,work/modart/proj_cap_ironclad.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,proj_cap_kretari,work/modart/proj_cap_kretari.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,proj_cap_reaver,work/modart/proj_cap_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,proj_cap_spartan,work/modart/proj_cap_spartan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,proj_cap_varn,work/modart/proj_cap_varn.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,proj_cap_warden,work/modart/proj_cap_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,raptor,work/modart/raptor.webp,CONFIRMED,exact key appears in Java source
+art,raptor_glow_e,work/modart/raptor_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,raptor_glow_l,work/modart/raptor_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,raven,work/modart/raven.webp,CONFIRMED,exact key appears in Java source
+art,raven_glow_e,work/modart/raven_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,raven_glow_l,work/modart/raven_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,rocket_tourelle_base_glow_l,work/modart/rocket_tourelle_base_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,rocket_tourelle_glow_e,work/modart/rocket_tourelle_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,rocket_tourelle_glow_l,work/modart/rocket_tourelle_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,rv_corsair,work/modart/rv_corsair.webp,CONFIRMED,exact key appears in Java source
+art,rv_dreadnought,work/modart/rv_dreadnought.webp,CONFIRMED,exact key appears in Java source
+art,rv_gunship,work/modart/rv_gunship.webp,CONFIRMED,exact key appears in Java source
+art,rv_hunter,work/modart/rv_hunter.webp,CONFIRMED,exact key appears in Java source
+art,rv_lancer,work/modart/rv_lancer.webp,CONFIRMED,exact key appears in Java source
+art,rv_marauder,work/modart/rv_marauder.webp,CONFIRMED,exact key appears in Java source
+art,rv_raider,work/modart/rv_raider.webp,CONFIRMED,exact key appears in Java source
+art,rv_warlord,work/modart/rv_warlord.webp,CONFIRMED,exact key appears in Java source
+art,sanctum,work/modart/sanctum.webp,CONFIRMED,exact key appears in Java source
+art,sanctum_glow_e,work/modart/sanctum_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,sanctum_glow_l,work/modart/sanctum_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_helion,work/modart/secret_helion.webp,CONFIRMED,exact key appears in Java source
+art,secret_helion_glow_e,work/modart/secret_helion_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_helion_glow_l,work/modart/secret_helion_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_ironclad,work/modart/secret_ironclad.webp,CONFIRMED,exact key appears in Java source
+art,secret_ironclad_glow_e,work/modart/secret_ironclad_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_ironclad_glow_l,work/modart/secret_ironclad_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_kretari,work/modart/secret_kretari.webp,CONFIRMED,exact key appears in Java source
+art,secret_kretari_anim_01,work/modart/secret_kretari_anim_01.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,secret_kretari_anim_02,work/modart/secret_kretari_anim_02.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,secret_kretari_anim_03,work/modart/secret_kretari_anim_03.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,secret_kretari_anim_04,work/modart/secret_kretari_anim_04.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,secret_kretari_anim_05,work/modart/secret_kretari_anim_05.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,secret_kretari_anim_06,work/modart/secret_kretari_anim_06.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,secret_kretari_anim_07,work/modart/secret_kretari_anim_07.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,secret_kretari_anim_08,work/modart/secret_kretari_anim_08.webp,CONFIRMED,known hull art and indexed animation in ModLive.java:315
+art,secret_kretari_glow_e,work/modart/secret_kretari_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_kretari_glow_l,work/modart/secret_kretari_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_kretari_veins,work/modart/secret_kretari_veins.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_reaver,work/modart/secret_reaver.webp,CONFIRMED,exact key appears in Java source
+art,secret_reaver_glow_e,work/modart/secret_reaver_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_reaver_glow_l,work/modart/secret_reaver_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_spartan,work/modart/secret_spartan.webp,CONFIRMED,exact key appears in Java source
+art,secret_spartan_glow_e,work/modart/secret_spartan_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_spartan_glow_l,work/modart/secret_spartan_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_varn,work/modart/secret_varn.webp,CONFIRMED,exact key appears in Java source
+art,secret_varn_glow_e,work/modart/secret_varn_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_varn_glow_l,work/modart/secret_varn_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_warden,work/modart/secret_warden.webp,CONFIRMED,exact key appears in Java source
+art,secret_warden_glow_e,work/modart/secret_warden_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,secret_warden_glow_l,work/modart/secret_warden_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,seraph,work/modart/seraph.webp,CONFIRMED,exact key appears in Java source
+art,shade,work/modart/shade.webp,CONFIRMED,exact key appears in Java source
+art,shield_pulse,work/modart/shield_pulse.webp,CONFIRMED,exact key appears in Java source
+art,shield_ripple,work/modart/shield_ripple.webp,CONFIRMED,exact key appears in Java source
+art,shield_segment,work/modart/shield_segment.webp,CONFIRMED,exact key appears in Java source
+art,shield_shell,work/modart/shield_shell.webp,CONFIRMED,exact key appears in Java source
+art,shield_sputter_sheet,work/modart/shield_sputter_sheet.webp,CONFIRMED,exact key appears in Java source
+art,sovereign,work/modart/sovereign.webp,CONFIRMED,exact key appears in Java source
+art,sovereign_glow_e,work/modart/sovereign_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,sovereign_glow_l,work/modart/sovereign_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,spartan_frigate_1,work/modart/spartan_frigate_1.webp,CONFIRMED,exact key appears in Java source
+art,spartan_frigate_1_glow_e,work/modart/spartan_frigate_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,spartan_frigate_1_glow_l,work/modart/spartan_frigate_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,sunlance,work/modart/sunlance.webp,CONFIRMED,exact key appears in Java source
+art,sunlance_glow_e,work/modart/sunlance_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,sunlance_glow_l,work/modart/sunlance_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,talon,work/modart/talon.webp,CONFIRMED,exact key appears in Java source
+art,taupe_ship_glow_l,work/modart/taupe_ship_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,tele_cap_ironclad,work/modart/tele_cap_ironclad.webp,CONFIRMED,exact key appears in Java source
+art,tele_cap_reaver,work/modart/tele_cap_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,tele_cap_warden,work/modart/tele_cap_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,tempest,work/modart/tempest.webp,CONFIRMED,exact key appears in Java source
+art,tempest_glow_e,work/modart/tempest_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,tempest_glow_l,work/modart/tempest_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,tidewarden,work/modart/tidewarden.webp,CONFIRMED,exact key appears in Java source
+art,titan_decal_helion,work/modart/titan_decal_helion.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,titan_decal_ironclad,work/modart/titan_decal_ironclad.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,titan_decal_kretari,work/modart/titan_decal_kretari.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,titan_decal_reaver,work/modart/titan_decal_reaver.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,titan_decal_spartan,work/modart/titan_decal_spartan.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,titan_decal_varn,work/modart/titan_decal_varn.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,titan_decal_warden,work/modart/titan_decal_warden.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,titan_signature_helion,work/modart/titan_signature_helion.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,titan_signature_ironclad,work/modart/titan_signature_ironclad.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,titan_signature_kretari,work/modart/titan_signature_kretari.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,titan_signature_reaver,work/modart/titan_signature_reaver.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,titan_signature_spartan,work/modart/titan_signature_spartan.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,titan_signature_varn,work/modart/titan_signature_varn.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,titan_signature_warden,work/modart/titan_signature_warden.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,tortoise,work/modart/tortoise.webp,CONFIRMED,exact key appears in Java source
+art,tortoise_glow_e,work/modart/tortoise_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,tortoise_glow_l,work/modart/tortoise_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,tourelle_base_fixe_glow_e,work/modart/tourelle_base_fixe_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,tourelle_base_fixe_glow_l,work/modart/tourelle_base_fixe_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,tourelle_glow_l,work/modart/tourelle_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,transporteur_glow_e,work/modart/transporteur_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,transporteur_glow_l,work/modart/transporteur_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_arc_l,work/modart/turret_arc_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_arc_m,work/modart/turret_arc_m.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_arc_s,work/modart/turret_arc_s.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_artillery_l,work/modart/turret_artillery_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_artillery_m,work/modart/turret_artillery_m.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_artillery_s,work/modart/turret_artillery_s.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_autocannon_l,work/modart/turret_autocannon_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_autocannon_m,work/modart/turret_autocannon_m.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_autocannon_s,work/modart/turret_autocannon_s.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_blaster_l,work/modart/turret_blaster_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_blaster_m,work/modart/turret_blaster_m.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_blaster_s,work/modart/turret_blaster_s.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_cannon,work/modart/turret_cannon.webp,CONFIRMED,exact key appears in Java source
+art,turret_dev,work/modart/turret_dev.webp,CONFIRMED,exact key appears in Java source
+art,turret_disintegrator_l,work/modart/turret_disintegrator_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_disintegrator_m,work/modart/turret_disintegrator_m.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_disintegrator_s,work/modart/turret_disintegrator_s.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_heavy,work/modart/turret_heavy.webp,CONFIRMED,exact key appears in Java source
+art,turret_laser,work/modart/turret_laser.webp,CONFIRMED,exact key appears in Java source
+art,turret_railgun_l,work/modart/turret_railgun_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_railgun_m,work/modart/turret_railgun_m.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,turret_railgun_s,work/modart/turret_railgun_s.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,ui_boss_plate,work/modart/ui_boss_plate.webp,CONFIRMED,exact key appears in Java source
+art,ui_fit_bg,work/modart/ui_fit_bg.webp,CONFIRMED,exact key appears in Java source
+art,ui_fit_ring,work/modart/ui_fit_ring.webp,CONFIRMED,exact key appears in Java source
+art,ui_fit_slot,work/modart/ui_fit_slot.webp,CONFIRMED,exact key appears in Java source
+art,ui_fit_slot_empty,work/modart/ui_fit_slot_empty.webp,CONFIRMED,exact key appears in Java source
+art,ui_tree_bg,work/modart/ui_tree_bg.webp,CONFIRMED,exact key appears in Java source
+art,ui_tree_card,work/modart/ui_tree_card.webp,CONFIRMED,exact key appears in Java source
+art,ui_tree_card_sel,work/modart/ui_tree_card_sel.webp,CONFIRMED,exact key appears in Java source
+art,ui_tree_header,work/modart/ui_tree_header.webp,CONFIRMED,exact key appears in Java source
+art,ui_tree_node,work/modart/ui_tree_node.webp,SUSPECTED,no exact Java key or matched composition; inspect asset listing and generated lookups
+art,varn_frigate_1,work/modart/varn_frigate_1.webp,CONFIRMED,exact key appears in Java source
+art,varn_frigate_1_glow_e,work/modart/varn_frigate_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,varn_frigate_1_glow_l,work/modart/varn_frigate_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant,work/modart/verdant.webp,CONFIRMED,exact key appears in Java source
+art,verdant_glow_e,work/modart/verdant_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_glow_l,work/modart/verdant_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage1,work/modart/verdant_stage1.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,verdant_stage1_glow_e,work/modart/verdant_stage1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage1_glow_l,work/modart/verdant_stage1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage2,work/modart/verdant_stage2.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,verdant_stage2_glow_e,work/modart/verdant_stage2_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage2_glow_l,work/modart/verdant_stage2_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage3,work/modart/verdant_stage3.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,verdant_stage3_glow_e,work/modart/verdant_stage3_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage3_glow_l,work/modart/verdant_stage3_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage4,work/modart/verdant_stage4.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,verdant_stage4_glow_e,work/modart/verdant_stage4_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage4_glow_l,work/modart/verdant_stage4_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage5,work/modart/verdant_stage5.webp,CONFIRMED,known hull art and stage key lookup in ModV35.java:574
+art,verdant_stage5_glow_e,work/modart/verdant_stage5_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage5_glow_l,work/modart/verdant_stage5_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage5_hull,work/modart/verdant_stage5_hull.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage5_hull_glow_e,work/modart/verdant_stage5_hull_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage5_hull_glow_l,work/modart/verdant_stage5_hull_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage5_wingL,work/modart/verdant_stage5_wingL.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage5_wingL_glow_l,work/modart/verdant_stage5_wingL_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage5_wingR,work/modart/verdant_stage5_wingR.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,verdant_stage5_wingR_glow_l,work/modart/verdant_stage5_wingR_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,vfx_doomsday_charge,work/modart/vfx_doomsday_charge.webp,CONFIRMED,exact key appears in Java source
+art,vfx_explosion_sheet,work/modart/vfx_explosion_sheet.webp,CONFIRMED,exact key appears in Java source
+art,vfx_lance_core,work/modart/vfx_lance_core.webp,CONFIRMED,exact key appears in Java source
+art,vfx_nova_ring,work/modart/vfx_nova_ring.webp,CONFIRMED,exact key appears in Java source
+art,vfx_shield_bubble,work/modart/vfx_shield_bubble.webp,CONFIRMED,exact key appears in Java source
+art,vfx_shield_hit,work/modart/vfx_shield_hit.webp,CONFIRMED,exact key appears in Java source
+art,viper,work/modart/viper.webp,CONFIRMED,exact key appears in Java source
+art,warden_battlecruiser_1,work/modart/warden_battlecruiser_1.webp,CONFIRMED,exact key appears in Java source
+art,warden_battlecruiser_1_glow_e,work/modart/warden_battlecruiser_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,warden_battlecruiser_1_glow_l,work/modart/warden_battlecruiser_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,warden_battleship_1,work/modart/warden_battleship_1.webp,CONFIRMED,exact key appears in Java source
+art,warden_battleship_1_glow_e,work/modart/warden_battleship_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,warden_battleship_1_glow_l,work/modart/warden_battleship_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,warden_capital_1,work/modart/warden_capital_1.webp,CONFIRMED,exact key appears in Java source
+art,warden_capital_1_glow_e,work/modart/warden_capital_1_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,warden_capital_1_glow_l,work/modart/warden_capital_1_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,warlord,work/modart/warlord.webp,CONFIRMED,exact key appears in Java source
+art,warlord_glow_e,work/modart/warlord_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,warlord_glow_l,work/modart/warlord_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wraith,work/modart/wraith.webp,CONFIRMED,exact key appears in Java source
+art,wraith_glow_e,work/modart/wraith_glow_e.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wraith_glow_l,work/modart/wraith_glow_l.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_helion_a,work/modart/wrd_cap_helion_a.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_helion_b,work/modart/wrd_cap_helion_b.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_ironclad_a,work/modart/wrd_cap_ironclad_a.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_ironclad_b,work/modart/wrd_cap_ironclad_b.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_kretari_a,work/modart/wrd_cap_kretari_a.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_kretari_b,work/modart/wrd_cap_kretari_b.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_reaver_a,work/modart/wrd_cap_reaver_a.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_reaver_b,work/modart/wrd_cap_reaver_b.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_spartan_a,work/modart/wrd_cap_spartan_a.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_spartan_b,work/modart/wrd_cap_spartan_b.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_varn_a,work/modart/wrd_cap_varn_a.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_varn_b,work/modart/wrd_cap_varn_b.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_warden_a,work/modart/wrd_cap_warden_a.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wrd_cap_warden_b,work/modart/wrd_cap_warden_b.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wreck_char,work/modart/wreck_char.webp,SUSPECTED,possible runtime-composed key; family prefix/suffix only
+art,wreck_edge,work/modart/wreck_edge.webp,CONFIRMED,exact key appears in Java source
+data row,ModFactionData->FLAGSHIP_DESC:[Ljava/lang/String;[0],src/java/fr/testudo/spacecorsair/mod/ModFactionData.java:10,SUSPECTED,enclosing table has no resolved consumer
+data row,ModFactionData->FLAGSHIP_DESC:[Ljava/lang/String;[1],src/java/fr/testudo/spacecorsair/mod/ModFactionData.java:10,SUSPECTED,enclosing table has no resolved consumer
+data row,ModFactionData->FLAGSHIP_DESC:[Ljava/lang/String;[2],src/java/fr/testudo/spacecorsair/mod/ModFactionData.java:10,SUSPECTED,enclosing table has no resolved consumer
+data row,ModFactionData->FLAGSHIP_DESC:[Ljava/lang/String;[3],src/java/fr/testudo/spacecorsair/mod/ModFactionData.java:10,SUSPECTED,enclosing table has no resolved consumer
+data row,ModFactionData->FLAGSHIP_DESC:[Ljava/lang/String;[4],src/java/fr/testudo/spacecorsair/mod/ModFactionData.java:10,SUSPECTED,enclosing table has no resolved consumer
+data row,ModFactionData->FLAGSHIP_DESC:[Ljava/lang/String;[5],src/java/fr/testudo/spacecorsair/mod/ModFactionData.java:10,SUSPECTED,enclosing table has no resolved consumer
+data row,ModFactionData->FLAGSHIP_DESC:[Ljava/lang/String;[6],src/java/fr/testudo/spacecorsair/mod/ModFactionData.java:10,SUSPECTED,enclosing table has no resolved consumer
+data row,ModHornet->W:[Ljava/lang/String;[0],src/java/fr/testudo/spacecorsair/mod/ModHornet.java:47,SUSPECTED,enclosing table has no resolved consumer
+data row,ModHornet->W:[Ljava/lang/String;[1],src/java/fr/testudo/spacecorsair/mod/ModHornet.java:47,SUSPECTED,enclosing table has no resolved consumer
+data row,ModHornet->W:[Ljava/lang/String;[2],src/java/fr/testudo/spacecorsair/mod/ModHornet.java:47,SUSPECTED,enclosing table has no resolved consumer
+data row,ModHornet->W:[Ljava/lang/String;[3],src/java/fr/testudo/spacecorsair/mod/ModHornet.java:47,SUSPECTED,enclosing table has no resolved consumer
+data row,ModLance->PRICE:[I[0],src/java/fr/testudo/spacecorsair/mod/ModLance.java:48,SUSPECTED,enclosing table has no resolved consumer
+data row,ModLance->PRICE:[I[1],src/java/fr/testudo/spacecorsair/mod/ModLance.java:48,SUSPECTED,enclosing table has no resolved consumer
+data row,ModLance->PRICE:[I[2],src/java/fr/testudo/spacecorsair/mod/ModLance.java:48,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_ANG:[F[0],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:16,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_ANG:[F[1],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:16,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_ANG:[F[2],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:16,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_ANG:[F[3],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:16,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_ANG:[F[4],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:16,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_L:[F[0],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_L:[F[1],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_L:[F[2],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_L:[F[3],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_L:[F[4],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_L:[F[5],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_L:[F[6],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_L:[F[7],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_L:[F[8],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_L:[F[9],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_LEN:[F[0],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:17,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_LEN:[F[1],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:17,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_LEN:[F[2],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:17,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_LEN:[F[3],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:17,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->TE_LEN:[F[4],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:17,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[0],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[10],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[11],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[12],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[13],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[14],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[15],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[16],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[17],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[18],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[19],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[1],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[20],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[21],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[22],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[23],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[24],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[25],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[26],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[27],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[28],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[29],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[2],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[30],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[31],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[32],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[33],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[34],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[35],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[36],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[37],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[38],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[39],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[3],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[40],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[41],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[42],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[43],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[44],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[45],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[46],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[47],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[48],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[49],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[4],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[50],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[51],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[52],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[53],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[54],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[55],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[5],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[6],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[7],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[8],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModMonoData->WING_L:[F[9],src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,enclosing table has no resolved consumer
+data row,ModWeapons->PRICE:[I[0],src/java/fr/testudo/spacecorsair/mod/ModWeapons.java:47,SUSPECTED,enclosing table has no resolved consumer
+data row,ModWeapons->PRICE:[I[1],src/java/fr/testudo/spacecorsair/mod/ModWeapons.java:47,SUSPECTED,enclosing table has no resolved consumer
+data row,ModWeapons->PRICE:[I[2],src/java/fr/testudo/spacecorsair/mod/ModWeapons.java:47,SUSPECTED,enclosing table has no resolved consumer
+data row,ModWeapons->PRICE:[I[3],src/java/fr/testudo/spacecorsair/mod/ModWeapons.java:47,SUSPECTED,enclosing table has no resolved consumer
+data row,ModWeapons->RESKIN_FACTION:[Ljava/lang/String;[0],src/java/fr/testudo/spacecorsair/mod/ModWeapons.java:80,SUSPECTED,enclosing table has no resolved consumer
+data row,ModWeapons->RESKIN_FACTION:[Ljava/lang/String;[1],src/java/fr/testudo/spacecorsair/mod/ModWeapons.java:80,SUSPECTED,enclosing table has no resolved consumer
+data row,ModWeapons->RESKIN_FACTION:[Ljava/lang/String;[2],src/java/fr/testudo/spacecorsair/mod/ModWeapons.java:80,SUSPECTED,enclosing table has no resolved consumer
+field,Mod->DRONE_LIFETIME:I,src/java/fr/testudo/spacecorsair/mod/Mod.java:35,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModFactionData->FLAGSHIP_DESC:[Ljava/lang/String;,src/java/fr/testudo/spacecorsair/mod/ModFactionData.java:10,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModHornet->W:[Ljava/lang/String;,src/java/fr/testudo/spacecorsair/mod/ModHornet.java:47,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModLance->PRICE:[I,src/java/fr/testudo/spacecorsair/mod/ModLance.java:48,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModMonoData->AURA_PAD:F,src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:8,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModMonoData->TE_ANG:[F,src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:16,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModMonoData->TE_L:[F,src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:14,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModMonoData->TE_LEN:[F,src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:17,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModMonoData->WING_L:[F,src/java/fr/testudo/spacecorsair/mod/ModMonoData.java:11,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModMonoFx->P_ROWS:I,src/java/fr/testudo/spacecorsair/mod/ModMonoFx.java:8,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModShipTree->HDR_END:I,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:818,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModShipTree->HDR_LINE_Y:I,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:818,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModShipTree->HDR_SRC_H:I,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:818,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModShipTree->HDR_TAB:I,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:818,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModShipTree->HDR_TAB_L:I,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:818,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModShipTree->HDR_TAB_R:I,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:818,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModShipTree->PURPLE:I,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:62,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModStationGuns->PROTECTED:I,src/java/fr/testudo/spacecorsair/mod/ModStationGuns.java:143,CONFIRMED,test source references this member name at work/dtest/V44S.java:7; retain the test API
+field,ModWeapons->PRICE:[I,src/java/fr/testudo/spacecorsair/mod/ModWeapons.java:47,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+field,ModWeapons->RESKIN_FACTION:[Ljava/lang/String;,src/java/fr/testudo/spacecorsair/mod/ModWeapons.java:80,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,Mod-><init>()V,src/java/fr/testudo/spacecorsair/mod/Mod.java:34,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModArt-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModArt.java:43,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModFaction->place(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;Lfr/testudo/spacecorsair/engine/Vector2;Lfr/testudo/spacecorsair/business/Element;Z)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;,src/java/fr/testudo/spacecorsair/mod/ModFaction.java:674,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModFleet-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModFleet.java:32,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModLan->autoAcceptForTest()V,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2677,CONFIRMED,test source references this member name at tests/net/E2E.java:21; retain the test API
+method,ModLan->captureForTest(Lfr/testudo/spacecorsair/engine/RenderQueue;IIIIFFLjava/io/DataOutputStream;)I,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2683,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:30; retain the test API
+method,ModLan->defineForTest(ILfr/testudo/spacecorsair/display/Texture;)V,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2690,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:38; retain the test API
+method,ModLan->hostForTest()V,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2673,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:107; retain the test API
+method,ModLan->hostNetForTest()V,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2675,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:223; retain the test API
+method,ModLan->isProxy(Lfr/testudo/spacecorsair/business/Element;)Z,src/java/fr/testudo/spacecorsair/mod/ModLan.java:1968,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModLan->packedForTest(I[B)[B,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2679,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:150; retain the test API
+method,ModLan->queueSizeOf(Lfr/testudo/spacecorsair/engine/RenderQueue;)I,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2671,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:27; retain the test API
+method,ModLan->readFieldForTest(Ljava/io/DataInputStream;Ljava/lang/reflect/Field;Ljava/lang/Object;)V,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2696,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:51; retain the test API
+method,ModLan->readRecsForTest([BI)[Lfr/testudo/spacecorsair/mod/ModLan$Rec;,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2688,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:32; retain the test API
+method,ModLan->replayForTest([Lfr/testudo/spacecorsair/mod/ModLan$Rec;IFF)V,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2692,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:40; retain the test API
+method,ModLan->shotClassForTest(Ljava/lang/String;)Ljava/lang/Class;,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2681,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:135; retain the test API
+method,ModLan->writeFieldForTest(Ljava/io/DataOutputStream;Ljava/lang/reflect/Field;Ljava/lang/Object;)V,src/java/fr/testudo/spacecorsair/mod/ModLan.java:2694,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:48; retain the test API
+method,ModLanCheck->allow(Lfr/testudo/spacecorsair/mod/ModLanCheck$Limits;FJ)F,src/java/fr/testudo/spacecorsair/mod/ModLanCheck.java:275,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:311; retain the test API
+method,ModLang-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModLang.java:31,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModLang->gl(Ljava/lang/String;)Ljava/lang/String;,src/java/fr/testudo/spacecorsair/mod/ModLang.java:379,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModLobby->link()Lfr/testudo/spacecorsair/mod/ModNet$Link;,src/java/fr/testudo/spacecorsair/mod/ModLobby.java:270,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModLobby->peerInstall()Ljava/lang/String;,src/java/fr/testudo/spacecorsair/mod/ModLobby.java:283,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModLock-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModLock.java:15,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModLoot-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModLoot.java:25,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModNet$Link->connectTo(Ljava/net/InetSocketAddress;)V,src/java/fr/testudo/spacecorsair/mod/ModNet.java:774,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModNet$Link->remote()Ljava/net/InetSocketAddress;,src/java/fr/testudo/spacecorsair/mod/ModNet.java:666,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModPolice-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModPolice.java:35,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModPoliceAura->has(Lfr/testudo/spacecorsair/business/Element;)Z,src/java/fr/testudo/spacecorsair/mod/ModPoliceAura.java:45,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModQol-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModQol.java:54,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModRefitScreen$Bay->card(Landroid/graphics/Canvas;Landroid/graphics/RectF;Ljava/lang/String;I)F,src/java/fr/testudo/spacecorsair/mod/ModRefitScreen.java:472,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModRefitScreen$Bay->matRow(Landroid/graphics/Canvas;Landroid/graphics/RectF;FLjava/lang/String;JJZI)F,src/java/fr/testudo/spacecorsair/mod/ModRefitScreen.java:890,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModRefitScreen$Bay->matRow(Landroid/graphics/Canvas;Landroid/graphics/RectF;FLjava/lang/String;JJZILjava/lang/String;)F,src/java/fr/testudo/spacecorsair/mod/ModRefitScreen.java:894,SUSPECTED,no path from conservative roots; dynamic lookup or external entry possible
+method,ModSave-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModSave.java:17,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModSaveSig->installForTest(Ljava/lang/String;)V,src/java/fr/testudo/spacecorsair/mod/ModSaveSig.java:141,CONFIRMED,test source references this member name at tests/net/E2E.java:16; retain the test API
+method,ModSaveSig->lockedHours()J,src/java/fr/testudo/spacecorsair/mod/ModSaveSig.java:139,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModSaveSig->sign([B)Ljava/lang/String;,src/java/fr/testudo/spacecorsair/mod/ModSaveSig.java:129,CONFIRMED,test source references this member name at work/dtest/fr/testudo/spacecorsair/mod/V49.java:276; retain the test API
+method,ModShipTree$Slice-><init>(Landroid/graphics/Bitmap;IIIIZ)V,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:786,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModShipTree->selected()I,src/java/fr/testudo/spacecorsair/mod/ModShipTree.java:193,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModShips-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModShips.java:22,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModShips->heavyTurret(Lfr/testudo/spacecorsair/business/loot/stuff/playerShip/PlayerShipSpec;)Z,src/java/fr/testudo/spacecorsair/mod/ModShips.java:801,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModShips->rank(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)I,src/java/fr/testudo/spacecorsair/mod/ModShips.java:607,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModSources-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModSources.java:4,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModSpecs-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModSpecs.java:14,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModStockSpawn-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModStockSpawn.java:22,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModUi-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModUi.java:43,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModV34-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModV34.java:24,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+method,ModV35-><init>()V,src/java/fr/testudo/spacecorsair/mod/ModV35.java:30,SUSPECTED,no resolved incoming use; dynamic lookup or external entry possible
+utility,android-4.1.1.4.jar,tools/android-4.1.1.4.jar,CONFIRMED,"named by AGENTS.md:10, AGENTS.md:9, build.sh:18"
+utility,antlr-2.7.7.jar,tools/antlr-2.7.7.jar,CONFIRMED,named by tools/cp.txt:1
+utility,antlr-runtime-3.5.2.jar,tools/antlr-runtime-3.5.2.jar,CONFIRMED,named by tools/cp.txt:1
+utility,apksig-2.3.0.jar,tools/apksig-2.3.0.jar,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,appinfo.py,scripts/appinfo.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,asm-9.6.jar,tools/d2j/asm-9.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,asm-analysis-9.6.jar,tools/d2j/asm-analysis-9.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,asm-commons-9.6.jar,tools/d2j/asm-commons-9.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,asm-tree-9.6.jar,tools/d2j/asm-tree-9.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,asm-util-9.6.jar,tools/d2j/asm-util-9.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,baksmali-2.5.2.jar,tools/baksmali-2.5.2.jar,CONFIRMED,named by tools/cp.txt:1
+utility,check.sh,scripts/check.sh,CONFIRMED,"named by AGENTS.md:8, CLAUDE.md:23, CLAUDE.md:43"
+utility,cls.py,scripts/cls.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,cp.txt,tools/cp.txt,CONFIRMED,"named by build.sh:13, build.sh:16"
+utility,d2j-base-cmd-2.4.6.jar,tools/d2j/d2j-base-cmd-2.4.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,dalvik-dx-9.0.0_r3.jar,tools/d2j/dalvik-dx-9.0.0_r3.jar,CONFIRMED,named by build.sh:12
+utility,deps.py,scripts/deps.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,dex-ir-2.4.6.jar,tools/d2j/dex-ir-2.4.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,dex-reader-2.4.6.jar,tools/d2j/dex-reader-2.4.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,dex-reader-api-2.4.6.jar,tools/d2j/dex-reader-api-2.4.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,dex-tools-2.4.6.jar,tools/d2j/dex-tools-2.4.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,dex-translator-2.4.6.jar,tools/d2j/dex-translator-2.4.6.jar,CONFIRMED,classpath wildcard in build.sh:17
+utility,dexlib2-2.5.2.jar,tools/dexlib2-2.5.2.jar,CONFIRMED,named by tools/cp.txt:1
+utility,econ_sim.py,tools/sim/econ_sim.py,CONFIRMED,"named by codex/batch2/TASK-04-procgen-events.md:7, tools/sim/pace_check.py:4"
+utility,failureaccess-1.0.1.jar,tools/failureaccess-1.0.1.jar,CONFIRMED,named by tools/cp.txt:1
+utility,guava-27.1-android.jar,tools/guava-27.1-android.jar,CONFIRMED,named by tools/cp.txt:1
+utility,inv.py,scripts/inv.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,jcommander-1.64.jar,tools/jcommander-1.64.jar,CONFIRMED,named by tools/cp.txt:1
+utility,losslessify.py,scripts/losslessify.py,CONFIRMED,"named by CLAUDE.md:7, incoming/v31_gpt/INTEGRATE.md:3, src/import_v30.py:1"
+utility,mb.py,scripts/mb.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,pace_check.py,tools/sim/pace_check.py,CONFIRMED,"named by scripts/check.sh:7, tools/sim/econ_sim.py:24"
+utility,reach.py,scripts/reach.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,release.sh,scripts/release.sh,CONFIRMED,"named by CLAUDE.md:25, HANDOFF.md:66, incoming/v31_gpt/INTEGRATE.md:7"
+utility,restore_v24.py,scripts/restore_v24.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,rm.py,scripts/rm.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,roots.py,scripts/roots.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,sa0.py,scripts/sa0.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,sc_reports.py,scripts/sc_reports.py,CONFIRMED,"named by CLAUDE.md:11, codex/KNOWN.md:16"
+utility,smali-2.5.2.jar,tools/smali-2.5.2.jar,CONFIRMED,named by tools/cp.txt:1
+utility,stringtemplate-3.2.1.jar,tools/stringtemplate-3.2.1.jar,CONFIRMED,named by tools/cp.txt:1
+utility,telem.py,scripts/telem.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,tk2d.py,scripts/tk2d.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible
+utility,uber-apk-signer-1.3.0.jar,tools/uber-apk-signer-1.3.0.jar,CONFIRMED,named by build.sh:55
+utility,util-2.5.2.jar,tools/util-2.5.2.jar,CONFIRMED,named by tools/cp.txt:1
+utility,verify_modart.py,scripts/verify_modart.py,SUSPECTED,no tracked name reference; manual invocation or indirect dependency possible

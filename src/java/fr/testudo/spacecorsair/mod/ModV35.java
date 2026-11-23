@@ -50,13 +50,17 @@ public class ModV35 {
         return level <= 0 ? 0 : Math.min(STAGES, (level + 1) / 2);
     }
 
+    private static int refitLevel(int n) {
+        return Math.max(0, Math.min(REFIT_MAX, n));
+    }
+
     /** Multiplier of a hull strength at refit level n (+3% a level) and of the faction trait (+2% a level). */
     public static float pickMult(int n) {
-        return 1.0f + PICK_STEP * Math.max(0, Math.min(REFIT_MAX, n));
+        return 1.0f + PICK_STEP * refitLevel(n);
     }
 
     public static float traitMult(int n) {
-        return 1.0f + TRAIT_STEP * Math.max(0, Math.min(REFIT_MAX, n));
+        return 1.0f + TRAIT_STEP * refitLevel(n);
     }
 
     /** Faction trait (owner: one faction-specific strength). Neutral hulls: hull points. */
@@ -144,7 +148,7 @@ public class ModV35 {
     public static int level(SpaceObjectType t) {
         SharedPreferences p = ModQol.prefs();
         if (p == null || t == null) return 0;
-        return Math.max(0, Math.min(REFIT_MAX, ModQol.saved(p, "v35_refit_" + t.name(), 0)));
+        return refitLevel(ModQol.saved(p, "v35_refit_" + t.name(), 0));
     }
 
     public static int parts() {

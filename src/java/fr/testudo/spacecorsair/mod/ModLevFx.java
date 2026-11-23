@@ -153,7 +153,7 @@ public final class ModLevFx {
     }
 
     private static float lx(float px) {
-        return ((px + 0.5f) / 1024f - 0.5f) * D;
+        return ModSpriteSpace.local(px, D);
     }
 
     private static Vector2 scr(PlayerShip ps, float px, float py, Vector2 out) {
