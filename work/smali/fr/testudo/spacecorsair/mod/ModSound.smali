@@ -926,7 +926,7 @@
 
     const v2, 0x3f333333    # 0.7f
 
-    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getFloat(Ljava/lang/String;F)F
+    invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModQol;->saved(Landroid/content/SharedPreferences;Ljava/lang/String;F)F
 
     move-result v1
 

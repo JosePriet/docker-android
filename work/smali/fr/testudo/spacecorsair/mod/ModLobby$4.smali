@@ -37,7 +37,7 @@
     .end annotation
 
     .prologue
-    .line 628
+    .line 638
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$4;->val$g:J
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLobby$4;->val$fl:Lfr/testudo/spacecorsair/mod/ModNet$Link;
@@ -57,7 +57,7 @@
     .registers 7
 
     .prologue
-    .line 631
+    .line 641
     const/4 v0, 0x0
 
     :goto_1
@@ -65,13 +65,13 @@
 
     if-ge v0, v1, :cond_23
 
-    .line 632
+    .line 642
     const-wide/16 v2, 0x1f40
 
     :try_start_6
     invoke-static {v2, v3}, Ljava/lang/Thread;->sleep(J)V
 
-    .line 633
+    .line 643
     iget-wide v2, p0, Lfr/testudo/spacecorsair/mod/ModLobby$4;->val$g:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLobby;->gen:J
@@ -99,12 +99,12 @@
 
     if-eqz v1, :cond_24
 
-    .line 638
+    .line 648
     :cond_23
     :goto_23
     return-void
 
-    .line 634
+    .line 644
     :cond_24
     const-string v1, "POST"
 
@@ -140,7 +140,7 @@
 
     move-result-object v1
 
-    .line 635
+    .line 645
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/mod/ModLobby$Reply;->ok()Z
 
     move-result v2
@@ -173,13 +173,13 @@
     :try_end_66
     .catch Ljava/lang/Throwable; {:try_start_6 .. :try_end_66} :catch_69
 
-    .line 631
+    .line 641
     :cond_66
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_1
 
-    .line 637
+    .line 647
     :catch_69
     move-exception v0
 

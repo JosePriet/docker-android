@@ -172,23 +172,15 @@
 .end method
 
 .method private static lx(F)F
-    .registers 4
+    .registers 2
 
     .prologue
-    const/high16 v2, 0x3f000000    # 0.5f
-
     .line 156
-    add-float v0, p0, v2
+    sget v0, Lfr/testudo/spacecorsair/mod/ModLevFx;->D:F
 
-    const/high16 v1, 0x44800000    # 1024.0f
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModSpriteSpace;->local(FF)F
 
-    div-float/2addr v0, v1
-
-    sub-float/2addr v0, v2
-
-    sget v1, Lfr/testudo/spacecorsair/mod/ModLevFx;->D:F
-
-    mul-float/2addr v0, v1
+    move-result v0
 
     return v0
 .end method

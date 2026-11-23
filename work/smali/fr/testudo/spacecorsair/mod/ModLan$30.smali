@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 3211
+    .line 3256
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$30;->val$a:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 2
 
     .prologue
-    .line 3211
+    .line 3256
     const/4 v0, 0x0
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLan;->host(Z)V

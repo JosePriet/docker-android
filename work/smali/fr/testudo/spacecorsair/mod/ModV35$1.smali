@@ -32,7 +32,7 @@
     .registers 1
 
     .prologue
-    .line 505
+    .line 514
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -49,7 +49,7 @@
     .end annotation
 
     .prologue
-    .line 505
+    .line 514
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/mod/ModV35$1;->call()Ljava/lang/String;
 
     move-result-object v0
@@ -61,7 +61,7 @@
     .registers 2
 
     .prologue
-    .line 505
+    .line 514
     # invokes: Lfr/testudo/spacecorsair/mod/ModV35;->buyNow()Ljava/lang/String;
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->access$000()Ljava/lang/String;
 

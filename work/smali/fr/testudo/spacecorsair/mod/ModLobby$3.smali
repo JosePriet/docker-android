@@ -39,7 +39,7 @@
     .end annotation
 
     .prologue
-    .line 468
+    .line 478
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$fg:J
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$fw:Lfr/testudo/spacecorsair/mod/ModNet$Wire;
@@ -63,7 +63,7 @@
     .prologue
     const/4 v5, 0x0
 
-    .line 470
+    .line 480
     :try_start_1
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$3;->val$fg:J
 
@@ -82,10 +82,10 @@
 
     aput-boolean v5, v0, v5
 
-    .line 471
+    .line 481
     return-void
 
-    .line 470
+    .line 480
     :catchall_11
     move-exception v0
 

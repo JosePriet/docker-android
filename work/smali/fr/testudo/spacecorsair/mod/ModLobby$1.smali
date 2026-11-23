@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 207
+    .line 217
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$1;->val$key:Ljava/lang/String;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -47,7 +47,7 @@
     .prologue
     const/4 v5, 0x0
 
-    .line 209
+    .line 219
     const-string v0, "POST"
 
     const-string v1, "/dev"
@@ -84,7 +84,7 @@
 
     move-result-object v1
 
-    .line 210
+    .line 220
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/mod/ModLobby$Reply;->ok()Z
 
     move-result v0
@@ -94,7 +94,7 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModLobby;->setSelfDev(Lfr/testudo/spacecorsair/mod/ModLobby$Reply;)V
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$000(Lfr/testudo/spacecorsair/mod/ModLobby$Reply;)V
 
-    .line 211
+    .line 221
     :cond_2a
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/mod/ModLobby$Reply;->ok()Z
 
@@ -118,12 +118,12 @@
 
     if-ne v0, v2, :cond_5e
 
-    .line 212
+    .line 222
     :cond_40
     # setter for: Lfr/testudo/spacecorsair/mod/ModLobby;->devAutoSent:Z
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModLobby;->access$102(Z)Z
 
-    .line 213
+    .line 223
     const-string v0, "lobby"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -148,11 +148,11 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 219
+    .line 229
     :goto_5d
     return-void
 
-    .line 216
+    .line 226
     :cond_5e
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/mod/ModLobby$Reply;->ok()Z
 
@@ -175,7 +175,7 @@
     :goto_70
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModQol;->post(Ljava/lang/String;)V
 
-    .line 218
+    .line 228
     const-string v0, "lobby"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -202,7 +202,7 @@
 
     goto :goto_5d
 
-    .line 217
+    .line 227
     :cond_8e
     const-string v0, "DEV registration was refused."
 

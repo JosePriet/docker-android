@@ -3,6 +3,14 @@
 .source "ModTestMode.java"
 
 
+# annotations
+.annotation system Ldalvik/annotation/MemberClasses;
+    value = {
+        Lfr/testudo/spacecorsair/mod/ModTestMode$PreferenceInput;
+    }
+.end annotation
+
+
 # static fields
 .field static final CORES:I = 0x9
 
@@ -28,6 +36,8 @@
 
 .field public static on:Z
 
+.field static volatile profileUncertain:Z
+
 .field private static tAt:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
 .field private static tJump:Ljava/lang/String;
@@ -46,7 +56,7 @@
     .registers 3
 
     .prologue
-    .line 57
+    .line 59
     const/4 v0, 0x3
 
     new-array v0, v0, [Ljava/lang/String;
@@ -71,7 +81,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->PREFS:[Ljava/lang/String;
 
-    .line 366
+    .line 490
     const/16 v0, 0xa
 
     new-array v0, v0, [J
@@ -85,7 +95,7 @@
     .registers 1
 
     .prologue
-    .line 49
+    .line 50
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -99,23 +109,23 @@
 
     const/4 v0, 0x0
 
-    .line 371
+    .line 495
     sget-object v2, Lfr/testudo/spacecorsair/game/achievements/Achievement;->killByTheDev:Lfr/testudo/spacecorsair/game/achievements/Achievement;
 
     if-eq p1, v2, :cond_7
 
-    .line 382
+    .line 506
     :goto_6
     return v0
 
-    .line 373
+    .line 497
     :cond_7
     :try_start_7
     invoke-static {}, Landroid/os/SystemClock;->uptimeMillis()J
 
     move-result-wide v2
 
-    .line 374
+    .line 498
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->taps:[J
 
     const/4 v4, 0x1
@@ -128,21 +138,21 @@
 
     invoke-static {v0, v4, v5, v6, v7}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 375
+    .line 499
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->taps:[J
 
     const/16 v4, 0x9
 
     aput-wide v2, v0, v4
 
-    .line 376
+    .line 500
     sget v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->tapCount:I
 
     add-int/lit8 v0, v0, 0x1
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->tapCount:I
 
-    .line 377
+    .line 501
     const-string v0, "v40test"
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -167,7 +177,7 @@
 
     invoke-static {v0, v4}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 378
+    .line 502
     sget v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->tapCount:I
 
     const/16 v4, 0xa
@@ -198,10 +208,10 @@
     :goto_53
     move v0, v1
 
-    .line 382
+    .line 506
     goto :goto_6
 
-    .line 379
+    .line 503
     :catch_55
     move-exception v0
 
@@ -212,12 +222,12 @@
     .registers 2
 
     .prologue
-    .line 387
+    .line 511
     const/4 v0, 0x0
 
     sput v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->tapCount:I
 
-    .line 388
+    .line 512
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-eqz v0, :cond_c
@@ -226,7 +236,7 @@
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->showButton(Landroid/app/Activity;)V
 
-    .line 389
+    .line 513
     :cond_c
     return-void
 .end method
@@ -237,7 +247,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 183
+    .line 307
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-eqz v0, :cond_f
@@ -247,23 +257,23 @@
     :goto_7
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->logState(Ljava/lang/String;)V
 
-    .line 184
+    .line 308
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-nez v0, :cond_12
 
-    .line 214
+    .line 338
     :cond_e
     :goto_e
     return-void
 
-    .line 183
+    .line 307
     :cond_f
     const-string v0, "main"
 
     goto :goto_7
 
-    .line 186
+    .line 310
     :cond_12
     :try_start_12
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
@@ -272,23 +282,23 @@
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
 
-    .line 187
+    .line 311
     if-eqz v3, :cond_90
 
-    .line 188
+    .line 312
     const/16 v0, 0x28
 
     iput v0, v3, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
 
-    .line 189
+    .line 313
     const-wide/16 v4, 0x0
 
     iput-wide v4, v3, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->curXp:J
 
-    .line 190
+    .line 314
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->init()V
 
-    .line 192
+    .line 316
     sget-object v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;->ALL_SHIPS:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
@@ -311,7 +321,7 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 193
+    .line 317
     if-eqz v0, :cond_2c
 
     iget-object v5, v3, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->availShips:Ljava/util/List;
@@ -322,12 +332,12 @@
 
     if-nez v5, :cond_2c
 
-    .line 194
+    .line 318
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModShips;->hull(Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;)Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
     move-result-object v5
 
-    .line 195
+    .line 319
     if-eqz v5, :cond_4d
 
     iget v5, v5, Lfr/testudo/spacecorsair/mod/ModShips$Hull;->cls:I
@@ -336,21 +346,21 @@
 
     if-eq v5, v6, :cond_2c
 
-    .line 196
+    .line 320
     :cond_4d
     iget-object v5, v3, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->availShips:Ljava/util/List;
 
     invoke-interface {v5, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 197
+    .line 321
     add-int/lit8 v0, v2, 0x1
 
     move v2, v0
 
-    .line 198
+    .line 322
     goto :goto_2c
 
-    .line 199
+    .line 323
     :cond_56
     const-string v0, "v40test"
 
@@ -408,16 +418,16 @@
 
     invoke-static {v0, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 201
+    .line 325
     :cond_90
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->levelProperties:Lfr/testudo/spacecorsair/game/levels/LevelsGlobalProperties;
 
-    .line 202
+    .line 326
     if-eqz v2, :cond_106
 
-    .line 203
+    .line 327
     invoke-static {}, Lfr/testudo/spacecorsair/game/levels/LevelId;->values()[Lfr/testudo/spacecorsair/game/levels/LevelId;
 
     move-result-object v3
@@ -454,7 +464,7 @@
 
     goto :goto_9c
 
-    .line 204
+    .line 328
     :cond_b6
     const/4 v0, 0x2
 
@@ -472,7 +482,7 @@
 
     aput-object v4, v3, v0
 
-    .line 205
+    .line 329
     array-length v4, v3
 
     move v0, v1
@@ -499,7 +509,7 @@
 
     goto :goto_c5
 
-    .line 206
+    .line 330
     :cond_d9
     const-string v0, "v40test"
 
@@ -545,16 +555,16 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 208
+    .line 332
     :cond_106
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTestMode;->topUp()V
 
-    .line 209
+    .line 333
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->mainActivity:Lfr/testudo/spacecorsair/activity/Main;
 
-    .line 210
+    .line 334
     if-eqz v0, :cond_e
 
     const-string v1, "TEST MODE: this profile is separate from your normal save."
@@ -575,11 +585,11 @@
 
     goto/16 :goto_e
 
-    .line 211
+    .line 335
     :catch_11f
     move-exception v0
 
-    .line 212
+    .line 336
     const-string v1, "ModTestMode"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -609,8 +619,24 @@
     .registers 7
 
     .prologue
-    .line 68
-    :try_start_0
+    const/4 v1, 0x0
+
+    .line 69
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v0, :cond_a
+
+    .line 70
+    sput-boolean v1, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
+
+    .line 71
+    const/4 v0, 0x1
+
+    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->profileUncertain:Z
+
+    .line 74
+    :cond_a
+    :try_start_a
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->mainActivity:Lfr/testudo/spacecorsair/activity/Main;
@@ -619,12 +645,30 @@
 
     move-result-object v2
 
-    .line 69
+    .line 75
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModTestMode;->root(Landroid/content/Context;)Ljava/io/File;
 
     move-result-object v3
 
-    .line 70
+    .line 76
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v0, :cond_21
+
+    .line 77
+    invoke-static {v2, v3}, Lfr/testudo/spacecorsair/mod/ModTestMode;->restoreChecked(Landroid/content/Context;Ljava/io/File;)V
+
+    .line 78
+    const/4 v0, 0x0
+
+    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->profileUncertain:Z
+
+    .line 104
+    :goto_20
+    return-void
+
+    .line 81
+    :cond_21
     new-instance v0, Ljava/io/File;
 
     const-string v1, "active"
@@ -637,7 +681,7 @@
 
     move-result-object v0
 
-    .line 71
+    .line 82
     new-instance v1, Ljava/io/File;
 
     const-string v4, "pending"
@@ -650,14 +694,14 @@
 
     move-result-object v1
 
-    .line 72
-    if-eqz v1, :cond_96
+    .line 83
+    if-eqz v1, :cond_ab
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v4
 
-    if-nez v4, :cond_96
+    if-nez v4, :cond_ab
 
     const-string v4, "main"
 
@@ -665,7 +709,7 @@
 
     move-result v4
 
-    if-nez v4, :cond_3d
+    if-nez v4, :cond_52
 
     const-string v4, "test"
 
@@ -673,35 +717,35 @@
 
     move-result v4
 
-    if-eqz v4, :cond_96
+    if-eqz v4, :cond_ab
 
-    .line 73
-    :cond_3d
+    .line 84
+    :cond_52
     new-instance v4, Ljava/io/File;
 
     invoke-direct {v4, v3, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 74
+    .line 85
     const-string v5, "test"
 
     invoke-virtual {v5, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v5
 
-    if-eqz v5, :cond_e0
+    if-eqz v5, :cond_111
 
-    .line 75
+    .line 86
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModTestMode;->delete(Ljava/io/File;)V
 
-    .line 77
+    .line 88
     const-string v4, "v40test"
 
     const-string v5, "test profile discarded on logout"
 
     invoke-static {v4, v5}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 81
-    :goto_54
+    .line 92
+    :goto_69
     new-instance v4, Ljava/io/File;
 
     const-string v5, "active"
@@ -710,12 +754,12 @@
 
     invoke-static {v4, v1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->write(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 82
+    .line 93
     new-instance v4, Ljava/io/File;
 
     invoke-direct {v4, v3, v1}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 83
+    .line 94
     new-instance v5, Ljava/io/File;
 
     const-string v6, "complete"
@@ -726,12 +770,12 @@
 
     move-result v5
 
-    if-eqz v5, :cond_73
+    if-eqz v5, :cond_88
 
     invoke-static {v2, v4}, Lfr/testudo/spacecorsair/mod/ModTestMode;->load(Landroid/content/Context;Ljava/io/File;)V
 
-    .line 84
-    :cond_73
+    .line 95
+    :cond_88
     const-string v2, "ModTestMode"
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -766,8 +810,8 @@
 
     move-object v0, v1
 
-    .line 87
-    :cond_96
+    .line 98
+    :cond_ab
     new-instance v2, Ljava/io/File;
 
     const-string v4, "pending"
@@ -776,7 +820,7 @@
 
     invoke-virtual {v2}, Ljava/io/File;->delete()Z
 
-    .line 88
+    .line 99
     const-string v2, "test"
 
     invoke-virtual {v2, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -785,7 +829,7 @@
 
     sput-boolean v2, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
-    .line 89
+    .line 100
     const-string v2, "v40test"
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -802,7 +846,7 @@
 
     move-result-object v3
 
-    if-eqz v1, :cond_ff
+    if-eqz v1, :cond_116
 
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -828,7 +872,7 @@
 
     move-result-object v0
 
-    :goto_d4
+    :goto_e9
     invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
@@ -838,24 +882,16 @@
     move-result-object v0
 
     invoke-static {v2, v0}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+    :try_end_f4
+    .catch Ljava/lang/Throwable; {:try_start_a .. :try_end_f4} :catch_f6
 
-    .line 93
-    :goto_df
-    return-void
+    goto/16 :goto_20
 
-    .line 79
-    :cond_e0
-    invoke-static {v2, v4}, Lfr/testudo/spacecorsair/mod/ModTestMode;->store(Landroid/content/Context;Ljava/io/File;)V
-    :try_end_e3
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_e3} :catch_e5
-
-    goto/16 :goto_54
-
-    .line 90
-    :catch_e5
+    .line 101
+    :catch_f6
     move-exception v0
 
-    .line 91
+    .line 102
     const-string v1, "ModTestMode"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -878,16 +914,22 @@
 
     invoke-static {v1, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I
 
-    goto :goto_df
+    goto/16 :goto_20
 
-    .line 89
-    :cond_ff
-    :try_start_ff
+    .line 90
+    :cond_111
+    :try_start_111
+    invoke-static {v2, v4}, Lfr/testudo/spacecorsair/mod/ModTestMode;->store(Landroid/content/Context;Ljava/io/File;)V
+
+    goto/16 :goto_69
+
+    .line 100
+    :cond_116
     const-string v0, ""
-    :try_end_101
-    .catch Ljava/lang/Throwable; {:try_start_ff .. :try_end_101} :catch_e5
+    :try_end_118
+    .catch Ljava/lang/Throwable; {:try_start_111 .. :try_end_118} :catch_f6
 
-    goto :goto_d4
+    goto :goto_e9
 .end method
 
 .method public static canJumpTo(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
@@ -898,17 +940,17 @@
 
     const/4 v1, -0x1
 
-    .line 323
+    .line 447
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModPrologue;->active:Z
 
     if-eqz v2, :cond_7
 
-    .line 328
+    .line 452
     :cond_6
     :goto_6
     return v0
 
-    .line 324
+    .line 448
     :cond_7
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
@@ -918,7 +960,7 @@
 
     goto :goto_6
 
-    .line 326
+    .line 450
     :cond_d
     :try_start_d
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->sector(Lfr/testudo/spacecorsair/game/levels/LevelId;)Z
@@ -943,13 +985,13 @@
 
     goto :goto_6
 
-    .line 327
+    .line 451
     :catch_1f
     move-exception v0
 
     move v0, v1
 
-    .line 328
+    .line 452
     goto :goto_6
 .end method
 
@@ -957,30 +999,30 @@
     .registers 4
 
     .prologue
-    .line 440
+    .line 564
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-eqz v0, :cond_35
 
-    .line 441
+    .line 565
     const-string v0, "Log out of test mode? The game restarts on your normal save, as it was when you logged in."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 443
+    .line 567
     :goto_a
     new-instance v1, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {v1, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
 
-    .line 444
+    .line 568
     invoke-virtual {v1, v0}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
 
     move-result-object v1
 
-    .line 445
+    .line 569
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-eqz v0, :cond_3c
@@ -1002,7 +1044,7 @@
 
     const-string v1, "Cancel"
 
-    .line 448
+    .line 572
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -1013,13 +1055,13 @@
 
     move-result-object v0
 
-    .line 449
+    .line 573
     invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
 
-    .line 450
+    .line 574
     return-void
 
-    .line 442
+    .line 566
     :cond_35
     const-string v0, "Log in to test mode? The game saves and restarts on a separate test profile: max level, everything unlocked, whole map visible, every mission repeatable, free instant jumps. Your normal save is kept apart and comes back when you log out."
 
@@ -1029,7 +1071,7 @@
 
     goto :goto_a
 
-    .line 445
+    .line 569
     :cond_3c
     const-string v0, "LOG IN"
 
@@ -1051,28 +1093,37 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 140
+    .line 256
     invoke-virtual {p0}, Ljava/io/File;->listFiles()[Ljava/io/File;
 
     move-result-object v1
 
-    .line 141
-    if-nez v1, :cond_8
+    .line 257
+    if-nez v1, :cond_13
 
-    .line 156
-    :cond_7
-    return-void
+    .line 258
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
 
-    .line 142
-    :cond_8
+    if-eqz v0, :cond_6d
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "unreadable profile directory"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 261
+    :cond_13
     array-length v2, v1
 
-    :goto_9
-    if-ge v0, v2, :cond_7
+    :goto_14
+    if-ge v0, v2, :cond_6d
 
     aget-object v3, v1, v0
 
-    .line 143
+    .line 262
     new-instance v4, Ljava/io/File;
 
     invoke-virtual {v3}, Ljava/io/File;->getName()Ljava/lang/String;
@@ -1081,83 +1132,113 @@
 
     invoke-direct {v4, p1, v5}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 144
+    .line 263
     invoke-virtual {v3}, Ljava/io/File;->isDirectory()Z
 
     move-result v5
 
-    if-eqz v5, :cond_25
+    if-eqz v5, :cond_45
 
+    .line 264
     invoke-virtual {v4}, Ljava/io/File;->mkdirs()Z
 
+    move-result v5
+
+    .line 265
+    sget-boolean v6, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v6, :cond_3f
+
+    if-nez v5, :cond_3f
+
+    invoke-virtual {v4}, Ljava/io/File;->isDirectory()Z
+
+    move-result v5
+
+    if-nez v5, :cond_3f
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "could not copy directory"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 266
+    :cond_3f
     invoke-static {v3, v4}, Lfr/testudo/spacecorsair/mod/ModTestMode;->copyTree(Ljava/io/File;Ljava/io/File;)V
 
-    .line 142
-    :goto_22
+    .line 261
+    :goto_42
     add-int/lit8 v0, v0, 0x1
 
-    goto :goto_9
+    goto :goto_14
 
-    .line 145
-    :cond_25
+    .line 269
+    :cond_45
     new-instance v5, Ljava/io/FileInputStream;
 
     invoke-direct {v5, v3}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
 
-    .line 146
+    .line 270
     new-instance v3, Ljava/io/FileOutputStream;
 
     invoke-direct {v3, v4}, Ljava/io/FileOutputStream;-><init>(Ljava/io/File;)V
 
-    .line 148
+    .line 272
     const/16 v4, 0x4000
 
-    :try_start_31
+    :try_start_51
     new-array v4, v4, [B
 
-    .line 150
-    :goto_33
+    .line 274
+    :goto_53
     invoke-virtual {v5, v4}, Ljava/io/InputStream;->read([B)I
 
     move-result v6
 
-    if-lez v6, :cond_46
+    if-lez v6, :cond_66
 
     const/4 v7, 0x0
 
     invoke-virtual {v3, v4, v7, v6}, Ljava/io/OutputStream;->write([BII)V
-    :try_end_3d
-    .catchall {:try_start_31 .. :try_end_3d} :catchall_3e
+    :try_end_5d
+    .catchall {:try_start_51 .. :try_end_5d} :catchall_5e
 
-    goto :goto_33
+    goto :goto_53
 
-    .line 152
-    :catchall_3e
+    .line 276
+    :catchall_5e
     move-exception v0
 
     invoke-virtual {v5}, Ljava/io/InputStream;->close()V
 
-    .line 153
+    .line 277
     invoke-virtual {v3}, Ljava/io/OutputStream;->close()V
 
-    .line 154
+    .line 278
     throw v0
 
-    .line 152
-    :cond_46
+    .line 276
+    :cond_66
     invoke-virtual {v5}, Ljava/io/InputStream;->close()V
 
-    .line 153
+    .line 277
     invoke-virtual {v3}, Ljava/io/OutputStream;->close()V
 
-    goto :goto_22
+    goto :goto_42
+
+    .line 280
+    :cond_6d
+    return-void
 .end method
 
 .method public static couldJump(Lfr/testudo/spacecorsair/game/levels/LevelId;)I
     .registers 2
 
     .prologue
-    .line 333
+    .line 457
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModPrologue;->active:Z
 
     if-eqz v0, :cond_6
@@ -1186,12 +1267,12 @@
     .registers 5
 
     .prologue
-    .line 159
+    .line 283
     invoke-virtual {p0}, Ljava/io/File;->listFiles()[Ljava/io/File;
 
     move-result-object v1
 
-    .line 160
+    .line 284
     if-eqz v1, :cond_12
 
     array-length v2, v1
@@ -1209,11 +1290,11 @@
 
     goto :goto_8
 
-    .line 161
+    .line 285
     :cond_12
     invoke-virtual {p0}, Ljava/io/File;->delete()Z
 
-    .line 162
+    .line 286
     return-void
 .end method
 
@@ -1221,7 +1302,7 @@
     .registers 5
 
     .prologue
-    .line 277
+    .line 401
     if-eqz p0, :cond_d
 
     :try_start_2
@@ -1237,12 +1318,12 @@
 
     if-gtz v0, :cond_e
 
-    .line 288
+    .line 412
     :cond_d
     :goto_d
     return-void
 
-    .line 278
+    .line 402
     :cond_e
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -1254,12 +1335,12 @@
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/business/player/PlayerGear;->playerShip:Lfr/testudo/spacecorsair/business/loot/SpaceObjectType;
 
-    .line 279
+    .line 403
     invoke-static {}, Landroid/os/SystemClock;->uptimeMillis()J
 
     move-result-wide v2
 
-    .line 280
+    .line 404
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModTestMode;->hulledShip:Ljava/lang/Object;
 
     if-eq v0, v1, :cond_27
@@ -1272,7 +1353,7 @@
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->hullUntil:J
 
-    .line 281
+    .line 405
     :cond_27
     sget-wide v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->hullUntil:J
 
@@ -1288,17 +1369,17 @@
 
     if-gez v0, :cond_d
 
-    .line 282
+    .line 406
     iget v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
 
     iput v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->life:F
 
-    .line 283
+    .line 407
     const/high16 v0, 0x42c80000    # 100.0f
 
     iput v0, p0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->lifeInPourc:F
 
-    .line 284
+    .line 408
     const-string v0, "v40test"
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -1331,7 +1412,7 @@
 
     goto :goto_d
 
-    .line 285
+    .line 409
     :catch_5c
     move-exception v0
 
@@ -1342,7 +1423,7 @@
     .registers 2
 
     .prologue
-    .line 336
+    .line 460
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-eqz v0, :cond_6
@@ -1362,7 +1443,7 @@
     .registers 1
 
     .prologue
-    .line 343
+    .line 467
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-eqz v0, :cond_6
@@ -1383,7 +1464,7 @@
 .end method
 
 .method static load(Landroid/content/Context;Ljava/io/File;)V
-    .registers 12
+    .registers 14
     .annotation system Ldalvik/annotation/Throws;
         value = {
             Ljava/lang/Exception;
@@ -1393,36 +1474,296 @@
     .prologue
     const/4 v3, 0x0
 
-    .line 112
+    .line 181
+    new-instance v4, Ljava/util/HashMap;
+
+    invoke-direct {v4}, Ljava/util/HashMap;-><init>()V
+
+    .line 182
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v0, :cond_c4
+
+    .line 183
+    new-instance v0, Ljava/io/File;
+
+    const-string v1, "files"
+
+    invoke-direct {v0, p1, v1}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    invoke-virtual {v0}, Ljava/io/File;->listFiles()[Ljava/io/File;
+
+    move-result-object v0
+
+    if-nez v0, :cond_1f
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "missing profile files"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 184
+    :cond_1f
+    sget-object v5, Lfr/testudo/spacecorsair/mod/ModTestMode;->PREFS:[Ljava/lang/String;
+
+    array-length v6, v5
+
+    move v2, v3
+
+    :goto_23
+    if-ge v2, v6, :cond_c4
+
+    aget-object v7, v5, v2
+
+    .line 185
+    new-instance v0, Ljava/io/File;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v8, "prefs_"
+
+    invoke-virtual {v1, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v8, ".ser"
+
+    invoke-virtual {v1, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {v0, p1, v1}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 186
+    invoke-virtual {v0}, Ljava/io/File;->exists()Z
+
+    move-result v1
+
+    if-nez v1, :cond_57
+
+    const-string v1, "corsair_audio"
+
+    invoke-virtual {v7, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_57
+
+    .line 184
+    :goto_53
+    add-int/lit8 v0, v2, 0x1
+
+    move v2, v0
+
+    goto :goto_23
+
+    .line 187
+    :cond_57
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->readPrefs(Ljava/io/File;)Ljava/util/Map;
+
+    move-result-object v8
+
+    .line 188
+    invoke-interface {v8}, Ljava/util/Map;->entrySet()Ljava/util/Set;
+
+    move-result-object v0
+
+    invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
+
+    move-result-object v9
+
+    :cond_63
+    invoke-interface {v9}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_c0
+
+    invoke-interface {v9}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, Ljava/util/Map$Entry;
+
+    .line 189
+    invoke-interface {v0}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
+
+    move-result-object v1
+
+    .line 190
+    invoke-interface {v0}, Ljava/util/Map$Entry;->getKey()Ljava/lang/Object;
+
+    move-result-object v0
+
+    instance-of v0, v0, Ljava/lang/String;
+
+    if-nez v0, :cond_83
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "invalid preference name"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 191
+    :cond_83
+    instance-of v0, v1, Ljava/util/Set;
+
+    if-eqz v0, :cond_a4
+
+    move-object v0, v1
+
+    .line 192
+    check-cast v0, Ljava/util/Set;
+
+    invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
+
+    move-result-object v0
+
+    :cond_8e
+    invoke-interface {v0}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_63
+
+    invoke-interface {v0}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v1
+
+    instance-of v1, v1, Ljava/lang/String;
+
+    if-nez v1, :cond_8e
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "invalid preference set"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 193
+    :cond_a4
+    instance-of v0, v1, Ljava/lang/String;
+
+    if-nez v0, :cond_63
+
+    instance-of v0, v1, Ljava/lang/Boolean;
+
+    if-nez v0, :cond_63
+
+    instance-of v0, v1, Ljava/lang/Integer;
+
+    if-nez v0, :cond_63
+
+    instance-of v0, v1, Ljava/lang/Float;
+
+    if-nez v0, :cond_63
+
+    instance-of v0, v1, Ljava/lang/Long;
+
+    if-nez v0, :cond_63
+
+    .line 194
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "invalid preference type"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 196
+    :cond_c0
+    invoke-interface {v4, v7, v8}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+    goto :goto_53
+
+    .line 199
+    :cond_c4
     invoke-virtual {p0}, Landroid/content/Context;->getFilesDir()Ljava/io/File;
 
     move-result-object v1
 
-    .line 113
+    .line 200
     invoke-virtual {v1}, Ljava/io/File;->listFiles()[Ljava/io/File;
 
     move-result-object v2
 
-    .line 114
-    if-eqz v2, :cond_17
+    .line 201
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
 
-    array-length v4, v2
+    if-eqz v0, :cond_da
+
+    if-nez v2, :cond_da
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "unreadable live directory"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 202
+    :cond_da
+    if-eqz v2, :cond_fa
+
+    array-length v5, v2
 
     move v0, v3
 
-    :goto_d
-    if-ge v0, v4, :cond_17
+    :goto_de
+    if-ge v0, v5, :cond_fa
 
-    aget-object v5, v2, v0
+    aget-object v6, v2, v0
 
-    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModTestMode;->delete(Ljava/io/File;)V
+    .line 203
+    invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModTestMode;->delete(Ljava/io/File;)V
 
+    .line 204
+    sget-boolean v7, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v7, :cond_f7
+
+    invoke-virtual {v6}, Ljava/io/File;->exists()Z
+
+    move-result v6
+
+    if-eqz v6, :cond_f7
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "could not replace live file"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 202
+    :cond_f7
     add-int/lit8 v0, v0, 0x1
 
-    goto :goto_d
+    goto :goto_de
 
-    .line 115
-    :cond_17
+    .line 206
+    :cond_fa
     new-instance v0, Ljava/io/File;
 
     const-string v2, "files"
@@ -1431,28 +1772,28 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->copyTree(Ljava/io/File;Ljava/io/File;)V
 
-    .line 116
-    sget-object v4, Lfr/testudo/spacecorsair/mod/ModTestMode;->PREFS:[Ljava/lang/String;
+    .line 207
+    sget-object v5, Lfr/testudo/spacecorsair/mod/ModTestMode;->PREFS:[Ljava/lang/String;
 
-    array-length v5, v4
+    array-length v6, v5
 
     move v2, v3
 
-    :goto_25
-    if-ge v2, v5, :cond_f7
+    :goto_108
+    if-ge v2, v6, :cond_1de
 
-    aget-object v1, v4, v2
+    aget-object v1, v5, v2
 
-    .line 117
-    new-instance v6, Ljava/io/File;
+    .line 208
+    new-instance v7, Ljava/io/File;
 
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v7, "prefs_"
+    const-string v8, "prefs_"
 
-    invoke-virtual {v0, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -1460,9 +1801,9 @@
 
     move-result-object v0
 
-    const-string v7, ".ser"
+    const-string v8, ".ser"
 
-    invoke-virtual {v0, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -1470,14 +1811,14 @@
 
     move-result-object v0
 
-    invoke-direct {v6, p1, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+    invoke-direct {v7, p1, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 118
-    invoke-virtual {v6}, Ljava/io/File;->exists()Z
+    .line 209
+    invoke-virtual {v7}, Ljava/io/File;->exists()Z
 
     move-result v0
 
-    if-nez v0, :cond_59
+    if-nez v0, :cond_13c
 
     const-string v0, "corsair_audio"
 
@@ -1485,52 +1826,36 @@
 
     move-result v0
 
-    if-eqz v0, :cond_59
+    if-eqz v0, :cond_13c
 
-    .line 116
-    :goto_55
+    .line 207
+    :cond_138
     add-int/lit8 v0, v2, 0x1
 
     move v2, v0
 
-    goto :goto_25
+    goto :goto_108
 
-    .line 119
-    :cond_59
+    .line 210
+    :cond_13c
     new-instance v0, Ljava/util/HashMap;
 
     invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
 
-    .line 120
-    invoke-virtual {v6}, Ljava/io/File;->exists()Z
+    .line 211
+    sget-boolean v8, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
 
-    move-result v7
+    if-eqz v8, :cond_183
 
-    if-eqz v7, :cond_77
-
-    .line 121
-    new-instance v7, Ljava/io/ObjectInputStream;
-
-    new-instance v0, Ljava/io/FileInputStream;
-
-    invoke-direct {v0, v6}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
-
-    invoke-direct {v7, v0}, Ljava/io/ObjectInputStream;-><init>(Ljava/io/InputStream;)V
-
-    .line 122
-    :try_start_6e
-    invoke-virtual {v7}, Ljava/io/ObjectInputStream;->readObject()Ljava/lang/Object;
+    invoke-interface {v4, v1}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/util/Map;
-    :try_end_74
-    .catchall {:try_start_6e .. :try_end_74} :catchall_af
 
-    invoke-virtual {v7}, Ljava/io/ObjectInputStream;->close()V
-
-    .line 124
-    :cond_77
+    .line 213
+    :cond_14b
+    :goto_14b
     invoke-virtual {p0, v1, v3}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
 
     move-result-object v1
@@ -1541,47 +1866,47 @@
 
     invoke-interface {v1}, Landroid/content/SharedPreferences$Editor;->clear()Landroid/content/SharedPreferences$Editor;
 
-    move-result-object v6
+    move-result-object v7
 
-    .line 125
+    .line 214
     invoke-interface {v0}, Ljava/util/Map;->entrySet()Ljava/util/Set;
 
     move-result-object v0
 
     invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
 
-    move-result-object v7
+    move-result-object v8
 
-    :cond_8b
-    :goto_8b
-    invoke-interface {v7}, Ljava/util/Iterator;->hasNext()Z
+    :cond_15f
+    :goto_15f
+    invoke-interface {v8}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v0
 
-    if-eqz v0, :cond_f2
+    if-eqz v0, :cond_1cc
 
-    invoke-interface {v7}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+    invoke-interface {v8}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/util/Map$Entry;
 
-    .line 126
+    .line 215
     invoke-interface {v0}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
 
     move-result-object v1
 
-    .line 127
+    .line 216
     invoke-interface {v0}, Ljava/util/Map$Entry;->getKey()Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/lang/String;
 
-    .line 128
-    instance-of v8, v1, Ljava/lang/Boolean;
+    .line 217
+    instance-of v9, v1, Ljava/lang/Boolean;
 
-    if-eqz v8, :cond_b4
+    if-eqz v9, :cond_18e
 
     check-cast v1, Ljava/lang/Boolean;
 
@@ -1589,23 +1914,29 @@
 
     move-result v1
 
-    invoke-interface {v6, v0, v1}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
+    invoke-interface {v7, v0, v1}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
 
-    goto :goto_8b
+    goto :goto_15f
 
-    .line 122
-    :catchall_af
-    move-exception v0
+    .line 212
+    :cond_183
+    invoke-virtual {v7}, Ljava/io/File;->exists()Z
 
-    invoke-virtual {v7}, Ljava/io/ObjectInputStream;->close()V
+    move-result v8
 
-    throw v0
+    if-eqz v8, :cond_14b
 
-    .line 129
-    :cond_b4
-    instance-of v8, v1, Ljava/lang/Integer;
+    invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModTestMode;->readPrefs(Ljava/io/File;)Ljava/util/Map;
 
-    if-eqz v8, :cond_c2
+    move-result-object v0
+
+    goto :goto_14b
+
+    .line 218
+    :cond_18e
+    instance-of v9, v1, Ljava/lang/Integer;
+
+    if-eqz v9, :cond_19c
 
     check-cast v1, Ljava/lang/Integer;
 
@@ -1613,31 +1944,31 @@
 
     move-result v1
 
-    invoke-interface {v6, v0, v1}, Landroid/content/SharedPreferences$Editor;->putInt(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;
+    invoke-interface {v7, v0, v1}, Landroid/content/SharedPreferences$Editor;->putInt(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;
 
-    goto :goto_8b
+    goto :goto_15f
 
-    .line 130
-    :cond_c2
-    instance-of v8, v1, Ljava/lang/Long;
+    .line 219
+    :cond_19c
+    instance-of v9, v1, Ljava/lang/Long;
 
-    if-eqz v8, :cond_d0
+    if-eqz v9, :cond_1aa
 
     check-cast v1, Ljava/lang/Long;
 
     invoke-virtual {v1}, Ljava/lang/Long;->longValue()J
 
-    move-result-wide v8
+    move-result-wide v10
 
-    invoke-interface {v6, v0, v8, v9}, Landroid/content/SharedPreferences$Editor;->putLong(Ljava/lang/String;J)Landroid/content/SharedPreferences$Editor;
+    invoke-interface {v7, v0, v10, v11}, Landroid/content/SharedPreferences$Editor;->putLong(Ljava/lang/String;J)Landroid/content/SharedPreferences$Editor;
 
-    goto :goto_8b
+    goto :goto_15f
 
-    .line 131
-    :cond_d0
-    instance-of v8, v1, Ljava/lang/Float;
+    .line 220
+    :cond_1aa
+    instance-of v9, v1, Ljava/lang/Float;
 
-    if-eqz v8, :cond_de
+    if-eqz v9, :cond_1b8
 
     check-cast v1, Ljava/lang/Float;
 
@@ -1645,42 +1976,57 @@
 
     move-result v1
 
-    invoke-interface {v6, v0, v1}, Landroid/content/SharedPreferences$Editor;->putFloat(Ljava/lang/String;F)Landroid/content/SharedPreferences$Editor;
+    invoke-interface {v7, v0, v1}, Landroid/content/SharedPreferences$Editor;->putFloat(Ljava/lang/String;F)Landroid/content/SharedPreferences$Editor;
 
-    goto :goto_8b
+    goto :goto_15f
 
-    .line 132
-    :cond_de
-    instance-of v8, v1, Ljava/lang/String;
+    .line 221
+    :cond_1b8
+    instance-of v9, v1, Ljava/lang/String;
 
-    if-eqz v8, :cond_e8
+    if-eqz v9, :cond_1c2
 
     check-cast v1, Ljava/lang/String;
 
-    invoke-interface {v6, v0, v1}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;
+    invoke-interface {v7, v0, v1}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;
 
-    goto :goto_8b
+    goto :goto_15f
 
-    .line 133
-    :cond_e8
-    instance-of v8, v1, Ljava/util/Set;
+    .line 222
+    :cond_1c2
+    instance-of v9, v1, Ljava/util/Set;
 
-    if-eqz v8, :cond_8b
+    if-eqz v9, :cond_15f
 
     check-cast v1, Ljava/util/Set;
 
-    invoke-interface {v6, v0, v1}, Landroid/content/SharedPreferences$Editor;->putStringSet(Ljava/lang/String;Ljava/util/Set;)Landroid/content/SharedPreferences$Editor;
+    invoke-interface {v7, v0, v1}, Landroid/content/SharedPreferences$Editor;->putStringSet(Ljava/lang/String;Ljava/util/Set;)Landroid/content/SharedPreferences$Editor;
 
-    goto :goto_8b
+    goto :goto_15f
 
-    .line 135
-    :cond_f2
-    invoke-interface {v6}, Landroid/content/SharedPreferences$Editor;->commit()Z
+    .line 224
+    :cond_1cc
+    invoke-interface {v7}, Landroid/content/SharedPreferences$Editor;->commit()Z
 
-    goto/16 :goto_55
+    move-result v0
 
-    .line 137
-    :cond_f7
+    .line 225
+    sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v1, :cond_138
+
+    if-nez v0, :cond_138
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "could not restore preferences"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 227
+    :cond_1de
     return-void
 .end method
 
@@ -1688,7 +2034,7 @@
     .registers 7
 
     .prologue
-    .line 219
+    .line 343
     :try_start_0
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -1696,12 +2042,12 @@
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/game/Game;->playerInfo:Lfr/testudo/spacecorsair/business/player/PlayerInfo;
 
-    .line 220
+    .line 344
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->levelProperties:Lfr/testudo/spacecorsair/game/levels/LevelsGlobalProperties;
 
-    .line 221
+    .line 345
     const-string v2, "v40test"
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -1770,7 +2116,7 @@
 
     iget-object v3, v3, Lfr/testudo/spacecorsair/game/Game;->playerCurrentShipInventory:Lfr/testudo/spacecorsair/business/player/Inventory;
 
-    .line 222
+    .line 346
     invoke-virtual {v3}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCredit()J
 
     move-result-wide v4
@@ -1799,7 +2145,7 @@
 
     move-result-object v3
 
-    .line 223
+    .line 347
     if-nez v1, :cond_8e
 
     const/4 v0, -0x1
@@ -1833,14 +2179,14 @@
 
     move-result-object v0
 
-    .line 221
+    .line 345
     invoke-static {v2, v0}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 227
+    .line 351
     :goto_8d
     return-void
 
-    .line 223
+    .line 347
     :cond_8e
     iget-object v0, v1, Lfr/testudo/spacecorsair/game/levels/LevelsGlobalProperties;->visitedLevels:Ljava/util/List;
 
@@ -1852,11 +2198,11 @@
 
     goto :goto_6e
 
-    .line 224
+    .line 348
     :catch_95
     move-exception v0
 
-    .line 225
+    .line 349
     const-string v1, "v40test"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -1902,7 +2248,7 @@
     .registers 2
 
     .prologue
-    .line 340
+    .line 464
     if-nez p0, :cond_a
 
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
@@ -1925,11 +2271,142 @@
     goto :goto_b
 .end method
 
+.method static profileMarker(Ljava/io/File;Ljava/lang/String;)Ljava/lang/String;
+    .registers 8
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/io/IOException;
+        }
+    .end annotation
+
+    .prologue
+    const/4 v1, 0x0
+
+    .line 108
+    invoke-virtual {p0}, Ljava/io/File;->exists()Z
+
+    move-result v0
+
+    if-nez v0, :cond_8
+
+    .line 120
+    :cond_7
+    return-object p1
+
+    .line 109
+    :cond_8
+    const/16 v0, 0x10
+
+    new-array v3, v0, [B
+
+    .line 111
+    new-instance v4, Ljava/io/FileInputStream;
+
+    invoke-direct {v4, p0}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
+
+    move v0, v1
+
+    .line 113
+    :goto_12
+    :try_start_12
+    invoke-virtual {v4}, Ljava/io/FileInputStream;->read()I
+
+    move-result v5
+
+    if-ltz v5, :cond_2f
+
+    .line 114
+    array-length v2, v3
+
+    if-ne v0, v2, :cond_28
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "invalid profile marker"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+    :try_end_23
+    .catch Ljava/lang/Throwable; {:try_start_12 .. :try_end_23} :catch_23
+
+    .line 111
+    :catch_23
+    move-exception v0
+
+    :try_start_24
+    invoke-virtual {v4}, Ljava/io/FileInputStream;->close()V
+    :try_end_27
+    .catch Ljava/lang/Throwable; {:try_start_24 .. :try_end_27} :catch_51
+
+    :goto_27
+    throw v0
+
+    .line 115
+    :cond_28
+    add-int/lit8 v2, v0, 0x1
+
+    int-to-byte v5, v5
+
+    :try_start_2b
+    aput-byte v5, v3, v0
+    :try_end_2d
+    .catch Ljava/lang/Throwable; {:try_start_2b .. :try_end_2d} :catch_23
+
+    move v0, v2
+
+    goto :goto_12
+
+    .line 117
+    :cond_2f
+    invoke-virtual {v4}, Ljava/io/FileInputStream;->close()V
+
+    .line 118
+    new-instance p1, Ljava/lang/String;
+
+    const-string v2, "UTF-8"
+
+    invoke-direct {p1, v3, v1, v0, v2}, Ljava/lang/String;-><init>([BIILjava/lang/String;)V
+
+    .line 119
+    const-string v0, "main"
+
+    invoke-virtual {v0, p1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_7
+
+    const-string v0, "test"
+
+    invoke-virtual {v0, p1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_7
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "invalid profile marker"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 111
+    :catch_51
+    move-exception v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/Throwable;->addSuppressed(Ljava/lang/Throwable;)V
+
+    goto :goto_27
+.end method
+
 .method static read(Ljava/io/File;Ljava/lang/String;)Ljava/lang/String;
     .registers 4
 
     .prologue
-    .line 166
+    .line 290
     :try_start_0
     invoke-virtual {p0}, Ljava/io/File;->exists()Z
 
@@ -1937,11 +2414,11 @@
 
     if-nez v0, :cond_7
 
-    .line 170
+    .line 294
     :goto_6
     return-object p1
 
-    .line 167
+    .line 291
     :cond_7
     new-instance v1, Ljava/io/BufferedReader;
 
@@ -1953,7 +2430,7 @@
     :try_end_11
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_11} :catch_27
 
-    .line 168
+    .line 292
     :try_start_11
     invoke-virtual {v1}, Ljava/io/BufferedReader;->readLine()Ljava/lang/String;
     :try_end_14
@@ -1995,18 +2472,550 @@
     :try_end_27
     .catch Ljava/lang/Throwable; {:try_start_23 .. :try_end_27} :catch_27
 
-    .line 169
+    .line 293
     :catch_27
     move-exception v0
 
     goto :goto_6
 .end method
 
+.method private static readPrefs(Ljava/io/File;)Ljava/util/Map;
+    .registers 5
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "(",
+            "Ljava/io/File;",
+            ")",
+            "Ljava/util/Map",
+            "<",
+            "Ljava/lang/String;",
+            "Ljava/lang/Object;",
+            ">;"
+        }
+    .end annotation
+
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/lang/Exception;
+        }
+    .end annotation
+
+    .prologue
+    .line 231
+    new-instance v2, Ljava/io/FileInputStream;
+
+    invoke-direct {v2, p0}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
+
+    .line 232
+    :try_start_5
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v0, :cond_2f
+
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModTestMode$PreferenceInput;
+
+    invoke-direct {v0, v2}, Lfr/testudo/spacecorsair/mod/ModTestMode$PreferenceInput;-><init>(Ljava/io/InputStream;)V
+    :try_end_e
+    .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_e} :catch_2a
+
+    move-object v1, v0
+
+    .line 233
+    :goto_f
+    :try_start_f
+    invoke-virtual {v1}, Ljava/io/ObjectInputStream;->readObject()Ljava/lang/Object;
+
+    move-result-object v0
+
+    .line 234
+    sget-boolean v3, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v3, :cond_36
+
+    instance-of v3, v0, Ljava/util/Map;
+
+    if-nez v3, :cond_36
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v3, "invalid preference map"
+
+    invoke-direct {v0, v3}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+    :try_end_23
+    .catch Ljava/lang/Throwable; {:try_start_f .. :try_end_23} :catch_23
+
+    .line 231
+    :catch_23
+    move-exception v0
+
+    if-eqz v1, :cond_29
+
+    :try_start_26
+    invoke-virtual {v1}, Ljava/io/ObjectInputStream;->close()V
+    :try_end_29
+    .catch Ljava/lang/Throwable; {:try_start_26 .. :try_end_29} :catch_41
+
+    :cond_29
+    :goto_29
+    :try_start_29
+    throw v0
+    :try_end_2a
+    .catch Ljava/lang/Throwable; {:try_start_29 .. :try_end_2a} :catch_2a
+
+    :catch_2a
+    move-exception v0
+
+    :try_start_2b
+    invoke-virtual {v2}, Ljava/io/FileInputStream;->close()V
+    :try_end_2e
+    .catch Ljava/lang/Throwable; {:try_start_2b .. :try_end_2e} :catch_46
+
+    :goto_2e
+    throw v0
+
+    .line 232
+    :cond_2f
+    :try_start_2f
+    new-instance v0, Ljava/io/ObjectInputStream;
+
+    invoke-direct {v0, v2}, Ljava/io/ObjectInputStream;-><init>(Ljava/io/InputStream;)V
+    :try_end_34
+    .catch Ljava/lang/Throwable; {:try_start_2f .. :try_end_34} :catch_2a
+
+    move-object v1, v0
+
+    goto :goto_f
+
+    .line 235
+    :cond_36
+    :try_start_36
+    check-cast v0, Ljava/util/Map;
+    :try_end_38
+    .catch Ljava/lang/Throwable; {:try_start_36 .. :try_end_38} :catch_23
+
+    .line 236
+    if-eqz v1, :cond_3d
+
+    :try_start_3a
+    invoke-virtual {v1}, Ljava/io/ObjectInputStream;->close()V
+    :try_end_3d
+    .catch Ljava/lang/Throwable; {:try_start_3a .. :try_end_3d} :catch_2a
+
+    :cond_3d
+    invoke-virtual {v2}, Ljava/io/FileInputStream;->close()V
+
+    .line 235
+    return-object v0
+
+    .line 231
+    :catch_41
+    move-exception v1
+
+    :try_start_42
+    invoke-virtual {v0, v1}, Ljava/lang/Throwable;->addSuppressed(Ljava/lang/Throwable;)V
+    :try_end_45
+    .catch Ljava/lang/Throwable; {:try_start_42 .. :try_end_45} :catch_2a
+
+    goto :goto_29
+
+    :catch_46
+    move-exception v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/Throwable;->addSuppressed(Ljava/lang/Throwable;)V
+
+    goto :goto_2e
+.end method
+
+.method private static replaceMarker(Ljava/io/File;Ljava/lang/String;)V
+    .registers 6
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/lang/Exception;
+        }
+    .end annotation
+
+    .prologue
+    .line 124
+    new-instance v0, Ljava/io/File;
+
+    invoke-virtual {p0}, Ljava/io/File;->getParentFile()Ljava/io/File;
+
+    move-result-object v1
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {p0}, Ljava/io/File;->getName()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const-string v3, ".tmp"
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-direct {v0, v1, v2}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 125
+    invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->write(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 126
+    invoke-virtual {v0, p0}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_31
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "could not commit profile marker"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 127
+    :cond_31
+    return-void
+.end method
+
+.method static restoreChecked(Landroid/content/Context;Ljava/io/File;)V
+    .registers 11
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/lang/Exception;
+        }
+    .end annotation
+
+    .prologue
+    const/4 v1, 0x0
+
+    .line 130
+    new-instance v5, Ljava/io/File;
+
+    const-string v0, "active"
+
+    invoke-direct {v5, p1, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    new-instance v6, Ljava/io/File;
+
+    const-string v0, "pending"
+
+    invoke-direct {v6, p1, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 131
+    new-instance v7, Ljava/io/File;
+
+    const-string v0, "prepared"
+
+    invoke-direct {v7, p1, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 132
+    new-instance v2, Ljava/io/File;
+
+    const-string v0, "main"
+
+    invoke-direct {v2, p1, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    new-instance v3, Ljava/io/File;
+
+    const-string v0, "test"
+
+    invoke-direct {v3, p1, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 133
+    invoke-virtual {v2}, Ljava/io/File;->exists()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_39
+
+    move-object v0, v1
+
+    :goto_2b
+    invoke-static {v5, v0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->profileMarker(Ljava/io/File;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 134
+    if-nez v0, :cond_3c
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "unknown active profile"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 133
+    :cond_39
+    const-string v0, "main"
+
+    goto :goto_2b
+
+    .line 135
+    :cond_3c
+    invoke-static {v6, v1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->profileMarker(Ljava/io/File;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v4
+
+    .line 136
+    invoke-static {v7, v1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->profileMarker(Ljava/io/File;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    .line 137
+    if-eqz v1, :cond_5a
+
+    invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v8
+
+    if-nez v8, :cond_5a
+
+    invoke-virtual {v1, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v8
+
+    if-nez v8, :cond_5a
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "incomplete switch"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 138
+    :cond_5a
+    if-eqz v4, :cond_b4
+
+    invoke-virtual {v4, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v8
+
+    if-nez v8, :cond_b4
+
+    .line 139
+    invoke-virtual {v5}, Ljava/io/File;->exists()Z
+
+    move-result v8
+
+    if-nez v8, :cond_6b
+
+    invoke-static {v5, v0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->replaceMarker(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 140
+    :cond_6b
+    invoke-virtual {v4, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v8
+
+    if-nez v8, :cond_7f
+
+    .line 141
+    const-string v8, "main"
+
+    invoke-virtual {v8, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_7c
+
+    invoke-static {p0, v2}, Lfr/testudo/spacecorsair/mod/ModTestMode;->store(Landroid/content/Context;Ljava/io/File;)V
+
+    .line 143
+    :cond_7c
+    invoke-static {v7, v4}, Lfr/testudo/spacecorsair/mod/ModTestMode;->replaceMarker(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 145
+    :cond_7f
+    const-string v0, "main"
+
+    invoke-virtual {v0, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_ab
+
+    move-object v0, v2
+
+    .line 146
+    :goto_88
+    invoke-virtual {v0}, Ljava/io/File;->exists()Z
+
+    move-result v2
+
+    if-nez v2, :cond_96
+
+    const-string v2, "main"
+
+    invoke-virtual {v2, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_b0
+
+    .line 147
+    :cond_96
+    new-instance v2, Ljava/io/File;
+
+    const-string v8, "complete"
+
+    invoke-direct {v2, v0, v8}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    invoke-virtual {v2}, Ljava/io/File;->isFile()Z
+
+    move-result v2
+
+    if-nez v2, :cond_ad
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "incomplete profile"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    :cond_ab
+    move-object v0, v3
+
+    .line 145
+    goto :goto_88
+
+    .line 148
+    :cond_ad
+    invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->load(Landroid/content/Context;Ljava/io/File;)V
+
+    .line 150
+    :cond_b0
+    invoke-static {v5, v4}, Lfr/testudo/spacecorsair/mod/ModTestMode;->replaceMarker(Ljava/io/File;Ljava/lang/String;)V
+
+    move-object v0, v4
+
+    .line 153
+    :cond_b4
+    const-string v2, "main"
+
+    invoke-virtual {v2, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_dd
+
+    const-string v2, "main"
+
+    invoke-virtual {v2, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_cc
+
+    const-string v2, "main"
+
+    invoke-virtual {v2, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_dd
+
+    .line 154
+    :cond_cc
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModTestMode;->delete(Ljava/io/File;)V
+
+    .line 155
+    invoke-virtual {v3}, Ljava/io/File;->exists()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_dd
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "could not discard old test profile"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 157
+    :cond_dd
+    invoke-virtual {v7}, Ljava/io/File;->exists()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_f1
+
+    invoke-virtual {v7}, Ljava/io/File;->delete()Z
+
+    move-result v1
+
+    if-nez v1, :cond_f1
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "could not finish switch"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 158
+    :cond_f1
+    invoke-virtual {v6}, Ljava/io/File;->exists()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_105
+
+    invoke-virtual {v6}, Ljava/io/File;->delete()Z
+
+    move-result v1
+
+    if-nez v1, :cond_105
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "could not finish switch"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 159
+    :cond_105
+    const-string v1, "test"
+
+    invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
+
+    .line 160
+    return-void
+.end method
+
 .method private static root(Landroid/content/Context;)Ljava/io/File;
     .registers 3
 
     .prologue
-    .line 63
+    .line 65
     const-string v0, "corsair_profiles"
 
     const/4 v1, 0x0
@@ -2022,7 +3031,7 @@
     .registers 3
 
     .prologue
-    .line 230
+    .line 354
     if-eqz p0, :cond_10
 
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/game/levels/LevelId;->name()Ljava/lang/String;
@@ -2058,7 +3067,7 @@
 
     const/high16 v8, 0x40800000    # 4.0f
 
-    .line 395
+    .line 519
     const v0, 0x1020002
 
     :try_start_9
@@ -2068,7 +3077,7 @@
 
     check-cast v0, Landroid/view/ViewGroup;
 
-    .line 396
+    .line 520
     if-eqz v0, :cond_19
 
     const-string v1, "corsair_testmode_btn"
@@ -2079,23 +3088,23 @@
 
     if-eqz v1, :cond_1a
 
-    .line 437
+    .line 561
     :cond_19
     :goto_19
     return-void
 
-    .line 397
+    .line 521
     :cond_1a
     new-instance v2, Landroid/widget/Button;
 
     invoke-direct {v2, p0}, Landroid/widget/Button;-><init>(Landroid/content/Context;)V
 
-    .line 398
+    .line 522
     const-string v1, "corsair_testmode_btn"
 
     invoke-virtual {v2, v1}, Landroid/widget/Button;->setTag(Ljava/lang/Object;)V
 
-    .line 399
+    .line 523
     sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-eqz v1, :cond_129
@@ -2109,19 +3118,19 @@
     :goto_2e
     invoke-virtual {v2, v1}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
 
-    .line 400
+    .line 524
     const/4 v1, 0x2
 
     const/high16 v3, 0x41300000    # 11.0f
 
     invoke-virtual {v2, v1, v3}, Landroid/widget/Button;->setTextSize(IF)V
 
-    .line 401
+    .line 525
     const/4 v1, -0x1
 
     invoke-virtual {v2, v1}, Landroid/widget/Button;->setTextColor(I)V
 
-    .line 402
+    .line 526
     sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-eqz v1, :cond_131
@@ -2131,7 +3140,7 @@
     :goto_42
     invoke-virtual {v2, v1}, Landroid/widget/Button;->setBackgroundColor(I)V
 
-    .line 403
+    .line 527
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object v1
@@ -2142,7 +3151,7 @@
 
     iget v1, v1, Landroid/util/DisplayMetrics;->density:F
 
-    .line 404
+    .line 528
     mul-float v3, v9, v1
 
     float-to-int v3, v3
@@ -2161,27 +3170,27 @@
 
     invoke-virtual {v2, v3, v4, v5, v6}, Landroid/widget/Button;->setPadding(IIII)V
 
-    .line 405
+    .line 529
     const/4 v3, 0x0
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinHeight(I)V
 
-    .line 406
+    .line 530
     const/4 v3, 0x0
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinimumHeight(I)V
 
-    .line 407
+    .line 531
     const/4 v3, 0x0
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinWidth(I)V
 
-    .line 408
+    .line 532
     const/4 v3, 0x0
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinimumWidth(I)V
 
-    .line 409
+    .line 533
     new-instance v3, Landroid/widget/FrameLayout$LayoutParams;
 
     const/4 v4, -0x2
@@ -2192,7 +3201,7 @@
 
     invoke-direct {v3, v4, v5, v6}, Landroid/widget/FrameLayout$LayoutParams;-><init>(III)V
 
-    .line 410
+    .line 534
     const/4 v4, 0x0
 
     mul-float v5, v10, v1
@@ -2207,27 +3216,27 @@
 
     invoke-virtual {v3, v4, v5, v6, v7}, Landroid/widget/FrameLayout$LayoutParams;->setMargins(IIII)V
 
-    .line 411
+    .line 535
     new-instance v4, Lfr/testudo/spacecorsair/mod/ModTestMode$1;
 
     invoke-direct {v4, p0}, Lfr/testudo/spacecorsair/mod/ModTestMode$1;-><init>(Landroid/app/Activity;)V
 
     invoke-virtual {v2, v4}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 414
+    .line 538
     invoke-virtual {v0, v2, v3}, Landroid/view/ViewGroup;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 416
+    .line 540
     new-instance v2, Landroid/widget/Button;
 
     invoke-direct {v2, p0}, Landroid/widget/Button;-><init>(Landroid/content/Context;)V
 
-    .line 417
+    .line 541
     const-string v3, "corsair_testmode_btnprologue"
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setTag(Ljava/lang/Object;)V
 
-    .line 418
+    .line 542
     const-string v3, "REPLAY PROLOGUE"
 
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2236,24 +3245,24 @@
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
 
-    .line 419
+    .line 543
     const/4 v3, 0x2
 
     const/high16 v4, 0x41300000    # 11.0f
 
     invoke-virtual {v2, v3, v4}, Landroid/widget/Button;->setTextSize(IF)V
 
-    .line 420
+    .line 544
     const/4 v3, -0x1
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setTextColor(I)V
 
-    .line 421
+    .line 545
     const v3, -0x3395c5c6    # -6.140132E7f
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setBackgroundColor(I)V
 
-    .line 422
+    .line 546
     mul-float v3, v9, v1
 
     float-to-int v3, v3
@@ -2272,27 +3281,27 @@
 
     invoke-virtual {v2, v3, v4, v5, v6}, Landroid/widget/Button;->setPadding(IIII)V
 
-    .line 423
+    .line 547
     const/4 v3, 0x0
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinHeight(I)V
 
-    .line 424
+    .line 548
     const/4 v3, 0x0
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinimumHeight(I)V
 
-    .line 425
+    .line 549
     const/4 v3, 0x0
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinWidth(I)V
 
-    .line 426
+    .line 550
     const/4 v3, 0x0
 
     invoke-virtual {v2, v3}, Landroid/widget/Button;->setMinimumWidth(I)V
 
-    .line 427
+    .line 551
     new-instance v3, Landroid/widget/FrameLayout$LayoutParams;
 
     const/4 v4, -0x2
@@ -2303,7 +3312,7 @@
 
     invoke-direct {v3, v4, v5, v6}, Landroid/widget/FrameLayout$LayoutParams;-><init>(III)V
 
-    .line 428
+    .line 552
     const/4 v4, 0x0
 
     const/high16 v5, 0x42200000    # 40.0f
@@ -2320,17 +3329,17 @@
 
     invoke-virtual {v3, v4, v5, v1, v6}, Landroid/widget/FrameLayout$LayoutParams;->setMargins(IIII)V
 
-    .line 429
+    .line 553
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModTestMode$2;
 
     invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModTestMode$2;-><init>(Landroid/app/Activity;)V
 
     invoke-virtual {v2, v1}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 432
+    .line 556
     invoke-virtual {v0, v2, v3}, Landroid/view/ViewGroup;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 433
+    .line 557
     const-string v1, "v40test"
 
     new-instance v0, Ljava/lang/StringBuilder;
@@ -2364,11 +3373,11 @@
 
     goto/16 :goto_19
 
-    .line 434
+    .line 558
     :catch_10e
     move-exception v0
 
-    .line 435
+    .line 559
     const-string v1, "ModTestMode"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -2393,7 +3402,7 @@
 
     goto/16 :goto_19
 
-    .line 399
+    .line 523
     :cond_129
     :try_start_129
     const-string v1, "LOGIN"
@@ -2404,13 +3413,13 @@
 
     goto/16 :goto_2e
 
-    .line 402
+    .line 526
     :cond_131
     const v1, -0x33d5b596    # -4.464068E7f
 
     goto/16 :goto_42
 
-    .line 433
+    .line 557
     :cond_136
     const-string v0, "login"
     :try_end_138
@@ -2430,39 +3439,83 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 97
+    .line 164
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->delete(Ljava/io/File;)V
 
-    .line 98
+    .line 165
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v0, :cond_16
+
+    invoke-virtual {p1}, Ljava/io/File;->exists()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_16
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "could not replace old snapshot"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 166
+    :cond_16
     new-instance v0, Ljava/io/File;
 
     const-string v2, "files"
 
     invoke-direct {v0, p1, v2}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 99
+    .line 167
     invoke-virtual {v0}, Ljava/io/File;->mkdirs()Z
 
-    .line 100
+    move-result v2
+
+    .line 168
+    sget-boolean v3, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v3, :cond_35
+
+    if-nez v2, :cond_35
+
+    invoke-virtual {v0}, Ljava/io/File;->isDirectory()Z
+
+    move-result v2
+
+    if-nez v2, :cond_35
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "could not create snapshot"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 169
+    :cond_35
     invoke-virtual {p0}, Landroid/content/Context;->getFilesDir()Ljava/io/File;
 
     move-result-object v2
 
     invoke-static {v2, v0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->copyTree(Ljava/io/File;Ljava/io/File;)V
 
-    .line 101
+    .line 170
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModTestMode;->PREFS:[Ljava/lang/String;
 
     array-length v3, v2
 
     move v0, v1
 
-    :goto_19
-    if-ge v0, v3, :cond_60
+    :goto_40
+    if-ge v0, v3, :cond_87
 
     aget-object v4, v2, v0
 
-    .line 102
+    .line 171
     new-instance v5, Ljava/util/HashMap;
 
     invoke-virtual {p0, v4, v1}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
@@ -2475,7 +3528,7 @@
 
     invoke-direct {v5, v6}, Ljava/util/HashMap;-><init>(Ljava/util/Map;)V
 
-    .line 103
+    .line 172
     new-instance v6, Ljava/io/ObjectOutputStream;
 
     new-instance v7, Ljava/io/FileOutputStream;
@@ -2512,29 +3565,29 @@
 
     invoke-direct {v6, v7}, Ljava/io/ObjectOutputStream;-><init>(Ljava/io/OutputStream;)V
 
-    .line 104
-    :try_start_52
+    .line 173
+    :try_start_79
     invoke-virtual {v6, v5}, Ljava/io/ObjectOutputStream;->writeObject(Ljava/lang/Object;)V
-    :try_end_55
-    .catchall {:try_start_52 .. :try_end_55} :catchall_5b
+    :try_end_7c
+    .catchall {:try_start_79 .. :try_end_7c} :catchall_82
 
     invoke-virtual {v6}, Ljava/io/ObjectOutputStream;->close()V
 
-    .line 101
+    .line 170
     add-int/lit8 v0, v0, 0x1
 
-    goto :goto_19
+    goto :goto_40
 
-    .line 104
-    :catchall_5b
+    .line 173
+    :catchall_82
     move-exception v0
 
     invoke-virtual {v6}, Ljava/io/ObjectOutputStream;->close()V
 
     throw v0
 
-    .line 106
-    :cond_60
+    .line 175
+    :cond_87
     new-instance v0, Ljava/io/File;
 
     const-string v1, "complete"
@@ -2545,7 +3598,7 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->write(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 107
+    .line 176
     return-void
 .end method
 
@@ -2555,8 +3608,75 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 455
+    .line 579
     :try_start_1
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v0, :cond_39
+
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->profileUncertain:Z
+
+    if-eqz v0, :cond_39
+
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "unknown active profile"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+    :try_end_11
+    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_11} :catch_11
+
+    .line 591
+    :catch_11
+    move-exception v0
+
+    .line 592
+    const-string v1, "ModTestMode"
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "switch "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v1, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 593
+    const-string v0, "Could not switch profiles."
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    const/4 v1, 0x1
+
+    invoke-static {p0, v0, v1}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Landroid/widget/Toast;->show()V
+
+    .line 598
+    :goto_38
+    return-void
+
+    .line 580
+    :cond_39
+    :try_start_39
     const-string v0, "v40test"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -2579,27 +3699,27 @@
 
     invoke-static {v0, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 456
+    .line 581
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->storageManager:Lfr/testudo/spacecorsair/storage/StorageManager;
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/storage/StorageManager;->save()V
 
-    .line 457
+    .line 582
     invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v2
 
-    .line 458
+    .line 583
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModTestMode;->PREFS:[Ljava/lang/String;
 
     array-length v4, v3
 
     move v0, v1
 
-    :goto_28
-    if-ge v0, v4, :cond_45
+    :goto_60
+    if-ge v0, v4, :cond_7d
 
     aget-object v5, v3, v0
 
@@ -2627,10 +3747,10 @@
 
     add-int/lit8 v0, v0, 0x1
 
-    goto :goto_28
+    goto :goto_60
 
-    .line 459
-    :cond_45
+    .line 584
+    :cond_7d
     new-instance v0, Ljava/io/File;
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModTestMode;->root(Landroid/content/Context;)Ljava/io/File;
@@ -2641,9 +3761,15 @@
 
     invoke-direct {v0, v3, v4}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->write(Ljava/io/File;Ljava/lang/String;)V
+    .line 585
+    sget-boolean v3, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
 
-    .line 460
+    if-eqz v3, :cond_b1
+
+    invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->replaceMarker(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 586
+    :goto_8f
     invoke-virtual {v2}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
 
     move-result-object v0
@@ -2656,91 +3782,54 @@
 
     move-result-object v0
 
-    .line 461
-    if-eqz v0, :cond_6a
+    .line 587
+    if-eqz v0, :cond_a6
 
-    .line 462
+    .line 588
     const v2, 0x10008000
 
     invoke-virtual {v0, v2}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
 
-    .line 463
+    .line 589
     invoke-virtual {p0, v0}, Landroid/app/Activity;->startActivity(Landroid/content/Intent;)V
-    :try_end_6a
-    .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_6a} :catch_75
+    :try_end_a6
+    .catch Ljava/lang/Throwable; {:try_start_39 .. :try_end_a6} :catch_11
 
-    .line 470
-    :cond_6a
+    .line 596
+    :cond_a6
     invoke-static {}, Landroid/os/Process;->myPid()I
 
     move-result v0
 
     invoke-static {v0}, Landroid/os/Process;->killProcess(I)V
 
-    .line 471
+    .line 597
     invoke-static {v1}, Ljava/lang/System;->exit(I)V
 
-    .line 472
-    :goto_74
-    return-void
+    goto :goto_38
 
-    .line 465
-    :catch_75
-    move-exception v0
+    .line 585
+    :cond_b1
+    :try_start_b1
+    invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModTestMode;->write(Ljava/io/File;Ljava/lang/String;)V
+    :try_end_b4
+    .catch Ljava/lang/Throwable; {:try_start_b1 .. :try_end_b4} :catch_11
 
-    .line 466
-    const-string v1, "ModTestMode"
-
-    new-instance v2, Ljava/lang/StringBuilder;
-
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v3, "switch "
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v0
-
-    invoke-static {v1, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I
-
-    .line 467
-    const-string v0, "Could not switch profiles."
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    const/4 v1, 0x1
-
-    invoke-static {p0, v0, v1}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
-
-    move-result-object v0
-
-    invoke-virtual {v0}, Landroid/widget/Toast;->show()V
-
-    goto :goto_74
+    goto :goto_8f
 .end method
 
 .method private static testJump(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
     .registers 7
 
     .prologue
-    .line 349
+    .line 473
     const-string v0, "corsair_tmjump"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testValue(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 350
+    .line 474
     if-eqz v1, :cond_10
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->tJump:Ljava/lang/String;
@@ -2751,16 +3840,16 @@
 
     if-eqz v0, :cond_11
 
-    .line 362
+    .line 486
     :cond_10
     :goto_10
     return-void
 
-    .line 351
+    .line 475
     :cond_11
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModTestMode;->tJump:Ljava/lang/String;
 
-    .line 353
+    .line 477
     :try_start_13
     invoke-virtual {v1}, Ljava/lang/String;->trim()Ljava/lang/String;
 
@@ -2770,7 +3859,7 @@
 
     move-result-object v0
 
-    .line 354
+    .line 478
     sget-object v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v2, v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
@@ -2783,7 +3872,7 @@
 
     move-result v2
 
-    .line 355
+    .line 479
     const-string v3, "v40test"
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -2824,7 +3913,7 @@
 
     move-result-object v4
 
-    .line 356
+    .line 480
     invoke-static {v0}, Lfr/testudo/spacecorsair/business/world/PathFinder;->canJumpTo(Lfr/testudo/spacecorsair/game/levels/LevelId;)Z
 
     move-result v5
@@ -2863,7 +3952,7 @@
 
     move-result-object v2
 
-    .line 357
+    .line 481
     invoke-static {}, Landroid/os/SystemClock;->uptimeMillis()J
 
     move-result-wide v4
@@ -2876,21 +3965,21 @@
 
     move-result-object v2
 
-    .line 355
+    .line 479
     invoke-static {v3, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 358
+    .line 482
     invoke-virtual {p0, v0}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->initHyperdriveJumpRequest(Lfr/testudo/spacecorsair/game/levels/LevelId;)V
     :try_end_88
     .catch Ljava/lang/Throwable; {:try_start_13 .. :try_end_88} :catch_89
 
     goto :goto_10
 
-    .line 359
+    .line 483
     :catch_89
     move-exception v0
 
-    .line 360
+    .line 484
     const-string v2, "v40test"
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -2934,14 +4023,14 @@
 
     const/4 v1, 0x0
 
-    .line 295
+    .line 419
     const-string v0, "corsair_tmmiss"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModDev;->testValue(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v3
 
-    .line 296
+    .line 420
     if-eqz v3, :cond_12
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->tMiss:Ljava/lang/String;
@@ -2952,16 +4041,16 @@
 
     if-eqz v0, :cond_13
 
-    .line 317
+    .line 441
     :cond_12
     :goto_12
     return-void
 
-    .line 297
+    .line 421
     :cond_13
     sput-object v3, Lfr/testudo/spacecorsair/mod/ModTestMode;->tMiss:Ljava/lang/String;
 
-    .line 299
+    .line 423
     :try_start_15
     const-string v0, ","
 
@@ -2969,12 +4058,12 @@
 
     move-result-object v2
 
-    .line 300
+    .line 424
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v4, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->missionRepository:Lfr/testudo/spacecorsair/business/mission/MissionRepository;
 
-    .line 301
+    .line 425
     const/4 v0, 0x0
 
     aget-object v0, v2, v0
@@ -2991,7 +4080,7 @@
 
     move-result-object v0
 
-    .line 302
+    .line 426
     array-length v5, v2
 
     if-le v5, v6, :cond_f5
@@ -3012,7 +4101,7 @@
 
     if-eqz v5, :cond_f5
 
-    .line 304
+    .line 428
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
     move-result-object v5
@@ -3038,11 +4127,11 @@
 
     goto :goto_44
 
-    .line 314
+    .line 438
     :catch_56
     move-exception v0
 
-    .line 315
+    .line 439
     const-string v1, "v40test"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -3077,7 +4166,7 @@
 
     goto :goto_12
 
-    .line 305
+    .line 429
     :cond_7a
     const/4 v0, 0x0
 
@@ -3098,13 +4187,13 @@
 
     move-object v2, v0
 
-    .line 308
+    .line 432
     :goto_8a
     new-instance v4, Ljava/lang/StringBuilder;
 
     invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 309
+    .line 433
     invoke-interface {v2}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
     move-result-object v5
@@ -3122,7 +4211,7 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/business/mission/Mission;
 
-    .line 310
+    .line 434
     sget-object v6, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v6, v6, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->missionRepository:Lfr/testudo/spacecorsair/business/mission/MissionRepository;
@@ -3137,7 +4226,7 @@
 
     add-int/lit8 v1, v1, 0x1
 
-    .line 311
+    .line 435
     :cond_ad
     iget-object v0, v0, Lfr/testudo/spacecorsair/business/mission/Mission;->missionId:Ljava/lang/String;
 
@@ -3151,7 +4240,7 @@
 
     goto :goto_93
 
-    .line 313
+    .line 437
     :cond_b9
     const-string v0, "v40test"
 
@@ -3223,28 +4312,28 @@
     .registers 8
 
     .prologue
-    .line 255
+    .line 379
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->on:Z
 
     if-nez v0, :cond_5
 
-    .line 269
+    .line 393
     :cond_4
     :goto_4
     return-void
 
-    .line 256
+    .line 380
     :cond_5
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->fullHull(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 257
+    .line 381
     sget-wide v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->topMs:J
 
     sub-long/2addr v0, p1
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->topMs:J
 
-    .line 258
+    .line 382
     sget-wide v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->topMs:J
 
     const-wide/16 v2, 0x0
@@ -3253,21 +4342,21 @@
 
     if-gtz v0, :cond_4
 
-    .line 259
+    .line 383
     const-wide/16 v0, 0x1f4
 
     sput-wide v0, Lfr/testudo/spacecorsair/mod/ModTestMode;->topMs:J
 
-    .line 260
+    .line 384
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTestMode;->topUp()V
 
-    .line 261
+    .line 385
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModTestMode;->testJump(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 262
+    .line 386
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTestMode;->testMissions()V
 
-    .line 264
+    .line 388
     :try_start_22
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -3277,7 +4366,7 @@
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/game/levels/Level;->id:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
-    .line 265
+    .line 389
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModTestMode;->tAt:Lfr/testudo/spacecorsair/game/levels/LevelId;
 
     if-eq v0, v1, :cond_4
@@ -3346,7 +4435,7 @@
 
     goto :goto_4
 
-    .line 266
+    .line 390
     :catch_6d
     move-exception v0
 
@@ -3361,7 +4450,7 @@
 
     const/16 v6, 0x9
 
-    .line 235
+    .line 359
     :try_start_4
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -3369,7 +4458,7 @@
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/game/Game;->playerCurrentShipInventory:Lfr/testudo/spacecorsair/business/player/Inventory;
 
-    .line 236
+    .line 360
     if-eqz v0, :cond_23
 
     invoke-virtual {v0}, Lfr/testudo/spacecorsair/business/player/Inventory;->getCredit()J
@@ -3394,25 +4483,25 @@
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/business/player/Inventory;->addCredit(I)V
 
-    .line 237
+    .line 361
     :cond_23
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModQol;->prefs()Landroid/content/SharedPreferences;
 
     move-result-object v3
 
-    .line 238
+    .line 362
     if-nez v3, :cond_2a
 
-    .line 249
+    .line 373
     :cond_29
     :goto_29
     return-void
 
-    .line 239
+    .line 363
     :cond_2a
     const/4 v0, 0x0
 
-    .line 240
+    .line 364
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModV35;->parts()I
 
     move-result v1
@@ -3431,7 +4520,7 @@
 
     move-result-object v0
 
-    .line 241
+    .line 365
     :cond_3d
     const/4 v1, 0x0
 
@@ -3444,7 +4533,7 @@
 
     if-gt v2, v1, :cond_7c
 
-    .line 242
+    .line 366
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     array-length v1, v1
@@ -3457,7 +4546,7 @@
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;->key:Ljava/lang/String;
 
-    .line 243
+    .line 367
     :goto_4f
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModV35;->cores(Ljava/lang/String;)I
 
@@ -3492,7 +4581,7 @@
 
     move-result-object v0
 
-    .line 241
+    .line 365
     :cond_70
     add-int/lit8 v1, v2, 0x1
 
@@ -3500,13 +4589,13 @@
 
     goto :goto_3f
 
-    .line 242
+    .line 366
     :cond_74
     const-string v1, "neutral"
 
     goto :goto_4f
 
-    .line 243
+    .line 367
     :cond_77
     invoke-interface {v3}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
@@ -3514,7 +4603,7 @@
 
     goto :goto_57
 
-    .line 245
+    .line 369
     :cond_7c
     if-eqz v0, :cond_29
 
@@ -3524,7 +4613,7 @@
 
     goto :goto_29
 
-    .line 246
+    .line 370
     :catch_82
     move-exception v0
 
@@ -3540,12 +4629,12 @@
     .end annotation
 
     .prologue
-    .line 175
+    .line 299
     new-instance v1, Ljava/io/FileOutputStream;
 
     invoke-direct {v1, p0}, Ljava/io/FileOutputStream;-><init>(Ljava/io/File;)V
 
-    .line 176
+    .line 300
     :try_start_5
     const-string v0, "UTF-8"
 
@@ -3565,10 +4654,10 @@
 
     invoke-virtual {v1}, Ljava/io/FileOutputStream;->close()V
 
-    .line 177
+    .line 301
     return-void
 
-    .line 176
+    .line 300
     :catchall_19
     move-exception v0
 

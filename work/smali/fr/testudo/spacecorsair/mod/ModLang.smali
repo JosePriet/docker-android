@@ -72,7 +72,7 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 228
+    .line 245
     :try_start_1
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModLang;->app:Landroid/content/Context;
 
@@ -86,12 +86,12 @@
 
     move-result-object v0
 
-    .line 230
+    .line 247
     :cond_b
     :goto_b
     return-object v0
 
-    .line 229
+    .line 246
     :catch_c
     move-exception v1
 
@@ -468,7 +468,7 @@
     .registers 5
 
     .prologue
-    .line 239
+    .line 256
     if-eqz p0, :cond_8
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->spanish()Z
@@ -480,24 +480,24 @@
     :cond_8
     move-object v0, p0
 
-    .line 247
+    .line 264
     :cond_9
     :goto_9
     return-object v0
 
-    .line 240
+    .line 257
     :cond_a
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->back:Ljava/util/Map;
 
-    .line 241
+    .line 258
     if-nez v0, :cond_48
 
-    .line 242
+    .line 259
     new-instance v2, Ljava/util/HashMap;
 
     invoke-direct {v2}, Ljava/util/HashMap;-><init>()V
 
-    .line 243
+    .line 260
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->dict()Ljava/util/Map;
 
     move-result-object v0
@@ -550,13 +550,13 @@
 
     goto :goto_1f
 
-    .line 244
+    .line 261
     :cond_45
     sput-object v2, Lfr/testudo/spacecorsair/mod/ModLang;->back:Ljava/util/Map;
 
     move-object v0, v2
 
-    .line 246
+    .line 263
     :cond_48
     invoke-interface {v0, p0}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
@@ -564,7 +564,7 @@
 
     check-cast v0, Ljava/lang/String;
 
-    .line 247
+    .line 264
     if-nez v0, :cond_9
 
     move-object v0, p0
@@ -576,12 +576,12 @@
     .registers 6
 
     .prologue
-    .line 266
+    .line 283
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 267
+    .line 284
     const/4 v0, 0x0
 
     :goto_5
@@ -627,7 +627,7 @@
 
     goto :goto_5
 
-    .line 268
+    .line 285
     :cond_2e
     return-object v1
 .end method
@@ -638,30 +638,30 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 276
+    .line 293
     if-nez p0, :cond_4
 
-    .line 296
+    .line 313
     :goto_3
     return-object v0
 
-    .line 278
+    .line 295
     :cond_4
     :try_start_4
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->stockIds:Ljava/util/Map;
 
-    .line 279
+    .line 296
     if-nez v0, :cond_4f
 
-    .line 280
+    .line 297
     new-instance v0, Ljava/util/HashMap;
 
     invoke-direct {v0}, Ljava/util/HashMap;-><init>()V
 
-    .line 281
+    .line 298
     sget-object v2, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
-    .line 282
+    .line 299
     const-class v1, Lfr/testudo/spacecorsair/R$string;
 
     invoke-virtual {v1}, Ljava/lang/Class;->getFields()[Ljava/lang/reflect/Field;
@@ -677,7 +677,7 @@
 
     aget-object v5, v3, v1
 
-    .line 283
+    .line 300
     invoke-virtual {v5}, Ljava/lang/reflect/Field;->getType()Ljava/lang/Class;
 
     move-result-object v6
@@ -688,14 +688,14 @@
 
     if-eq v6, v7, :cond_26
 
-    .line 282
+    .line 299
     :cond_23
     :goto_23
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_17
 
-    .line 285
+    .line 302
     :cond_26
     const/4 v6, 0x0
 
@@ -708,7 +708,7 @@
 
     move-result-object v6
 
-    .line 286
+    .line 303
     if-eqz v6, :cond_23
 
     invoke-virtual {v6}, Ljava/lang/String;->length()I
@@ -741,18 +741,18 @@
 
     goto :goto_23
 
-    .line 287
+    .line 304
     :catch_4b
     move-exception v5
 
     goto :goto_23
 
-    .line 289
+    .line 306
     :cond_4d
     :try_start_4d
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->stockIds:Ljava/util/Map;
 
-    .line 291
+    .line 308
     :cond_4f
     invoke-interface {v0, p0}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
@@ -760,7 +760,7 @@
 
     check-cast v0, Ljava/lang/Integer;
 
-    .line 292
+    .line 309
     if-eqz v0, :cond_77
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -785,11 +785,11 @@
 
     goto :goto_3
 
-    .line 293
+    .line 310
     :catch_6b
     move-exception v0
 
-    .line 294
+    .line 311
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->stockIds:Ljava/util/Map;
 
     if-nez v0, :cond_77
@@ -800,7 +800,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->stockIds:Ljava/util/Map;
 
-    .line 296
+    .line 313
     :cond_77
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLang;->en(Ljava/lang/String;)Ljava/lang/String;
 
@@ -813,7 +813,7 @@
     .registers 3
 
     .prologue
-    .line 301
+    .line 318
     if-eqz p0, :cond_1e
 
     const-string v0, "@@s"
@@ -824,7 +824,7 @@
 
     if-eqz v0, :cond_1e
 
-    .line 302
+    .line 319
     :try_start_a
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -844,11 +844,11 @@
 
     move-result-object v0
 
-    .line 304
+    .line 321
     :goto_19
     return-object v0
 
-    .line 302
+    .line 319
     :catch_1a
     move-exception v0
 
@@ -856,7 +856,7 @@
 
     goto :goto_19
 
-    .line 304
+    .line 321
     :cond_1e
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
@@ -875,17 +875,17 @@
 
     const/4 v4, 0x0
 
-    .line 388
+    .line 405
     if-nez p0, :cond_7
 
-    .line 398
+    .line 415
     :goto_6
     return-object v0
 
     :cond_7
     move v3, v4
 
-    .line 390
+    .line 407
     :goto_8
     invoke-virtual {p0}, Ljava/lang/String;->length()I
 
@@ -893,12 +893,12 @@
 
     if-ge v3, v1, :cond_4e
 
-    .line 391
+    .line 408
     invoke-virtual {p0, v3}, Ljava/lang/String;->charAt(I)C
 
     move-result v2
 
-    .line 392
+    .line 409
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModLang;->glIndex(I)I
 
     move-result v1
@@ -909,7 +909,7 @@
 
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 390
+    .line 407
     :cond_1d
     :goto_1d
     add-int/lit8 v1, v3, 0x1
@@ -918,7 +918,7 @@
 
     goto :goto_8
 
-    .line 393
+    .line 410
     :cond_21
     if-nez v0, :cond_2c
 
@@ -930,7 +930,7 @@
 
     invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
-    .line 394
+    .line 411
     :cond_2c
     invoke-static {v2}, Ljava/lang/String;->valueOf(C)Ljava/lang/String;
 
@@ -942,7 +942,7 @@
 
     move-result-object v1
 
-    .line 395
+    .line 412
     invoke-virtual {v1}, Ljava/lang/String;->length()I
 
     move-result v5
@@ -953,7 +953,7 @@
 
     move-result v1
 
-    .line 396
+    .line 413
     :goto_40
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModLang;->glIndex(I)I
 
@@ -969,16 +969,16 @@
     :cond_4a
     move v1, v2
 
-    .line 395
+    .line 412
     goto :goto_40
 
     :cond_4c
     move v1, v2
 
-    .line 396
+    .line 413
     goto :goto_46
 
-    .line 398
+    .line 415
     :cond_4e
     if-nez v0, :cond_52
 
@@ -999,7 +999,7 @@
     .registers 2
 
     .prologue
-    .line 376
+    .line 393
     const/16 v0, 0x20
 
     if-lt p0, v0, :cond_b
@@ -1010,11 +1010,11 @@
 
     add-int/lit8 v0, p0, -0x20
 
-    .line 378
+    .line 395
     :goto_a
     return v0
 
-    .line 377
+    .line 394
     :cond_b
     const-string v0, "\u00e1\u00e9\u00ed\u00f3\u00fa\u00fc\u00f1\u00c1\u00c9\u00cd\u00d3\u00da\u00dc\u00d1\u00a1\u00bf\u00ba\u00aa\u00ab\u00bb"
 
@@ -1022,7 +1022,7 @@
 
     move-result v0
 
-    .line 378
+    .line 395
     if-ltz v0, :cond_16
 
     add-int/lit8 v0, v0, 0x5f
@@ -1039,7 +1039,7 @@
     .registers 5
 
     .prologue
-    .line 383
+    .line 400
     const/4 v1, 0x0
 
     const/16 v0, 0x5f
@@ -1053,10 +1053,10 @@
     :goto_8
     aput-char v0, p0, v1
 
-    .line 384
+    .line 401
     return-void
 
-    .line 383
+    .line 400
     :cond_b
     const-string v0, "\u00e1\u00e9\u00ed\u00f3\u00fa\u00fc\u00f1\u00c1\u00c9\u00cd\u00d3\u00da\u00dc\u00d1\u00a1\u00bf\u00ba\u00aa\u00ab\u00bb"
 
@@ -1189,6 +1189,92 @@
     const/4 v5, 0x0
 
     .line 188
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModSave;->strictInputs:Z
+
+    if-eqz v0, :cond_44
+
+    .line 189
+    new-instance v0, Lcom/google/gson/stream/JsonReader;
+
+    new-instance v1, Ljava/io/StringReader;
+
+    invoke-direct {v1, p0}, Ljava/io/StringReader;-><init>(Ljava/lang/String;)V
+
+    invoke-direct {v0, v1}, Lcom/google/gson/stream/JsonReader;-><init>(Ljava/io/Reader;)V
+
+    .line 190
+    new-instance v1, Ljava/util/HashMap;
+
+    invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
+
+    .line 192
+    :try_start_15
+    invoke-virtual {v0}, Lcom/google/gson/stream/JsonReader;->beginObject()V
+
+    .line 193
+    :goto_18
+    invoke-virtual {v0}, Lcom/google/gson/stream/JsonReader;->hasNext()Z
+
+    move-result v2
+
+    if-eqz v2, :cond_35
+
+    .line 194
+    invoke-virtual {v0}, Lcom/google/gson/stream/JsonReader;->nextName()Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 195
+    invoke-virtual {v0}, Lcom/google/gson/stream/JsonReader;->peek()Lcom/google/gson/stream/JsonToken;
+
+    move-result-object v3
+
+    sget-object v4, Lcom/google/gson/stream/JsonToken;->STRING:Lcom/google/gson/stream/JsonToken;
+
+    if-eq v3, v4, :cond_2b
+
+    .line 217
+    :cond_2a
+    :goto_2a
+    return-void
+
+    .line 196
+    :cond_2b
+    invoke-virtual {v0}, Lcom/google/gson/stream/JsonReader;->nextString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-interface {v1, v2, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+    goto :goto_18
+
+    .line 200
+    :catch_33
+    move-exception v0
+
+    goto :goto_2a
+
+    .line 198
+    :cond_35
+    invoke-virtual {v0}, Lcom/google/gson/stream/JsonReader;->endObject()V
+
+    .line 199
+    invoke-virtual {v0}, Lcom/google/gson/stream/JsonReader;->peek()Lcom/google/gson/stream/JsonToken;
+
+    move-result-object v0
+
+    sget-object v2, Lcom/google/gson/stream/JsonToken;->END_DOCUMENT:Lcom/google/gson/stream/JsonToken;
+
+    if-ne v0, v2, :cond_2a
+
+    invoke-interface {p1, v1}, Ljava/util/Map;->putAll(Ljava/util/Map;)V
+    :try_end_43
+    .catch Ljava/lang/Exception; {:try_start_15 .. :try_end_43} :catch_33
+
+    goto :goto_2a
+
+    .line 205
+    :cond_44
     const/4 v0, 0x1
 
     new-array v3, v0, [I
@@ -1197,109 +1283,105 @@
 
     move-object v2, v1
 
-    .line 190
-    :goto_8
+    .line 207
+    :goto_4a
     aget v0, v3, v5
 
     invoke-virtual {p0}, Ljava/lang/String;->length()I
 
     move-result v4
 
-    if-ge v0, v4, :cond_37
+    if-ge v0, v4, :cond_2a
 
-    .line 191
+    .line 208
     aget v0, v3, v5
 
     invoke-virtual {p0, v0}, Ljava/lang/String;->charAt(I)C
 
     move-result v0
 
-    .line 192
+    .line 209
     const/16 v4, 0x22
 
-    if-ne v0, v4, :cond_27
+    if-ne v0, v4, :cond_69
 
-    .line 193
+    .line 210
     invoke-static {p0, v3}, Lfr/testudo/spacecorsair/mod/ModLang;->str(Ljava/lang/String;[I)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 194
-    if-nez v2, :cond_22
+    .line 211
+    if-nez v2, :cond_64
 
-    :goto_20
+    :goto_62
     move-object v2, v0
 
-    .line 199
-    goto :goto_8
+    .line 216
+    goto :goto_4a
 
-    .line 194
-    :cond_22
+    .line 211
+    :cond_64
     invoke-interface {p1, v2, v0}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
     move-object v0, v1
 
-    goto :goto_20
+    goto :goto_62
 
-    .line 196
-    :cond_27
+    .line 213
+    :cond_69
     const/16 v4, 0x2c
 
-    if-eq v0, v4, :cond_2f
+    if-eq v0, v4, :cond_71
 
     const/16 v4, 0x7b
 
-    if-ne v0, v4, :cond_38
+    if-ne v0, v4, :cond_79
 
-    :cond_2f
+    :cond_71
     move-object v0, v1
 
-    .line 197
-    :goto_30
+    .line 214
+    :goto_72
     aget v2, v3, v5
 
     add-int/lit8 v2, v2, 0x1
 
     aput v2, v3, v5
 
-    goto :goto_20
+    goto :goto_62
 
-    .line 200
-    :cond_37
-    return-void
-
-    :cond_38
+    :cond_79
     move-object v0, v2
 
-    goto :goto_30
+    goto :goto_72
 .end method
 
 .method public static re(Ljava/lang/String;)Ljava/lang/String;
     .registers 5
 
     .prologue
-    .line 253
+    .line 270
     if-nez p0, :cond_4
 
     const/4 v0, 0x0
 
-    .line 261
+    .line 278
     :goto_3
     return-object v0
 
-    .line 254
+    .line 271
     :cond_4
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModLang;->back:Ljava/util/Map;
 
-    .line 255
+    .line 272
     if-nez v0, :cond_48
 
-    .line 256
+    .line 273
     new-instance v2, Ljava/util/HashMap;
 
     invoke-direct {v2}, Ljava/util/HashMap;-><init>()V
 
-    .line 257
+    .line 274
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->dict()Ljava/util/Map;
 
     move-result-object v0
@@ -1352,7 +1434,7 @@
 
     goto :goto_19
 
-    .line 258
+    .line 275
     :cond_3f
     invoke-interface {v2}, Ljava/util/Map;->isEmpty()Z
 
@@ -1365,7 +1447,7 @@
     :cond_47
     move-object v0, v2
 
-    .line 260
+    .line 277
     :cond_48
     invoke-interface {v0, p0}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
@@ -1373,7 +1455,7 @@
 
     check-cast v0, Ljava/lang/String;
 
-    .line 261
+    .line 278
     if-eqz v0, :cond_55
 
     :goto_50
@@ -1817,17 +1899,17 @@
     .prologue
     const/4 v5, 0x0
 
-    .line 203
+    .line 220
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 204
+    .line 221
     aget v0, p1, v5
 
     add-int/lit8 v0, v0, 0x1
 
-    .line 205
+    .line 222
     :goto_a
     invoke-virtual {p0}, Ljava/lang/String;->length()I
 
@@ -1835,30 +1917,30 @@
 
     if-ge v0, v2, :cond_18
 
-    .line 206
+    .line 223
     invoke-virtual {p0, v0}, Ljava/lang/String;->charAt(I)C
 
     move-result v2
 
-    .line 207
+    .line 224
     const/16 v3, 0x22
 
     if-ne v2, v3, :cond_21
 
-    .line 221
+    .line 238
     :cond_18
     add-int/lit8 v0, v0, 0x1
 
     aput v0, p1, v5
 
-    .line 222
+    .line 239
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v0
 
     return-object v0
 
-    .line 208
+    .line 225
     :cond_21
     const/16 v3, 0x5c
 
@@ -1872,26 +1954,26 @@
 
     if-ge v3, v4, :cond_6f
 
-    .line 209
+    .line 226
     add-int/lit8 v0, v0, 0x1
 
     invoke-virtual {p0, v0}, Ljava/lang/String;->charAt(I)C
 
     move-result v2
 
-    .line 210
+    .line 227
     sparse-switch v2, :sswitch_data_74
 
-    .line 217
+    .line 234
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 205
+    .line 222
     :goto_39
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_a
 
-    .line 211
+    .line 228
     :sswitch_3c
     const/16 v2, 0xa
 
@@ -1899,7 +1981,7 @@
 
     goto :goto_39
 
-    .line 212
+    .line 229
     :sswitch_42
     const/16 v2, 0x9
 
@@ -1907,7 +1989,7 @@
 
     goto :goto_39
 
-    .line 213
+    .line 230
     :sswitch_48
     const/16 v2, 0xd
 
@@ -1915,7 +1997,7 @@
 
     goto :goto_39
 
-    .line 214
+    .line 231
     :sswitch_4e
     const/16 v2, 0x8
 
@@ -1923,7 +2005,7 @@
 
     goto :goto_39
 
-    .line 215
+    .line 232
     :sswitch_54
     const/16 v2, 0xc
 
@@ -1931,7 +2013,7 @@
 
     goto :goto_39
 
-    .line 216
+    .line 233
     :sswitch_5a
     add-int/lit8 v2, v0, 0x1
 
@@ -1955,13 +2037,13 @@
 
     goto :goto_39
 
-    .line 219
+    .line 236
     :cond_6f
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
     goto :goto_39
 
-    .line 210
+    .line 227
     nop
 
     :sswitch_data_74
@@ -2080,7 +2162,7 @@
     .registers 2
 
     .prologue
-    .line 308
+    .line 325
     if-eqz p0, :cond_8
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->spanish()Z
@@ -2092,12 +2174,12 @@
     :cond_8
     move-object v0, p0
 
-    .line 310
+    .line 327
     :cond_9
     :goto_9
     return-object v0
 
-    .line 309
+    .line 326
     :cond_a
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->dict()Ljava/util/Map;
 
@@ -2109,7 +2191,7 @@
 
     check-cast v0, Ljava/lang/String;
 
-    .line 310
+    .line 327
     if-nez v0, :cond_9
 
     move-object v0, p0
@@ -2127,32 +2209,32 @@
 
     const/4 v2, 0x0
 
-    .line 343
+    .line 360
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->dict()Ljava/util/Map;
 
     move-result-object v6
 
-    .line 344
+    .line 361
     invoke-interface {v6, p0}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/lang/String;
 
-    .line 345
+    .line 362
     if-eqz v0, :cond_10
 
-    .line 358
+    .line 375
     :goto_f
     return-object v0
 
-    .line 346
+    .line 363
     :cond_10
     invoke-virtual {p0}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v1
 
-    .line 347
+    .line 364
     invoke-virtual {v1}, Ljava/lang/String;->length()I
 
     move-result v0
@@ -2177,7 +2259,7 @@
 
     goto :goto_f
 
-    .line 348
+    .line 365
     :cond_2b
     const-string v0, " \u00b7 "
 
@@ -2191,7 +2273,7 @@
 
     goto :goto_f
 
-    .line 349
+    .line 366
     :cond_35
     const-string v0, " \u00b7 "
 
@@ -2205,13 +2287,13 @@
 
     move v3, v2
 
-    .line 351
+    .line 368
     :goto_3e
     array-length v0, v7
 
     if-ge v1, v0, :cond_5c
 
-    .line 352
+    .line 369
     aget-object v0, v7, v1
 
     invoke-virtual {v0}, Ljava/lang/String;->trim()Ljava/lang/String;
@@ -2224,7 +2306,7 @@
 
     check-cast v0, Ljava/lang/String;
 
-    .line 353
+    .line 370
     if-eqz v0, :cond_58
 
     aget-object v3, v7, v1
@@ -2237,7 +2319,7 @@
 
     move v3, v4
 
-    .line 351
+    .line 368
     :cond_58
     add-int/lit8 v0, v1, 0x1
 
@@ -2245,7 +2327,7 @@
 
     goto :goto_3e
 
-    .line 355
+    .line 372
     :cond_5c
     if-nez v3, :cond_60
 
@@ -2253,7 +2335,7 @@
 
     goto :goto_f
 
-    .line 356
+    .line 373
     :cond_60
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -2261,7 +2343,7 @@
 
     invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
-    .line 357
+    .line 374
     :goto_67
     array-length v1, v7
 
@@ -2281,7 +2363,7 @@
 
     goto :goto_67
 
-    .line 358
+    .line 375
     :cond_78
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -2294,15 +2376,15 @@
     .registers 4
 
     .prologue
-    .line 330
+    .line 347
     instance-of v0, p0, Landroid/view/ViewGroup;
 
     if-eqz v0, :cond_17
 
-    .line 331
+    .line 348
     check-cast p0, Landroid/view/ViewGroup;
 
-    .line 332
+    .line 349
     const/4 v0, 0x0
 
     :goto_7
@@ -2322,21 +2404,21 @@
 
     goto :goto_7
 
-    .line 333
+    .line 350
     :cond_17
     instance-of v0, p0, Landroid/widget/TextView;
 
     if-eqz v0, :cond_2e
 
-    .line 334
+    .line 351
     check-cast p0, Landroid/widget/TextView;
 
-    .line 335
+    .line 352
     invoke-virtual {p0}, Landroid/widget/TextView;->getText()Ljava/lang/CharSequence;
 
     move-result-object v0
 
-    .line 336
+    .line 353
     if-eqz v0, :cond_2e
 
     invoke-interface {v0}, Ljava/lang/CharSequence;->length()I
@@ -2351,12 +2433,12 @@
 
     if-eqz v1, :cond_2f
 
-    .line 340
+    .line 357
     :cond_2e
     :goto_2e
     return-void
 
-    .line 337
+    .line 354
     :cond_2f
     invoke-interface {v0}, Ljava/lang/CharSequence;->toString()Ljava/lang/String;
 
@@ -2366,7 +2448,7 @@
 
     move-result-object v1
 
-    .line 338
+    .line 355
     if-eqz v1, :cond_2e
 
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -2384,7 +2466,7 @@
     .registers 4
 
     .prologue
-    .line 364
+    .line 381
     :try_start_0
     sget-object v0, Ljava/util/Locale;->US:Ljava/util/Locale;
 
@@ -2398,15 +2480,15 @@
 
     move-result-object v0
 
-    .line 366
+    .line 383
     :goto_a
     return-object v0
 
-    .line 365
+    .line 382
     :catch_b
     move-exception v0
 
-    .line 366
+    .line 383
     sget-object v0, Ljava/util/Locale;->US:Ljava/util/Locale;
 
     invoke-static {v0, p0, p1}, Ljava/lang/String;->format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
@@ -2420,7 +2502,7 @@
     .registers 4
 
     .prologue
-    .line 317
+    .line 334
     :try_start_0
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->spanish()Z
 
@@ -2436,12 +2518,12 @@
 
     if-nez v0, :cond_f
 
-    .line 327
+    .line 344
     :cond_e
     :goto_e
     return-void
 
-    .line 318
+    .line 335
     :cond_f
     invoke-virtual {p0}, Landroid/app/Activity;->getWindow()Landroid/view/Window;
 
@@ -2451,7 +2533,7 @@
 
     move-result-object v0
 
-    .line 319
+    .line 336
     const v1, 0x4c41100
 
     invoke-virtual {v0, v1}, Landroid/view/View;->getTag(I)Ljava/lang/Object;
@@ -2464,13 +2546,13 @@
 
     goto :goto_e
 
-    .line 326
+    .line 343
     :catch_24
     move-exception v0
 
     goto :goto_e
 
-    .line 320
+    .line 337
     :cond_26
     const v1, 0x4c41100
 
@@ -2478,7 +2560,7 @@
 
     invoke-virtual {v0, v1, v2}, Landroid/view/View;->setTag(ILjava/lang/Object;)V
 
-    .line 321
+    .line 338
     invoke-virtual {v0}, Landroid/view/View;->getViewTreeObserver()Landroid/view/ViewTreeObserver;
 
     move-result-object v1
@@ -2489,7 +2571,7 @@
 
     invoke-virtual {v1, v2}, Landroid/view/ViewTreeObserver;->addOnGlobalLayoutListener(Landroid/view/ViewTreeObserver$OnGlobalLayoutListener;)V
 
-    .line 325
+    .line 342
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLang;->translateTree(Landroid/view/View;)V
     :try_end_3d
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_3d} :catch_24

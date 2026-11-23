@@ -6,7 +6,8 @@
 # annotations
 .annotation system Ldalvik/annotation/MemberClasses;
     value = {
-        Lfr/testudo/spacecorsair/mod/ModLanSync$Style;
+        Lfr/testudo/spacecorsair/mod/ModLanSync$Style;,
+        Lfr/testudo/spacecorsair/mod/ModLanSync$RecordIndex;
     }
 .end annotation
 
@@ -545,14 +546,14 @@
     .prologue
     const/high16 v6, 0x43b40000    # 360.0f
 
-    .line 315
+    .line 367
     if-nez p0, :cond_5
 
-    .line 326
+    .line 378
     :cond_4
     return-void
 
-    .line 316
+    .line 368
     :cond_5
     const/4 v0, 0x0
 
@@ -561,13 +562,13 @@
     :goto_7
     if-ge v1, p1, :cond_4
 
-    .line 317
+    .line 369
     aget-object v2, p0, v1
 
-    .line 318
+    .line 370
     iget-object v3, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->from:Lfr/testudo/spacecorsair/mod/ModLan$Rec;
 
-    .line 319
+    .line 371
     if-eqz v3, :cond_15
 
     const/high16 v0, 0x3f800000    # 1.0f
@@ -589,7 +590,7 @@
 
     iput v0, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->spin:F
 
-    .line 316
+    .line 368
     :goto_21
     add-int/lit8 v0, v1, 0x1
 
@@ -597,7 +598,7 @@
 
     goto :goto_7
 
-    .line 320
+    .line 372
     :cond_25
     iget v0, v3, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->tx:F
 
@@ -613,7 +614,7 @@
 
     iput v0, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->x:F
 
-    .line 321
+    .line 373
     iget v0, v3, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->ty:F
 
     iget v4, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->ty:F
@@ -628,14 +629,14 @@
 
     iput v0, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->y:F
 
-    .line 322
+    .line 374
     iget v0, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->ts:F
 
     iget v4, v3, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->ts:F
 
     sub-float/2addr v0, v4
 
-    .line 323
+    .line 375
     const/high16 v4, 0x43340000    # 180.0f
 
     cmpl-float v4, v0, v4
@@ -644,7 +645,7 @@
 
     sub-float/2addr v0, v6
 
-    .line 324
+    .line 376
     :cond_47
     :goto_47
     iget v3, v3, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->ts:F
@@ -657,7 +658,7 @@
 
     goto :goto_21
 
-    .line 323
+    .line 375
     :cond_4e
     const/high16 v4, -0x3ccc0000    # -180.0f
 
@@ -874,7 +875,7 @@
 .end method
 
 .method static pair([Lfr/testudo/spacecorsair/mod/ModLan$Rec;I[Lfr/testudo/spacecorsair/mod/ModLan$Rec;Ljava/util/HashMap;)V
-    .registers 12
+    .registers 5
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "([",
@@ -890,50 +891,110 @@
     .end annotation
 
     .prologue
+    .line 342
     const/4 v0, 0x0
 
-    .line 300
-    if-eqz p2, :cond_5
+    invoke-static {p0, p1, p2, p3, v0}, Lfr/testudo/spacecorsair/mod/ModLanSync;->pair([Lfr/testudo/spacecorsair/mod/ModLan$Rec;I[Lfr/testudo/spacecorsair/mod/ModLan$Rec;Ljava/util/HashMap;Lfr/testudo/spacecorsair/mod/ModLanSync$RecordIndex;)V
 
-    if-nez p3, :cond_6
+    .line 343
+    return-void
+.end method
 
-    .line 311
-    :cond_5
+.method static pair([Lfr/testudo/spacecorsair/mod/ModLan$Rec;I[Lfr/testudo/spacecorsair/mod/ModLan$Rec;Ljava/util/HashMap;Lfr/testudo/spacecorsair/mod/ModLanSync$RecordIndex;)V
+    .registers 13
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "([",
+            "Lfr/testudo/spacecorsair/mod/ModLan$Rec;",
+            "I[",
+            "Lfr/testudo/spacecorsair/mod/ModLan$Rec;",
+            "Ljava/util/HashMap",
+            "<",
+            "Ljava/lang/Long;",
+            "Ljava/lang/Integer;",
+            ">;",
+            "Lfr/testudo/spacecorsair/mod/ModLanSync$RecordIndex;",
+            ")V"
+        }
+    .end annotation
+
+    .prologue
+    const/4 v0, 0x0
+
+    .line 346
+    if-eqz p2, :cond_7
+
+    if-nez p3, :cond_8
+
+    if-nez p4, :cond_8
+
+    .line 363
+    :cond_7
     return-void
 
-    .line 301
-    :cond_6
+    .line 347
+    :cond_8
     array-length v2, p2
 
     move v1, v0
 
-    :goto_8
-    if-ge v1, v2, :cond_14
+    :goto_a
+    if-ge v1, v2, :cond_16
 
     aget-object v3, p2, v1
 
-    if-eqz v3, :cond_11
+    if-eqz v3, :cond_13
 
     const/4 v4, 0x0
 
     iput-object v4, v3, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->from:Lfr/testudo/spacecorsair/mod/ModLan$Rec;
 
-    :cond_11
+    :cond_13
     add-int/lit8 v1, v1, 0x1
 
-    goto :goto_8
+    goto :goto_a
 
-    :cond_14
+    :cond_16
     move v1, v0
 
-    .line 302
-    :goto_15
-    if-ge v1, p1, :cond_5
+    .line 348
+    :goto_17
+    if-ge v1, p1, :cond_7
 
-    .line 303
+    .line 349
     aget-object v2, p0, v1
 
-    .line 304
+    .line 351
+    if-eqz p4, :cond_2e
+
+    .line 352
+    iget v0, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->key:I
+
+    iget v3, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->ord:I
+
+    invoke-virtual {p4, v0, v3}, Lfr/testudo/spacecorsair/mod/ModLanSync$RecordIndex;->find(II)I
+
+    move-result v0
+
+    .line 357
+    :goto_25
+    if-ltz v0, :cond_2a
+
+    array-length v3, p2
+
+    if-lt v0, v3, :cond_4b
+
+    .line 348
+    :cond_2a
+    :goto_2a
+    add-int/lit8 v0, v1, 0x1
+
+    move v1, v0
+
+    goto :goto_17
+
+    .line 354
+    :cond_2e
     iget v0, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->key:I
 
     int-to-long v4, v0
@@ -958,35 +1019,25 @@
 
     check-cast v0, Ljava/lang/Integer;
 
-    .line 305
-    if-eqz v0, :cond_36
+    .line 355
+    if-nez v0, :cond_46
 
-    invoke-virtual {v0}, Ljava/lang/Integer;->intValue()I
+    const/4 v0, -0x1
 
-    move-result v3
+    goto :goto_25
 
-    array-length v4, p2
-
-    if-lt v3, v4, :cond_3a
-
-    .line 302
-    :cond_36
-    :goto_36
-    add-int/lit8 v0, v1, 0x1
-
-    move v1, v0
-
-    goto :goto_15
-
-    .line 306
-    :cond_3a
+    :cond_46
     invoke-virtual {v0}, Ljava/lang/Integer;->intValue()I
 
     move-result v0
 
+    goto :goto_25
+
+    .line 358
+    :cond_4b
     aget-object v0, p2, v0
 
-    .line 307
+    .line 359
     iget v3, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->tx:F
 
     iget v4, v0, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->tx:F
@@ -999,7 +1050,7 @@
 
     sub-float/2addr v4, v5
 
-    .line 308
+    .line 360
     mul-float/2addr v3, v3
 
     mul-float/2addr v4, v4
@@ -1010,12 +1061,12 @@
 
     cmpl-float v3, v3, v4
 
-    if-gtz v3, :cond_36
+    if-gtz v3, :cond_2a
 
-    .line 309
+    .line 361
     iput-object v0, v2, Lfr/testudo/spacecorsair/mod/ModLan$Rec;->from:Lfr/testudo/spacecorsair/mod/ModLan$Rec;
 
-    goto :goto_36
+    goto :goto_2a
 .end method
 
 .method static point(Ljava/io/DataOutputStream;FFIIIIF)Z

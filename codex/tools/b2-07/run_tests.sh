@@ -25,7 +25,8 @@ mkdir -p "$tmp/mod" "$tmp/tests"
 deps=work/game_v168.jar:tools/android-4.1.1.4.jar:work/stubcls
 javac --release 8 -nowarn -cp "$deps" -d "$tmp/mod" src/java/fr/testudo/spacecorsair/mod/*.java
 mapfile -d '' tests < <(find work/dtest -name '*.java' -print0 | sort -z)
-javac -nowarn -cp "$tmp/mod:$deps" -d "$tmp/tests" "${tests[@]}"
+# ProcgenEventsTest (TASK-04) and FrameParity (TASK-08) reuse their task tools
+javac -nowarn -cp "$tmp/mod:$deps" -d "$tmp/tests" "${tests[@]}" codex/tools/b2-04/EventTool.java codex/tools/b2-08/Battle.java codex/tools/b2-08/FrameBench.java
 # The four historic inventory probes require enum additions present in the applied smali.
 # Assemble a read-only snapshot, with all products (including dex2jar diagnostics) in tmp.
 root=$PWD

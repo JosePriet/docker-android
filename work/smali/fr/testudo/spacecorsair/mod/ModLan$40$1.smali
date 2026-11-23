@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 3267
+    .line 3312
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModLan$40$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$40;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 3
 
     .prologue
-    .line 3267
+    .line 3312
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$40$1;->this$0:Lfr/testudo/spacecorsair/mod/ModLan$40;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModLan$40;->val$a:Landroid/app/Activity;
@@ -51,6 +51,6 @@
 
     invoke-virtual {v0, v1}, Landroid/app/Activity;->runOnUiThread(Ljava/lang/Runnable;)V
 
-    .line 3269
+    .line 3314
     return-void
 .end method

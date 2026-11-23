@@ -57,19 +57,19 @@
 
     const/high16 v2, 0x3f800000    # 1.0f
 
-    .line 66
+    .line 70
     const/4 v0, 0x1
 
     const/4 v1, 0x0
 
     invoke-direct {p0, v0, v1}, Lfr/testudo/spacecorsair/display/Drawable;-><init>(ILfr/testudo/spacecorsair/display/Texture;)V
 
-    .line 36
+    .line 40
     iput v2, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->w:F
 
     iput v2, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->h:F
 
-    .line 39
+    .line 43
     iput v3, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->u0:F
 
     iput v3, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->v0:F
@@ -78,7 +78,7 @@
 
     iput v2, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->v1:F
 
-    .line 46
+    .line 50
     iput v3, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->bu0:F
 
     iput v3, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->bv0:F
@@ -87,7 +87,7 @@
 
     iput v2, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->bv1:F
 
-    .line 67
+    .line 71
     return-void
 .end method
 
@@ -101,7 +101,7 @@
 
     const/4 v1, 0x0
 
-    .line 54
+    .line 58
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->u0:F
 
     cmpl-float v0, v0, v1
@@ -131,11 +131,11 @@
 
     move-result-object v0
 
-    .line 62
+    .line 66
     :goto_20
     return-object v0
 
-    .line 55
+    .line 59
     :cond_21
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->uv:Ljava/nio/FloatBuffer;
 
@@ -173,7 +173,7 @@
 
     if-eqz v0, :cond_a7
 
-    .line 56
+    .line 60
     :cond_45
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->uv:Ljava/nio/FloatBuffer;
 
@@ -190,7 +190,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->uv:Ljava/nio/FloatBuffer;
 
-    .line 57
+    .line 61
     :cond_53
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->uv:Ljava/nio/FloatBuffer;
 
@@ -222,7 +222,7 @@
 
     invoke-virtual {v0, v1, v2}, Ljava/nio/FloatBuffer;->put(IF)Ljava/nio/FloatBuffer;
 
-    .line 58
+    .line 62
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->uv:Ljava/nio/FloatBuffer;
 
     const/4 v1, 0x4
@@ -255,12 +255,12 @@
 
     invoke-virtual {v0, v1, v2}, Ljava/nio/FloatBuffer;->put(IF)Ljava/nio/FloatBuffer;
 
-    .line 59
+    .line 63
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->uv:Ljava/nio/FloatBuffer;
 
     invoke-virtual {v0, v3}, Ljava/nio/FloatBuffer;->position(I)Ljava/nio/Buffer;
 
-    .line 60
+    .line 64
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->u0:F
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->bu0:F
@@ -277,7 +277,7 @@
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->bv1:F
 
-    .line 62
+    .line 66
     :cond_a7
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->uv:Ljava/nio/FloatBuffer;
 
@@ -290,27 +290,27 @@
     .registers 18
 
     .prologue
-    .line 71
+    .line 75
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModFx;->PUMP:Lfr/testudo/spacecorsair/mod/ModFx$Sprite;
 
     if-ne p0, v0, :cond_8
 
-    .line 72
+    .line 76
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModArt;->pump(Ljavax/microedition/khronos/opengles/GL10;)V
 
-    .line 129
+    .line 133
     :cond_7
     :goto_7
     return-void
 
-    .line 75
+    .line 79
     :cond_8
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 76
+    .line 80
     if-eqz v1, :cond_7
 
-    .line 77
+    .line 81
     instance-of v0, v1, Lfr/testudo/spacecorsair/mod/ModArt$Lazy;
 
     if-eqz v0, :cond_16
@@ -321,7 +321,7 @@
 
     invoke-static {p1, v0}, Lfr/testudo/spacecorsair/mod/ModArt;->use(Ljavax/microedition/khronos/opengles/GL10;Lfr/testudo/spacecorsair/mod/ModArt$Lazy;)V
 
-    .line 78
+    .line 82
     :cond_16
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->additive:Z
 
@@ -333,23 +333,23 @@
 
     invoke-interface {p1, v0, v2}, Ljavax/microedition/khronos/opengles/GL10;->glBlendFunc(II)V
 
-    .line 79
+    .line 83
     :cond_20
     const/16 v0, 0xde1
 
     invoke-interface {p1, v0}, Ljavax/microedition/khronos/opengles/GL10;->glEnable(I)V
 
-    .line 80
+    .line 84
     const/16 v0, 0xde1
 
     iget v1, v1, Lfr/testudo/spacecorsair/display/Texture;->name:I
 
     invoke-interface {p1, v0, v1}, Ljavax/microedition/khronos/opengles/GL10;->glBindTexture(II)V
 
-    .line 81
+    .line 85
     invoke-interface {p1}, Ljavax/microedition/khronos/opengles/GL10;->glLoadIdentity()V
 
-    .line 82
+    .line 86
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->config:Lfr/testudo/spacecorsair/game/Config;
@@ -365,10 +365,10 @@
     :goto_39
     sub-float v0, v1, v0
 
-    .line 83
+    .line 87
     if-eqz p4, :cond_13f
 
-    .line 84
+    .line 88
     iget v1, p2, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
 
     sget v2, Lfr/testudo/spacecorsair/engine/GameRenderer;->screenMidWidthX:I
@@ -387,21 +387,21 @@
 
     invoke-interface {p1, v1, v2, v0}, Ljavax/microedition/khronos/opengles/GL10;->glTranslatef(FFF)V
 
-    .line 88
+    .line 92
     :goto_4c
     const v0, 0x8074
 
     invoke-interface {p1, v0}, Ljavax/microedition/khronos/opengles/GL10;->glEnableClientState(I)V
 
-    .line 89
+    .line 93
     const v0, 0x8078
 
     invoke-interface {p1, v0}, Ljavax/microedition/khronos/opengles/GL10;->glEnableClientState(I)V
 
-    .line 90
+    .line 94
     invoke-interface {p1, p6, p7, p8, p5}, Ljavax/microedition/khronos/opengles/GL10;->glColor4f(FFFF)V
 
-    .line 91
+    .line 95
     const/4 v0, 0x3
 
     const/16 v1, 0x1406
@@ -415,7 +415,7 @@
 
     invoke-interface {p1, v0, v1, v2, v3}, Ljavax/microedition/khronos/opengles/GL10;->glVertexPointer(IIILjava/nio/Buffer;)V
 
-    .line 92
+    .line 96
     const/4 v0, 0x2
 
     const/16 v1, 0x1406
@@ -428,10 +428,10 @@
 
     invoke-interface {p1, v0, v1, v2, v3}, Ljavax/microedition/khronos/opengles/GL10;->glTexCoordPointer(IIILjava/nio/Buffer;)V
 
-    .line 93
+    .line 97
     iget-boolean v2, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->repeatT:Z
 
-    .line 94
+    .line 98
     if-eqz v2, :cond_7f
 
     const/16 v0, 0xde1
@@ -442,7 +442,7 @@
 
     invoke-interface {p1, v0, v1, v3}, Ljavax/microedition/khronos/opengles/GL10;->glTexParameterf(IIF)V
 
-    .line 95
+    .line 99
     :cond_7f
     const/4 v0, 0x0
 
@@ -452,7 +452,7 @@
 
     invoke-interface {p1, p3, v0, v1, v3}, Ljavax/microedition/khronos/opengles/GL10;->glRotatef(FFFF)V
 
-    .line 96
+    .line 100
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->w:F
 
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->h:F
@@ -461,13 +461,13 @@
 
     invoke-interface {p1, v0, v1, v3}, Ljavax/microedition/khronos/opengles/GL10;->glScalef(FFF)V
 
-    .line 97
+    .line 101
     iget-boolean v3, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->flat:Z
 
-    .line 98
+    .line 102
     if-eqz v3, :cond_f3
 
-    .line 100
+    .line 104
     const/16 v0, 0x2300
 
     const/16 v1, 0x2200
@@ -476,7 +476,7 @@
 
     invoke-interface {p1, v0, v1, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 101
+    .line 105
     const/16 v0, 0x2300
 
     const v1, 0x8571
@@ -485,7 +485,7 @@
 
     invoke-interface {p1, v0, v1, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 102
+    .line 106
     const/16 v0, 0x2300
 
     const v1, 0x8580
@@ -494,7 +494,7 @@
 
     invoke-interface {p1, v0, v1, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 103
+    .line 107
     const/16 v0, 0x2300
 
     const v1, 0x8590
@@ -503,7 +503,7 @@
 
     invoke-interface {p1, v0, v1, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 104
+    .line 108
     const/16 v0, 0x2300
 
     const v1, 0x8572
@@ -512,7 +512,7 @@
 
     invoke-interface {p1, v0, v1, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 105
+    .line 109
     const/16 v0, 0x2300
 
     const v1, 0x8588
@@ -521,7 +521,7 @@
 
     invoke-interface {p1, v0, v1, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 106
+    .line 110
     const/16 v0, 0x2300
 
     const v1, 0x8598
@@ -530,7 +530,7 @@
 
     invoke-interface {p1, v0, v1, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 107
+    .line 111
     const/16 v0, 0x2300
 
     const v1, 0x8589
@@ -539,7 +539,7 @@
 
     invoke-interface {p1, v0, v1, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 108
+    .line 112
     const/16 v0, 0x2300
 
     const v1, 0x8599
@@ -548,14 +548,14 @@
 
     invoke-interface {p1, v0, v1, v4}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 110
+    .line 114
     :cond_f3
     iget-object v4, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->edgeA:[F
 
-    .line 111
+    .line 115
     if-eqz v4, :cond_16d
 
-    .line 112
+    .line 116
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->col:Ljava/nio/FloatBuffer;
 
     if-nez v0, :cond_105
@@ -571,7 +571,7 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->col:Ljava/nio/FloatBuffer;
 
-    .line 113
+    .line 117
     :cond_105
     const/4 v0, 0x0
 
@@ -582,7 +582,7 @@
 
     if-ge v1, v0, :cond_15e
 
-    .line 114
+    .line 118
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->col:Ljava/nio/FloatBuffer;
 
     mul-int/lit8 v5, v1, 0x4
@@ -605,7 +605,7 @@
 
     invoke-virtual {v0, v5, p8}, Ljava/nio/FloatBuffer;->put(IF)Ljava/nio/FloatBuffer;
 
-    .line 115
+    .line 119
     iget-object v5, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->col:Ljava/nio/FloatBuffer;
 
     mul-int/lit8 v0, v1, 0x4
@@ -625,14 +625,14 @@
 
     invoke-virtual {v5, v6, v0}, Ljava/nio/FloatBuffer;->put(IF)Ljava/nio/FloatBuffer;
 
-    .line 113
+    .line 117
     add-int/lit8 v0, v1, 0x1
 
     move v1, v0
 
     goto :goto_107
 
-    .line 82
+    .line 86
     :cond_137
     sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
@@ -642,7 +642,7 @@
 
     goto/16 :goto_39
 
-    .line 86
+    .line 90
     :cond_13f
     iget v1, p2, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
 
@@ -672,7 +672,7 @@
 
     goto/16 :goto_4c
 
-    .line 115
+    .line 119
     :cond_15a
     const/4 v0, 0x1
 
@@ -680,13 +680,13 @@
 
     goto :goto_12f
 
-    .line 117
+    .line 121
     :cond_15e
     const v0, 0x8076
 
     invoke-interface {p1, v0}, Ljavax/microedition/khronos/opengles/GL10;->glEnableClientState(I)V
 
-    .line 118
+    .line 122
     const/4 v0, 0x4
 
     const/16 v1, 0x1406
@@ -697,7 +697,7 @@
 
     invoke-interface {p1, v0, v1, v5, v6}, Ljavax/microedition/khronos/opengles/GL10;->glColorPointer(IIILjava/nio/Buffer;)V
 
-    .line 120
+    .line 124
     :cond_16d
     const/4 v0, 0x5
 
@@ -707,14 +707,14 @@
 
     invoke-interface {p1, v0, v1, v5}, Ljavax/microedition/khronos/opengles/GL10;->glDrawArrays(III)V
 
-    .line 121
+    .line 125
     if-eqz v4, :cond_17b
 
     const v0, 0x8076
 
     invoke-interface {p1, v0}, Ljavax/microedition/khronos/opengles/GL10;->glDisableClientState(I)V
 
-    .line 122
+    .line 126
     :cond_17b
     if-eqz v3, :cond_186
 
@@ -726,7 +726,7 @@
 
     invoke-interface {p1, v0, v1, v3}, Ljavax/microedition/khronos/opengles/GL10;->glTexEnvf(IIF)V
 
-    .line 123
+    .line 127
     :cond_186
     if-eqz v2, :cond_192
 
@@ -738,7 +738,7 @@
 
     invoke-interface {p1, v0, v1, v2}, Ljavax/microedition/khronos/opengles/GL10;->glTexParameterf(IIF)V
 
-    .line 124
+    .line 128
     :cond_192
     const/high16 v0, 0x3f800000    # 1.0f
 
@@ -750,22 +750,22 @@
 
     invoke-interface {p1, v0, v1, v2, v3}, Ljavax/microedition/khronos/opengles/GL10;->glColor4f(FFFF)V
 
-    .line 125
+    .line 129
     const v0, 0x8074
 
     invoke-interface {p1, v0}, Ljavax/microedition/khronos/opengles/GL10;->glDisableClientState(I)V
 
-    .line 126
+    .line 130
     const v0, 0x8078
 
     invoke-interface {p1, v0}, Ljavax/microedition/khronos/opengles/GL10;->glDisableClientState(I)V
 
-    .line 127
+    .line 131
     const/16 v0, 0xde1
 
     invoke-interface {p1, v0}, Ljavax/microedition/khronos/opengles/GL10;->glDisable(I)V
 
-    .line 128
+    .line 132
     iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->additive:Z
 
     if-eqz v0, :cond_7
@@ -787,7 +787,7 @@
 
     const/4 v0, 0x0
 
-    .line 49
+    .line 53
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->u0:F
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->v0:F
@@ -796,11 +796,11 @@
 
     iput v1, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->v1:F
 
-    .line 50
+    .line 54
     const/4 v0, 0x0
 
     iput-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModFx$Sprite;->repeatT:Z
 
-    .line 51
+    .line 55
     return-void
 .end method

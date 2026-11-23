@@ -127,7 +127,9 @@ public final class Batch2Inputs {
         for (int n = 0; n < 32; n++) {
             String prefix = json.substring(0, 1 + random.nextInt(json.length() - 1));
             try { read.invoke(storage, prefix); throw new AssertionError(reader + " accepted incomplete object"); }
-            catch (InvocationTargetException e) { if (!(e.getCause() instanceof JsonParseException)) throw e; }
+            catch (InvocationTargetException e) {   // the stock Gson reports a cut number ("-") as NumberFormatException
+                if (!(e.getCause() instanceof JsonParseException) && !(e.getCause() instanceof NumberFormatException)) throw e;
+            }
         }
         return value;
     }

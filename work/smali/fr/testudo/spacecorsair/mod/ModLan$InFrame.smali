@@ -59,6 +59,8 @@
 
 .field pvp:Z
 
+.field recordIndex:Lfr/testudo/spacecorsair/mod/ModLanSync$RecordIndex;
+
 .field recs:[Lfr/testudo/spacecorsair/mod/ModLan$Rec;
 
 .field round:I
@@ -77,4 +79,44 @@
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
+.end method
+
+
+# virtual methods
+.method indexRecords()V
+    .registers 4
+
+    .prologue
+    .line 1229
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModFx;->PERF_FRAME_INDEX:Z
+
+    if-eqz v0, :cond_10
+
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModLanSync$RecordIndex;
+
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$InFrame;->recs:[Lfr/testudo/spacecorsair/mod/ModLan$Rec;
+
+    iget v2, p0, Lfr/testudo/spacecorsair/mod/ModLan$InFrame;->n:I
+
+    invoke-direct {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModLanSync$RecordIndex;-><init>([Lfr/testudo/spacecorsair/mod/ModLan$Rec;I)V
+
+    iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$InFrame;->recordIndex:Lfr/testudo/spacecorsair/mod/ModLanSync$RecordIndex;
+
+    .line 1231
+    :goto_f
+    return-void
+
+    .line 1230
+    :cond_10
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$InFrame;->recs:[Lfr/testudo/spacecorsair/mod/ModLan$Rec;
+
+    iget v1, p0, Lfr/testudo/spacecorsair/mod/ModLan$InFrame;->n:I
+
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModLanSync;->index([Lfr/testudo/spacecorsair/mod/ModLan$Rec;I)Ljava/util/HashMap;
+
+    move-result-object v0
+
+    iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLan$InFrame;->idx:Ljava/util/HashMap;
+
+    goto :goto_f
 .end method

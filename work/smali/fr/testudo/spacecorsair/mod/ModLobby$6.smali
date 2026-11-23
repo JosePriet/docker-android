@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 666
+    .line 676
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$g:J
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$jc:Ljava/lang/String;
@@ -49,7 +49,7 @@
     .registers 5
 
     .prologue
-    .line 668
+    .line 678
     const-wide/16 v0, 0xbb8
 
     :try_start_2
@@ -57,7 +57,7 @@
     :try_end_5
     .catch Ljava/lang/InterruptedException; {:try_start_2 .. :try_end_5} :catch_35
 
-    .line 669
+    .line 679
     iget-wide v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$g:J
 
     # getter for: Lfr/testudo/spacecorsair/mod/ModLobby;->gen:J
@@ -82,12 +82,12 @@
 
     if-nez v0, :cond_1c
 
-    .line 672
+    .line 682
     :cond_1b
     :goto_1b
     return-void
 
-    .line 670
+    .line 680
     :cond_1c
     sget v0, Lfr/testudo/spacecorsair/mod/ModLan;->role:I
 
@@ -97,7 +97,7 @@
 
     if-nez v0, :cond_1b
 
-    .line 671
+    .line 681
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModLobby$6;->val$jc:Ljava/lang/String;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModLobby;->join(Ljava/lang/String;)Z
@@ -116,7 +116,7 @@
 
     goto :goto_1b
 
-    .line 668
+    .line 678
     :catch_35
     move-exception v0
 
