@@ -1,0 +1,7 @@
+sc-manifest=1
+seq=20
+apk.version=v46-test3
+apk.build=53
+apk.sha256=11fe691b75aae0307d78ff63acd30971aab7c8f9e1e5de1bbca78febf10af8c8
+apk.size=91757545
+apk.url=https://raw.githubusercontent.com/JosePriet/docker-android/emulator-tests/tests/apks/space-corsair.apk

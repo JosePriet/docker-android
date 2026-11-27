@@ -81,7 +81,7 @@ timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ] || [ "$GAME" = sc44 ]; then
-  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ] || [ "$STAGE" = V60U ] || [ "$STAGE" = CCEF ]; } && NOPRO=/data/local/tmp/corsair_noprologue
+  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ] || [ "$STAGE" = V60U ] || [ "$STAGE" = V60P ] || [ "$STAGE" = CCEF ]; } && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
@@ -245,6 +245,55 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
   # nickname -> lobby menu -> host a private local game (code shown) -> stop hosting.
   # ---- v45 in-game updates (2026-11-19): signed test channel on this branch (tests/upd): download the content pack,
   # restart, check the chain is live, then the game update path (full APK via PackageInstaller, same build re-installed)
+  if [ "$STAGE" = V60P ]; then
+    # 2026-11-27 PR #14: boot check prompt ("Update available": Download update / Later) only when an update exists,
+    # content pack (lang/en.json + data/tune.txt) applies after restart, Undo last update, leftover files cleaned
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt; U=https://raw.githubusercontent.com/JosePriet/docker-android/emulator-tests/tests
+    relaunch() { a shell am force-stop $PKG; sleep 3; a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 35; need "$1"; }
+    files() { a shell "ls -laR /data/data/$PKG/app_content /data/data/$PKG/files 2>/dev/null | grep -vE '^total|^$' | head -40" > $OUT/files_$1.txt 2>&1; log "EVIDENCE files $1: $(tr -s ' ' < $OUT/files_$1.txt | cut -d' ' -f5,9 | tr '\n' ' ' | cut -c1-600)"; }
+    files start
+    a shell "echo $U/upd0/ > $T/corsair_upd_url; chmod 644 $T/corsair_*"
+    relaunch p_none; shot p_none; dump p_none
+    log "EVIDENCE up to date (expect no prompt): $(grep -c 'Update available' $OUT/last.xml) prompt(s); $(grep -E 'ModTest.*: update' $LG | tail -2 | sed 's/^.*): //' | tr '\n' ' ')"
+    a shell "echo $U/upd/ > $T/corsair_upd_url; chmod 644 $T/corsair_*"
+    relaunch p_avail; shot p_avail; dump p_avail
+    log "EVIDENCE update listed (expect prompt): $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Update available|Download update|Later|test pack|Size' | tr '\n' ' ')"
+    tap_text "^(Later|LATER)$" p_later; sleep 3; dump p_later_after; shot p_later_after
+    log "EVIDENCE after Later: $(grep -c 'Update available' $OUT/last.xml) prompt(s), $(ls /dev/null) "
+    relaunch p_avail2; shot p_avail2; dump p_avail2
+    log "EVIDENCE prompt again: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Update available|Download update' | tr '\n' ' ')"
+    tap_text "^(Download update|DOWNLOAD UPDATE)$" p_dl; sleep 20; shot p_dl_done; dump p_dl_done
+    log "EVIDENCE after download: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Restart|Content|refused|fail|space|updated' | tr '\n' ' ')"
+    log "EVIDENCE update log: $(grep -E 'ModTest.*: (update|content)' $LG | tail -8 | sed 's/^.*): //' | tr '\n' ' ')"
+    files downloaded
+    tap_text "^(Restart the game now|RESTART THE GAME NOW)" p_restart; sleep 30
+    [ -z "$(timeout 5 adb shell pidof $PKG)" ] && { a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 25; }
+    need p_after; shot p_after; dump p_after
+    log "EVIDENCE prompt after install (expect none): $(grep -c 'Update available' $OUT/last.xml)"
+    log "EVIDENCE chain live: $(grep -E 'ModTest.*: (content|tune)' $LG | tail -6 | sed 's/^.*): //' | tr '\n' ' ')"
+    sleep 5; for k in 1 2 3; do tap 57 55; sleep 4; dump p_menu; grep -q 'text="Updates' $OUT/last.xml && break; a shell input keyevent KEYCODE_BACK; sleep 3; done
+    tap_text "^Updates" p_upd; sleep 10; shot p_panel; dump p_panel
+    log "EVIDENCE panel with pack (expect 'Check now (test pack)'): $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Check now|Content|version|Undo' | tr '\n' ' ')"
+    tap_text "^(Undo last update|UNDO LAST UPDATE)" p_undo; sleep 4; shot p_undo; dump p_undo
+    log "EVIDENCE undo: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'restored|Nothing to undo|Restart' | tr '\n' ' ')"
+    tap_text "^(Restart the game now|RESTART THE GAME NOW)" p_restart2; sleep 30
+    [ -z "$(timeout 5 adb shell pidof $PKG)" ] && { a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 25; }
+    need p_after_undo; shot p_after_undo; dump p_after_undo
+    log "EVIDENCE prompt after undo: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Update available|Download update' | tr '\n' ' ')"
+    tap_text "^(Later|LATER)$" p_later2; sleep 3
+    for k in 1 2 3; do tap 57 55; sleep 4; dump p_menu2; grep -q 'text="Updates' $OUT/last.xml && break; a shell input keyevent KEYCODE_BACK; sleep 3; done
+    tap_text "^Updates" p_upd2; sleep 10; shot p_panel2; dump p_panel2
+    log "EVIDENCE panel after undo (expect plain 'Check now'): $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Check now|Content|version' | tr '\n' ' ')"
+    # cleanup: a stale unfinished download (8 days old) must be gone after the next start
+    a shell "mkdir -p /data/data/$PKG/app_content/packs && echo x > /data/data/$PKG/app_content/packs/stale.part && touch -d '2026-01-01' /data/data/$PKG/app_content/packs/stale.part"
+    files before_prune
+    relaunch p_prune; files after_prune
+    log "EVIDENCE stale .part after start (expect gone): $(a shell "ls /data/data/$PKG/app_content/packs/stale.part 2>&1" | tr '\n' ' ')"
+    log "EVIDENCE prune log: $(grep -E 'ModTest.*: content.*(prune|delet)' $LG | tail -4 | sed 's/^.*): //' | tr '\n' ' ')"
+    grep -E "ModTest.*: (update|content|tune)|FATAL|AndroidRuntime: |OutOfMemory" $LG > $OUT/v60p_events.txt
+    a shell "rm -f $T/corsair_upd_url"
+    finish; exit 0
+  fi
   if [ "$STAGE" = V60U ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
     a shell "echo https://raw.githubusercontent.com/JosePriet/docker-android/emulator-tests/tests/upd/ > $T/corsair_upd_url; chmod 644 $T/corsair_*"
