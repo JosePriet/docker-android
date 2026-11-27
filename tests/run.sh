@@ -240,20 +240,21 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     rec() { timeout 200 adb shell screenrecord --time-limit $2 --bit-rate 8000000 /sdcard/$1.mp4 >/dev/null 2>&1 & }
     pull() { sleep 3; timeout 60 adb pull /sdcard/$1.mp4 $OUT/$1.mp4 >/dev/null 2>&1; log "pulled $1: $(stat -c %s $OUT/$1.mp4 2>/dev/null)"; }
     a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 4
-    for i in 1 2 3 4; do swipe 1140 900 1140 200 600; sleep 1; done; shot settings_visual_quality; dump settings_vq
+    for i in $(seq 1 12); do dump settings_vq; grep -q 'text="Visual quality' $OUT/last.xml && break; swipe 1140 800 1140 500 500; sleep 1; done
+    swipe 1140 800 1140 600 500; sleep 1; shot settings_visual_quality; dump settings_vq
     log "EVIDENCE settings: $(grep -oE 'text="(Visual quality[^"]*|High|Medium|Low|Offer lower[^"]*|Screen shake[^"]*)"' $OUT/last.xml | tr '\n' ' ')"
     back 3
     put corsair_ccef_god 1; put corsair_vfx_q 2; sleep 30; shot start
     for Q in 2 0; do
       put corsair_vfx_q $Q; sleep 2
       put corsair_spawn defensor,elite$Q; sleep 2; put corsair_spawn albatros,x$Q; sleep 2; put corsair_spawn frelon,elite,$Q; sleep 3; shot spawned_q$Q
-      rec vfx_small_kills_q$Q 9; sleep 2; put corsair_kill 1; sleep 8; pull vfx_small_kills_q$Q; a shell "rm -f $T/corsair_kill"; shot killed_q$Q
+      rec vfx_small_kills_q$Q 9; sleep 1; put corsair_vfx_boom ship_${Q}_1; sleep 2; put corsair_vfx_boom ship_${Q}_2; put corsair_kill 1; sleep 8; pull vfx_small_kills_q$Q; a shell "rm -f $T/corsair_kill"; shot killed_q$Q
       log "EVIDENCE kills q$Q: $(grep -cE "ModWreck|husk" $LG)"
     done
     put corsair_vfx_q 2; sleep 2
     for C in varn reaver; do
       put corsair_capital $C; sleep 6; shot cap_$C
-      rec vfx_flagship_death_$C 12; sleep 2; put corsair_killflag 1; sleep 11; pull vfx_flagship_death_$C; a shell "rm -f $T/corsair_killflag"
+      rec vfx_flagship_death_$C 12; sleep 2; put corsair_vfx_boom flagship_${C}_1; sleep 5; put corsair_vfx_boom flagship_${C}_2; sleep 6; pull vfx_flagship_death_$C
       log "EVIDENCE killflag $C: $(grep -E "killflag" $LG | tail -1 | sed 's/^.*): //')"; sleep 4
     done
     grep -E "ModTest|ModDev|FATAL|AndroidRuntime|VerifyError" $LG > $OUT/vfx2_events.txt
