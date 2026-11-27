@@ -604,7 +604,7 @@ public final class ModCcef {
     /** Mod.sideCheck: CCEF shots hit hostile NPC ships (stock: enemy shots never hit enemies). 0 = no opinion, 2 = hit. */
     public static int side(Element sender, Element target) {
         if (!chase() || sender == null || target == null || !(target instanceof Ennemis) || !isCcef(sender)) return 0;
-        return isCcef(target) || Mod.isDrone(target) ? 0 : 2;
+        return isCcef(target) || Mod.isDrone(target) || ModAegisDrones.isDrone(target) ? 0 : 2;   // rail drones: the CCEF titan's own wing
     }
 
     // ================================================================== AI
@@ -635,7 +635,7 @@ public final class ModCcef {
         if (guestPrime && other != null) { Element t = prime; prime = other; other = t; }
         Element want = other != null && secondarySlot(index) ? other : prime;
         Element cur = e.attackTarget;
-        boolean prey = cur != null && cur != ps && cur != other && cur instanceof Ennemis && !Mod.isDrone(cur) && !cur.removed && cur.life > 0;
+        boolean prey = cur != null && cur != ps && cur != other && cur instanceof Ennemis && !Mod.isDrone(cur) && !ModAegisDrones.isDrone(cur) && !cur.removed && cur.life > 0;
         s[2] -= j;
         if (s[2] <= 0) {
             s[2] = PREY_CHECK_MS;
@@ -664,7 +664,7 @@ public final class ModCcef {
             float bd = PREY_RANGE;
             for (int i = 0; i < els.size(); i++) {
                 Element e = els.get(i);
-                if (!(e instanceof Ennemis) || e.removed || e.life <= 0 || isCcef(e) || Mod.isDrone(e) || ModPolice.isPolice(e)) continue;
+                if (!(e instanceof Ennemis) || e.removed || e.life <= 0 || isCcef(e) || Mod.isDrone(e) || ModAegisDrones.isDrone(e) || ModPolice.isPolice(e)) continue;
                 if (e instanceof fr.testudo.spacecorsair.business.ennemis.FixedTourelle) continue;
                 float d = e.position.distance(t.position);
                 if (d < bd) { bd = d; best = (Ennemis) e; }

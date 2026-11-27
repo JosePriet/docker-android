@@ -851,9 +851,9 @@
     .line 635
     sget-boolean v1, Lfr/testudo/spacecorsair/mod/ModCcef;->guestPrime:Z
 
-    if-eqz v1, :cond_90
+    if-eqz v1, :cond_97
 
-    if-eqz v4, :cond_90
+    if-eqz v4, :cond_97
 
     move-object v2, p2
 
@@ -876,36 +876,42 @@
     iget-object v4, p0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->attackTarget:Lfr/testudo/spacecorsair/business/Element;
 
     .line 638
-    if-eqz v4, :cond_89
+    if-eqz v4, :cond_90
 
-    if-eq v4, p2, :cond_89
+    if-eq v4, p2, :cond_90
 
-    if-eq v4, v2, :cond_89
+    if-eq v4, v2, :cond_90
 
     instance-of v2, v4, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-eqz v2, :cond_89
+    if-eqz v2, :cond_90
 
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/Mod;->isDrone(Lfr/testudo/spacecorsair/business/Element;)Z
 
     move-result v2
 
-    if-nez v2, :cond_89
+    if-nez v2, :cond_90
+
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->isDrone(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_90
 
     iget-boolean v2, v4, Lfr/testudo/spacecorsair/business/Element;->removed:Z
 
-    if-nez v2, :cond_89
+    if-nez v2, :cond_90
 
     iget v2, v4, Lfr/testudo/spacecorsair/business/Element;->life:F
 
     cmpl-float v2, v2, v8
 
-    if-lez v2, :cond_89
+    if-lez v2, :cond_90
 
     move v2, v3
 
     .line 639
-    :goto_40
+    :goto_46
     aget v5, v0, v7
 
     long-to-float v6, p3
@@ -919,7 +925,7 @@
 
     cmpg-float v5, v5, v8
 
-    if-gtz v5, :cond_7f
+    if-gtz v5, :cond_85
 
     .line 641
     const v5, 0x453b8000    # 3000.0f
@@ -927,7 +933,7 @@
     aput v5, v0, v7
 
     .line 642
-    if-nez v2, :cond_7f
+    if-nez v2, :cond_85
 
     invoke-static {}, Ljava/lang/Math;->random()D
 
@@ -937,7 +943,7 @@
 
     cmpg-double v0, v6, v8
 
-    if-gez v0, :cond_7f
+    if-gez v0, :cond_85
 
     .line 643
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModCcef;->prey(Lfr/testudo/spacecorsair/business/Element;)Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
@@ -945,7 +951,7 @@
     move-result-object v0
 
     .line 644
-    if-eqz v0, :cond_7f
+    if-eqz v0, :cond_85
 
     invoke-virtual {p0, v0}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->initAttackTarget(Lfr/testudo/spacecorsair/business/Element;)V
 
@@ -974,31 +980,31 @@
     move v2, v3
 
     .line 647
-    :cond_7f
+    :cond_85
     if-nez v2, :cond_d
 
     if-eq v4, v1, :cond_d
 
     .line 648
-    if-ne v1, p2, :cond_8b
+    if-ne v1, p2, :cond_92
 
     invoke-virtual {p0}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->initChasePlayer()Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    goto :goto_d
+    goto/16 :goto_d
 
     .line 638
-    :cond_89
+    :cond_90
     const/4 v2, 0x0
 
-    goto :goto_40
+    goto :goto_46
 
     .line 649
-    :cond_8b
+    :cond_92
     invoke-virtual {p0, v1}, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;->initAttackTarget(Lfr/testudo/spacecorsair/business/Element;)V
 
     goto/16 :goto_d
 
-    :cond_90
+    :cond_97
     move-object v2, v4
 
     move-object v1, p2
@@ -4220,11 +4226,11 @@
     .line 667
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
 
-    if-eqz v2, :cond_5f
+    if-eqz v2, :cond_65
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/business/Element;->removed:Z
 
-    if-nez v2, :cond_5f
+    if-nez v2, :cond_65
 
     iget v2, v0, Lfr/testudo/spacecorsair/business/Element;->life:F
 
@@ -4232,30 +4238,36 @@
 
     cmpg-float v2, v2, v7
 
-    if-lez v2, :cond_5f
+    if-lez v2, :cond_65
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModCcef;->isCcef(Ljava/lang/Object;)Z
 
     move-result v2
 
-    if-nez v2, :cond_5f
+    if-nez v2, :cond_65
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/Mod;->isDrone(Lfr/testudo/spacecorsair/business/Element;)Z
 
     move-result v2
 
-    if-nez v2, :cond_5f
+    if-nez v2, :cond_65
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->isDrone(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_65
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModPolice;->isPolice(Lfr/testudo/spacecorsair/business/Element;)Z
 
     move-result v2
 
-    if-eqz v2, :cond_46
+    if-eqz v2, :cond_4c
 
     move-object v0, v3
 
     .line 665
-    :goto_41
+    :goto_47
     add-int/lit8 v2, v5, 0x1
 
     move v5, v2
@@ -4265,17 +4277,17 @@
     goto :goto_13
 
     .line 668
-    :cond_46
+    :cond_4c
     instance-of v2, v0, Lfr/testudo/spacecorsair/business/ennemis/FixedTourelle;
 
-    if-eqz v2, :cond_4c
+    if-eqz v2, :cond_52
 
     move-object v0, v3
 
-    goto :goto_41
+    goto :goto_47
 
     .line 669
-    :cond_4c
+    :cond_52
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget-object v7, p0, Lfr/testudo/spacecorsair/business/Element;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -4287,18 +4299,18 @@
     .line 670
     cmpg-float v7, v2, v1
 
-    if-gez v7, :cond_5f
+    if-gez v7, :cond_65
 
     check-cast v0, Lfr/testudo/spacecorsair/business/ennemis/Ennemis;
-    :try_end_5a
-    .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_5a} :catch_5c
+    :try_end_60
+    .catch Ljava/lang/Throwable; {:try_start_5 .. :try_end_60} :catch_62
 
     move v1, v2
 
-    goto :goto_41
+    goto :goto_47
 
     .line 673
-    :catch_5c
+    :catch_62
     move-exception v0
 
     move-object v3, v4
@@ -4306,10 +4318,10 @@
     .line 674
     goto :goto_4
 
-    :cond_5f
+    :cond_65
     move-object v0, v3
 
-    goto :goto_41
+    goto :goto_47
 .end method
 
 .method private static queue(IF)V
@@ -5223,6 +5235,12 @@
     if-nez v1, :cond_15
 
     invoke-static {p1}, Lfr/testudo/spacecorsair/mod/Mod;->isDrone(Lfr/testudo/spacecorsair/business/Element;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_15
+
+    invoke-static {p1}, Lfr/testudo/spacecorsair/mod/ModAegisDrones;->isDrone(Ljava/lang/Object;)Z
 
     move-result v1
 
