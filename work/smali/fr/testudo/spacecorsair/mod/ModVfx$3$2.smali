@@ -20,23 +20,14 @@
 # instance fields
 .field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModVfx$3;
 
-.field final synthetic val$resume:Z
-
 
 # direct methods
-.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModVfx$3;Z)V
-    .registers 3
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModVfx$3;)V
+    .registers 2
 
     .prologue
-    .line 219
+    .line 233
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$2;->this$0:Lfr/testudo/spacecorsair/mod/ModVfx$3;
-
-    iput-boolean p2, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$2;->val$resume:Z
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -46,14 +37,9 @@
 
 # virtual methods
 .method public onClick(Landroid/content/DialogInterface;I)V
-    .registers 4
+    .registers 3
 
     .prologue
-    .line 220
-    iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$2;->val$resume:Z
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModVfx;->done(Z)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModVfx;->access$000(Z)V
-
+    .line 234
     return-void
 .end method

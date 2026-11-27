@@ -47,8 +47,8 @@ public final class ModVfx {
     static final float FAINT = 0.55f;      // stage 4 = a fainter stage 5 (owner rule)
 
     // ================================================================== option
-    private static int quality = HIGH;
-    private static boolean ask = true;
+    private static volatile int quality = HIGH;
+    private static volatile boolean ask = true;
     private static boolean loaded;
 
     private static void load() {
@@ -67,7 +67,7 @@ public final class ModVfx {
         load();
         quality = Math.max(LOW, Math.min(HIGH, q));
         SharedPreferences p = ModQol.prefs();
-        if (p != null) p.edit().putInt("visualQuality", quality).commit();
+        if (p != null) p.edit().putInt("visualQuality", quality).apply();
         ModDev.ev("vfx", "quality " + quality);
     }
 
@@ -76,7 +76,7 @@ public final class ModVfx {
         ask = v;
         if (v) { shown[0] = shown[1] = shown[2] = false; }   // re-enabled: may offer again this session
         SharedPreferences p = ModQol.prefs();
-        if (p != null) p.edit().putBoolean("visualAsk", v).commit();
+        if (p != null) p.edit().putBoolean("visualAsk", v).apply();
     }
 
     static String name(int q) {
@@ -126,13 +126,13 @@ public final class ModVfx {
     private static long lastFrame, winMs, slowMs;
     private static int testLog;
     private static int winN;
-    private static final boolean[] shown = new boolean[3];
+    private static final boolean[] shown = new boolean[3];   // UI thread writes, game thread reads: a late read only delays one offer
     private static volatile boolean prompting;
     private static int testMode = -1;   // -1 unknown, 0 phone (no switch files), 1 emulator test run (corsair_nodialog)
     private static boolean testForce;   // emulator: corsair_vfx_prompt = prompt after 3 s whatever the frame rate
     private static String testQ;        // emulator: corsair_vfx_q = 0/1/2 sets the quality
     private static long testAt;
-    private static int budgetCheap, budgetFancy, budgetRibbon, budgetMuzzle, budgetImpact;
+    private static int budgetCheap, budgetFancy, budgetRibbon, budgetMuzzle, budgetImpact, budgetDeath;
 
     /** ModLive.frameStart (game thread, once per game frame): frame-time watch and per-frame effect budgets. */
     static void frame() {
@@ -141,6 +141,7 @@ public final class ModVfx {
         budgetRibbon = 40;
         budgetMuzzle = 24;
         budgetImpact = 24;
+        budgetDeath = 3;   // a mass kill would otherwise evict the shared 360-particle pool
         try {
             watch();
         } catch (Throwable t) {
@@ -190,22 +191,35 @@ public final class ModVfx {
         if (q <= LOW || shown[q] || !ask || (testMode == 1 && !testForce)) return;   // emulator runs are slow: no window unless forced
         boolean linked = ModLan.connected;
         if (linked && !MP_PROMPT) return;
-        shown[q] = true;
         ModDev.ev("vfx", "slow frames " + Math.round(fps) + " fps: prompt at quality " + q + (linked ? " (linked, no pause)" : ""));
         prompt(q, !linked);
     }
 
     private static void prompt(final int from, final boolean pause) {
-        final Activity a = ObjectRegistry.INSTANCE.mainActivity;
+        final fr.testudo.spacecorsair.activity.Main a = ObjectRegistry.INSTANCE.mainActivity;
         if (a == null) return;
-        prompting = true;
-        if (pause) ModArt.hold = true;   // the background art decoder waits too
-        a.runOnUiThread(new Runnable() {
+        prompting = true;   // game thread: no second prompt is queued while this one is pending
+        try {
+            a.runOnUiThread(new Runnable() {
             public void run() {
                 boolean paused = false;
                 try {
-                    if (pause) { ObjectRegistry.INSTANCE.game.pause(); paused = true; }
+                    fr.testudo.spacecorsair.game.Game g = ObjectRegistry.INSTANCE.game;
+                    // another window (story dialog, reward, menu) already paused or covers the game: try again later,
+                    // so our resume never unpauses under someone else's window
+                    if (a.isFinishing() || g.gameThread.paused || (a.currentDialog != null && a.currentDialog.isShowing())) {
+                        done(false);
+                        return;
+                    }
+                    shown[from] = true;
+                    if (pause) {
+                        ModArt.hold = true;   // the background art decoder waits too
+                        g.gameThread.waitCommitPhysicEnded();
+                        g.pause();
+                        paused = g.gameThread.paused;   // Game.pause may decline (linked game menu)
+                    }
                     final boolean resume = paused;
+                    final java.util.concurrent.atomic.AtomicBoolean once = new java.util.concurrent.atomic.AtomicBoolean();
                     final int to = from - 1;
                     String msg = ModLang.tr("The game has been running slowly for more than 10 seconds.") + "\n\n"
                         + ModLang.tr("Lower the visual quality to ") + name(to) + "?\n\n"
@@ -214,20 +228,27 @@ public final class ModVfx {
                     AlertDialog d = new AlertDialog.Builder(a).setTitle(ModLang.tr("Slow frames"))
                         .setMessage(msg).setCancelable(false)
                         .setPositiveButton(ModLang.tr("Lower to ") + name(to), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface di, int w) { setQuality(to); done(resume); }
+                            public void onClick(DialogInterface di, int w) { setQuality(to); }
                         })
                         .setNegativeButton(ModLang.tr("Keep ") + name(from), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface di, int w) { done(resume); }
+                            public void onClick(DialogInterface di, int w) { }
                         })
                         .setNeutralButton(ModLang.tr("Don't ask again"), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface di, int w) { setAsk(false); done(resume); }
+                            public void onClick(DialogInterface di, int w) { setAsk(false); }
                         }).create();
+                    // every way the window closes (buttons, activity torn down) resumes exactly once
+                    d.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        public void onDismiss(DialogInterface di) { if (once.compareAndSet(false, true)) done(resume); }
+                    });
                     d.show();
                 } catch (Throwable t) {
                     done(paused);
                 }
             }
-        });
+            });
+        } catch (Throwable t) {
+            done(false);
+        }
     }
 
     private static void done(boolean resume) {
@@ -249,9 +270,9 @@ public final class ModVfx {
     /** 0 = cheap tier only; FAINT = stage 4 Battleship/Titan/Capital; 1 = stage 5 (NPC titans and capitals: 1). */
     static float fancy(Element e) {
         if (e == null) return 0;
-        if (e == lastE) return lastK;
-        long now = ModLive.nowMs;
-        if (now - fancyAt > 1000) { fancyOf.clear(); fancyAt = now; }
+        if (e == lastE && SystemClock.uptimeMillis() - fancyAt <= 1000) return lastK;
+        long now = SystemClock.uptimeMillis();
+        if (now - fancyAt > 1000) { fancyOf.clear(); fancyAt = now; lastE = null; }
         Float k = fancyOf.get(e);
         if (k == null) {
             float v = 0;
@@ -271,7 +292,8 @@ public final class ModVfx {
             ModShips.Hull h = ModShips.hullFor(ps.shipSpec);
             int c = h != null ? h.cls : ModShips.originalClass(ps.shipSpec);
             if (c != ModShips.BATTLESHIP && c != ModShips.TITAN && c != ModShips.CAPITAL) return 0;
-            return byStage(e == ObjectRegistry.INSTANCE.playerShip ? ModV35.stage(ModV35.level(ModV35.currentShip())) : 5);
+            if (e != ObjectRegistry.INSTANCE.playerShip) return 0;   // a linked player's stand-in: its stage is not known here
+            return byStage(ModV35.stage(ModV35.level(ModV35.currentShip())));
         }
         if (Mod.isDrone(e)) return 0;
         if (ModCapitals.cap(e) != null || ModTitan.isTitanClass(e)) return 1;
@@ -443,10 +465,11 @@ public final class ModVfx {
 
     /** ModWreck.onDestroyed: every ship death (aliens keep their spore dissolve; drones none). size = hull sprite size. */
     static void death(Element e, float size) {
-        if (quality() == LOW || e == null || size <= 0) return;
+        if (quality() == LOW || e == null || size <= 0 || budgetDeath <= 0) return;
         try {
             float x = e.position.x, y = e.position.y;
             if (!near(x, y, size)) return;
+            budgetDeath--;
             boolean high = quality == HIGH;
             size = Math.min(size, 2400);
             ModFx.part("fx_glow", x, y, 0, 0, 220, size * 0.8f, size * 2.2f, 1.0f, 0.85f, 0.6f, 0.9f, true, true);

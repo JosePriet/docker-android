@@ -20,23 +20,14 @@
 # instance fields
 .field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModVfx$3;
 
-.field final synthetic val$resume:Z
-
 
 # direct methods
-.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModVfx$3;Z)V
-    .registers 3
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
+.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModVfx$3;)V
+    .registers 2
 
     .prologue
-    .line 222
+    .line 236
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$1;->this$0:Lfr/testudo/spacecorsair/mod/ModVfx$3;
-
-    iput-boolean p2, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$1;->val$resume:Z
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -49,15 +40,10 @@
     .registers 4
 
     .prologue
-    .line 223
+    .line 237
     const/4 v0, 0x0
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModVfx;->setAsk(Z)V
-
-    iget-boolean v0, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$1;->val$resume:Z
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModVfx;->done(Z)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModVfx;->access$000(Z)V
 
     return-void
 .end method
