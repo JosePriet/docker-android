@@ -839,6 +839,7 @@ public final class ModCcef {
         try {
             Achievement a = Achievement.valueOf(ACH);
             if (!a.done) a.setCompleted();
+            log("achievement done=" + a.done);
         } catch (Throwable t) {
             log("achievement missing: " + t);
         }
@@ -920,6 +921,21 @@ public final class ModCcef {
             }
         }
         testOn = f;
+        // corsair_ccef_god: player cannot die during the test run; corsair_ccef_kill: player destroys every landed CCEF ship
+        try {
+            if (ModDev.testFlag("corsair_ccef_god")) { ps.invincible = true; if (ps.life < 1) ps.life = 1; }
+            if (landed && ModDev.testFlag("corsair_ccef_kill")) {
+                Object[] m = members;
+                for (int i = 0; i < m.length; i++) {
+                    Element e = (Element) m[i];
+                    if (e == null || e.removed || e.life <= 0) continue;
+                    e.invincible = false;
+                    e.applyDamage(e.life * 4 + 1000000f, ps, null);
+                }
+            }
+        } catch (Throwable t) {
+            // test only
+        }
     }
 
     static void log(String m) {
