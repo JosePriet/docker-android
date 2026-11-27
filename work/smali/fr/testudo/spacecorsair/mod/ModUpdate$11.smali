@@ -3,12 +3,12 @@
 .source "ModUpdate.java"
 
 # interfaces
-.implements Landroid/view/View$OnClickListener;
+.implements Ljava/lang/Runnable;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModUpdate;->fill(Landroid/app/Activity;Landroid/widget/LinearLayout;Landroid/app/AlertDialog;)V
+    value = Lfr/testudo/spacecorsair/mod/ModUpdate;->work(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModUpdate$Job;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -18,11 +18,11 @@
 
 
 # instance fields
-.field final synthetic val$a:Landroid/app/Activity;
+.field final synthetic val$j:Lfr/testudo/spacecorsair/mod/ModUpdate$Job;
 
 
 # direct methods
-.method constructor <init>(Landroid/app/Activity;)V
+.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModUpdate$Job;)V
     .registers 2
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -31,8 +31,8 @@
     .end annotation
 
     .prologue
-    .line 571
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$11;->val$a:Landroid/app/Activity;
+    .line 585
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$11;->val$j:Lfr/testudo/spacecorsair/mod/ModUpdate$Job;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -41,15 +41,84 @@
 
 
 # virtual methods
-.method public onClick(Landroid/view/View;)V
-    .registers 3
+.method public run()V
+    .registers 5
 
     .prologue
-    .line 571
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$11;->val$a:Landroid/app/Activity;
+    .line 587
+    :try_start_0
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$11;->val$j:Lfr/testudo/spacecorsair/mod/ModUpdate$Job;
 
-    # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->restart(Landroid/app/Activity;)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$900(Landroid/app/Activity;)V
+    invoke-interface {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate$Job;->run()V
+    :try_end_5
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_5} :catch_12
 
+    .line 588
+    :goto_5
+    const/4 v0, 0x0
+
+    # setter for: Lfr/testudo/spacecorsair/mod/ModUpdate;->busy:Z
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$802(Z)Z
+
+    .line 589
+    new-instance v0, Lfr/testudo/spacecorsair/mod/ModUpdate$11$1;
+
+    invoke-direct {v0, p0}, Lfr/testudo/spacecorsair/mod/ModUpdate$11$1;-><init>(Lfr/testudo/spacecorsair/mod/ModUpdate$11;)V
+
+    # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->post(Ljava/lang/Runnable;)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$200(Ljava/lang/Runnable;)V
+
+    .line 590
     return-void
+
+    .line 587
+    :catch_12
+    move-exception v0
+
+    move-object v1, v0
+
+    invoke-virtual {v1}, Ljava/lang/Throwable;->getMessage()Ljava/lang/String;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_3a
+
+    invoke-virtual {v1}, Ljava/lang/Throwable;->getMessage()Ljava/lang/String;
+
+    move-result-object v0
+
+    :goto_1e
+    # setter for: Lfr/testudo/spacecorsair/mod/ModUpdate;->status:Ljava/lang/String;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$702(Ljava/lang/String;)Ljava/lang/String;
+
+    const-string v0, "update"
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "job failed "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+
+    goto :goto_5
+
+    :cond_3a
+    invoke-static {v1}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v0
+
+    goto :goto_1e
 .end method

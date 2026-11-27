@@ -1,4 +1,4 @@
-.class Lfr/testudo/spacecorsair/mod/ModUpdate$10$1;
+.class Lfr/testudo/spacecorsair/mod/ModUpdate$11$1;
 .super Ljava/lang/Object;
 .source "ModUpdate.java"
 
@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModUpdate$10;->run()V
+    value = Lfr/testudo/spacecorsair/mod/ModUpdate$11;->run()V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -18,16 +18,16 @@
 
 
 # instance fields
-.field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$10;
+.field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$11;
 
 
 # direct methods
-.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModUpdate$10;)V
+.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModUpdate$11;)V
     .registers 2
 
     .prologue
-    .line 545
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$10$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$10;
+    .line 589
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$11$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$11;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -40,9 +40,9 @@
     .registers 1
 
     .prologue
-    .line 545
+    .line 589
     # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->refreshPanel()V
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$800()V
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$900()V
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->refreshLabel()V
 

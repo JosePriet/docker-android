@@ -94,7 +94,8 @@ public class ModLang {
             set(a.getApplicationContext().getResources(), l);
             set(a.getResources(), l);
         } catch (Throwable t) { }
-        ModUpdate.onActivity(a);   // v45 in-game updates: content chain + daily check
+        ModUpdate.front(a);        // the boot update prompt shows on the screen in front
+        ModUpdate.onActivity(a);   // v45 in-game updates: content chain + check at each game start
     }
 
     private static void set(Resources r, Locale l) {

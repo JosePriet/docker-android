@@ -3,12 +3,12 @@
 .source "ModUpdate.java"
 
 # interfaces
-.implements Ljava/lang/Runnable;
+.implements Landroid/view/View$OnClickListener;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModUpdate;->show(Landroid/app/Activity;)V
+    value = Lfr/testudo/spacecorsair/mod/ModUpdate;->menuEntry(Landroid/content/Context;Landroid/view/ViewGroup;Landroid/view/ViewGroup;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -18,16 +18,12 @@
 
 
 # instance fields
-.field final synthetic val$a:Landroid/app/Activity;
-
-.field final synthetic val$box:Landroid/widget/LinearLayout;
-
-.field final synthetic val$dlg:Landroid/app/AlertDialog;
+.field final synthetic val$ctx:Landroid/content/Context;
 
 
 # direct methods
-.method constructor <init>(Landroid/app/Activity;Landroid/widget/LinearLayout;Landroid/app/AlertDialog;)V
-    .registers 4
+.method constructor <init>(Landroid/content/Context;)V
+    .registers 2
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()V"
@@ -35,12 +31,8 @@
     .end annotation
 
     .prologue
-    .line 528
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$a:Landroid/app/Activity;
-
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$box:Landroid/widget/LinearLayout;
-
-    iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$dlg:Landroid/app/AlertDialog;
+    .line 523
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$ctx:Landroid/content/Context;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -49,19 +41,30 @@
 
 
 # virtual methods
-.method public run()V
-    .registers 4
+.method public onClick(Landroid/view/View;)V
+    .registers 3
 
     .prologue
-    .line 528
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$a:Landroid/app/Activity;
+    .line 525
+    :try_start_0
+    invoke-static {}, Lfr/testudo/spacecorsair/utils/MenuDisplayer;->hideMenu()V
+    :try_end_3
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_3} :catch_b
 
-    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$box:Landroid/widget/LinearLayout;
+    .line 526
+    :goto_3
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$ctx:Landroid/content/Context;
 
-    iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$7;->val$dlg:Landroid/app/AlertDialog;
+    check-cast v0, Landroid/app/Activity;
 
-    # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->fill(Landroid/app/Activity;Landroid/widget/LinearLayout;Landroid/app/AlertDialog;)V
-    invoke-static {v0, v1, v2}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$400(Landroid/app/Activity;Landroid/widget/LinearLayout;Landroid/app/AlertDialog;)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->show(Landroid/app/Activity;)V
 
+    .line 527
     return-void
+
+    .line 525
+    :catch_b
+    move-exception v0
+
+    goto :goto_3
 .end method
