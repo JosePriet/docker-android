@@ -20,14 +20,23 @@
 # instance fields
 .field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$1;
 
+.field final synthetic val$m:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
+
 
 # direct methods
-.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModUpdate$1;)V
-    .registers 2
+.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModUpdate$1;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)V
+    .registers 3
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "()V"
+        }
+    .end annotation
 
     .prologue
-    .line 258
+    .line 262
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$1$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$1;
+
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$1$1;->val$m:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -40,17 +49,13 @@
     .registers 2
 
     .prologue
-    .line 258
-    const-string v0, "A game update is ready. Open the menu, then Updates."
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->toast(Ljava/lang/String;)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$100(Ljava/lang/String;)V
-
+    .line 262
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->refreshLabel()V
+
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$1$1;->val$m:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
+
+    # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->prompt(Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)V
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$100(Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)V
 
     return-void
 .end method

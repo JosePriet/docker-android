@@ -61,7 +61,7 @@
 
     const v1, 0x7f060029
 
-    invoke-static {v0, v1}, Landroid/media/MediaPlayer;->create(Landroid/content/Context;I)Landroid/media/MediaPlayer;
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModSound;->music(Landroid/content/Context;I)Landroid/media/MediaPlayer;
 
     move-result-object v0
 
@@ -77,7 +77,7 @@
 
     const v1, 0x7f06002a
 
-    invoke-static {v0, v1}, Landroid/media/MediaPlayer;->create(Landroid/content/Context;I)Landroid/media/MediaPlayer;
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModSound;->music(Landroid/content/Context;I)Landroid/media/MediaPlayer;
 
     move-result-object v0
 
@@ -93,7 +93,7 @@
 
     const v1, 0x7f06002b
 
-    invoke-static {v0, v1}, Landroid/media/MediaPlayer;->create(Landroid/content/Context;I)Landroid/media/MediaPlayer;
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModSound;->music(Landroid/content/Context;I)Landroid/media/MediaPlayer;
 
     move-result-object v0
 
@@ -109,7 +109,7 @@
 
     const v1, 0x7f06002d
 
-    invoke-static {v0, v1}, Landroid/media/MediaPlayer;->create(Landroid/content/Context;I)Landroid/media/MediaPlayer;
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModSound;->music(Landroid/content/Context;I)Landroid/media/MediaPlayer;
 
     move-result-object v0
 
@@ -125,7 +125,7 @@
 
     const v1, 0x7f060018
 
-    invoke-static {v0, v1}, Landroid/media/MediaPlayer;->create(Landroid/content/Context;I)Landroid/media/MediaPlayer;
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModSound;->music(Landroid/content/Context;I)Landroid/media/MediaPlayer;
 
     move-result-object v0
 
@@ -141,7 +141,7 @@
 
     const v1, 0x7f060017
 
-    invoke-static {v0, v1}, Landroid/media/MediaPlayer;->create(Landroid/content/Context;I)Landroid/media/MediaPlayer;
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModSound;->music(Landroid/content/Context;I)Landroid/media/MediaPlayer;
 
     move-result-object v0
 
@@ -157,7 +157,7 @@
 
     const v1, 0x7f060019
 
-    invoke-static {v0, v1}, Landroid/media/MediaPlayer;->create(Landroid/content/Context;I)Landroid/media/MediaPlayer;
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModSound;->music(Landroid/content/Context;I)Landroid/media/MediaPlayer;
 
     move-result-object v0
 

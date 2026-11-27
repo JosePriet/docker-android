@@ -54,17 +54,17 @@
     .registers 7
 
     .prologue
-    .line 432
+    .line 441
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 427
+    .line 436
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Event;->stops:Ljava/util/List;
 
-    .line 430
+    .line 439
     const-string v0, ""
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Event;->item:Ljava/lang/String;
@@ -73,23 +73,23 @@
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Event;->lootTier:Ljava/lang/String;
 
-    .line 433
+    .line 442
     iput-wide p1, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Event;->seed:J
 
-    .line 434
+    .line 443
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Event;->context:Lfr/testudo/spacecorsair/mod/ModEvents$Context;
 
-    .line 435
+    .line 444
     iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Event;->objective:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
-    .line 436
+    .line 445
     iput-object p5, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Event;->twist:Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
-    .line 437
+    .line 446
     iget v0, p3, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->level:I
 
     iput v0, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Event;->encounterLevel:I
 
-    .line 438
+    .line 447
     return-void
 .end method

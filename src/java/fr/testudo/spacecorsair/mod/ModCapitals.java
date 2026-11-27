@@ -254,7 +254,7 @@ public final class ModCapitals {
         g.canonProue.init(reload, dmg, 6, 15.0f, 0.8f, 4, 3);
         g.canonPoupe.init(reload, dmg, 6, 15.0f, 0.8f, 4, 3);
         silenceStock(g);                            // v33: the drawn turrets fire instead (guns)
-        c.shot = dmg * ModV34.curve(lvl) * DMG_MULT;   // v42: v34 level curve; v43a-6 (owner 11-14: L40 maxed titans lost <10% hull) x DMG_MULT
+        c.shot = dmg * ModV34.curve(lvl) * ModTune.f("capital.dmg_mult", DMG_MULT, 0.5f, 10f);   // v42: v34 level curve; v43a-6 (owner 11-14: L40 maxed titans lost <10% hull) x DMG_MULT
         c.lvl = lvl;
         g.specificName = ModLang.fmt("{0} flagship: {1}", ModLang.tr(f.name), ModLang.tr(f.ship));   // re-trace C4
         g.specificNameDecalX = -1;

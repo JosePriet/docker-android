@@ -43,11 +43,15 @@ public final class ModAegisDrones {
     private static final Map<Ennemis, Float> shotOf = new WeakHashMap<Ennemis, Float>();
     private static Drawable drawable;
 
+    // phase 2: content packs can tune these (data/tune.txt); the constants are the built-in values
+    static int maxDrones() { return ModTune.i("aegis.drones_max", MAX_DRONES, 1, 8); }
+    static long respawnMs() { return (long) (ModTune.f("aegis.respawn_s", RESPAWN_MS / 1000f, 2f, 120f) * 1000); }
+
     /** From ModCapitals.guns, per frame for a hostile spartan flagship (also the Spartan police titan). */
     static void tick(GuardianCivilShip g, float batteryShot, int lvl, PlayerShip ps, long j) {
         try {
             Wing w = wings.get(g);
-            if (w == null) { w = new Wing(); w.count = ModBal.maxDrones(g, MAX_DRONES); wings.put(g, w); }
+            if (w == null) { w = new Wing(); w.count = ModBal.maxDrones(g, maxDrones()); wings.put(g, w); }
             for (int i = w.drones.size() - 1; i >= 0; i--) {
                 Ennemis e = w.drones.get(i);
                 if (e.removed || e.life <= 0) { w.drones.remove(i); reload.remove(e); shotOf.remove(e); }
@@ -55,9 +59,10 @@ public final class ModAegisDrones {
             if (w.drones.size() < w.count) {
                 w.next -= j;
                 if (w.next <= 0) {   // refill the whole wing at once, then wait for the next loss
-                    w.next = RESPAWN_MS;
-                    int mx = ModBal.maxDrones(g, MAX_DRONES);   // 2026-11-18 balance report: SRS Aegis 2..3, police titans 2..5
-                    w.count = MIN_DRONES + (int) (Math.random() * (mx - MIN_DRONES + 1));   // owner: 2..5 per launch (SRS Aegis 2..3 since 2026-11-18)
+                    w.next = respawnMs();
+                    int mx = ModBal.maxDrones(g, maxDrones());   // 2026-11-18 balance report: SRS Aegis 2..3, police titans 2..5
+                    int mn = Math.min(mx, ModTune.i("aegis.drones_min", MIN_DRONES, 1, 8));
+                    w.count = mn + (int) (Math.random() * (mx - mn + 1));   // owner: 2..5 per launch (SRS Aegis 2..3 since 2026-11-18)
                     while (w.drones.size() < w.count) {
                         Ennemis e = spawn(g, lvl, ps);
                         if (e == null) break;
@@ -65,7 +70,7 @@ public final class ModAegisDrones {
                         shotOf.put(e, batteryShot * RAIL_SHARE);
                     }
                 }
-            } else w.next = RESPAWN_MS;
+            } else w.next = respawnMs();
             for (int i = 0; i < w.drones.size(); i++) {
                 Ennemis e = w.drones.get(i);
                 if (ModTitanAI.AI2_SCREEN && !ps.removed &&

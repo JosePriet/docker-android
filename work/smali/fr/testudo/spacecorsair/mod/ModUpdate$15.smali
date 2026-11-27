@@ -18,13 +18,13 @@
 
 
 # instance fields
-.field final synthetic val$a:Landroid/app/Activity;
-
 .field final synthetic val$c:Landroid/content/Context;
+
+.field final synthetic val$m:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
 
 
 # direct methods
-.method constructor <init>(Landroid/app/Activity;Landroid/content/Context;)V
+.method constructor <init>(Landroid/content/Context;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)V
     .registers 3
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -33,10 +33,10 @@
     .end annotation
 
     .prologue
-    .line 586
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$a:Landroid/app/Activity;
+    .line 629
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$c:Landroid/content/Context;
 
-    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$c:Landroid/content/Context;
+    iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$m:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -49,15 +49,15 @@
     .registers 4
 
     .prologue
-    .line 587
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$a:Landroid/app/Activity;
+    .line 629
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$c:Landroid/content/Context;
 
-    new-instance v1, Lfr/testudo/spacecorsair/mod/ModUpdate$15$1;
+    iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$m:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
 
-    invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModUpdate$15$1;-><init>(Lfr/testudo/spacecorsair/mod/ModUpdate$15;)V
+    iget-object v1, v1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->apkUrl:Ljava/lang/String;
 
-    # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->work(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModUpdate$Job;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$1000(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModUpdate$Job;)V
+    # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->openLink(Landroid/content/Context;Ljava/lang/String;)V
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$1100(Landroid/content/Context;Ljava/lang/String;)V
 
     return-void
 .end method

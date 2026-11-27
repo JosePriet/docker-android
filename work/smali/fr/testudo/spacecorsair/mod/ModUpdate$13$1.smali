@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 582
+    .line 620
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$13$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$13;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .end annotation
 
     .prologue
-    .line 582
+    .line 620
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$13$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$13;
 
     iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$13;->val$c:Landroid/content/Context;
@@ -54,7 +54,7 @@
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/mod/ModUpdate$13;->val$m:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
 
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->runGame(Landroid/content/Context;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)V
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->runContent(Landroid/content/Context;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)V
 
     return-void
 .end method

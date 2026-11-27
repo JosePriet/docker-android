@@ -35,30 +35,30 @@
     .registers 8
 
     .prologue
-    .line 411
+    .line 420
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 412
+    .line 421
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Stop;->action:Lfr/testudo/spacecorsair/mod/ModEvents$Action;
 
-    .line 413
+    .line 422
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Stop;->actor:Lfr/testudo/spacecorsair/mod/ModEvents$Actor;
 
-    .line 414
+    .line 423
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Stop;->art:Ljava/lang/String;
 
-    .line 415
+    .line 424
     iput p4, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Stop;->distance:I
 
-    .line 416
+    .line 425
     iput p5, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Stop;->count:I
 
-    .line 417
+    .line 426
     iput p6, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Stop;->required:I
 
-    .line 418
+    .line 427
     iput p7, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Stop;->holdSeconds:I
 
-    .line 419
+    .line 428
     return-void
 .end method

@@ -60,10 +60,20 @@ public final class ModSound {
             dir.mkdirs();
             for (String n : NAMES) {
                 File f = new File(dir, n + ".ogg");
+                File pf = new File(dir, n + "_pack.ogg");
                 InputStream pk = ModContent.open(ctx, "modsfx/" + n + ".ogg");   // v45 updates: a pack's sound wins
-                if (pk != null) { f = new File(dir, n + "_pack.ogg"); copyStream(pk, f); }
-                else copy(ctx, "modsfx/" + n + ".ogg", f);
-                ids.put(n, sp.load(f.getAbsolutePath(), 1));
+                int id = 0;
+                if (pk != null) {
+                    try { copyStream(pk, pf); f = pf; }
+                    catch (Throwable t) { pf.delete(); pk = null; ModDev.ev("content", "pack sound " + n + " not copied: " + t); }   // built-in sound below
+                }
+                if (pk == null) {
+                    pf.delete();   // phase 2: no pack copy left behind once its pack is gone
+                    // phase 2 storage: the APK stores .ogg uncompressed, so SoundPool reads it in place (no cache copy)
+                    try { android.content.res.AssetFileDescriptor fd = ctx.getAssets().openFd("modsfx/" + n + ".ogg"); try { id = sp.load(fd, 1); } finally { fd.close(); } } catch (Throwable t) { id = 0; }
+                    if (id > 0) f.delete(); else copy(ctx, "modsfx/" + n + ".ogg", f);
+                }
+                ids.put(n, id > 0 ? id : sp.load(f.getAbsolutePath(), 1));
                 last.put(n, new long[1]);
             }
             initDone = true;
@@ -224,6 +234,44 @@ public final class ModSound {
     }
 
     private static boolean sfxLogged;
+
+    /**
+     * Phase 2 (hooks60_music): MusicManager.initMusic creates its players through here. A content pack's
+     * music/<raw resource name>.ogg replaces that track (copied once to cache/music_pack/, rewritten on each start
+     * so a same-size replacement never keeps the old file); otherwise, or on any failure, the stock MediaPlayer.create.
+     */
+    private static final java.util.Set<String> musicCopied = java.util.Collections.synchronizedSet(new java.util.HashSet<String>());
+
+    public static MediaPlayer music(Context c, int resId) {
+        try {
+            Context a = c.getApplicationContext();
+            if (a == null) a = c;
+            File dir = new File(a.getCacheDir(), "music_pack");
+            String name = a.getResources().getResourceEntryName(resId);
+            InputStream pk = ModContent.open(a, "music/" + name + ".ogg");
+            File f = new File(dir, name + ".ogg");
+            if (pk == null) { f.delete(); return MediaPlayer.create(c, resId); }
+            dir.mkdirs();
+            // copied once per process, through a temp file: a player still reading the old copy keeps its file
+            if (!musicCopied.contains(name)) {
+                File t = new File(dir, name + ".ogg.tmp");
+                copyStream(pk, t);
+                if (!t.renameTo(f)) { f.delete(); if (!t.renameTo(f)) throw new java.io.IOException("rename " + f); }
+                musicCopied.add(name);
+            } else pk.close();
+            MediaPlayer mp = new MediaPlayer();
+            try {
+                mp.setDataSource(f.getAbsolutePath());
+                mp.prepare();
+                ModDev.ev("content", "music " + name + " from pack");
+                return mp;
+            } catch (Throwable t) {
+                mp.release();
+                ModDev.ev("content", "music " + name + " pack copy not playable: " + t);
+            }
+        } catch (Throwable t) { /* stock track */ }
+        return MediaPlayer.create(c, resId);
+    }
 
     /** MusicManager.resumeMusic (hooks36): re-apply the music bar before start, so a change in settings is heard on return. */
     public static void musicResume(MediaPlayer mp) {

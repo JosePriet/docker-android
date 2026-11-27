@@ -693,7 +693,7 @@
 
     .prologue
     .line 222
-    if-eqz p2, :cond_1e1
+    if-eqz p2, :cond_1eb
 
     move-object v8, p2
 
@@ -795,7 +795,7 @@
 
     instance-of v3, v3, Lfr/testudo/spacecorsair/business/world/station/Station;
 
-    if-eqz v3, :cond_1e8
+    if-eqz v3, :cond_1f2
 
     invoke-interface {v2, v0}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
@@ -809,7 +809,7 @@
 
     .line 237
     :cond_66
-    if-eqz p3, :cond_1ec
+    if-eqz p3, :cond_1f6
 
     iget-object v0, v10, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->anchor:Lfr/testudo/spacecorsair/engine/Vector2;
 
@@ -1001,7 +1001,17 @@
 
     mul-float/2addr v0, v1
 
-    const/high16 v1, 0x40400000    # 3.0f
+    const-string v1, "capital.dmg_mult"
+
+    const/high16 v2, 0x40400000    # 3.0f
+
+    const/high16 v3, 0x3f000000    # 0.5f
+
+    const/high16 v4, 0x41200000    # 10.0f
+
+    invoke-static {v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModTune;->f(Ljava/lang/String;FFF)F
+
+    move-result v1
 
     mul-float/2addr v0, v1
 
@@ -1166,7 +1176,7 @@
     invoke-interface {v0, v9, v10}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
     .line 272
-    if-eqz p2, :cond_1ac
+    if-eqz p2, :cond_1b6
 
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -1191,16 +1201,16 @@
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModArt;->lazyTex(Ljava/lang/String;)Lfr/testudo/spacecorsair/display/Texture;
 
     .line 273
-    :cond_1ac
+    :cond_1b6
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    if-eqz p2, :cond_1fc
+    if-eqz p2, :cond_206
 
     const-string v0, "pol_cap_"
 
-    :goto_1b5
+    :goto_1bf
     invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
@@ -1247,7 +1257,7 @@
     return-object v9
 
     .line 222
-    :cond_1e1
+    :cond_1eb
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModCapitals;->FACTIONS:[Lfr/testudo/spacecorsair/mod/ModCapitals$Faction;
 
     aget-object v0, v0, p0
@@ -1257,13 +1267,13 @@
     goto/16 :goto_3
 
     .line 234
-    :cond_1e8
+    :cond_1f2
     add-int/lit8 v0, v0, 0x1
 
     goto/16 :goto_4d
 
     .line 238
-    :cond_1ec
+    :cond_1f6
     iget-object v0, v10, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->anchor:Lfr/testudo/spacecorsair/engine/Vector2;
 
     invoke-virtual {v0, v1}, Lfr/testudo/spacecorsair/engine/Vector2;->setSameAs(Lfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1279,10 +1289,10 @@
     goto/16 :goto_6d
 
     .line 273
-    :cond_1fc
+    :cond_206
     const-string v0, "cap_"
 
-    goto :goto_1b5
+    goto :goto_1bf
 .end method
 
 .method static bullet(Lfr/testudo/spacecorsair/business/projectiles/EnergyBullet;)Lfr/testudo/spacecorsair/display/Drawable;

@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 104
+    .line 108
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 3
 
     .prologue
-    .line 106
+    .line 110
     const-wide/32 v0, 0xafc8
 
     :try_start_3
@@ -69,11 +69,11 @@
     :try_end_16
     .catch Ljava/lang/Throwable; {:try_start_13 .. :try_end_16} :catch_1a
 
-    .line 107
+    .line 111
     :goto_16
     return-void
 
-    .line 106
+    .line 110
     :catchall_17
     move-exception v0
 

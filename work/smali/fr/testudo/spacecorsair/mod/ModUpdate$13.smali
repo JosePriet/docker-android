@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 581
+    .line 619
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$13;->val$a:Landroid/app/Activity;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$13;->val$c:Landroid/content/Context;
@@ -53,7 +53,7 @@
     .registers 4
 
     .prologue
-    .line 582
+    .line 620
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$13;->val$a:Landroid/app/Activity;
 
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModUpdate$13$1;
@@ -61,7 +61,7 @@
     invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModUpdate$13$1;-><init>(Lfr/testudo/spacecorsair/mod/ModUpdate$13;)V
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->work(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModUpdate$Job;)V
-    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$1000(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModUpdate$Job;)V
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$300(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModUpdate$Job;)V
 
     return-void
 .end method

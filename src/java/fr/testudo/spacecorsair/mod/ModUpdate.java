@@ -243,7 +243,11 @@ public final class ModUpdate {
         }
     }
 
-    /** From ModLang.apply (every activity start): once per process, a quiet daily check on Wi-Fi. */
+    /**
+     * From ModLang.apply (every activity start): once per process (each game start), a hidden check of the signed list
+     * (a few KB, any network). Nothing is shown when the game is up to date. When a newer game version or content pack
+     * exists, a prompt offers "Download update" (owner 2026-11-27); nothing downloads without that tap.
+     */
     public static void onActivity(final Activity a) {
         try {
             if (autoDone || a == null) return;
@@ -251,23 +255,63 @@ public final class ModUpdate {
             app = a.getApplicationContext();
             ModContent.ensure(app);
             if (ModContent.notice != null) toast(tr(ModContent.notice));
-            if (System.currentTimeMillis() - prefs(app).getLong("checked", 0) < DAY_MS || !onWifi(app)) return;
+            if (!online(app)) return;
             new Thread(new Runnable() {
                 public void run() {
-                    Manifest m = fetch(app);
-                    if (anything(app, m)) post(new Runnable() { public void run() { toast(tr("A game update is ready. Open the menu, then Updates.")); refreshLabel(); } });
+                    final Manifest m = fetch(app);
+                    if (anything(app, m)) post(new Runnable() { public void run() { refreshLabel(); prompt(m); } });
                 }
             }, "update-check").start();
         } catch (Throwable t) { /* never block a screen */ }
     }
 
-    private static boolean onWifi(Context c) {
+    /** The activity in front (ModLang.apply runs on every activity start), for the boot prompt. */
+    private static java.lang.ref.WeakReference<Activity> front;
+
+    static void front(Activity a) { if (a != null) front = new java.lang.ref.WeakReference<Activity>(a); }
+
+    /** Boot prompt: "Download update" starts the download (game update first: a new build carries all content). */
+    private static void prompt(final Manifest m) {
+        final Activity a = front != null ? front.get() : null;
+        if (a == null || a.isFinishing() || busy || restartNeeded) { toast(tr("A game update is ready. Open the menu, then Updates.")); return; }
+        try {
+            final Context c = a.getApplicationContext();
+            final boolean game = gameUpdate(c, m);
+            long sz = 0;
+            StringBuilder s = new StringBuilder();
+            boolean es = ModLang.spanish();
+            if (game) {
+                sz = m.apkSize;
+                for (Patch p : m.patches) sz = Math.min(sz, p.size);
+                s.append(tr("New game version")).append(": ").append(m.apkVersion);
+            } else {
+                for (Pack p : missing(c, m)) {
+                    if (p == null) continue;
+                    sz += p.size;
+                    String n = es && p.es.length() > 0 ? p.es : p.en;
+                    s.append(s.length() > 0 ? "\n" : "").append("• ").append(n.length() > 0 ? n : p.id);
+                }
+            }
+            s.append("\n\n").append(tr("Size")).append(": ").append(sz > 0 && sz < m.apkSize ? "~" : "").append(mb(sz));
+            new AlertDialog.Builder(a).setTitle(tr("Update available")).setMessage(s.toString())
+                .setPositiveButton(tr("Download update"), new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(android.content.DialogInterface d, int w) {
+                        show(a);
+                        work(a, new Job() { public void run() throws Exception { if (game) runGame(c, m); else runContent(c, m); } });
+                    }
+                })
+                .setNegativeButton(tr("Later"), null).show();
+        } catch (Throwable t) { toast(tr("A game update is ready. Open the menu, then Updates.")); }
+    }
+
+    private static boolean online(Context c) {
         try {
             android.net.ConnectivityManager cm = (android.net.ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
             android.net.NetworkInfo n = cm.getActiveNetworkInfo();
-            return n != null && n.isConnected() && n.getType() == android.net.ConnectivityManager.TYPE_WIFI;
-        } catch (Throwable t) { return false; }
+            return n != null && n.isConnected();
+        } catch (Throwable t) { return true; }   // unknown: try (the fetch has timeouts)
     }
+
 
     // ------------------------------------------------------------------ downloads
     static byte[] get(String url, int max) throws IOException {
@@ -379,6 +423,7 @@ public final class ModUpdate {
         File d = new File(ModContent.dir(c), "apk");
         d.mkdirs();
         File apk = new File(d, "new.apk");
+        ModContent.writeText(new File(d, "build.txt"), m.apkBuild + "\n");   // phase 2: ModContent.prune deletes apk/ once this build runs
         File installed = new File(c.getPackageCodePath());
         setStatus(tr("Checking the installed game..."));
         String mine = ModContent.sha256(installed);

@@ -44,7 +44,7 @@
     .registers 3
 
     .prologue
-    .line 329
+    .line 338
     const/4 v0, 0x6
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/mod/ModEvents$Actor;
@@ -92,7 +92,7 @@
     .registers 3
 
     .prologue
-    .line 329
+    .line 338
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModEvents$Actor;
 
     const-string v1, "HAULER"
@@ -171,7 +171,7 @@
     .end annotation
 
     .prologue
-    .line 329
+    .line 338
     invoke-direct {p0, p1, p2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
 
     return-void
@@ -181,7 +181,7 @@
     .registers 2
 
     .prologue
-    .line 329
+    .line 338
     const-class v0, Lfr/testudo/spacecorsair/mod/ModEvents$Actor;
 
     invoke-static {v0, p0}, Ljava/lang/Enum;->valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
@@ -197,7 +197,7 @@
     .registers 1
 
     .prologue
-    .line 329
+    .line 338
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents$Actor;->$VALUES:[Lfr/testudo/spacecorsair/mod/ModEvents$Actor;
 
     invoke-virtual {v0}, [Lfr/testudo/spacecorsair/mod/ModEvents$Actor;->clone()Ljava/lang/Object;

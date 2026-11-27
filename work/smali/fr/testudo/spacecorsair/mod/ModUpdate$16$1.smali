@@ -1,4 +1,4 @@
-.class Lfr/testudo/spacecorsair/mod/ModUpdate$15$1;
+.class Lfr/testudo/spacecorsair/mod/ModUpdate$16$1;
 .super Ljava/lang/Object;
 .source "ModUpdate.java"
 
@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModUpdate$15;->onClick(Landroid/view/View;)V
+    value = Lfr/testudo/spacecorsair/mod/ModUpdate$16;->onClick(Landroid/view/View;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -18,16 +18,16 @@
 
 
 # instance fields
-.field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$15;
+.field final synthetic this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$16;
 
 
 # direct methods
-.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModUpdate$15;)V
+.method constructor <init>(Lfr/testudo/spacecorsair/mod/ModUpdate$16;)V
     .registers 2
 
     .prologue
-    .line 587
-    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$15;
+    .line 632
+    iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$16$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$16;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -40,10 +40,10 @@
     .registers 2
 
     .prologue
-    .line 587
-    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$15$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$15;
+    .line 632
+    iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$16$1;->this$0:Lfr/testudo/spacecorsair/mod/ModUpdate$16;
 
-    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$15;->val$c:Landroid/content/Context;
+    iget-object v0, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$16;->val$c:Landroid/content/Context;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->fetch(Landroid/content/Context;)Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
 

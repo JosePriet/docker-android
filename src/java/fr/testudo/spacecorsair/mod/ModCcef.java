@@ -101,9 +101,14 @@ public final class ModCcef {
         return out;
     }
 
+    // phase 2: content packs can tune these (data/tune.txt); the constants are the built-in values
+    static float speed() { return ModTune.f("ccef.speed", SPEED, 0.5f, 3f); }
+    static float dmgTaken() { return ModTune.f("ccef.dmg_taken", DMG_TAKEN, 0.05f, 1f); }
+    static long warpInMs() { return (long) (ModTune.f("ccef.warp_in_s", WARP_IN_MS / 1000f, 5f, 120f) * 1000); }
+
     /** Achievement earned: the clock (from the countdown start) reached 120 s. */
     public static boolean survived(long clockMs) {
-        return clockMs >= SURVIVE_MS;
+        return clockMs >= (long) (ModTune.f("ccef.survive_s", SURVIVE_MS / 1000f, 30f, 900f) * 1000);
     }
 
     /** Off-screen hit and run only once the player has a chance of winning. */
@@ -132,14 +137,14 @@ public final class ModCcef {
 
     /** Warp-out time under the lockdown. */
     public static int warpTime(int ms, boolean lockdown) {
-        return lockdown ? Math.round(ms * WARP_MULT) : ms;
+        return lockdown ? Math.round(ms * ModTune.f("ccef.warp_mult", WARP_MULT, 1f, 5f)) : ms;
     }
 
     /** Player hit on a CCEF hull, and the player's own +15% while the chase runs. */
     public static float playerHit(float dmg, boolean chase, boolean targetCcef) {
         if (!chase) return dmg;
-        float d = dmg * PLAYER_DMG;
-        return targetCcef ? d * DMG_TAKEN : d;
+        float d = dmg * ModTune.f("ccef.player_dmg", PLAYER_DMG, 0.5f, 3f);
+        return targetCcef ? d * dmgTaken() : d;
     }
 
     /** Co-op: true when this squad slot goes after the secondary player (one in three). */
@@ -344,7 +349,7 @@ public final class ModCcef {
     private static void start(PlayerShip ps) {
         phase = WARP;
         landTries = 0;
-        warpLeft = WARP_IN_MS;
+        warpLeft = warpInMs();
         ModPolice.ccefStandDown(ps);
         clearPolice();
         at.setSameAs(arrival(ps));
@@ -352,7 +357,7 @@ public final class ModCcef {
             ModQol.post(ModLang.tr("Incoming transmission from the Human Intergalactic Council: for the crimes you have committed, you are sentenced to termination. The sentence will be carried out without delay."));
         }
         ObjectRegistry.INSTANCE.soundManager.playDanger();
-        log("countdown " + WARP_IN_MS + " ms, clock " + clock);
+        log("countdown " + warpLeft + " ms, clock " + clock);
     }
 
     private static Vector2 arrival(PlayerShip ps) {
@@ -420,7 +425,7 @@ public final class ModCcef {
         e.maxLife *= sc;
         e.life = e.maxLife;
         e.bulletDamage *= sc;
-        e.pouseeForce *= SPEED;
+        e.pouseeForce *= speed();
         e.maxTurnFactor *= TURN;
         ModV34.Sh s = ModV34.bigShield.get(e);
         if (s != null) { s.cap *= sc; s.cur = s.cap; s.rate *= sc; }
@@ -437,7 +442,7 @@ public final class ModCcef {
         log("squad destroyed");
         if (!achGiven) { achGiven = true; achieve(); }
         try {
-            ModQol.addCredits(REWARD_CREDITS, ps);
+            ModQol.addCredits(ModTune.i("ccef.reward_credits", REWARD_CREDITS, 0, 100000000), ps);
             SharedPreferences p = ModQol.prefs();
             if (p != null) {
                 SharedPreferences.Editor ed = p.edit().putInt("v35_core_neutral", ModV35.cores("neutral") + REWARD_NEUTRAL_CORES);
@@ -530,7 +535,7 @@ public final class ModCcef {
 
     /** ModTitan doomsday %: CCEF hulls take half of the capped share. */
     public static float doomScale(Element e) {
-        return chase() && isCcef(e) ? DMG_TAKEN : 1.0f;
+        return chase() && isCcef(e) ? dmgTaken() : 1.0f;
     }
 
     /** ModShield.rate: the player's shield recharges at the stock rate during the chase. Negative = not in a chase. */
@@ -703,7 +708,7 @@ public final class ModCcef {
             float ox = goal.x - tg.position.x, oy = goal.y - tg.position.y;
             float od = Math.max(1f, (float) Math.sqrt(ox * ox + oy * oy));
             goal.add(-oy / od * 260f * s[3], ox / od * 260f * s[3]);
-            steer(e, goal, j, 6f * SPEED);   // PR #6 cap (600 u/s) x the CCEF speed
+            steer(e, goal, j, 6f * speed());   // PR #6 cap (600 u/s) x the CCEF speed
             dodge(e, s, j);
             return true;
         } catch (Throwable t) {
@@ -736,7 +741,7 @@ public final class ModCcef {
             if (cx * cx + cy * cy > r * r * 2.25f) continue;
             float vl = (float) Math.sqrt(vv);
             float side = (cx * -vy + cy * vx) >= 0 ? 1 : -1;
-            float push = Math.min(1f, ms / 120f) * 3.5f * SPEED;
+            float push = Math.min(1f, ms / 120f) * 3.5f * speed();
             e.speed.add(-vy / vl * push * side, vx / vl * push * side);
             if (Math.random() < 0.02) s[3] = -s[3];
             return;
@@ -826,7 +831,7 @@ public final class ModCcef {
             txt.setSameAs(ps.position).add(-half, sz * 0.6f + 40);
             float pu = 0.6f + 0.4f * (float) Math.sin(System.currentTimeMillis() / 120.0);
             ObjectRegistry.INSTANCE.renderQueue.addTextToTextWaitingQueue(txt, false, t, R, G, B, pu, fr.testudo.spacecorsair.textengine.TextSize.LARGE);
-            float k = 1f - warpLeft / (float) WARP_IN_MS;
+            float k = Math.max(0f, 1f - warpLeft / (float) warpInMs());
             ModFx.sprR("marker_hostile", at.x, at.y, 600 + 1600 * k, 600 + 1600 * k, System.currentTimeMillis() / 5.0f % 360, R, G, B, 0.35f + 0.5f * k, true);
             if (Math.random() < 0.08) ModFx.spr("fx_shock", at.x + ModFx.rnd(-500, 500), at.y + ModFx.rnd(-500, 500), 500, 500, 0, R, G, B, 0.6f, true);
         } catch (Throwable t) {

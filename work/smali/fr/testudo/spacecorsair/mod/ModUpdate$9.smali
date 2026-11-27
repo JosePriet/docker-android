@@ -3,7 +3,7 @@
 .source "ModUpdate.java"
 
 # interfaces
-.implements Lfr/testudo/spacecorsair/mod/ModUpdate$Job;
+.implements Landroid/content/DialogInterface$OnDismissListener;
 
 
 # annotations
@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 531
+    .line 573
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -30,17 +30,15 @@
 
 
 # virtual methods
-.method public run()V
-    .registers 2
+.method public onDismiss(Landroid/content/DialogInterface;)V
+    .registers 3
 
     .prologue
-    .line 531
-    # getter for: Lfr/testudo/spacecorsair/mod/ModUpdate;->app:Landroid/content/Context;
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$000()Landroid/content/Context;
+    .line 573
+    const/4 v0, 0x0
 
-    move-result-object v0
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->fetch(Landroid/content/Context;)Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
+    # setter for: Lfr/testudo/spacecorsair/mod/ModUpdate;->panelRefresh:Ljava/lang/Runnable;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$602(Ljava/lang/Runnable;)Ljava/lang/Runnable;
 
     return-void
 .end method

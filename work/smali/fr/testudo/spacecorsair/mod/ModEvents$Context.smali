@@ -39,10 +39,10 @@
     .registers 12
 
     .prologue
-    .line 378
+    .line 387
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 379
+    .line 388
     if-ltz p1, :cond_2b
 
     const/16 v0, 0x28
@@ -85,7 +85,7 @@
 
     if-nez p9, :cond_33
 
-    .line 381
+    .line 390
     :cond_2b
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
@@ -95,35 +95,35 @@
 
     throw v0
 
-    .line 382
+    .line 391
     :cond_33
     iput p1, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->level:I
 
-    .line 383
+    .line 392
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->faction:Ljava/lang/String;
 
-    .line 384
+    .line 393
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->owner:Ljava/lang/String;
 
-    .line 385
+    .line 394
     iput p4, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->standing:I
 
-    .line 386
+    .line 395
     iput p5, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->heat:I
 
-    .line 387
+    .line 396
     iput p6, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->policeTier:I
 
-    .line 388
+    .line 397
     iput p7, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->seconds:I
 
-    .line 389
+    .line 398
     iput p8, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->kills:I
 
-    .line 390
+    .line 399
     iput-object p9, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->trigger:Lfr/testudo/spacecorsair/mod/ModEvents$Trigger;
 
-    .line 391
+    .line 400
     return-void
 .end method
 
@@ -137,7 +137,7 @@
 
     const/4 v0, 0x1
 
-    .line 394
+    .line 403
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->trigger:Lfr/testudo/spacecorsair/mod/ModEvents$Trigger;
 
     invoke-virtual {v2}, Lfr/testudo/spacecorsair/mod/ModEvents$Trigger;->ordinal()I
@@ -146,12 +146,12 @@
 
     packed-switch v2, :pswitch_data_2e
 
-    .line 399
+    .line 408
     :cond_b
     :goto_b
     return v0
 
-    .line 395
+    .line 404
     :pswitch_c
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->seconds:I
 
@@ -163,7 +163,7 @@
 
     goto :goto_b
 
-    .line 396
+    .line 405
     :pswitch_14
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->standing:I
 
@@ -175,7 +175,7 @@
 
     goto :goto_b
 
-    .line 397
+    .line 406
     :pswitch_1c
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->kills:I
 
@@ -187,7 +187,7 @@
 
     goto :goto_b
 
-    .line 398
+    .line 407
     :pswitch_23
     iget v2, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->heat:I
 
@@ -202,7 +202,7 @@
 
     goto :goto_b
 
-    .line 394
+    .line 403
     nop
 
     :pswitch_data_2e

@@ -1,11 +1,14 @@
 .class Lfr/testudo/spacecorsair/mod/ModUpdate$5;
-.super Landroid/content/BroadcastReceiver;
+.super Ljava/lang/Object;
 .source "ModUpdate.java"
+
+# interfaces
+.implements Lfr/testudo/spacecorsair/mod/ModUpdate$Progress;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lfr/testudo/spacecorsair/mod/ModUpdate;->install(Landroid/content/Context;Ljava/io/File;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)V
+    value = Lfr/testudo/spacecorsair/mod/ModUpdate;->runGame(Landroid/content/Context;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -19,154 +22,58 @@
     .registers 1
 
     .prologue
-    .line 407
-    invoke-direct {p0}, Landroid/content/BroadcastReceiver;-><init>()V
+    .line 441
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
 .end method
 
 
 # virtual methods
-.method public onReceive(Landroid/content/Context;Landroid/content/Intent;)V
+.method public at(JJ)V
     .registers 8
 
     .prologue
-    .line 410
-    :try_start_0
-    const-string v0, "android.content.pm.extra.STATUS"
+    .line 441
+    new-instance v0, Ljava/lang/StringBuilder;
 
-    const/4 v1, 0x1
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
-    invoke-virtual {p2, v0, v1}, Landroid/content/Intent;->getIntExtra(Ljava/lang/String;I)I
+    const-string v1, "Downloading the full game"
 
-    move-result v0
-
-    .line 411
-    const/4 v1, -0x1
-
-    if-ne v0, v1, :cond_26
-
-    .line 412
-    const-string v0, "android.intent.extra.INTENT"
-
-    invoke-virtual {p2, v0}, Landroid/content/Intent;->getParcelableExtra(Ljava/lang/String;)Landroid/os/Parcelable;
-
-    move-result-object v0
-
-    check-cast v0, Landroid/content/Intent;
-
-    .line 413
-    if-eqz v0, :cond_1c
-
-    const/high16 v1, 0x10000000
-
-    invoke-virtual {v0, v1}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
-
-    invoke-virtual {p1, v0}, Landroid/content/Context;->startActivity(Landroid/content/Intent;)V
-
-    .line 414
-    :cond_1c
-    const-string v0, "Tap Install to finish. Your save is kept."
-
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->setStatus(Ljava/lang/String;)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$300(Ljava/lang/String;)V
-
-    .line 421
-    :cond_25
-    :goto_25
-    return-void
-
-    .line 415
-    :cond_26
-    if-eqz v0, :cond_25
-
-    .line 416
-    const-string v1, "android.content.pm.extra.STATUS_MESSAGE"
-
-    invoke-virtual {p2, v1}, Landroid/content/Intent;->getStringExtra(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 417
-    const-string v2, "update"
-
-    new-instance v3, Ljava/lang/StringBuilder;
-
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v4, "install failed "
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    const-string v3, " "
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
+    const-string v1, ": "
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-static {p1, p2}, Lfr/testudo/spacecorsair/mod/ModUpdate;->mb(J)Ljava/lang/String;
 
-    move-result-object v0
-
-    invoke-static {v2, v0}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 418
-    new-instance v0, Ljava/lang/StringBuilder;
-
-    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v2, "The installer did not finish. You can download the full game instead."
-
-    invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    if-eqz v1, :cond_8f
-
-    new-instance v0, Ljava/lang/StringBuilder;
-
-    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v3, " ("
-
-    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    const-string v1, ")"
+    const-string v1, " / "
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-static {p3, p4}, Lfr/testudo/spacecorsair/mod/ModUpdate;->mb(J)Ljava/lang/String;
 
-    move-result-object v0
+    move-result-object v1
 
-    :goto_7a
-    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v0
 
@@ -175,31 +82,7 @@
     move-result-object v0
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->setStatus(Ljava/lang/String;)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$300(Ljava/lang/String;)V
-    :try_end_85
-    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_85} :catch_86
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$400(Ljava/lang/String;)V
 
-    goto :goto_25
-
-    .line 420
-    :catch_86
-    move-exception v0
-
-    invoke-static {v0}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
-
-    move-result-object v0
-
-    # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->setStatus(Ljava/lang/String;)V
-    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$300(Ljava/lang/String;)V
-
-    goto :goto_25
-
-    .line 418
-    :cond_8f
-    :try_start_8f
-    const-string v0, ""
-    :try_end_91
-    .catch Ljava/lang/Throwable; {:try_start_8f .. :try_end_91} :catch_86
-
-    goto :goto_7a
+    return-void
 .end method
