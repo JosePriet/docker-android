@@ -4,6 +4,9 @@ Policy 2026-11-21 (see CLAUDE.md): project hooks active; two-agent check only fo
 # Handoff (2026-11-22): CCEF elite police hunt CODED (not merged, not released)
 Branch claude/project-thread-0fm5bo (head after this entry): ModCcef (owner spec space-corsair/proposals/ccef-design.md) + Codex PR #6 merged in (AI2_* flags stay off; B2ArenaAI now runs in build). Smali patch hooks58_ccef (Achievement.escapeCertainDeath, secret). JVM test VCCEF. ES strings i18n/gpt/v58_ccef_es.json. Changes: /mnt/project-files/audits/v58-ccef-changes.md; two-agent check: audits/v58-ccef-two-agent-check.md. Test APK (build 52 name v45, not a release): space-corsair/v58-ccef/space-corsair-ccef-test.apk. Emulator switch corsair_ccef starts a hunt. Needs: owner OK on the picks, emulator run, phone test, GPT ccef_<art> (scheme 3) later.
 
+# Handoff (2026-11-27): content updates phase 2 CODED (PR into sc-mod-workspace, not merged, not released)
+Branch claude/project-thread-u2nyvr. Packs can now carry data/tune.txt (ModTune, 27 balance keys), data/text.json (ModTables: mission/lore/faction/rep text), lang/en.json, music/<raw>.ogg (hooks60_music). ModContent.prune frees the installed update APK, old-build packs, stale .part; sfx read from the APK without a cache copy. Publishing: tools/updates/README.md. Changes: /mnt/project-files/audits/v46-content-phase2-changes.md. Left: emulator run with a test pack, owner OK, merge.
+
 # Handoff (2026-11-23): Codex batch 2 + CCEF MERGED into sc-mod-workspace (not released)
 628df49. Details: /mnt/project-files/audits/v46-test1-changes.md. Test APK v46-test1 build 53: /mnt/project-files/space-corsair/v46-test1/ (+ phone-test-checklist.md). Emulator run sc-v46t1 pushed (emulator-tests ee91c6b), results on emulator-results.
 Left: two-agent check on 628df49, Blastron/GA test APKs (their PR #2 merged), compare owner phone results, directive audit, then bump release/VERSION. Codex PR #8 (art, base master) untouched.
