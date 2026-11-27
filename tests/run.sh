@@ -230,13 +230,19 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     log "EVIDENCE fps: $(grep -E "ModTest.*vfx fps" $LG | sed 's/^.*): //' | tail -6 | tr '\n' ' ')"
     grep -E "ModTest.*vfx|ModDev|FATAL|AndroidRuntime|VerifyError" $LG > $OUT/vfx_events.txt
     a shell "rm -f $T/corsair_capital $T/corsair_ccef_god $T/corsair_vfx_q $T/corsair_spawn"
-   # Visual upgrade run 2: explosions only, away from station guns. Small ships killed together, then a flagship killed
+   finish; exit 0
+  fi
+  # Visual upgrade run 2: explosions only, away from station guns. Small ships killed together, then a flagship killed
   # before it turns on the player (killflag in a capfight is soaked by the flagship's damage caps).
   if [ "$STAGE" = VFX2 ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
     put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
     rec() { timeout 200 adb shell screenrecord --time-limit $2 --bit-rate 8000000 /sdcard/$1.mp4 >/dev/null 2>&1 & }
     pull() { sleep 3; timeout 60 adb pull /sdcard/$1.mp4 $OUT/$1.mp4 >/dev/null 2>&1; log "pulled $1: $(stat -c %s $OUT/$1.mp4 2>/dev/null)"; }
+    a shell am start -n $PKG/.activity.SettingsActivity_ >/dev/null; sleep 4
+    for i in 1 2 3 4; do swipe 1140 900 1140 200 600; sleep 1; done; shot settings_visual_quality; dump settings_vq
+    log "EVIDENCE settings: $(grep -oE 'text="(Visual quality[^"]*|High|Medium|Low|Offer lower[^"]*|Screen shake[^"]*)"' $OUT/last.xml | tr '\n' ' ')"
+    back 3
     put corsair_ccef_god 1; put corsair_vfx_q 2; sleep 30; shot start
     for Q in 2 0; do
       put corsair_vfx_q $Q; sleep 2
@@ -253,8 +259,6 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     grep -E "ModTest|ModDev|FATAL|AndroidRuntime|VerifyError" $LG > $OUT/vfx2_events.txt
     a shell "rm -f $T/corsair_capital $T/corsair_ccef_god $T/corsair_vfx_q $T/corsair_spawn"
     finish; exit 0
-  fi
-   finish; exit 0
   fi
   if [ "$STAGE" = CCEF ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
