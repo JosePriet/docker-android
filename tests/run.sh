@@ -258,11 +258,11 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     a shell "echo $U/upd/ > $T/corsair_upd_url; chmod 644 $T/corsair_*"
     relaunch p_avail; shot p_avail; dump p_avail
     log "EVIDENCE update listed (expect prompt): $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Update available|Download update|Later|test pack|Size' | tr '\n' ' ')"
-    tap_text "^(Later|LATER)$" p_later; sleep 3; dump p_later_after; shot p_later_after
+    tap_text "^(Later|LATER)( |$)" p_later; sleep 3; dump p_later_after; shot p_later_after
     log "EVIDENCE after Later: $(grep -c 'Update available' $OUT/last.xml) prompt(s), $(ls /dev/null) "
     relaunch p_avail2; shot p_avail2; dump p_avail2
     log "EVIDENCE prompt again: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Update available|Download update' | tr '\n' ' ')"
-    tap_text "^(Download update|DOWNLOAD UPDATE)$" p_dl; sleep 20; shot p_dl_done; dump p_dl_done
+    tap_text "^(Download update|DOWNLOAD UPDATE)( |$)" p_dl; sleep 20; shot p_dl_done; dump p_dl_done
     log "EVIDENCE after download: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Restart|Content|refused|fail|space|updated' | tr '\n' ' ')"
     log "EVIDENCE update log: $(grep -E 'ModTest.*: (update|content)' $LG | tail -8 | sed 's/^.*): //' | tr '\n' ' ')"
     files downloaded
@@ -280,7 +280,7 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     [ -z "$(timeout 5 adb shell pidof $PKG)" ] && { a shell monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null; sleep 25; }
     need p_after_undo; shot p_after_undo; dump p_after_undo
     log "EVIDENCE prompt after undo: $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Update available|Download update' | tr '\n' ' ')"
-    tap_text "^(Later|LATER)$" p_later2; sleep 3
+    tap_text "^(Later|LATER)( |$)" p_later2; sleep 3
     for k in 1 2 3; do tap 57 55; sleep 4; dump p_menu2; grep -q 'text="Updates' $OUT/last.xml && break; a shell input keyevent KEYCODE_BACK; sleep 3; done
     tap_text "^Updates" p_upd2; sleep 10; shot p_panel2; dump p_panel2
     log "EVIDENCE panel after undo (expect plain 'Check now'): $(grep -o 'text="[^"]*"' $OUT/last.xml | grep -iE 'Check now|Content|version' | tr '\n' ' ')"
