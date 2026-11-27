@@ -6,6 +6,18 @@
 # static fields
 .field static final KEYS:[Ljava/lang/String;
 
+.field private static final NONE:Ljava/util/Map;
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "Ljava/util/Map",
+            "<",
+            "Ljava/lang/String;",
+            "Ljava/lang/Float;",
+            ">;"
+        }
+    .end annotation
+.end field
+
 .field private static volatile vals:Ljava/util/Map;
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -205,6 +217,13 @@
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModTune;->KEYS:[Ljava/lang/String;
 
     .line 31
+    invoke-static {}, Ljava/util/Collections;->emptyMap()Ljava/util/Map;
+
+    move-result-object v0
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModTune;->NONE:Ljava/util/Map;
+
+    .line 32
     new-instance v0, Ljava/util/HashSet;
 
     invoke-direct {v0}, Ljava/util/HashSet;-><init>()V
@@ -228,17 +247,17 @@
     .registers 5
 
     .prologue
-    .line 34
+    .line 35
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTune;->vals:Ljava/util/Map;
 
-    .line 35
+    .line 36
     if-nez v0, :cond_8
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTune;->load()Ljava/util/Map;
 
     move-result-object v0
 
-    .line 36
+    .line 37
     :cond_8
     invoke-interface {v0, p0}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
@@ -246,21 +265,21 @@
 
     check-cast v0, Ljava/lang/Float;
 
-    .line 37
+    .line 38
     if-nez v0, :cond_11
 
-    .line 43
+    .line 44
     :cond_10
     :goto_10
     return p1
 
-    .line 38
+    .line 39
     :cond_11
     invoke-virtual {v0}, Ljava/lang/Float;->floatValue()F
 
     move-result p1
 
-    .line 39
+    .line 40
     cmpg-float v0, p1, p2
 
     if-ltz v0, :cond_1d
@@ -269,11 +288,11 @@
 
     if-lez v0, :cond_10
 
-    .line 40
+    .line 41
     :cond_1d
     invoke-static {p0, p1}, Lfr/testudo/spacecorsair/mod/ModTune;->warn(Ljava/lang/String;F)V
 
-    .line 41
+    .line 42
     cmpg-float v0, p1, p2
 
     if-gez v0, :cond_26
@@ -293,7 +312,7 @@
     .registers 7
 
     .prologue
-    .line 47
+    .line 48
     int-to-float v0, p1
 
     int-to-float v1, p2
@@ -325,7 +344,7 @@
     .end annotation
 
     .prologue
-    .line 57
+    .line 58
     const-class v3, Lfr/testudo/spacecorsair/mod/ModTune;
 
     monitor-enter v3
@@ -337,34 +356,58 @@
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModTune;->vals:Ljava/util/Map;
     :try_end_9
-    .catchall {:try_start_3 .. :try_end_9} :catchall_60
+    .catchall {:try_start_3 .. :try_end_9} :catchall_70
 
-    .line 66
+    .line 70
     :goto_9
     monitor-exit v3
 
     return-object v0
 
-    .line 58
+    .line 59
     :cond_b
     :try_start_b
-    new-instance v1, Ljava/util/HashMap;
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModContent;->isReady()Z
+    :try_end_e
+    .catchall {:try_start_b .. :try_end_e} :catchall_70
 
-    invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
+    move-result v0
 
-    .line 59
+    if-nez v0, :cond_23
+
+    .line 60
+    :try_start_11
+    sget-object v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
+
+    iget-object v0, v0, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
+
+    iget-object v0, v0, Lfr/testudo/spacecorsair/game/Game;->context:Landroid/content/Context;
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
+    :try_end_1a
+    .catch Ljava/lang/Throwable; {:try_start_11 .. :try_end_1a} :catch_a2
+    .catchall {:try_start_11 .. :try_end_1a} :catchall_70
+
+    .line 61
+    :goto_1a
+    :try_start_1a
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModContent;->isReady()Z
 
     move-result v0
 
-    if-nez v0, :cond_18
+    if-nez v0, :cond_23
 
-    move-object v0, v1
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModTune;->NONE:Ljava/util/Map;
 
     goto :goto_9
 
-    .line 60
-    :cond_18
+    .line 63
+    :cond_23
+    new-instance v1, Ljava/util/HashMap;
+
+    invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
+
+    .line 64
     const/4 v0, 0x0
 
     const-string v2, "data/tune.txt"
@@ -377,51 +420,51 @@
 
     move-result-object v4
 
-    :goto_23
+    :goto_33
     invoke-interface {v4}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v0
 
-    if-eqz v0, :cond_63
+    if-eqz v0, :cond_73
 
     invoke-interface {v4}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/io/InputStream;
-    :try_end_2f
-    .catchall {:try_start_b .. :try_end_2f} :catchall_60
+    :try_end_3f
+    .catchall {:try_start_1a .. :try_end_3f} :catchall_70
 
-    .line 61
-    :try_start_2f
+    .line 65
+    :try_start_3f
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->readLines(Ljava/io/InputStream;)[Ljava/lang/String;
 
     move-result-object v2
 
     invoke-static {v2, v1}, Lfr/testudo/spacecorsair/mod/ModTune;->parse([Ljava/lang/String;Ljava/util/Map;)V
-    :try_end_36
-    .catch Ljava/lang/Throwable; {:try_start_2f .. :try_end_36} :catch_3c
-    .catchall {:try_start_2f .. :try_end_36} :catchall_5b
+    :try_end_46
+    .catch Ljava/lang/Throwable; {:try_start_3f .. :try_end_46} :catch_4c
+    .catchall {:try_start_3f .. :try_end_46} :catchall_6b
 
-    .line 62
-    :try_start_36
+    .line 66
+    :try_start_46
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
-    :try_end_39
-    .catch Ljava/lang/Throwable; {:try_start_36 .. :try_end_39} :catch_3a
-    .catchall {:try_start_36 .. :try_end_39} :catchall_60
+    :try_end_49
+    .catch Ljava/lang/Throwable; {:try_start_46 .. :try_end_49} :catch_4a
+    .catchall {:try_start_46 .. :try_end_49} :catchall_70
 
-    goto :goto_23
+    goto :goto_33
 
-    :catch_3a
+    :catch_4a
     move-exception v0
 
-    goto :goto_23
+    goto :goto_33
 
-    .line 61
-    :catch_3c
+    .line 65
+    :catch_4c
     move-exception v2
 
-    :try_start_3d
+    :try_start_4d
     const-string v5, "content"
 
     new-instance v6, Ljava/lang/StringBuilder;
@@ -443,54 +486,54 @@
     move-result-object v2
 
     invoke-static {v5, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
-    :try_end_55
-    .catchall {:try_start_3d .. :try_end_55} :catchall_5b
+    :try_end_65
+    .catchall {:try_start_4d .. :try_end_65} :catchall_6b
 
-    .line 62
-    :try_start_55
+    .line 66
+    :try_start_65
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
-    :try_end_58
-    .catch Ljava/lang/Throwable; {:try_start_55 .. :try_end_58} :catch_59
-    .catchall {:try_start_55 .. :try_end_58} :catchall_60
+    :try_end_68
+    .catch Ljava/lang/Throwable; {:try_start_65 .. :try_end_68} :catch_69
+    .catchall {:try_start_65 .. :try_end_68} :catchall_70
 
-    goto :goto_23
+    goto :goto_33
 
-    :catch_59
+    :catch_69
     move-exception v0
 
-    goto :goto_23
+    goto :goto_33
 
-    :catchall_5b
+    :catchall_6b
     move-exception v1
 
-    :try_start_5c
+    :try_start_6c
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
-    :try_end_5f
-    .catch Ljava/lang/Throwable; {:try_start_5c .. :try_end_5f} :catch_90
-    .catchall {:try_start_5c .. :try_end_5f} :catchall_60
+    :try_end_6f
+    .catch Ljava/lang/Throwable; {:try_start_6c .. :try_end_6f} :catch_a0
+    .catchall {:try_start_6c .. :try_end_6f} :catchall_70
 
-    :goto_5f
-    :try_start_5f
+    :goto_6f
+    :try_start_6f
     throw v1
-    :try_end_60
-    .catchall {:try_start_5f .. :try_end_60} :catchall_60
+    :try_end_70
+    .catchall {:try_start_6f .. :try_end_70} :catchall_70
 
-    .line 57
-    :catchall_60
+    .line 58
+    :catchall_70
     move-exception v0
 
     monitor-exit v3
 
     throw v0
 
-    .line 64
-    :cond_63
-    :try_start_63
+    .line 68
+    :cond_73
+    :try_start_73
     invoke-interface {v1}, Ljava/util/Map;->isEmpty()Z
 
     move-result v0
 
-    if-nez v0, :cond_8b
+    if-nez v0, :cond_9b
 
     const-string v0, "content"
 
@@ -524,22 +567,28 @@
 
     invoke-static {v0, v2}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 65
-    :cond_8b
+    .line 69
+    :cond_9b
     sput-object v1, Lfr/testudo/spacecorsair/mod/ModTune;->vals:Ljava/util/Map;
-    :try_end_8d
-    .catchall {:try_start_63 .. :try_end_8d} :catchall_60
+    :try_end_9d
+    .catchall {:try_start_73 .. :try_end_9d} :catchall_70
 
     move-object v0, v1
 
-    .line 66
+    .line 70
     goto/16 :goto_9
 
-    .line 62
-    :catch_90
+    .line 66
+    :catch_a0
     move-exception v0
 
-    goto :goto_5f
+    goto :goto_6f
+
+    .line 60
+    :catch_a2
+    move-exception v0
+
+    goto/16 :goto_1a
 .end method
 
 .method static parse([Ljava/lang/String;Ljava/util/Map;)V
@@ -559,7 +608,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 71
+    .line 75
     array-length v2, p0
 
     move v0, v1
@@ -569,7 +618,7 @@
 
     aget-object v3, p0, v0
 
-    .line 72
+    .line 76
     const-string v4, "#"
 
     invoke-virtual {v3, v4}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
@@ -578,14 +627,14 @@
 
     if-eqz v4, :cond_12
 
-    .line 71
+    .line 75
     :cond_f
     :goto_f
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_3
 
-    .line 73
+    .line 77
     :cond_12
     const/16 v4, 0x3d
 
@@ -593,10 +642,10 @@
 
     move-result v4
 
-    .line 74
+    .line 78
     if-lez v4, :cond_f
 
-    .line 75
+    .line 79
     invoke-virtual {v3, v1, v4}, Ljava/lang/String;->substring(II)Ljava/lang/String;
 
     move-result-object v5
@@ -605,7 +654,7 @@
 
     move-result-object v5
 
-    .line 77
+    .line 81
     add-int/lit8 v4, v4, 0x1
 
     :try_start_24
@@ -621,7 +670,7 @@
 
     move-result v3
 
-    .line 78
+    .line 82
     invoke-static {v3}, Ljava/lang/Float;->isNaN(F)Z
 
     move-result v4
@@ -658,13 +707,13 @@
 
     goto :goto_f
 
-    .line 79
+    .line 83
     :catch_52
     move-exception v3
 
     goto :goto_f
 
-    .line 81
+    .line 85
     :cond_54
     return-void
 .end method
@@ -683,7 +732,7 @@
     .end annotation
 
     .prologue
-    .line 84
+    .line 88
     const-class v1, Lfr/testudo/spacecorsair/mod/ModTune;
 
     monitor-enter v1
@@ -735,7 +784,7 @@
     .registers 5
 
     .prologue
-    .line 51
+    .line 52
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModTune;->warned:Ljava/util/Set;
 
     monitor-enter v1
@@ -751,17 +800,17 @@
 
     monitor-exit v1
 
-    .line 53
+    .line 54
     :goto_c
     return-void
 
-    .line 51
+    .line 52
     :cond_d
     monitor-exit v1
     :try_end_e
     .catchall {:try_start_3 .. :try_end_e} :catchall_37
 
-    .line 52
+    .line 53
     const-string v0, "content"
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -802,7 +851,7 @@
 
     goto :goto_c
 
-    .line 51
+    .line 52
     :catchall_37
     move-exception v0
 

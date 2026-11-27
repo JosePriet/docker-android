@@ -63,8 +63,11 @@ public final class ModSound {
                 File pf = new File(dir, n + "_pack.ogg");
                 InputStream pk = ModContent.open(ctx, "modsfx/" + n + ".ogg");   // v45 updates: a pack's sound wins
                 int id = 0;
-                if (pk != null) { f = pf; copyStream(pk, f); }
-                else {
+                if (pk != null) {
+                    try { copyStream(pk, pf); f = pf; }
+                    catch (Throwable t) { pf.delete(); pk = null; ModDev.ev("content", "pack sound " + n + " not copied: " + t); }   // built-in sound below
+                }
+                if (pk == null) {
                     pf.delete();   // phase 2: no pack copy left behind once its pack is gone
                     // phase 2 storage: the APK stores .ogg uncompressed, so SoundPool reads it in place (no cache copy)
                     try { android.content.res.AssetFileDescriptor fd = ctx.getAssets().openFd("modsfx/" + n + ".ogg"); try { id = sp.load(fd, 1); } finally { fd.close(); } } catch (Throwable t) { id = 0; }
@@ -237,6 +240,8 @@ public final class ModSound {
      * music/<raw resource name>.ogg replaces that track (copied once to cache/music_pack/, rewritten on each start
      * so a same-size replacement never keeps the old file); otherwise, or on any failure, the stock MediaPlayer.create.
      */
+    private static final java.util.Set<String> musicCopied = java.util.Collections.synchronizedSet(new java.util.HashSet<String>());
+
     public static MediaPlayer music(Context c, int resId) {
         try {
             Context a = c.getApplicationContext();
@@ -247,7 +252,13 @@ public final class ModSound {
             File f = new File(dir, name + ".ogg");
             if (pk == null) { f.delete(); return MediaPlayer.create(c, resId); }
             dir.mkdirs();
-            copyStream(pk, f);
+            // copied once per process, through a temp file: a player still reading the old copy keeps its file
+            if (!musicCopied.contains(name)) {
+                File t = new File(dir, name + ".ogg.tmp");
+                copyStream(pk, t);
+                if (!t.renameTo(f)) { f.delete(); if (!t.renameTo(f)) throw new java.io.IOException("rename " + f); }
+                musicCopied.add(name);
+            } else pk.close();
             MediaPlayer mp = new MediaPlayer();
             try {
                 mp.setDataSource(f.getAbsolutePath());

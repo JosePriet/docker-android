@@ -40,7 +40,7 @@
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModTables;->CLASSES:[Ljava/lang/String;
 
     .line 24
-    const/4 v0, 0x4
+    const/4 v0, 0x5
 
     new-array v0, v0, [Ljava/lang/String;
 
@@ -59,6 +59,12 @@
     const-string v1, "SECRET_SHIP"
 
     aput-object v1, v0, v5
+
+    const/4 v1, 0x4
+
+    const-string v2, "SECRET_WEAPON"
+
+    aput-object v2, v0, v1
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModTables;->LOCKED:[Ljava/lang/String;
 
@@ -420,7 +426,7 @@
     :cond_11
     const-string v2, "key must be Class.FIELD.i or Class.FIELD.i.j"
 
-    .line 83
+    .line 89
     :goto_13
     return-object v2
 
@@ -675,14 +681,14 @@
 
     invoke-virtual {v2}, Ljava/lang/Class;->getComponentType()Ljava/lang/Class;
 
-    move-result-object v2
+    move-result-object v3
 
     .line 67
-    invoke-virtual {v2}, Ljava/lang/Class;->isArray()Z
+    invoke-virtual {v3}, Ljava/lang/Class;->isArray()Z
 
-    move-result v3
+    move-result v2
 
-    if-eqz v3, :cond_e7
+    if-eqz v2, :cond_e7
 
     const-string v2, "not an element"
 
@@ -692,29 +698,50 @@
     :cond_e7
     invoke-static {v5, v6}, Ljava/lang/reflect/Array;->get(Ljava/lang/Object;I)Ljava/lang/Object;
 
-    move-result-object v3
+    move-result-object v2
 
-    .line 70
+    .line 73
     const-class v7, Ljava/lang/String;
 
-    if-eq v2, v7, :cond_f7
+    if-eq v3, v7, :cond_f7
 
     const-class v7, Ljava/lang/Object;
 
-    if-ne v2, v7, :cond_114
+    if-ne v3, v7, :cond_126
 
-    instance-of v7, v3, Ljava/lang/String;
+    instance-of v7, v2, Ljava/lang/String;
 
-    if-eqz v7, :cond_114
+    if-eqz v7, :cond_126
 
+    .line 74
     :cond_f7
+    instance-of v3, v2, Ljava/lang/String;
+
+    if-eqz v3, :cond_105
+
+    check-cast v2, Ljava/lang/String;
+
+    const/16 v3, 0x20
+
+    invoke-virtual {v2, v3}, Ljava/lang/String;->indexOf(I)I
+
+    move-result v2
+
+    if-gez v2, :cond_109
+
+    :cond_105
+    const-string v2, "not a text element (keys are locked)"
+
+    goto/16 :goto_13
+
+    :cond_109
     move-object v3, p1
 
-    .line 76
-    :goto_f8
+    .line 82
+    :goto_10a
     instance-of v2, v3, Ljava/lang/Float;
 
-    if-eqz v2, :cond_17c
+    if-eqz v2, :cond_16e
 
     move-object v0, v3
 
@@ -726,7 +753,7 @@
 
     move-result v2
 
-    if-nez v2, :cond_110
+    if-nez v2, :cond_122
 
     move-object v0, v3
 
@@ -738,28 +765,19 @@
 
     move-result v2
 
-    if-eqz v2, :cond_17c
+    if-eqz v2, :cond_16e
 
-    :cond_110
+    :cond_122
     const-string v2, "not a number"
 
     goto/16 :goto_13
 
-    .line 71
-    :cond_114
-    sget-object v7, Ljava/lang/Integer;->TYPE:Ljava/lang/Class;
+    .line 77
+    :cond_126
+    sget-object v2, Ljava/lang/Integer;->TYPE:Ljava/lang/Class;
 
-    if-eq v2, v7, :cond_120
+    if-ne v3, v2, :cond_137
 
-    const-class v7, Ljava/lang/Object;
-
-    if-ne v2, v7, :cond_12d
-
-    instance-of v7, v3, Ljava/lang/Integer;
-
-    if-eqz v7, :cond_12d
-
-    :cond_120
     invoke-virtual {p1}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v2
@@ -772,23 +790,14 @@
 
     move-result-object v3
 
-    goto :goto_f8
+    goto :goto_10a
 
-    .line 72
-    :cond_12d
-    sget-object v7, Ljava/lang/Long;->TYPE:Ljava/lang/Class;
+    .line 78
+    :cond_137
+    sget-object v2, Ljava/lang/Long;->TYPE:Ljava/lang/Class;
 
-    if-eq v2, v7, :cond_139
+    if-ne v3, v2, :cond_148
 
-    const-class v7, Ljava/lang/Object;
-
-    if-ne v2, v7, :cond_146
-
-    instance-of v7, v3, Ljava/lang/Long;
-
-    if-eqz v7, :cond_146
-
-    :cond_139
     invoke-virtual {p1}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v2
@@ -801,23 +810,14 @@
 
     move-result-object v3
 
-    goto :goto_f8
+    goto :goto_10a
 
-    .line 73
-    :cond_146
-    sget-object v7, Ljava/lang/Float;->TYPE:Ljava/lang/Class;
+    .line 79
+    :cond_148
+    sget-object v2, Ljava/lang/Float;->TYPE:Ljava/lang/Class;
 
-    if-eq v2, v7, :cond_152
+    if-ne v3, v2, :cond_159
 
-    const-class v7, Ljava/lang/Object;
-
-    if-ne v2, v7, :cond_15f
-
-    instance-of v7, v3, Ljava/lang/Float;
-
-    if-eqz v7, :cond_15f
-
-    :cond_152
     invoke-virtual {p1}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v2
@@ -830,23 +830,14 @@
 
     move-result-object v3
 
-    goto :goto_f8
+    goto :goto_10a
 
-    .line 74
-    :cond_15f
-    sget-object v7, Ljava/lang/Double;->TYPE:Ljava/lang/Class;
+    .line 80
+    :cond_159
+    sget-object v2, Ljava/lang/Double;->TYPE:Ljava/lang/Class;
 
-    if-eq v2, v7, :cond_16b
+    if-ne v3, v2, :cond_16a
 
-    const-class v7, Ljava/lang/Object;
-
-    if-ne v2, v7, :cond_178
-
-    instance-of v2, v3, Ljava/lang/Double;
-
-    if-eqz v2, :cond_178
-
-    :cond_16b
     invoke-virtual {p1}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v2
@@ -859,19 +850,19 @@
 
     move-result-object v3
 
-    goto :goto_f8
+    goto :goto_10a
 
-    .line 75
-    :cond_178
+    .line 81
+    :cond_16a
     const-string v2, "element type not supported"
 
     goto/16 :goto_13
 
-    .line 77
-    :cond_17c
+    .line 83
+    :cond_16e
     instance-of v2, v3, Ljava/lang/Double;
 
-    if-eqz v2, :cond_198
+    if-eqz v2, :cond_18a
 
     move-object v0, v3
 
@@ -883,7 +874,7 @@
 
     move-result v2
 
-    if-nez v2, :cond_194
+    if-nez v2, :cond_186
 
     move-object v0, v3
 
@@ -895,39 +886,39 @@
 
     move-result v2
 
-    if-eqz v2, :cond_198
+    if-eqz v2, :cond_18a
 
-    :cond_194
+    :cond_186
     const-string v2, "not a number"
 
     goto/16 :goto_13
 
-    .line 78
-    :cond_198
+    .line 84
+    :cond_18a
     invoke-static {v5, v6, v3}, Ljava/lang/reflect/Array;->set(Ljava/lang/Object;ILjava/lang/Object;)V
-    :try_end_19b
-    .catch Ljava/lang/NumberFormatException; {:try_start_3 .. :try_end_19b} :catch_19e
-    .catch Ljava/lang/Throwable; {:try_start_3 .. :try_end_19b} :catch_1a3
+    :try_end_18d
+    .catch Ljava/lang/NumberFormatException; {:try_start_3 .. :try_end_18d} :catch_190
+    .catch Ljava/lang/Throwable; {:try_start_3 .. :try_end_18d} :catch_195
 
     move-object v2, v4
 
-    .line 79
+    .line 85
     goto/16 :goto_13
 
-    .line 80
-    :catch_19e
+    .line 86
+    :catch_190
     move-exception v2
 
-    .line 81
+    .line 87
     const-string v2, "not a number"
 
     goto/16 :goto_13
 
-    .line 82
-    :catch_1a3
+    .line 88
+    :catch_195
     move-exception v2
 
-    .line 83
+    .line 89
     invoke-static {v2}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v2

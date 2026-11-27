@@ -21,7 +21,7 @@ final class ModTables {
     private ModTables() {}
 
     static final String[] CLASSES = {"ModFactionData", "ModV30Data", "ModRepData"};
-    static final String[] LOCKED = {"KEYS", "SITE_SECTOR", "SITE_HULLS", "SECRET_SHIP"};
+    static final String[] LOCKED = {"KEYS", "SITE_SECTOR", "SITE_HULLS", "SECRET_SHIP", "SECRET_WEAPON"};
 
     static void apply() {
         Map<String, String> all = new LinkedHashMap<String, String>();
@@ -67,11 +67,17 @@ final class ModTables {
             if (ct.isArray()) return "not an element";
             Object old = Array.get(arr, i);
             Object nv;
-            if (ct == String.class || (ct == Object.class && old instanceof String)) nv = value;
-            else if (ct == int.class || (ct == Object.class && old instanceof Integer)) nv = Integer.valueOf(Integer.parseInt(value.trim()));
-            else if (ct == long.class || (ct == Object.class && old instanceof Long)) nv = Long.valueOf(Long.parseLong(value.trim()));
-            else if (ct == float.class || (ct == Object.class && old instanceof Float)) nv = Float.valueOf(Float.parseFloat(value.trim()));
-            else if (ct == double.class || (ct == Object.class && old instanceof Double)) nv = Double.valueOf(Double.parseDouble(value.trim()));
+            // Text only where the old value is prose (has a space): single words in these tables are lookup keys
+            // (faction keys, objective and sector names, boss ids). Numbers only in plain number arrays (counts);
+            // numbers inside Object[] rows are orders, levels and weapon family indexes, never changed.
+            if (ct == String.class || (ct == Object.class && old instanceof String)) {
+                if (!(old instanceof String) || ((String) old).indexOf(' ') < 0) return "not a text element (keys are locked)";
+                nv = value;
+            }
+            else if (ct == int.class) nv = Integer.valueOf(Integer.parseInt(value.trim()));
+            else if (ct == long.class) nv = Long.valueOf(Long.parseLong(value.trim()));
+            else if (ct == float.class) nv = Float.valueOf(Float.parseFloat(value.trim()));
+            else if (ct == double.class) nv = Double.valueOf(Double.parseDouble(value.trim()));
             else return "element type not supported";
             if (nv instanceof Float && (((Float) nv).isNaN() || ((Float) nv).isInfinite())) return "not a number";
             if (nv instanceof Double && (((Double) nv).isNaN() || ((Double) nv).isInfinite())) return "not a number";

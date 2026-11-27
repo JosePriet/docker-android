@@ -148,11 +148,12 @@ public class V60U {
         is("tables: class not allowed", ModTables.set("ModContent.FOLDERS.0", "x") != null && "modart/".equals(ModContent.FOLDERS[0]));
         is("tables: not an element", ModTables.set("ModV30Data.BOSS_EN.0", "x") != null);
         is("tables: bad key", ModTables.set("ModV30Data.BOSS_EN", "x") != null && ModTables.set("ModV30Data.BOSS_EN.-1.0", "x") != null);
-        Object m0 = ModFactionData.MISSIONS[0][0];
-        String mk = "ModFactionData.MISSIONS.0.0";
-        String mv = m0 instanceof String ? "Mission X" : m0 instanceof Integer ? "5" : null;
-        is("tables: Object[][] element keeps its type", mv == null || (ModTables.set(mk, mv) == null && ModFactionData.MISSIONS[0][0].getClass() == m0.getClass()));
-        ModFactionData.COMMANDER_LINE[1] = line0; ModV30Data.SITE_COUNTS[0][0] = count0; ModFactionData.MISSIONS[0][0] = m0;
+        Object m0 = ModFactionData.MISSIONS[0][0], m1 = ModFactionData.MISSIONS[0][1], m2 = ModFactionData.MISSIONS[0][2];
+        is("tables: mission title (prose) replaced", ModTables.set("ModFactionData.MISSIONS.0.2", "New Title") == null && "New Title".equals(ModFactionData.MISSIONS[0][2]));
+        is("tables: mission faction key locked", ModTables.set("ModFactionData.MISSIONS.0.0", "reaver") != null && m0.equals(ModFactionData.MISSIONS[0][0]));
+        is("tables: number inside a mission row locked", ModTables.set("ModFactionData.MISSIONS.0.1", "9") != null && m1.equals(ModFactionData.MISSIONS[0][1]));
+        is("tables: secret weapon table locked", ModTables.set("ModRepData.SECRET_WEAPON.0.2", "x y") != null);
+        ModFactionData.COMMANDER_LINE[1] = line0; ModV30Data.SITE_COUNTS[0][0] = count0; ModFactionData.MISSIONS[0][2] = m2;
         ModTune.testSet(null);
         ModContent.testReset(null);
         ModTune.testSet(null);

@@ -32,7 +32,10 @@ Two kinds of update:
   `ccef.warp_in_s=20`, `ccef.survive_s=120`, `ccef.warp_mult=1.5`, `ccef.reward_credits=10000000`.
 - `data/text.json`: mission, lore, faction and reputation tables, `{"ModFactionData.COMMANDER_LINE.2": "...", "ModV30Data.BOSS_EN.1.0": "..."}`.
   One element of an existing array per key (index from 0, same type as the element; numbers as strings). Allowed classes:
-  ModFactionData, ModV30Data, ModRepData; KEYS, SITE_SECTOR, SITE_HULLS and SECRET_SHIP are locked. Arrays never grow.
+  ModFactionData, ModV30Data, ModRepData; KEYS, SITE_SECTOR, SITE_HULLS, SECRET_SHIP and SECRET_WEAPON are locked.
+  Text is changeable only where the built-in value has a space (titles, briefings, lore): single words are lookup keys.
+  Numbers only in plain number arrays (e.g. ModV30Data.SITE_COUNTS), never inside mission/contract rows. Arrays never grow.
+  The game logs and skips a refused entry; pack_build.py only checks the key shape.
 
 ### Storage on the phone
 At each start the game deletes: the rebuilt game update (`apk/`, about 90 MB) once that build runs or after 7 days;

@@ -28,6 +28,7 @@ public final class ModTune {
     };
 
     private static volatile Map<String, Float> vals;
+    private static final Map<String, Float> NONE = java.util.Collections.<String, Float>emptyMap();
     private static final Set<String> warned = new HashSet<String>();
 
     public static float f(String key, float def, float min, float max) {
@@ -55,8 +56,11 @@ public final class ModTune {
     /** Reads the pack layers once the chain is known; before that, defaults (not cached, so a later call reads the packs). */
     private static synchronized Map<String, Float> load() {
         if (vals != null) return vals;
+        if (!ModContent.isReady()) {   // read the chain now if the game has a context, so values never switch mid-run
+            try { ModContent.ensure(fr.testudo.spacecorsair.engine.ObjectRegistry.INSTANCE.game.context); } catch (Throwable t) { /* JVM tests, early start */ }
+            if (!ModContent.isReady()) return NONE;
+        }
         Map<String, Float> m = new HashMap<String, Float>();
-        if (!ModContent.isReady()) return m;
         for (InputStream in : ModContent.layers(null, "data/tune.txt")) {
             try { parse(ModContent.readLines(in), m); } catch (Throwable t) { ModDev.ev("content", "tune.txt: " + t); }
             finally { try { in.close(); } catch (Throwable t) { /* closed */ } }

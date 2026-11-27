@@ -6,7 +6,7 @@ import argparse, json, os, sys, zipfile
 ALLOWED = ('modart/', 'modsfx/', 'lang/', 'music/', 'data/'); EXTS = ('.webp', '.png', '.ogg', '.json', '.txt')
 DATA = {'data/tune.txt', 'data/text.json'}
 TABLES = ('ModFactionData.', 'ModV30Data.', 'ModRepData.')
-LOCKED = {'KEYS', 'SITE_SECTOR', 'SITE_HULLS', 'SECRET_SHIP'}
+LOCKED = {'KEYS', 'SITE_SECTOR', 'SITE_HULLS', 'SECRET_SHIP', 'SECRET_WEAPON'}
 
 def check_data(rel, p):
     if rel not in DATA: sys.exit('unknown data file (only %s): %s' % (', '.join(sorted(DATA)), rel))
