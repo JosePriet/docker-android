@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 240
+    .line 265
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$4;->this$0:Lfr/testudo/spacecorsair/mod/ModVfx$3;
 
     iput-object p2, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$4;->val$once:Ljava/util/concurrent/atomic/AtomicBoolean;
@@ -53,7 +53,7 @@
     .registers 5
 
     .prologue
-    .line 241
+    .line 266
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$4;->val$once:Ljava/util/concurrent/atomic/AtomicBoolean;
 
     const/4 v1, 0x0

@@ -131,6 +131,26 @@ public final class ModVfx {
     private static int testMode = -1;   // -1 unknown, 0 phone (no switch files), 1 emulator test run (corsair_nodialog)
     private static boolean testForce;   // emulator: corsair_vfx_prompt = prompt after 3 s whatever the frame rate
     private static String testQ;        // emulator: corsair_vfx_q = 0/1/2 sets the quality
+    private static String testBoom;     // emulator: corsair_vfx_boom = flagship<N>|ship<N> previews the nearest one's death effect
+
+    private static void testBoom(boolean flagship) {
+        PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
+        if (ps == null) return;
+        Element best = null;
+        java.util.List<Element> els = ObjectRegistry.INSTANCE.game.currentLevel.elements;
+        for (int i = 0; i < els.size(); i++) {
+            Element e = els.get(i);
+            if (e == null || e.removed || e.isPlayer || Mod.isDrone(e)) continue;
+            boolean cap = ModCapitals.cap(e) != null;
+            if (flagship != cap || !(cap || e instanceof fr.testudo.spacecorsair.business.ennemis.Ennemis)) continue;
+            if (best == null || e.position.distance(ps.position) < best.position.distance(ps.position)) best = e;
+        }
+        if (best == null) { ModDev.ev("vfx", "boom preview: none"); return; }
+        fr.testudo.spacecorsair.display.Drawable d = best.getDrawableObject();
+        budgetDeath = Math.max(budgetDeath, 1);
+        death(best, d == null ? 300 : ModLive.sizeOf(d));
+        ModDev.ev("vfx", "boom preview " + (flagship ? "flagship" : "ship") + " fancy=" + fancy(best));
+    }
     private static long testAt;
     private static int budgetCheap, budgetFancy, budgetRibbon, budgetMuzzle, budgetImpact, budgetDeath;
 
@@ -157,6 +177,11 @@ public final class ModVfx {
         if (testMode == 1 && t - testAt > 1000) {   // emulator switches, once a second (never on a phone)
             testAt = t;
             testForce = ModDev.testFlag("corsair_vfx_prompt");
+            String bv = ModDev.testValue("corsair_vfx_boom");   // effect preview only: plays the death effect, kills nothing
+            if (bv != null && !bv.equals(testBoom)) {
+                testBoom = bv;
+                testBoom(bv.trim().startsWith("flagship"));
+            }
             String q = ModDev.testValue("corsair_vfx_q");
             if (q != null && !q.equals(testQ)) {
                 testQ = q;

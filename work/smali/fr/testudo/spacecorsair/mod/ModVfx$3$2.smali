@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 233
+    .line 258
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$2;->this$0:Lfr/testudo/spacecorsair/mod/ModVfx$3;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,6 +40,6 @@
     .registers 3
 
     .prologue
-    .line 234
+    .line 259
     return-void
 .end method

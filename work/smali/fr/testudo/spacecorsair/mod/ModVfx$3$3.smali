@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 230
+    .line 255
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$3;->this$0:Lfr/testudo/spacecorsair/mod/ModVfx$3;
 
     iput p2, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$3;->val$to:I
@@ -49,7 +49,7 @@
     .registers 4
 
     .prologue
-    .line 231
+    .line 256
     iget v0, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$3;->val$to:I
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModVfx;->setQuality(I)V

@@ -35,7 +35,7 @@
     .end annotation
 
     .prologue
-    .line 203
+    .line 228
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3;->val$a:Lfr/testudo/spacecorsair/activity/Main;
 
     iput p2, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3;->val$from:I
@@ -55,14 +55,14 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 205
-    .line 207
+    .line 230
+    .line 232
     :try_start_1
     sget-object v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->INSTANCE:Lfr/testudo/spacecorsair/engine/ObjectRegistry;
 
     iget-object v1, v1, Lfr/testudo/spacecorsair/engine/ObjectRegistry;->game:Lfr/testudo/spacecorsair/game/Game;
 
-    .line 210
+    .line 235
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3;->val$a:Lfr/testudo/spacecorsair/activity/Main;
 
     invoke-virtual {v2}, Lfr/testudo/spacecorsair/activity/Main;->isFinishing()Z
@@ -93,18 +93,18 @@
 
     if-eqz v2, :cond_28
 
-    .line 211
+    .line 236
     :cond_23
     const/4 v1, 0x0
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModVfx;->done(Z)V
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModVfx;->access$000(Z)V
 
-    .line 247
+    .line 272
     :goto_27
     return-void
 
-    .line 214
+    .line 239
     :cond_28
     # getter for: Lfr/testudo/spacecorsair/mod/ModVfx;->shown:[Z
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModVfx;->access$100()[Z
@@ -117,41 +117,41 @@
 
     aput-boolean v4, v2, v3
 
-    .line 215
+    .line 240
     iget-boolean v2, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3;->val$pause:Z
 
     if-eqz v2, :cond_44
 
-    .line 216
+    .line 241
     const/4 v2, 0x1
 
     sput-boolean v2, Lfr/testudo/spacecorsair/mod/ModArt;->hold:Z
 
-    .line 217
+    .line 242
     iget-object v2, v1, Lfr/testudo/spacecorsair/game/Game;->gameThread:Lfr/testudo/spacecorsair/engine/GameThread;
 
     invoke-virtual {v2}, Lfr/testudo/spacecorsair/engine/GameThread;->waitCommitPhysicEnded()V
 
-    .line 218
+    .line 243
     invoke-virtual {v1}, Lfr/testudo/spacecorsair/game/Game;->pause()V
 
-    .line 219
+    .line 244
     iget-object v1, v1, Lfr/testudo/spacecorsair/game/Game;->gameThread:Lfr/testudo/spacecorsair/engine/GameThread;
 
     iget-boolean v0, v1, Lfr/testudo/spacecorsair/engine/GameThread;->paused:Z
 
-    .line 222
+    .line 247
     :cond_44
     new-instance v2, Ljava/util/concurrent/atomic/AtomicBoolean;
 
     invoke-direct {v2}, Ljava/util/concurrent/atomic/AtomicBoolean;-><init>()V
 
-    .line 223
+    .line 248
     iget v1, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3;->val$from:I
 
     add-int/lit8 v3, v1, -0x1
 
-    .line 224
+    .line 249
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
@@ -174,7 +174,7 @@
 
     const-string v4, "Lower the visual quality to "
 
-    .line 225
+    .line 250
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -199,7 +199,7 @@
 
     const-string v4, "You can change it any time in Settings > Visual quality."
 
-    .line 226
+    .line 251
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -212,7 +212,7 @@
 
     move-result-object v1
 
-    .line 227
+    .line 252
     iget-boolean v4, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3;->val$pause:Z
 
     if-nez v4, :cond_a9
@@ -245,7 +245,7 @@
 
     move-result-object v1
 
-    .line 228
+    .line 253
     :cond_a9
     new-instance v4, Landroid/app/AlertDialog$Builder;
 
@@ -263,7 +263,7 @@
 
     move-result-object v4
 
-    .line 229
+    .line 254
     invoke-virtual {v4, v1}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
 
     move-result-object v1
@@ -280,7 +280,7 @@
 
     const-string v5, "Lower to "
 
-    .line 230
+    .line 255
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v5
@@ -315,7 +315,7 @@
 
     const-string v4, "Keep "
 
-    .line 233
+    .line 258
     invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v4
@@ -348,7 +348,7 @@
 
     const-string v3, "Don\'t ask again"
 
-    .line 236
+    .line 261
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v3
@@ -361,30 +361,30 @@
 
     move-result-object v1
 
-    .line 238
+    .line 263
     invoke-virtual {v1}, Landroid/app/AlertDialog$Builder;->create()Landroid/app/AlertDialog;
 
     move-result-object v1
 
-    .line 240
+    .line 265
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModVfx$3$4;
 
     invoke-direct {v3, p0, v2, v0}, Lfr/testudo/spacecorsair/mod/ModVfx$3$4;-><init>(Lfr/testudo/spacecorsair/mod/ModVfx$3;Ljava/util/concurrent/atomic/AtomicBoolean;Z)V
 
     invoke-virtual {v1, v3}, Landroid/app/AlertDialog;->setOnDismissListener(Landroid/content/DialogInterface$OnDismissListener;)V
 
-    .line 243
+    .line 268
     invoke-virtual {v1}, Landroid/app/AlertDialog;->show()V
     :try_end_12b
     .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_12b} :catch_12d
 
     goto/16 :goto_27
 
-    .line 244
+    .line 269
     :catch_12d
     move-exception v1
 
-    .line 245
+    .line 270
     # invokes: Lfr/testudo/spacecorsair/mod/ModVfx;->done(Z)V
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModVfx;->access$000(Z)V
 

@@ -26,7 +26,7 @@
     .registers 2
 
     .prologue
-    .line 236
+    .line 261
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModVfx$3$1;->this$0:Lfr/testudo/spacecorsair/mod/ModVfx$3;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .registers 4
 
     .prologue
-    .line 237
+    .line 262
     const/4 v0, 0x0
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModVfx;->setAsk(Z)V
