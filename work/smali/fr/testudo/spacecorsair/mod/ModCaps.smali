@@ -215,7 +215,7 @@
     .registers 26
 
     .prologue
-    .line 417
+    .line 418
     :try_start_0
     move-object/from16 v0, p0
 
@@ -237,26 +237,26 @@
 
     if-eqz v2, :cond_15
 
-    .line 507
+    .line 508
     :cond_14
     :goto_14
     return-void
 
-    .line 418
+    .line 419
     :cond_15
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModCaps;->profile(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Lfr/testudo/spacecorsair/mod/ModCaps$Profile;
 
     move-result-object v20
 
-    .line 419
+    .line 420
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModCaps;->size(Lfr/testudo/spacecorsair/business/player/PlayerShip;)F
 
     move-result v23
 
-    .line 420
+    .line 421
     sget-wide v18, Lfr/testudo/spacecorsair/mod/ModCaps;->now:J
 
-    .line 423
+    .line 424
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
     if-lez v2, :cond_123
@@ -267,7 +267,7 @@
 
     if-ltz v2, :cond_123
 
-    .line 424
+    .line 425
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModFxData;->DMG:[[F
 
     move-object/from16 v0, v20
@@ -276,7 +276,7 @@
 
     aget-object v21, v2, v3
 
-    .line 425
+    .line 426
     move-object/from16 v0, v21
 
     array-length v2, v0
@@ -296,7 +296,7 @@
 
     move-result v22
 
-    .line 426
+    .line 427
     const/4 v2, 0x0
 
     move/from16 v17, v2
@@ -308,7 +308,7 @@
 
     if-ge v0, v1, :cond_123
 
-    .line 427
+    .line 428
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -335,7 +335,7 @@
 
     invoke-static {v2, v3, v4, v5, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 428
+    .line 429
     const/high16 v2, 0x42380000    # 46.0f
 
     const v3, 0x3df5c28f    # 0.12f
@@ -356,7 +356,7 @@
 
     move-result v5
 
-    .line 429
+    .line 430
     const-string v2, "fx_scorch"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -391,7 +391,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 430
+    .line 431
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
     const/4 v3, 0x2
@@ -402,7 +402,7 @@
 
     if-nez v2, :cond_112
 
-    .line 431
+    .line 432
     const v2, 0x3f0ccccd    # 0.55f
 
     const v3, 0x3ee66666    # 0.45f
@@ -431,7 +431,7 @@
 
     add-float v24, v2, v3
 
-    .line 432
+    .line 433
     const-string v6, "fx_crack"
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -478,7 +478,7 @@
 
     invoke-static/range {v6 .. v16}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 433
+    .line 434
     const-string v2, "fx_glow"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -515,7 +515,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 426
+    .line 427
     :cond_112
     add-int/lit8 v2, v17, 0x1
 
@@ -523,7 +523,7 @@
 
     goto/16 :goto_43
 
-    .line 425
+    .line 426
     :cond_118
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
@@ -540,16 +540,16 @@
 
     goto/16 :goto_3c
 
-    .line 438
+    .line 439
     :cond_123
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModMonolith;->over(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 439
+    .line 440
     invoke-virtual/range {p0 .. p0}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->getDrawableObject()Lfr/testudo/spacecorsair/display/Drawable;
 
     move-result-object v2
 
-    .line 440
+    .line 441
     if-eqz v2, :cond_135
 
     const/4 v3, 0x0
@@ -562,30 +562,30 @@
 
     invoke-static {v0, v2, v3, v4, v5}, Lfr/testudo/spacecorsair/mod/ModLive;->living(Lfr/testudo/spacecorsair/business/Element;Lfr/testudo/spacecorsair/display/Drawable;ZFZ)V
 
-    .line 441
+    .line 442
     :cond_135
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModShield;->draw(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 442
+    .line 443
     move-object/from16 v0, p0
 
     move-object/from16 v1, v20
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModTitan;->drawTurrets(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/mod/ModCaps$Profile;)V
 
-    .line 443
+    .line 444
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModLevDoom;->drawOver(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 444
+    .line 445
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModAnchor;->drawOver(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 445
+    .line 446
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModHornet;->over(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 446
+    .line 447
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModLevFx;->over(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 449
+    .line 450
     move-object/from16 v0, v20
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->top:Z
@@ -598,7 +598,7 @@
 
     if-eqz v2, :cond_35d
 
-    .line 451
+    .line 452
     :cond_157
     move-object/from16 v0, v20
 
@@ -606,7 +606,7 @@
 
     if-ltz v2, :cond_2db
 
-    .line 452
+    .line 453
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModFxData;->LIGHTS:[[F
 
     move-object/from16 v0, v20
@@ -615,7 +615,7 @@
 
     aget-object v14, v2, v3
 
-    .line 453
+    .line 454
     array-length v2, v14
 
     div-int/lit8 v3, v2, 0x5
@@ -633,7 +633,7 @@
 
     move-result v15
 
-    .line 454
+    .line 455
     const/4 v2, 0x0
 
     move v13, v2
@@ -641,10 +641,10 @@
     :goto_176
     if-ge v13, v15, :cond_1fa
 
-    .line 455
+    .line 456
     mul-int/lit8 v6, v13, 0x5
 
-    .line 456
+    .line 457
     const/high16 v2, 0x3f000000    # 0.5f
 
     const/high16 v3, 0x3f000000    # 0.5f
@@ -681,7 +681,7 @@
 
     add-float v11, v2, v3
 
-    .line 457
+    .line 458
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -704,7 +704,7 @@
 
     invoke-static {v2, v3, v4, v5, v7}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 458
+    .line 459
     const v2, 0x3d0f5c29    # 0.035f
 
     mul-float v2, v2, v23
@@ -713,7 +713,7 @@
 
     add-float v5, v2, v3
 
-    .line 459
+    .line 460
     const-string v2, "fx_core"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -770,20 +770,20 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 454
+    .line 455
     add-int/lit8 v2, v13, 0x1
 
     move v13, v2
 
     goto :goto_176
 
-    .line 453
+    .line 454
     :cond_1f7
     const/4 v2, 0x5
 
     goto/16 :goto_170
 
-    .line 462
+    .line 463
     :cond_1fa
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModFxData;->NAV:[[F
 
@@ -793,12 +793,12 @@
 
     aget-object v13, v2, v3
 
-    .line 463
+    .line 464
     const-wide/16 v2, 0x578
 
     rem-long v2, v18, v2
 
-    .line 464
+    .line 465
     const-wide/16 v4, 0xa0
 
     cmp-long v2, v2, v4
@@ -807,7 +807,7 @@
 
     const/high16 v11, 0x3f800000    # 1.0f
 
-    .line 465
+    .line 466
     :goto_20e
     const v2, 0x3cf5c28f    # 0.03f
 
@@ -817,7 +817,7 @@
 
     add-float v14, v2, v3
 
-    .line 466
+    .line 467
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -842,7 +842,7 @@
 
     invoke-static {v2, v3, v4, v5, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 467
+    .line 468
     const-string v2, "fx_core"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -877,7 +877,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 468
+    .line 469
     const-wide/16 v2, 0x2bc
 
     add-long v2, v2, v18
@@ -886,7 +886,7 @@
 
     rem-long/2addr v2, v4
 
-    .line 469
+    .line 470
     const-wide/16 v4, 0xa0
 
     cmp-long v2, v2, v4
@@ -895,7 +895,7 @@
 
     const/high16 v11, 0x3f800000    # 1.0f
 
-    .line 470
+    .line 471
     :goto_25c
     move-object/from16 v0, p0
 
@@ -921,7 +921,7 @@
 
     invoke-static {v2, v3, v4, v5, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 471
+    .line 472
     const-string v2, "fx_core"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -956,7 +956,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 472
+    .line 473
     move-object/from16 v0, v20
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->titan:Z
@@ -973,7 +973,7 @@
 
     if-gez v2, :cond_2db
 
-    .line 473
+    .line 474
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -992,7 +992,7 @@
 
     invoke-static {v2, v3, v4, v5, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 474
+    .line 475
     const-string v2, "fx_streak"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1031,7 +1031,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 478
+    .line 479
     :cond_2db
     move-object/from16 v0, v20
 
@@ -1057,7 +1057,7 @@
 
     if-lez v2, :cond_35d
 
-    .line 479
+    .line 480
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->shield:Lfr/testudo/spacecorsair/business/player/Shield;
@@ -1072,7 +1072,7 @@
 
     div-float v11, v2, v3
 
-    .line 480
+    .line 481
     move-object/from16 v0, v20
 
     iget v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->data:I
@@ -1090,7 +1090,7 @@
     :goto_30e
     mul-float v6, v2, v23
 
-    .line 481
+    .line 482
     const/high16 v2, 0x3f000000    # 0.5f
 
     const/high16 v3, 0x3f000000    # 0.5f
@@ -1113,7 +1113,7 @@
 
     add-float v12, v2, v3
 
-    .line 482
+    .line 483
     const-string v2, "fx_hex"
 
     move-object/from16 v0, p0
@@ -1174,7 +1174,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 486
+    .line 487
     :cond_35d
     move-object/from16 v0, p0
 
@@ -1182,26 +1182,26 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModTitan;->drawOver(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/mod/ModCaps$Profile;)V
 
-    .line 487
+    .line 488
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModFaction;->draw(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 488
+    .line 489
     const/4 v2, 0x1
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFx;->drawParticles(Z)V
 
-    .line 489
+    .line 490
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v4
 
-    .line 490
+    .line 491
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModEnemyGuns;->draw(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 491
+    .line 492
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModLance;->draw(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 492
+    .line 493
     sget-wide v2, Lfr/testudo/spacecorsair/mod/ModCaps;->lastDraw:J
 
     const-wide/16 v6, 0x0
@@ -1215,15 +1215,15 @@
     :goto_37f
     invoke-static {v2, v3}, Lfr/testudo/spacecorsair/mod/ModWeapons;->drawArcs(J)V
 
-    .line 493
+    .line 494
     sput-wide v4, Lfr/testudo/spacecorsair/mod/ModCaps;->lastDraw:J
 
-    .line 495
+    .line 496
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->warp:I
 
     if-lez v2, :cond_444
 
-    .line 496
+    .line 497
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->warp:I
 
     int-to-float v2, v2
@@ -1232,12 +1232,12 @@
 
     div-float v11, v2, v3
 
-    .line 497
+    .line 498
     const/high16 v2, 0x3f800000    # 1.0f
 
     sub-float v17, v2, v11
 
-    .line 498
+    .line 499
     const-string v2, "fx_core"
 
     move-object/from16 v0, p0
@@ -1314,7 +1314,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 499
+    .line 500
     const-string v12, "fx_shock"
 
     move-object/from16 v0, p0
@@ -1379,7 +1379,7 @@
 
     invoke-static/range {v12 .. v22}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 500
+    .line 501
     const-string v2, "fx_streak"
 
     move-object/from16 v0, p0
@@ -1420,7 +1420,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 502
+    .line 503
     :cond_444
     move-object/from16 v0, p0
 
@@ -1428,7 +1428,7 @@
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->drawCallout(Lfr/testudo/spacecorsair/business/player/PlayerShip;F)V
 
-    .line 503
+    .line 504
     move-object/from16 v0, p0
 
     move/from16 v1, v23
@@ -1437,31 +1437,31 @@
 
     goto/16 :goto_14
 
-    .line 504
+    .line 505
     :catch_454
     move-exception v2
 
     goto/16 :goto_14
 
-    .line 464
+    .line 465
     :cond_457
     const v11, 0x3e19999a    # 0.15f
 
     goto/16 :goto_20e
 
-    .line 469
+    .line 470
     :cond_45c
     const v11, 0x3e19999a    # 0.15f
 
     goto/16 :goto_25c
 
-    .line 480
+    .line 481
     :cond_461
     const v2, 0x3ee66666    # 0.45f
 
     goto/16 :goto_30e
 
-    .line 492
+    .line 493
     :cond_466
     const-wide/16 v2, 0x64
 
@@ -1482,10 +1482,10 @@
     .registers 27
 
     .prologue
-    .line 348
+    .line 349
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLive;->frame()V
 
-    .line 349
+    .line 350
     sget v2, Lfr/testudo/spacecorsair/mod/ModFx;->budget:I
 
     const/16 v3, 0x1a4
@@ -1496,7 +1496,7 @@
 
     sput v2, Lfr/testudo/spacecorsair/mod/ModFx;->budget:I
 
-    .line 350
+    .line 351
     :cond_d
     move-object/from16 v0, p0
 
@@ -1518,36 +1518,36 @@
 
     if-eqz v2, :cond_22
 
-    .line 412
+    .line 413
     :cond_21
     :goto_21
     return-void
 
-    .line 351
+    .line 352
     :cond_22
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModCaps;->profile(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Lfr/testudo/spacecorsair/mod/ModCaps$Profile;
 
     move-result-object v20
 
-    .line 352
+    .line 353
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModCaps;->size(Lfr/testudo/spacecorsair/business/player/PlayerShip;)F
 
     move-result v21
 
-    .line 353
+    .line 354
     sget-wide v22, Lfr/testudo/spacecorsair/mod/ModCaps;->now:J
 
-    .line 354
+    .line 355
     const/4 v2, 0x0
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFx;->drawParticles(Z)V
 
-    .line 356
+    .line 357
     invoke-virtual/range {p0 .. p0}, Lfr/testudo/spacecorsair/business/player/PlayerShip;->getDrawableObject()Lfr/testudo/spacecorsair/display/Drawable;
 
     move-result-object v17
 
-    .line 357
+    .line 358
     if-eqz v17, :cond_11d
 
     move-object/from16 v0, v17
@@ -1556,7 +1556,7 @@
 
     if-eqz v2, :cond_11d
 
-    .line 358
+    .line 359
     move-object/from16 v0, v17
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/display/Drawable;->dimensions:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1573,16 +1573,16 @@
 
     move-result v13
 
-    .line 359
+    .line 360
     sget-object v18, Lfr/testudo/spacecorsair/engine/GameRenderer;->screenCenter:Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 361
+    .line 362
     const/4 v2, 0x1
 
     :try_start_4f
     sput-boolean v2, Lfr/testudo/spacecorsair/mod/ModFx;->relative:Z
 
-    .line 362
+    .line 363
     move-object/from16 v0, v20
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->titan:Z
@@ -1621,7 +1621,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 363
+    .line 364
     :cond_77
     const-string v2, "marker_friendly"
 
@@ -1665,24 +1665,24 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->sprR(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 364
+    .line 365
     move-object/from16 v0, v17
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/display/Drawable;->myTexture:Lfr/testudo/spacecorsair/display/Texture;
 
-    .line 365
+    .line 366
     if-eqz v2, :cond_11a
 
     iget v3, v2, Lfr/testudo/spacecorsair/display/Texture;->name:I
 
     if-lez v3, :cond_11a
 
-    .line 366
+    .line 367
     const/4 v3, 0x1
 
     sput-boolean v3, Lfr/testudo/spacecorsair/mod/ModFx;->flatNext:Z
 
-    .line 367
+    .line 368
     move-object/from16 v0, v18
 
     iget v3, v0, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -1735,12 +1735,12 @@
 
     invoke-static/range {v2 .. v16}, Lfr/testudo/spacecorsair/mod/ModFx;->sprTex(Lfr/testudo/spacecorsair/display/Texture;FFFFFFFFFZFFFF)V
 
-    .line 368
+    .line 369
     const/4 v3, 0x1
 
     sput-boolean v3, Lfr/testudo/spacecorsair/mod/ModFx;->flatNext:Z
 
-    .line 369
+    .line 370
     move-object/from16 v0, v18
 
     iget v3, v0, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -1795,29 +1795,29 @@
     :try_end_11a
     .catchall {:try_start_4f .. :try_end_11a} :catchall_28e
 
-    .line 372
+    .line 373
     :cond_11a
     const/4 v2, 0x0
 
     sput-boolean v2, Lfr/testudo/spacecorsair/mod/ModFx;->relative:Z
 
-    .line 375
+    .line 376
     :cond_11d
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModMonolith;->under(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 376
+    .line 377
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModWings;->under(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 377
+    .line 378
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModHornet;->under(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 378
+    .line 379
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModLevDoom;->drawUnder(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 379
+    .line 380
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModLevFx;->under(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 381
+    .line 382
     move-object/from16 v0, v20
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->flames:Z
@@ -1830,7 +1830,7 @@
 
     if-nez v2, :cond_2b0
 
-    .line 382
+    .line 383
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModFxData;->ENGINES:[[F
 
     move-object/from16 v0, v20
@@ -1839,7 +1839,7 @@
 
     aget-object v24, v2, v3
 
-    .line 383
+    .line 384
     move-object/from16 v0, v20
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->titan:Z
@@ -1850,7 +1850,7 @@
 
     move/from16 v18, v2
 
-    .line 384
+    .line 385
     :goto_14b
     const/4 v2, 0x0
 
@@ -1865,7 +1865,7 @@
 
     if-ge v2, v3, :cond_2b0
 
-    .line 385
+    .line 386
     add-int/lit8 v2, v19, 0x2
 
     aget v2, v24, v2
@@ -1891,7 +1891,7 @@
 
     move-result v25
 
-    .line 386
+    .line 387
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1914,7 +1914,7 @@
 
     invoke-static {v2, v3, v4, v5, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 388
+    .line 389
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->thrust:F
 
     const v3, 0x3d23d70a    # 0.04f
@@ -1923,7 +1923,7 @@
 
     if-lez v2, :cond_288
 
-    .line 389
+    .line 390
     const-string v2, "fx_glow"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -1966,7 +1966,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 390
+    .line 391
     const v2, 0x3f6147ae    # 0.88f
 
     invoke-static {}, Ljava/lang/Math;->random()D
@@ -1981,7 +1981,7 @@
 
     add-float/2addr v2, v3
 
-    .line 391
+    .line 392
     const/high16 v3, 0x3f000000    # 0.5f
 
     sget v4, Lfr/testudo/spacecorsair/mod/ModCaps;->thrust:F
@@ -2005,7 +2005,7 @@
     :goto_1d7
     mul-float v6, v3, v2
 
-    .line 392
+    .line 393
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2034,7 +2034,7 @@
 
     invoke-static {v2, v3, v4, v5, v7}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 393
+    .line 394
     const-string v2, "fx_flame"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->b:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2071,7 +2071,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 394
+    .line 395
     const-string v7, "fx_glow"
 
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModCaps;->b:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2116,7 +2116,7 @@
 
     invoke-static/range {v7 .. v17}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 395
+    .line 396
     move-object/from16 v0, p0
 
     iget-object v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2145,7 +2145,7 @@
 
     invoke-static {v2, v3, v4, v5, v7}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 396
+    .line 397
     const-string v2, "fx_flame"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->b:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2180,7 +2180,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 384
+    .line 385
     :cond_288
     add-int/lit8 v2, v19, 0x3
 
@@ -2188,7 +2188,7 @@
 
     goto/16 :goto_14e
 
-    .line 372
+    .line 373
     :catchall_28e
     move-exception v2
 
@@ -2196,10 +2196,10 @@
 
     sput-boolean v3, Lfr/testudo/spacecorsair/mod/ModFx;->relative:Z
 
-    .line 373
+    .line 374
     throw v2
 
-    .line 383
+    .line 384
     :cond_293
     move-object/from16 v0, v20
 
@@ -2220,19 +2220,19 @@
 
     goto/16 :goto_14b
 
-    .line 385
+    .line 386
     :cond_2a7
     const v2, 0x3d4ccccd    # 0.05f
 
     goto/16 :goto_168
 
-    .line 391
+    .line 392
     :cond_2ac
     const/high16 v2, 0x3f800000    # 1.0f
 
     goto/16 :goto_1d7
 
-    .line 400
+    .line 401
     :cond_2b0
     move-object/from16 v0, v20
 
@@ -2246,7 +2246,7 @@
 
     if-eqz v2, :cond_21
 
-    .line 401
+    .line 402
     :cond_2bc
     const/high16 v2, 0x3f000000    # 0.5f
 
@@ -2270,7 +2270,7 @@
 
     add-float v14, v2, v3
 
-    .line 402
+    .line 403
     move-object/from16 v0, v20
 
     iget v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->data:I
@@ -2289,7 +2289,7 @@
 
     move v13, v2
 
-    .line 405
+    .line 406
     :goto_2e2
     const-string v2, "fx_glow"
 
@@ -2346,7 +2346,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 406
+    .line 407
     move-object/from16 v0, v20
 
     iget-boolean v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->titan:Z
@@ -2359,7 +2359,7 @@
 
     if-eqz v2, :cond_21
 
-    .line 407
+    .line 408
     :cond_323
     move-wide/from16 v0, v22
 
@@ -2373,7 +2373,7 @@
 
     rem-float v7, v2, v3
 
-    .line 408
+    .line 409
     const-string v2, "fx_shock"
 
     move-object/from16 v0, p0
@@ -2420,7 +2420,7 @@
 
     invoke-static/range {v2 .. v12}, Lfr/testudo/spacecorsair/mod/ModFx;->spr(Ljava/lang/String;FFFFFFFFFZ)V
 
-    .line 409
+    .line 410
     const-string v2, "fx_shock"
 
     move-object/from16 v0, p0
@@ -2469,7 +2469,7 @@
 
     goto/16 :goto_21
 
-    .line 402
+    .line 403
     :cond_38b
     const v2, 0x3ee66666    # 0.45f
 
@@ -2479,7 +2479,7 @@
 
     goto/16 :goto_2e2
 
-    .line 405
+    .line 406
     :cond_393
     const v11, 0x3e0f5c29    # 0.14f
 
@@ -2490,7 +2490,7 @@
     .registers 25
 
     .prologue
-    .line 301
+    .line 302
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModFxData;->DMG:[[F
 
     move-object/from16 v0, p1
@@ -2499,7 +2499,7 @@
 
     aget-object v17, v2, v3
 
-    .line 302
+    .line 303
     move-object/from16 v0, v17
 
     array-length v2, v0
@@ -2519,7 +2519,7 @@
 
     move-result v18
 
-    .line 303
+    .line 304
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->smokeTick:I
 
     int-to-long v2, v2
@@ -2530,12 +2530,12 @@
 
     sput v2, Lfr/testudo/spacecorsair/mod/ModCaps;->smokeTick:I
 
-    .line 304
+    .line 305
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->smokeTick:I
 
     if-gtz v2, :cond_127
 
-    .line 305
+    .line 306
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
     const/4 v3, 0x3
@@ -2547,7 +2547,7 @@
     :goto_2a
     sput v2, Lfr/testudo/spacecorsair/mod/ModCaps;->smokeTick:I
 
-    .line 306
+    .line 307
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v2
@@ -2562,7 +2562,7 @@
 
     mul-int/lit8 v2, v2, 0x2
 
-    .line 307
+    .line 308
     move-object/from16 v0, p0
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2585,7 +2585,7 @@
 
     invoke-static {v3, v4, v5, v2, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 308
+    .line 309
     const v2, 0x3e3851ec    # 0.18f
 
     const v3, 0x3ea3d70a    # 0.32f
@@ -2594,7 +2594,7 @@
 
     move-result v10
 
-    .line 309
+    .line 310
     const-string v2, "fx_smoke"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2670,7 +2670,7 @@
 
     add-float/2addr v9, v11
 
-    .line 310
+    .line 311
     sget v11, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
     const/4 v12, 0x1
@@ -2688,22 +2688,22 @@
 
     move v12, v10
 
-    .line 309
+    .line 310
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 311
+    .line 312
     const v2, 0x3f99999a    # 1.2f
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFx;->lastDrag(F)V
 
-    .line 312
+    .line 313
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
     const/4 v3, 0x2
 
     if-lt v2, v3, :cond_127
 
-    .line 313
+    .line 314
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v4
@@ -2731,7 +2731,7 @@
 
     mul-int/lit8 v2, v2, 0x2
 
-    .line 314
+    .line 315
     move-object/from16 v0, p0
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2754,7 +2754,7 @@
 
     invoke-static {v3, v4, v5, v2, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 315
+    .line 316
     const-string v2, "fx_fire"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->b:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2819,7 +2819,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 318
+    .line 319
     :cond_127
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
@@ -2827,7 +2827,7 @@
 
     if-lt v2, v3, :cond_1e3
 
-    .line 319
+    .line 320
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->sparkTick:I
 
     int-to-long v2, v2
@@ -2838,12 +2838,12 @@
 
     sput v2, Lfr/testudo/spacecorsair/mod/ModCaps;->sparkTick:I
 
-    .line 320
+    .line 321
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->sparkTick:I
 
     if-gtz v2, :cond_1e3
 
-    .line 321
+    .line 322
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
     const/4 v3, 0x3
@@ -2855,7 +2855,7 @@
     :goto_13f
     sput v2, Lfr/testudo/spacecorsair/mod/ModCaps;->sparkTick:I
 
-    .line 322
+    .line 323
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v2
@@ -2870,7 +2870,7 @@
 
     mul-int/lit8 v2, v2, 0x2
 
-    .line 323
+    .line 324
     move-object/from16 v0, p0
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2893,7 +2893,7 @@
 
     invoke-static {v3, v4, v5, v2, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 324
+    .line 325
     const/4 v2, 0x0
 
     move/from16 v16, v2
@@ -2905,7 +2905,7 @@
 
     if-ge v0, v2, :cond_1e3
 
-    .line 325
+    .line 326
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v2
@@ -2918,7 +2918,7 @@
 
     mul-double v6, v2, v4
 
-    .line 326
+    .line 327
     const/high16 v2, 0x42f00000    # 120.0f
 
     const/high16 v3, 0x43a00000    # 320.0f
@@ -2927,7 +2927,7 @@
 
     move-result v8
 
-    .line 327
+    .line 328
     const-string v2, "fx_spark"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -2974,24 +2974,24 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 328
+    .line 329
     const v2, 0x3d75c28f    # 0.06f
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFx;->lastStretch(F)V
 
-    .line 329
+    .line 330
     const/high16 v2, 0x40200000    # 2.5f
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFx;->lastDrag(F)V
 
-    .line 324
+    .line 325
     add-int/lit8 v2, v16, 0x1
 
     move/from16 v16, v2
 
     goto :goto_166
 
-    .line 302
+    .line 303
     :cond_1bb
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
@@ -3008,7 +3008,7 @@
 
     goto/16 :goto_13
 
-    .line 305
+    .line 306
     :cond_1c6
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
@@ -3025,31 +3025,31 @@
 
     goto/16 :goto_2a
 
-    .line 309
+    .line 310
     :cond_1d3
     const/high16 v7, 0x44c80000    # 1600.0f
 
     goto/16 :goto_8e
 
-    .line 310
+    .line 311
     :cond_1d7
     const v13, 0x3f4ccccd    # 0.8f
 
     goto/16 :goto_a6
 
-    .line 313
+    .line 314
     :cond_1dc
     const/4 v2, 0x4
 
     goto/16 :goto_c2
 
-    .line 321
+    .line 322
     :cond_1df
     const/16 v2, 0x17c
 
     goto/16 :goto_13f
 
-    .line 333
+    .line 334
     :cond_1e3
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
@@ -3057,7 +3057,7 @@
 
     if-ne v2, v3, :cond_26f
 
-    .line 334
+    .line 335
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->boomTick:I
 
     int-to-long v2, v2
@@ -3068,12 +3068,12 @@
 
     sput v2, Lfr/testudo/spacecorsair/mod/ModCaps;->boomTick:I
 
-    .line 335
+    .line 336
     sget v2, Lfr/testudo/spacecorsair/mod/ModCaps;->boomTick:I
 
     if-gtz v2, :cond_26f
 
-    .line 336
+    .line 337
     const/high16 v2, 0x44af0000    # 1400.0f
 
     const v3, 0x45228000    # 2600.0f
@@ -3086,7 +3086,7 @@
 
     sput v2, Lfr/testudo/spacecorsair/mod/ModCaps;->boomTick:I
 
-    .line 337
+    .line 338
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v2
@@ -3101,7 +3101,7 @@
 
     mul-int/lit8 v2, v2, 0x2
 
-    .line 338
+    .line 339
     move-object/from16 v0, p0
 
     iget-object v3, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3124,7 +3124,7 @@
 
     invoke-static {v3, v4, v5, v2, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 339
+    .line 340
     const-string v2, "fx_core"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3163,7 +3163,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 340
+    .line 341
     const-string v2, "fx_fire"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3202,7 +3202,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 343
+    .line 344
     :cond_26f
     return-void
 .end method
@@ -3211,18 +3211,18 @@
     .registers 21
 
     .prologue
-    .line 512
+    .line 513
     :try_start_0
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModCaps;->profile(Lfr/testudo/spacecorsair/business/player/PlayerShip;)Lfr/testudo/spacecorsair/mod/ModCaps$Profile;
 
     move-result-object v18
 
-    .line 513
+    .line 514
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModCaps;->size(Lfr/testudo/spacecorsair/business/player/PlayerShip;)F
 
     move-result v19
 
-    .line 514
+    .line 515
     const/4 v2, -0x1
 
     move/from16 v17, v2
@@ -3234,7 +3234,7 @@
 
     if-gt v0, v2, :cond_115
 
-    .line 515
+    .line 516
     move-object/from16 v0, v18
 
     iget v2, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->data:I
@@ -3251,7 +3251,7 @@
 
     move-object v4, v2
 
-    .line 516
+    .line 517
     :goto_1f
     if-nez v4, :cond_f0
 
@@ -3267,13 +3267,13 @@
 
     move v3, v2
 
-    .line 517
+    .line 518
     :goto_2b
     if-nez v4, :cond_102
 
     const/4 v2, 0x0
 
-    .line 518
+    .line 519
     :goto_2e
     move-object/from16 v0, p0
 
@@ -3287,7 +3287,7 @@
 
     invoke-static {v4, v5, v3, v2, v6}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 519
+    .line 520
     const-string v2, "fx_core"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3326,7 +3326,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 520
+    .line 521
     const-string v2, "fx_ring"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3365,7 +3365,7 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 521
+    .line 522
     const/4 v2, 0x0
 
     move/from16 v16, v2
@@ -3377,7 +3377,7 @@
 
     if-ge v0, v2, :cond_10f
 
-    .line 522
+    .line 523
     move-object/from16 v0, p0
 
     iget v2, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->spin:F
@@ -3408,7 +3408,7 @@
 
     move-result-wide v6
 
-    .line 523
+    .line 524
     const/high16 v2, 0x43480000    # 200.0f
 
     const/high16 v3, 0x43d20000    # 420.0f
@@ -3417,7 +3417,7 @@
 
     move-result v8
 
-    .line 524
+    .line 525
     const-string v2, "fx_spark"
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -3464,24 +3464,24 @@
 
     invoke-static/range {v2 .. v15}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 525
+    .line 526
     const v2, 0x3d8f5c29    # 0.07f
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFx;->lastStretch(F)V
 
-    .line 526
+    .line 527
     const/high16 v2, 0x40000000    # 2.0f
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModFx;->lastDrag(F)V
 
-    .line 521
+    .line 522
     add-int/lit8 v2, v16, 0x1
 
     move/from16 v16, v2
 
     goto :goto_8b
 
-    .line 515
+    .line 516
     :cond_ec
     const/4 v2, 0x0
 
@@ -3489,7 +3489,7 @@
 
     goto/16 :goto_1f
 
-    .line 516
+    .line 517
     :cond_f0
     if-gez v17, :cond_fe
 
@@ -3515,7 +3515,7 @@
 
     goto :goto_f5
 
-    .line 517
+    .line 518
     :cond_102
     if-gez v17, :cond_10b
 
@@ -3535,7 +3535,7 @@
 
     goto :goto_107
 
-    .line 514
+    .line 515
     :cond_10f
     add-int/lit8 v2, v17, 0x2
 
@@ -3543,7 +3543,7 @@
 
     goto/16 :goto_b
 
-    .line 529
+    .line 530
     :cond_115
     const-string v2, "bay_launch"
 
@@ -3557,11 +3557,11 @@
     :try_end_121
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_121} :catch_122
 
-    .line 533
+    .line 534
     :goto_121
     return-void
 
-    .line 530
+    .line 531
     :catch_122
     move-exception v2
 
@@ -4314,7 +4314,7 @@
     :try_start_6
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModWarpOut;->tick()V
     :try_end_9
-    .catch Ljava/lang/Throwable; {:try_start_6 .. :try_end_9} :catch_4e3
+    .catch Ljava/lang/Throwable; {:try_start_6 .. :try_end_9} :catch_4e6
 
     .line 144
     :goto_9
@@ -4383,7 +4383,7 @@
 
     if-eqz v6, :cond_52
 
-    .line 298
+    .line 299
     :cond_42
     :goto_42
     return-void
@@ -4520,7 +4520,7 @@
 
     iput v8, v9, Lfr/testudo/spacecorsair/business/player/PlayerInfo;->level:I
     :try_end_b1
-    .catch Ljava/lang/Exception; {:try_start_97 .. :try_end_b1} :catch_4e6
+    .catch Ljava/lang/Exception; {:try_start_97 .. :try_end_b1} :catch_4e9
 
     .line 175
     :cond_b1
@@ -4572,7 +4572,7 @@
     .line 190
     sget-object v8, Lfr/testudo/spacecorsair/mod/ModCaps;->level:Ljava/lang/Object;
 
-    if-eq v6, v8, :cond_12e
+    if-eq v6, v8, :cond_131
 
     .line 191
     sput-object v6, Lfr/testudo/spacecorsair/mod/ModCaps;->level:Ljava/lang/Object;
@@ -4581,135 +4581,138 @@
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModFx;->clear()V
 
     .line 193
-    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModCapitals;->onLevel()V
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModVfx;->clear()V
 
     .line 194
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModCapitals;->onLevel()V
+
+    .line 195
     const/4 v6, 0x1
 
     sput-boolean v6, Lfr/testudo/spacecorsair/mod/ModArt;->freeReq:Z
 
-    .line 195
+    .line 196
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/Mod;->dronesOnSector(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 196
+    .line 197
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModWarpOut;->clear()V
 
-    .line 197
+    .line 198
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModEnemyGuns;->onLevel()V
 
-    .line 198
+    .line 199
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLance;->onLevel()V
 
-    .line 199
+    .line 200
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModWreck;->onLevel()V
 
-    .line 200
+    .line 201
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModTitanAI;->resetPlayer(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 201
+    .line 202
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModDerelict;->onLevel(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 202
+    .line 203
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModSector;->onLevel(Lfr/testudo/spacecorsair/business/player/PlayerShip;)V
 
-    .line 203
-    if-nez v7, :cond_12e
+    .line 204
+    if-nez v7, :cond_131
 
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->titan:Z
 
-    if-nez v6, :cond_119
+    if-nez v6, :cond_11c
 
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->top:Z
 
-    if-eqz v6, :cond_12e
+    if-eqz v6, :cond_131
 
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->big:Z
 
-    if-eqz v6, :cond_12e
+    if-eqz v6, :cond_131
 
-    .line 204
-    :cond_119
+    .line 205
+    :cond_11c
     const/16 v6, 0x44c
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->warp:I
 
-    .line 205
+    .line 206
     const-string v8, "warp_in"
 
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->titan:Z
 
-    if-eqz v6, :cond_145
+    if-eqz v6, :cond_148
 
     const/high16 v6, 0x3f800000    # 1.0f
 
-    :goto_127
+    :goto_12a
     const/high16 v9, 0x3f800000    # 1.0f
 
     const-wide/16 v10, 0x7d0
 
     invoke-static {v8, v6, v9, v10, v11}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    .line 208
-    :cond_12e
+    .line 209
+    :cond_131
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->flames:Z
 
-    if-eqz v6, :cond_137
+    if-eqz v6, :cond_13a
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModCaps;->blankStockGaz()V
 
-    .line 209
-    :cond_137
-    if-nez v7, :cond_13f
+    .line 210
+    :cond_13a
+    if-nez v7, :cond_142
 
     move-object/from16 v0, p0
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->isDocked:Z
 
-    if-eqz v6, :cond_149
+    if-eqz v6, :cond_14c
 
-    .line 210
-    :cond_13f
+    .line 211
+    :cond_142
     const/4 v6, 0x0
 
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModSound;->rumble(F)V
 
     goto/16 :goto_42
 
-    .line 205
-    :cond_145
+    .line 206
+    :cond_148
     const v6, 0x3f333333    # 0.7f
 
-    goto :goto_127
+    goto :goto_12a
 
-    .line 213
-    :cond_149
+    .line 214
+    :cond_14c
     sget-boolean v6, Lfr/testudo/spacecorsair/mod/ModCaps;->gearChecked:Z
 
-    if-nez v6, :cond_153
+    if-nez v6, :cond_156
 
-    .line 215
+    .line 216
     const/4 v6, 0x1
 
     sput-boolean v6, Lfr/testudo/spacecorsair/mod/ModCaps;->gearChecked:Z
 
-    .line 216
+    .line 217
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLock;->onShipChanged()V
 
-    .line 218
-    :cond_153
+    .line 219
+    :cond_156
     sget-boolean v6, Lfr/testudo/spacecorsair/mod/ModCaps;->lowHullTest:Z
 
-    if-eqz v6, :cond_16f
+    if-eqz v6, :cond_172
 
     move-object/from16 v0, p0
 
@@ -4719,14 +4722,14 @@
 
     cmpl-float v6, v6, v7
 
-    if-lez v6, :cond_16f
+    if-lez v6, :cond_172
 
-    .line 219
+    .line 220
     const/4 v6, 0x0
 
     sput-boolean v6, Lfr/testudo/spacecorsair/mod/ModCaps;->lowHullTest:Z
 
-    .line 220
+    .line 221
     move-object/from16 v0, p0
 
     iget v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
@@ -4739,24 +4742,24 @@
 
     iput v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->life:F
 
-    .line 222
-    :cond_16f
+    .line 223
+    :cond_172
     move-object/from16 v0, p0
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->isPousee:Z
 
-    if-eqz v6, :cond_216
+    if-eqz v6, :cond_219
 
     move-object/from16 v0, p0
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->isBoosterEnabled:Z
 
-    if-eqz v6, :cond_209
+    if-eqz v6, :cond_20c
 
     const/high16 v6, 0x3f800000    # 1.0f
 
-    .line 223
-    :goto_17d
+    .line 224
+    :goto_180
     sget v7, Lfr/testudo/spacecorsair/mod/ModCaps;->thrust:F
 
     sget v8, Lfr/testudo/spacecorsair/mod/ModCaps;->thrust:F
@@ -4783,35 +4786,35 @@
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->thrust:F
 
-    .line 224
+    .line 225
     invoke-static/range {p0 .. p0}, Lfr/testudo/spacecorsair/mod/ModCaps;->size(Lfr/testudo/spacecorsair/business/player/PlayerShip;)F
 
     move-result v22
 
-    .line 227
+    .line 228
     move-object/from16 v0, p0
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->isPousee:Z
 
-    if-eqz v6, :cond_219
+    if-eqz v6, :cond_21c
 
     sget-boolean v6, Lfr/testudo/spacecorsair/mod/ModCaps;->wasThrust:Z
 
-    if-nez v6, :cond_219
+    if-nez v6, :cond_21c
 
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->flames:Z
 
-    if-eqz v6, :cond_219
+    if-eqz v6, :cond_21c
 
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->top:Z
 
-    if-eqz v6, :cond_219
+    if-eqz v6, :cond_21c
 
-    .line 228
+    .line 229
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModFxData;->ENGINES:[[F
 
     move-object/from16 v0, v21
@@ -4820,21 +4823,21 @@
 
     aget-object v23, v6, v7
 
-    .line 229
+    .line 230
     const/4 v6, 0x0
 
     move/from16 v20, v6
 
-    :goto_1b7
+    :goto_1ba
     add-int/lit8 v6, v20, 0x2
 
     move-object/from16 v0, v23
 
     array-length v7, v0
 
-    if-ge v6, v7, :cond_219
+    if-ge v6, v7, :cond_21c
 
-    .line 230
+    .line 231
     move-object/from16 v0, p0
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -4857,7 +4860,7 @@
 
     invoke-static {v6, v7, v8, v9, v10}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 231
+    .line 232
     const-string v6, "fx_core"
 
     sget-object v7, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -4904,15 +4907,15 @@
 
     invoke-static/range {v6 .. v19}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 229
+    .line 230
     add-int/lit8 v6, v20, 0x3
 
     move/from16 v20, v6
 
-    goto :goto_1b7
+    goto :goto_1ba
 
-    .line 222
-    :cond_209
+    .line 223
+    :cond_20c
     const v6, 0x3eb33333    # 0.35f
 
     move-object/from16 v0, p0
@@ -4925,33 +4928,33 @@
 
     add-float/2addr v6, v7
 
-    goto/16 :goto_17d
+    goto/16 :goto_180
 
-    :cond_216
+    :cond_219
     const/4 v6, 0x0
 
-    goto/16 :goto_17d
+    goto/16 :goto_180
 
-    .line 234
-    :cond_219
+    .line 235
+    :cond_21c
     move-object/from16 v0, p0
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->isPousee:Z
 
     sput-boolean v6, Lfr/testudo/spacecorsair/mod/ModCaps;->wasThrust:Z
 
-    .line 237
+    .line 238
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->top:Z
 
-    if-eqz v6, :cond_480
+    if-eqz v6, :cond_483
 
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->big:Z
 
-    if-eqz v6, :cond_480
+    if-eqz v6, :cond_483
 
     sget v7, Lfr/testudo/spacecorsair/mod/ModCaps;->thrust:F
 
@@ -4959,28 +4962,28 @@
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->titan:Z
 
-    if-eqz v6, :cond_47b
+    if-eqz v6, :cond_47e
 
     const v6, 0x3ee66666    # 0.45f
 
-    :goto_236
+    :goto_239
     mul-float/2addr v6, v7
 
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModSound;->rumble(F)V
 
-    .line 241
-    :goto_23a
+    .line 242
+    :goto_23d
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->flames:Z
 
-    if-eqz v6, :cond_2fa
+    if-eqz v6, :cond_2fd
 
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->top:Z
 
-    if-eqz v6, :cond_2fa
+    if-eqz v6, :cond_2fd
 
     move-object/from16 v0, p0
 
@@ -4994,9 +4997,9 @@
 
     cmpl-float v6, v6, v7
 
-    if-lez v6, :cond_2fa
+    if-lez v6, :cond_2fd
 
-    .line 242
+    .line 243
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->wakeTick:I
 
     int-to-long v6, v6
@@ -5007,24 +5010,24 @@
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->wakeTick:I
 
-    .line 243
+    .line 244
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->wakeTick:I
 
-    if-gtz v6, :cond_2fa
+    if-gtz v6, :cond_2fd
 
-    .line 244
+    .line 245
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->titan:Z
 
-    if-eqz v6, :cond_486
+    if-eqz v6, :cond_489
 
     const/16 v6, 0x2d
 
-    :goto_269
+    :goto_26c
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->wakeTick:I
 
-    .line 245
+    .line 246
     sget-object v6, Lfr/testudo/spacecorsair/mod/ModFxData;->ENGINES:[[F
 
     move-object/from16 v0, v21
@@ -5033,7 +5036,7 @@
 
     aget-object v6, v6, v7
 
-    .line 246
+    .line 247
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v8
@@ -5050,7 +5053,7 @@
 
     mul-int/lit8 v7, v7, 0x3
 
-    .line 247
+    .line 248
     move-object/from16 v0, p0
 
     iget-object v8, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -5077,7 +5080,7 @@
 
     invoke-static {v8, v9, v10, v6, v7}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 248
+    .line 249
     const-string v6, "fx_smoke"
 
     sget-object v7, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -5108,11 +5111,11 @@
 
     iget-boolean v11, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->titan:Z
 
-    if-eqz v11, :cond_48a
+    if-eqz v11, :cond_48d
 
     const/high16 v11, 0x44c80000    # 1600.0f
 
-    :goto_2bc
+    :goto_2bf
     const v12, 0x3d4ccccd    # 0.05f
 
     mul-float v12, v12, v22
@@ -5167,15 +5170,15 @@
 
     invoke-static/range {v6 .. v19}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 254
-    :cond_2fa
+    .line 255
+    :cond_2fd
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->lastLife:F
 
     const/4 v7, 0x0
 
     cmpl-float v6, v6, v7
 
-    if-ltz v6, :cond_31f
+    if-ltz v6, :cond_322
 
     move-object/from16 v0, p0
 
@@ -5189,7 +5192,7 @@
 
     cmpl-float v6, v6, v7
 
-    if-lez v6, :cond_31f
+    if-lez v6, :cond_322
 
     move-object/from16 v0, p0
 
@@ -5201,26 +5204,26 @@
 
     cmpg-float v6, v6, v7
 
-    if-gez v6, :cond_31f
+    if-gez v6, :cond_322
 
     const/16 v6, 0x258
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairGlow:I
 
-    .line 255
-    :cond_31f
+    .line 256
+    :cond_322
     move-object/from16 v0, p0
 
     iget v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->life:F
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->lastLife:F
 
-    .line 256
+    .line 257
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairGlow:I
 
-    if-lez v6, :cond_426
+    if-lez v6, :cond_429
 
-    .line 257
+    .line 258
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairGlow:I
 
     int-to-long v6, v6
@@ -5231,7 +5234,7 @@
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairGlow:I
 
-    .line 258
+    .line 259
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairTick:I
 
     int-to-long v6, v6
@@ -5242,7 +5245,7 @@
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairTick:I
 
-    .line 259
+    .line 260
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairPulse:I
 
     int-to-long v6, v6
@@ -5253,7 +5256,7 @@
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairPulse:I
 
-    .line 260
+    .line 261
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairSound:I
 
     int-to-long v6, v6
@@ -5264,12 +5267,12 @@
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairSound:I
 
-    .line 261
+    .line 262
     move-object/from16 v0, v21
 
     iget-object v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->hull:Lfr/testudo/spacecorsair/mod/ModShips$Hull;
 
-    if-eqz v6, :cond_48e
+    if-eqz v6, :cond_491
 
     const-string v6, "crimson_throne"
 
@@ -5283,44 +5286,44 @@
 
     move-result v6
 
-    if-eqz v6, :cond_48e
+    if-eqz v6, :cond_491
 
     const/4 v6, 0x1
 
-    .line 262
-    :goto_35e
-    if-eqz v6, :cond_491
+    .line 263
+    :goto_361
+    if-eqz v6, :cond_494
 
     const/high16 v14, 0x3f800000    # 1.0f
 
-    :goto_362
-    if-eqz v6, :cond_496
+    :goto_365
+    if-eqz v6, :cond_499
 
     const v15, 0x3f19999a    # 0.6f
 
-    :goto_367
-    if-eqz v6, :cond_49a
+    :goto_36a
+    if-eqz v6, :cond_49d
 
     const v16, 0x3e4ccccd    # 0.2f
 
-    .line 263
-    :goto_36c
+    .line 264
+    :goto_36f
     sget v7, Lfr/testudo/spacecorsair/mod/ModCaps;->repairTick:I
 
-    if-gtz v7, :cond_3e0
+    if-gtz v7, :cond_3e3
 
     move-object/from16 v0, v21
 
     iget v7, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->data:I
 
-    if-ltz v7, :cond_3e0
+    if-ltz v7, :cond_3e3
 
-    .line 264
+    .line 265
     const/16 v7, 0x6e
 
     sput v7, Lfr/testudo/spacecorsair/mod/ModCaps;->repairTick:I
 
-    .line 265
+    .line 266
     sget-object v7, Lfr/testudo/spacecorsair/mod/ModFxData;->DMG:[[F
 
     move-object/from16 v0, v21
@@ -5329,7 +5332,7 @@
 
     aget-object v7, v7, v8
 
-    .line 266
+    .line 267
     invoke-static {}, Ljava/lang/Math;->random()D
 
     move-result-wide v8
@@ -5346,7 +5349,7 @@
 
     mul-int/lit8 v8, v8, 0x2
 
-    .line 267
+    .line 268
     move-object/from16 v0, p0
 
     iget-object v9, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->position:Lfr/testudo/spacecorsair/engine/Vector2;
@@ -5369,12 +5372,12 @@
 
     invoke-static {v9, v10, v11, v7, v8}, Lfr/testudo/spacecorsair/mod/ModFx;->local(Lfr/testudo/spacecorsair/engine/Vector2;FFFLfr/testudo/spacecorsair/engine/Vector2;)Lfr/testudo/spacecorsair/engine/Vector2;
 
-    .line 268
-    if-eqz v6, :cond_49e
+    .line 269
+    if-eqz v6, :cond_4a1
 
     const-string v6, "fx_fire"
 
-    :goto_3a9
+    :goto_3ac
     sget-object v7, Lfr/testudo/spacecorsair/mod/ModCaps;->a:Lfr/testudo/spacecorsair/engine/Vector2;
 
     iget v7, v7, Lfr/testudo/spacecorsair/engine/Vector2;->x:F
@@ -5429,18 +5432,18 @@
 
     invoke-static/range {v6 .. v19}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 270
-    :cond_3e0
+    .line 271
+    :cond_3e3
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairPulse:I
 
-    if-gtz v6, :cond_412
+    if-gtz v6, :cond_415
 
-    .line 271
+    .line 272
     const/16 v6, 0x5dc
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairPulse:I
 
-    .line 272
+    .line 273
     const-string v6, "fx_ring"
 
     move-object/from16 v0, p0
@@ -5477,25 +5480,25 @@
 
     invoke-static/range {v6 .. v19}, Lfr/testudo/spacecorsair/mod/ModFx;->part(Ljava/lang/String;FFFFFFFFFFFZZ)V
 
-    .line 273
+    .line 274
     const/4 v6, 0x0
 
     const/4 v7, 0x0
 
     invoke-static {v6, v7}, Lfr/testudo/spacecorsair/mod/ModFx;->lastSpin(FF)V
 
-    .line 275
-    :cond_412
+    .line 276
+    :cond_415
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairSound:I
 
-    if-gtz v6, :cond_426
+    if-gtz v6, :cond_429
 
-    .line 276
+    .line 277
     const/16 v6, 0x1194
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->repairSound:I
 
-    .line 277
+    .line 278
     const-string v6, "repair"
 
     const v7, 0x3eb33333    # 0.35f
@@ -5506,21 +5509,21 @@
 
     invoke-static {v6, v7, v8, v10, v11}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    .line 282
-    :cond_426
+    .line 283
+    :cond_429
     move-object/from16 v0, v21
 
     iget-boolean v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->big:Z
 
-    if-eqz v6, :cond_4df
+    if-eqz v6, :cond_4e2
 
     move-object/from16 v0, v21
 
     iget v6, v0, Lfr/testudo/spacecorsair/mod/ModCaps$Profile;->data:I
 
-    if-ltz v6, :cond_4df
+    if-ltz v6, :cond_4e2
 
-    .line 283
+    .line 284
     move-object/from16 v0, p0
 
     iget v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->maxLife:F
@@ -5529,36 +5532,36 @@
 
     cmpg-float v6, v6, v7
 
-    if-gtz v6, :cond_4a2
+    if-gtz v6, :cond_4a5
 
     const/high16 v6, 0x3f800000    # 1.0f
 
     move v8, v6
 
-    .line 284
-    :goto_43e
+    .line 285
+    :goto_441
     const/high16 v6, 0x3e800000    # 0.25f
 
     cmpg-float v6, v8, v6
 
-    if-gez v6, :cond_4ad
+    if-gez v6, :cond_4b0
 
     const/4 v6, 0x3
 
-    .line 285
-    :goto_445
-    sget v7, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
-
-    if-le v6, v7, :cond_4bf
-
     .line 286
+    :goto_448
     sget v7, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
-    if-ltz v7, :cond_45c
+    if-le v6, v7, :cond_4c2
+
+    .line 287
+    sget v7, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
+
+    if-ltz v7, :cond_45f
 
     const/4 v7, 0x2
 
-    if-lt v6, v7, :cond_45c
+    if-lt v6, v7, :cond_45f
 
     const-string v7, "hull_breach"
 
@@ -5570,16 +5573,16 @@
 
     invoke-static {v7, v8, v9, v10, v11}, Lfr/testudo/spacecorsair/mod/ModSound;->play(Ljava/lang/String;FFJ)I
 
-    .line 287
-    :cond_45c
+    .line 288
+    :cond_45f
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
-    .line 292
-    :cond_45e
-    :goto_45e
+    .line 293
+    :cond_461
+    :goto_461
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
-    if-lez v6, :cond_46d
+    if-lez v6, :cond_470
 
     move-object/from16 v0, p0
 
@@ -5591,9 +5594,9 @@
 
     invoke-static {v0, v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModCaps;->emitDamage(Lfr/testudo/spacecorsair/business/player/PlayerShip;Lfr/testudo/spacecorsair/mod/ModCaps$Profile;JF)V
 
-    .line 297
-    :cond_46d
-    :goto_46d
+    .line 298
+    :cond_470
+    :goto_470
     sget v6, Lfr/testudo/spacecorsair/mod/ModCaps;->warp:I
 
     if-lez v6, :cond_42
@@ -5610,62 +5613,62 @@
 
     goto/16 :goto_42
 
-    .line 237
-    :cond_47b
+    .line 238
+    :cond_47e
     const v6, 0x3e99999a    # 0.3f
 
-    goto/16 :goto_236
+    goto/16 :goto_239
 
-    .line 238
-    :cond_480
+    .line 239
+    :cond_483
     const/4 v6, 0x0
 
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModSound;->rumble(F)V
 
-    goto/16 :goto_23a
+    goto/16 :goto_23d
 
-    .line 244
-    :cond_486
+    .line 245
+    :cond_489
     const/16 v6, 0x50
 
-    goto/16 :goto_269
+    goto/16 :goto_26c
 
-    .line 248
-    :cond_48a
+    .line 249
+    :cond_48d
     const/high16 v11, 0x447a0000    # 1000.0f
 
-    goto/16 :goto_2bc
-
-    .line 261
-    :cond_48e
-    const/4 v6, 0x0
-
-    goto/16 :goto_35e
+    goto/16 :goto_2bf
 
     .line 262
     :cond_491
+    const/4 v6, 0x0
+
+    goto/16 :goto_361
+
+    .line 263
+    :cond_494
     const v14, 0x3eb33333    # 0.35f
 
-    goto/16 :goto_362
+    goto/16 :goto_365
 
-    :cond_496
+    :cond_499
     const/high16 v15, 0x3f800000    # 1.0f
 
-    goto/16 :goto_367
+    goto/16 :goto_36a
 
-    :cond_49a
+    :cond_49d
     const/high16 v16, 0x3f000000    # 0.5f
 
-    goto/16 :goto_36c
+    goto/16 :goto_36f
 
-    .line 268
-    :cond_49e
+    .line 269
+    :cond_4a1
     const-string v6, "fx_plus"
 
-    goto/16 :goto_3a9
+    goto/16 :goto_3ac
 
-    .line 283
-    :cond_4a2
+    .line 284
+    :cond_4a5
     move-object/from16 v0, p0
 
     iget v6, v0, Lfr/testudo/spacecorsair/business/player/PlayerShip;->life:F
@@ -5678,94 +5681,94 @@
 
     move v8, v6
 
-    goto :goto_43e
+    goto :goto_441
 
-    .line 284
-    :cond_4ad
+    .line 285
+    :cond_4b0
     const/high16 v6, 0x3f000000    # 0.5f
 
     cmpg-float v6, v8, v6
 
-    if-gez v6, :cond_4b5
+    if-gez v6, :cond_4b8
 
     const/4 v6, 0x2
 
-    goto :goto_445
+    goto :goto_448
 
-    :cond_4b5
+    :cond_4b8
     const/high16 v6, 0x3f400000    # 0.75f
 
     cmpg-float v6, v8, v6
 
-    if-gez v6, :cond_4bd
+    if-gez v6, :cond_4c0
 
     const/4 v6, 0x1
 
-    goto :goto_445
+    goto :goto_448
 
-    :cond_4bd
+    :cond_4c0
     const/4 v6, 0x0
 
-    goto :goto_445
-
-    .line 288
-    :cond_4bf
-    sget v7, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
-
-    if-ge v6, v7, :cond_45e
+    goto :goto_448
 
     .line 289
+    :cond_4c2
+    sget v7, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
+
+    if-ge v6, v7, :cond_461
+
+    .line 290
     sget v7, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
     const/4 v9, 0x3
 
-    if-ne v7, v9, :cond_4d2
+    if-ne v7, v9, :cond_4d5
 
     const v7, 0x3e99999a    # 0.3f
 
-    .line 290
-    :goto_4cb
+    .line 291
+    :goto_4ce
     cmpl-float v7, v8, v7
 
-    if-ltz v7, :cond_45e
+    if-ltz v7, :cond_461
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
-    goto :goto_45e
+    goto :goto_461
 
-    .line 289
-    :cond_4d2
+    .line 290
+    :cond_4d5
     sget v7, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
     const/4 v9, 0x2
 
-    if-ne v7, v9, :cond_4db
+    if-ne v7, v9, :cond_4de
 
     const v7, 0x3f0ccccd    # 0.55f
 
-    goto :goto_4cb
+    goto :goto_4ce
 
-    :cond_4db
+    :cond_4de
     const v7, 0x3f4ccccd    # 0.8f
 
-    goto :goto_4cb
+    goto :goto_4ce
 
-    .line 294
-    :cond_4df
+    .line 295
+    :cond_4e2
     const/4 v6, 0x0
 
     sput v6, Lfr/testudo/spacecorsair/mod/ModCaps;->damageStage:I
 
-    goto :goto_46d
+    goto :goto_470
 
     .line 143
-    :catch_4e3
+    :catch_4e6
     move-exception v6
 
     goto/16 :goto_9
 
     .line 172
-    :catch_4e6
+    :catch_4e9
     move-exception v8
 
     goto/16 :goto_b1

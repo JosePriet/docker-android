@@ -397,6 +397,7 @@ public final class ModWreck extends Element {
                 int cls = playerClass(ps);
                 String art = d == null ? null : ModArt.artOf(d.myTexture);
                 if (ModLive.alienArt(art)) { spores(e, d); return; }
+                if (d != null) ModVfx.death(e, ModLive.sizeOf(d));   // visual upgrade: explosion pass (wrapped)
                 if (cls >= 2 && d != null) breakUp(e, d, cls, true, 3800);
                 else if (d != null) ModLive.fx("vfx_explosion_sheet", 8, 64, e.position.x, e.position.y, ModLive.sizeOf(d) * 1.6f, 900, 1, 0.8f, 0.5f, true);
                 return;
@@ -412,6 +413,7 @@ public final class ModWreck extends Element {
                 if (!(sizeClass(e) >= 2)) return;
                 return;          // living hulls dissolve: no metal pieces
             }
+            ModVfx.death(e, ModLive.sizeOf(d));   // visual upgrade: explosion pass (wrapped)
             int cls = sizeClass(e);
             if (cls < 2) {
                 if (cls == 1) husk(e, d);   // owner 2026-10-22: frigates leave nothing (the kill's own loot chance only); destroyers a husk

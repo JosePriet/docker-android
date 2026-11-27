@@ -344,6 +344,7 @@ public final class ModWeapons {
             if (ModEnemyGuns.lanceRepeat(b, target)) return;   // audit F3: a Helion flagship lance passing through
             int f = familyOf(b);
             if (f < 0 || target == null) return;
+            ModVfx.impact(b, target, f);   // visual upgrade: sparks, flash, impact art (wrapped)
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             float[] c = COLOR[f];
             boolean mine = b.sender == ps;          // v33: flagship batteries fire the families too: no splash/chains on the player's side
