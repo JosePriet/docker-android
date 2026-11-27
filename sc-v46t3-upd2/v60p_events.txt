@@ -1,0 +1,9 @@
+11-27 18:56:14.460 I/ModTest ( 2524): update manifest seq 1 apk v45/52 packs 0
+11-27 18:57:58.601 I/ModTest ( 3391): update manifest seq 20 apk v46-test3/53 packs 0
+11-27 18:58:43.286 I/ModTest ( 3655): update manifest seq 21 apk v46-test3/53 packs 1
+11-27 18:59:35.099 I/ModTest ( 4061): update manifest seq 21 apk v46-test3/53 packs 1
+11-27 19:00:14.509 I/ModTest ( 4061): update chain set content-53-1:f141a64971c71536
+11-27 19:01:09.511 I/ModTest ( 4593): content chain content-53-1:f141a64971c71536 (2 files)
+11-27 19:01:09.726 I/ModTest ( 4593): update manifest seq 21 apk v46-test3/53 packs 1
+11-27 19:02:53.362 I/ModTest ( 5230): update manifest seq 21 apk v46-test3/53 packs 1
+11-27 19:04:17.003 I/ModTest ( 5896): update manifest seq 21 apk v46-test3/53 packs 1

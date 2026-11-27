@@ -1,0 +1,55 @@
+[5s] install
+[6s] launch fr.testudo.spacecorsair
+[27s] shot launch ok
+[33s] cancel exit prompt
+[41s] shot after_back ok
+[54s] shot steering ok
+[54s] direct: BuyInapp gift
+[71s] tap 'id/txtGift' at 620 926
+[80s] tap 'id/btnGift' at 1253 939
+[85s] shot gift_box_redeemed ok
+[91s] direct: Settings
+[99s] shot settings_v36 ok
+[100s] seekbars on settings: 3
+[107s] EVIDENCE files start: /data/data/fr.testudo.spacecorsair/app_content: 4096 4096 4096 /data/data/fr.testudo.spacecorsair/app_content/packs: 4096 4096 /data/data/fr.testudo.spacecorsair/files: 4096 4096 7285 285 496 778 55 1420 20138 
+[150s] shot p_none ok
+[152s] EVIDENCE up to date (expect no prompt): 0 prompt(s); update manifest seq 1 apk v45/52 packs 0 update manifest seq 20 apk v46-test3/53 packs 0 
+[191s] shot p_avail ok
+[193s] EVIDENCE update listed (expect prompt): text="Update available" text="• Emulator test pack&#10;&#10;Size: ~0.0 MB" text="LATER" text="DOWNLOAD UPDATE" 
+[195s] tap '^(Later|LATER)( |$)' at 1172 694
+[205s] shot p_later_after ok
+[205s] EVIDENCE after Later: 0 prompt(s), /dev/null 
+[244s] shot p_avail2 ok
+[246s] EVIDENCE prompt again: text="Update available" text="DOWNLOAD UPDATE" 
+[247s] tap '^(Download update|DOWNLOAD UPDATE)( |$)' at 1479 694
+[268s] shot p_dl_done ok
+[270s] EVIDENCE after download: text="Game version: mod v46-test3 (base 1.5.1)&#10;Content: built-in&#10;Last check: 11/27/26 6:59 PM&#10;&#10;Content updated. Restart the game to apply it. If it does not open again by itself, open it from the home screen.&#10;&#10;• content-53-1: Emulator test pack" text="RESTART THE GAME NOW" 
+[270s] EVIDENCE update log: update manifest seq 1 apk v45/52 packs 0 update manifest seq 20 apk v46-test3/53 packs 0 update manifest seq 21 apk v46-test3/53 packs 1 update manifest seq 21 apk v46-test3/53 packs 1 update chain set content-53-1:f141a64971c71536 
+[270s] EVIDENCE files downloaded: /data/data/fr.testudo.spacecorsair/app_content: 4096 4096 78 4096 0 /data/data/fr.testudo.spacecorsair/app_content/packs: 4096 4096 422 /data/data/fr.testudo.spacecorsair/files: 4096 4096 7285 285 496 778 55 1420 20138 
+[272s] tap '^(Restart the game now|RESTART THE GAME NOW)' at 1074 679
+[332s] shot p_after ok
+[334s] EVIDENCE prompt after install (expect none): 0
+[335s] EVIDENCE chain live: content chain content-53-1:f141a64971c71536 (2 files) 
+[340s] tap 57 55
+[349s] tap '^Updates' at 1746 158
+[361s] shot p_panel ok
+[363s] EVIDENCE panel with pack (expect 'Check now (test pack)'): text="Game version: mod v46-test3 (base 1.5.1)&#10;Content: content-53-1&#10;Last check: 11/27/26 7:01 PM&#10;&#10;Your game is up to date.&#10;&#10;• content-53-1: Emulator test pack" text="CHECK NOW (TEST PACK)" text="UNDO LAST UPDATE" text="USE BUILT-IN CONTENT ONLY" 
+[365s] tap '^(Undo last update|UNDO LAST UPDATE)' at 1074 766
+[371s] shot p_undo ok
+[373s] EVIDENCE undo: text="Game version: mod v46-test3 (base 1.5.1)&#10;Content: content-53-1&#10;Last check: 11/27/26 7:01 PM&#10;&#10;Previous content restored. Restart the game to apply it.&#10;&#10;• content-53-1: Emulator test pack" text="RESTART THE GAME NOW" 
+[375s] tap '^(Restart the game now|RESTART THE GAME NOW)' at 1074 634
+[433s] shot p_after_undo ok
+[435s] EVIDENCE prompt after undo: text="Update available" text="DOWNLOAD UPDATE" 
+[437s] tap '^(Later|LATER)( |$)' at 1172 694
+[440s] tap 57 55
+[453s] tap 57 55
+[463s] tap 57 55
+[472s] tap '^Updates' at 1745 158
+[484s] shot p_panel2 ok
+[486s] EVIDENCE panel after undo (expect plain 'Check now'): text="Game version: mod v46-test3 (base 1.5.1)&#10;Content: built-in&#10;Last check: 11/27/26 7:02 PM&#10;&#10;Updates are available.&#10;&#10;• content-53-1: Emulator test pack" text="DOWNLOAD CONTENT" text="CHECK NOW" 
+[486s] EVIDENCE files before_prune: /data/data/fr.testudo.spacecorsair/app_content: 4096 4096 0 42 4096 78 /data/data/fr.testudo.spacecorsair/app_content/packs: 4096 4096 422 2 /data/data/fr.testudo.spacecorsair/files: 4096 4096 7290 285 499 778 55 1355 20138 
+[525s] EVIDENCE files after_prune: /data/data/fr.testudo.spacecorsair/app_content: 4096 4096 0 42 4096 78 /data/data/fr.testudo.spacecorsair/app_content/packs: 4096 4096 422 /data/data/fr.testudo.spacecorsair/files: 4096 4096 7290 285 499 778 55 1355 20138 
+[525s] EVIDENCE stale .part after start (expect gone): ls: /data/data/fr.testudo.spacecorsair/app_content/packs/stale.part: No such file or directory 
+[525s] EVIDENCE prune log: 
+[527s] done; errors: 327 lines
+212 frames

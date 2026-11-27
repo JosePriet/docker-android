@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 554011 Realtime: 554011
+
+** MEMINFO in pid 5896 [fr.testudo.spacecorsair] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    19599    19524        0        0    22076    29080    22996     1808
+  Dalvik Heap     4342     4212        0        0     8300    10258     5145     5113
+ Dalvik Other     1019      952        0        0     1836                           
+        Stack      492      492        0        0      508                           
+       Ashmem     6096     5964        0        0     6396                           
+    Other dev      100        0      100        0      308                           
+     .so mmap     4056      248      168        0    42632                           
+    .jar mmap     1520        0      108        0    22088                           
+    .apk mmap     1028        0       68        0    24316                           
+    .ttf mmap       66        0        0        0      388                           
+    .dex mmap     2820       12     2796        0     2948                           
+    .oat mmap     1119        0        4        0    15800                           
+    .art mmap     1582      936        4        0    19980                           
+   Other mmap      101       36       12        0     1224                           
+      Unknown      381      364        0        0      816                           
+        TOTAL    44321    32740     3260        0    44321    39338    28141     6921
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:     5152                          28280
+         Native Heap:    19524                          22076
+                Code:     3404                         108340

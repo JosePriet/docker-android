@@ -1,0 +1,20 @@
+/data/data/fr.testudo.spacecorsair/app_content:
+drwxrwx--x 3 u0_a130 u0_a130 4096 2026-11-27 19:00 .
+drwx------ 8 u0_a130 u0_a130 4096 2026-11-27 18:56 ..
+-rw------- 1 u0_a130 u0_a130   78 2026-11-27 19:00 active.txt
+drwx------ 2 u0_a130 u0_a130 4096 2026-11-27 19:00 packs
+-rw------- 1 u0_a130 u0_a130    0 2026-11-27 19:00 previous.txt
+/data/data/fr.testudo.spacecorsair/app_content/packs:
+drwx------ 2 u0_a130 u0_a130 4096 2026-11-27 19:00 .
+drwxrwx--x 3 u0_a130 u0_a130 4096 2026-11-27 19:00 ..
+-rw------- 1 u0_a130 u0_a130  422 2026-11-27 19:00 content-53-1.zip
+/data/data/fr.testudo.spacecorsair/files:
+drwxrwx--x 2 u0_a130 u0_a130  4096 2026-11-27 18:57 .
+drwx------ 8 u0_a130 u0_a130  4096 2026-11-27 18:56 ..
+-rw-rw---- 1 u0_a130 u0_a130  7285 2026-11-27 18:57 achievements
+-rw-rw---- 1 u0_a130 u0_a130   285 2026-11-27 18:57 config
+-rw-rw---- 1 u0_a130 u0_a130   496 2026-11-27 18:57 inventory
+-rw-rw---- 1 u0_a130 u0_a130   778 2026-11-27 18:57 levelProperties
+-rw-rw---- 1 u0_a130 u0_a130    55 2026-11-27 18:57 missions
+-rw-rw---- 1 u0_a130 u0_a130  1420 2026-11-27 18:57 playerinfo
+-rw-rw---- 1 u0_a130 u0_a130 20138 2026-11-27 18:57 prices
