@@ -81,7 +81,7 @@ timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ] || [ "$GAME" = sc44 ]; then
-  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ] || [ "$STAGE" = V60U ] || [ "$STAGE" = V60P ] || [ "$STAGE" = CCEF ] || [ "$STAGE" = VFX ]; } && NOPRO=/data/local/tmp/corsair_noprologue
+  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ] || [ "$STAGE" = V60U ] || [ "$STAGE" = V60P ] || [ "$STAGE" = CCEF ] || [ "$STAGE" = VFX ] || [ "$STAGE" = VFX2 ]; } && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
@@ -230,7 +230,31 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     log "EVIDENCE fps: $(grep -E "ModTest.*vfx fps" $LG | sed 's/^.*): //' | tail -6 | tr '\n' ' ')"
     grep -E "ModTest.*vfx|ModDev|FATAL|AndroidRuntime|VerifyError" $LG > $OUT/vfx_events.txt
     a shell "rm -f $T/corsair_capital $T/corsair_ccef_god $T/corsair_vfx_q $T/corsair_spawn"
+   # Visual upgrade run 2: explosions only, away from station guns. Small ships killed together, then a flagship killed
+  # before it turns on the player (killflag in a capfight is soaked by the flagship's damage caps).
+  if [ "$STAGE" = VFX2 ]; then
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    rec() { timeout 200 adb shell screenrecord --time-limit $2 --bit-rate 8000000 /sdcard/$1.mp4 >/dev/null 2>&1 & }
+    pull() { sleep 3; timeout 60 adb pull /sdcard/$1.mp4 $OUT/$1.mp4 >/dev/null 2>&1; log "pulled $1: $(stat -c %s $OUT/$1.mp4 2>/dev/null)"; }
+    put corsair_ccef_god 1; put corsair_vfx_q 2; sleep 30; shot start
+    for Q in 2 0; do
+      put corsair_vfx_q $Q; sleep 2
+      put corsair_spawn defensor,elite$Q; sleep 2; put corsair_spawn albatros,x$Q; sleep 2; put corsair_spawn frelon,elite,$Q; sleep 3; shot spawned_q$Q
+      rec vfx_small_kills_q$Q 9; sleep 2; put corsair_kill 1; sleep 8; pull vfx_small_kills_q$Q; a shell "rm -f $T/corsair_kill"; shot killed_q$Q
+      log "EVIDENCE kills q$Q: $(grep -cE "ModWreck|husk" $LG)"
+    done
+    put corsair_vfx_q 2; sleep 2
+    for C in varn reaver; do
+      put corsair_capital $C; sleep 6; shot cap_$C
+      rec vfx_flagship_death_$C 12; sleep 2; put corsair_killflag 1; sleep 11; pull vfx_flagship_death_$C; a shell "rm -f $T/corsair_killflag"
+      log "EVIDENCE killflag $C: $(grep -E "killflag" $LG | tail -1 | sed 's/^.*): //')"; sleep 4
+    done
+    grep -E "ModTest|ModDev|FATAL|AndroidRuntime|VerifyError" $LG > $OUT/vfx2_events.txt
+    a shell "rm -f $T/corsair_capital $T/corsair_ccef_god $T/corsair_vfx_q $T/corsair_spawn"
     finish; exit 0
+  fi
+   finish; exit 0
   fi
   if [ "$STAGE" = CCEF ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
