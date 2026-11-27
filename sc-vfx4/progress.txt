@@ -1,0 +1,32 @@
+[4s] install
+[6s] launch fr.testudo.spacecorsair
+[25s] shot launch ok
+[32s] cancel exit prompt
+[38s] shot after_back ok
+[51s] shot steering ok
+[51s] direct: BuyInapp gift
+[68s] tap 'id/txtGift' at 620 926
+[79s] tap 'id/btnGift' at 1253 939
+[83s] shot gift_box_redeemed ok
+[90s] direct: Settings
+[95s] shot settings_v36 ok
+[97s] seekbars on settings: 3
+[134s] shot settings_visual_quality ok
+[136s] EVIDENCE settings: text="Screen shake: 60%" text="Visual quality (effects)" text="High" text="Medium" text="Low" text="Offer lower quality when the game runs slowly" 
+[176s] shot start ok
+[189s] shot spawned_q2 ok
+[204s] pulled vfx_small_kills_q2: 590280
+[207s] shot killed_q2 ok
+[207s] EVIDENCE kills q2: 1
+[220s] shot spawned_q0 ok
+[235s] pulled vfx_small_kills_q0: 609942
+[239s] shot killed_q0 ok
+[239s] EVIDENCE kills q0: 2
+[251s] shot cap_varn ok
+[268s] pulled vfx_flagship_death_varn: 586823
+[268s] EVIDENCE killflag varn: 
+[282s] shot cap_reaver ok
+[298s] pulled vfx_flagship_death_reaver: 905936
+[298s] EVIDENCE killflag reaver: 
+[305s] done; errors: 198 lines
+99 frames
