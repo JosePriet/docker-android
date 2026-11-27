@@ -1,12 +1,12 @@
 name: emulator-test
 on:
   push:
-    branches: [emulator-tests]
+    branches: [emulator-tests-vfx]
   workflow_dispatch:
 permissions:
   contents: write
 concurrency:
-  group: emulator-test
+  group: emulator-test-vfx
   cancel-in-progress: true
 jobs:
   run:
@@ -16,9 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v46t3-upd, stage: V60P }
-          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v46t3-main, stage: MAIN }
-          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-v46t3-ccef, stage: CCEF }
+          - { game: sc, gpu: swiftshader_indirect, build: "7425822", tag: sc-vfx1, stage: VFX }
     steps:
       - uses: actions/checkout@v4
       - name: Enable KVM
@@ -69,7 +67,7 @@ jobs:
         run: |
           cd out
           echo "run ${{ github.run_number }} sha ${{ github.sha }} $(date -u)" > RUN.txt
-          git init -q -b emulator-results
+          git init -q -b emulator-results-vfx
           git config user.name "emulator-bot"; git config user.email "emulator-bot@users.noreply.github.com"
           git add -A && git commit -qm "results run ${{ github.run_number }}"
-          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" emulator-results
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" emulator-results-vfx

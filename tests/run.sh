@@ -81,7 +81,7 @@ timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ] || [ "$GAME" = sc44 ]; then
-  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ] || [ "$STAGE" = V60U ] || [ "$STAGE" = V60P ] || [ "$STAGE" = CCEF ]; } && NOPRO=/data/local/tmp/corsair_noprologue
+  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ] || [ "$STAGE" = V60U ] || [ "$STAGE" = V60P ] || [ "$STAGE" = CCEF ] || [ "$STAGE" = VFX ]; } && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
@@ -197,6 +197,41 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
   fi
   # v58 CCEF hunt (2026-11-27): hunt 1 at SPARTAN_HQ (countdown, landing, radar, 120 s achievement, squad killed by the
   # test switch = win path + rewards), hunt 2 (clears=1, +5%) then gate hops toward PIRATE_BAY = follow / trail lost.
+  # Visual upgrade (2026-11-27): Visual quality High vs Low, shots/impacts/muzzle (flagship fight + player fire),
+  # small and flagship explosions, the slow-frame window (forced). Videos: out/vfx_*.mp4; evidence: logcat "ModTest vfx".
+  if [ "$STAGE" = VFX ]; then
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    rec() { timeout 200 adb shell screenrecord --time-limit $2 --bit-rate 8000000 /sdcard/$1.mp4 >/dev/null 2>&1 & }
+    pull() { sleep 3; timeout 60 adb pull /sdcard/$1.mp4 $OUT/$1.mp4 >/dev/null 2>&1; log "pulled $1: $(stat -c %s $OUT/$1.mp4 2>/dev/null)"; }
+    fire() { a shell input motionevent DOWN 1930 860; sleep 0.2; a shell input motionevent MOVE 1930 760; sleep 0.2; a shell input motionevent MOVE 1932 680; sleep $1; a shell input motionevent UP 1932 680; }
+    put corsair_goto SPARTAN_HQ; for i in $(seq 1 60); do sleep 4; need goto_hq; grep -q "goto arrived SPARTAN_HQ" $LG && break; done
+    log "goto SPARTAN_HQ arrived=$(grep -c "goto arrived SPARTAN_HQ" $LG)"; a shell "rm -f $T/corsair_goto"
+    put corsair_ccef_god 1; put corsair_vfx_q 2; sleep 3; shot hq
+    # 1 High: hostile Reaver flagship (fancy shots, faction impacts) while the player fires back
+    put corsair_capital reaver; sleep 5; put corsair_capfight 1; sleep 3
+    rec vfx_high_flagship_fight 25; fire 10; sleep 2; fire 10; sleep 4; pull vfx_high_flagship_fight; shot high_fight
+    # 2 High: flagship death (hero fireball, shockwave, secondaries, debris)
+    rec vfx_high_flagship_death 12; sleep 2; put corsair_killflag 1; sleep 11; pull vfx_high_flagship_death; shot high_death
+    a shell "rm -f $T/corsair_killflag $T/corsair_capfight"
+    # 3 High: small ships blown up together
+    put corsair_spawn defensor,elite; sleep 3; put corsair_spawn albatros; sleep 3; put corsair_spawn frelon,elite; sleep 3
+    rec vfx_high_small_kills 12; fire 3; put corsair_kill 1; sleep 8; pull vfx_high_small_kills; a shell "rm -f $T/corsair_kill"
+    # 4 Low (the look before this change), same flagship fight for comparison
+    put corsair_vfx_q 0; sleep 2; put corsair_capital varn; sleep 5; put corsair_capfight 1; sleep 3
+    rec vfx_low_flagship_fight 15; fire 12; sleep 4; pull vfx_low_flagship_fight
+    put corsair_vfx_q 2; sleep 2; rec vfx_high_flagship_fight_varn 15; fire 12; sleep 4; pull vfx_high_flagship_fight_varn
+    a shell "rm -f $T/corsair_capfight"
+    # 5 forced slow-frame window: game pauses, choose "Lower to Medium"
+    put corsair_vfx_prompt 1; rec vfx_slow_prompt 20; for i in $(seq 1 10); do sleep 2; dump prompt; grep -q "Slow frames" $OUT/last.xml && break; done
+    a shell "rm -f $T/corsair_vfx_prompt"; sleep 4; shot prompt
+    tap_text "^Lower to" prompt_tap; sleep 4; shot after_prompt; sleep 6; pull vfx_slow_prompt
+    log "EVIDENCE vfx: $(grep -E "ModTest.*vfx" $LG | sed 's/^.*): //' | grep -v " fps " | tail -8 | tr '\n' ' ')"
+    log "EVIDENCE fps: $(grep -E "ModTest.*vfx fps" $LG | sed 's/^.*): //' | tail -6 | tr '\n' ' ')"
+    grep -E "ModTest.*vfx|ModDev|FATAL|AndroidRuntime|VerifyError" $LG > $OUT/vfx_events.txt
+    a shell "rm -f $T/corsair_capital $T/corsair_ccef_god $T/corsair_vfx_q $T/corsair_spawn"
+    finish; exit 0
+  fi
   if [ "$STAGE" = CCEF ]; then
     T=/data/local/tmp; LG=$OUT/logcat_live.txt
     put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
