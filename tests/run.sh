@@ -81,7 +81,7 @@ timeout 20 adb root >/dev/null 2>&1; sleep 3; timeout 30 adb wait-for-device
 log install; timeout 240 adb install -r $APK > $OUT/install.txt 2>&1; cat $OUT/install.txt
 a shell dumpsys package $PKG | grep -E "versionName|versionCode" >> $OUT/install.txt; cat $OUT/install.txt
 if [ "$GAME" = sc ] || [ "$GAME" = sc44 ]; then
-  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ] || [ "$STAGE" = V60U ]; } && NOPRO=/data/local/tmp/corsair_noprologue
+  NOPRO=""; { [ "$STAGE" = P52E ] || [ "$STAGE" = V49H ] || [ "$STAGE" = V50L ] || [ "$STAGE" = V51T ] || [ "$STAGE" = V56M ] || [ "$STAGE" = V60U ] || [ "$STAGE" = CCEF ]; } && NOPRO=/data/local/tmp/corsair_noprologue
   # emulator-only switches read by the mod: gift code also unlocks both titans; big hulls start at 20% hull
   a shell "touch /data/local/tmp/corsair_titans /data/local/tmp/corsair_nodialog $NOPRO && echo $(case "$STAGE" in A|A2) echo 10;; V46) echo 0;; *) echo 34;; esac) > /data/local/tmp/corsair_level && chmod 644 /data/local/tmp/corsair_* && ls -l /data/local/tmp/" | tee $OUT/flags.txt
 fi
@@ -193,6 +193,34 @@ elif [ $GAME = sc ] || [ $GAME = sc44 ]; then
     done
     grep -E "ModTest.*(event|chain)|FATAL|AndroidRuntime|VerifyError" $LG > $OUT/p52e_events.txt
     a shell "rm -f $T/corsair_event $T/corsair_near $T/corsair_goto"
+    finish; exit 0
+  fi
+  # v58 CCEF hunt (2026-11-27): hunt 1 at SPARTAN_HQ (countdown, landing, radar, 120 s achievement, squad killed by the
+  # test switch = win path + rewards), hunt 2 (clears=1, +5%) then gate hops toward PIRATE_BAY = follow / trail lost.
+  if [ "$STAGE" = CCEF ]; then
+    T=/data/local/tmp; LG=$OUT/logcat_live.txt
+    put() { a shell "echo $2 > $T/$1; chmod 644 $T/corsair_*"; }
+    cc() { grep -E "police ccef" $LG | sed 's/^.*): //'; }
+    put corsair_goto SPARTAN_HQ; for i in $(seq 1 60); do sleep 4; need goto_hq; grep -q "goto arrived SPARTAN_HQ" $LG && break; done
+    log "goto SPARTAN_HQ arrived=$(grep -c "goto arrived SPARTAN_HQ" $LG)"; a shell "rm -f $T/corsair_goto"
+    put corsair_policelog 1; put corsair_ccef_god 1; sleep 2; shot before
+    put corsair_ccef 1; sleep 6; shot countdown_1; sleep 8; shot countdown_2
+    for i in $(seq 1 20); do sleep 3; need land1; cc | grep -q "landed" && break; done
+    sleep 3; shot landed_1; sleep 5; shot landed_2; sleep 10; shot fight_1
+    log "EVIDENCE hunt1 start: $(cc | head -8 | tr '\n' ' ')"
+    for i in $(seq 1 40); do sleep 4; need survive; cc | grep -q "survived 120 s" && break; [ $((i % 8)) = 0 ] && shot fight_$i; done
+    log "EVIDENCE survive: $(cc | grep -E "survived|achievement" | tr '\n' ' ')"
+    put corsair_ccef_kill 1; for i in $(seq 1 15); do sleep 2; cc | grep -q "squad destroyed" && break; done; shot killed
+    a shell "rm -f $T/corsair_ccef_kill $T/corsair_ccef"; sleep 4
+    log "EVIDENCE win: $(cc | grep -E "ship down|titan down|squad destroyed|end:" | tail -14 | tr '\n' ' ')"
+    log "EVIDENCE prefs: $(a shell "cat /data/data/$PKG/shared_prefs/*.xml" 2>/dev/null | grep -oE 'name=\"(ccef_[a-z]+|v35_core_[a-z0-9_]+)\"[^/]*' | tr '\n' ' ')"
+    put corsair_ccef 1; for i in $(seq 1 15); do sleep 3; need land2; [ "$(cc | grep -c landed)" -ge 2 ] && break; done; sleep 3; shot hunt2_landed
+    log "EVIDENCE hunt2: $(cc | grep -E "test trigger|landed" | tail -2 | tr '\n' ' ')"
+    put corsair_goto PIRATE_BAY; for i in $(seq 1 45); do sleep 4; need follow; cc | grep -qE "trail|follows into" && [ $((i % 6)) = 0 ] && shot follow_$i; grep -q "goto arrived PIRATE_BAY" $LG && break; cc | grep -q "lost your trail\|end: trail" && break; done
+    sleep 25; shot follow_end
+    log "EVIDENCE follow: $(cc | grep -E "follows|trail|end:|landed" | tail -10 | tr '\n' ' ')"
+    cc > $OUT/ccef_log.txt; grep -E "police ccef|FATAL|AndroidRuntime|VerifyError" $LG > $OUT/ccef_events.txt
+    a shell "rm -f $T/corsair_ccef $T/corsair_ccef_god $T/corsair_goto $T/corsair_policelog"
     finish; exit 0
   fi
   if [ "$STAGE" = V51T ]; then
