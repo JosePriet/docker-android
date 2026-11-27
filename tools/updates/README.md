@@ -17,7 +17,28 @@ Two kinds of update:
    The build number must be the installed APK's (versionCode - 1000). Packs for a build chain in manifest order;
    a later pack wins. A new APK build starts a new chain (its APK already holds everything).
 3. Add the pack to the spec (below), bump `seq`, sign, commit `updates/channel-stable/` to `releases`.
-4. Also add the same files to the repo (work/modart, i18n) so the next APK carries them.
+4. Also add the same files to the repo (work/modart, i18n, the constants and generated data) so the next APK carries them.
+
+### More pack contents (build 53+, content updates phase 2)
+- `music/<raw name>.ogg`: replaces a music track; the name is the stock `res/raw` entry (e.g. `music/loop_space1.ogg`; the 7 tracks MusicManager.initMusic loads).
+- `lang/en.json`: English text fixes, `{"old English": "new English"}` (applies where the mod text goes through ModLang.tr).
+- `data/tune.txt`: balance numbers, `key=value` lines (`#` comments). Keys are `ModTune.KEYS`; each has a min/max at its
+  read site (values outside are clamped, unknown keys refused by pack_build.py and ignored by the game). Examples:
+  `capital.dmg_mult=3.0` (flagship/titan shot x), `police.dmg_bonus=1.25`, `police.hull_bonus=1.25`,
+  `police_titan.stat_mult=1.2`, `police_titan.over_pass=0.3`, `aegis.drones_min=2`, `aegis.drones_max=5`, `aegis.respawn_s=10`,
+  `hold.police_lo=0.4` / `hold.police_hi=0.65` / `hold.flag_lo=0.5` / `hold.flag_hi=0.8` (fractions of gun range),
+  `events.first_s=90`, `events.gap_min_s=240`, `events.gap_max_s=360`, `events.distress_pay=6000`, `events.bounty_pay=12000`,
+  `chain.window_s=6`, `chain.step=0.1`, `chain.cap=1.5`, `ccef.speed=1.35`, `ccef.dmg_taken=0.5`, `ccef.player_dmg=1.15`,
+  `ccef.warp_in_s=20`, `ccef.survive_s=120`, `ccef.warp_mult=1.5`, `ccef.reward_credits=10000000`.
+- `data/text.json`: mission, lore, faction and reputation tables, `{"ModFactionData.COMMANDER_LINE.2": "...", "ModV30Data.BOSS_EN.1.0": "..."}`.
+  One element of an existing array per key (index from 0, same type as the element; numbers as strings). Allowed classes:
+  ModFactionData, ModV30Data, ModRepData; KEYS, SITE_SECTOR, SITE_HULLS and SECRET_SHIP are locked. Arrays never grow.
+
+### Storage on the phone
+At each start the game deletes: the rebuilt game update (`apk/`, about 90 MB) once that build runs or after 7 days;
+packs made for another game build (after a game update) and the chains that used them; unfinished downloads older than
+7 days. Packs neither the active nor the previous chain uses are deleted when a new chain is set. Built-in sound
+effects are read straight from the APK (no copy in the cache).
 
 ## Game update
 1. Build and release the APK as usual (scripts/release.sh, release/VERSION).

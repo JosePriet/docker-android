@@ -72,8 +72,8 @@ public final class ModBal {
         }
         float lo, hi;
         if (r <= 0) { lo = 0; hi = hard * 0.85f; } else {
-            lo = r * (c.police ? 0.4f : 0.5f);
-            hi = Math.min(r * (c.police ? 0.65f : 0.8f), hard * 0.85f);
+            lo = r * (c.police ? ModTune.f("hold.police_lo", 0.4f, 0.1f, 1.5f) : ModTune.f("hold.flag_lo", 0.5f, 0.1f, 1.5f));
+            hi = Math.min(r * (c.police ? ModTune.f("hold.police_hi", 0.65f, 0.1f, 1.5f) : ModTune.f("hold.flag_hi", 0.8f, 0.1f, 1.5f)), hard * 0.85f);
             lo = Math.min(lo, hi * 0.6f);
         }
         float k2 = Math.min(1f, j / 400f);

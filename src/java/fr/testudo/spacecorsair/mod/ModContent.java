@@ -34,7 +34,7 @@ public final class ModContent {
 
     /** Pack data schema; a pack for another API number is never installed. */
     static final int API = 1;
-    static final String[] FOLDERS = {"modart/", "modsfx/", "lang/"};
+    static final String[] FOLDERS = {"modart/", "modsfx/", "lang/", "music/", "data/"};   // phase 2: music/, data/ (tune.txt, text.json)
     static final String[] EXTS = {".webp", ".png", ".ogg", ".json", ".txt"};
     static final long MAX_UNPACKED = 300L << 20;
     static final int GUARD_CRASHES = 2;
@@ -74,6 +74,10 @@ public final class ModContent {
             Context a = c.getApplicationContext();
             dir = (a != null ? a : c).getDir("content", Context.MODE_PRIVATE);
             new File(dir, "packs").mkdirs();
+            int build = -1;
+            try { build = c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionCode - 1000; } catch (Throwable t) { build = -1; }
+            buildNow = build;
+            try { prune(dir, build, System.currentTimeMillis()); } catch (Throwable t) { ModDev.ev("content", "prune: " + t); }
             if (new File(dir, "safe").exists()) { ModDev.ev("content", "safe mode: built-in content only"); return; }
             List<String[]> chain = readChain(new File(dir, "active.txt"));
             if (chain.isEmpty()) return;
@@ -120,12 +124,10 @@ public final class ModContent {
                     public void onActivityDestroyed(android.app.Activity x) { }
                 });
             } catch (Throwable t) { /* no callbacks: every start counts as clean */ guard("paused"); }
-            int build = -1;
-            try { build = c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionCode - 1000; } catch (Throwable t) { build = -1; }
-            buildNow = build;
             load(chain);
             chainKey = key;
             ModDev.ev("content", "chain " + key + " (" + index.size() + " files)");
+            try { ModTables.apply(); } catch (Throwable t) { ModDev.ev("content", "tables: " + t); }
         } catch (Throwable t) {
             for (ZipFile z : zips) { try { z.close(); } catch (Throwable x) { /* closed */ } }
             index.clear(); removed.clear(); zips.clear(); chainIds.clear(); chainKey = "";
@@ -165,6 +167,68 @@ public final class ModContent {
             chainIds.add(e[0]);
         }
     }
+
+    // ================================================================== storage cleanup (phase 2)
+    static final long STALE_MS = 7L * 24 * 3600 * 1000;
+
+    /**
+     * Frees space at start, before any pack is opened: the rebuilt game update (apk/, about 90 MB) once the game was
+     * updated to it (apk/build.txt) or after 7 days; packs made for another game build (a game update carries all
+     * content, so they never load again) and the chains that used them; unfinished downloads (.part) older than 7 days.
+     * build < 0 (unknown) only clears old files. Returns the number of files deleted.
+     */
+    static int prune(File d, int build, long now) {
+        int n = 0;
+        File ad = new File(d, "apk");
+        File[] af = ad.listFiles();
+        if (af != null) {
+            String[] t = readLinesQuiet(new File(ad, "build.txt"));
+            int target = t.length > 0 ? parseInt(t[0], -1) : -1;
+            boolean done = build >= 0 && target >= 0 && build >= target;
+            for (File f : af) if ((done || now - f.lastModified() > STALE_MS) && f.delete()) n++;
+        }
+        File[] pf = new File(d, "packs").listFiles();
+        Set<String> gone = new HashSet<String>();
+        if (pf != null) for (File f : pf) {
+            String name = f.getName();
+            if (name.endsWith(".part")) { if (now - f.lastModified() > STALE_MS && f.delete()) n++; continue; }
+            if (build < 0 || !name.endsWith(".zip")) continue;
+            if (packBuild(f) != build && f.delete()) { n++; gone.add(name.substring(0, name.length() - 4)); }
+        }
+        if (!gone.isEmpty()) {
+            for (String cf : new String[] {"active.txt", "previous.txt"}) {
+                File f = new File(d, cf);
+                try {
+                    boolean hit = false;
+                    for (String[] e : readChain(f)) if (gone.contains(e[0])) hit = true;
+                    if (hit) writeChain(f, new ArrayList<String[]>());   // a chain with a hole cannot load: built-in content
+                } catch (Throwable x) { /* left as is: load() refuses it */ }
+            }
+            ModDev.ev("content", "pruned packs for another game build: " + gone);
+        }
+        return n;
+    }
+
+    /** build= from a pack's pack.txt, -1 when unreadable. */
+    static int packBuild(File zip) {
+        ZipFile z = null;
+        try {
+            z = new ZipFile(zip);
+            for (String l : packInfo(z)) if (l.startsWith("build=")) return parseInt(l.substring(6), -1);
+            return -1;
+        } catch (Throwable t) {
+            return -1;
+        } finally {
+            try { if (z != null) z.close(); } catch (Throwable t) { /* closed */ }
+        }
+    }
+
+    private static String[] readLinesQuiet(File f) {
+        try { return readLines(f); } catch (Throwable t) { return new String[0]; }
+    }
+
+    /** True once the active chain was read this process (pack readers may cache what they read). */
+    static synchronized boolean isReady() { return ready && dir != null; }
 
     // ================================================================== overlay API (asset readers)
     /** The pack copy of an asset path (e.g. "modart/x.webp"), or null when no active pack has it. Caller closes. */

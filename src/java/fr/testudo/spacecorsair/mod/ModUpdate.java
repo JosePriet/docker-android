@@ -379,6 +379,7 @@ public final class ModUpdate {
         File d = new File(ModContent.dir(c), "apk");
         d.mkdirs();
         File apk = new File(d, "new.apk");
+        ModContent.writeText(new File(d, "build.txt"), m.apkBuild + "\n");   // phase 2: ModContent.prune deletes apk/ once this build runs
         File installed = new File(c.getPackageCodePath());
         setStatus(tr("Checking the installed game..."));
         String mine = ModContent.sha256(installed);

@@ -42,7 +42,7 @@
     .registers 3
 
     .prologue
-    .line 328
+    .line 337
     const/4 v0, 0x5
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/mod/ModEvents$Trigger;
@@ -84,7 +84,7 @@
     .registers 3
 
     .prologue
-    .line 328
+    .line 337
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModEvents$Trigger;
 
     const-string v1, "ENTRY"
@@ -153,7 +153,7 @@
     .end annotation
 
     .prologue
-    .line 328
+    .line 337
     invoke-direct {p0, p1, p2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
 
     return-void
@@ -163,7 +163,7 @@
     .registers 2
 
     .prologue
-    .line 328
+    .line 337
     const-class v0, Lfr/testudo/spacecorsair/mod/ModEvents$Trigger;
 
     invoke-static {v0, p0}, Ljava/lang/Enum;->valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
@@ -179,7 +179,7 @@
     .registers 1
 
     .prologue
-    .line 328
+    .line 337
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents$Trigger;->$VALUES:[Lfr/testudo/spacecorsair/mod/ModEvents$Trigger;
 
     invoke-virtual {v0}, [Lfr/testudo/spacecorsair/mod/ModEvents$Trigger;->clone()Ljava/lang/Object;

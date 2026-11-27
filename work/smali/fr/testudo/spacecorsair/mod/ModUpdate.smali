@@ -701,15 +701,15 @@
     .prologue
     const/4 v3, 0x0
 
-    .line 655
+    .line 656
     const-string v4, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
-    .line 656
+    .line 657
     new-instance v5, Ljava/io/ByteArrayOutputStream;
 
     invoke-direct {v5}, Ljava/io/ByteArrayOutputStream;-><init>()V
 
-    .line 658
+    .line 659
     invoke-virtual {p0}, Ljava/lang/String;->toCharArray()[C
 
     move-result-object v6
@@ -727,22 +727,22 @@
 
     aget-char v3, v6, v2
 
-    .line 659
+    .line 660
     invoke-virtual {v4, v3}, Ljava/lang/String;->indexOf(I)I
 
     move-result v3
 
-    .line 660
+    .line 661
     if-gez v3, :cond_1d
 
-    .line 658
+    .line 659
     :cond_1a
     :goto_1a
     add-int/lit8 v2, v2, 0x1
 
     goto :goto_10
 
-    .line 661
+    .line 662
     :cond_1d
     shl-int/lit8 v1, v1, 0x6
 
@@ -750,7 +750,7 @@
 
     add-int/lit8 v0, v0, 0x6
 
-    .line 662
+    .line 663
     const/16 v3, 0x8
 
     if-lt v0, v3, :cond_1a
@@ -765,7 +765,7 @@
 
     goto :goto_1a
 
-    .line 664
+    .line 665
     :cond_30
     invoke-virtual {v5}, Ljava/io/ByteArrayOutputStream;->toByteArray()[B
 
@@ -836,18 +836,18 @@
     .registers 7
 
     .prologue
-    .line 613
+    .line 614
     new-instance v0, Landroid/widget/Button;
 
     invoke-direct {v0, p0}, Landroid/widget/Button;-><init>(Landroid/content/Context;)V
 
-    .line 614
+    .line 615
     invoke-virtual {v0, p1}, Landroid/widget/Button;->setText(Ljava/lang/CharSequence;)V
 
-    .line 615
+    .line 616
     invoke-virtual {v0, p2}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 616
+    .line 617
     new-instance v1, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v2, -0x1
@@ -858,7 +858,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/Button;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 617
+    .line 618
     return-object v0
 .end method
 
@@ -1762,23 +1762,23 @@
 
     const/16 v10, 0xa
 
-    .line 550
+    .line 551
     invoke-virtual {p1}, Landroid/widget/LinearLayout;->removeAllViews()V
 
-    .line 551
+    .line 552
     invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v6
 
-    .line 552
+    .line 553
     sget-object v7, Lfr/testudo/spacecorsair/mod/ModUpdate;->last:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
 
-    .line 553
+    .line 554
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 554
+    .line 555
     const-string v0, "Game version"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1805,7 +1805,7 @@
 
     invoke-virtual {v0, v10}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 555
+    .line 556
     const-string v0, "Content"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -1832,7 +1832,7 @@
 
     invoke-virtual {v0, v10}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 556
+    .line 557
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModUpdate;->prefs(Landroid/content/Context;)Landroid/content/SharedPreferences;
 
     move-result-object v0
@@ -1843,7 +1843,7 @@
 
     move-result-wide v0
 
-    .line 557
+    .line 558
     cmp-long v3, v0, v4
 
     if-lez v3, :cond_91
@@ -1882,7 +1882,7 @@
 
     const/16 v8, 0x20
 
-    .line 558
+    .line 559
     invoke-virtual {v3, v8}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
     move-result-object v3
@@ -1905,7 +1905,7 @@
 
     invoke-virtual {v0, v10}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 559
+    .line 560
     :cond_91
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->status:Ljava/lang/String;
 
@@ -1927,16 +1927,16 @@
 
     invoke-virtual {v0, v10}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 560
+    .line 561
     :cond_a6
     if-eqz v7, :cond_110
 
-    .line 561
+    .line 562
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModLang;->spanish()Z
 
     move-result v3
 
-    .line 562
+    .line 563
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModUpdate;->myBuild(Landroid/content/Context;)I
 
     move-result v0
@@ -1963,7 +1963,7 @@
 
     check-cast v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;
 
-    .line 563
+    .line 564
     if-eqz v3, :cond_ec
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->es:Ljava/lang/String;
@@ -1976,7 +1976,7 @@
 
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->es:Ljava/lang/String;
 
-    .line 564
+    .line 565
     :goto_d0
     invoke-virtual {v1}, Ljava/lang/String;->length()I
 
@@ -2006,13 +2006,13 @@
 
     goto :goto_b8
 
-    .line 563
+    .line 564
     :cond_ec
     iget-object v1, v0, Lfr/testudo/spacecorsair/mod/ModUpdate$Pack;->en:Ljava/lang/String;
 
     goto :goto_d0
 
-    .line 566
+    .line 567
     :cond_ef
     invoke-static {v6, v7}, Lfr/testudo/spacecorsair/mod/ModUpdate;->gameUpdate(Landroid/content/Context;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)Z
 
@@ -2046,7 +2046,7 @@
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 568
+    .line 569
     :cond_110
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -2058,7 +2058,7 @@
 
     invoke-virtual {p1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 569
+    .line 570
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->busy:Z
 
     if-eqz v0, :cond_12d
@@ -2075,11 +2075,11 @@
 
     invoke-virtual {p1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 602
+    .line 603
     :goto_12c
     return-void
 
-    .line 570
+    .line 571
     :cond_12d
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->restartNeeded:Z
 
@@ -2101,7 +2101,7 @@
 
     invoke-virtual {p1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 571
+    .line 572
     :cond_143
     if-eqz v7, :cond_1b3
 
@@ -2119,7 +2119,7 @@
 
     if-nez v0, :cond_1b3
 
-    .line 573
+    .line 574
     invoke-static {v6, v7}, Lfr/testudo/spacecorsair/mod/ModUpdate;->missing(Landroid/content/Context;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)Ljava/util/List;
 
     move-result-object v0
@@ -2154,7 +2154,7 @@
 
     goto :goto_15c
 
-    .line 574
+    .line 575
     :cond_16f
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -2221,7 +2221,7 @@
 
     invoke-virtual {p1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 578
+    .line 579
     :cond_1b3
     if-eqz v7, :cond_22c
 
@@ -2231,10 +2231,10 @@
 
     if-eqz v0, :cond_22c
 
-    .line 579
+    .line 580
     iget-wide v0, v7, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->apkSize:J
 
-    .line 580
+    .line 581
     iget-object v2, v7, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->patches:Ljava/util/List;
 
     invoke-interface {v2}, Ljava/util/List;->iterator()Ljava/util/Iterator;
@@ -2266,13 +2266,13 @@
 
     goto :goto_1c4
 
-    .line 574
+    .line 575
     :cond_1d8
     const-string v0, ""
 
     goto :goto_19f
 
-    .line 581
+    .line 582
     :cond_1db
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -2335,7 +2335,7 @@
 
     invoke-virtual {p1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 584
+    .line 585
     const-string v0, "Download the full game in the browser"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2352,7 +2352,7 @@
 
     invoke-virtual {p1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 586
+    .line 587
     :cond_22c
     const-string v0, "Check now"
 
@@ -2370,7 +2370,7 @@
 
     invoke-virtual {p1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 589
+    .line 590
     const-string v0, "Undo last update"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -2387,12 +2387,12 @@
 
     invoke-virtual {p1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 595
+    .line 596
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModContent;->safeMode(Landroid/content/Context;)Z
 
     move-result v1
 
-    .line 596
+    .line 597
     if-eqz v1, :cond_26d
 
     const-string v0, "Use downloaded content again"
@@ -2414,13 +2414,13 @@
 
     goto/16 :goto_12c
 
-    .line 581
+    .line 582
     :cond_26a
     const-string v0, ""
 
     goto :goto_1f8
 
-    .line 596
+    .line 597
     :cond_26d
     const-string v0, "Use built-in content only"
 
@@ -2572,34 +2572,34 @@
 
     const v10, 0x3f051eb8    # 0.52f
 
-    .line 499
+    .line 500
     const/16 v7, 0x80
 
-    .line 500
+    .line 501
     sget-object v0, Landroid/graphics/Bitmap$Config;->ARGB_8888:Landroid/graphics/Bitmap$Config;
 
     invoke-static {v7, v7, v0}, Landroid/graphics/Bitmap;->createBitmap(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;
 
     move-result-object v8
 
-    .line 501
+    .line 502
     new-instance v0, Landroid/graphics/Canvas;
 
     invoke-direct {v0, v8}, Landroid/graphics/Canvas;-><init>(Landroid/graphics/Bitmap;)V
 
-    .line 502
+    .line 503
     new-instance v5, Landroid/graphics/Paint;
 
     const/4 v1, 0x1
 
     invoke-direct {v5, v1}, Landroid/graphics/Paint;-><init>(I)V
 
-    .line 503
+    .line 504
     sget-object v1, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v5, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 504
+    .line 505
     int-to-float v1, v7
 
     const v2, 0x3d4ccccd    # 0.05f
@@ -2608,12 +2608,12 @@
 
     invoke-virtual {v5, v1}, Landroid/graphics/Paint;->setStrokeWidth(F)V
 
-    .line 505
+    .line 506
     const v1, -0xd13b10
 
     invoke-virtual {v5, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 506
+    .line 507
     new-instance v1, Landroid/graphics/RectF;
 
     int-to-float v2, v7
@@ -2638,7 +2638,7 @@
 
     invoke-direct {v1, v2, v3, v4, v6}, Landroid/graphics/RectF;-><init>(FFFF)V
 
-    .line 507
+    .line 508
     const/4 v2, 0x0
 
     move v6, v2
@@ -2666,23 +2666,23 @@
 
     goto :goto_4a
 
-    .line 508
+    .line 509
     :cond_5c
     sget-object v1, Landroid/graphics/Paint$Style;->FILL:Landroid/graphics/Paint$Style;
 
     invoke-virtual {v5, v1}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
 
-    .line 509
+    .line 510
     const/4 v1, -0x1
 
     invoke-virtual {v5, v1}, Landroid/graphics/Paint;->setColor(I)V
 
-    .line 510
+    .line 511
     new-instance v1, Landroid/graphics/Path;
 
     invoke-direct {v1}, Landroid/graphics/Path;-><init>()V
 
-    .line 511
+    .line 512
     int-to-float v2, v7
 
     mul-float/2addr v2, v12
@@ -2725,7 +2725,7 @@
 
     invoke-virtual {v1, v2, v3}, Landroid/graphics/Path;->lineTo(FF)V
 
-    .line 512
+    .line 513
     int-to-float v2, v7
 
     const/high16 v3, 0x3f000000    # 0.5f
@@ -2764,10 +2764,10 @@
 
     invoke-virtual {v1}, Landroid/graphics/Path;->close()V
 
-    .line 513
+    .line 514
     invoke-virtual {v0, v1, v5}, Landroid/graphics/Canvas;->drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V
 
-    .line 514
+    .line 515
     return-object v8
 .end method
 
@@ -2788,7 +2788,7 @@
 
     const/4 v9, 0x0
 
-    .line 406
+    .line 407
     sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
 
     const/16 v1, 0x15
@@ -2799,11 +2799,11 @@
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->openLink(Landroid/content/Context;Ljava/lang/String;)V
 
-    .line 441
+    .line 442
     :goto_f
     return-void
 
-    .line 407
+    .line 408
     :cond_10
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->receiver:Z
 
@@ -2825,16 +2825,16 @@
 
     invoke-virtual {v0, v1, v2}, Landroid/content/Context;->registerReceiver(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)Landroid/content/Intent;
 
-    .line 423
+    .line 424
     :cond_27
     sput-boolean v10, Lfr/testudo/spacecorsair/mod/ModUpdate;->receiver:Z
 
-    .line 424
+    .line 425
     invoke-virtual {p0}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
 
     move-result-object v0
 
-    .line 425
+    .line 426
     invoke-virtual {v0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v1
@@ -2853,14 +2853,14 @@
 
     move-result-object v1
 
-    .line 426
+    .line 427
     const-string v0, "android.content.pm.PackageInstaller$SessionParams"
 
     invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
 
     move-result-object v0
 
-    .line 427
+    .line 428
     new-array v2, v10, [Ljava/lang/Class;
 
     sget-object v3, Ljava/lang/Integer;->TYPE:Ljava/lang/Class;
@@ -2883,7 +2883,7 @@
 
     move-result-object v2
 
-    .line 428
+    .line 429
     invoke-virtual {v1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v3
@@ -2912,7 +2912,7 @@
 
     move-result v2
 
-    .line 429
+    .line 430
     invoke-virtual {v1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v0
@@ -2941,7 +2941,7 @@
 
     move-result-object v1
 
-    .line 430
+    .line 431
     invoke-virtual {v1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v0
@@ -2996,18 +2996,18 @@
 
     check-cast v0, Ljava/io/OutputStream;
 
-    .line 431
+    .line 432
     new-instance v3, Ljava/io/FileInputStream;
 
     invoke-direct {v3, p1}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
 
-    .line 433
+    .line 434
     const/high16 v4, 0x10000
 
     :try_start_d0
     new-array v4, v4, [B
 
-    .line 434
+    .line 435
     :goto_d2
     invoke-virtual {v3, v4}, Ljava/io/InputStream;->read([B)I
 
@@ -3023,7 +3023,7 @@
 
     goto :goto_d2
 
-    .line 436
+    .line 437
     :catchall_dd
     move-exception v1
 
@@ -3033,7 +3033,7 @@
 
     throw v1
 
-    .line 435
+    .line 436
     :cond_e5
     :try_start_e5
     invoke-virtual {v1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
@@ -3068,33 +3068,33 @@
     :try_end_100
     .catchall {:try_start_e5 .. :try_end_100} :catchall_dd
 
-    .line 436
+    .line 437
     invoke-virtual {v3}, Ljava/io/InputStream;->close()V
 
     invoke-virtual {v0}, Ljava/io/OutputStream;->close()V
 
-    .line 437
+    .line 438
     new-instance v0, Landroid/content/Intent;
 
     const-string v3, "fr.testudo.spacecorsair.mod.UPDATE_INSTALL"
 
     invoke-direct {v0, v3}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
 
-    .line 438
+    .line 439
     invoke-virtual {p0}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
 
     move-result-object v3
 
     invoke-virtual {v0, v3}, Landroid/content/Intent;->setPackage(Ljava/lang/String;)Landroid/content/Intent;
 
-    .line 439
+    .line 440
     const/high16 v3, 0x8000000
 
     invoke-static {p0, v2, v0, v3}, Landroid/app/PendingIntent;->getBroadcast(Landroid/content/Context;ILandroid/content/Intent;I)Landroid/app/PendingIntent;
 
     move-result-object v0
 
-    .line 440
+    .line 441
     invoke-virtual {v1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v2
@@ -3128,7 +3128,7 @@
     .registers 10
 
     .prologue
-    .line 650
+    .line 651
     sget-object v0, Ljava/util/Locale;->US:Ljava/util/Locale;
 
     const-string v1, "%.1f MB"
@@ -3162,7 +3162,7 @@
     .registers 9
 
     .prologue
-    .line 455
+    .line 456
     if-eqz p1, :cond_10
 
     if-eqz p2, :cond_10
@@ -3180,38 +3180,38 @@
 
     if-eqz v1, :cond_11
 
-    .line 486
+    .line 487
     :cond_10
     :goto_10
     return-void
 
-    .line 456
+    .line 457
     :cond_11
     new-instance v3, Landroid/widget/LinearLayout;
 
     invoke-direct {v3, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 457
+    .line 458
     const-string v1, "corsair_upd_entry"
 
     invoke-virtual {v3, v1}, Landroid/widget/LinearLayout;->setTag(Ljava/lang/Object;)V
 
-    .line 458
+    .line 459
     const/4 v1, 0x1
 
     invoke-virtual {v3, v1}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 459
+    .line 460
     const/16 v1, 0x11
 
     invoke-virtual {v3, v1}, Landroid/widget/LinearLayout;->setGravity(I)V
 
-    .line 460
+    .line 461
     invoke-virtual {p2}, Landroid/view/ViewGroup;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
 
     move-result-object v2
 
-    .line 461
+    .line 462
     instance-of v1, v2, Landroid/widget/LinearLayout$LayoutParams;
 
     if-eqz v1, :cond_af
@@ -3224,7 +3224,7 @@
 
     iget v1, v1, Landroid/widget/LinearLayout$LayoutParams;->weight:F
 
-    .line 462
+    .line 463
     :goto_32
     new-instance v4, Landroid/widget/LinearLayout$LayoutParams;
 
@@ -3236,31 +3236,31 @@
 
     invoke-virtual {v3, v4}, Landroid/widget/LinearLayout;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 463
+    .line 464
     const/4 v1, 0x0
 
     invoke-virtual {p2, v1}, Landroid/view/ViewGroup;->getChildAt(I)Landroid/view/View;
 
     move-result-object v1
 
-    .line 464
+    .line 465
     new-instance v2, Landroid/widget/ImageView;
 
     invoke-direct {v2, p0}, Landroid/widget/ImageView;-><init>(Landroid/content/Context;)V
 
-    .line 465
+    .line 466
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->icon()Landroid/graphics/Bitmap;
 
     move-result-object v4
 
     invoke-virtual {v2, v4}, Landroid/widget/ImageView;->setImageBitmap(Landroid/graphics/Bitmap;)V
 
-    .line 466
+    .line 467
     sget-object v4, Landroid/widget/ImageView$ScaleType;->FIT_XY:Landroid/widget/ImageView$ScaleType;
 
     invoke-virtual {v2, v4}, Landroid/widget/ImageView;->setScaleType(Landroid/widget/ImageView$ScaleType;)V
 
-    .line 467
+    .line 468
     new-instance v4, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-virtual {v1}, Landroid/view/View;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
@@ -3271,10 +3271,10 @@
 
     invoke-virtual {v2, v4}, Landroid/widget/ImageView;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 468
+    .line 469
     invoke-virtual {v3, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 469
+    .line 470
     const/4 v1, 0x1
 
     invoke-virtual {p2, v1}, Landroid/view/ViewGroup;->getChildAt(I)Landroid/view/View;
@@ -3283,12 +3283,12 @@
 
     check-cast v1, Landroid/widget/TextView;
 
-    .line 470
+    .line 471
     new-instance v2, Landroid/widget/TextView;
 
     invoke-direct {v2, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    .line 471
+    .line 472
     const/4 v4, 0x0
 
     invoke-virtual {v1}, Landroid/widget/TextView;->getTextSize()F
@@ -3297,21 +3297,21 @@
 
     invoke-virtual {v2, v4, v5}, Landroid/widget/TextView;->setTextSize(IF)V
 
-    .line 472
+    .line 473
     invoke-virtual {v1}, Landroid/widget/TextView;->getTextColors()Landroid/content/res/ColorStateList;
 
     move-result-object v4
 
     invoke-virtual {v2, v4}, Landroid/widget/TextView;->setTextColor(Landroid/content/res/ColorStateList;)V
 
-    .line 473
+    .line 474
     invoke-virtual {v1}, Landroid/widget/TextView;->getTypeface()Landroid/graphics/Typeface;
 
     move-result-object v4
 
     invoke-virtual {v2, v4}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
 
-    .line 474
+    .line 475
     new-instance v4, Landroid/widget/LinearLayout$LayoutParams;
 
     invoke-virtual {v1}, Landroid/widget/TextView;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
@@ -3322,23 +3322,23 @@
 
     invoke-virtual {v2, v4}, Landroid/widget/TextView;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 475
+    .line 476
     invoke-virtual {v3, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;)V
 
-    .line 476
+    .line 477
     sput-object v2, Lfr/testudo/spacecorsair/mod/ModUpdate;->menuLabel:Landroid/widget/TextView;
 
-    .line 477
+    .line 478
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->refreshLabel()V
 
-    .line 478
+    .line 479
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModUpdate$6;
 
     invoke-direct {v1, p0}, Lfr/testudo/spacecorsair/mod/ModUpdate$6;-><init>(Landroid/content/Context;)V
 
     invoke-virtual {v3, v1}, Landroid/widget/LinearLayout;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 484
+    .line 485
     invoke-virtual {p1, p2}, Landroid/view/ViewGroup;->indexOfChild(Landroid/view/View;)I
 
     move-result v1
@@ -3351,13 +3351,13 @@
 
     goto/16 :goto_10
 
-    .line 485
+    .line 486
     :catch_ac
     move-exception v1
 
     goto/16 :goto_10
 
-    .line 461
+    .line 462
     :cond_af
     const/high16 v1, 0x3f800000    # 1.0f
 
@@ -4003,7 +4003,7 @@
     .registers 5
 
     .prologue
-    .line 445
+    .line 446
     :try_start_0
     new-instance v0, Landroid/content/Intent;
 
@@ -4015,21 +4015,21 @@
 
     invoke-direct {v0, v1, v2}, Landroid/content/Intent;-><init>(Ljava/lang/String;Landroid/net/Uri;)V
 
-    .line 446
+    .line 447
     const/high16 v1, 0x10000000
 
     invoke-virtual {v0, v1}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
 
-    .line 447
+    .line 448
     invoke-virtual {p0, v0}, Landroid/content/Context;->startActivity(Landroid/content/Intent;)V
     :try_end_13
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_13} :catch_14
 
-    .line 449
+    .line 450
     :goto_13
     return-void
 
-    .line 448
+    .line 449
     :catch_14
     move-exception v0
 
@@ -4518,7 +4518,7 @@
     .registers 3
 
     .prologue
-    .line 652
+    .line 653
     :try_start_0
     invoke-virtual {p0}, Ljava/lang/String;->trim()Ljava/lang/String;
 
@@ -4545,7 +4545,7 @@
     .registers 4
 
     .prologue
-    .line 641
+    .line 642
     const-class v1, Lfr/testudo/spacecorsair/mod/ModUpdate;
 
     monitor-enter v1
@@ -4588,7 +4588,7 @@
     .registers 6
 
     .prologue
-    .line 635
+    .line 636
     const-class v1, Lfr/testudo/spacecorsair/mod/ModUpdate;
 
     monitor-enter v1
@@ -4647,24 +4647,24 @@
     .registers 4
 
     .prologue
-    .line 490
+    .line 491
     :try_start_0
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModUpdate;->menuLabel:Landroid/widget/TextView;
 
-    .line 491
+    .line 492
     if-nez v1, :cond_5
 
-    .line 496
+    .line 497
     :goto_4
     return-void
 
-    .line 492
+    .line 493
     :cond_5
     invoke-virtual {v1}, Landroid/widget/TextView;->getContext()Landroid/content/Context;
 
     move-result-object v0
 
-    .line 493
+    .line 494
     sget-boolean v2, Lfr/testudo/spacecorsair/mod/ModUpdate;->restartNeeded:Z
 
     if-nez v2, :cond_15
@@ -4680,7 +4680,7 @@
     :cond_15
     const/4 v0, 0x1
 
-    .line 494
+    .line 495
     :goto_16
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -4713,19 +4713,19 @@
 
     goto :goto_4
 
-    .line 495
+    .line 496
     :catch_35
     move-exception v0
 
     goto :goto_4
 
-    .line 493
+    .line 494
     :cond_37
     const/4 v0, 0x0
 
     goto :goto_16
 
-    .line 494
+    .line 495
     :cond_39
     const-string v0, ""
     :try_end_3b
@@ -4738,7 +4738,7 @@
     .registers 1
 
     .prologue
-    .line 637
+    .line 638
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->panelRefresh:Ljava/lang/Runnable;
 
     if-eqz v0, :cond_7
@@ -4753,7 +4753,7 @@
     .registers 9
 
     .prologue
-    .line 622
+    .line 623
     :try_start_0
     invoke-virtual {p0}, Landroid/app/Activity;->getPackageManager()Landroid/content/pm/PackageManager;
 
@@ -4767,15 +4767,15 @@
 
     move-result-object v0
 
-    .line 623
+    .line 624
     if-eqz v0, :cond_2f
 
-    .line 624
+    .line 625
     const v1, 0x10008000
 
     invoke-virtual {v0, v1}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
 
-    .line 625
+    .line 626
     const/16 v1, 0x1267
 
     const/high16 v2, 0x10000000
@@ -4784,7 +4784,7 @@
 
     move-result-object v1
 
-    .line 626
+    .line 627
     const-string v0, "alarm"
 
     invoke-virtual {p0, v0}, Landroid/app/Activity;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
@@ -4793,7 +4793,7 @@
 
     check-cast v0, Landroid/app/AlarmManager;
 
-    .line 627
+    .line 628
     const/4 v2, 0x1
 
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
@@ -4808,7 +4808,7 @@
     :try_end_2f
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_2f} :catch_40
 
-    .line 631
+    .line 632
     :cond_2f
     :goto_2f
     const/4 v0, 0x1
@@ -4818,7 +4818,7 @@
     :try_end_33
     .catch Ljava/lang/Throwable; {:try_start_30 .. :try_end_33} :catch_3e
 
-    .line 632
+    .line 633
     :goto_33
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModUpdate$18;
 
@@ -4828,16 +4828,16 @@
 
     invoke-static {v0, v2, v3}, Lfr/testudo/spacecorsair/mod/ModUpdate;->post2(Ljava/lang/Runnable;J)V
 
-    .line 633
+    .line 634
     return-void
 
-    .line 631
+    .line 632
     :catch_3e
     move-exception v0
 
     goto :goto_33
 
-    .line 629
+    .line 630
     :catch_40
     move-exception v0
 
@@ -5172,6 +5172,35 @@
     invoke-direct {v6, v2, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
     .line 382
+    new-instance v0, Ljava/io/File;
+
+    const-string v1, "build.txt"
+
+    invoke-direct {v0, v2, v1}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    iget v3, p1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->apkBuild:I
+
+    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    const-string v3, "\n"
+
+    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModContent;->writeText(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 383
     new-instance v7, Ljava/io/File;
 
     invoke-virtual {p0}, Landroid/content/Context;->getPackageCodePath()Ljava/lang/String;
@@ -5180,7 +5209,7 @@
 
     invoke-direct {v7, v0}, Ljava/io/File;-><init>(Ljava/lang/String;)V
 
-    .line 383
+    .line 384
     const-string v0, "Checking the installed game..."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -5189,27 +5218,27 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->setStatus(Ljava/lang/String;)V
 
-    .line 384
+    .line 385
     invoke-static {v7}, Lfr/testudo/spacecorsair/mod/ModContent;->sha256(Ljava/io/File;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 385
+    .line 386
     const/4 v4, 0x0
 
-    .line 386
+    .line 387
     iget-object v0, p1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->patches:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
     move-result-object v3
 
-    :goto_32
+    :goto_51
     invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v0
 
-    if-eqz v0, :cond_48
+    if-eqz v0, :cond_67
 
     invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
@@ -5223,29 +5252,29 @@
 
     move-result v5
 
-    if-eqz v5, :cond_ea
+    if-eqz v5, :cond_109
 
-    :goto_46
+    :goto_65
     move-object v4, v0
 
-    goto :goto_32
+    goto :goto_51
 
-    .line 387
-    :cond_48
+    .line 388
+    :cond_67
     iget-wide v8, p1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->apkSize:J
 
-    if-eqz v4, :cond_61
+    if-eqz v4, :cond_80
 
     iget-wide v0, v4, Lfr/testudo/spacecorsair/mod/ModUpdate$Patch;->size:J
 
-    :goto_4e
+    :goto_6d
     add-long/2addr v0, v8
 
     invoke-static {v2, v0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->enoughSpace(Ljava/io/File;J)Z
 
     move-result v0
 
-    if-nez v0, :cond_64
+    if-nez v0, :cond_83
 
     new-instance v0, Ljava/io/IOException;
 
@@ -5259,18 +5288,18 @@
 
     throw v0
 
-    :cond_61
+    :cond_80
     const-wide/16 v0, 0x0
 
-    goto :goto_4e
+    goto :goto_6d
 
-    .line 388
-    :cond_64
+    .line 389
+    :cond_83
     invoke-virtual {v6}, Ljava/io/File;->isFile()Z
 
     move-result v0
 
-    if-eqz v0, :cond_80
+    if-eqz v0, :cond_9f
 
     invoke-virtual {v6}, Ljava/io/File;->length()J
 
@@ -5280,7 +5309,7 @@
 
     cmp-long v0, v0, v8
 
-    if-nez v0, :cond_80
+    if-nez v0, :cond_9f
 
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModContent;->sha256(Ljava/io/File;)Ljava/lang/String;
 
@@ -5292,20 +5321,20 @@
 
     move-result v0
 
-    if-nez v0, :cond_ae
-
-    .line 389
-    :cond_80
-    if-eqz v4, :cond_cd
+    if-nez v0, :cond_cd
 
     .line 390
+    :cond_9f
+    if-eqz v4, :cond_ec
+
+    .line 391
     new-instance v1, Ljava/io/File;
 
     const-string v0, "update.scp"
 
     invoke-direct {v1, v2, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 391
+    .line 392
     iget-object v0, v4, Lfr/testudo/spacecorsair/mod/ModUpdate$Patch;->url:Ljava/lang/String;
 
     iget-wide v2, v4, Lfr/testudo/spacecorsair/mod/ModUpdate$Patch;->size:J
@@ -5318,7 +5347,7 @@
 
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModUpdate;->download(Ljava/lang/String;Ljava/io/File;JLjava/lang/String;Lfr/testudo/spacecorsair/mod/ModUpdate$Progress;)V
 
-    .line 392
+    .line 393
     const-string v0, "Building the new game version..."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -5327,24 +5356,24 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->setStatus(Ljava/lang/String;)V
 
-    .line 393
+    .line 394
     new-instance v0, Ljava/io/FileInputStream;
 
     invoke-direct {v0, v1}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
 
-    .line 394
-    :try_start_a5
+    .line 395
+    :try_start_c4
     invoke-static {v7, v0, v6}, Lfr/testudo/spacecorsair/mod/ModUpdate;->applyPatch(Ljava/io/File;Ljava/io/InputStream;Ljava/io/File;)V
-    :try_end_a8
-    .catchall {:try_start_a5 .. :try_end_a8} :catchall_c5
+    :try_end_c7
+    .catchall {:try_start_c4 .. :try_end_c7} :catchall_e4
 
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
 
     invoke-virtual {v1}, Ljava/io/File;->delete()Z
 
-    .line 399
-    :cond_ae
-    :goto_ae
+    .line 400
+    :cond_cd
+    :goto_cd
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModContent;->sha256(Ljava/io/File;)Ljava/lang/String;
 
     move-result-object v0
@@ -5355,7 +5384,7 @@
 
     move-result v0
 
-    if-nez v0, :cond_dd
+    if-nez v0, :cond_fc
 
     invoke-virtual {v6}, Ljava/io/File;->delete()Z
 
@@ -5367,8 +5396,8 @@
 
     throw v0
 
-    .line 394
-    :catchall_c5
+    .line 395
+    :catchall_e4
     move-exception v2
 
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
@@ -5377,8 +5406,8 @@
 
     throw v2
 
-    .line 396
-    :cond_cd
+    .line 397
+    :cond_ec
     iget-object v0, p1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->apkUrl:Ljava/lang/String;
 
     iget-wide v2, p1, Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;->apkSize:J
@@ -5393,10 +5422,10 @@
 
     invoke-static/range {v0 .. v5}, Lfr/testudo/spacecorsair/mod/ModUpdate;->download(Ljava/lang/String;Ljava/io/File;JLjava/lang/String;Lfr/testudo/spacecorsair/mod/ModUpdate$Progress;)V
 
-    goto :goto_ae
+    goto :goto_cd
 
-    .line 400
-    :cond_dd
+    .line 401
+    :cond_fc
     const-string v0, "Opening the installer..."
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->tr(Ljava/lang/String;)Ljava/lang/String;
@@ -5405,23 +5434,23 @@
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->setStatus(Ljava/lang/String;)V
 
-    .line 401
+    .line 402
     invoke-static {p0, v6, p1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->install(Landroid/content/Context;Ljava/io/File;Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;)V
 
-    .line 402
+    .line 403
     return-void
 
-    :cond_ea
+    :cond_109
     move-object v0, v4
 
-    goto/16 :goto_46
+    goto/16 :goto_65
 .end method
 
 .method private static setStatus(Ljava/lang/String;)V
     .registers 1
 
     .prologue
-    .line 639
+    .line 640
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModUpdate;->status:Ljava/lang/String;
 
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->refreshPanel()V
@@ -5433,29 +5462,29 @@
     .registers 5
 
     .prologue
-    .line 518
+    .line 519
     invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v0
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->app:Landroid/content/Context;
 
-    .line 519
+    .line 520
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->app:Landroid/content/Context;
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
-    .line 520
+    .line 521
     new-instance v0, Landroid/widget/LinearLayout;
 
     invoke-direct {v0, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 521
+    .line 522
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 522
+    .line 523
     const/high16 v1, 0x41800000    # 16.0f
 
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
@@ -5472,18 +5501,18 @@
 
     float-to-int v1, v1
 
-    .line 523
+    .line 524
     invoke-virtual {v0, v1, v1, v1, v1}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 524
+    .line 525
     new-instance v1, Landroid/widget/ScrollView;
 
     invoke-direct {v1, p0}, Landroid/widget/ScrollView;-><init>(Landroid/content/Context;)V
 
-    .line 525
+    .line 526
     invoke-virtual {v1, v0}, Landroid/widget/ScrollView;->addView(Landroid/view/View;)V
 
-    .line 526
+    .line 527
     new-instance v2, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {v2, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
@@ -5518,27 +5547,27 @@
 
     move-result-object v1
 
-    .line 527
+    .line 528
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModUpdate$7;
 
     invoke-direct {v2, p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate$7;-><init>(Landroid/app/Activity;Landroid/widget/LinearLayout;Landroid/app/AlertDialog;)V
 
     sput-object v2, Lfr/testudo/spacecorsair/mod/ModUpdate;->panelRefresh:Ljava/lang/Runnable;
 
-    .line 528
+    .line 529
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModUpdate$8;
 
     invoke-direct {v2}, Lfr/testudo/spacecorsair/mod/ModUpdate$8;-><init>()V
 
     invoke-virtual {v1, v2}, Landroid/app/AlertDialog;->setOnDismissListener(Landroid/content/DialogInterface$OnDismissListener;)V
 
-    .line 529
+    .line 530
     invoke-static {p0, v0, v1}, Lfr/testudo/spacecorsair/mod/ModUpdate;->fill(Landroid/app/Activity;Landroid/widget/LinearLayout;Landroid/app/AlertDialog;)V
 
-    .line 530
+    .line 531
     invoke-virtual {v1}, Landroid/app/AlertDialog;->show()V
 
-    .line 531
+    .line 532
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->last:Lfr/testudo/spacecorsair/mod/ModUpdate$Manifest;
 
     if-nez v0, :cond_74
@@ -5553,7 +5582,7 @@
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->work(Landroid/app/Activity;Lfr/testudo/spacecorsair/mod/ModUpdate$Job;)V
 
-    .line 532
+    .line 533
     :cond_74
     return-void
 .end method
@@ -5562,27 +5591,27 @@
     .registers 5
 
     .prologue
-    .line 605
+    .line 606
     new-instance v0, Landroid/widget/TextView;
 
     invoke-direct {v0, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    .line 606
+    .line 607
     invoke-virtual {v0, p1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 607
+    .line 608
     const v1, -0x1f1f20
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setTextColor(I)V
 
-    .line 608
+    .line 609
     const/4 v1, 0x2
 
     const/high16 v2, 0x41600000    # 14.0f
 
     invoke-virtual {v0, v1, v2}, Landroid/widget/TextView;->setTextSize(IF)V
 
-    .line 609
+    .line 610
     return-object v0
 .end method
 
@@ -5590,14 +5619,14 @@
     .registers 2
 
     .prologue
-    .line 644
+    .line 645
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModUpdate$19;
 
     invoke-direct {v0, p0}, Lfr/testudo/spacecorsair/mod/ModUpdate$19;-><init>(Ljava/lang/String;)V
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->post(Ljava/lang/Runnable;)V
 
-    .line 645
+    .line 646
     return-void
 .end method
 
@@ -5605,7 +5634,7 @@
     .registers 2
 
     .prologue
-    .line 648
+    .line 649
     :try_start_0
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModLang;->tr(Ljava/lang/String;)Ljava/lang/String;
     :try_end_3
@@ -5684,25 +5713,25 @@
     .registers 5
 
     .prologue
-    .line 537
+    .line 538
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->busy:Z
 
     if-eqz v0, :cond_5
 
-    .line 547
+    .line 548
     :goto_4
     return-void
 
-    .line 538
+    .line 539
     :cond_5
     const/4 v0, 0x1
 
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModUpdate;->busy:Z
 
-    .line 539
+    .line 540
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->refreshPanel()V
 
-    .line 540
+    .line 541
     new-instance v0, Ljava/lang/Thread;
 
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModUpdate$10;
@@ -5713,7 +5742,7 @@
 
     invoke-direct {v0, v1, v2}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
-    .line 546
+    .line 547
     invoke-virtual {v0}, Ljava/lang/Thread;->start()V
 
     goto :goto_4

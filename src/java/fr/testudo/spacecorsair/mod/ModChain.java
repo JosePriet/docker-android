@@ -22,7 +22,7 @@ public final class ModChain {
 
     /** Pure rule (tests): bounty factor for a chain of n links. */
     public static float factor(int n) {
-        return Math.min(MAX, 1f + STEP * Math.max(0, n - 1));
+        return Math.min(ModTune.f("chain.cap", MAX, 1f, 3f), 1f + ModTune.f("chain.step", STEP, 0f, 1f) * Math.max(0, n - 1));
     }
 
     /** Called from ModQol.bounty for a paying kill; returns the bounty factor. */
@@ -30,7 +30,7 @@ public final class ModChain {
         if (!enabled()) return 1f;
         try {
             long now = ModSector.play();
-            links = lastAt >= 0 && now - lastAt <= CHAIN_MS ? links + 1 : 1;
+            links = lastAt >= 0 && now - lastAt <= (long) (ModTune.f("chain.window_s", CHAIN_MS / 1000f, 1f, 30f) * 1000) ? links + 1 : 1;
             lastAt = now;
             ModDev.ev("chain", "links=" + links + " factor=" + factor(links));
             if (links >= 2) {

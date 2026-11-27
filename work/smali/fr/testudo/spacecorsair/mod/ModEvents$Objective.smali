@@ -69,7 +69,7 @@
     .registers 3
 
     .prologue
-    .line 340
+    .line 349
     const/16 v0, 0x9
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
@@ -143,7 +143,7 @@
 
     const/4 v2, 0x0
 
-    .line 341
+    .line 350
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     const-string v1, "ESCORT"
@@ -168,7 +168,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->ESCORT:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
-    .line 342
+    .line 351
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     const-string v4, "DEFEND"
@@ -195,7 +195,7 @@
 
     sput-object v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->DEFEND:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
-    .line 343
+    .line 352
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     const-string v4, "AMBUSH"
@@ -222,7 +222,7 @@
 
     sput-object v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->AMBUSH:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
-    .line 344
+    .line 353
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     const-string v4, "SALVAGE"
@@ -249,7 +249,7 @@
 
     sput-object v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->SALVAGE:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
-    .line 345
+    .line 354
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     const-string v4, "BOUNTY"
@@ -276,7 +276,7 @@
 
     sput-object v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->BOUNTY:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
-    .line 346
+    .line 355
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     const-string v4, "BLOCKADE"
@@ -299,7 +299,7 @@
 
     sput-object v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->BLOCKADE:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
-    .line 347
+    .line 356
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     const-string v4, "FACTION_WAR"
@@ -326,7 +326,7 @@
 
     sput-object v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->FACTION_WAR:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
-    .line 348
+    .line 357
     new-instance v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     const-string v4, "RESCUE"
@@ -357,7 +357,7 @@
 
     sput-object v3, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->RESCUE:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
-    .line 349
+    .line 358
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     const-string v1, "RACE"
@@ -386,7 +386,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->RACE:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
-    .line 340
+    .line 349
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->$values()[Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     move-result-object v0
@@ -411,26 +411,26 @@
     .end annotation
 
     .prologue
-    .line 356
+    .line 365
     invoke-direct {p0, p1, p2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
 
-    .line 357
+    .line 366
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->actor:Lfr/testudo/spacecorsair/mod/ModEvents$Actor;
 
-    .line 358
+    .line 367
     iput-object p4, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->action:Lfr/testudo/spacecorsair/mod/ModEvents$Action;
 
-    .line 359
+    .line 368
     iput-object p5, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->brief:Ljava/lang/String;
 
-    .line 360
+    .line 369
     invoke-static {p6}, Ljava/util/Arrays;->asList([Ljava/lang/Object;)Ljava/util/List;
 
     move-result-object v0
 
     iput-object v0, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->triggers:Ljava/util/List;
 
-    .line 361
+    .line 370
     return-void
 .end method
 
@@ -438,7 +438,7 @@
     .registers 2
 
     .prologue
-    .line 340
+    .line 349
     const-class v0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     invoke-static {v0, p0}, Ljava/lang/Enum;->valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
@@ -454,7 +454,7 @@
     .registers 1
 
     .prologue
-    .line 340
+    .line 349
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->$VALUES:[Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
     invoke-virtual {v0}, [Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->clone()Ljava/lang/Object;
@@ -476,7 +476,7 @@
 
     const/4 v1, 0x0
 
-    .line 364
+    .line 373
     iget-object v2, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->triggers:Ljava/util/List;
 
     iget-object v3, p1, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->trigger:Lfr/testudo/spacecorsair/mod/ModEvents$Trigger;
@@ -489,12 +489,12 @@
 
     move v0, v1
 
-    .line 368
+    .line 377
     :cond_d
     :goto_d
     return v0
 
-    .line 365
+    .line 374
     :cond_e
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->FACTION_WAR:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 
@@ -516,7 +516,7 @@
 
     iget-object v3, p1, Lfr/testudo/spacecorsair/mod/ModEvents$Context;->faction:Ljava/lang/String;
 
-    .line 366
+    .line 375
     invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModRep;->index(Ljava/lang/String;)I
 
     move-result v3
@@ -538,7 +538,7 @@
 
     goto :goto_d
 
-    .line 367
+    .line 376
     :cond_34
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModEvents$Objective;->ESCORT:Lfr/testudo/spacecorsair/mod/ModEvents$Objective;
 

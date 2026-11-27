@@ -16,6 +16,8 @@
 
 .field static final MAX_UNPACKED:J = 0x12c00000L
 
+.field static final STALE_MS:J = 0x240c8400L
+
 .field private static buildNow:I
 
 .field private static final chainIds:Ljava/util/List;
@@ -82,9 +84,11 @@
 
 # direct methods
 .method static constructor <clinit>()V
-    .registers 6
+    .registers 7
 
     .prologue
+    const/4 v6, 0x4
+
     const/4 v5, 0x3
 
     const/4 v4, 0x2
@@ -94,7 +98,9 @@
     const/4 v2, 0x0
 
     .line 37
-    new-array v0, v5, [Ljava/lang/String;
+    const/4 v0, 0x5
+
+    new-array v0, v0, [Ljava/lang/String;
 
     const-string v1, "modart/"
 
@@ -107,6 +113,14 @@
     const-string v1, "lang/"
 
     aput-object v1, v0, v4
+
+    const-string v1, "music/"
+
+    aput-object v1, v0, v5
+
+    const-string v1, "data/"
+
+    aput-object v1, v0, v6
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->FOLDERS:[Ljava/lang/String;
 
@@ -131,11 +145,9 @@
 
     aput-object v1, v0, v5
 
-    const/4 v1, 0x4
+    const-string v1, ".txt"
 
-    const-string v2, ".txt"
-
-    aput-object v2, v0, v1
+    aput-object v1, v0, v6
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->EXTS:[Ljava/lang/String;
 
@@ -231,7 +243,7 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 328
+    .line 392
     if-eqz p0, :cond_b
 
     const-string v1, ".."
@@ -242,12 +254,12 @@
 
     if-eqz v1, :cond_c
 
-    .line 330
+    .line 394
     :cond_b
     :goto_b
     return v0
 
-    .line 329
+    .line 393
     :cond_c
     sget-object v2, Lfr/testudo/spacecorsair/mod/ModContent;->FOLDERS:[Ljava/lang/String;
 
@@ -290,7 +302,7 @@
     .registers 3
 
     .prologue
-    .line 335
+    .line 399
     const/16 v0, 0x2f
 
     invoke-virtual {p0, v0}, Ljava/lang/String;->lastIndexOf(I)I
@@ -303,7 +315,7 @@
 
     move-result v1
 
-    .line 336
+    .line 400
     if-le v1, v0, :cond_13
 
     const/4 v0, 0x0
@@ -331,7 +343,7 @@
     .end annotation
 
     .prologue
-    .line 214
+    .line 278
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
     new-instance v0, Ljava/util/ArrayList;
@@ -347,7 +359,7 @@
     .registers 2
 
     .prologue
-    .line 212
+    .line 276
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->chainKey:Ljava/lang/String;
@@ -359,7 +371,7 @@
     .registers 2
 
     .prologue
-    .line 224
+    .line 288
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
@@ -371,32 +383,32 @@
     .registers 13
 
     .prologue
-    const/4 v9, 0x3
+    const/4 v10, 0x3
 
     const/4 v11, 0x2
 
-    const/4 v1, 0x1
+    const/4 v6, 0x1
 
     const/4 v2, 0x0
 
     .line 71
-    const-class v7, Lfr/testudo/spacecorsair/mod/ModContent;
+    const-class v8, Lfr/testudo/spacecorsair/mod/ModContent;
 
-    monitor-enter v7
+    monitor-enter v8
 
     :try_start_7
     sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModContent;->ready:Z
     :try_end_9
-    .catchall {:try_start_7 .. :try_end_9} :catchall_129
+    .catchall {:try_start_7 .. :try_end_9} :catchall_9a
 
     if-nez v0, :cond_d
 
     if-nez p0, :cond_f
 
-    .line 134
+    .line 136
     :cond_d
     :goto_d
-    monitor-exit v7
+    monitor-exit v8
 
     return-void
 
@@ -407,236 +419,335 @@
     :try_start_10
     sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModContent;->ready:Z
     :try_end_12
-    .catchall {:try_start_10 .. :try_end_12} :catchall_129
+    .catchall {:try_start_10 .. :try_end_12} :catchall_9a
 
     .line 74
     :try_start_12
     invoke-virtual {p0}, Landroid/content/Context;->getApplicationContext()Landroid/content/Context;
 
-    move-result-object v0
+    move-result-object v1
 
     .line 75
-    if-eqz v0, :cond_5f
+    if-eqz v1, :cond_7b
 
-    move-object v3, v0
+    move-object v0, v1
 
     :goto_19
-    const-string v4, "content"
+    const-string v3, "content"
 
-    const/4 v5, 0x0
+    const/4 v4, 0x0
 
-    invoke-virtual {v3, v4, v5}, Landroid/content/Context;->getDir(Ljava/lang/String;I)Ljava/io/File;
+    invoke-virtual {v0, v3, v4}, Landroid/content/Context;->getDir(Ljava/lang/String;I)Ljava/io/File;
+
+    move-result-object v0
+
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
+
+    .line 76
+    new-instance v0, Ljava/io/File;
+
+    sget-object v3, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
+
+    const-string v4, "packs"
+
+    invoke-direct {v0, v3, v4}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    invoke-virtual {v0}, Ljava/io/File;->mkdirs()Z
+    :try_end_2e
+    .catch Ljava/lang/Throwable; {:try_start_12 .. :try_end_2e} :catch_61
+    .catchall {:try_start_12 .. :try_end_2e} :catchall_9a
+
+    .line 78
+    :try_start_2e
+    invoke-virtual {p0}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
+
+    move-result-object v0
+
+    invoke-virtual {p0}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
 
     move-result-object v3
 
-    sput-object v3, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
+    const/4 v4, 0x0
 
-    .line 76
-    new-instance v3, Ljava/io/File;
+    invoke-virtual {v0, v3, v4}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;
 
-    sget-object v4, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
+    move-result-object v0
 
-    const-string v5, "packs"
+    iget v0, v0, Landroid/content/pm/PackageInfo;->versionCode:I
+    :try_end_3d
+    .catch Ljava/lang/Throwable; {:try_start_2e .. :try_end_3d} :catch_7d
+    .catchall {:try_start_2e .. :try_end_3d} :catchall_9a
 
-    invoke-direct {v3, v4, v5}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+    add-int/lit16 v0, v0, -0x3e8
 
-    invoke-virtual {v3}, Ljava/io/File;->mkdirs()Z
+    .line 79
+    :goto_3f
+    :try_start_3f
+    sput v0, Lfr/testudo/spacecorsair/mod/ModContent;->buildNow:I
+    :try_end_41
+    .catch Ljava/lang/Throwable; {:try_start_3f .. :try_end_41} :catch_61
+    .catchall {:try_start_3f .. :try_end_41} :catchall_9a
 
-    .line 77
-    new-instance v3, Ljava/io/File;
+    .line 80
+    :try_start_41
+    sget-object v3, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
 
-    sget-object v4, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
+    invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
-    const-string v5, "safe"
+    move-result-wide v4
 
-    invoke-direct {v3, v4, v5}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+    invoke-static {v3, v0, v4, v5}, Lfr/testudo/spacecorsair/mod/ModContent;->prune(Ljava/io/File;IJ)I
+    :try_end_4a
+    .catch Ljava/lang/Throwable; {:try_start_41 .. :try_end_4a} :catch_80
+    .catchall {:try_start_41 .. :try_end_4a} :catchall_9a
 
-    invoke-virtual {v3}, Ljava/io/File;->exists()Z
+    .line 81
+    :goto_4a
+    :try_start_4a
+    new-instance v0, Ljava/io/File;
 
-    move-result v3
+    sget-object v3, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
 
-    if-eqz v3, :cond_61
+    const-string v4, "safe"
+
+    invoke-direct {v0, v3, v4}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    invoke-virtual {v0}, Ljava/io/File;->exists()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_9d
 
     const-string v0, "content"
 
     const-string v1, "safe mode: built-in content only"
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
-    :try_end_44
-    .catch Ljava/lang/Throwable; {:try_start_12 .. :try_end_44} :catch_45
-    .catchall {:try_start_12 .. :try_end_44} :catchall_129
+    :try_end_60
+    .catch Ljava/lang/Throwable; {:try_start_4a .. :try_end_60} :catch_61
+    .catchall {:try_start_4a .. :try_end_60} :catchall_9a
 
     goto :goto_d
 
-    .line 129
-    :catch_45
+    .line 131
+    :catch_61
     move-exception v0
 
     move-object v1, v0
 
-    .line 130
-    :try_start_47
+    .line 132
+    :try_start_63
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->zips:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
     move-result-object v2
 
-    :goto_4d
+    :goto_69
     invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v0
 
-    if-eqz v0, :cond_1b7
+    if-eqz v0, :cond_1fa
 
     invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/util/zip/ZipFile;
-    :try_end_59
-    .catchall {:try_start_47 .. :try_end_59} :catchall_129
+    :try_end_75
+    .catchall {:try_start_63 .. :try_end_75} :catchall_9a
 
-    :try_start_59
+    :try_start_75
     invoke-virtual {v0}, Ljava/util/zip/ZipFile;->close()V
-    :try_end_5c
-    .catch Ljava/lang/Throwable; {:try_start_59 .. :try_end_5c} :catch_5d
-    .catchall {:try_start_59 .. :try_end_5c} :catchall_129
+    :try_end_78
+    .catch Ljava/lang/Throwable; {:try_start_75 .. :try_end_78} :catch_79
+    .catchall {:try_start_75 .. :try_end_78} :catchall_9a
 
-    goto :goto_4d
+    goto :goto_69
 
-    :catch_5d
+    :catch_79
     move-exception v0
 
-    goto :goto_4d
+    goto :goto_69
 
-    :cond_5f
-    move-object v3, p0
+    :cond_7b
+    move-object v0, p0
 
     .line 75
     goto :goto_19
 
     .line 78
-    :cond_61
-    :try_start_61
-    new-instance v3, Ljava/io/File;
+    :catch_7d
+    move-exception v0
 
-    sget-object v4, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
+    const/4 v0, -0x1
 
-    const-string v5, "active.txt"
+    goto :goto_3f
 
-    invoke-direct {v3, v4, v5}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+    .line 80
+    :catch_80
+    move-exception v0
 
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModContent;->readChain(Ljava/io/File;)Ljava/util/List;
+    :try_start_81
+    const-string v3, "content"
+
+    new-instance v4, Ljava/lang/StringBuilder;
+
+    invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v5, "prune: "
+
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v4
+
+    invoke-virtual {v4, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v3, v0}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+    :try_end_99
+    .catch Ljava/lang/Throwable; {:try_start_81 .. :try_end_99} :catch_61
+    .catchall {:try_start_81 .. :try_end_99} :catchall_9a
+
+    goto :goto_4a
+
+    .line 71
+    :catchall_9a
+    move-exception v0
+
+    monitor-exit v8
+
+    throw v0
+
+    .line 82
+    :cond_9d
+    :try_start_9d
+    new-instance v0, Ljava/io/File;
+
+    sget-object v3, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
+
+    const-string v4, "active.txt"
+
+    invoke-direct {v0, v3, v4}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->readChain(Ljava/io/File;)Ljava/util/List;
 
     move-result-object v5
 
-    .line 79
+    .line 83
     invoke-interface {v5}, Ljava/util/List;->isEmpty()Z
 
-    move-result v3
+    move-result v0
 
-    if-nez v3, :cond_d
+    if-nez v0, :cond_d
 
-    .line 80
+    .line 84
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModContent;->keyOf(Ljava/util/List;)Ljava/lang/String;
 
     move-result-object v4
 
-    .line 84
-    new-instance v3, Ljava/io/File;
+    .line 88
+    new-instance v0, Ljava/io/File;
 
-    sget-object v6, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
+    sget-object v3, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
 
-    const-string v8, "boot.txt"
+    const-string v7, "boot.txt"
 
-    invoke-direct {v3, v6, v8}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+    invoke-direct {v0, v3, v7}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModContent;->readLines(Ljava/io/File;)[Ljava/lang/String;
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->readLines(Ljava/io/File;)[Ljava/lang/String;
 
-    move-result-object v8
+    move-result-object v9
 
-    .line 85
-    array-length v3, v8
+    .line 89
+    array-length v0, v9
 
-    if-lt v3, v9, :cond_12c
+    if-lt v0, v10, :cond_166
+
+    const/4 v0, 0x0
+
+    aget-object v0, v9, v0
+
+    invoke-virtual {v0, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_166
+
+    move v7, v6
+
+    .line 90
+    :goto_ce
+    if-eqz v7, :cond_169
+
+    const/4 v0, 0x1
+
+    aget-object v0, v9, v0
 
     const/4 v3, 0x0
 
-    aget-object v3, v8, v3
-
-    invoke-virtual {v3, v4}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-static {v0, v3}, Lfr/testudo/spacecorsair/mod/ModContent;->parseInt(Ljava/lang/String;I)I
 
     move-result v3
 
-    if-eqz v3, :cond_12c
+    .line 91
+    :goto_d8
+    if-eqz v7, :cond_16c
 
-    move v6, v1
-
-    .line 86
-    :goto_92
-    if-eqz v6, :cond_12f
-
-    const/4 v3, 0x1
-
-    aget-object v3, v8, v3
-
-    const/4 v9, 0x0
-
-    invoke-static {v3, v9}, Lfr/testudo/spacecorsair/mod/ModContent;->parseInt(Ljava/lang/String;I)I
-
-    move-result v3
-
-    .line 87
-    :goto_9c
-    if-eqz v6, :cond_132
-
-    array-length v9, v8
+    array-length v0, v9
 
     const/4 v10, 0x4
 
-    if-lt v9, v10, :cond_132
+    if-lt v0, v10, :cond_16c
 
-    const-string v9, "ok"
+    const-string v0, "ok"
 
     const/4 v10, 0x3
 
-    aget-object v10, v8, v10
+    aget-object v10, v9, v10
 
-    invoke-virtual {v9, v10}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v0, v10}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
-    move-result v9
+    move-result v0
 
-    if-eqz v9, :cond_132
+    if-eqz v0, :cond_16c
 
-    .line 88
-    :goto_ad
-    if-nez v1, :cond_be
+    move v0, v6
 
-    if-eqz v6, :cond_be
+    .line 92
+    :goto_ea
+    if-nez v0, :cond_fb
+
+    if-eqz v7, :cond_fb
 
     const-string v6, "run"
 
-    const/4 v9, 0x2
+    const/4 v7, 0x2
 
-    aget-object v8, v8, v9
+    aget-object v7, v9, v7
 
-    invoke-virtual {v6, v8}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v6, v7}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v6
 
-    if-eqz v6, :cond_be
+    if-eqz v6, :cond_fb
 
     add-int/lit8 v3, v3, 0x1
 
-    .line 89
-    :cond_be
-    if-nez v1, :cond_137
+    .line 93
+    :cond_fb
+    if-nez v0, :cond_171
 
-    if-lt v3, v11, :cond_137
+    if-lt v3, v11, :cond_171
 
-    .line 90
-    const-string v1, "content"
+    .line 94
+    const-string v0, "content"
 
     new-instance v5, Ljava/lang/StringBuilder;
 
@@ -672,23 +783,23 @@
 
     move-result-object v3
 
-    invoke-static {v1, v3}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v3}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 91
-    new-instance v1, Ljava/io/File;
+    .line 95
+    new-instance v0, Ljava/io/File;
 
     sget-object v3, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
 
     const-string v4, "previous.txt"
 
-    invoke-direct {v1, v3, v4}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+    invoke-direct {v0, v3, v4}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 92
-    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModContent;->readChain(Ljava/io/File;)Ljava/util/List;
+    .line 96
+    invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->readChain(Ljava/io/File;)Ljava/util/List;
 
     move-result-object v5
 
-    .line 93
+    .line 97
     new-instance v3, Ljava/io/File;
 
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
@@ -699,29 +810,29 @@
 
     invoke-static {v3, v5}, Lfr/testudo/spacecorsair/mod/ModContent;->writeChain(Ljava/io/File;Ljava/util/List;)V
 
-    .line 94
+    .line 98
     new-instance v3, Ljava/util/ArrayList;
 
     invoke-direct {v3}, Ljava/util/ArrayList;-><init>()V
 
-    invoke-static {v1, v3}, Lfr/testudo/spacecorsair/mod/ModContent;->writeChain(Ljava/io/File;Ljava/util/List;)V
+    invoke-static {v0, v3}, Lfr/testudo/spacecorsair/mod/ModContent;->writeChain(Ljava/io/File;Ljava/util/List;)V
 
-    .line 95
-    const-string v1, "The last update was turned off after it failed to start."
+    .line 99
+    const-string v0, "The last update was turned off after it failed to start."
 
-    sput-object v1, Lfr/testudo/spacecorsair/mod/ModContent;->notice:Ljava/lang/String;
+    sput-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->notice:Ljava/lang/String;
 
-    .line 97
+    .line 101
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModContent;->keyOf(Ljava/util/List;)Ljava/lang/String;
 
     move-result-object v4
 
-    .line 99
+    .line 103
     invoke-interface {v5}, Ljava/util/List;->isEmpty()Z
 
-    move-result v1
+    move-result v0
 
-    if-eqz v1, :cond_135
+    if-eqz v0, :cond_16f
 
     new-instance v0, Ljava/io/File;
 
@@ -734,62 +845,50 @@
     const-string v1, ""
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModContent;->writeText(Ljava/io/File;Ljava/lang/String;)V
-    :try_end_127
-    .catch Ljava/lang/Throwable; {:try_start_61 .. :try_end_127} :catch_45
-    .catchall {:try_start_61 .. :try_end_127} :catchall_129
 
     goto/16 :goto_d
 
-    .line 71
-    :catchall_129
-    move-exception v0
+    :cond_166
+    move v7, v2
 
-    monitor-exit v7
+    .line 89
+    goto/16 :goto_ce
 
-    throw v0
-
-    :cond_12c
-    move v6, v2
-
-    .line 85
-    goto/16 :goto_92
-
-    :cond_12f
+    :cond_169
     move v3, v2
 
-    .line 86
-    goto/16 :goto_9c
+    .line 90
+    goto/16 :goto_d8
 
-    :cond_132
-    move v1, v2
+    :cond_16c
+    move v0, v2
 
-    .line 87
-    goto/16 :goto_ad
+    .line 91
+    goto/16 :goto_ea
 
-    :cond_135
-    move v1, v2
+    :cond_16f
+    move v0, v2
 
     move v3, v2
 
-    .line 101
-    :cond_137
-    :try_start_137
+    .line 105
+    :cond_171
     sput-object v4, Lfr/testudo/spacecorsair/mod/ModContent;->guardKey:Ljava/lang/String;
 
     sput v3, Lfr/testudo/spacecorsair/mod/ModContent;->guardCrashes:I
 
-    sput-boolean v1, Lfr/testudo/spacecorsair/mod/ModContent;->guardOk:Z
+    sput-boolean v0, Lfr/testudo/spacecorsair/mod/ModContent;->guardOk:Z
 
-    .line 102
+    .line 106
     const-string v2, "run"
 
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModContent;->guard(Ljava/lang/String;)V
 
-    .line 103
-    if-nez v1, :cond_157
+    .line 107
+    if-nez v0, :cond_191
 
-    .line 104
-    new-instance v1, Ljava/lang/Thread;
+    .line 108
+    new-instance v0, Ljava/lang/Thread;
 
     new-instance v2, Lfr/testudo/spacecorsair/mod/ModContent$1;
 
@@ -797,25 +896,27 @@
 
     const-string v3, "content-guard"
 
-    invoke-direct {v1, v2, v3}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
-
-    .line 109
-    const/4 v2, 0x1
-
-    invoke-virtual {v1, v2}, Ljava/lang/Thread;->setDaemon(Z)V
-
-    .line 110
-    invoke-virtual {v1}, Ljava/lang/Thread;->start()V
-    :try_end_157
-    .catch Ljava/lang/Throwable; {:try_start_137 .. :try_end_157} :catch_45
-    .catchall {:try_start_137 .. :try_end_157} :catchall_129
+    invoke-direct {v0, v2, v3}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;Ljava/lang/String;)V
 
     .line 113
-    :cond_157
-    if-eqz v0, :cond_1ab
+    const/4 v2, 0x1
 
-    :goto_159
-    :try_start_159
+    invoke-virtual {v0, v2}, Ljava/lang/Thread;->setDaemon(Z)V
+
+    .line 114
+    invoke-virtual {v0}, Ljava/lang/Thread;->start()V
+    :try_end_191
+    .catch Ljava/lang/Throwable; {:try_start_9d .. :try_end_191} :catch_61
+    .catchall {:try_start_9d .. :try_end_191} :catchall_9a
+
+    .line 117
+    :cond_191
+    if-eqz v1, :cond_1f1
+
+    move-object v0, v1
+
+    :goto_194
+    :try_start_194
     check-cast v0, Landroid/app/Application;
 
     new-instance v1, Lfr/testudo/spacecorsair/mod/ModContent$2;
@@ -823,46 +924,19 @@
     invoke-direct {v1}, Lfr/testudo/spacecorsair/mod/ModContent$2;-><init>()V
 
     invoke-virtual {v0, v1}, Landroid/app/Application;->registerActivityLifecycleCallbacks(Landroid/app/Application$ActivityLifecycleCallbacks;)V
-    :try_end_163
-    .catch Ljava/lang/Throwable; {:try_start_159 .. :try_end_163} :catch_1ad
-    .catchall {:try_start_159 .. :try_end_163} :catchall_129
-
-    .line 124
-    :goto_163
-    :try_start_163
-    invoke-virtual {p0}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
-
-    move-result-object v0
-
-    invoke-virtual {p0}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
-
-    move-result-object v1
-
-    const/4 v2, 0x0
-
-    invoke-virtual {v0, v1, v2}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;
-
-    move-result-object v0
-
-    iget v0, v0, Landroid/content/pm/PackageInfo;->versionCode:I
-    :try_end_172
-    .catch Ljava/lang/Throwable; {:try_start_163 .. :try_end_172} :catch_1b4
-    .catchall {:try_start_163 .. :try_end_172} :catchall_129
-
-    add-int/lit16 v0, v0, -0x3e8
-
-    .line 125
-    :goto_174
-    :try_start_174
-    sput v0, Lfr/testudo/spacecorsair/mod/ModContent;->buildNow:I
-
-    .line 126
-    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModContent;->load(Ljava/util/List;)V
+    :try_end_19e
+    .catch Ljava/lang/Throwable; {:try_start_194 .. :try_end_19e} :catch_1f3
+    .catchall {:try_start_194 .. :try_end_19e} :catchall_9a
 
     .line 127
-    sput-object v4, Lfr/testudo/spacecorsair/mod/ModContent;->chainKey:Ljava/lang/String;
+    :goto_19e
+    :try_start_19e
+    invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModContent;->load(Ljava/util/List;)V
 
     .line 128
+    sput-object v4, Lfr/testudo/spacecorsair/mod/ModContent;->chainKey:Ljava/lang/String;
+
+    .line 129
     const-string v0, "content"
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -906,39 +980,69 @@
     move-result-object v1
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+    :try_end_1d1
+    .catch Ljava/lang/Throwable; {:try_start_19e .. :try_end_1d1} :catch_61
+    .catchall {:try_start_19e .. :try_end_1d1} :catchall_9a
+
+    .line 130
+    :try_start_1d1
+    invoke-static {}, Lfr/testudo/spacecorsair/mod/ModTables;->apply()V
+    :try_end_1d4
+    .catch Ljava/lang/Throwable; {:try_start_1d1 .. :try_end_1d4} :catch_1d6
+    .catchall {:try_start_1d1 .. :try_end_1d4} :catchall_9a
 
     goto/16 :goto_d
 
-    :cond_1ab
+    :catch_1d6
+    move-exception v0
+
+    :try_start_1d7
+    const-string v1, "content"
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "tables: "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v1, v0}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+
+    goto/16 :goto_d
+
+    :cond_1f1
     move-object v0, p0
 
-    .line 113
-    goto :goto_159
+    .line 117
+    goto :goto_194
 
-    .line 122
-    :catch_1ad
+    .line 126
+    :catch_1f3
     move-exception v0
 
     const-string v0, "paused"
 
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->guard(Ljava/lang/String;)V
-    :try_end_1b3
-    .catch Ljava/lang/Throwable; {:try_start_174 .. :try_end_1b3} :catch_45
-    .catchall {:try_start_174 .. :try_end_1b3} :catchall_129
+    :try_end_1f9
+    .catch Ljava/lang/Throwable; {:try_start_1d7 .. :try_end_1f9} :catch_61
+    .catchall {:try_start_1d7 .. :try_end_1f9} :catchall_9a
 
-    goto :goto_163
+    goto :goto_19e
 
-    .line 124
-    :catch_1b4
-    move-exception v0
-
-    const/4 v0, -0x1
-
-    goto :goto_174
-
-    .line 131
-    :cond_1b7
-    :try_start_1b7
+    .line 133
+    :cond_1fa
+    :try_start_1fa
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->index:Ljava/util/Map;
 
     invoke-interface {v0}, Ljava/util/Map;->clear()V
@@ -959,7 +1063,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->chainKey:Ljava/lang/String;
 
-    .line 132
+    .line 134
     const-string v0, "content"
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -981,8 +1085,8 @@
     move-result-object v1
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
-    :try_end_1e7
-    .catchall {:try_start_1b7 .. :try_end_1e7} :catchall_129
+    :try_end_22a
+    .catchall {:try_start_1fa .. :try_end_22a} :catchall_9a
 
     goto/16 :goto_d
 .end method
@@ -1145,12 +1249,12 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 403
+    .line 467
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 404
+    .line 468
     array-length v3, p0
 
     move v0, v1
@@ -1184,7 +1288,7 @@
 
     goto :goto_8
 
-    .line 405
+    .line 469
     :cond_23
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -1208,7 +1312,7 @@
     .end annotation
 
     .prologue
-    .line 230
+    .line 294
     :try_start_0
     new-instance v0, Ljava/io/File;
 
@@ -1239,6 +1343,46 @@
     goto :goto_f
 .end method
 
+.method static declared-synchronized isReady()Z
+    .registers 2
+
+    .prologue
+    .line 231
+    const-class v1, Lfr/testudo/spacecorsair/mod/ModContent;
+
+    monitor-enter v1
+
+    :try_start_3
+    sget-boolean v0, Lfr/testudo/spacecorsair/mod/ModContent;->ready:Z
+
+    if-eqz v0, :cond_e
+
+    sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
+    :try_end_9
+    .catchall {:try_start_3 .. :try_end_9} :catchall_10
+
+    if-eqz v0, :cond_e
+
+    const/4 v0, 0x1
+
+    :goto_c
+    monitor-exit v1
+
+    return v0
+
+    :cond_e
+    const/4 v0, 0x0
+
+    goto :goto_c
+
+    :catchall_10
+    move-exception v0
+
+    monitor-exit v1
+
+    throw v0
+.end method
+
 .method static keyOf(Ljava/util/List;)Ljava/lang/String;
     .registers 9
     .annotation system Ldalvik/annotation/Signature;
@@ -1259,12 +1403,12 @@
 
     const/4 v5, 0x1
 
-    .line 347
+    .line 411
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 348
+    .line 412
     invoke-interface {p0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
     move-result-object v2
@@ -1282,7 +1426,7 @@
 
     check-cast v0, [Ljava/lang/String;
 
-    .line 349
+    .line 413
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->length()I
 
     move-result v3
@@ -1293,7 +1437,7 @@
 
     invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    .line 350
+    .line 414
     :cond_24
     aget-object v3, v0, v6
 
@@ -1344,7 +1488,7 @@
 
     goto :goto_41
 
-    .line 352
+    .line 416
     :cond_4e
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -1357,10 +1501,10 @@
     .registers 4
 
     .prologue
-    .line 218
+    .line 282
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
-    .line 219
+    .line 283
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
 
     if-eqz v0, :cond_19
@@ -1381,7 +1525,7 @@
 
     const-string v0, "built-in (safe mode)"
 
-    .line 220
+    .line 284
     :goto_18
     return-object v0
 
@@ -1434,15 +1578,15 @@
     .end annotation
 
     .prologue
-    .line 203
+    .line 267
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
-    .line 204
+    .line 268
     new-instance v1, Ljava/util/ArrayList;
 
     invoke-direct {v1}, Ljava/util/ArrayList;-><init>()V
 
-    .line 205
+    .line 269
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->zips:Ljava/util/List;
 
     invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
@@ -1463,7 +1607,7 @@
 
     check-cast v0, Ljava/util/zip/ZipFile;
 
-    .line 206
+    .line 270
     :try_start_1a
     invoke-virtual {v0, p1}, Ljava/util/zip/ZipFile;->getEntry(Ljava/lang/String;)Ljava/util/zip/ZipEntry;
 
@@ -1486,7 +1630,7 @@
 
     goto :goto_e
 
-    .line 208
+    .line 272
     :cond_2a
     return-object v1
 .end method
@@ -1512,7 +1656,7 @@
     .prologue
     const/4 v3, 0x0
 
-    .line 137
+    .line 139
     invoke-interface {p0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
     move-result-object v4
@@ -1530,7 +1674,7 @@
 
     check-cast v0, [Ljava/lang/String;
 
-    .line 138
+    .line 140
     new-instance v1, Ljava/io/File;
 
     new-instance v2, Ljava/io/File;
@@ -1563,7 +1707,7 @@
 
     invoke-direct {v1, v2, v5}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 139
+    .line 141
     invoke-virtual {v1}, Ljava/io/File;->isFile()Z
 
     move-result v2
@@ -1596,28 +1740,28 @@
 
     throw v1
 
-    .line 140
+    .line 142
     :cond_55
     new-instance v5, Ljava/util/zip/ZipFile;
 
     invoke-direct {v5, v1}, Ljava/util/zip/ZipFile;-><init>(Ljava/io/File;)V
 
-    .line 141
+    .line 143
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModContent;->zips:Ljava/util/List;
 
     invoke-interface {v1, v5}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 142
+    .line 144
     invoke-static {v5}, Lfr/testudo/spacecorsair/mod/ModContent;->packInfo(Ljava/util/zip/ZipFile;)[Ljava/lang/String;
 
     move-result-object v6
 
-    .line 143
+    .line 145
     sget v1, Lfr/testudo/spacecorsair/mod/ModContent;->buildNow:I
 
     if-ltz v1, :cond_b0
 
-    .line 145
+    .line 147
     array-length v7, v6
 
     move v2, v3
@@ -1662,7 +1806,7 @@
 
     goto :goto_6a
 
-    .line 146
+    .line 148
     :cond_8d
     if-nez v1, :cond_b0
 
@@ -1698,7 +1842,7 @@
 
     throw v1
 
-    .line 148
+    .line 150
     :cond_b0
     array-length v7, v6
 
@@ -1709,7 +1853,7 @@
 
     aget-object v1, v6, v2
 
-    .line 149
+    .line 151
     const-string v8, "remove="
 
     invoke-virtual {v1, v8}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
@@ -1718,7 +1862,7 @@
 
     if-nez v8, :cond_c2
 
-    .line 148
+    .line 150
     :cond_be
     add-int/lit8 v1, v2, 0x1
 
@@ -1726,7 +1870,7 @@
 
     goto :goto_b2
 
-    .line 150
+    .line 152
     :cond_c2
     const/4 v8, 0x7
 
@@ -1738,24 +1882,24 @@
 
     move-result-object v8
 
-    .line 151
+    .line 153
     invoke-static {v8}, Lfr/testudo/spacecorsair/mod/ModContent;->allowedFolder(Ljava/lang/String;)Z
 
     move-result v1
 
     if-eqz v1, :cond_be
 
-    .line 152
+    .line 154
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModContent;->removed:Ljava/util/Set;
 
     invoke-interface {v1, v8}, Ljava/util/Set;->add(Ljava/lang/Object;)Z
 
-    .line 153
+    .line 155
     new-instance v9, Ljava/util/ArrayList;
 
     invoke-direct {v9}, Ljava/util/ArrayList;-><init>()V
 
-    .line 154
+    .line 156
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModContent;->index:Ljava/util/Map;
 
     invoke-interface {v1}, Ljava/util/Map;->keySet()Ljava/util/Set;
@@ -1794,7 +1938,7 @@
 
     goto :goto_e5
 
-    .line 155
+    .line 157
     :cond_ff
     invoke-interface {v9}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
@@ -1819,13 +1963,13 @@
 
     goto :goto_103
 
-    .line 157
+    .line 159
     :cond_115
     invoke-virtual {v5}, Ljava/util/zip/ZipFile;->entries()Ljava/util/Enumeration;
 
     move-result-object v2
 
-    .line 158
+    .line 160
     :cond_119
     :goto_119
     invoke-interface {v2}, Ljava/util/Enumeration;->hasMoreElements()Z
@@ -1834,19 +1978,19 @@
 
     if-eqz v1, :cond_14c
 
-    .line 159
+    .line 161
     invoke-interface {v2}, Ljava/util/Enumeration;->nextElement()Ljava/lang/Object;
 
     move-result-object v1
 
     check-cast v1, Ljava/util/zip/ZipEntry;
 
-    .line 160
+    .line 162
     invoke-virtual {v1}, Ljava/util/zip/ZipEntry;->getName()Ljava/lang/String;
 
     move-result-object v6
 
-    .line 161
+    .line 163
     invoke-virtual {v1}, Ljava/util/zip/ZipEntry;->isDirectory()Z
 
     move-result v1
@@ -1867,12 +2011,12 @@
 
     if-nez v1, :cond_119
 
-    .line 162
+    .line 164
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModContent;->index:Ljava/util/Map;
 
     invoke-interface {v1, v6, v5}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 163
+    .line 165
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModContent;->removed:Ljava/util/Set;
 
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModContent;->base(Ljava/lang/String;)Ljava/lang/String;
@@ -1883,7 +2027,7 @@
 
     goto :goto_119
 
-    .line 165
+    .line 167
     :cond_14c
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModContent;->chainIds:Ljava/util/List;
 
@@ -1893,7 +2037,7 @@
 
     goto/16 :goto_5
 
-    .line 167
+    .line 169
     :cond_155
     return-void
 .end method
@@ -1914,15 +2058,15 @@
     .end annotation
 
     .prologue
-    .line 187
+    .line 251
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
-    .line 188
+    .line 252
     new-instance v1, Ljava/util/HashSet;
 
     invoke-direct {v1}, Ljava/util/HashSet;-><init>()V
 
-    .line 189
+    .line 253
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->index:Ljava/util/Map;
 
     invoke-interface {v0}, Ljava/util/Map;->keySet()Ljava/util/Set;
@@ -1981,7 +2125,7 @@
 
     goto :goto_12
 
-    .line 190
+    .line 254
     :cond_40
     return-object v1
 .end method
@@ -1997,10 +2141,10 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 172
+    .line 236
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
-    .line 173
+    .line 237
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->index:Ljava/util/Map;
 
     invoke-interface {v0, p1}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -2009,20 +2153,20 @@
 
     check-cast v0, Ljava/util/zip/ZipFile;
 
-    .line 174
+    .line 238
     if-nez v0, :cond_f
 
-    .line 176
+    .line 240
     :goto_e
     return-object v1
 
-    .line 175
+    .line 239
     :cond_f
     invoke-virtual {v0, p1}, Ljava/util/zip/ZipFile;->getEntry(Ljava/lang/String;)Ljava/util/zip/ZipEntry;
 
     move-result-object v2
 
-    .line 176
+    .line 240
     if-nez v2, :cond_18
 
     move-object v0, v1
@@ -2040,11 +2184,165 @@
     goto :goto_16
 .end method
 
+.method static packBuild(Ljava/io/File;)I
+    .registers 8
+
+    .prologue
+    const/4 v0, -0x1
+
+    .line 214
+    const/4 v2, 0x0
+
+    .line 216
+    :try_start_2
+    new-instance v1, Ljava/util/zip/ZipFile;
+
+    invoke-direct {v1, p0}, Ljava/util/zip/ZipFile;-><init>(Ljava/io/File;)V
+    :try_end_7
+    .catch Ljava/lang/Throwable; {:try_start_2 .. :try_end_7} :catch_34
+    .catchall {:try_start_2 .. :try_end_7} :catchall_3e
+
+    .line 217
+    :try_start_7
+    invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModContent;->packInfo(Ljava/util/zip/ZipFile;)[Ljava/lang/String;
+
+    move-result-object v3
+
+    array-length v4, v3
+
+    const/4 v2, 0x0
+
+    :goto_d
+    if-ge v2, v4, :cond_2c
+
+    aget-object v5, v3, v2
+
+    const-string v6, "build="
+
+    invoke-virtual {v5, v6}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v6
+
+    if-eqz v6, :cond_29
+
+    const/4 v2, 0x6
+
+    invoke-virtual {v5, v2}, Ljava/lang/String;->substring(I)Ljava/lang/String;
+
+    move-result-object v2
+
+    const/4 v3, -0x1
+
+    invoke-static {v2, v3}, Lfr/testudo/spacecorsair/mod/ModContent;->parseInt(Ljava/lang/String;I)I
+    :try_end_22
+    .catch Ljava/lang/Throwable; {:try_start_7 .. :try_end_22} :catch_4c
+    .catchall {:try_start_7 .. :try_end_22} :catchall_4a
+
+    move-result v0
+
+    .line 222
+    if-eqz v1, :cond_28
+
+    :try_start_25
+    invoke-virtual {v1}, Ljava/util/zip/ZipFile;->close()V
+    :try_end_28
+    .catch Ljava/lang/Throwable; {:try_start_25 .. :try_end_28} :catch_46
+
+    .line 220
+    :cond_28
+    :goto_28
+    return v0
+
+    .line 217
+    :cond_29
+    add-int/lit8 v2, v2, 0x1
+
+    goto :goto_d
+
+    .line 222
+    :cond_2c
+    if-eqz v1, :cond_28
+
+    :try_start_2e
+    invoke-virtual {v1}, Ljava/util/zip/ZipFile;->close()V
+    :try_end_31
+    .catch Ljava/lang/Throwable; {:try_start_2e .. :try_end_31} :catch_32
+
+    goto :goto_28
+
+    :catch_32
+    move-exception v1
+
+    goto :goto_28
+
+    .line 219
+    :catch_34
+    move-exception v1
+
+    move-object v1, v2
+
+    .line 222
+    :goto_36
+    if-eqz v1, :cond_28
+
+    :try_start_38
+    invoke-virtual {v1}, Ljava/util/zip/ZipFile;->close()V
+    :try_end_3b
+    .catch Ljava/lang/Throwable; {:try_start_38 .. :try_end_3b} :catch_3c
+
+    goto :goto_28
+
+    :catch_3c
+    move-exception v1
+
+    goto :goto_28
+
+    :catchall_3e
+    move-exception v0
+
+    move-object v1, v2
+
+    :goto_40
+    if-eqz v1, :cond_45
+
+    :try_start_42
+    invoke-virtual {v1}, Ljava/util/zip/ZipFile;->close()V
+    :try_end_45
+    .catch Ljava/lang/Throwable; {:try_start_42 .. :try_end_45} :catch_48
+
+    .line 223
+    :cond_45
+    :goto_45
+    throw v0
+
+    .line 222
+    :catch_46
+    move-exception v1
+
+    goto :goto_28
+
+    :catch_48
+    move-exception v1
+
+    goto :goto_45
+
+    :catchall_4a
+    move-exception v0
+
+    goto :goto_40
+
+    .line 219
+    :catch_4c
+    move-exception v2
+
+    goto :goto_36
+.end method
+
 .method static packFile(Landroid/content/Context;Ljava/lang/String;)Ljava/io/File;
     .registers 6
 
     .prologue
-    .line 226
+    .line 290
     new-instance v0, Ljava/io/File;
 
     new-instance v1, Ljava/io/File;
@@ -2089,14 +2387,14 @@
     .end annotation
 
     .prologue
-    .line 340
+    .line 404
     const-string v0, "pack.txt"
 
     invoke-virtual {p0, v0}, Ljava/util/zip/ZipFile;->getEntry(Ljava/lang/String;)Ljava/util/zip/ZipEntry;
 
     move-result-object v0
 
-    .line 341
+    .line 405
     if-eqz v0, :cond_13
 
     invoke-virtual {v0}, Ljava/util/zip/ZipEntry;->getSize()J
@@ -2114,17 +2412,17 @@
 
     new-array v0, v0, [Ljava/lang/String;
 
-    .line 343
+    .line 407
     :goto_16
     return-object v0
 
-    .line 342
+    .line 406
     :cond_17
     invoke-virtual {p0, v0}, Ljava/util/zip/ZipFile;->getInputStream(Ljava/util/zip/ZipEntry;)Ljava/io/InputStream;
 
     move-result-object v1
 
-    .line 343
+    .line 407
     :try_start_1b
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModContent;->readLines(Ljava/io/InputStream;)[Ljava/lang/String;
     :try_end_1e
@@ -2148,7 +2446,7 @@
     .registers 3
 
     .prologue
-    .line 392
+    .line 456
     :try_start_0
     invoke-virtual {p0}, Ljava/lang/String;->trim()Ljava/lang/String;
 
@@ -2167,6 +2465,368 @@
     move-exception v0
 
     goto :goto_8
+.end method
+
+.method static prune(Ljava/io/File;IJ)I
+    .registers 16
+
+    .prologue
+    const-wide/32 v10, 0x240c8400
+
+    const/4 v0, -0x1
+
+    const/4 v1, 0x1
+
+    const/4 v2, 0x0
+
+    .line 181
+    .line 182
+    new-instance v3, Ljava/io/File;
+
+    const-string v4, "apk"
+
+    invoke-direct {v3, p0, v4}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 183
+    invoke-virtual {v3}, Ljava/io/File;->listFiles()[Ljava/io/File;
+
+    move-result-object v5
+
+    .line 184
+    if-eqz v5, :cond_4e
+
+    .line 185
+    new-instance v4, Ljava/io/File;
+
+    const-string v6, "build.txt"
+
+    invoke-direct {v4, v3, v6}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    invoke-static {v4}, Lfr/testudo/spacecorsair/mod/ModContent;->readLinesQuiet(Ljava/io/File;)[Ljava/lang/String;
+
+    move-result-object v3
+
+    .line 186
+    array-length v4, v3
+
+    if-lez v4, :cond_27
+
+    aget-object v3, v3, v2
+
+    invoke-static {v3, v0}, Lfr/testudo/spacecorsair/mod/ModContent;->parseInt(Ljava/lang/String;I)I
+
+    move-result v0
+
+    .line 187
+    :cond_27
+    if-ltz p1, :cond_4c
+
+    if-ltz v0, :cond_4c
+
+    if-lt p1, v0, :cond_4c
+
+    move v0, v1
+
+    .line 188
+    :goto_2e
+    array-length v6, v5
+
+    move v4, v2
+
+    move v3, v2
+
+    :goto_31
+    if-ge v4, v6, :cond_4f
+
+    aget-object v7, v5, v4
+
+    if-nez v0, :cond_41
+
+    invoke-virtual {v7}, Ljava/io/File;->lastModified()J
+
+    move-result-wide v8
+
+    sub-long v8, p2, v8
+
+    cmp-long v8, v8, v10
+
+    if-lez v8, :cond_49
+
+    :cond_41
+    invoke-virtual {v7}, Ljava/io/File;->delete()Z
+
+    move-result v7
+
+    if-eqz v7, :cond_49
+
+    add-int/lit8 v3, v3, 0x1
+
+    :cond_49
+    add-int/lit8 v4, v4, 0x1
+
+    goto :goto_31
+
+    :cond_4c
+    move v0, v2
+
+    .line 187
+    goto :goto_2e
+
+    :cond_4e
+    move v3, v2
+
+    .line 190
+    :cond_4f
+    new-instance v0, Ljava/io/File;
+
+    const-string v4, "packs"
+
+    invoke-direct {v0, p0, v4}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    invoke-virtual {v0}, Ljava/io/File;->listFiles()[Ljava/io/File;
+
+    move-result-object v5
+
+    .line 191
+    new-instance v6, Ljava/util/HashSet;
+
+    invoke-direct {v6}, Ljava/util/HashSet;-><init>()V
+
+    .line 192
+    if-eqz v5, :cond_b1
+
+    array-length v7, v5
+
+    move v4, v2
+
+    move v0, v3
+
+    :goto_64
+    if-ge v4, v7, :cond_b0
+
+    aget-object v3, v5, v4
+
+    .line 193
+    invoke-virtual {v3}, Ljava/io/File;->getName()Ljava/lang/String;
+
+    move-result-object v8
+
+    .line 194
+    const-string v9, ".part"
+
+    invoke-virtual {v8, v9}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+
+    move-result v9
+
+    if-eqz v9, :cond_8a
+
+    invoke-virtual {v3}, Ljava/io/File;->lastModified()J
+
+    move-result-wide v8
+
+    sub-long v8, p2, v8
+
+    cmp-long v8, v8, v10
+
+    if-lez v8, :cond_86
+
+    invoke-virtual {v3}, Ljava/io/File;->delete()Z
+
+    move-result v3
+
+    if-eqz v3, :cond_86
+
+    add-int/lit8 v0, v0, 0x1
+
+    .line 192
+    :cond_86
+    :goto_86
+    add-int/lit8 v3, v4, 0x1
+
+    move v4, v3
+
+    goto :goto_64
+
+    .line 195
+    :cond_8a
+    if-ltz p1, :cond_86
+
+    const-string v9, ".zip"
+
+    invoke-virtual {v8, v9}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+
+    move-result v9
+
+    if-eqz v9, :cond_86
+
+    .line 196
+    invoke-static {v3}, Lfr/testudo/spacecorsair/mod/ModContent;->packBuild(Ljava/io/File;)I
+
+    move-result v9
+
+    if-eq v9, p1, :cond_86
+
+    invoke-virtual {v3}, Ljava/io/File;->delete()Z
+
+    move-result v3
+
+    if-eqz v3, :cond_86
+
+    add-int/lit8 v0, v0, 0x1
+
+    invoke-virtual {v8}, Ljava/lang/String;->length()I
+
+    move-result v3
+
+    add-int/lit8 v3, v3, -0x4
+
+    invoke-virtual {v8, v2, v3}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-interface {v6, v3}, Ljava/util/Set;->add(Ljava/lang/Object;)Z
+
+    goto :goto_86
+
+    :cond_b0
+    move v3, v0
+
+    .line 198
+    :cond_b1
+    invoke-interface {v6}, Ljava/util/Set;->isEmpty()Z
+
+    move-result v0
+
+    if-nez v0, :cond_114
+
+    .line 199
+    const/4 v0, 0x2
+
+    new-array v7, v0, [Ljava/lang/String;
+
+    const-string v0, "active.txt"
+
+    aput-object v0, v7, v2
+
+    const-string v0, "previous.txt"
+
+    aput-object v0, v7, v1
+
+    array-length v8, v7
+
+    move v5, v2
+
+    :goto_c4
+    if-ge v5, v8, :cond_fc
+
+    aget-object v0, v7, v5
+
+    .line 200
+    new-instance v9, Ljava/io/File;
+
+    invoke-direct {v9, p0, v0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    .line 203
+    :try_start_cd
+    invoke-static {v9}, Lfr/testudo/spacecorsair/mod/ModContent;->readChain(Ljava/io/File;)Ljava/util/List;
+
+    move-result-object v0
+
+    invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+
+    move-result-object v10
+
+    move v4, v2
+
+    :goto_d6
+    invoke-interface {v10}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_ee
+
+    invoke-interface {v10}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, [Ljava/lang/String;
+
+    const/4 v11, 0x0
+
+    aget-object v0, v0, v11
+
+    invoke-interface {v6, v0}, Ljava/util/Set;->contains(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_117
+
+    move v0, v1
+
+    :goto_ec
+    move v4, v0
+
+    goto :goto_d6
+
+    .line 204
+    :cond_ee
+    if-eqz v4, :cond_f8
+
+    new-instance v0, Ljava/util/ArrayList;
+
+    invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
+
+    invoke-static {v9, v0}, Lfr/testudo/spacecorsair/mod/ModContent;->writeChain(Ljava/io/File;Ljava/util/List;)V
+    :try_end_f8
+    .catch Ljava/lang/Throwable; {:try_start_cd .. :try_end_f8} :catch_115
+
+    .line 199
+    :cond_f8
+    :goto_f8
+    add-int/lit8 v0, v5, 0x1
+
+    move v5, v0
+
+    goto :goto_c4
+
+    .line 207
+    :cond_fc
+    const-string v0, "content"
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v2, "pruned packs for another game build: "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 209
+    :cond_114
+    return v3
+
+    .line 205
+    :catch_115
+    move-exception v0
+
+    goto :goto_f8
+
+    :cond_117
+    move v0, v4
+
+    goto :goto_ec
 .end method
 
 .method static readChain(Ljava/io/File;)Ljava/util/List;
@@ -2196,12 +2856,12 @@
 
     const/4 v1, 0x0
 
-    .line 356
+    .line 420
     new-instance v2, Ljava/util/ArrayList;
 
     invoke-direct {v2}, Ljava/util/ArrayList;-><init>()V
 
-    .line 357
+    .line 421
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->readLines(Ljava/io/File;)[Ljava/lang/String;
 
     move-result-object v3
@@ -2215,7 +2875,7 @@
 
     aget-object v5, v3, v0
 
-    .line 358
+    .line 422
     invoke-virtual {v5}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v5
@@ -2226,7 +2886,7 @@
 
     move-result-object v5
 
-    .line 359
+    .line 423
     array-length v6, v5
 
     if-lt v6, v9, :cond_34
@@ -2251,13 +2911,13 @@
 
     invoke-interface {v2, v6}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 357
+    .line 421
     :cond_34
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_e
 
-    .line 361
+    .line 425
     :cond_37
     return-object v2
 .end method
@@ -2271,7 +2931,7 @@
     .end annotation
 
     .prologue
-    .line 371
+    .line 435
     invoke-virtual {p0}, Ljava/io/File;->isFile()Z
 
     move-result v0
@@ -2282,17 +2942,17 @@
 
     new-array v0, v0, [Ljava/lang/String;
 
-    .line 373
+    .line 437
     :goto_9
     return-object v0
 
-    .line 372
+    .line 436
     :cond_a
     new-instance v1, Ljava/io/FileInputStream;
 
     invoke-direct {v1, p0}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
 
-    .line 373
+    .line 437
     :try_start_f
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModContent;->readLines(Ljava/io/InputStream;)[Ljava/lang/String;
     :try_end_12
@@ -2321,7 +2981,7 @@
     .end annotation
 
     .prologue
-    .line 377
+    .line 441
     new-instance v0, Ljava/io/BufferedReader;
 
     new-instance v1, Ljava/io/InputStreamReader;
@@ -2332,12 +2992,12 @@
 
     invoke-direct {v0, v1}, Ljava/io/BufferedReader;-><init>(Ljava/io/Reader;)V
 
-    .line 378
+    .line 442
     new-instance v1, Ljava/util/ArrayList;
 
     invoke-direct {v1}, Ljava/util/ArrayList;-><init>()V
 
-    .line 379
+    .line 443
     :cond_11
     :goto_11
     invoke-virtual {v0}, Ljava/io/BufferedReader;->readLine()Ljava/lang/String;
@@ -2364,7 +3024,7 @@
 
     goto :goto_11
 
-    .line 380
+    .line 444
     :cond_29
     const/4 v0, 0x0
 
@@ -2379,14 +3039,39 @@
     return-object v0
 .end method
 
+.method private static readLinesQuiet(Ljava/io/File;)[Ljava/lang/String;
+    .registers 2
+
+    .prologue
+    .line 227
+    :try_start_0
+    invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->readLines(Ljava/io/File;)[Ljava/lang/String;
+    :try_end_3
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_3} :catch_5
+
+    move-result-object v0
+
+    :goto_4
+    return-object v0
+
+    :catch_5
+    move-exception v0
+
+    const/4 v0, 0x0
+
+    new-array v0, v0, [Ljava/lang/String;
+
+    goto :goto_4
+.end method
+
 .method public static removed(Landroid/content/Context;Ljava/lang/String;)Z
     .registers 3
 
     .prologue
-    .line 181
+    .line 245
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
-    .line 182
+    .line 246
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->removed:Ljava/util/Set;
 
     invoke-interface {v0, p1}, Ljava/util/Set;->contains(Ljava/lang/Object;)Z
@@ -2412,15 +3097,15 @@
     .end annotation
 
     .prologue
-    .line 195
+    .line 259
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->ensure(Landroid/content/Context;)V
 
-    .line 196
+    .line 260
     new-instance v1, Ljava/util/HashSet;
 
     invoke-direct {v1}, Ljava/util/HashSet;-><init>()V
 
-    .line 197
+    .line 261
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->removed:Ljava/util/Set;
 
     invoke-interface {v0}, Ljava/util/Set;->iterator()Ljava/util/Iterator;
@@ -2459,7 +3144,7 @@
 
     goto :goto_e
 
-    .line 198
+    .line 262
     :cond_2c
     return-object v1
 .end method
@@ -2470,7 +3155,7 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 322
+    .line 386
     const-string v1, ".."
 
     invoke-virtual {p0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
@@ -2495,12 +3180,12 @@
 
     if-ltz v1, :cond_1a
 
-    .line 324
+    .line 388
     :cond_19
     :goto_19
     return v0
 
-    .line 323
+    .line 387
     :cond_1a
     sget-object v1, Lfr/testudo/spacecorsair/mod/ModContent;->FOLDERS:[Ljava/lang/String;
 
@@ -2533,7 +3218,7 @@
 
     goto :goto_1d
 
-    .line 324
+    .line 388
     :cond_32
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->allowedFolder(Ljava/lang/String;)Z
 
@@ -2546,7 +3231,7 @@
     .registers 4
 
     .prologue
-    .line 258
+    .line 322
     new-instance v0, Ljava/io/File;
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->dir(Landroid/content/Context;)Ljava/io/File;
@@ -2572,7 +3257,7 @@
 
     const/4 v1, 0x0
 
-    .line 313
+    .line 377
     if-eqz p0, :cond_2c
 
     invoke-virtual {p0}, Ljava/lang/String;->length()I
@@ -2618,12 +3303,12 @@
     :cond_2c
     move v0, v1
 
-    .line 318
+    .line 382
     :cond_2d
     :goto_2d
     return v0
 
-    .line 314
+    .line 378
     :cond_2e
     const-string v2, "pack.txt"
 
@@ -2633,7 +3318,7 @@
 
     if-nez v2, :cond_2d
 
-    .line 315
+    .line 379
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->allowedFolder(Ljava/lang/String;)Z
 
     move-result v2
@@ -2644,7 +3329,7 @@
 
     goto :goto_2d
 
-    .line 316
+    .line 380
     :cond_3e
     sget-object v2, Ljava/util/Locale;->US:Ljava/util/Locale;
 
@@ -2652,7 +3337,7 @@
 
     move-result-object v3
 
-    .line 317
+    .line 381
     sget-object v4, Lfr/testudo/spacecorsair/mod/ModContent;->EXTS:[Ljava/lang/String;
 
     array-length v5, v4
@@ -2677,7 +3362,7 @@
     :cond_55
     move v0, v1
 
-    .line 318
+    .line 382
     goto :goto_2d
 .end method
 
@@ -2703,7 +3388,7 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 235
+    .line 299
     const-class v2, Lfr/testudo/spacecorsair/mod/ModContent;
 
     monitor-enter v2
@@ -2713,7 +3398,7 @@
 
     move-result-object v3
 
-    .line 236
+    .line 300
     new-instance v0, Ljava/io/File;
 
     const-string v4, "active.txt"
@@ -2724,7 +3409,7 @@
 
     move-result-object v0
 
-    .line 237
+    .line 301
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->keyOf(Ljava/util/List;)Ljava/lang/String;
 
     move-result-object v4
@@ -2747,7 +3432,7 @@
 
     invoke-static {v4, v0}, Lfr/testudo/spacecorsair/mod/ModContent;->writeChain(Ljava/io/File;Ljava/util/List;)V
 
-    .line 238
+    .line 302
     :cond_2b
     new-instance v0, Ljava/io/File;
 
@@ -2757,12 +3442,12 @@
 
     invoke-static {v0, p1}, Lfr/testudo/spacecorsair/mod/ModContent;->writeChain(Ljava/io/File;Ljava/util/List;)V
 
-    .line 239
+    .line 303
     new-instance v4, Ljava/util/HashSet;
 
     invoke-direct {v4}, Ljava/util/HashSet;-><init>()V
 
-    .line 240
+    .line 304
     invoke-interface {p1}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
     move-result-object v5
@@ -2808,7 +3493,7 @@
 
     goto :goto_3e
 
-    .line 235
+    .line 299
     :catchall_64
     move-exception v0
 
@@ -2816,7 +3501,7 @@
 
     throw v0
 
-    .line 241
+    .line 305
     :cond_67
     :try_start_67
     new-instance v0, Ljava/io/File;
@@ -2872,7 +3557,7 @@
 
     goto :goto_76
 
-    .line 242
+    .line 306
     :cond_9c
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->chainIds:Ljava/util/List;
 
@@ -2915,7 +3600,7 @@
 
     goto :goto_a2
 
-    .line 243
+    .line 307
     :cond_c5
     new-instance v0, Ljava/io/File;
 
@@ -2927,7 +3612,7 @@
 
     move-result-object v3
 
-    .line 244
+    .line 308
     if-eqz v3, :cond_f4
 
     array-length v5, v3
@@ -2970,7 +3655,7 @@
 
     goto :goto_d4
 
-    .line 245
+    .line 309
     :cond_f4
     monitor-exit v2
 
@@ -2986,7 +3671,7 @@
     .end annotation
 
     .prologue
-    .line 261
+    .line 325
     new-instance v0, Ljava/io/File;
 
     invoke-static {p0}, Lfr/testudo/spacecorsair/mod/ModContent;->dir(Landroid/content/Context;)Ljava/io/File;
@@ -2997,18 +3682,18 @@
 
     invoke-direct {v0, v1, v2}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 262
+    .line 326
     if-eqz p1, :cond_13
 
     const-string v1, "1"
 
     invoke-static {v0, v1}, Lfr/testudo/spacecorsair/mod/ModContent;->writeText(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 263
+    .line 327
     :goto_12
     return-void
 
-    .line 262
+    .line 326
     :cond_13
     invoke-virtual {v0}, Ljava/io/File;->delete()Z
 
@@ -3024,19 +3709,19 @@
     .end annotation
 
     .prologue
-    .line 396
+    .line 460
     const-string v0, "SHA-256"
 
     invoke-static {v0}, Ljava/security/MessageDigest;->getInstance(Ljava/lang/String;)Ljava/security/MessageDigest;
 
     move-result-object v0
 
-    .line 397
+    .line 461
     new-instance v1, Ljava/io/FileInputStream;
 
     invoke-direct {v1, p0}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
 
-    .line 398
+    .line 462
     const/high16 v2, 0x10000
 
     :try_start_d
@@ -3067,7 +3752,7 @@
     :cond_1f
     invoke-virtual {v1}, Ljava/io/InputStream;->close()V
 
-    .line 399
+    .line 463
     invoke-virtual {v0}, Ljava/security/MessageDigest;->digest()[B
 
     move-result-object v0
@@ -3088,7 +3773,7 @@
     .end annotation
 
     .prologue
-    .line 417
+    .line 481
     const-class v1, Lfr/testudo/spacecorsair/mod/ModContent;
 
     monitor-enter v1
@@ -3106,10 +3791,10 @@
 
     move-result-object v0
 
-    .line 418
+    .line 482
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->load(Ljava/util/List;)V
 
-    .line 419
+    .line 483
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModContent;->keyOf(Ljava/util/List;)Ljava/lang/String;
 
     move-result-object v0
@@ -3118,12 +3803,12 @@
     :try_end_19
     .catchall {:try_start_3 .. :try_end_19} :catchall_1b
 
-    .line 420
+    .line 484
     monitor-exit v1
 
     return-void
 
-    .line 417
+    .line 481
     :catchall_1b
     move-exception v0
 
@@ -3136,7 +3821,7 @@
     .registers 4
 
     .prologue
-    .line 410
+    .line 474
     const-class v1, Lfr/testudo/spacecorsair/mod/ModContent;
 
     monitor-enter v1
@@ -3176,7 +3861,7 @@
 
     goto :goto_9
 
-    .line 411
+    .line 475
     :cond_1b
     :try_start_1b
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->zips:Ljava/util/List;
@@ -3203,7 +3888,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModContent;->notice:Ljava/lang/String;
 
-    .line 412
+    .line 476
     sput-object p0, Lfr/testudo/spacecorsair/mod/ModContent;->dir:Ljava/io/File;
 
     if-eqz p0, :cond_3f
@@ -3215,18 +3900,18 @@
     :try_end_3d
     .catchall {:try_start_1b .. :try_end_3d} :catchall_41
 
-    .line 413
+    .line 477
     monitor-exit v1
 
     return-void
 
-    .line 412
+    .line 476
     :cond_3f
     const/4 v0, 0x0
 
     goto :goto_3b
 
-    .line 410
+    .line 474
     :catchall_41
     move-exception v0
 
@@ -3244,7 +3929,7 @@
     .end annotation
 
     .prologue
-    .line 249
+    .line 313
     const-class v1, Lfr/testudo/spacecorsair/mod/ModContent;
 
     monitor-enter v1
@@ -3254,7 +3939,7 @@
 
     move-result-object v0
 
-    .line 250
+    .line 314
     new-instance v2, Ljava/io/File;
 
     const-string v3, "previous.txt"
@@ -3265,7 +3950,7 @@
 
     move-result-object v2
 
-    .line 251
+    .line 315
     new-instance v3, Ljava/io/File;
 
     const-string v4, "active.txt"
@@ -3276,7 +3961,7 @@
 
     move-result-object v3
 
-    .line 252
+    .line 316
     invoke-static {v2}, Lfr/testudo/spacecorsair/mod/ModContent;->keyOf(Ljava/util/List;)Ljava/lang/String;
 
     move-result-object v4
@@ -3295,13 +3980,13 @@
 
     const/4 v0, 0x0
 
-    .line 255
+    .line 319
     :goto_2c
     monitor-exit v1
 
     return v0
 
-    .line 253
+    .line 317
     :cond_2e
     :try_start_2e
     new-instance v4, Ljava/io/File;
@@ -3312,7 +3997,7 @@
 
     invoke-static {v4, v2}, Lfr/testudo/spacecorsair/mod/ModContent;->writeChain(Ljava/io/File;Ljava/util/List;)V
 
-    .line 254
+    .line 318
     new-instance v2, Ljava/io/File;
 
     const-string v4, "previous.txt"
@@ -3323,12 +4008,12 @@
     :try_end_42
     .catchall {:try_start_2e .. :try_end_42} :catchall_44
 
-    .line 255
+    .line 319
     const/4 v0, 0x1
 
     goto :goto_2c
 
-    .line 249
+    .line 313
     :catchall_44
     move-exception v0
 
@@ -3341,10 +4026,10 @@
     .registers 16
 
     .prologue
-    .line 270
+    .line 334
     const/4 v2, 0x0
 
-    .line 272
+    .line 336
     :try_start_1
     new-instance v1, Ljava/util/zip/ZipFile;
 
@@ -3353,13 +4038,13 @@
     .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_6} :catch_1f6
     .catchall {:try_start_1 .. :try_end_6} :catchall_1e7
 
-    .line 273
+    .line 337
     const-wide/16 v4, 0x0
 
-    .line 274
+    .line 338
     const/4 v0, 0x0
 
-    .line 275
+    .line 339
     :try_start_9
     invoke-virtual {v1}, Ljava/util/zip/ZipFile;->entries()Ljava/util/Enumeration;
 
@@ -3367,7 +4052,7 @@
 
     move v2, v0
 
-    .line 276
+    .line 340
     :cond_e
     :goto_e
     invoke-interface {v3}, Ljava/util/Enumeration;->hasMoreElements()Z
@@ -3376,19 +4061,19 @@
 
     if-eqz v0, :cond_a6
 
-    .line 277
+    .line 341
     invoke-interface {v3}, Ljava/util/Enumeration;->nextElement()Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/util/zip/ZipEntry;
 
-    .line 278
+    .line 342
     invoke-virtual {v0}, Ljava/util/zip/ZipEntry;->getName()Ljava/lang/String;
 
     move-result-object v6
 
-    .line 279
+    .line 343
     const-string v7, "pack.txt"
 
     invoke-virtual {v6, v7}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
@@ -3403,7 +4088,7 @@
 
     goto :goto_e
 
-    .line 280
+    .line 344
     :cond_29
     invoke-virtual {v0}, Ljava/util/zip/ZipEntry;->isDirectory()Z
 
@@ -3438,7 +4123,7 @@
 
     move-result-object v0
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_4a
@@ -3446,12 +4131,12 @@
     :try_end_4d
     .catch Ljava/lang/Throwable; {:try_start_4a .. :try_end_4d} :catch_1ef
 
-    .line 306
+    .line 370
     :cond_4d
     :goto_4d
     return-object v0
 
-    .line 281
+    .line 345
     :cond_4e
     :try_start_4e
     invoke-static {v6}, Lfr/testudo/spacecorsair/mod/ModContent;->safeName(Ljava/lang/String;)Z
@@ -3481,7 +4166,7 @@
 
     move-result-object v0
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_69
@@ -3496,14 +4181,14 @@
 
     goto :goto_4d
 
-    .line 282
+    .line 346
     :cond_6f
     :try_start_6f
     invoke-virtual {v0}, Ljava/util/zip/ZipEntry;->getSize()J
 
     move-result-wide v8
 
-    .line 283
+    .line 347
     const-wide/16 v10, 0x0
 
     cmp-long v0, v8, v10
@@ -3531,7 +4216,7 @@
 
     move-result-object v0
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_8e
@@ -3546,11 +4231,11 @@
 
     goto :goto_4d
 
-    .line 284
+    .line 348
     :cond_94
     add-long/2addr v4, v8
 
-    .line 285
+    .line 349
     const-wide/32 v6, 0x12c00000
 
     cmp-long v0, v4, v6
@@ -3563,7 +4248,7 @@
     .catch Ljava/lang/Throwable; {:try_start_9c .. :try_end_9e} :catch_1ba
     .catchall {:try_start_9c .. :try_end_9e} :catchall_1f4
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_a0
@@ -3578,7 +4263,7 @@
 
     goto :goto_4d
 
-    .line 287
+    .line 351
     :cond_a6
     if-nez v2, :cond_b2
 
@@ -3588,7 +4273,7 @@
     .catch Ljava/lang/Throwable; {:try_start_a8 .. :try_end_aa} :catch_1ba
     .catchall {:try_start_a8 .. :try_end_aa} :catchall_1f4
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_ac
@@ -3603,14 +4288,14 @@
 
     goto :goto_4d
 
-    .line 288
+    .line 352
     :cond_b2
     :try_start_b2
     new-instance v2, Ljava/util/HashMap;
 
     invoke-direct {v2}, Ljava/util/HashMap;-><init>()V
 
-    .line 289
+    .line 353
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModContent;->packInfo(Ljava/util/zip/ZipFile;)[Ljava/lang/String;
 
     move-result-object v3
@@ -3663,7 +4348,7 @@
 
     goto :goto_bd
 
-    .line 290
+    .line 354
     :cond_e6
     const-string v0, "id"
 
@@ -3682,7 +4367,7 @@
     .catch Ljava/lang/Throwable; {:try_start_b2 .. :try_end_f4} :catch_1ba
     .catchall {:try_start_b2 .. :try_end_f4} :catchall_1f4
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_f6
@@ -3697,7 +4382,7 @@
 
     goto/16 :goto_4d
 
-    .line 291
+    .line 355
     :cond_fe
     :try_start_fe
     const-string v0, "build"
@@ -3721,7 +4406,7 @@
     .catch Ljava/lang/Throwable; {:try_start_fe .. :try_end_10f} :catch_1ba
     .catchall {:try_start_fe .. :try_end_10f} :catchall_1f4
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_111
@@ -3736,7 +4421,7 @@
 
     goto/16 :goto_4d
 
-    .line 292
+    .line 356
     :cond_119
     :try_start_119
     const-string v0, "api"
@@ -3760,7 +4445,7 @@
     .catch Ljava/lang/Throwable; {:try_start_119 .. :try_end_12a} :catch_1ba
     .catchall {:try_start_119 .. :try_end_12a} :catchall_1f4
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_12c
@@ -3775,19 +4460,19 @@
 
     goto/16 :goto_4d
 
-    .line 294
+    .line 358
     :cond_134
     :try_start_134
     invoke-virtual {v1}, Ljava/util/zip/ZipFile;->entries()Ljava/util/Enumeration;
 
     move-result-object v4
 
-    .line 295
+    .line 359
     const v0, 0x8000
 
     new-array v5, v0, [B
 
-    .line 296
+    .line 360
     :cond_13d
     invoke-interface {v4}, Ljava/util/Enumeration;->hasMoreElements()Z
 
@@ -3795,21 +4480,21 @@
 
     if-eqz v0, :cond_1dc
 
-    .line 297
+    .line 361
     invoke-interface {v4}, Ljava/util/Enumeration;->nextElement()Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Ljava/util/zip/ZipEntry;
 
-    .line 298
+    .line 362
     invoke-virtual {v0}, Ljava/util/zip/ZipEntry;->isDirectory()Z
 
     move-result v2
 
     if-nez v2, :cond_13d
 
-    .line 299
+    .line 363
     invoke-virtual {v1, v0}, Ljava/util/zip/ZipFile;->getInputStream(Ljava/util/zip/ZipEntry;)Ljava/io/InputStream;
     :try_end_152
     .catch Ljava/lang/Throwable; {:try_start_134 .. :try_end_152} :catch_1ba
@@ -3817,10 +4502,10 @@
 
     move-result-object v6
 
-    .line 300
+    .line 364
     const-wide/16 v2, 0x0
 
-    .line 301
+    .line 365
     :cond_155
     :try_start_155
     invoke-virtual {v6, v5}, Ljava/io/InputStream;->read([B)I
@@ -3871,7 +4556,7 @@
     .catch Ljava/lang/Throwable; {:try_start_17c .. :try_end_17f} :catch_1ba
     .catchall {:try_start_17c .. :try_end_17f} :catchall_1f4
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_181
@@ -3886,12 +4571,12 @@
 
     goto/16 :goto_4d
 
-    .line 301
+    .line 365
     :cond_189
     :try_start_189
     invoke-virtual {v6}, Ljava/io/InputStream;->close()V
 
-    .line 302
+    .line 366
     invoke-virtual {v0}, Ljava/util/zip/ZipEntry;->getSize()J
 
     move-result-wide v6
@@ -3925,7 +4610,7 @@
 
     move-result-object v0
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_1ad
@@ -3940,7 +4625,7 @@
 
     goto/16 :goto_4d
 
-    .line 301
+    .line 365
     :catchall_1b5
     move-exception v0
 
@@ -3952,11 +4637,11 @@
     .catch Ljava/lang/Throwable; {:try_start_1b6 .. :try_end_1ba} :catch_1ba
     .catchall {:try_start_1b6 .. :try_end_1ba} :catchall_1f4
 
-    .line 305
+    .line 369
     :catch_1ba
     move-exception v0
 
-    .line 306
+    .line 370
     :goto_1bb
     :try_start_1bb
     new-instance v2, Ljava/lang/StringBuilder;
@@ -3983,7 +4668,7 @@
 
     move-result-object v0
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_1d4
@@ -3998,11 +4683,11 @@
 
     goto/16 :goto_4d
 
-    .line 304
+    .line 368
     :cond_1dc
     const/4 v0, 0x0
 
-    .line 308
+    .line 372
     if-eqz v1, :cond_4d
 
     :try_start_1df
@@ -4030,12 +4715,12 @@
     :try_end_1ee
     .catch Ljava/lang/Throwable; {:try_start_1eb .. :try_end_1ee} :catch_1f2
 
-    .line 309
+    .line 373
     :cond_1ee
     :goto_1ee
     throw v0
 
-    .line 308
+    .line 372
     :catch_1ef
     move-exception v1
 
@@ -4051,7 +4736,7 @@
 
     goto :goto_1e9
 
-    .line 305
+    .line 369
     :catch_1f6
     move-exception v0
 
@@ -4080,12 +4765,12 @@
     .end annotation
 
     .prologue
-    .line 365
+    .line 429
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 366
+    .line 430
     invoke-interface {p1}, Ljava/util/List;->iterator()Ljava/util/Iterator;
 
     move-result-object v2
@@ -4131,7 +4816,7 @@
 
     goto :goto_9
 
-    .line 367
+    .line 431
     :cond_2f
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -4139,7 +4824,7 @@
 
     invoke-static {p0, v0}, Lfr/testudo/spacecorsair/mod/ModContent;->writeText(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 368
+    .line 432
     return-void
 .end method
 
@@ -4152,7 +4837,7 @@
     .end annotation
 
     .prologue
-    .line 385
+    .line 449
     new-instance v0, Ljava/io/File;
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -4179,12 +4864,12 @@
 
     invoke-direct {v0, v1}, Ljava/io/File;-><init>(Ljava/lang/String;)V
 
-    .line 386
+    .line 450
     new-instance v1, Ljava/io/FileOutputStream;
 
     invoke-direct {v1, v0}, Ljava/io/FileOutputStream;-><init>(Ljava/io/File;)V
 
-    .line 387
+    .line 451
     :try_start_21
     const-string v2, "UTF-8"
 
@@ -4204,7 +4889,7 @@
 
     invoke-virtual {v1}, Ljava/io/FileOutputStream;->close()V
 
-    .line 388
+    .line 452
     invoke-virtual {v0, p0}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
 
     move-result v1
@@ -4243,7 +4928,7 @@
 
     throw v0
 
-    .line 387
+    .line 451
     :catchall_5c
     move-exception v0
 
@@ -4251,7 +4936,7 @@
 
     throw v0
 
-    .line 389
+    .line 453
     :cond_61
     return-void
 .end method

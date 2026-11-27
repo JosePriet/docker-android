@@ -321,8 +321,29 @@ public class ModLang {
         return tr(s);
     }
 
+    /** Phase 2: English text fixes from packs (lang/en.json, old English -> new English), null until the chain is read. */
+    private static volatile Map<String, String> enFix;
+
+    private static Map<String, String> enFix() {
+        Map<String, String> m = enFix;
+        if (m != null) return m;
+        if (!ModContent.isReady()) return java.util.Collections.<String, String>emptyMap();   // not cached: read once the pack chain is known
+        m = new HashMap<String, String>();
+        byte[] buf = new byte[8192];
+        for (InputStream li : ModContent.layers(null, "lang/en.json")) {
+            try {
+                ByteArrayOutputStream lb = new ByteArrayOutputStream();
+                for (int n; (n = li.read(buf)) > 0; ) lb.write(buf, 0, n);
+                parseFlat(new String(lb.toByteArray(), "UTF-8"), m);
+            } catch (Exception le) { } finally { try { li.close(); } catch (Exception ce) { } }
+        }
+        enFix = m;
+        return m;
+    }
+
     public static String tr(String en) {
-        if (en == null || !spanish()) return en;
+        if (en == null) return en;
+        if (!spanish()) { String f = enFix().isEmpty() ? null : enFix().get(en); return f != null ? f : en; }
         String s = dict().get(en);
         return s != null ? s : en;
     }

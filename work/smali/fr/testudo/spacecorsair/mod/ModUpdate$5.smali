@@ -19,7 +19,7 @@
     .registers 1
 
     .prologue
-    .line 407
+    .line 408
     invoke-direct {p0}, Landroid/content/BroadcastReceiver;-><init>()V
 
     return-void
@@ -31,7 +31,7 @@
     .registers 8
 
     .prologue
-    .line 410
+    .line 411
     :try_start_0
     const-string v0, "android.content.pm.extra.STATUS"
 
@@ -41,12 +41,12 @@
 
     move-result v0
 
-    .line 411
+    .line 412
     const/4 v1, -0x1
 
     if-ne v0, v1, :cond_26
 
-    .line 412
+    .line 413
     const-string v0, "android.intent.extra.INTENT"
 
     invoke-virtual {p2, v0}, Landroid/content/Intent;->getParcelableExtra(Ljava/lang/String;)Landroid/os/Parcelable;
@@ -55,7 +55,7 @@
 
     check-cast v0, Landroid/content/Intent;
 
-    .line 413
+    .line 414
     if-eqz v0, :cond_1c
 
     const/high16 v1, 0x10000000
@@ -64,7 +64,7 @@
 
     invoke-virtual {p1, v0}, Landroid/content/Context;->startActivity(Landroid/content/Intent;)V
 
-    .line 414
+    .line 415
     :cond_1c
     const-string v0, "Tap Install to finish. Your save is kept."
 
@@ -75,23 +75,23 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->setStatus(Ljava/lang/String;)V
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$300(Ljava/lang/String;)V
 
-    .line 421
+    .line 422
     :cond_25
     :goto_25
     return-void
 
-    .line 415
+    .line 416
     :cond_26
     if-eqz v0, :cond_25
 
-    .line 416
+    .line 417
     const-string v1, "android.content.pm.extra.STATUS_MESSAGE"
 
     invoke-virtual {p2, v1}, Landroid/content/Intent;->getStringExtra(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 417
+    .line 418
     const-string v2, "update"
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -124,7 +124,7 @@
 
     invoke-static {v2, v0}, Lfr/testudo/spacecorsair/mod/ModDev;->ev(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 418
+    .line 419
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -181,7 +181,7 @@
 
     goto :goto_25
 
-    .line 420
+    .line 421
     :catch_86
     move-exception v0
 
@@ -194,7 +194,7 @@
 
     goto :goto_25
 
-    .line 418
+    .line 419
     :cond_8f
     :try_start_8f
     const-string v0, ""

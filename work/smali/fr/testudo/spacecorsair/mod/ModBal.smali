@@ -23,7 +23,7 @@
 .end method
 
 .method static holdRange(Lfr/testudo/spacecorsair/business/world/civil/GuardianCivilShip;Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;Lfr/testudo/spacecorsair/business/player/PlayerShip;J)V
-    .registers 14
+    .registers 16
 
     .prologue
     .line 49
@@ -240,7 +240,7 @@
     .line 81
     cmpl-float v1, v5, v1
 
-    if-lez v1, :cond_111
+    if-lez v1, :cond_13e
 
     div-float v0, v3, v5
 
@@ -323,21 +323,41 @@
     :cond_e8
     iget-boolean v1, p1, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
 
-    if-eqz v1, :cond_10a
+    if-eqz v1, :cond_121
 
-    const v1, 0x3ecccccd    # 0.4f
+    const-string v1, "hold.police_lo"
 
-    :goto_ef
+    const v2, 0x3ecccccd    # 0.4f
+
+    const v7, 0x3dcccccd    # 0.1f
+
+    const/high16 v8, 0x3fc00000    # 1.5f
+
+    invoke-static {v1, v2, v7, v8}, Lfr/testudo/spacecorsair/mod/ModTune;->f(Ljava/lang/String;FFF)F
+
+    move-result v1
+
+    :goto_fa
     mul-float v2, v0, v1
 
     .line 76
     iget-boolean v1, p1, Lfr/testudo/spacecorsair/mod/ModCapitals$Cap;->police:Z
 
-    if-eqz v1, :cond_10d
+    if-eqz v1, :cond_12f
 
-    const v1, 0x3f266666    # 0.65f
+    const-string v1, "hold.police_hi"
 
-    :goto_f8
+    const v7, 0x3f266666    # 0.65f
+
+    const v8, 0x3dcccccd    # 0.1f
+
+    const/high16 v9, 0x3fc00000    # 1.5f
+
+    invoke-static {v1, v7, v8, v9}, Lfr/testudo/spacecorsair/mod/ModTune;->f(Ljava/lang/String;FFF)F
+
+    move-result v1
+
+    :goto_10e
     mul-float/2addr v1, v0
 
     const v7, 0x3f59999a    # 0.85f
@@ -357,25 +377,45 @@
 
     move-result v2
 
-    goto :goto_9b
+    goto/16 :goto_9b
 
     .line 75
-    :cond_10a
-    const/high16 v1, 0x3f000000    # 0.5f
+    :cond_121
+    const-string v1, "hold.flag_lo"
 
-    goto :goto_ef
+    const/high16 v2, 0x3f000000    # 0.5f
+
+    const v7, 0x3dcccccd    # 0.1f
+
+    const/high16 v8, 0x3fc00000    # 1.5f
+
+    invoke-static {v1, v2, v7, v8}, Lfr/testudo/spacecorsair/mod/ModTune;->f(Ljava/lang/String;FFF)F
+
+    move-result v1
+
+    goto :goto_fa
 
     .line 76
-    :cond_10d
-    const v1, 0x3f4ccccd    # 0.8f
+    :cond_12f
+    const-string v1, "hold.flag_hi"
 
-    goto :goto_f8
+    const v7, 0x3f4ccccd    # 0.8f
+
+    const v8, 0x3dcccccd    # 0.1f
+
+    const/high16 v9, 0x3fc00000    # 1.5f
+
+    invoke-static {v1, v7, v8, v9}, Lfr/testudo/spacecorsair/mod/ModTune;->f(Ljava/lang/String;FFF)F
+
+    move-result v1
+
+    goto :goto_10e
 
     .line 82
-    :cond_111
+    :cond_13e
     cmpg-float v1, v5, v2
 
-    if-gez v1, :cond_120
+    if-gez v1, :cond_14e
 
     neg-float v0, v3
 
@@ -393,10 +433,10 @@
 
     mul-float/2addr v0, v2
 
-    goto :goto_b3
+    goto/16 :goto_b3
 
     .line 83
-    :cond_120
+    :cond_14e
     const/4 v1, 0x0
 
     cmpg-float v0, v0, v1

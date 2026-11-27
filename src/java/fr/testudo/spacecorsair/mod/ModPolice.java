@@ -61,6 +61,7 @@ public class ModPolice {
     public static final int TITAN_MIN_LEVEL = 16;          // police titans only in sectors topping out at L16+
     /** Police bonus over the v34 enemy curve. */
     public static final float HULL_BONUS = 1.25f, DMG_BONUS = 1.25f, SPEED_BONUS = 1.15f, SHIELD_BONUS = 1.25f;
+    static float hullBonus() { return ModTune.f("police.hull_bonus", HULL_BONUS, 0.5f, 5f); }   // phase 2: content packs can tune it
     /** Police-only weapons. */
     public static final float SNARE = 0.65f;               // destroyer snare: player max speed -35%
     public static final int SNARE_MS = 3000;
@@ -141,7 +142,7 @@ public class ModPolice {
 
     /** v34 enemy hull for a class and level, then the police bonus. */
     public static float hull(float baseHull, int cls, int lv) {
-        return baseHull * ModV34.classFactor(cls) * ModV34.curve(lv) * HULL_BONUS;
+        return baseHull * ModV34.classFactor(cls) * ModV34.curve(lv) * hullBonus();
     }
 
     /** No police here: tutorial, Genesis, the arena, FFA and multiplayer sectors (test mode keeps police). */
@@ -751,16 +752,17 @@ public class ModPolice {
         }
         float base = ModV34.baseHull(idx(t, lv));
         if (base > 0) e.maxLife = hull(base, cls, e.getLevel());
-        else e.maxLife *= HULL_BONUS;
+        else e.maxLife *= hullBonus();
         e.life = e.maxLife;
         e.lifeInPourc = 100.0f;
-        e.bulletDamage *= DMG_BONUS;
+        float dmgBonus = ModTune.f("police.dmg_bonus", DMG_BONUS, 0.5f, 5f);
+        e.bulletDamage *= dmgBonus;
         e.pouseeForce *= SPEED_BONUS;
         e.xp = Math.round(e.xp * ModV34.classFactor(cls));
         if (e instanceof Albatros) {
             Albatros a = (Albatros) e;
             for (EnnemisCanon c : new EnnemisCanon[] {a.canonCenter, a.canonProue, a.canonPoupe}) {
-                if (c != null) c.shootDamage = Math.round(c.shootDamage * DMG_BONUS);
+                if (c != null) c.shootDamage = Math.round(c.shootDamage * dmgBonus);
             }
         }
         if (cls >= ModShips.BATTLECRUISER) {

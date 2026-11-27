@@ -31,7 +31,7 @@
     .end annotation
 
     .prologue
-    .line 540
+    .line 541
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$10;->val$j:Lfr/testudo/spacecorsair/mod/ModUpdate$Job;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
     .registers 5
 
     .prologue
-    .line 542
+    .line 543
     :try_start_0
     iget-object v0, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$10;->val$j:Lfr/testudo/spacecorsair/mod/ModUpdate$Job;
 
@@ -53,14 +53,14 @@
     :try_end_5
     .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_5} :catch_12
 
-    .line 543
+    .line 544
     :goto_5
     const/4 v0, 0x0
 
     # setter for: Lfr/testudo/spacecorsair/mod/ModUpdate;->busy:Z
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$702(Z)Z
 
-    .line 544
+    .line 545
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModUpdate$10$1;
 
     invoke-direct {v0, p0}, Lfr/testudo/spacecorsair/mod/ModUpdate$10$1;-><init>(Lfr/testudo/spacecorsair/mod/ModUpdate$10;)V
@@ -68,10 +68,10 @@
     # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->post(Ljava/lang/Runnable;)V
     invoke-static {v0}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$200(Ljava/lang/Runnable;)V
 
-    .line 545
+    .line 546
     return-void
 
-    .line 542
+    .line 543
     :catch_12
     move-exception v0
 

@@ -98,12 +98,12 @@ public final class ModPoliceTitan {
             int pl = ObjectRegistry.INSTANCE.game.playerInfo != null ? ObjectRegistry.INSTANCE.game.playerInfo.level : 0;
             int lvl = Math.max(0, Math.min(ModV34.CAP, Math.max(level, pl + TITAN_OVER_PLAYER)));
             if (asCcef && CC[fi] == null) CC[fi] = new ModCapitals.Faction(f.key, f.name, ModLang.tr("CCEF Titan"), f.hq, ModCcef.R, ModCcef.G, ModCcef.B);
-            GuardianCivilShip g = ModCapitals.spawnPolice(fi, lvl, at, asCcef ? CC[fi] : POL[fi], POLICE_TITAN_MULT * scale);
+            GuardianCivilShip g = ModCapitals.spawnPolice(fi, lvl, at, asCcef ? CC[fi] : POL[fi], ModTune.f("police_titan.stat_mult", POLICE_TITAN_MULT, 0.5f, 5f) * scale);
             if (g == null) return null;
             ccef = asCcef;
             if (asCcef) {
-                g.maxPouseeForce *= ModCcef.SPEED;
-                g.pouseeForce *= ModCcef.SPEED;
+                g.maxPouseeForce *= ModCcef.speed();
+                g.pouseeForce *= ModCcef.speed();
                 g.maxTurnFactor *= ModCcef.TURN;
             }
             float[] sh = ModV34.shieldStats(lvl, lvl, ModShips.TITAN);   // flagships carry none: a titan-class one, x1.2
@@ -205,7 +205,7 @@ public final class ModPoliceTitan {
         if (dmg <= 0 || target == null || target != titan) return dmg;
         overQuietMs = 0;
         if (over <= 0) return dmg;
-        float a = Math.min(dmg * (1 - OVER_PASS), over);
+        float a = Math.min(dmg * (1 - ModTune.f("police_titan.over_pass", OVER_PASS, 0f, 1f)), over);
         over -= a;
         if (over <= 0) {
             over = 0;

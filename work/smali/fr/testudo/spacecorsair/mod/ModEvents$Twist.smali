@@ -44,7 +44,7 @@
     .registers 3
 
     .prologue
-    .line 331
+    .line 340
     const/4 v0, 0x4
 
     new-array v0, v0, [Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
@@ -80,7 +80,7 @@
     .registers 4
 
     .prologue
-    .line 332
+    .line 341
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
     const-string v1, "QUIET"
@@ -93,7 +93,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;->QUIET:Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
-    .line 333
+    .line 342
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
     const-string v1, "BETRAYAL"
@@ -106,7 +106,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;->BETRAYAL:Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
-    .line 334
+    .line 343
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
     const-string v1, "REINFORCEMENTS"
@@ -119,7 +119,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;->REINFORCEMENTS:Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
-    .line 335
+    .line 344
     new-instance v0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
     const-string v1, "RIVAL"
@@ -132,7 +132,7 @@
 
     sput-object v0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;->RIVAL:Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
-    .line 331
+    .line 340
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;->$values()[Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
     move-result-object v0
@@ -153,7 +153,7 @@
     .end annotation
 
     .prologue
-    .line 337
+    .line 346
     invoke-direct {p0, p1, p2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
 
     iput-object p3, p0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;->line:Ljava/lang/String;
@@ -165,7 +165,7 @@
     .registers 2
 
     .prologue
-    .line 331
+    .line 340
     const-class v0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
     invoke-static {v0, p0}, Ljava/lang/Enum;->valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
@@ -181,7 +181,7 @@
     .registers 1
 
     .prologue
-    .line 331
+    .line 340
     sget-object v0, Lfr/testudo/spacecorsair/mod/ModEvents$Twist;->$VALUES:[Lfr/testudo/spacecorsair/mod/ModEvents$Twist;
 
     invoke-virtual {v0}, [Lfr/testudo/spacecorsair/mod/ModEvents$Twist;->clone()Ljava/lang/Object;

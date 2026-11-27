@@ -33,7 +33,7 @@
     .end annotation
 
     .prologue
-    .line 596
+    .line 597
     iput-object p1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$17;->val$c:Landroid/content/Context;
 
     iput-boolean p2, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$17;->val$safe:Z
@@ -51,7 +51,7 @@
     .prologue
     const/4 v0, 0x1
 
-    .line 598
+    .line 599
     :try_start_1
     iget-object v1, p0, Lfr/testudo/spacecorsair/mod/ModUpdate$17;->val$c:Landroid/content/Context;
 
@@ -78,15 +78,15 @@
     :try_end_17
     .catch Ljava/lang/Throwable; {:try_start_1 .. :try_end_17} :catch_1d
 
-    .line 599
+    .line 600
     :goto_17
     # invokes: Lfr/testudo/spacecorsair/mod/ModUpdate;->refreshPanel()V
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModUpdate;->access$800()V
 
-    .line 600
+    .line 601
     return-void
 
-    .line 598
+    .line 599
     :cond_1b
     const/4 v0, 0x0
 

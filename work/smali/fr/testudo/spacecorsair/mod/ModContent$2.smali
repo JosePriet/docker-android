@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 113
+    .line 117
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 3
 
     .prologue
-    .line 116
+    .line 120
     return-void
 .end method
 
@@ -42,7 +42,7 @@
     .registers 2
 
     .prologue
-    .line 120
+    .line 124
     return-void
 .end method
 
@@ -50,7 +50,7 @@
     .registers 3
 
     .prologue
-    .line 115
+    .line 119
     const-string v0, "paused"
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModContent;->guard(Ljava/lang/String;)V
@@ -63,7 +63,7 @@
     .registers 3
 
     .prologue
-    .line 114
+    .line 118
     const-string v0, "run"
 
     # invokes: Lfr/testudo/spacecorsair/mod/ModContent;->guard(Ljava/lang/String;)V
@@ -76,7 +76,7 @@
     .registers 3
 
     .prologue
-    .line 119
+    .line 123
     return-void
 .end method
 
@@ -84,7 +84,7 @@
     .registers 2
 
     .prologue
-    .line 117
+    .line 121
     return-void
 .end method
 
@@ -92,6 +92,6 @@
     .registers 2
 
     .prologue
-    .line 118
+    .line 122
     return-void
 .end method

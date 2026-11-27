@@ -52,26 +52,42 @@
     .registers 6
 
     .prologue
-    .line 25
-    const/high16 v0, 0x3fc00000    # 1.5f
+    const/high16 v4, 0x3f800000    # 1.0f
 
-    const/high16 v1, 0x3f800000    # 1.0f
+    .line 25
+    const-string v0, "chain.cap"
+
+    const/high16 v1, 0x3fc00000    # 1.5f
+
+    const/high16 v2, 0x40400000    # 3.0f
+
+    invoke-static {v0, v1, v4, v2}, Lfr/testudo/spacecorsair/mod/ModTune;->f(Ljava/lang/String;FFF)F
+
+    move-result v0
+
+    const-string v1, "chain.step"
 
     const v2, 0x3dcccccd    # 0.1f
 
     const/4 v3, 0x0
 
-    add-int/lit8 v4, p0, -0x1
+    invoke-static {v1, v2, v3, v4}, Lfr/testudo/spacecorsair/mod/ModTune;->f(Ljava/lang/String;FFF)F
 
-    invoke-static {v3, v4}, Ljava/lang/Math;->max(II)I
+    move-result v1
 
-    move-result v3
+    const/4 v2, 0x0
 
-    int-to-float v3, v3
+    add-int/lit8 v3, p0, -0x1
 
-    mul-float/2addr v2, v3
+    invoke-static {v2, v3}, Ljava/lang/Math;->max(II)I
 
-    add-float/2addr v1, v2
+    move-result v2
+
+    int-to-float v2, v2
+
+    mul-float/2addr v1, v2
+
+    add-float/2addr v1, v4
 
     invoke-static {v0, v1}, Ljava/lang/Math;->min(FF)F
 
@@ -81,7 +97,7 @@
 .end method
 
 .method static onKill(Lfr/testudo/spacecorsair/business/ennemis/Ennemis;)F
-    .registers 9
+    .registers 10
 
     .prologue
     const/high16 v0, 0x3f800000    # 1.0f
@@ -111,23 +127,39 @@
 
     cmp-long v1, v4, v6
 
-    if-ltz v1, :cond_a4
+    if-ltz v1, :cond_b2
 
     sget-wide v4, Lfr/testudo/spacecorsair/mod/ModChain;->lastAt:J
 
     sub-long v4, v2, v4
 
-    const-wide/16 v6, 0x1770
+    const-string v1, "chain.window_s"
+
+    const/high16 v6, 0x40c00000    # 6.0f
+
+    const/high16 v7, 0x3f800000    # 1.0f
+
+    const/high16 v8, 0x41f00000    # 30.0f
+
+    invoke-static {v1, v6, v7, v8}, Lfr/testudo/spacecorsair/mod/ModTune;->f(Ljava/lang/String;FFF)F
+
+    move-result v1
+
+    const/high16 v6, 0x447a0000    # 1000.0f
+
+    mul-float/2addr v1, v6
+
+    float-to-long v6, v1
 
     cmp-long v1, v4, v6
 
-    if-gtz v1, :cond_a4
+    if-gtz v1, :cond_b2
 
     sget v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
     add-int/lit8 v1, v1, 0x1
 
-    :goto_23
+    :goto_31
     sput v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
     .line 34
@@ -179,7 +211,7 @@
 
     const/4 v2, 0x2
 
-    if-lt v1, v2, :cond_9c
+    if-lt v1, v2, :cond_aa
 
     .line 37
     sget v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
@@ -252,25 +284,25 @@
     invoke-static {v2, v1, v3, v4, v5}, Lfr/testudo/spacecorsair/mod/Mod;->floatText(Lfr/testudo/spacecorsair/business/Element;Ljava/lang/String;FFF)V
 
     .line 40
-    :cond_9c
+    :cond_aa
     sget v1, Lfr/testudo/spacecorsair/mod/ModChain;->links:I
 
     invoke-static {v1}, Lfr/testudo/spacecorsair/mod/ModChain;->factor(I)F
-    :try_end_a1
-    .catch Ljava/lang/Throwable; {:try_start_9 .. :try_end_a1} :catch_a7
+    :try_end_af
+    .catch Ljava/lang/Throwable; {:try_start_9 .. :try_end_af} :catch_b5
 
     move-result v0
 
     goto/16 :goto_8
 
     .line 33
-    :cond_a4
+    :cond_b2
     const/4 v1, 0x1
 
-    goto/16 :goto_23
+    goto/16 :goto_31
 
     .line 41
-    :catch_a7
+    :catch_b5
     move-exception v1
 
     goto/16 :goto_8

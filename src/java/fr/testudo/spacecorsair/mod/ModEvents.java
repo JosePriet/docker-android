@@ -63,14 +63,23 @@ public final class ModEvents {
         ModChain.links = 0;
         fieldStripped = false;
         enteredAt = ModSector.play();
-        nextAt = enteredAt + FIRST_MS;
+        nextAt = enteredAt + firstMs();
+    }
+
+    // phase 2: content packs can tune these (data/tune.txt); the constants are the built-in values
+    static long firstMs() { return (long) (ModTune.f("events.first_s", FIRST_MS / 1000f, 10f, 1800f) * 1000); }
+
+    static long gapMs() {
+        float lo = ModTune.f("events.gap_min_s", GAP_MIN_MS / 1000f, 30f, 3600f);
+        float hi = Math.max(lo, ModTune.f("events.gap_max_s", GAP_MAX_MS / 1000f, 30f, 3600f));
+        return (long) ((lo + Math.random() * (hi - lo)) * 1000);
     }
 
     /** Per frame from ModSector.tick, only while flying in an open sector. */
     static void tick(PlayerShip ps, LevelId here, long j) {
         if (ps == null || here == null || !enabled() || ModCalm.active() || ModPrologue.active || ModCcef.chase()) return;   // no sector events during a CCEF hunt
         long now = ModSector.play();
-        if (nextAt < 0) nextAt = now + FIRST_MS;
+        if (nextAt < 0) nextAt = now + firstMs();
         testForce(ps, here);
         try {
             switch (kind) {
@@ -125,7 +134,7 @@ public final class ModEvents {
 
     // ------------------------------------------------------------------ start
     private static void start(PlayerShip ps, LevelId here) {
-        nextAt = ModSector.play() + GAP_MIN_MS + (long) (Math.random() * (GAP_MAX_MS - GAP_MIN_MS));
+        nextAt = ModSector.play() + gapMs();
         if (ENABLED) {
             int owner = ModMap.owner(here);
             if (owner >= 0) {
@@ -271,7 +280,7 @@ public final class ModEvents {
         }
         if (hostiles.isEmpty()) {
             victim.setActivity(new CivilActivity[] {CivilActivity.newMooveNextPortal(), CivilActivity.newDiseapear()});
-            int pay = ModQol.missionPay(DISTRESS_PAY);
+            int pay = ModQol.missionPay(ModTune.i("events.distress_pay", DISTRESS_PAY, 0, 1000000));
             ModQol.addCredits(pay, victim);
             int owner = ModSector.baseFaction(ObjectRegistry.INSTANCE.game.currentLevel.id);
             if (owner >= 0) ModRep.change(ModCapitals.FACTIONS[owner].key, DISTRESS_STANDING, false);
@@ -283,7 +292,7 @@ public final class ModEvents {
     private static void bounty(PlayerShip ps, long now) {
         if (dead(wanted)) {
             if (wanted != null && wanted.life <= 0) {
-                int pay = ModQol.missionPay(BOUNTY_PAY);
+                int pay = ModQol.missionPay(ModTune.i("events.bounty_pay", BOUNTY_PAY, 0, 1000000));
                 ModQol.addCredits(pay, wanted);
                 ModQol.post(ModLang.tr("Bounty collected."));
             }
@@ -313,7 +322,7 @@ public final class ModEvents {
 
     private static void end(String why) {
         if (kind != NONE) ModDev.ev("event", "end kind=" + kind + " why=" + why);
-        if (kind != NONE) nextAt = ModSector.play() + GAP_MIN_MS + (long) (Math.random() * (GAP_MAX_MS - GAP_MIN_MS));   // gap runs from the end
+        if (kind != NONE) nextAt = ModSector.play() + gapMs();   // gap runs from the end
         kind = NONE;
         victim = null;
         hold = null;
