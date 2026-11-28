@@ -22,7 +22,7 @@
     .registers 1
 
     .prologue
-    .line 632
+    .line 634
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -34,7 +34,7 @@
     .registers 1
 
     .prologue
-    .line 633
+    .line 635
     # invokes: Lfr/testudo/spacecorsair/mod/ModArt;->decodeLoop()V
     invoke-static {}, Lfr/testudo/spacecorsair/mod/ModArt;->access$100()V
 

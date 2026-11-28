@@ -37,6 +37,7 @@ public final class ModLive {
     /** v30b smali hook at the start of GameThread.doPhysic: once per game frame, before any element is drawn. */
     public static void frameStart() {
         frameDone = false;
+        ModVfx.frame();   // visual upgrade: slow-frame watch, per-frame effect budgets
         ModLan.frame();   // v49 LAN co-op: link bookkeeping, guest replays the host's world
     }
 
@@ -50,6 +51,7 @@ public final class ModLive {
         nowMs = System.currentTimeMillis();
         ModV34.incomeTick(nowMs);   // v37: real income for the death-fee cap
         try {
+            ModVfx.tick(nowMs);   // visual upgrade: delayed secondary blasts
             drawFx();
         } catch (Throwable t) {
             // effects never break the frame

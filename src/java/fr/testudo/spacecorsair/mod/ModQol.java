@@ -358,6 +358,7 @@ public class ModQol {
                 public void onStopTrackingTouch(SeekBar s) { }
             });
             box.addView(sb);
+            box.addView(ModVfx.settingsRow(a));   // visual upgrade (owner 2026-11-27): Visual quality, next to Screen shake
             parent.addView(box, parent.indexOfChild(anchor) + 1);
         } catch (Exception e) {
             // settings screen must keep working
@@ -589,7 +590,7 @@ public class ModQol {
     private static int readCount;
 
     /** Settings that are not progress: kept when a fresh save clears the mod's progress (audit A10). */
-    private static final String[] KEEP = {"fixedStick", "barNumbers", "damageNumbers", "bigButtons", "shake", ModPrologue.DONE};
+    private static final String[] KEEP = {"fixedStick", "barNumbers", "damageNumbers", "bigButtons", "shake", "visualQuality", "visualAsk", ModPrologue.DONE};
 
     /** Audit A10 (owner 2026-11-17): a fresh save (Main.onFirstStart) clears all mod progress: standings, refits,
      *  Lance unlock, inbox and every other mod record; the settings above stay. */

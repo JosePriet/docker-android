@@ -618,6 +618,8 @@ public class ModArt {
     private static final ArrayList<Lazy> queue = new ArrayList<Lazy>();
     private static final ArrayList<Lazy> ready = new ArrayList<Lazy>();
     private static Thread decoder;
+    /** ModVfx: true while the slow-frame window pauses the game (the decoder starts nothing new). */
+    static volatile boolean hold;
     private static final int MAX_READY = 3;
 
     /** Decodes a lazy texture's bitmap in the background so its first draw only uploads it. No-op for other textures. */
@@ -655,6 +657,7 @@ public class ModArt {
         try {
             while (true) {
                 Lazy t;
+                while (hold) Thread.sleep(50);   // ModVfx slow-frame window open: loading waits too
                 synchronized (LOCK) {
                     while (queue.isEmpty()) LOCK.wait();
                     t = queue.remove(0);

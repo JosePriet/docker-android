@@ -190,6 +190,7 @@ public final class ModCaps {
         if (lvl != level) {
             level = lvl;
             ModFx.clear();
+            ModVfx.clear();   // visual upgrade: pending secondary blasts
             ModCapitals.onLevel();
             ModArt.freeReq = true;   // audit A7
             Mod.dronesOnSector(ps);   // audit B7: living drones jump with the player

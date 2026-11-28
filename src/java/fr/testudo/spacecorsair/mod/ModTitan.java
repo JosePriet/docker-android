@@ -154,6 +154,7 @@ public final class ModTitan {
 
     /** Hook: EnergyBullet.getDrawableObject. Heavy bolts for titan shots; null keeps the stock sprite. */
     public static Drawable bullet(EnergyBullet e) {
+        ModVfx.shot(e);   // visual upgrade: halo, tail, fancy layers under the shot (Visual quality option)
         try {
             PlayerShip ps = ObjectRegistry.INSTANCE.playerShip;
             Drawable lance = ModLance.bullet(e);   // v43a-17 Phoenix Lance bolts (player and enemy holders)

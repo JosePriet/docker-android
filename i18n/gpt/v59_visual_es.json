@@ -1,0 +1,15 @@
+{
+ "Visual quality (effects)": "Calidad visual (efectos)",
+ "Low": "Baja",
+ "Medium": "Media",
+ "High": "Alta",
+ "Offer lower quality when the game runs slowly": "Ofrecer bajar la calidad cuando el juego vaya lento",
+ "The game has been running slowly for more than 10 seconds.": "El juego lleva más de 10 segundos funcionando con lentitud.",
+ "Lower the visual quality to ": "¿Bajar la calidad visual a ",
+ "You can change it any time in Settings > Visual quality.": "Puedes cambiarla cuando quieras en Ajustes > Calidad visual.",
+ "Multiplayer: the game keeps running while this window is open.": "Multijugador: la partida sigue en marcha mientras esta ventana está abierta.",
+ "Slow frames": "Rendimiento bajo",
+ "Lower to ": "Bajar a ",
+ "Keep ": "Mantener ",
+ "Don't ask again": "No volver a preguntar"
+}
